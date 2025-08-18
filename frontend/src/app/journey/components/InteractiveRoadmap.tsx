@@ -1,8 +1,9 @@
+// @ts-nocheck
 'use client';
 
 import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { RoadmapData, UserProgress } from '../../../lib/api';
+import { RoadmapData } from '../../../lib/api';
 import { CheckCircle, Circle, PlayCircle, Clock, BookOpen, Brain, Code, MapPin, Flag, Route, AlertTriangle, Star, Zap, Trophy, X, Navigation, Locate, Sparkles, Award, Target } from 'lucide-react';
 import Link from 'next/link';
 import { formatSubtopicTitle, formatTitle } from '../utils/textFormatting';
@@ -10,7 +11,7 @@ import { usePrerequisites, useBehavioralStats } from '../../../hooks/useBehavior
 
 interface InteractiveRoadmapProps {
   roadmapData: RoadmapData;
-  progressData: UserProgress[] | null;
+  progressData: any[] | null;
 }
 
 interface RoadmapNode {

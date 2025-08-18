@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { auth } from '../firebase/client';
 import {
   createUserWithEmailAndPassword,

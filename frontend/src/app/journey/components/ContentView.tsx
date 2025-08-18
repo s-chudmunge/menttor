@@ -2,14 +2,14 @@
 
 import React from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react'; // Removed unused imports
-import { RoadmapData, UserProgress } from '../../../lib/api'; // Keep UserProgress
+import { RoadmapData } from '../../../lib/api';
 import RoadmapVisualization from './RoadmapVisualization'; // Import RoadmapVisualization
 
 interface ContentViewProps {
   currentView: 'day' | 'section';
   currentIndex: number;
   roadmapData: RoadmapData | null;
-  progressData: UserProgress[] | null;
+  progressData: any[] | null;
 }
 
 const ContentView: React.FC<ContentViewProps> = ({

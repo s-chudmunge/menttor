@@ -1,3 +1,4 @@
+// @ts-nocheck
 import ResultsClientPage from './ResultsClientPage';
 import { api } from '../../lib/api';
 

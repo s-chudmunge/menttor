@@ -50,13 +50,12 @@ const StockPhotoImage: React.FC<StockPhotoImageProps> = ({
       // Try multiple free photo sources
       const sources = [
         () => fetchUnsplashPhoto(query),
-        () => fetchPixabayPhoto(query),
-        () => fetchGeneratedPlaceholder(query)
+        () => fetchPixabayPhoto(query)
       ];
 
       for (const source of sources) {
         try {
-          const result = await source();
+          const result = await source() as any;
           if (result.url) {
             setImageUrl(result.url);
             setAttribution(result.attribution);

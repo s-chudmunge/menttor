@@ -90,7 +90,7 @@ const AIGeneratedDiagram: React.FC<AIGeneratedDiagramProps> = ({
         height
       });
 
-      const response = await Promise.race([apiPromise, timeoutPromise]);
+      const response = await Promise.race([apiPromise, timeoutPromise]) as any;
 
       if (response.data) {
         setImageData(response.data);

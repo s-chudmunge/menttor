@@ -20,7 +20,7 @@ const ModelStatusIndicator = () => {
     return () => clearInterval(interval);
   }, [isGenerating, progress, setProgress]);
 
-  const getModelIcon = (model) => {
+  const getModelIcon = (model: string | null) => {
     if (!model) return <Cpu className="w-4 h-4" />;
     if (model.includes('gpt')) return <Brain className="w-4 h-4" />;
     if (model.includes('claude')) return <MessageSquare className="w-4 h-4" />;
@@ -28,7 +28,7 @@ const ModelStatusIndicator = () => {
     return <Cpu className="w-4 h-4" />;
   };
 
-  const getModelColor = (model) => {
+  const getModelColor = (model: string | null) => {
     if (!model) return 'bg-purple-500';
     if (model.includes('gpt')) return 'bg-green-500';
     if (model.includes('claude')) return 'bg-orange-500';

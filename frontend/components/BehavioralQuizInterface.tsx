@@ -143,7 +143,7 @@ const BehavioralQuizInterface: React.FC<QuizInterfaceProps> = ({ quizParams }) =
         } catch (error) {
             console.error('Error starting quiz:', error);
             showNotification({
-                type: 'error',
+                type: 'session',
                 title: 'Quiz Start Failed',
                 message: 'Unable to start quiz. Please try again.',
                 duration: 5000,
@@ -170,7 +170,7 @@ const BehavioralQuizInterface: React.FC<QuizInterfaceProps> = ({ quizParams }) =
             // Update Elo for each concept tag
             if (question.concept_tags) {
                 question.concept_tags.forEach(concept => {
-                    updateElo(concept, isCorrect ? 1 : 0, question.difficulty_level || 1200);
+                    updateElo({ concept, outcome: isCorrect ? 1 : 0, difficulty: question.difficulty_level || 1200 });
                 });
             }
             

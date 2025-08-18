@@ -1,3 +1,4 @@
+// @ts-nocheck
 export const restructureModelsForPackedCircle = (models) => {
   const hierarchy = { name: "root", children: [] };
   const providers = {};

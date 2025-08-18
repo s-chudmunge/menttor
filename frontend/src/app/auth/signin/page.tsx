@@ -199,16 +199,14 @@ export default function SignInPage() {
                 <SocialButton
                   provider="google"
                   onClick={() => handleOAuthSignIn('google')}
-                  icon={<Google className="w-5 h-5" />}
-                  isLoading={isLoading}
+                  disabled={isLoading}
                 >
                   Continue with Google
                 </SocialButton>
                 <SocialButton
                   provider="github"
                   onClick={() => handleOAuthSignIn('github')}
-                  icon={<GitHub className="w-5 h-5" />}
-                  isLoading={isLoading}
+                  disabled={isLoading}
                 >
                   Continue with GitHub
                 </SocialButton>
@@ -263,7 +261,7 @@ export default function SignInPage() {
                 )}
                 <Button
                   type="submit"
-                  isLoading={isLoading}
+                  loading={isLoading}
                   disabled={isLoading}
                   className="w-full group"
                 >

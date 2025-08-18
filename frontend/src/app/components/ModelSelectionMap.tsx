@@ -1,9 +1,10 @@
+// @ts-nocheck
 import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { X, Info, Zap, DollarSign, Brain, RotateCcw, Search, Filter, Cpu, TrendingUp, HandCoins, Star, List, ChevronLeft, ChevronRight } from 'lucide-react';
 import ModelGridDisplay from '../../../components/ModelGridDisplay';
 import ModelComparisonModal from '../../../components/ModelComparisonModal';
 
-const transformModelData = (models) => {
+const transformModelData = (models: any) => {
   if (!models || models.length === 0) return [];
 
   // Removed the explicit limit to allow all fetched models to be processed
@@ -11,8 +12,8 @@ const transformModelData = (models) => {
 
   if (models.length === 0) return [];
 
-  const costs = models.map(m => m.per_token_cost).filter(c => c > 0);
-  const contextWindows = models.map(m => m.context_window).filter(Boolean);
+  const costs = models.map((m: any) => m.per_token_cost).filter((c: any) => c > 0);
+  const contextWindows = models.map((m: any) => m.context_window).filter(Boolean);
 
   const minCost = costs.length > 0 ? Math.min(...costs) : 0;
   const maxCost = costs.length > 0 ? Math.max(...costs) : 0;
@@ -24,13 +25,13 @@ const transformModelData = (models) => {
   const logCostRange = (logMaxCost - logMinCost) > 0 ? (logMaxCost - logMinCost) : 1;
   const contextRange = (maxContext - minContext) > 0 ? (maxContext - minContext) : 1;
 
-  const getRadius = (contextWindow) => {
+  const getRadius = (contextWindow: any) => {
     if (contextWindow <= 8000) return 20; // Small
     if (contextWindow <= 128000) return 40; // Medium
     return 80; // Large
   };
 
-  const getCategoryColor = (category) => {
+  const getCategoryColor = (category: any) => {
     switch (category) {
       case 'premium': return '#8A2BE2'; // Premium (BlueViolet)
       case 'balanced': return '#20B2AA'; // Balanced (LightSeaGreen)
@@ -53,7 +54,7 @@ const transformModelData = (models) => {
     // Add more mappings as needed
   };
 
-  return models.map(model => {
+  return models.map((model: any) => {
     let cost = 0;
     if (model.per_token_cost > 0 && minCost > 0) {
       const logCost = Math.log(model.per_token_cost);

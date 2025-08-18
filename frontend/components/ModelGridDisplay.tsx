@@ -81,7 +81,10 @@ const ModelGridDisplay: React.FC<ModelGridDisplayProps> = ({
                 className="w-3/5 h-3/5 object-contain" 
                 onError={(e) => { 
                   e.currentTarget.style.display = 'none'; 
-                  e.currentTarget.nextSibling.style.display = 'block'; 
+                  const nextElement = e.currentTarget.nextSibling as HTMLElement;
+                  if (nextElement) {
+                    nextElement.style.display = 'block';
+                  }
                 }}
               />
               <div className="w-3/5 h-3/5 flex items-center justify-center" style={{ display: 'none' }}>

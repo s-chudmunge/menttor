@@ -30,7 +30,7 @@ const BehavioralIndicator: React.FC<BehavioralIndicatorProps> = ({
   useEffect(() => {
     if (!behavioralStats) return;
     
-    const nudges = [];
+    const nudges: string[] = [];
     
     // Progress nudges (only show at certain milestones)
     if (overallProgress > 0 && overallProgress < 100) {
@@ -175,8 +175,8 @@ const BehavioralIndicator: React.FC<BehavioralIndicatorProps> = ({
                     {behavioralStats.xp_stats.total_xp || 0} XP
                   </span>
                   <span className="text-sm text-yellow-600 dark:text-yellow-400">
-                    {behavioralStats.xp_stats.xp_to_next ? 
-                      `${behavioralStats.xp_stats.xp_to_next} XP to go` : 
+                    {behavioralStats.xp_stats.xp_to_next_level ? 
+                      `${behavioralStats.xp_stats.xp_to_next_level} XP to go` : 
                       formatXPToNextLevel(behavioralStats.xp_stats.total_xp || 0)
                     }
                   </span>
@@ -201,7 +201,7 @@ const BehavioralIndicator: React.FC<BehavioralIndicatorProps> = ({
                   <div className="text-center">
                     <div className="font-semibold text-yellow-700 dark:text-yellow-300">To Next</div>
                     <div className="text-yellow-600 dark:text-yellow-400">
-                      {behavioralStats.xp_stats.xp_to_next} XP
+                      {behavioralStats.xp_stats.xp_to_next_level} XP
                     </div>
                   </div>
                 </div>

@@ -45,9 +45,10 @@ const LearningContentRenderer: React.FC<Props> = ({ content, subject, subtopic }
                   remarkPlugins={[remarkMath]}
                   rehypePlugins={[rehypeKatex]}
                   components={{
-                    code: ({ node, inline, className, children, ...props }) => {
+                    code: ({ node, className, children, ...props }: any) => {
                       const match = /language-(\w+)/.exec(className || '');
                       const language = match ? match[1] : '';
+                      const inline = props.inline;
                       
                       if (!inline && children) {
                         return (
@@ -113,7 +114,7 @@ const LearningContentRenderer: React.FC<Props> = ({ content, subject, subtopic }
           case 'callout':
             return <Callout key={index} data={block.data} />;
           case 'mermaid_diagram':
-            const chart = typeof block.data.chart === 'string' ? block.data.chart : (block.data.chart && typeof block.data.chart === 'object' && 'code' in block.data.chart) ? block.data.chart.code : '';
+            const chart = typeof block.data.chart === 'string' ? block.data.chart : (block.data.chart && typeof block.data.chart === 'object' && 'code' in block.data.chart) ? (block.data.chart as any).code : '';
             return <MermaidDiagram key={index} chart={chart} id={`mermaid-${index}`} />
           case '3d_visualization':
             return (
