@@ -1,4 +1,4 @@
-# Menttor- Advanced Learning Platform
+# Menttor- Advanced Learning Platform (Live)
 
 A next-generation educational platform powered by sophisticated behavioral psychology and AI, designed to maximize learning outcomes through scientifically-backed engagement techniques.
 
