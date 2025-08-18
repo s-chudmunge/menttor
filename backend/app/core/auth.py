@@ -10,6 +10,7 @@ from .config import settings
 from database.session import get_db
 
 import logging
+import json
 import firebase_admin
 from firebase_admin import credentials, auth
 
@@ -19,8 +20,17 @@ logger = logging.getLogger(__name__)
 # Check if Firebase app is already initialized to avoid re-initialization errors
 if not firebase_admin._apps:
     try:
-        # Use the path to the service account key file
-        cred = credentials.Certificate(settings.FIREBASE_CREDENTIALS)
+        firebase_creds = settings.FIREBASE_CREDENTIALS
+        
+        # Check if it's a file path or JSON content
+        if firebase_creds.startswith('{') and firebase_creds.endswith('}'):
+            # It's JSON content - parse it and create credentials
+            cred_dict = json.loads(firebase_creds)
+            cred = credentials.Certificate(cred_dict)
+        else:
+            # It's a file path - use it directly
+            cred = credentials.Certificate(firebase_creds)
+            
         firebase_admin.initialize_app(cred)
         logger.info("Firebase Admin SDK initialized successfully.")
     except Exception as e:
