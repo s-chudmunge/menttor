@@ -1,8 +1,12 @@
 
-# Local Environment Files
+# Local Environment Files - NEVER COMMIT THESE
 .env
 .env.*
 !/.env.example
+
+# Firebase Service Account Keys - NEVER COMMIT THESE
+serviceAccountKey.json
+**/serviceAccountKey.json
 
 # Node.js
 node_modules/
