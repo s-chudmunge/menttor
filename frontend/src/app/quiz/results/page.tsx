@@ -1,14 +1,14 @@
 // @ts-nocheck
 'use client';
 
-import React from 'react';
+import React, { Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import { useAuth } from '@/app/context/AuthContext';
 import { CheckCircle, XCircle } from 'lucide-react';
 import { api } from '@/lib/api';
 
-const QuizResultsPage = () => {
+const QuizResultsContent = () => {
     const router = useRouter();
     const searchParams = useSearchParams();
     const attemptId = searchParams.get('attempt_id');
@@ -86,6 +86,14 @@ const QuizResultsPage = () => {
                 </button>
             </div>
         </div>
+    );
+};
+
+const QuizResultsPage = () => {
+    return (
+        <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading results...</div>}>
+            <QuizResultsContent />
+        </Suspense>
     );
 };
 
