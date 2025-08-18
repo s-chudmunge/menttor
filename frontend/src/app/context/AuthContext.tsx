@@ -1,0 +1,49 @@
+'use client';
+
+import { createContext, useContext, useEffect, useState } from 'react';
+import { onAuthStateChanged, User } from 'firebase/auth';
+import { auth } from '../../lib/firebase/client';
+import { api } from '../../lib/api'; // Import the API instance
+
+interface AuthContextType {
+  user: User | null;
+  dbId: number | null; // Add dbId to the context type
+  loading: boolean;
+}
+
+const AuthContext = createContext<AuthContextType>({ user: null, dbId: null, loading: true });
+
+export function AuthProvider({ children }: { children: React.ReactNode }) {
+  const [user, setUser] = useState<User | null>(null);
+  const [dbId, setDbId] = useState<number | null>(null); // State for database ID
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+      setUser(firebaseUser);
+      if (firebaseUser) {
+        try {
+          // Fetch the user's database ID using their Firebase UID
+          const response = await api.get(`/auth/me`);
+          setDbId(response.data.id);
+        } catch (error) {
+          console.error("Error fetching user's database ID:", error);
+          setDbId(null); // Ensure dbId is null on error
+        }
+      } else {
+        setDbId(null); // Clear dbId if no Firebase user
+      }
+      setLoading(false);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  return (
+    <AuthContext.Provider value={{ user, dbId, loading }}>
+      {children}
+    </AuthContext.Provider>
+  );
+}
+
+export const useAuth = () => useContext(AuthContext);

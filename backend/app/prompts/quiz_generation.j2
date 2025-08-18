@@ -1,0 +1,32 @@
+Generate a multiple-choice quiz based on the following parameters:
+
+Subject: {{ subject }}
+Topic: {{ topic_title }}
+Sub-topic: {{ sub_topic_title }}
+Goal: {{ goal }}
+Number of questions: {{ num_questions }}
+
+Each question should have a question text, at least 4 options (A, B, C, D, etc.), and a single correct answer ID (matching one of the option IDs). Provide a brief explanation for the correct answer.
+
+Format the output as a JSON object with a single key "questions", which is an array of question objects. Each question object should have the following structure:
+
+```json
+{
+  "questions": [
+    {
+      "id": 1,
+      "question_text": "What is the capital of France?",
+      "options": [
+        {"id": "A", "text": "Berlin"},
+        {"id": "B", "text": "Madrid"},
+        {"id": "C", "text": "Paris"},
+        {"id": "D", "text": "Rome"}
+      ],
+      "correct_answer_id": "C",
+      "explanation": "Paris is the capital and most populous city of France."
+    }
+  ]
+}
+```
+
+Ensure the JSON is valid and strictly follows the schema. The `id` for each question should be a sequential integer starting from 1. The `id` for each option should be a single uppercase letter (A, B, C, D, etc.).

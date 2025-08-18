@@ -1,0 +1,386 @@
+from typing import Optional, List, Dict, Any
+from sqlmodel import Field, SQLModel, Column, Text
+from sqlalchemy.dialects.postgresql import JSONB
+from sqlalchemy import DateTime # Import DateTime
+from datetime import datetime, date
+import uuid
+
+class UserBase(SQLModel):
+    email: str
+    is_active: bool = True
+    is_admin: bool = False
+
+class UserCreate(UserBase):
+    password: Optional[str] = None
+
+class UserRead(UserBase):
+    id: int
+
+class User(UserBase, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    firebase_uid: Optional[str] = Field(default=None, unique=True, index=True)
+    hashed_password: Optional[str] = ""
+
+class GoalBase(SQLModel):
+    title: str
+    description: Optional[str] = None
+
+class GoalCreate(GoalBase):
+    pass
+
+class GoalRead(GoalBase):
+    id: int
+    user_id: int
+
+class Goal(GoalBase, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    user_id: int = Field(index=True, foreign_key="user.id")
+
+class RoadmapBase(SQLModel):
+    title: str
+    description: Optional[str] = None
+    subject: Optional[str] = None
+    goal: Optional[str] = None
+    time_value: Optional[int] = None
+    time_unit: Optional[str] = None
+    model: Optional[str] = None
+    roadmap_plan: List[Dict[str, Any]] = Field(sa_column=Column(JSONB))
+
+class RoadmapCreate(RoadmapBase):
+    pass
+
+class RoadmapRead(RoadmapBase):
+    id: int
+    user_id: int
+
+class Roadmap(RoadmapBase, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    user_id: int = Field(index=True, foreign_key="user.id")
+
+class QuestionBase(SQLModel):
+    id: int
+    question_text: str
+    options: List[Dict[str, Any]] = Field(sa_column=Column(JSONB))
+    correct_answer_id: str
+    explanation: Optional[str] = None
+
+class QuizBase(SQLModel):
+    title: str
+    description: Optional[str] = None
+    subject: str
+    module_title: Optional[str] = None
+    topic_title: Optional[str] = None
+    topic_id: Optional[int] = None # New field
+    time_limit: Optional[int] = None # New field
+    questions: List[QuestionBase]
+
+class QuizCreate(QuizBase):
+    pass
+
+class QuizRead(QuizBase):
+    id: int
+
+class Quiz(QuizBase, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    questions: List[QuestionBase] = Field(default_factory=list, sa_column=Column(JSONB)) # Store questions as JSONB
+
+class SpacedRepetitionBase(SQLModel):
+    user_id: int
+    quiz_id: int
+    question_id: int
+    sub_topic_id: Optional[str] = None # Added to link to subtopic
+    easiness_factor: float
+    repetitions: int
+    interval: int
+    next_review_date: date
+
+class SpacedRepetitionCreate(SpacedRepetitionBase):
+    pass
+
+class SpacedRepetitionRead(SpacedRepetitionBase):
+    id: int
+
+class SpacedRepetition(SpacedRepetitionBase, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+
+class UserProgress(SQLModel, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    user_id: int = Field(index=True, foreign_key="user.id")
+    sub_topic_id: str = Field(index=True)
+    roadmap_id: int = Field(index=True, foreign_key="roadmap.id")
+    status: str = Field(default="in_progress") # in_progress, completed
+    completed_at: Optional[datetime] = Field(default=None)
+    learn_completed: bool = Field(default=False)
+    quiz_completed: bool = Field(default=False)
+    quiz_best_score: Optional[float] = Field(default=None)
+    code_challenge_completed: bool = Field(default=False)
+    last_accessed_at: Optional[datetime] = Field(default=None)
+    time_spent_learning: int = Field(default=0)
+
+# UserSession removed - was over-engineered and caused 404 errors
+# Resume functionality now uses UserProgress.last_accessed_at instead
+
+from schemas import ContentBlock, QuestionResult # Import the ContentBlock type and QuestionResult
+
+class LearningContentBase(SQLModel):
+    subtopic: str
+    content: List[ContentBlock] = Field(sa_column=Column(JSONB)) # Use JSONB for structured content
+    model: str
+
+class LearningContentCreate(LearningContentBase):
+    pass
+
+class LearningContentRead(LearningContentBase):
+    id: int
+    user_id: int
+
+class LearningContent(LearningContentBase, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    user_id: int = Field(index=True, foreign_key="user.id")
+    model: str
+    
+    # Enhanced fields for save/share functionality
+    is_saved: bool = Field(default=False)  # User explicitly saved this
+    is_public: bool = Field(default=False)  # Can be shared publicly
+    share_token: Optional[str] = Field(default=None, index=True)  # Unique token for sharing
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+    updated_at: datetime = Field(default_factory=datetime.utcnow)
+    
+    # Additional metadata for better organization
+    subject: Optional[str] = Field(default=None)
+    goal: Optional[str] = Field(default=None)
+    subtopic_id: Optional[str] = Field(default=None, index=True)  # Reference to roadmap subtopic
+
+class Question(QuestionBase, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+
+class QuizAttempt(SQLModel, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    user_id: int = Field(index=True, foreign_key="user.id")
+    quiz_id: int = Field(index=True, foreign_key="quiz.id")
+    score: float
+    total_questions: int
+    sub_topic_id: str = Field(index=True) # Added to link to subtopic
+    question_results: List[QuestionResult] = Field(default_factory=list, sa_column=Column(JSONB)) # Store question results
+    attempted_at: datetime = Field(default_factory=datetime.utcnow)
+    completed: bool = Field(default=True)
+
+class QuizActivityLog(SQLModel, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    user_id: int = Field(index=True, foreign_key="user.id")
+    quiz_id: int = Field(index=True, foreign_key="quiz.id")
+    quiz_attempt_id: int = Field(index=True, foreign_key="quizattempt.id")
+    fullscreen_violations: int = 0
+    visibility_violations: int = 0
+    final_action: str
+    started_at: datetime = Field(default_factory=datetime.utcnow)
+    ended_at: datetime = Field(default_factory=datetime.utcnow)
+
+class QuizSession(SQLModel, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    user_id: int = Field(index=True, foreign_key="user.id")
+    quiz_id: int = Field(index=True, foreign_key="quiz.id")
+    sub_topic_title: str = Field(index=True)
+    sub_topic_id: Optional[str] = Field(default=None, index=True)  # Store the actual roadmap subtopic ID
+    session_token: str = Field(unique=True, index=True)
+    started_at: datetime = Field(default_factory=datetime.utcnow)
+
+class UserPerformance(SQLModel, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    user_id: int = Field(index=True, foreign_key="user.id")
+    quizzes_completed: int = Field(default=0)
+    total_score: int = Field(default=0)
+    total_questions_answered: int = Field(default=0)
+    total_correct_answers: int = Field(default=0)
+    average_score: float = Field(default=0.0)
+    overall_accuracy: float = Field(default=0.0)
+
+# Behavioral Design System Models
+
+class UserBehavior(SQLModel, table=True):
+    """Tracks user behavioral patterns and preferences"""
+    id: Optional[int] = Field(default=None, primary_key=True)
+    user_id: int = Field(index=True, foreign_key="user.id", unique=True)
+    
+    # XP and Progression System
+    total_xp: int = Field(default=0)
+    current_level: int = Field(default=1)
+    xp_to_next_level: int = Field(default=100)
+    
+    # Streak System with Forgiveness
+    current_streak: int = Field(default=0)
+    longest_streak: int = Field(default=0)
+    grace_days_remaining: int = Field(default=2)
+    last_activity_date: Optional[date] = None
+    streak_broken_count: int = Field(default=0)
+    
+    # Nudge and Personalization
+    nudge_intensity: float = Field(default=1.0)  # 0.0-1.0 scale
+    dismissed_nudges_today: int = Field(default=0)
+    preferred_session_length: int = Field(default=20)  # minutes
+    
+    # Focus and Flow State
+    focus_mode_enabled: bool = Field(default=False)
+    focus_session_start: Optional[datetime] = None
+    total_focus_time: int = Field(default=0)  # minutes
+    
+    # Time-of-day Learning Patterns
+    optimal_learning_windows: Optional[Dict[str, Any]] = Field(default=None, sa_column=Column(JSONB))
+    session_completion_by_hour: Optional[Dict[str, int]] = Field(default_factory=dict, sa_column=Column(JSONB))
+    
+    # Reward System
+    last_reward_received: Optional[datetime] = None
+    total_rewards_received: int = Field(default=0)
+    reward_probability_modifier: float = Field(default=1.0)
+    
+    # Progress Metrics
+    momentum_score: float = Field(default=0.0)  # decay-weighted recent activity
+    consistency_score: float = Field(default=0.0)  # regularity of study sessions
+    
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+    updated_at: datetime = Field(default_factory=datetime.utcnow, sa_column=Column(DateTime(timezone=True), onupdate=datetime.utcnow))
+
+class ConceptElo(SQLModel, table=True):
+    """Elo rating for each concept per user"""
+    id: Optional[int] = Field(default=None, primary_key=True)
+    user_id: int = Field(index=True, foreign_key="user.id")
+    concept_tag: str = Field(index=True)  # e.g., "arrays", "sorting", "graphs"
+    elo_rating: float = Field(default=1200.0)
+    total_attempts: int = Field(default=0)
+    correct_attempts: int = Field(default=0)
+    last_updated: datetime = Field(default_factory=datetime.utcnow)
+
+class LearningSession(SQLModel, table=True):
+    """Detailed session tracking for behavioral analysis"""
+    id: Optional[int] = Field(default=None, primary_key=True)
+    user_id: int = Field(index=True, foreign_key="user.id")
+    roadmap_id: int = Field(index=True, foreign_key="roadmap.id")
+    
+    # Session Flow State Machine
+    session_state: str = Field(default="WARMUP")  # WARMUP, FOCUS, CHECKPOINT, REWARD, PRIME_NEXT
+    session_plan: Optional[str] = None  # Implementation intention
+    estimated_duration: int = Field(default=20)  # minutes
+    actual_duration: Optional[int] = None  # minutes
+    
+    # Activities Completed
+    warmup_completed: bool = Field(default=False)
+    focus_completed: bool = Field(default=False)
+    checkpoint_completed: bool = Field(default=False)
+    reward_received: bool = Field(default=False)
+    prime_next_action: Optional[str] = None  # "continue", "bank_win", "different_path"
+    
+    # Performance Metrics
+    subtopics_completed: int = Field(default=0)
+    quizzes_attempted: int = Field(default=0)
+    average_quiz_score: Optional[float] = None
+    flow_interruptions: int = Field(default=0)
+    
+    # Context
+    start_time: datetime = Field(default_factory=datetime.utcnow)
+    end_time: Optional[datetime] = None
+    time_of_day_bucket: str = Field(default="")  # "morning", "afternoon", "evening", "night"
+    
+    # Behavioral Flags
+    used_quick_recall: bool = Field(default=False)
+    accepted_recommendations: int = Field(default=0)
+    dismissed_nudges: int = Field(default=0)
+    
+    session_data: Optional[Dict[str, Any]] = Field(default_factory=dict, sa_column=Column(JSONB))
+
+class MilestoneProgress(SQLModel, table=True):
+    """Track milestone achievements and named checkpoints"""
+    id: Optional[int] = Field(default=None, primary_key=True)
+    user_id: int = Field(index=True, foreign_key="user.id")
+    roadmap_id: int = Field(index=True, foreign_key="roadmap.id")
+    
+    milestone_type: str = Field(index=True)  # "module", "checkpoint", "level", "streak"
+    milestone_name: str  # "Foundations Gate", "Algorithm Bridge", "Level 5"
+    milestone_description: str
+    
+    # Progress Tracking
+    current_value: int = Field(default=0)
+    target_value: int
+    completion_percentage: float = Field(default=0.0)
+    completed: bool = Field(default=False)
+    completed_at: Optional[datetime] = None
+    
+    # Rewards and Recognition
+    reward_claimed: bool = Field(default=False)
+    unlock_benefits: Optional[List[str]] = Field(default_factory=list, sa_column=Column(JSONB))
+    
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+
+class QuickChallenge(SQLModel, table=True):
+    """Micro-challenges for warmup and momentum building"""
+    id: Optional[int] = Field(default=None, primary_key=True)
+    user_id: int = Field(index=True, foreign_key="user.id")
+    subtopic_id: str = Field(index=True)
+    
+    challenge_type: str  # "mcq", "code_trace", "recall", "concept_match"
+    question: str
+    options: Optional[List[Dict[str, Any]]] = Field(default_factory=list, sa_column=Column(JSONB))
+    correct_answer: str
+    explanation: Optional[str] = None
+    
+    # Metadata
+    difficulty_level: float = Field(default=1.0)
+    estimated_time_seconds: int = Field(default=30)
+    concept_tags: List[str] = Field(default_factory=list, sa_column=Column(JSONB))
+    
+    # Tracking
+    times_attempted: int = Field(default=0)
+    times_correct: int = Field(default=0)
+    average_response_time: float = Field(default=0.0)
+    
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+
+class ChallengeAttempt(SQLModel, table=True):
+    """Individual attempts at quick challenges"""
+    id: Optional[int] = Field(default=None, primary_key=True)
+    user_id: int = Field(index=True, foreign_key="user.id")
+    challenge_id: int = Field(index=True, foreign_key="quickchallenge.id")
+    session_id: Optional[int] = Field(foreign_key="learningsession.id")
+    
+    user_answer: str
+    is_correct: bool
+    response_time_seconds: float
+    confidence_level: Optional[int] = None  # 1-5 scale
+    
+    # Context
+    attempt_context: str = Field(default="warmup")  # "warmup", "checkpoint", "review"
+    elo_before: Optional[float] = None
+    elo_after: Optional[float] = None
+    
+    attempted_at: datetime = Field(default_factory=datetime.utcnow)
+
+class RewardEvent(SQLModel, table=True):
+    """Track reward distribution and user engagement"""
+    id: Optional[int] = Field(default=None, primary_key=True)
+    user_id: int = Field(index=True, foreign_key="user.id")
+    session_id: Optional[int] = Field(foreign_key="learningsession.id")
+    
+    reward_type: str  # "confetti", "insight_card", "achievement", "streak_bonus"
+    reward_content: Optional[Dict[str, Any]] = Field(default_factory=dict, sa_column=Column(JSONB))
+    
+    # Trigger Context
+    trigger_event: str  # "subtopic_completion", "milestone_reached", "streak_maintained"
+    trigger_data: Optional[Dict[str, Any]] = Field(default_factory=dict, sa_column=Column(JSONB))
+    
+    # Engagement
+    displayed: bool = Field(default=True)
+    user_engaged: bool = Field(default=False)  # clicked, dismissed, etc.
+    engagement_time_seconds: Optional[float] = None
+    
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+
+class DependencyMap(SQLModel, table=True):
+    """Maps prerequisites and dependencies between subtopics"""
+    id: Optional[int] = Field(default=None, primary_key=True)
+    subtopic_id: str = Field(index=True)
+    prerequisite_id: str = Field(index=True)
+    roadmap_id: int = Field(index=True, foreign_key="roadmap.id")
+    
+    dependency_strength: float = Field(default=1.0)  # 0.0-1.0, how critical is this prereq
+    minimum_mastery_score: float = Field(default=0.7)  # minimum score needed in prereq
+    
+    created_at: datetime = Field(default_factory=datetime.utcnow)

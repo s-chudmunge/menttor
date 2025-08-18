@@ -1,0 +1,222 @@
+Core principles to encode
+
+Autonomy–Competence–Relatedness (SDT): always give a choice, show skill growth, and offer light social context.
+
+Goal-gradient & Zeigarnik effects: make the next step salient, leave a visible “nearly done” thread.
+
+Desirable difficulty & immediate feedback: fast, graded challenge with quick wins at session start.
+
+Streaks with forgiveness: reinforce habit without shame (grace period + soft reset).
+
+Variable rewards: small, unpredictable delights after meaningful actions (not every time).
+
+Peak–end rule: engineer a quick win at the start and an affirming summary at the end of each session.
+
+Session flow (state machine layered onto your page)
+
+Define a lightweight session FSM in page.tsx:
+
+WARMUP (1–2 min) → FOCUS (15–30 min) → CHECKPOINT (<1 min) → REWARD (5–10s) → PRIME-NEXT (<1 min)
+
+Transitions are driven by your existing time tracker + progress events.
+
+WARMUP
+
+Surface a 1-tap plan (implementation intention): “Today I’ll finish Arrays/Indexing in ~12 min.” Pre-fill from useProgress estimates; user can edit or skip.
+
+Quick recall ping (3s, inline on SmartResumeCard): 1 MCQ from last subtopic. Correct → immediate “green light to continue”.
+
+FOCUS
+
+Mini Pomodoro (default 20 min) toggled in JourneyHeader. No modal; just a subtle ring timer and do-not-disturb badge.
+
+Inline “friction cuts”: when user opens Learn, preload 2 screens; when they finish the first, proactively render the next (perceived smoothness).
+
+CHECKPOINT
+
+At subtopic completion, show ipsative progress: “+12% vs last attempt” and “2m faster than your median”. CTA: “Lock it with a 20-sec quiz”.
+
+REWARD
+
+Variable reward schedule (p≈0.35): confetti blink + “Insight card” (one-sentence expert tip, or a real interview snippet). Never on every completion.
+
+PRIME-NEXT
+
+Two options: “Go deeper (5–8 min)” or “Bank the win (come back tomorrow)”. This preserves autonomy and ends on a strong “you chose” note.
+
+Component-level changes
+1) JourneyHeader (motivation cockpit)
+
+Replace static percentage with milestone phrasing: rotate between {percent}, {distance_to_next}, and {named_milestone}.
+
+Add Focus toggle (Pomodoro chip). When on, suppress non-critical UI pulses; show tiny ring timer.
+
+Convert time to XP alongside minutes: xp = round(1.5 * focused_minutes + 2 * completed_quizzes + 3 * code_submissions).
+
+Copy variants (rotating):
+
+“You’re 180 XP from unlocking Linked List Lab.”
+
+“1 subtopic to finish Module 2’s core.”
+
+“Level Up: Array Basics mastered. Next: Slicing in ~6 min.”
+
+2) SmartResumeCard (nudge engine)
+
+Show micro-victory memory from last session: “Yesterday you cracked the hardest Stack quiz.”
+
+If idle ≥72h: replace CTA with Recap strip (3 bullet points auto-generated from last Learn page headings) + “Resume at Queues (8 min).”
+
+Offer Plan-B: “Short path (4 min): review key examples only.”
+
+Buttons: [Resume 8m] [Short 4m] [Different path]
+
+3) InteractiveRoadmap (quest map with dependency cues)
+
+Add dependency pebbles under each node (tiny badges of prerequisites). If a dependent quiz score <70, show a soft amber hint on that pebble.
+
+Goal-gradient bar on the path segment leading to the next checkpoint; the segment visually “fills” as the user completes the 2–3 prerequisites.
+
+Named checkpoints every ~3 subtopics: “Foundations Gate,” “Algorithm Bridge.” Completing one triggers the variable reward.
+
+4) RecommendedReviews (spaced repetition with urgency that respects autonomy)
+
+Replace flat list with urgency buckets:
+
+“Expires Today (keep streak)”
+
+“Due Soon (tomorrow)”
+
+“Flexible (this week)”
+
+Add Snooze with consequence tooltip: “Snooze to Fri (adds +1 question on next review).”
+
+Show streak with forgiveness: a 2-day grace; breaking streak reduces only the glow effect, not the count. Regain in one day.
+
+5) LearningGuide (why-now framing)
+
+Collapse mechanics by default; surface benefit estimator:
+
+“Finish this module → readiness for 80% of entry-level DSA screens.”
+
+“Adding code challenges improves retention by ~25% (past 30d learners on this roadmap).”
+
+Add session recipe chips: [Quick Win 10m] [Deep Dive 25m] [Review+Code 15m]. Clicking preconfigures the WARMUP→FOCUS timer and suggests a path.
+
+6) ReportButton & QuizReportModal (growth lens)
+
+Always show trend (ipsative): last 3 attempts line sparkline.
+
+Next Best Action computed at modal footer:
+
+if score<70: recommend review set A
+
+70≤score<90: recommend 1 code task mapped to missed objective
+
+≥90: suggest jumping to dependency unlocked node
+
+Error framing: “Great—now you know where to focus: Hash Collisions.” (Specificity reduces shame, increases control.)
+
+Personalization & adaptivity logic
+Difficulty / routing
+
+Maintain a per-concept Elo (g) updated after each quiz or code task:
+g_new = g_old + K*(outcome - expected) where expected = 1/(1+10^((d-g)/400)), d = item difficulty.
+Use useQuizResult to fetch outcomes; store per-user in your progress service.
+
+Ordering rule in InteractiveRoadmap: float nodes whose prerequisite gap Δ = max(0, 70 - quiz%) is largest and concept Elo is lowest.
+
+Unlock code tasks when quiz% ≥ 70 or Elo ≥ threshold; otherwise show “Priming 1-minute recap” CTA.
+
+Time-of-day rhythm
+
+Cache effective session windows by observing when user completes ≥1 subtopic with ≥70% score. Offer SmartResumeCard plans around those windows: “People do their best here at 8–10pm—want a 15-min session?”
+
+Nudge policy
+
+Intensity score per session starts at 1.0; subtract 0.4 for each dismissed nudge. If <0.4, suppress variable rewards & reduce copy. Reset next day. This creates perceived respect.
+
+Concrete UI micro-patterns (ready to drop in)
+
+On-card micro-challenge (opens inline drawer, no route change):
+
+1 MCQ or 30-sec code trace. Success auto-enables “Learn” with “Momentum +1” chip.
+
+Progress copy rotation (per 30–90s or on state changes):
+
+Metric → Distance → Identity:
+“34% complete” → “2 steps to Foundations Gate” → “You’re the kind who finishes what they start—want to seal it now?”
+
+Loss-aversion without guilt (RecommendedReviews):
+
+“Keeping today’s 2 reviews fresh saves you ~6 min tomorrow.”
+
+Prime-Next (end of subtopic):
+
+“You’re 5 minutes from unlocking Linked List Lab. Continue?”
+
+Data you already have → what to compute
+
+From useProgress:
+
+ETA per subtopic = rolling median of user’s last 3 similar subtopics (by length/complexity tag).
+
+Momentum = completed_subtopics_last_7d with decay w_d = 0.9^days_ago.
+
+From useQuizResult:
+
+Delta score (ipsative change).
+
+Weak objective = tag with lowest correct% → feeds Next Best Action.
+
+Store last_active_ts, dismiss_count, focus_mode_on, streak_days, grace_remaining (0–2).
+
+Copy library (plug into components)
+
+Welcome back (idle ≥72h): “Let’s pick up exactly where you felt momentum: Stacks → Pop/Push (6–8 min).”
+
+Pre-quiz nudge: “A fast win first: 2 recall cues from yesterday to light up the path.”
+
+Post-quiz improvement: “+14% on pointer ops—nice calibration.”
+
+Review urgency (today bucket): “These 2 will fade by tonight. Lock them in ~3 min.”
+
+Focus mode on: “Notifications muted. You’re in build mode for 20 min.”
+
+Prime-Next: “One short push (5 min) unlocks Deque tricks. Keep flow?”
+
+Ethical guardrails & controls
+
+Nudge intensity slider in settings: Relaxed / Standard / Focused.
+
+Always-visible dismiss × on nudges; remember dismissals per session.
+
+No public leaderboards by default. If you add social proof, keep it aggregate and optional.
+
+Metrics & quick experiments
+
+Primary: DAU→Active learning session conversion; subtopic completion/session; 7-day retention; average session length (cap at 35–40 min).
+
+Secondary: Quiz reattempt rate within 48h; review completion/day; % sessions with Prime-Next accepted.
+
+A/B tests (two weeks each):
+
+A: static % vs milestone phrasing in Header.
+
+B: variable reward p=0.35 vs p=0.15.
+
+C: streak with 2-day grace vs none.
+
+D: SmartResume “Short 4m plan” visible vs hidden.
+
+Minimal code integration map (no redesign, just enhancements)
+
+JourneyHeader: add useFocusMode(), useMilestones(), useXP().
+
+SmartResumeCard: new props {etaMinutes, lastVictory, shortPlanEnabled}; reads from useProgress.
+
+InteractiveRoadmap: add dependencies prop + computePrereqGaps(progress, quizResults); render pebbles + gradient segment.
+
+RecommendedReviews: replace flat list with groupByUrgency(dueAt, now, graceDays=2) and add snooze(dueAt, +2d) with cost tag.
+
+QuizReportModal: add sparkline (last 3 scores) + nextBestAction(weakTag, score, timeLeft).

@@ -1,0 +1,21 @@
+
+Generate a multiple-choice quiz with EXACTLY {{ num_questions }} questions based on the following parameters:
+Subject: {{ subject }}
+Goal: {{ goal }}
+Sub-topic: {{ sub_topic_title }}
+Module Title: {{ module_title }}
+Topic Title: {{ topic_title }}
+User's learning time: {{ time_value }} {{ time_unit }}
+
+The output MUST be a JSON object with a single key "questions", which is a list of question objects.
+Each question object MUST have the following structure:
+- "id": A unique integer for the question (e.g., 1, 2, 3, 4, 5). Ensure these are sequential.
+- "question_text": The text of the question.
+- "options": A list of exactly 4 answer choices. Each answer choice should be an object with:
+  - "id": A unique integer for the answer (e.g., 101, 102, 103, 104 for the first question's answers). Ensure these are unique within the question.
+  - "text": The text of the answer.
+- "correct_answer_id": The ID of the correct answer, which MUST be one of the "id" values from the "options" list for that question.
+- "explanation": A detailed explanation of the correct answer, why it's correct, and why other options are incorrect. This should be a comprehensive, well-structured string.
+
+CRITICAL: The "questions" array MUST contain precisely {{ num_questions }} question objects. No more, no less.
+Ensure the response is ONLY the JSON object, with no additional text or markdown formatting outside the JSON.

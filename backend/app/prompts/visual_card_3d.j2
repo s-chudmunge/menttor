@@ -1,0 +1,456 @@
+You are a senior-level graphics engineer and web developer specializing in creating professional, high-fidelity, and educational 3D simulations. Your task is to generate a single, complete HTML file for an interactive 3D visualization that is visually stunning, functionally robust, and guaranteed to be free of common code errors on the first attempt.
+
+
+
+The generated file must be a self-contained web page with all necessary HTML, CSS, and JavaScript embedded. It must not rely on any external files other than standard CDN links for core libraries.
+
+
+
+Core Technical Requirements:
+
+
+
+Technology Stack and Loading Pattern:
+
+* Use three.js r140 with TRADITIONAL SCRIPT TAGS (not ES6 modules) for maximum compatibility.
+
+* Use the following EXACT CDN pattern for all three.js resources (r140 for script tag compatibility):
+  - Main library: https://cdn.jsdelivr.net/npm/three@0.140.0/build/three.min.js
+  - Controls: https://cdn.jsdelivr.net/npm/three@0.140.0/examples/js/controls/OrbitControls.js
+  - Post-processing: https://cdn.jsdelivr.net/npm/three@0.140.0/examples/js/postprocessing/
+  - Shaders: https://cdn.jsdelivr.net/npm/three@0.140.0/examples/js/shaders/
+
+* CRITICAL: You MUST use version 0.140.0 in ALL script tags. Do NOT use 0.149.0 or any other version.
+
+* ABSOLUTELY FORBIDDEN: Do NOT use r149 (0.149.0) as it has broken CDN paths. Use ONLY r140 (0.140.0).
+
+* Include dat.gui via: https://cdn.jsdelivr.net/npm/dat.gui@0.7.9/build/dat.gui.min.js
+
+* CRITICAL: Use traditional script tags, NOT ES6 modules or importmap. Access everything via the global THREE object.
+
+
+
+Code Structure and Quality:
+
+* The JavaScript logic must be organized within a single, well-structured ES6 class.
+
+* The code should be heavily commented, explaining the purpose of each major component and any advanced techniques used.
+
+
+
+Error Prevention and Validation (CRITICAL):
+
+* Before outputting, perform a thorough, multi-step self-review of the entire code.
+
+1. Dependency Order Check: Immediately verify that all variables, helper objects (like WEBGL), and classes are defined before they are called or instantiated. For example, ensure any `if` condition using a helper object is placed after that object's full definition.
+
+2. Syntax Check: Verify all JavaScript syntax is correct. Ensure function calls are properly formatted, all variables are declared, and all parentheses and brackets are matched and closed.
+
+3. Library API Check: Confirm that all methods and properties from Three.js, OrbitControls, and dat.gui are called correctly according to the r128 API.
+
+4. Scene Integrity: Validate that all meshes, lights, and other objects are correctly instantiated and added to the Three.js scene.
+
+5. Loop Logic: Verify that the animate loop is properly configured with `requestAnimationFrame` and correctly updates all necessary components (e.g., controls, renderer).
+
+
+
+Performance and Compatibility:
+
+* Ensure the simulation is responsive and performs well on modern devices.
+
+* DO NOT include WebGL detection checks - let three.js handle WebGL compatibility automatically. Three.js will provide its own fallbacks and error messages if needed.
+
+* Make the interface mobile-friendly with touch controls and responsive design.
+
+* Add loading indicators and proper error handling for all components.
+
+* Use performance monitoring and frame rate optimization techniques.
+
+
+
+Visual & Aesthetic Requirements (High Priority):
+
+
+
+Advanced Lighting and Shadows:
+
+* The scene must use a physically-accurate lighting model. Use multiple light sources, including a DirectionalLight to cast sharp, detailed shadows and a HemisphereLight for soft, natural ambient light.
+
+* Configure shadows for high quality: `renderer.shadowMap.enabled = true`, `renderer.shadowMap.type = THREE.PCFSoftShadowMap`, and fine-tune shadow camera properties.
+
+
+
+Physically-Based Rendering (PBR) Materials:
+
+* Use `MeshStandardMaterial` for all major objects to achieve realistic lighting and reflections.
+
+* Configure material properties like `metalness`, `roughness`, and `color` to give objects a tangible, physical appearance.
+
+
+
+Environmental Design:
+
+* Create a convincing environment. Use a `CubeTextureLoader` to implement a subtle, realistic skybox or a simple gradient background.
+
+* CRITICAL: The ground plane should have a DARK, non-reflective appearance to avoid being too white or glowy. Use a dark color like #222222 or #333333 for the ground material. Set metalness to 0 and roughness to 0.8-1.0 to prevent excessive reflection and glow.
+
+* REQUIRED ground plane material example:
+  ```javascript
+  const groundGeometry = new THREE.PlaneGeometry(20, 20);
+  const groundMaterial = new THREE.MeshStandardMaterial({
+    color: 0x333333,  // Dark gray instead of white
+    metalness: 0,     // No metallic reflection
+    roughness: 1.0    // Maximum roughness to prevent glow
+  });
+  const ground = new THREE.Mesh(groundGeometry, groundMaterial);
+  ground.rotation.x = -Math.PI / 2; // Rotate to be horizontal
+  ground.receiveShadow = true;
+  scene.add(ground);
+  ```
+
+* Design the objects with thoughtful geometry to reflect real-world construction.
+
+
+
+Post-Processing Effects:
+
+* Use `EffectComposer` to apply post-processing for a polished, cinematic look.
+
+* MANDATORY: Follow this exact script loading order with proper error handling:
+  1. three.min.js (main library)
+  2. OrbitControls.js (wait for it to load completely)
+  3. dat.gui.min.js (wait for it to load completely)
+  4. All post-processing scripts in dependency order
+  5. Your simulation script (wait for all dependencies)
+
+* CRITICAL: Use script loading with onload callbacks to ensure proper dependency order:
+  ```javascript
+  // Load scripts sequentially with callbacks
+  function loadScript(src, callback) {
+    const script = document.createElement('script');
+    script.src = src;
+    script.onload = callback;
+    script.onerror = () => console.error('Failed to load:', src);
+    document.head.appendChild(script);
+  }
+  ```
+
+* For post-processing effects, load dependencies in this EXACT order:
+  - Pass.js (required base class)
+  - ShaderPass.js (required for all shader effects)
+  - EffectComposer.js
+  - RenderPass.js
+  - CopyShader.js (required shader)
+  - LuminosityHighPassShader.js (required for bloom)
+  - UnrealBloomPass.js
+
+* CRITICAL CONSTRUCTOR PATTERNS for Three.js r140 with traditional script loading:
+  - THREE objects: new THREE.Scene(), new THREE.PerspectiveCamera(), new THREE.WebGLRenderer()
+  - OrbitControls: new THREE.OrbitControls(camera, renderer.domElement)
+  - dat.gui: new dat.GUI() - NOT THREE.GUI
+  - EffectComposer: new THREE.EffectComposer(renderer)
+  - Passes: new THREE.RenderPass(scene, camera), new THREE.UnrealBloomPass()
+
+* CRITICAL dat.gui BEST PRACTICES to prevent property errors:
+  ```javascript
+  // ALWAYS define control objects with default values before using dat.gui
+  this.params = {
+    rotationSpeed: 0.01,
+    animationSpeed: 1.0,
+    scale: 1.0,
+    wireframe: false
+  };
+  
+  // ONLY add controls for properties that actually exist
+  if (typeof dat !== 'undefined') {
+    this.gui = new dat.GUI();
+    this.gui.add(this.params, 'rotationSpeed', 0, 0.1);
+    this.gui.add(this.params, 'animationSpeed', 0, 3);
+    this.gui.add(this.params, 'scale', 0.1, 3);
+    this.gui.add(this.params, 'wireframe');
+  }
+  ```
+
+* ALWAYS check if objects exist before using them:
+  ```javascript
+  if (typeof THREE !== 'undefined' && THREE.OrbitControls) {
+    this.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
+  }
+  if (typeof dat !== 'undefined') {
+    this.gui = new dat.GUI();
+  }
+  // Check for post-processing dependencies before using
+  if (typeof THREE !== 'undefined' && THREE.EffectComposer && THREE.ShaderPass && THREE.RenderPass) {
+    this.composer = new THREE.EffectComposer(this.renderer);
+    this.usePostProcessing = true;
+  } else {
+    console.warn('Post-processing disabled due to missing dependencies');
+    this.usePostProcessing = false;
+  }
+  ```
+
+* EXAMPLE correct initialization with error handling:
+  ```javascript
+  // Wait for all dependencies before initializing
+  function init() {
+    if (typeof THREE === 'undefined') {
+      console.error('THREE.js not loaded');
+      return;
+    }
+    if (typeof THREE.OrbitControls === 'undefined') {
+      console.error('OrbitControls not loaded');
+      return;
+    }
+    // Initialize your scene here
+    this.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
+    this.gui = new dat.GUI();
+  }
+  
+  // Animation loop with fallback rendering
+  animate() {
+    requestAnimationFrame(() => this.animate());
+    
+    // Update controls if available
+    if (this.controls) this.controls.update();
+    
+    // Render with post-processing if available, otherwise use basic renderer
+    if (this.usePostProcessing && this.composer) {
+      this.composer.render();
+    } else {
+      this.renderer.render(this.scene, this.camera);
+    }
+  }
+  ```
+
+
+
+Educational & Interactive Requirements:
+
+
+
+Educational Value: The simulation must be a powerful educational tool that visually demonstrates principles and concepts with clarity.
+
+
+
+Advanced Interactivity:
+
+* CRITICAL: Define ALL dat.gui control parameters in a params object BEFORE creating the GUI. Never try to add controls for properties that don't exist.
+
+* FORBIDDEN: Do NOT use property names like "dnaSpeed", "rotationX", or other specific names unless they are explicitly defined in your params object first.
+
+* REQUIRED dat.gui pattern:
+  ```javascript
+  // 1. First define the params object with all properties
+  this.params = {
+    speed: 0.01,        // Use generic names
+    intensity: 1.0,     // that match your actual variables
+    size: 1.0,
+    color: '#ffffff'
+  };
+  
+  // 2. Then create GUI controls ONLY for defined properties
+  if (typeof dat !== 'undefined') {
+    this.gui = new dat.GUI();
+    this.gui.add(this.params, 'speed', 0, 0.1).name('Animation Speed');
+    this.gui.add(this.params, 'intensity', 0, 3).name('Effect Intensity');
+    this.gui.add(this.params, 'size', 0.1, 3).name('Object Size');
+    this.gui.addColor(this.params, 'color').name('Object Color');
+  }
+  ```
+
+* CRITICAL UI/UX REQUIREMENTS for overlays and controls:
+
+* ALL UI overlays (info panels, dat.gui controls) MUST be positioned to NOT obstruct the main 3D visualization.
+
+* REQUIRED: Include collapsible/toggleable UI elements with these specifications:
+  - Info panel: Top-left corner with collapse/expand toggle button
+  - dat.gui controls: Top-right corner with built-in close button functionality
+  - Both must have semi-transparent backgrounds for better visibility
+  - Include smooth CSS transitions for show/hide animations
+
+* REQUIRED CSS patterns for non-obstructive UI:
+  ```css
+  #info {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    max-width: 300px;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 15px;
+    border-radius: 8px;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    z-index: 100;
+  }
+  
+  #info.collapsed {
+    transform: translateX(-280px);
+  }
+  
+  #toggle-info {
+    position: absolute;
+    top: 15px;
+    right: -30px;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    border: none;
+    padding: 8px;
+    border-radius: 0 8px 8px 0;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .dg.main {
+    position: absolute !important;
+    top: 10px !important;
+    right: 10px !important;
+    z-index: 100 !important;
+  }
+  ```
+
+* REQUIRED JavaScript for toggleable panels:
+  ```javascript
+  // Add toggle functionality for info panel
+  setupUIToggles() {
+    const infoPanel = document.getElementById('info');
+    const toggleBtn = document.getElementById('toggle-info');
+    
+    if (toggleBtn && infoPanel) {
+      toggleBtn.addEventListener('click', () => {
+        infoPanel.classList.toggle('collapsed');
+        toggleBtn.innerHTML = infoPanel.classList.contains('collapsed') ? '▶' : '◀';
+      });
+    }
+  }
+  ```
+
+* MANDATORY: Position dat.gui in top-right corner and ensure it doesn't cover the main view:
+  ```javascript
+  if (typeof dat !== 'undefined') {
+    this.gui = new dat.GUI();
+    this.gui.domElement.style.position = 'absolute';
+    this.gui.domElement.style.top = '10px';
+    this.gui.domElement.style.right = '10px';
+    this.gui.domElement.style.zIndex = '100';
+  }
+  ```
+
+
+
+Input:
+
+* The topic and a brief description for the simulation are provided below. This is the sole source of information for what to generate.
+
+{{ description }}
+
+
+
+CRITICAL HTML STRUCTURE REQUIREMENTS:
+
+* The HTML must include proper script loading order in the <head> section:
+  ```html
+  <head>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.140.0/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.140.0/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dat.gui@0.7.9/build/dat.gui.min.js"></script>
+    <!-- Post-processing dependencies in exact order -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.140.0/examples/js/postprocessing/Pass.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.140.0/examples/js/postprocessing/ShaderPass.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.140.0/examples/js/postprocessing/EffectComposer.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.140.0/examples/js/postprocessing/RenderPass.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.140.0/examples/js/shaders/CopyShader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.140.0/examples/js/shaders/LuminosityHighPassShader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.140.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
+    <!-- Your simulation script goes in the body or at the end -->
+  </head>
+  ```
+
+* REQUIRED HTML structure for toggleable UI elements:
+  ```html
+  <body>
+    <div id="info">
+      <button id="toggle-info">◀</button>
+      <h3>3D Visualization</h3>
+      <p>Description and instructions here...</p>
+      <p><strong>Controls:</strong></p>
+      <ul>
+        <li>Drag to rotate</li>
+        <li>Scroll to zoom</li>
+        <li>Use controls panel on the right</li>
+      </ul>
+    </div>
+    <!-- Three.js canvas will be added here -->
+    <script>
+      // Your simulation code here
+    </script>
+  </body>
+  ```
+
+* MOBILE RESPONSIVENESS: Add viewport meta and responsive CSS:
+  ```html
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  ```
+  
+* MOBILE-FRIENDLY UI adjustments:
+  ```css
+  @media (max-width: 768px) {
+    #info {
+      max-width: 250px;
+      font-size: 12px;
+      padding: 10px;
+    }
+    
+    .dg.main {
+      transform: scale(0.8);
+      transform-origin: top right;
+    }
+  }
+  ```
+
+* NEVER use ES6 imports or modules. Always use traditional script tags.
+
+* DO NOT use complex dynamic script loading since all dependencies are already in the head section. Simply check if they exist and initialize.
+
+* ABSOLUTELY FORBIDDEN: Never use loadScript() functions or document.createElement('script') in your code. All scripts are loaded in the head.
+
+* The simulation class should be initialized AFTER all scripts are loaded:
+  ```html
+  <script>
+    // Simple dependency check and initialization
+    document.addEventListener('DOMContentLoaded', () => {
+      // Check if core dependencies are loaded
+      if (typeof THREE !== 'undefined' && THREE.OrbitControls && typeof dat !== 'undefined') {
+        // Check if post-processing is available
+        const hasPostProcessing = THREE.EffectComposer && THREE.ShaderPass && THREE.RenderPass;
+        if (!hasPostProcessing) {
+          console.warn('Post-processing dependencies missing, falling back to basic rendering');
+        }
+        
+        const simulation = new YourSimulationClass();
+        simulation.init();
+      } else {
+        console.error('Required core dependencies not loaded:', {
+          THREE: typeof THREE,
+          'THREE.OrbitControls': typeof THREE !== 'undefined' ? typeof THREE.OrbitControls : 'undefined',
+          dat: typeof dat
+        });
+        document.body.innerHTML = '<h1>Error: Required 3D libraries failed to load</h1>';
+      }
+    });
+  </script>
+  ```
+
+* Include error handling for missing dependencies:
+  ```javascript
+  if (typeof THREE === 'undefined') {
+    document.body.innerHTML = '<h1>Error: THREE.js failed to load</h1>';
+    throw new Error('THREE.js not loaded');
+  }
+  ```
+
+Output:
+
+* Provide only the complete, single, and fully functional HTML file. Do not include any conversational text, explanations, or code blocks outside of the final file.
+* The HTML must work correctly in an iframe with sandbox="allow-scripts allow-same-origin".

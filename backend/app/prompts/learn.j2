@@ -1,0 +1,16 @@
+Generate an in-depth, detailed, and focused learning content for '{{ subtopic }}' within the context of '{{ subject }}' with the overall goal of '{{ goal }}'.
+The content should be structured for quick grasp of concepts, pedagogically sound, and visually appealing.
+
+Include the following sections:
+1.  **Introduction**: A brief overview of the subtopic.
+2.  **Table of Contents (TOC)**: A simple HTML unordered list (`<ul>`) of the main sections (h2 headings) with anchor links.
+3.  **Key Concepts**: Detailed explanation of core ideas, using clear headings (h2, h3), bullet points (`<ul>`), and numbered lists (`<ol>`).
+4.  **Practical Examples**: Illustrative examples with clear explanations and code snippets if applicable (use `<pre><code>` for code).
+5.  **Applications**: Real-world uses and relevance of the subtopic.
+6.  **Summary/Key Takeaways**: A concise recap of the most important points.
+
+Return ONLY the HTML content that would be directly inserted into an existing HTML element. This means: Absolutely do NOT include `<!DOCTYPE html>`, `<html>`, `<head>`, `<body>`, or their closing tags. Do NOT wrap the output in markdown code blocks (e.g., ```html...```). Do NOT include any top-level container elements like `<div>` or `<section>`. The response MUST be a plain HTML fragment. Ensure all content is strictly valid HTML. Do not include any 'undefined', 'null', or empty fields. 
+For diagram placeholders, use a simple <div> with a descriptive class like 'diagram-placeholder' and text indicating what the diagram would show. 
+Example of a formula: <ul><li><b>Formula Name:</b> <code>F = ma</code></li></ul>
+Example of a diagram placeholder: <h3>Example Diagram:</h3><div class="diagram-placeholder">[Diagram: Force Vectors on an Object]</div>
+Example of an example problem: <h3>Example Problem:</h3><p>A 10 kg mass is accelerated by a 50 N force...</p><p>Solution: ...</p>
