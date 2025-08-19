@@ -5,7 +5,9 @@ export default function ResultsPage() {
     // we'll let the client component handle all data fetching
     return (
         <ResultsClientPage
+            summary={null}
             historicalResults={null}
+            errorSummary={null}
             errorHistorical={null}
         />
     );
