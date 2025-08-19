@@ -164,11 +164,32 @@ class AIExecutor:
                 logger.warning("Failed to set up Google Cloud credentials. Vertex AI initialization may fail.")
             
             try:
+                # Test credentials by checking if we can list models
+                from google.cloud import aiplatform
+                
+                # Log what credentials we're using
+                creds_file = os.getenv('GOOGLE_APPLICATION_CREDENTIALS')
+                logger.info(f"Using credentials file: {creds_file}")
+                
+                # Try to initialize and test access
                 init(project=settings.VERTEX_AI_PROJECT_ID, location=settings.VERTEX_AI_REGION)
+                
+                # Test if we can access the model
+                logger.info(f"Testing access to model: {settings.VERTEX_AI_MODEL_ID}")
                 AIExecutor._vertex_ai_model = GenerativeModel(settings.VERTEX_AI_MODEL_ID)
                 logger.info(f"Successfully initialized Vertex AI model: {settings.VERTEX_AI_MODEL_ID}")
+                
             except Exception as e:
                 logger.error(f"Failed to initialize Vertex AI model: {e}")
+                logger.error(f"Project: {settings.VERTEX_AI_PROJECT_ID}, Region: {settings.VERTEX_AI_REGION}, Model: {settings.VERTEX_AI_MODEL_ID}")
+                
+                # Try to get more info about the error
+                if "404" in str(e) or "NotFound" in str(e):
+                    logger.error("Model not found - this could be due to:")
+                    logger.error("1. Model doesn't exist in this project/region")
+                    logger.error("2. Service account doesn't have access")
+                    logger.error("3. Vertex AI API not enabled")
+                
                 AIExecutor._vertex_ai_model = None
         elif not settings.VERTEX_AI_PROJECT_ID:
             logger.info("VERTEX_AI_PROJECT_ID is not set. Skipping Vertex AI initialization.")
