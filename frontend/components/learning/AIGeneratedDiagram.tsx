@@ -21,7 +21,7 @@ interface GeneratedImage {
   prompt: string;
   model: string;
   concept: string;
-  subject: string;
+  type: string;
 }
 
 const AIGeneratedDiagram: React.FC<AIGeneratedDiagramProps> = ({
@@ -146,11 +146,11 @@ const AIGeneratedDiagram: React.FC<AIGeneratedDiagramProps> = ({
       <div className={`${className} flex flex-col items-center justify-center bg-gray-50 border border-gray-200 rounded-lg p-6`} style={{ width, height }}>
         <div className="text-center">
           <div className="w-10 h-10 border-3 border-gray-200 border-t-blue-500 rounded-full animate-spin mx-auto mb-3"></div>
-          <h4 className="text-base font-semibold text-gray-700 mb-2">🎨 AI Creating Diagram</h4>
-          <p className="text-sm text-gray-600 mb-2">Generating: <strong>{concept}</strong></p>
+          <h4 className="text-base font-semibold text-gray-700 mb-2">🎨 Creating Learning Visual</h4>
+          <p className="text-sm text-gray-600 mb-2">Analyzing: <strong>{concept}</strong></p>
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mt-3">
-            <p className="text-xs text-blue-700 mb-2">💡 <strong>Keep reading!</strong> The diagram will appear here when ready.</p>
-            <p className="text-xs text-gray-500">Usually takes 10-30 seconds</p>
+            <p className="text-xs text-blue-700 mb-2">💡 <strong>Keep reading!</strong> An educational diagram will appear here.</p>
+            <p className="text-xs text-gray-500">Usually takes 5-15 seconds</p>
           </div>
         </div>
       </div>
@@ -206,7 +206,7 @@ const AIGeneratedDiagram: React.FC<AIGeneratedDiagramProps> = ({
       {/* Diagram metadata */}
       <div className="p-4 bg-gray-50 border-t border-gray-200">
         <h4 className="font-semibold text-gray-800 text-sm mb-1">{imageData.concept}</h4>
-        <p className="text-xs text-gray-600 mb-2">Subject: {imageData.subject}</p>
+        <p className="text-xs text-gray-600 mb-2">Type: {imageData.type}</p>
         
         {/* Generated prompt (collapsible for debugging) */}
         <details className="text-xs text-gray-500">

@@ -18,75 +18,15 @@ interface Props {
 const DualCodingLayout: React.FC<Props> = ({ data, subject, subtopic, allowAIGeneration = true }) => {
   const flexDirection = data.position === 'left' ? 'lg:flex-row-reverse' : 'lg:flex-row';
   
-  // Extract key concepts from the text for intelligent visualization
-  const extractConcepts = (text: string) => {
-    const lowerText = text.toLowerCase();
-    
-    // Broad category detection (expandable for any subject)
-    const patterns = {
-      physics: ['force', 'newton', 'velocity', 'speed', 'energy', 'kinetic', 'potential', 'wave', 'frequency', 'momentum', 'acceleration', 'gravity', 'mass', 'motion', 'oscillation', 'amplitude', 'mechanics'],
-      tech: ['http', 'api', 'endpoint', 'request', 'response', 'server', 'client', 'database', 'network', 'protocol', 'url', 'json', 'rest', 'get', 'post', 'put', 'delete'],
-      programming: ['code', 'programming', 'function', 'variable', 'algorithm', 'data structure', 'array', 'object', 'class', 'method', 'loop', 'conditional', 'syntax'],
-      chemistry: ['molecule', 'atom', 'element', 'compound', 'reaction', 'chemical', 'bond', 'electron', 'proton', 'neutron', 'periodic', 'solution'],
-      biology: ['cell', 'organism', 'dna', 'protein', 'gene', 'evolution', 'species', 'ecosystem', 'photosynthesis', 'respiration', 'membrane'],
-      math: ['equation', 'formula', 'variable', 'function', 'derivative', 'integral', 'graph', 'algebra', 'geometry', 'calculus', 'statistics', 'probability'],
-      economics: ['market', 'supply', 'demand', 'price', 'cost', 'profit', 'revenue', 'economy', 'inflation', 'investment', 'trade'],
-      history: ['war', 'revolution', 'empire', 'civilization', 'culture', 'society', 'government', 'politics', 'timeline', 'event']
-    };
-
-    // Find the most relevant category
-    let bestMatch = { category: '', count: 0 };
-    
-    for (const [category, keywords] of Object.entries(patterns)) {
-      const matches = keywords.filter(keyword => lowerText.includes(keyword)).length;
-      if (matches > bestMatch.count) {
-        bestMatch = { category, count: matches };
-      }
-    }
-
-    // Return appropriate visualization type based on category
-    if (bestMatch.count > 0) {
-      switch (bestMatch.category) {
-        case 'physics':
-          // Determine specific physics diagram type
-          if (lowerText.includes('force') || lowerText.includes('newton')) return { type: 'physics', subtype: 'force_diagram' };
-          if (lowerText.includes('velocity') || lowerText.includes('speed')) return { type: 'physics', subtype: 'velocity_diagram' };
-          if (lowerText.includes('energy')) return { type: 'physics', subtype: 'energy_diagram' };
-          if (lowerText.includes('wave') || lowerText.includes('frequency')) return { type: 'physics', subtype: 'wave_diagram' };
-          return { type: 'illustration', concept: 'physics' };
-        
-        case 'tech':
-          if (lowerText.includes('http') && (lowerText.includes('request') || lowerText.includes('response'))) return { type: 'tech', subtype: 'http_flow' };
-          return { type: 'illustration', concept: extractMainConcept(text, ['api', 'server', 'database', 'network', 'client']) };
-        
-        case 'programming':
-          return { type: 'stock', query: 'programming computer code' };
-        
-        default:
-          return { type: 'illustration', concept: bestMatch.category };
-      }
-    }
-
-    // Fallback: extract main concept from text
-    return { type: 'illustration', concept: extractMainConcept(text) };
-  };
-
-  // Helper function to extract the main concept from any text
-  const extractMainConcept = (text: string, priorityWords: string[] = []) => {
+  // Extract main concept from text without subject-specific rules
+  const extractMainConcept = (text: string) => {
     const words = text.toLowerCase().split(/\s+/);
     
-    // Check priority words first
-    for (const word of priorityWords) {
-      if (words.some(w => w.includes(word))) {
-        return word;
-      }
-    }
-    
-    // Extract meaningful words (longer than 3 characters, not common words)
+    // Filter out common words
     const stopWords = ['the', 'and', 'for', 'are', 'but', 'not', 'you', 'all', 'can', 'had', 'her', 'was', 'one', 'our', 'out', 'day', 'get', 'has', 'him', 'his', 'how', 'its', 'may', 'new', 'now', 'old', 'see', 'two', 'who', 'boy', 'did', 'she', 'use', 'way', 'will', 'this', 'that', 'with'];
     const meaningfulWords = words.filter(word => word.length > 3 && !stopWords.includes(word));
     
-    // Return the first meaningful word or a combination
+    // Return the first 1-2 meaningful words
     if (meaningfulWords.length > 0) {
       return meaningfulWords.slice(0, 2).join(' ');
     }
@@ -94,7 +34,7 @@ const DualCodingLayout: React.FC<Props> = ({ data, subject, subtopic, allowAIGen
     return 'concept';
   };
 
-  const concept = extractConcepts(data.text);
+  const concept = extractMainConcept(data.text);
   const hasValidImage = data.visual_url && data.visual_url.trim() !== '';
 
   const renderVisualization = () => {
@@ -124,15 +64,11 @@ const DualCodingLayout: React.FC<Props> = ({ data, subject, subtopic, allowAIGen
       );
     }
 
-    // Extract concept for AI generation
-    const extractedConcept = extractMainConcept(data.text);
-    const subjectForGeneration = subject || 'General Studies';
-    
     // Generate AI diagram when allowed
     return (
       <AIGeneratedDiagram
-        concept={extractedConcept}
-        subject={subjectForGeneration}
+        concept={concept}
+        subject={subject || 'Learning'}
         content={data.text}
         width={400}
         height={300}
