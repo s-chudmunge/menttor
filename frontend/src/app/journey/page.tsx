@@ -453,31 +453,31 @@ const JourneyPage = () => {
                 </button>
               </div>
 
-              {/* Enhanced Module Content */}
-              <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-800 p-8">
-                <div className="space-y-8">
+              {/* Optimized Module Content */}
+              <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-800 p-4 sm:p-6">
+                <div className="space-y-4 sm:space-y-6">
                   {roadmapData.roadmap_plan[currentModuleIndex]?.topics.map((topic, topicIndex) => (
                     <div key={topicIndex} className="group relative">
-                      {/* Professional topic container */}
-                      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden smooth-hover">
-                        {/* Enhanced topic header */}
-                        <div className="p-6 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/30 dark:to-indigo-900/30 border-b border-gray-200 dark:border-gray-700">
-                          <div className="flex items-center space-x-4">
-                            <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg">
-                              <BookOpen className="w-5 h-5 text-white" />
+                      {/* Compact topic container */}
+                      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden smooth-hover">
+                        {/* Compact topic header */}
+                        <div className="p-3 sm:p-4 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/30 dark:to-indigo-900/30 border-b border-gray-200 dark:border-gray-700">
+                          <div className="flex items-center space-x-3">
+                            <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-lg flex items-center justify-center shadow-lg">
+                              <BookOpen className="w-4 h-4 text-white" />
                             </div>
                             <div>
-                              <h3 className="text-xl font-bold text-gray-900 dark:text-white">
+                              <h3 className="text-lg font-bold text-gray-900 dark:text-white">
                                 {formatTitle(topic.title)}
                               </h3>
-                              <p className="text-muted text-sm">Topic {topicIndex + 1} of {roadmapData.roadmap_plan[currentModuleIndex]?.topics.length}</p>
+                              <p className="text-muted text-xs">Topic {topicIndex + 1} of {roadmapData.roadmap_plan[currentModuleIndex]?.topics.length}</p>
                             </div>
                           </div>
                         </div>
                         
-                        {/* Enhanced subtopics grid */}
-                        <div className="p-6">
-                          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                        {/* Optimized subtopics grid - more columns, less padding */}
+                        <div className="p-3 sm:p-4">
+                          <div className="grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                             {topic.subtopics.map((subtopic, subtopicIndex) => {
                               // Find progress for this subtopic
                               const subtopicProgress = progressData?.find(p => p.sub_topic_id === subtopic.id);
@@ -486,60 +486,60 @@ const JourneyPage = () => {
                               
                               return (
                                 <div key={subtopicIndex} className="group/card relative">
-                                  {/* Professional subtopic card */}
-                                  <div className="relative bg-gray-50 dark:bg-gray-700 rounded-xl shadow-md border border-gray-200 dark:border-gray-600 p-6 smooth-hover overflow-hidden hover:shadow-lg transition-all duration-200">
-                                    {/* Professional completion indicator */}
-                                    <div className="absolute top-4 right-4">
+                                  {/* Compact subtopic card */}
+                                  <div className="relative bg-gray-50 dark:bg-gray-700 rounded-lg shadow-md border border-gray-200 dark:border-gray-600 p-3 sm:p-4 smooth-hover overflow-hidden hover:shadow-lg transition-all duration-200">
+                                    {/* Compact completion indicator */}
+                                    <div className="absolute top-2 right-2">
                                       {isCompleted ? (
-                                        <div className="w-6 h-6 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center shadow-lg">
-                                          <Trophy className="w-3 h-3 text-white" />
+                                        <div className="w-5 h-5 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center shadow-lg">
+                                          <Trophy className="w-2.5 h-2.5 text-white" />
                                         </div>
                                       ) : hasProgress ? (
-                                        <div className="w-6 h-6 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full flex items-center justify-center shadow-lg">
-                                          <Clock className="w-3 h-3 text-white" />
+                                        <div className="w-5 h-5 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full flex items-center justify-center shadow-lg">
+                                          <Clock className="w-2.5 h-2.5 text-white" />
                                         </div>
                                       ) : (
-                                        <div className="w-6 h-6 bg-gray-200 dark:bg-gray-700 rounded-full flex items-center justify-center">
-                                          <div className="w-2 h-2 bg-gray-400 rounded-full"></div>
+                                        <div className="w-5 h-5 bg-gray-200 dark:bg-gray-700 rounded-full flex items-center justify-center">
+                                          <div className="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
                                         </div>
                                       )}
                                     </div>
                                     
-                                    <div className="relative pr-8">
-                                      {/* Enhanced header */}
-                                      <div className="mb-4">
-                                        <h4 className="font-semibold text-gray-900 dark:text-white text-base leading-snug">
+                                    <div className="relative pr-6">
+                                      {/* Compact header */}
+                                      <div className="mb-3">
+                                        <h4 className="font-semibold text-gray-900 dark:text-white text-sm leading-tight line-clamp-2">
                                           {formatSubtopicTitle(subtopic.title)}
                                         </h4>
                                       </div>
                                       
-                                      {/* Professional progress indicators */}
-                                      <div className="flex flex-wrap gap-2 mb-6">
+                                      {/* Compact progress indicators */}
+                                      <div className="flex flex-wrap gap-1 mb-3">
                                         {subtopic.has_learn && (
-                                          <span className="status-info">
-                                            <BookOpen className="w-3 h-3 mr-1" />
+                                          <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300">
+                                            <BookOpen className="w-2.5 h-2.5 mr-1" />
                                             Learn
                                           </span>
                                         )}
                                         {subtopic.has_quiz && (
-                                          <span className="status-success">
-                                            <Brain className="w-3 h-3 mr-1" />
+                                          <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300">
+                                            <Brain className="w-2.5 h-2.5 mr-1" />
                                             Quiz
                                           </span>
                                         )}
                                         {subtopic.has_code_challenge && (
-                                          <span className="status-warning">
-                                            <Target className="w-3 h-3 mr-1" />
+                                          <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-300">
+                                            <Target className="w-2.5 h-2.5 mr-1" />
                                             Code
                                           </span>
                                         )}
                                       </div>
                                       
-                                      {/* Professional action buttons */}
-                                      <div className="space-y-3">
+                                      {/* Compact action buttons */}
+                                      <div className="space-y-2">
                                         <Link 
                                           href={`/learn?subtopic=${encodeURIComponent(subtopic.title)}&subtopic_id=${subtopic.id}`}
-                                          className="btn-primary w-full py-2.5 text-sm flex items-center justify-center space-x-2 group"
+                                          className="btn-primary w-full py-2 text-xs flex items-center justify-center space-x-1.5 group"
                                           onClick={(e) => {
                                             // Prevent double clicks
                                             const target = e.currentTarget;
@@ -553,17 +553,17 @@ const JourneyPage = () => {
                                             }, 1000);
                                           }}
                                         >
-                                          <BookOpen className="w-4 h-4 group-hover:scale-110 transition-transform" />
-                                          <span>Start Learning</span>
+                                          <BookOpen className="w-3 h-3 group-hover:scale-110 transition-transform" />
+                                          <span>Learn</span>
                                         </Link>
                                         
                                         {subtopic.has_quiz && (
                                           <Link
                                             href={`/quiz?subtopic_id=${subtopic.id}&subtopic=${encodeURIComponent(subtopic.title)}&subject=${encodeURIComponent(roadmapData.subject || 'General Subject')}&goal=${encodeURIComponent(roadmapData.goal || roadmapData.description || 'Learn new concepts')}&module_title=${encodeURIComponent(roadmapData.roadmap_plan[currentModuleIndex]?.title || 'Module')}&topic_title=${encodeURIComponent(topic.title)}&roadmap_id=${roadmapData.id}`}
-                                            className="btn-secondary w-full py-2.5 text-sm flex items-center justify-center space-x-2 group"
+                                            className="btn-secondary w-full py-2 text-xs flex items-center justify-center space-x-1.5 group"
                                           >
-                                            <Brain className="w-4 h-4 group-hover:scale-110 transition-transform" />
-                                            <span>Take Quiz</span>
+                                            <Brain className="w-3 h-3 group-hover:scale-110 transition-transform" />
+                                            <span>Quiz</span>
                                           </Link>
                                         )}
                                       </div>

@@ -109,6 +109,7 @@ const config: Config = {
     },
   },
   plugins: [
+    require('@tailwindcss/line-clamp'),
     require('@tailwindcss/typography')({
       css: {
         // Base prose styles with better spacing
