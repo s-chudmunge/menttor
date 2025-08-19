@@ -14,8 +14,11 @@ import RewardSystemManager from "../components/behavioral/RewardSystemManager";
 import { ThemeProvider } from "./components/ThemeProvider";
 
 export const metadata: Metadata = {
-  title: "Menttor",
-  description: "Your personalized learning journey.",
+  title: "Menttor - AI Based Learning",
+  description: "Your personalized AI-powered learning journey. Master new skills with adaptive roadmaps, interactive quizzes, and intelligent feedback.",
+  icons: {
+    icon: "/favicon.svg",
+  },
 };
 
 export default function RootLayout({
