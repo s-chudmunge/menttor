@@ -107,7 +107,7 @@ async def get_learn_content_endpoint(
                 if roadmap_subject != subtopic or roadmap_goal != subtopic:
                     break
 
-        model = settings.VERTEX_AI_MODEL_ID
+        model = settings.DEFAULT_LEARNING_CONTENT_MODEL
         request = LearningContentRequest(subtopic=subtopic, subject=roadmap_subject, goal=roadmap_goal, model=model)
         ai_generated_content = await generate_learning_content(request)
 

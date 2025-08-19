@@ -4,6 +4,9 @@ from sqlmodel import SQLModel, Field
 from pydantic import BaseModel
 import uuid
 
+# Import settings for centralized model configuration
+from core.config import settings
+
 class Token(SQLModel):
     access_token: str
     token_type: str
@@ -156,7 +159,7 @@ class UserPerformanceDetailsResponse(SQLModel):
 class GenerateFeedbackRequest(SQLModel):
     user_id: int
     performance_details: Dict[str, Any]
-    model: Optional[str] = "gemini-1.5-flash"
+    model: Optional[str] = settings.DEFAULT_FEEDBACK_MODEL
 
 class GenerateFeedbackResponse(SQLModel):
     feedback_text: str

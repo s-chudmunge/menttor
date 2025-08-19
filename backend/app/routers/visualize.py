@@ -4,6 +4,7 @@ from services.ai_service import generate_3d_visualization
 from schemas import ThreeDVisualizationRequest
 from .auth import get_current_user
 from sql_models import User
+from core.config import settings
 import hashlib
 import json
 import os
@@ -68,7 +69,7 @@ def _validate_html_content(html_content: str) -> bool:
 @router.get("/visualize")
 async def get_3d_visualization(
     description: str = Query(..., min_length=5, max_length=500),
-    model: str = Query("gemini-2.5-flash-lite", description="AI model to use for generation"),
+    model: str = Query(settings.DEFAULT_VISUALIZATION_MODEL, description="AI model to use for generation"),
     current_user: User = Depends(get_current_user)
 ):
     """

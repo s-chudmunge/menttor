@@ -755,9 +755,16 @@ async def _fetch_vertex_ai_models() -> List[Dict[str, Any]]:
         # List of available Vertex AI models with their specifications
         vertex_models = [
             {
-                "id": "gemini-1.5-flash",
+                "id": "gemini-1.5-flash-001",
                 "name": "Google Gemini Flash 1.5",
                 "description": "Fast, efficient multimodal model from Google, optimized for speed and cost-effectiveness.",
+                "context_window": 1048576,  # 1M tokens
+                "max_tokens": 8192,
+            },
+            {
+                "id": "gemini-1.5-flash",
+                "name": "Google Gemini Flash 1.5 (Legacy)",
+                "description": "Legacy version - use gemini-1.5-flash-001 instead.",
                 "context_window": 1048576,  # 1M tokens
                 "max_tokens": 8192,
             },
