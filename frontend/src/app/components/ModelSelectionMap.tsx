@@ -230,37 +230,60 @@ const D3ModelMapModal = ({ isOpen, onClose, onSelectModel, currentModelId }) => 
 
   return (
     <>
-      <div className="fixed inset-0 bg-black/70 backdrop-blur-md flex items-center justify-center z-50 p-4 font-sans">
-        <div className="bg-gradient-to-br from-white via-blue-50 to-blue-100 dark:from-gray-900 dark:via-blue-900 dark:to-gray-800 rounded-3xl shadow-2xl max-w-7xl w-full max-h-[95vh] flex flex-col overflow-hidden relative border border-gray-200/50 dark:border-gray-700/50">
-          {/* Header */}
-          <div className="flex items-center justify-between p-3 border-b border-gray-200/50 dark:border-gray-700/50 bg-gradient-to-r from-indigo-600 via-blue-600 to-purple-700 dark:from-indigo-800 dark:via-blue-800 dark:to-purple-800 text-white sticky top-0 z-10 rounded-t-3xl">
-            <h2 className="text-sm font-semibold">Choose Model</h2>
+      <div className="fixed inset-0 bg-black/70 backdrop-blur-md flex items-center justify-center z-50 p-2 sm:p-4 font-sans">
+        <div className="bg-gradient-to-br from-white via-blue-50 to-blue-100 dark:from-gray-900 dark:via-blue-900 dark:to-gray-800 rounded-lg sm:rounded-3xl shadow-2xl w-full h-full sm:max-w-7xl sm:w-full sm:max-h-[95vh] flex flex-col overflow-hidden relative border border-gray-200/50 dark:border-gray-700/50">
+          {/* Mobile-Optimized Header */}
+          <div className="flex items-center justify-between p-4 sm:p-3 border-b border-gray-200/50 dark:border-gray-700/50 bg-gradient-to-r from-indigo-600 via-blue-600 to-purple-700 dark:from-indigo-800 dark:via-blue-800 dark:to-purple-800 text-white sticky top-0 z-10 rounded-t-lg sm:rounded-t-3xl">
+            <h2 className="text-lg sm:text-sm font-semibold">Choose Model</h2>
             <button
               onClick={onClose}
-              className="p-1 rounded-lg hover:bg-white/20 transition-colors text-white"
+              className="p-2 sm:p-1 rounded-lg hover:bg-white/20 transition-colors text-white"
               aria-label="Close modal"
             >
-              <X className="w-4 h-4" />
+              <X className="w-5 h-5 sm:w-4 sm:h-4" />
             </button>
           </div>
 
-          <div className="mx-6 mt-6 p-5 bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-900/30 dark:to-orange-900/30 border border-amber-200 dark:border-amber-700/50 rounded-2xl text-amber-800 dark:text-amber-300 shadow-sm">
-            <p className="font-semibold flex items-center gap-3">
-              <div className="w-6 h-6 bg-amber-500 rounded-full flex items-center justify-center flex-shrink-0">
-                <Info className="w-4 h-4 text-white" />
+          {/* Mobile-Optimized Info Banner */}
+          <div className="mx-4 sm:mx-6 mt-4 sm:mt-6 p-4 sm:p-5 bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-900/30 dark:to-orange-900/30 border border-amber-200 dark:border-amber-700/50 rounded-xl sm:rounded-2xl text-amber-800 dark:text-amber-300 shadow-sm">
+            <p className="font-medium sm:font-semibold flex items-start sm:items-center gap-3 text-sm sm:text-base">
+              <div className="w-5 h-5 sm:w-6 sm:h-6 bg-amber-500 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 sm:mt-0">
+                <Info className="w-3 h-3 sm:w-4 sm:h-4 text-white" />
               </div>
-              <span>Currently, only models marked as 'Free Tier' are fully functional. We are actively working to enable paid model access as we secure further funding.</span>
+              <span className="leading-relaxed">Currently, only models marked as 'Free Tier' are fully functional. We are actively working to enable paid model access as we secure further funding.</span>
             </p>
           </div>
 
-          <div className="flex flex-1 overflow-hidden">
+          {/* Mobile: Stack layout, Desktop: Side-by-side */}
+          <div className="flex flex-1 overflow-hidden flex-col md:flex-row">
+            {/* Mobile Filter Toggle Button */}
+            <div className="md:hidden p-4 border-b border-gray-200/50 dark:border-gray-700/50 bg-white/80 dark:bg-gray-800/80">
+              <button
+                onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+                className="w-full flex items-center justify-between p-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white rounded-xl font-semibold transition-all duration-200"
+              >
+                <span className="flex items-center gap-2">
+                  <Filter className="w-4 h-4" />
+                  Filters & Search
+                </span>
+                <ChevronRight className={`w-4 h-4 transition-transform ${isSidebarOpen ? 'rotate-90' : ''}`} />
+              </button>
+            </div>
+
             {/* Sidebar */}
             <div className={`transition-all duration-300 ease-in-out bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm border-r border-gray-200/50 dark:border-gray-700/50 flex flex-col ${
-              isSidebarOpen ? 'w-96' : 'w-0'
+              isSidebarOpen ? 'flex md:w-96' : 'hidden md:w-0'
             }`}>
-              <div className="flex-1 p-6 overflow-y-auto min-h-0">
-                <div className="flex justify-between items-center mb-8">
-                  <h3 className="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">Filters & Controls</h3>
+              <div className="flex-1 p-4 sm:p-6 overflow-y-auto min-h-0">
+                <div className="flex justify-between items-center mb-6 sm:mb-8">
+                  <h3 className="text-lg sm:text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">Filters & Controls</h3>
+                  {/* Mobile close button */}
+                  <button
+                    onClick={() => setIsSidebarOpen(false)}
+                    className="md:hidden p-2 rounded-lg hover:bg-gray-200/50 dark:hover:bg-gray-600/50 transition-colors"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
                 </div>
                 <div className="flex flex-col gap-8">
                   <div>
@@ -380,10 +403,11 @@ const D3ModelMapModal = ({ isOpen, onClose, onSelectModel, currentModelId }) => 
             </div>
 
             {/* Main Content */}
-            <div className="flex-1 p-8 flex flex-col items-center justify-center bg-gradient-to-br from-white/40 to-blue-50/60 dark:from-gray-800/40 dark:to-blue-900/20 backdrop-blur-sm relative">
+            <div className="flex-1 p-4 sm:p-8 flex flex-col items-center justify-center bg-gradient-to-br from-white/40 to-blue-50/60 dark:from-gray-800/40 dark:to-blue-900/20 backdrop-blur-sm relative">
+              {/* Desktop sidebar toggle */}
               <button
                 onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-                className="absolute top-1/2 -left-5 -translate-y-1/2 p-3 rounded-2xl bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 z-20 border-2 border-white/20"
+                className="hidden md:block absolute top-1/2 -left-5 -translate-y-1/2 p-3 rounded-2xl bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 z-20 border-2 border-white/20"
                 aria-label={isSidebarOpen ? 'Collapse sidebar' : 'Expand sidebar'}
               >
                 {isSidebarOpen ? <ChevronLeft className="w-5 h-5" /> : <ChevronRight className="w-5 h-5" />}
@@ -494,8 +518,8 @@ const D3ModelMapModal = ({ isOpen, onClose, onSelectModel, currentModelId }) => 
               )}
             </div>
 
-            {/* Model Details Panel */}
-            <div className="w-96 flex-shrink-0 border-l border-gray-200/50 dark:border-gray-700/50 bg-gradient-to-b from-white/60 to-blue-50/40 dark:from-gray-800/60 dark:to-blue-900/20 backdrop-blur-sm p-8 overflow-y-auto">
+            {/* Model Details Panel - Hidden on mobile, shown as bottom sheet */}
+            <div className="hidden md:block w-96 flex-shrink-0 border-l border-gray-200/50 dark:border-gray-700/50 bg-gradient-to-b from-white/60 to-blue-50/40 dark:from-gray-800/60 dark:to-blue-900/20 backdrop-blur-sm p-6 lg:p-8 overflow-y-auto">
               <h3 className="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent mb-8">Model Details</h3>
               {hoveredModel || currentModel ? (
                 <div className="space-y-4">
@@ -661,6 +685,77 @@ const D3ModelMapModal = ({ isOpen, onClose, onSelectModel, currentModelId }) => 
               )}
             </div>
           </div>
+          
+          {/* Mobile Model Details Bottom Sheet */}
+          {(hoveredModel || currentModel) && (
+            <div className="md:hidden border-t border-gray-200/50 dark:border-gray-700/50 bg-gradient-to-b from-white/80 to-blue-50/60 dark:from-gray-800/80 dark:to-blue-900/30 backdrop-blur-sm">
+              <div className="p-4 max-h-64 overflow-y-auto">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-lg font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">Model Details</h3>
+                </div>
+                
+                {/* Mobile model details - compact */}
+                <div className="space-y-3">
+                  <div className="flex items-center gap-3 p-3 bg-white/60 dark:bg-gray-700/60 backdrop-blur-sm rounded-xl border border-gray-200/50 dark:border-gray-600/50">
+                    <div
+                      className="w-10 h-10 rounded-lg flex items-center justify-center shadow-sm flex-shrink-0 border border-white/50"
+                      style={{ backgroundColor: (hoveredModel || currentModel).color }}
+                    >
+                      <img 
+                        src={(hoveredModel || currentModel).logoUrl} 
+                        alt={`${(hoveredModel || currentModel).developer} logo`} 
+                        className="w-6 h-6 object-contain" 
+                        onError={(e) => { e.currentTarget.style.display = 'none'; e.currentTarget.nextSibling.style.display = 'block'; }}
+                      />
+                      <Cpu className="w-5 h-5 text-white opacity-90" style={{ display: 'none' }}/>
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h4 className="font-bold text-gray-900 dark:text-white text-sm truncate">
+                        {(hoveredModel || currentModel).name}
+                      </h4>
+                      <p className="text-xs text-gray-600 dark:text-gray-300">
+                        {(hoveredModel || currentModel).provider}
+                      </p>
+                    </div>
+                    {hoveredModel && hoveredModel.id !== currentModel?.id ? (
+                      <button
+                        onClick={() => { onSelectModel(hoveredModel.id, hoveredModel.name); onClose(); }}
+                        className="px-3 py-1.5 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white rounded-lg font-semibold text-xs transition-all duration-200"
+                      >
+                        Select
+                      </button>
+                    ) : (
+                      <span className="px-3 py-1.5 bg-gray-200 dark:bg-gray-600 text-gray-600 dark:text-gray-400 rounded-lg font-semibold text-xs">
+                        Selected
+                      </span>
+                    )}
+                  </div>
+                  
+                  {/* Quick stats for mobile */}
+                  <div className="grid grid-cols-2 gap-2">
+                    <div className="bg-white/40 dark:bg-gray-700/40 backdrop-blur-sm rounded-lg p-2 border border-gray-200/30 dark:border-gray-600/30">
+                      <div className="flex items-center gap-1.5">
+                        <Brain className="w-3 h-3 text-purple-500" />
+                        <span className="text-xs font-medium text-gray-700 dark:text-gray-300">Context</span>
+                      </div>
+                      <p className="text-sm font-bold text-purple-600 dark:text-purple-400 mt-0.5">
+                        {formatContextWindow((hoveredModel || currentModel).context_window)}
+                      </p>
+                    </div>
+                    <div className="bg-white/40 dark:bg-gray-700/40 backdrop-blur-sm rounded-lg p-2 border border-gray-200/30 dark:border-gray-600/30">
+                      <div className="flex items-center gap-1.5">
+                        <HandCoins className="w-3 h-3 text-emerald-500" />
+                        <span className="text-xs font-medium text-gray-700 dark:text-gray-300">Cost</span>
+                      </div>
+                      <p className="text-sm font-bold text-emerald-600 dark:text-emerald-400 mt-0.5">
+                        {formatCost((hoveredModel || currentModel).per_token_cost)}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
       <ModelComparisonModal
