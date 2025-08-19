@@ -1,6 +1,8 @@
 import logging
 import re
 import uuid
+import os
+import tempfile
 
 # --- Setup Logging ---
 logging.basicConfig(level=logging.INFO)
@@ -45,6 +47,54 @@ from schemas import (LearningContentRequest, QuizAIResponse, QuizGenerateRequest
 
 # Define a TypeVar for BaseModel subclasses
 T = TypeVar('T', bound=BaseModel)
+
+def _setup_google_cloud_credentials():
+    """Set up Google Cloud credentials for Vertex AI authentication."""
+    try:
+        # Check if GOOGLE_APPLICATION_CREDENTIALS is already set
+        if os.getenv('GOOGLE_APPLICATION_CREDENTIALS'):
+            logger.info("GOOGLE_APPLICATION_CREDENTIALS already set")
+            return True
+            
+        # Use Firebase credentials for Vertex AI if available
+        firebase_creds = settings.FIREBASE_CREDENTIALS
+        
+        if firebase_creds:
+            # Check if it's JSON content or file path
+            if firebase_creds.startswith('{') and firebase_creds.endswith('}'):
+                # It's JSON content - create a temporary file
+                try:
+                    cred_dict = json.loads(firebase_creds)
+                    
+                    # Create a temporary file for the service account key
+                    temp_fd, temp_path = tempfile.mkstemp(suffix='.json', text=True)
+                    with os.fdopen(temp_fd, 'w') as temp_file:
+                        json.dump(cred_dict, temp_file)
+                    
+                    # Set the environment variable
+                    os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = temp_path
+                    logger.info(f"Created temporary credentials file for Vertex AI: {temp_path}")
+                    return True
+                    
+                except Exception as e:
+                    logger.error(f"Failed to parse Firebase credentials as JSON: {e}")
+                    return False
+            else:
+                # It's a file path - use it directly
+                if os.path.exists(firebase_creds):
+                    os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = firebase_creds
+                    logger.info(f"Using Firebase credentials file for Vertex AI: {firebase_creds}")
+                    return True
+                else:
+                    logger.error(f"Firebase credentials file not found: {firebase_creds}")
+                    return False
+        else:
+            logger.warning("No Firebase credentials found for Vertex AI authentication")
+            return False
+            
+    except Exception as e:
+        logger.error(f"Failed to set up Google Cloud credentials: {e}")
+        return False
 
 # --- AI Execution Logic ---
 
@@ -107,6 +157,12 @@ class AIExecutor:
     def __init__(self):
         if settings.VERTEX_AI_PROJECT_ID and settings.VERTEX_AI_REGION and not AIExecutor._vertex_ai_model:
             logger.info(f"Attempting to initialize Vertex AI with Project ID: {settings.VERTEX_AI_PROJECT_ID}, Region: {settings.VERTEX_AI_REGION}, Model ID: {settings.VERTEX_AI_MODEL_ID}")
+            
+            # Set up Google Cloud credentials before initializing Vertex AI
+            credentials_set = _setup_google_cloud_credentials()
+            if not credentials_set:
+                logger.warning("Failed to set up Google Cloud credentials. Vertex AI initialization may fail.")
+            
             try:
                 init(project=settings.VERTEX_AI_PROJECT_ID, location=settings.VERTEX_AI_REGION)
                 AIExecutor._vertex_ai_model = GenerativeModel(settings.VERTEX_AI_MODEL_ID)
