@@ -267,8 +267,20 @@ const InteractiveRoadmap: React.FC<InteractiveRoadmapProps> = ({ roadmapData, pr
       </div>
 
       {/* Simplified Roadmap Container */}
-      <div className="relative overflow-x-auto p-4 md:p-6 bg-gray-50 dark:bg-gray-800" style={{ height: `${roadmapHeight}px` }}>
+      <div className="relative overflow-x-auto p-4 md:p-6 bg-gradient-to-br from-blue-50/30 to-indigo-50/30 dark:from-blue-900/10 dark:to-indigo-900/10" style={{ height: `${roadmapHeight}px` }}>
         <div className="relative" style={{ width: `${roadmapWidth}px`, height: '100%' }}>
+          
+          {/* Grid Background */}
+          <div className="absolute inset-0 opacity-10 dark:opacity-5">
+            <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <pattern id="questGrid" width="40" height="40" patternUnits="userSpaceOnUse">
+                  <path d="M 40 0 L 0 0 0 40" fill="none" stroke="currentColor" strokeWidth="1"/>
+                </pattern>
+              </defs>
+              <rect width="100%" height="100%" fill="url(#questGrid)" />
+            </svg>
+          </div>
           
           {/* Simplified Nodes */}
           {roadmapNodes.map((node, index) => {
@@ -295,7 +307,7 @@ const InteractiveRoadmap: React.FC<InteractiveRoadmapProps> = ({ roadmapData, pr
 
                 {/* Simplified Node Circle */}
                 <div
-                  className={`absolute cursor-pointer transition-all duration-200 ${getNodeShadow(node)} hover:scale-105`}
+                  className={`absolute cursor-pointer transition-all duration-200 ${getNodeShadow(node)} hover:scale-105 rounded-full`}
                   style={{
                     left: `${node.position.x - 30}px`, // Smaller nodes for mobile
                     top: `${node.position.y - 30}px`,
@@ -315,11 +327,11 @@ const InteractiveRoadmap: React.FC<InteractiveRoadmapProps> = ({ roadmapData, pr
                   style={{
                     left: `${node.position.x}px`,
                     top: `${node.position.y + 40}px`,
-                    width: '120px',
+                    width: '160px',
                   }}
                 >
-                  <div className="bg-white dark:bg-gray-800 px-2 py-1 rounded-lg shadow-md border">
-                    <div className="text-xs font-semibold text-gray-900 dark:text-white truncate">
+                  <div className="bg-white dark:bg-gray-800 px-3 py-2 rounded-lg shadow-md border">
+                    <div className="text-xs font-semibold text-gray-900 dark:text-white leading-tight">
                       {node.title}
                     </div>
                     {node.progress > 0 && (
