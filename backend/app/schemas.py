@@ -156,7 +156,7 @@ class UserPerformanceDetailsResponse(SQLModel):
 class GenerateFeedbackRequest(SQLModel):
     user_id: int
     performance_details: Dict[str, Any]
-    model: Optional[str] = "gemini-1.5-flash-001"
+    model: Optional[str] = "gemini-1.5-flash"
 
 class GenerateFeedbackResponse(SQLModel):
     feedback_text: str

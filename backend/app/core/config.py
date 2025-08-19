@@ -35,7 +35,7 @@ class Settings(BaseSettings):
     OPENAI_API_KEY: Optional[str] = None
     VERTEX_AI_PROJECT_ID: Optional[str] = None
     VERTEX_AI_REGION: Optional[str] = "us-central1"
-    VERTEX_AI_MODEL_ID: Optional[str] = "gemini-1.5-flash-001"
+    VERTEX_AI_MODEL_ID: Optional[str] = "gemini-1.5-flash"
 
     FIREBASE_CREDENTIALS: str
     ENABLE_AUTH_BYPASS: bool = False  # Set to True to bypass auth for testing
