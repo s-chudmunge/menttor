@@ -25,7 +25,7 @@ const LearningContentRenderer: React.FC<Props> = ({ content, subject, subtopic }
   let aiImageGenerated = false;
   
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       {content.map((block, index) => {
         switch (block.type) {
           case 'heading':
@@ -33,14 +33,14 @@ const LearningContentRenderer: React.FC<Props> = ({ content, subject, subtopic }
             const slug = block.data.text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-*|-*$/g, '');
             const id = `heading-${slug}`;
             const levelStyles = {
-                1: 'text-3xl font-bold mt-12 mb-6 text-gray-900',
-                2: 'text-2xl font-semibold mt-8 mb-4 text-gray-900',
-                3: 'text-xl font-medium mt-6 mb-3 text-gray-800',
+                1: 'text-2xl sm:text-3xl font-bold mt-8 sm:mt-12 mb-4 sm:mb-6 text-gray-900',
+                2: 'text-xl sm:text-2xl font-semibold mt-6 sm:mt-8 mb-3 sm:mb-4 text-gray-900',
+                3: 'text-lg sm:text-xl font-medium mt-4 sm:mt-6 mb-2 sm:mb-3 text-gray-800',
             }
             return <Tag key={index} id={id} className={levelStyles[block.data.level] || levelStyles[3]}>{block.data.text}</Tag>;
           case 'paragraph':
             return (
-              <div key={index} className="prose max-w-none text-gray-800 leading-relaxed my-4">
+              <div key={index} className="prose max-w-none text-gray-800 leading-relaxed my-3 sm:my-4 text-sm sm:text-base">
                 <ReactMarkdown
                   remarkPlugins={[remarkMath]}
                   rehypePlugins={[rehypeKatex]}
@@ -60,7 +60,7 @@ const LearningContentRenderer: React.FC<Props> = ({ content, subject, subtopic }
                       
                       // Inline code
                       return (
-                        <code className="bg-gray-100 text-gray-800 px-1.5 py-0.5 rounded text-sm font-mono" {...props}>
+                        <code className="bg-gray-100 text-gray-800 px-1 sm:px-1.5 py-0.5 rounded text-xs sm:text-sm font-mono" {...props}>
                           {children}
                         </code>
                       );
@@ -69,7 +69,7 @@ const LearningContentRenderer: React.FC<Props> = ({ content, subject, subtopic }
                     // Handle math blocks
                     div: ({ className, children, ...props }) => {
                       if (className === 'math math-display') {
-                        return <div className="math-display my-4 text-center" {...props}>{children}</div>;
+                        return <div className="math-display my-3 sm:my-4 text-center overflow-x-auto" {...props}>{children}</div>;
                       }
                       return <div className={className} {...props}>{children}</div>;
                     },
@@ -82,7 +82,7 @@ const LearningContentRenderer: React.FC<Props> = ({ content, subject, subtopic }
                     img: ({ src, alt, ...props }) => {
                       if (!src) return null;
                       return (
-                        <div className="my-6 text-center">
+                        <div className="my-4 sm:my-6 text-center">
                           <SmartImage
                             src={src}
                             alt={alt || 'Learning content image'}
@@ -118,17 +118,18 @@ const LearningContentRenderer: React.FC<Props> = ({ content, subject, subtopic }
             return <MermaidDiagram key={index} chart={chart} id={`mermaid-${index}`} />
           case '3d_visualization':
             return (
-              <div key={index} className="my-4">
+              <div key={index} className="my-3 sm:my-4">
                 <a 
                   href={`/visualize?description=${encodeURIComponent(block.data.description)}&model=gemini-2.5-flash-lite`} 
-                  className="group inline-flex items-center gap-2 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-medium py-2 px-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 transform hover:scale-105"
+                  className="group inline-flex items-center gap-2 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-medium py-2 sm:py-2 px-3 sm:px-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 transform hover:scale-105 text-sm sm:text-base"
                   target="_blank" 
                   rel="noopener noreferrer"
                 >
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
                   </svg>
-                  Interactive 3D Model
+                  <span className="hidden sm:inline">Interactive 3D Model</span>
+                  <span className="sm:hidden">3D Model</span>
                 </a>
               </div>
             );

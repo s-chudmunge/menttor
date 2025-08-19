@@ -396,30 +396,32 @@ const BehavioralLearnClientPage: React.FC<BehavioralLearnClientPageProps> = ({
     <div className="min-h-screen bg-white">
       {/* Clean Learning Header */}
       <div className="bg-white border-b border-gray-200 sticky top-0 z-40">
-        <div className="max-w-4xl mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-2xl font-semibold text-gray-900">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 py-3 sm:py-4">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-0">
+            <div className="flex-1 min-w-0">
+              <h1 className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-900 truncate">
                 {subtopic || 'Learning Session'}
               </h1>
             </div>
             
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center justify-between sm:justify-end space-x-2 sm:space-x-4">
               {/* Save and Share Buttons */}
               {contentData && (
-                <SaveShareButtons 
-                  content={contentData}
-                  onContentUpdate={setContentData}
-                />
+                <div className="hidden sm:block">
+                  <SaveShareButtons 
+                    content={contentData}
+                    onContentUpdate={setContentData}
+                  />
+                </div>
               )}
               
               {/* Simple Progress */}
-              <span className="text-sm text-gray-600">{readingProgress}% complete</span>
+              <span className="text-xs sm:text-sm text-gray-600 whitespace-nowrap">{readingProgress}% complete</span>
               
               {/* Focus Mode Toggle */}
               <button
                 onClick={() => toggleFocus(!focusMode, FOCUS_SESSION_DURATION)}
-                className={`px-3 py-1 rounded text-sm font-medium transition-colors ${
+                className={`px-2 sm:px-3 py-1 sm:py-1 rounded text-xs sm:text-sm font-medium transition-colors whitespace-nowrap ${
                   focusMode 
                     ? 'bg-blue-600 text-white' 
                     : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
@@ -429,15 +431,25 @@ const BehavioralLearnClientPage: React.FC<BehavioralLearnClientPageProps> = ({
               </button>
             </div>
           </div>
+          
+          {/* Mobile Save/Share Row */}
+          {contentData && (
+            <div className="mt-3 sm:hidden">
+              <SaveShareButtons 
+                content={contentData}
+                onContentUpdate={setContentData}
+              />
+            </div>
+          )}
         </div>
       </div>
 
 
       {/* Learning Content with TOC */}
-      <div className="max-w-7xl mx-auto px-6 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-8">
         {fetchError ? (
-          <div className="bg-red-50 border border-red-200 p-8 text-center">
-            <div className="text-red-800 text-lg font-semibold mb-2">
+          <div className="bg-red-50 border border-red-200 p-4 sm:p-8 text-center rounded-lg">
+            <div className="text-red-800 text-base sm:text-lg font-semibold mb-2">
               Content Loading Error
             </div>
             <div className="text-red-700 text-sm mb-4">
@@ -445,25 +457,27 @@ const BehavioralLearnClientPage: React.FC<BehavioralLearnClientPageProps> = ({
             </div>
             <button
               onClick={() => subtopic && handleLoadLearningContent(subtopic)}
-              className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 transition-colors"
+              className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded transition-colors"
             >
               Retry Loading
             </button>
           </div>
         ) : isLoading ? (
-          <div className="flex items-center justify-center py-16">
+          <div className="flex items-center justify-center py-8 sm:py-16">
             <div className="text-center">
-              <div className="w-8 h-8 border-2 border-gray-200 border-t-blue-600 rounded-full animate-spin mx-auto mb-4"></div>
-              <p className="text-gray-600">Loading learning content...</p>
+              <div className="w-6 h-6 sm:w-8 sm:h-8 border-2 border-gray-200 border-t-blue-600 rounded-full animate-spin mx-auto mb-4"></div>
+              <p className="text-gray-600 text-sm sm:text-base">Loading learning content...</p>
             </div>
           </div>
         ) : content ? (
-          <div className="flex gap-8">
-            {/* TOC Sidebar */}
-            <FloatingTOC content={content} />
+          <div className="flex flex-col lg:flex-row gap-4 lg:gap-8">
+            {/* TOC Sidebar - Hidden on mobile, shown on desktop */}
+            <div className="hidden lg:block">
+              <FloatingTOC content={content} />
+            </div>
             
             {/* Main Content */}
-            <div ref={contentRef} className="flex-1 max-w-4xl">
+            <div ref={contentRef} className="flex-1 max-w-none lg:max-w-4xl overflow-x-auto">
               <LearningContentRenderer 
                 content={content} 
                 subject={learningContext.subject}
@@ -472,17 +486,17 @@ const BehavioralLearnClientPage: React.FC<BehavioralLearnClientPageProps> = ({
             </div>
           </div>
         ) : (
-          <div className="text-center py-16">
-            <BookOpen className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-            <h2 className="text-xl font-semibold text-gray-600 mb-2">
+          <div className="text-center py-8 sm:py-16 px-4">
+            <BookOpen className="w-12 h-12 sm:w-16 sm:h-16 text-gray-400 mx-auto mb-4" />
+            <h2 className="text-lg sm:text-xl font-semibold text-gray-600 mb-2">
               No Learning Content Available
             </h2>
-            <p className="text-gray-500 mb-4">
+            <p className="text-gray-500 mb-4 text-sm sm:text-base">
               Please select a topic to start your learning session.
             </p>
             <button
               onClick={() => setIsOldLearnPagesModalOpen(true)}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 transition-colors"
+              className="bg-blue-600 hover:bg-blue-700 text-white px-4 sm:px-6 py-2 rounded transition-colors text-sm sm:text-base"
             >
               Browse Learning Content
             </button>
