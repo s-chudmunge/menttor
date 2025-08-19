@@ -35,14 +35,15 @@ class Settings(BaseSettings):
     OPENAI_API_KEY: Optional[str] = None
     VERTEX_AI_PROJECT_ID: Optional[str] = None
     VERTEX_AI_REGION: Optional[str] = "us-central1"
-    VERTEX_AI_MODEL_ID: Optional[str] = "gemini-1.5-pro"
+    VERTEX_AI_MODEL_ID: Optional[str] = "gemini-2.0-flash-lite"
     
     # Default AI Models for different use cases - centralized configuration
-    DEFAULT_ROADMAP_MODEL: str = "gemini-1.5-pro"
-    DEFAULT_QUIZ_MODEL: str = "gemini-1.5-pro"
-    DEFAULT_FEEDBACK_MODEL: str = "gemini-1.5-pro"
-    DEFAULT_LEARNING_CONTENT_MODEL: str = "gemini-1.5-pro"
-    DEFAULT_VISUALIZATION_MODEL: str = "gemini-1.5-pro"
+    # Using gemini-2.0-flash-lite: cheapest ($0.075/1M input, $0.30/1M output) and fastest
+    DEFAULT_ROADMAP_MODEL: str = "gemini-2.0-flash-lite"
+    DEFAULT_QUIZ_MODEL: str = "gemini-2.0-flash-lite"
+    DEFAULT_FEEDBACK_MODEL: str = "gemini-2.0-flash-lite"
+    DEFAULT_LEARNING_CONTENT_MODEL: str = "gemini-2.0-flash-lite"
+    DEFAULT_VISUALIZATION_MODEL: str = "gemini-2.0-flash-lite"
 
     FIREBASE_CREDENTIALS: str
     ENABLE_AUTH_BYPASS: bool = False  # Set to True to bypass auth for testing

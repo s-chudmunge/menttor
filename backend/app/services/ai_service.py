@@ -755,24 +755,38 @@ async def _fetch_vertex_ai_models() -> List[Dict[str, Any]]:
         # List of available Vertex AI models with their specifications
         vertex_models = [
             {
-                "id": "gemini-1.5-flash-001",
-                "name": "Google Gemini Flash 1.5",
-                "description": "Fast, efficient multimodal model from Google, optimized for speed and cost-effectiveness.",
-                "context_window": 1048576,  # 1M tokens
+                "id": "gemini-2.0-flash-lite",
+                "name": "Google Gemini 2.0 Flash-Lite ⭐",
+                "description": "Fastest and cheapest model ($0.075/1M input, $0.30/1M output). Best for high-throughput tasks.",
+                "context_window": 1000000,  # 1M tokens
                 "max_tokens": 8192,
             },
             {
-                "id": "gemini-1.5-flash",
-                "name": "Google Gemini Flash 1.5 (Legacy)",
-                "description": "Legacy version - use gemini-1.5-flash-001 instead.",
-                "context_window": 1048576,  # 1M tokens
+                "id": "gemini-2.5-flash-lite",
+                "name": "Google Gemini 2.5 Flash-Lite",
+                "description": "Cost-effective model ($0.1/1M input, $0.4/1M output) with good quality and speed.",
+                "context_window": 1000000,  # 1M tokens
                 "max_tokens": 8192,
             },
             {
-                "id": "gemini-1.5-pro",
-                "name": "Google Gemini Pro 1.5",
-                "description": "Advanced multimodal model from Google with enhanced reasoning capabilities.",
-                "context_window": 2097152,  # 2M tokens
+                "id": "gemini-2.5-flash",
+                "name": "Google Gemini 2.5 Flash",
+                "description": "Best price-performance balance with well-rounded capabilities.",
+                "context_window": 1000000,  # 1M tokens
+                "max_tokens": 8192,
+            },
+            {
+                "id": "gemini-2.0-flash",
+                "name": "Google Gemini 2.0 Flash",
+                "description": "Newest multimodal model with next-generation features.",
+                "context_window": 1000000,  # 1M tokens
+                "max_tokens": 8192,
+            },
+            {
+                "id": "gemini-2.5-pro",
+                "name": "Google Gemini 2.5 Pro",
+                "description": "Most advanced reasoning model for complex problems (higher cost).",
+                "context_window": 2000000,  # 2M tokens
                 "max_tokens": 8192,
             },
             {

@@ -107,7 +107,7 @@ async def get_learn_content_endpoint(
                 if roadmap_subject != subtopic or roadmap_goal != subtopic:
                     break
 
-        model = "gemini-1.5-pro"  # Use centralized default
+        model = "gemini-2.0-flash-lite"  # Cheapest and fastest model
         request = LearningContentRequest(subtopic=subtopic, subject=roadmap_subject, goal=roadmap_goal, model=model)
         ai_generated_content = await generate_learning_content(request)
 
