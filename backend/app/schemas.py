@@ -4,8 +4,7 @@ from sqlmodel import SQLModel, Field
 from pydantic import BaseModel
 import uuid
 
-# Import settings for centralized model configuration
-from core.config import settings
+# Removed settings import to avoid circular dependency during startup
 
 class Token(SQLModel):
     access_token: str
@@ -159,7 +158,7 @@ class UserPerformanceDetailsResponse(SQLModel):
 class GenerateFeedbackRequest(SQLModel):
     user_id: int
     performance_details: Dict[str, Any]
-    model: Optional[str] = settings.DEFAULT_FEEDBACK_MODEL
+    model: Optional[str] = "gemini-1.5-pro"  # Default will be set by backend
 
 class GenerateFeedbackResponse(SQLModel):
     feedback_text: str
