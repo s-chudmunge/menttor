@@ -7,7 +7,20 @@ import ComparisonTable from './ComparisonTable';
 import Callout from './Callout';
 import CodeBlock from './CodeBlock';
 import SmartImage from './SmartImage';
-import MermaidDiagram from '../MermaidDiagram'; // Assuming this is the correct path
+import dynamic from 'next/dynamic';
+
+// Dynamic import for Mermaid to prevent SSR issues
+const MermaidDiagram = dynamic(() => import('../MermaidDiagram'), {
+  ssr: false,
+  loading: () => (
+    <div className="flex justify-center items-center p-8 bg-gray-50 rounded-lg">
+      <div className="text-center">
+        <div className="w-6 h-6 border-2 border-gray-300 border-t-blue-500 rounded-full animate-spin mx-auto mb-2"></div>
+        <p className="text-sm text-gray-600">Loading diagram...</p>
+      </div>
+    </div>
+  )
+});
 import ReactMarkdown from 'react-markdown';
 import Link from 'next/link';
 import remarkMath from 'remark-math';
@@ -115,7 +128,25 @@ const LearningContentRenderer: React.FC<Props> = ({ content, subject, subtopic }
             return <Callout key={index} data={block.data} />;
           case 'mermaid_diagram':
             const chart = typeof block.data.chart === 'string' ? block.data.chart : (block.data.chart && typeof block.data.chart === 'object' && 'code' in block.data.chart) ? (block.data.chart as any).code : '';
-            return <MermaidDiagram key={index} chart={chart} id={`mermaid-${index}`} />
+            console.log('Rendering Mermaid diagram:', { chart, blockData: block.data }); // Debug log
+            
+            if (!chart || chart.trim() === '') {
+              return (
+                <div key={index} className="my-3 sm:my-4 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+                  <div className="text-center">
+                    <div className="text-yellow-600 text-2xl mb-2">📊</div>
+                    <p className="text-yellow-800 font-medium">Mermaid Diagram</p>
+                    <p className="text-yellow-700 text-sm">No diagram content provided</p>
+                  </div>
+                </div>
+              );
+            }
+            
+            return (
+              <div key={index} className="my-3 sm:my-4">
+                <MermaidDiagram chart={chart} id={`mermaid-${index}`} />
+              </div>
+            );
           case '3d_visualization':
             return (
               <div key={index} className="my-3 sm:my-4">

@@ -1,25 +1,56 @@
+'use client';
+
 import React, { useEffect, useRef, useState } from 'react';
-import mermaid from 'mermaid';
+import dynamic from 'next/dynamic';
 
 interface MermaidDiagramProps {
   chart: string;
   id: string;
 }
 
-// Initialize Mermaid once globally with optimized settings
-mermaid.initialize({ 
-  startOnLoad: false,
-  theme: 'default',
-  securityLevel: 'loose',
-  fontFamily: 'inherit',
-  flowchart: {
-    useMaxWidth: true,
-    htmlLabels: false // Disable HTML labels to prevent parsing issues
-  },
-  sequence: {
-    useMaxWidth: true
+// Dynamic mermaid loading to prevent SSR issues
+let mermaidInstance: any = null;
+
+const initializeMermaid = async () => {
+  if (typeof window === 'undefined') return null;
+  
+  if (!mermaidInstance) {
+    try {
+      const mermaidModule = await import('mermaid');
+      mermaidInstance = mermaidModule.default;
+      
+      // Initialize Mermaid once globally with optimized settings
+      mermaidInstance.initialize({ 
+        startOnLoad: false,
+        theme: 'default',
+        securityLevel: 'loose',
+        fontFamily: 'inherit',
+        flowchart: {
+          useMaxWidth: true,
+          htmlLabels: true // Enable HTML labels for better rendering
+        },
+        sequence: {
+          useMaxWidth: true
+        },
+        // Add theme variables for better styling
+        themeVariables: {
+          primaryColor: '#3b82f6',
+          primaryTextColor: '#1f2937',
+          primaryBorderColor: '#e5e7eb',
+          lineColor: '#6b7280',
+          fontFamily: 'inherit'
+        }
+      });
+      
+      console.log('Mermaid initialized successfully');
+    } catch (error) {
+      console.error('Failed to initialize Mermaid:', error);
+      return null;
+    }
   }
-});
+  
+  return mermaidInstance;
+};
 
 // Clean and sanitize chart content
 const sanitizeChart = (chart: string): string => {
@@ -76,8 +107,16 @@ const MermaidDiagram: React.FC<MermaidDiagramProps> = ({ chart, id }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isClient, setIsClient] = useState(false);
+
+  // Ensure we're on the client side
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   useEffect(() => {
+    if (!isClient) return;
+    
     let isMounted = true;
     setIsLoading(true);
     setError(null);
@@ -89,6 +128,12 @@ const MermaidDiagram: React.FC<MermaidDiagramProps> = ({ chart, id }) => {
       }
 
       try {
+        // Initialize mermaid dynamically
+        const mermaid = await initializeMermaid();
+        if (!mermaid) {
+          throw new Error('Failed to load Mermaid library');
+        }
+
         // Clean the chart content
         const sanitizedChart = sanitizeChart(chart);
         const uniqueId = `mermaid-${id}-${Date.now()}`;
@@ -97,7 +142,9 @@ const MermaidDiagram: React.FC<MermaidDiagramProps> = ({ chart, id }) => {
         containerRef.current.innerHTML = '';
 
         // Render the diagram
+        console.log('Attempting to render Mermaid chart:', sanitizedChart);
         const { svg } = await mermaid.render(uniqueId, sanitizedChart);
+        console.log('Mermaid render successful');
         
         if (isMounted && containerRef.current) {
           containerRef.current.innerHTML = svg;
@@ -108,6 +155,11 @@ const MermaidDiagram: React.FC<MermaidDiagramProps> = ({ chart, id }) => {
         
         // Try with fallback diagram
         try {
+          const mermaid = await initializeMermaid();
+          if (!mermaid) {
+            throw new Error('Failed to load Mermaid library for fallback');
+          }
+
           const fallbackChart = createFallbackDiagram();
           const fallbackId = `mermaid-fallback-${id}-${Date.now()}`;
           const { svg } = await mermaid.render(fallbackId, fallbackChart);
@@ -138,7 +190,19 @@ const MermaidDiagram: React.FC<MermaidDiagramProps> = ({ chart, id }) => {
       isMounted = false;
       clearTimeout(timer);
     };
-  }, [chart, id]);
+  }, [chart, id, isClient]);
+
+  // Show loading state for SSR
+  if (!isClient) {
+    return (
+      <div className="flex justify-center items-center p-8 bg-gray-50 rounded-lg">
+        <div className="text-center">
+          <div className="w-6 h-6 border-2 border-gray-300 border-t-blue-500 rounded-full animate-spin mx-auto mb-2"></div>
+          <p className="text-sm text-gray-600">Initializing diagram...</p>
+        </div>
+      </div>
+    );
+  }
 
   if (isLoading) {
     return (
@@ -168,11 +232,24 @@ const MermaidDiagram: React.FC<MermaidDiagramProps> = ({ chart, id }) => {
   }
 
   return (
-    <div 
-      ref={containerRef}
-      className="flex justify-center items-center p-4 bg-gray-50 rounded-lg shadow-sm overflow-auto min-h-[200px]"
-      style={{ maxWidth: '100%' }}
-    />
+    <div className="my-4 p-4 bg-white border border-gray-200 rounded-xl shadow-sm">
+      <div 
+        ref={containerRef}
+        className="flex justify-center items-center overflow-auto min-h-[200px] mermaid-container"
+        style={{ maxWidth: '100%' }}
+      />
+      <style jsx>{`
+        .mermaid-container :global(.mermaid) {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+        .mermaid-container :global(svg) {
+          max-width: 100%;
+          height: auto;
+        }
+      `}</style>
+    </div>
   );
 };
 
