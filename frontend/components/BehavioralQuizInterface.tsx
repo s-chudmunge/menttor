@@ -14,6 +14,10 @@ import { api } from '@/lib/api';
 import { AxiosError } from 'axios';
 import { formatQuizQuestion } from '../src/app/journey/utils/textFormatting';
 import { motion, AnimatePresence } from 'framer-motion';
+import ReactMarkdown from 'react-markdown';
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
+import 'katex/dist/katex.min.css';
 import { 
   Clock, Target, Brain, Zap, Star, CheckCircle, XCircle, 
   Timer, Focus, AlertTriangle, Trophy, Award
@@ -474,6 +478,35 @@ const BehavioralQuizInterface: React.FC<QuizInterfaceProps> = ({ quizParams }) =
         return ((currentQuestionIndex + 1) / questions.length) * 100;
     };
 
+    // Component to render math-enabled text
+    const MathText: React.FC<{ children: string; className?: string }> = ({ children, className = '' }) => {
+        return (
+            <div className={className}>
+                <ReactMarkdown
+                    remarkPlugins={[remarkMath]}
+                    rehypePlugins={[rehypeKatex]}
+                    components={{
+                        div: ({ className, children, ...props }) => {
+                            if (className === 'math math-display') {
+                                return <div className="math-display my-2 text-center overflow-x-auto" {...props}>{children}</div>;
+                            }
+                            return <div className={className} {...props}>{children}</div>;
+                        },
+                        span: ({ className, children, ...props }) => {
+                            if (className === 'math math-inline') {
+                                return <span className="math-inline" {...props}>{children}</span>;
+                            }
+                            return <span className={className} {...props}>{children}</span>;
+                        },
+                        p: ({ children }) => <span>{children}</span>, // Inline paragraphs for quiz context
+                    }}
+                >
+                    {children}
+                </ReactMarkdown>
+            </div>
+        );
+    };
+
     // Loading state with behavioral elements
     if (isLoading) {
         return (
@@ -649,9 +682,9 @@ const BehavioralQuizInterface: React.FC<QuizInterfaceProps> = ({ quizParams }) =
                             className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8"
                         >
                             <div className="mb-6">
-                                <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-4">
-                                    {formatQuizQuestion(currentQuestion.question_text)}
-                                </h2>
+                                <div className="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-4">
+                                    <MathText>{currentQuestion.question_text}</MathText>
+                                </div>
                                 
                                 {/* Confidence Level Selector */}
                                 <div className="mb-4 p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
@@ -699,13 +732,16 @@ const BehavioralQuizInterface: React.FC<QuizInterfaceProps> = ({ quizParams }) =
                                             }`}
                                         >
                                             <div className="flex items-center justify-between">
-                                                <span className="text-gray-800 dark:text-gray-200">
-                                                    {option.text}
-                                                </span>
+                                                <div className="flex-1 text-gray-800 dark:text-gray-200">
+                                                    <MathText>{option.text}</MathText>
+                                                </div>
                                                 {isSelected && showFeedback && (
-                                                    feedback.correct 
-                                                        ? <CheckCircle className="w-5 h-5 text-green-600" />
-                                                        : <XCircle className="w-5 h-5 text-red-600" />
+                                                    <div className="ml-3 flex-shrink-0">
+                                                        {feedback.correct 
+                                                            ? <CheckCircle className="w-5 h-5 text-green-600" />
+                                                            : <XCircle className="w-5 h-5 text-red-600" />
+                                                        }
+                                                    </div>
                                                 )}
                                             </div>
                                         </motion.button>
