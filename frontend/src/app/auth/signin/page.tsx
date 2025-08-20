@@ -13,6 +13,8 @@ import { Github as GitHub } from 'lucide-react';
 import { Chrome as Google } from 'lucide-react';
 import { useAuth } from '@/app/context/AuthContext';
 import { signUp, signIn, googleSignIn, githubSignIn } from '@/lib/auth/utils';
+import PhoneAuthModal from '@/components/PhoneAuthModal';
+import ForgotPasswordModal from '@/components/ForgotPasswordModal';
 
 export default function SignInPage() {
   const [email, setEmail] = useState('');
@@ -22,6 +24,8 @@ export default function SignInPage() {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [showPhoneAuth, setShowPhoneAuth] = useState(false);
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
   const router = useRouter();
   const { user, loading } = useAuth();
 
@@ -82,6 +86,25 @@ export default function SignInPage() {
       setError(err.message || 'An unexpected error occurred.');
     }
     setIsLoading(false);
+  };
+
+  const handlePhoneAuthSuccess = (user: any) => {
+    setShowPhoneAuth(false);
+    router.push('/');
+  };
+
+  const handlePhoneAuthError = (error: string) => {
+    setError(error);
+  };
+
+  const handleBackToMain = () => {
+    setShowPhoneAuth(false);
+    setShowForgotPassword(false);
+    setError(null);
+  };
+
+  const handleForgotPasswordError = (error: string) => {
+    setError(error);
   };
 
   if (loading) {
@@ -175,126 +198,161 @@ export default function SignInPage() {
 
             {/* Form Container */}
             <div className="bg-white/10 backdrop-blur-md rounded-2xl shadow-xl border border-white/20 p-8">
-              <div className="text-center mb-8">
-                <h2 className="text-3xl font-bold text-white mb-2">
-                  {isLogin ? 'Welcome Back' : 'Get Started'}
-                </h2>
-                <p className="text-blue-200">
-                  {isLogin 
-                    ? 'Sign in to continue your learning journey' 
-                    : 'Create your account to begin learning'
-                  }
-                </p>
-              </div>
-
-              {error && <ErrorBanner message={error} />}
-              {success && (
-                <div className="mb-6 p-4 bg-green-500/20 border border-green-400/50 rounded-xl">
-                  <p className="text-green-300 text-sm text-center">{success}</p>
-                </div>
-              )}
-
-              {/* Social Login */}
-              <div className="space-y-3 mb-6">
-                <SocialButton
-                  provider="google"
-                  onClick={() => handleOAuthSignIn('google')}
-                  disabled={isLoading}
-                >
-                  Continue with Google
-                </SocialButton>
-                <SocialButton
-                  provider="github"
-                  onClick={() => handleOAuthSignIn('github')}
-                  disabled={isLoading}
-                >
-                  Continue with GitHub
-                </SocialButton>
-              </div>
-
-              {/* Divider */}
-              <div className="mb-6">
-                <div className="text-center">
-                  <span className="text-sm text-blue-200">or continue with email</span>
-                </div>
-                <div className="mt-2">
-                  <div className="w-full border-t border-white/30" />
-                </div>
-              </div>
-
-              {/* Email Form */}
-              <form className="space-y-5" onSubmit={handleAuthSubmit}>
-                <InputField
-                  id="email"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  required
-                  label="Email address"
-                  placeholder="you@example.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+              {showPhoneAuth ? (
+                <PhoneAuthModal
+                  onSuccess={handlePhoneAuthSuccess}
+                  onError={handlePhoneAuthError}
+                  onBack={handleBackToMain}
                 />
-                <InputField
-                  id="password"
-                  name="password"
-                  type="password"
-                  autoComplete="current-password"
-                  required
-                  label="Password"
-                  placeholder="Enter your password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+              ) : showForgotPassword ? (
+                <ForgotPasswordModal
+                  onError={handleForgotPasswordError}
+                  onBack={handleBackToMain}
                 />
-                {!isLogin && (
-                  <InputField
-                    id="confirm-password"
-                    name="confirm-password"
-                    type="password"
-                    autoComplete="new-password"
-                    required
-                    label="Confirm Password"
-                    placeholder="Confirm your password"
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                  />
-                )}
-                <Button
-                  type="submit"
-                  loading={isLoading}
-                  disabled={isLoading}
-                  className="w-full group"
-                >
-                  <span className="flex items-center justify-center">
-                    {isLoading ? (
-                      isLogin ? 'Signing In...' : 'Creating Account...'
-                    ) : (
-                      <>
-                        {isLogin ? 'Sign In' : 'Create Account'}
-                        <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-                      </>
+              ) : (
+                <>
+                  <div className="text-center mb-8">
+                    <h2 className="text-3xl font-bold text-white mb-2">
+                      {isLogin ? 'Welcome Back' : 'Get Started'}
+                    </h2>
+                    <p className="text-blue-200">
+                      {isLogin 
+                        ? 'Sign in to continue your learning journey' 
+                        : 'Create your account to begin learning'
+                      }
+                    </p>
+                  </div>
+
+                  {error && <ErrorBanner message={error} />}
+                  {success && (
+                    <div className="mb-6 p-4 bg-green-500/20 border border-green-400/50 rounded-xl">
+                      <p className="text-green-300 text-sm text-center">{success}</p>
+                    </div>
+                  )}
+
+                  {/* Social Login */}
+                  <div className="space-y-3 mb-6">
+                    <SocialButton
+                      provider="google"
+                      onClick={() => handleOAuthSignIn('google')}
+                      disabled={isLoading}
+                    >
+                      Continue with Google
+                    </SocialButton>
+                    <SocialButton
+                      provider="github"
+                      onClick={() => handleOAuthSignIn('github')}
+                      disabled={isLoading}
+                    >
+                      Continue with GitHub
+                    </SocialButton>
+                    <SocialButton
+                      provider="phone"
+                      onClick={() => setShowPhoneAuth(true)}
+                      disabled={isLoading}
+                    >
+                      Continue with Phone
+                    </SocialButton>
+                  </div>
+
+                  {/* Divider */}
+                  <div className="mb-6">
+                    <div className="text-center">
+                      <span className="text-sm text-blue-200">or continue with email</span>
+                    </div>
+                    <div className="mt-2">
+                      <div className="w-full border-t border-white/30" />
+                    </div>
+                  </div>
+
+                  {/* Email Form */}
+                  <form className="space-y-5" onSubmit={handleAuthSubmit}>
+                    <InputField
+                      id="email"
+                      name="email"
+                      type="email"
+                      autoComplete="email"
+                      required
+                      label="Email address"
+                      placeholder="you@example.com"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                    />
+                    <div>
+                      <InputField
+                        id="password"
+                        name="password"
+                        type="password"
+                        autoComplete="current-password"
+                        required
+                        label="Password"
+                        placeholder="Enter your password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                      />
+                      {isLogin && (
+                        <div className="text-right mt-2">
+                          <button
+                            type="button"
+                            onClick={() => setShowForgotPassword(true)}
+                            className="text-sm text-blue-300 hover:text-white focus:outline-none focus:underline transition-colors"
+                          >
+                            Forgot your password?
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                    {!isLogin && (
+                      <InputField
+                        id="confirm-password"
+                        name="confirm-password"
+                        type="password"
+                        autoComplete="new-password"
+                        required
+                        label="Confirm Password"
+                        placeholder="Confirm your password"
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                      />
                     )}
-                  </span>
-                </Button>
-              </form>
+                    <Button
+                      type="submit"
+                      loading={isLoading}
+                      disabled={isLoading}
+                      className="w-full group"
+                    >
+                      <span className="flex items-center justify-center">
+                        {isLoading ? (
+                          isLogin ? 'Signing In...' : 'Creating Account...'
+                        ) : (
+                          <>
+                            {isLogin ? 'Sign In' : 'Create Account'}
+                            <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                          </>
+                        )}
+                      </span>
+                    </Button>
+                  </form>
 
-              {/* Toggle Auth Mode */}
-              <div className="text-center mt-6 pt-6 border-t border-white/20">
-                <p className="text-blue-200 text-sm">
-                  {isLogin ? "New to Menttor?" : "Already have an account?"}{' '}
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setIsLogin(!isLogin);
-                      setError(null);
-                      setSuccess(null);
-                    }}
-                    className="font-semibold text-blue-300 hover:text-white focus:outline-none focus:underline transition-colors"
-                  >
-                    {isLogin ? 'Create an account' : 'Sign in'}
-                  </button>
-                </p>
-              </div>
+                  {/* Toggle Auth Mode */}
+                  <div className="text-center mt-6 pt-6 border-t border-white/20">
+                    <p className="text-blue-200 text-sm">
+                      {isLogin ? "New to Menttor?" : "Already have an account?"}{' '}
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setIsLogin(!isLogin);
+                          setError(null);
+                          setSuccess(null);
+                        }}
+                        className="font-semibold text-blue-300 hover:text-white focus:outline-none focus:underline transition-colors"
+                      >
+                        {isLogin ? 'Create an account' : 'Sign in'}
+                      </button>
+                    </p>
+                  </div>
+                </>
+              )}
             </div>
 
             {/* Terms */}

@@ -11,6 +11,9 @@ import {
   User,
   RecaptchaVerifier,
   signInWithPhoneNumber,
+  sendPasswordResetEmail,
+  confirmPasswordReset,
+  verifyPasswordResetCode,
 } from 'firebase/auth';
 
 // Sign Up
@@ -28,9 +31,39 @@ export const signOut = async () => {
   return firebaseSignOut(auth);
 };
 
-// Password Reset
-export const resetPassword = async (email) => {
-  // Implementation for password reset
+// Password Reset - Send reset email
+export const sendPasswordReset = async (email) => {
+  try {
+    await sendPasswordResetEmail(auth, email, {
+      url: `${window.location.origin}/auth/reset-password`,
+    });
+    return { success: true };
+  } catch (error) {
+    console.error('Error sending password reset email:', error);
+    throw error;
+  }
+};
+
+// Verify password reset code
+export const verifyResetCode = async (code) => {
+  try {
+    const email = await verifyPasswordResetCode(auth, code);
+    return { email, valid: true };
+  } catch (error) {
+    console.error('Error verifying password reset code:', error);
+    throw error;
+  }
+};
+
+// Confirm password reset with new password
+export const confirmPasswordResetWithCode = async (code, newPassword) => {
+  try {
+    await confirmPasswordReset(auth, code, newPassword);
+    return { success: true };
+  } catch (error) {
+    console.error('Error confirming password reset:', error);
+    throw error;
+  }
 };
 
 // Google Sign In
@@ -45,11 +78,35 @@ export const githubSignIn = async () => {
   return signInWithPopup(auth, provider);
 };
 
-// Phone Sign In
-export const setUpRecaptcha = (phoneNumber) => {
-  const recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {});
-  recaptchaVerifier.render();
-  return signInWithPhoneNumber(auth, phoneNumber, recaptchaVerifier);
+// Phone Sign In - Set up reCAPTCHA and send OTP
+export const setUpRecaptcha = (containerId = 'recaptcha-container') => {
+  const recaptchaVerifier = new RecaptchaVerifier(auth, containerId, {
+    'size': 'invisible',
+    'callback': (response) => {
+      // reCAPTCHA solved, allow signInWithPhoneNumber
+    }
+  });
+  return recaptchaVerifier;
+};
+
+export const sendOTP = async (phoneNumber, recaptchaVerifier) => {
+  try {
+    const confirmationResult = await signInWithPhoneNumber(auth, phoneNumber, recaptchaVerifier);
+    return confirmationResult;
+  } catch (error) {
+    console.error('Error sending OTP:', error);
+    throw error;
+  }
+};
+
+export const verifyOTP = async (confirmationResult, otp) => {
+  try {
+    const result = await confirmationResult.confirm(otp);
+    return result;
+  } catch (error) {
+    console.error('Error verifying OTP:', error);
+    throw error;
+  }
 };
 
 // Get Current User
