@@ -121,20 +121,17 @@ const BehavioralLearnClientPage: React.FC<BehavioralLearnClientPageProps> = ({
       console.log('📊 Invalidating queries for roadmapId:', roadmapId, 'subtopicId:', subtopicId);
       setIsCompleted(true);
       
-      // Invalidate progress queries with the EXACT pattern used by useProgress hook
-      // Force invalidate all progress-related queries
-      queryClient.invalidateQueries({ 
+      // More aggressive cache busting - remove all cached data and force refetch
+      queryClient.removeQueries({ 
         predicate: query => query.queryKey[0] === 'progress'
       });
       queryClient.invalidateQueries({ queryKey: ['userProgress'] });
       queryClient.invalidateQueries(['timeSummary']);
       
-      // Also force a complete refetch
-      setTimeout(() => {
-        queryClient.refetchQueries({ 
-          predicate: query => query.queryKey[0] === 'progress'
-        });
-      }, 100);
+      // Set session storage flags for journey page reload
+      sessionStorage.setItem('returning-from-learn', 'true');
+      sessionStorage.setItem(`learn-completed-${subtopicId}`, 'true');
+      sessionStorage.setItem('force-progress-refresh', Date.now().toString());
       
       console.log('🔄 Query invalidation completed');
     },

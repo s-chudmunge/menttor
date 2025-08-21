@@ -103,14 +103,21 @@ const JourneyPage = () => {
     // Also check on component mount in case user navigated directly
     const urlParams = new URLSearchParams(window.location.search);
     const isReturningFromLearn = sessionStorage.getItem('returning-from-learn') === 'true';
-    if (urlParams.get('refresh') === 'true' || sessionStorage.getItem('returning-from-quiz') === 'true' || isReturningFromLearn) {
+    const forceRefreshFlag = sessionStorage.getItem('force-progress-refresh');
+    
+    if (urlParams.get('refresh') === 'true' || sessionStorage.getItem('returning-from-quiz') === 'true' || isReturningFromLearn || forceRefreshFlag) {
       console.log('Force reloading journey page data on mount');
       sessionStorage.removeItem('returning-from-quiz');
       sessionStorage.removeItem('returning-from-learn');
+      sessionStorage.removeItem('force-progress-refresh');
       
-      queryClient.invalidateQueries({ queryKey: ['progress'] });
+      // More aggressive cache clearing
+      queryClient.removeQueries({ 
+        predicate: query => query.queryKey[0] === 'progress'
+      });
       queryClient.invalidateQueries({ queryKey: ['userProgress'] });
       queryClient.invalidateQueries({ queryKey: ['behavioral'] });
+      queryClient.invalidateQueries({ queryKey: ['roadmap'] });
       
       if (roadmapData?.id) {
         refetchProgress();
@@ -124,14 +131,17 @@ const JourneyPage = () => {
 
   // Progress loading effect for debugging
   useEffect(() => {
-    if (roadmapData?.id && progressData) {
-      console.log('Journey Progress Update:', {
-        roadmapId: roadmapData.id,
-        progressCount: progressData.length,
-        hasProgress: progressData.length > 0
-      });
+    console.log('🔍 Journey Progress Update:', {
+      roadmapId: roadmapData?.id,
+      progressData: progressData,
+      progressCount: progressData?.length || 0,
+      hasProgress: progressData && progressData.length > 0,
+      isLoadingProgress: isLoadingProgress
+    });
+    if (progressData && progressData.length > 0) {
+      console.log('📊 First few progress records:', progressData.slice(0, 3));
     }
-  }, [roadmapData?.id, progressData]);
+  }, [roadmapData?.id, progressData, isLoadingProgress]);
 
   // Simplified: Generate resume data from progress instead of complex session system
   const resumeData = useMemo(() => {

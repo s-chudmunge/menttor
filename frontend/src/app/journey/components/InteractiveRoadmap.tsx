@@ -77,6 +77,14 @@ const InteractiveRoadmap: React.FC<InteractiveRoadmapProps> = ({ roadmapData, pr
     if (!progressData) return 'available';
     const progress = progressData.find(p => p.sub_topic_id === subtopicId);
     if (!progress) return 'available';
+    
+    // Debug: Check for recently completed learns
+    const recentlyCompleted = sessionStorage.getItem(`learn-completed-${subtopicId}`) === 'true';
+    if (recentlyCompleted && progress.learn_completed) {
+      console.log(`🔍 Debug: Subtopic ${subtopicId} recently completed and confirmed in progress data`);
+      sessionStorage.removeItem(`learn-completed-${subtopicId}`);
+    }
+    
     if (progress.status === 'completed') return 'completed';
     if (progress.learn_completed || progress.quiz_completed) return 'current';
     return 'available';
@@ -478,18 +486,27 @@ const InteractiveRoadmap: React.FC<InteractiveRoadmapProps> = ({ roadmapData, pr
                     <div className="flex space-x-1">
                       {(() => {
                         const progress = progressData?.find(p => p.sub_topic_id === subtopic.id);
-                        const isLearnCompleted = progress?.learn_completed;
+                        const isLearnCompleted = progress?.learn_completed || false;
+                        const isCompleted = progress?.status === 'completed';
+                        
+                        // Show different states: completed (green check), learn completed (blue review), or not started (blue learn)
+                        let buttonClass = 'bg-blue-600 hover:bg-blue-700 text-white'; // Default: Learn
+                        let buttonText = 'Learn';
+                        
+                        if (isCompleted) {
+                          buttonClass = 'bg-green-600 hover:bg-green-700 text-white';
+                          buttonText = '✓ Completed';
+                        } else if (isLearnCompleted) {
+                          buttonClass = 'bg-orange-500 hover:bg-orange-600 text-white';
+                          buttonText = '↻ Review';
+                        }
                         
                         return (
                           <Link
                             href={`/learn?subtopic=${encodeURIComponent(subtopic.title)}&subtopic_id=${subtopic.id}&roadmap_id=${roadmapData.id}`}
-                            className={`flex-1 text-center py-1.5 px-2 text-xs rounded-md font-medium transition-colors ${
-                              isLearnCompleted 
-                                ? 'bg-green-100 text-green-800 hover:bg-green-200' 
-                                : 'bg-blue-600 hover:bg-blue-700 text-white'
-                            }`}
+                            className={`flex-1 text-center py-1.5 px-2 text-xs rounded-md font-medium transition-colors ${buttonClass}`}
                           >
-                            {isLearnCompleted ? '✓ Review' : 'Learn'}
+                            {buttonText}
                           </Link>
                         );
                       })()}
