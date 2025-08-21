@@ -17,7 +17,7 @@ import FloatingTOC from '../../../components/learning/FloatingTOC';
 import SaveShareButtons from '../../../components/learning/SaveShareButtons';
 import { useBehavioralContext } from '../context/BehavioralContext';
 import { useFocusMode, useSessionFSM, useBehavioralStats, useQuickChallenge } from '../../hooks/useBehavioral';
-import { api, LearningContentResponse, getNextSubtopic, NextSubtopicResponse } from '../../lib/api';
+import { api, LearningContentResponse, getNextSubtopic, NextSubtopicResponse, learningAPI } from '../../lib/api';
 
 const TIME_TRACKING_INTERVAL = 30000; // 30 seconds
 const FOCUS_SESSION_DURATION = 25; // 25-minute Pomodoro sessions
@@ -47,6 +47,7 @@ const BehavioralLearnClientPage: React.FC<BehavioralLearnClientPageProps> = ({
   const [completedMicrogoals, setCompletedMicrogoals] = useState<string[]>([]);
   const [nextSubtopic, setNextSubtopic] = useState<NextSubtopicResponse | null>(null);
   const [isLoadingNextSubtopic, setIsLoadingNextSubtopic] = useState(false);
+  const [isCompleted, setIsCompleted] = useState(false);
   
   // Refs
   const contentRef = useRef<HTMLDivElement>(null);
@@ -102,6 +103,22 @@ const BehavioralLearnClientPage: React.FC<BehavioralLearnClientPageProps> = ({
       queryClient.invalidateQueries(['timeSummary']);
       queryClient.invalidateQueries(['progress']);
     },
+  });
+
+  // Learning completion mutation
+  const completeLearnMutation = useMutation({
+    mutationFn: async () => {
+      if (!subtopicId) throw new Error('No subtopic ID');
+      return learningAPI.completeSubtopic(subtopicId, Math.floor(timeSpentRef.current / 60));
+    },
+    onSuccess: () => {
+      setIsCompleted(true);
+      queryClient.invalidateQueries(['progress']);
+      queryClient.invalidateQueries(['timeSummary']);
+    },
+    onError: (error) => {
+      console.error('Failed to mark learning as complete:', error);
+    }
   });
 
   // Session phase management
@@ -367,7 +384,7 @@ const BehavioralLearnClientPage: React.FC<BehavioralLearnClientPageProps> = ({
     }
   }, [subtopic]);
 
-  // Load next subtopic information
+  // Load next subtopic information and check completion status
   useEffect(() => {
     const loadNextSubtopic = async () => {
       if (subtopicId && roadmapId) {
@@ -375,6 +392,13 @@ const BehavioralLearnClientPage: React.FC<BehavioralLearnClientPageProps> = ({
         try {
           const nextSubtopicData = await getNextSubtopic(roadmapId, subtopicId);
           setNextSubtopic(nextSubtopicData);
+          
+          // Check if current topic is already completed
+          const progressResponse = await api.get(`/progress/${roadmapId}`);
+          const currentProgress = progressResponse.data.find((p: any) => p.sub_topic_id === subtopicId);
+          if (currentProgress?.learn_completed) {
+            setIsCompleted(true);
+          }
         } catch (error) {
           console.error('Error loading next subtopic:', error);
         } finally {
@@ -506,30 +530,65 @@ const BehavioralLearnClientPage: React.FC<BehavioralLearnClientPageProps> = ({
                 subtopic={learningContext.subtopic}
               />
               
-              {/* Next Subtopic Button */}
-              {nextSubtopic ? (
-                <div className="mt-8 sm:mt-12 pt-6 sm:pt-8 border-t border-gray-200">
-                  <div className="text-center">
-                    <div className="mb-4">
+              {/* Completion and Next Actions */}
+              <div className="mt-8 sm:mt-12 pt-6 sm:pt-8 border-t border-gray-200">
+                <div className="text-center space-y-4">
+                  {/* Mark as Complete Button */}
+                  {!isCompleted && (
+                    <div>
+                      <p className="text-gray-600 text-sm sm:text-base mb-3">Finished reading? Mark this topic as learned!</p>
+                      <button
+                        onClick={() => completeLearnMutation.mutate()}
+                        disabled={completeLearnMutation.isPending}
+                        className="inline-flex items-center gap-2 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-medium py-2 sm:py-3 px-4 sm:px-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 transform hover:scale-105 text-sm sm:text-base disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        {completeLearnMutation.isPending ? (
+                          <>
+                            <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                            <span>Marking Complete...</span>
+                          </>
+                        ) : (
+                          <>
+                            <CheckCircle className="w-4 h-4" />
+                            <span>Mark as Learned</span>
+                          </>
+                        )}
+                      </button>
+                    </div>
+                  )}
+
+                  {/* Completion Success Message */}
+                  {isCompleted && (
+                    <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-4">
+                      <div className="flex items-center justify-center text-green-800">
+                        <CheckCircle className="w-5 h-5 mr-2" />
+                        <span className="font-medium">Learning completed! Great job! 🎉</span>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Next Subtopic Button */}
+                  {nextSubtopic && (
+                    <div>
                       <p className="text-gray-600 text-sm sm:text-base mb-2">Ready for the next topic?</p>
-                      <p className="text-gray-500 text-xs sm:text-sm">
+                      <p className="text-gray-500 text-xs sm:text-sm mb-3">
                         {nextSubtopic.topic_title} • {nextSubtopic.subtopic_title}
                       </p>
+                      <Link 
+                        href={`/learn?subtopic=${encodeURIComponent(nextSubtopic.subtopic_title)}&subtopic_id=${nextSubtopic.subtopic_id}&roadmap_id=${roadmapId}`}
+                        className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-medium py-2 sm:py-3 px-4 sm:px-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 transform hover:scale-105 text-sm sm:text-base"
+                      >
+                        <span>Continue Learning</span>
+                        <ArrowRight className="w-4 h-4" />
+                      </Link>
                     </div>
-                    <Link 
-                      href={`/learn?subtopic=${encodeURIComponent(nextSubtopic.subtopic_title)}&subtopic_id=${nextSubtopic.subtopic_id}&roadmap_id=${roadmapId}`}
-                      className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-medium py-2 sm:py-3 px-4 sm:px-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 transform hover:scale-105 text-sm sm:text-base"
-                    >
-                      <span>Continue Learning</span>
-                      <ArrowRight className="w-4 h-4" />
-                    </Link>
-                  </div>
+                  )}
+
+                  {!nextSubtopic && !isLoadingNextSubtopic && subtopicId && roadmapId && (
+                    <div className="text-gray-500 text-sm">🎊 You've reached the end of your roadmap!</div>
+                  )}
                 </div>
-              ) : !isLoadingNextSubtopic && subtopicId && roadmapId ? (
-                <div className="mt-8 sm:mt-12 pt-6 sm:pt-8 border-t border-gray-200 text-center">
-                  <div className="text-gray-500 text-sm">No next topic available in your roadmap</div>
-                </div>
-              ) : null}
+              </div>
               
               {isLoadingNextSubtopic && (
                 <div className="mt-8 sm:mt-12 pt-6 sm:pt-8 border-t border-gray-200 text-center">

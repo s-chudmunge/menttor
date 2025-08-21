@@ -541,7 +541,11 @@ const JourneyPage = () => {
                                       <div className="space-y-2">
                                         <Link 
                                           href={`/learn?subtopic=${encodeURIComponent(subtopic.title)}&subtopic_id=${subtopic.id}&roadmap_id=${roadmapData.id}`}
-                                          className="btn-primary w-full py-2 text-xs flex items-center justify-center space-x-1.5 group"
+                                          className={`w-full py-2 text-xs flex items-center justify-center space-x-1.5 group rounded-md font-medium transition-all duration-200 ${
+                                            subtopicProgress?.learn_completed 
+                                              ? 'bg-green-100 text-green-800 border border-green-300 hover:bg-green-200' 
+                                              : 'btn-primary'
+                                          }`}
                                           onClick={(e) => {
                                             // Prevent double clicks
                                             const target = e.currentTarget;
@@ -555,8 +559,17 @@ const JourneyPage = () => {
                                             }, 1000);
                                           }}
                                         >
-                                          <BookOpen className="w-3 h-3 group-hover:scale-110 transition-transform" />
-                                          <span>Learn</span>
+                                          {subtopicProgress?.learn_completed ? (
+                                            <>
+                                              <CheckCircle className="w-3 h-3 group-hover:scale-110 transition-transform" />
+                                              <span>Review</span>
+                                            </>
+                                          ) : (
+                                            <>
+                                              <BookOpen className="w-3 h-3 group-hover:scale-110 transition-transform" />
+                                              <span>Learn</span>
+                                            </>
+                                          )}
                                         </Link>
                                         
                                         {subtopic.has_quiz && (

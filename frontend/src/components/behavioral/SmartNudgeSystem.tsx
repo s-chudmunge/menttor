@@ -135,9 +135,9 @@ const SmartNudgeSystem: React.FC = () => {
         return progress_to_next >= 0.8; // 80% to next level
       },
       content: {
-        title: 'Level Up Incoming! 🏆',
-        message: 'You\'re {percentage}% to Level {next_level}! One more quality session should get you there.',
-        action: 'Push to Next Level'
+        title: 'Level Up! 🏆',
+        message: '{percentage}% to Level {next_level}! One more session!',
+        action: 'Continue'
       },
       icon: <Trophy className="w-5 h-5 text-yellow-500" />,
       color: 'from-yellow-500 to-orange-500',
@@ -364,19 +364,19 @@ const SmartNudgeSystem: React.FC = () => {
                 damping: 25
               }}
               className={`
-                bg-gradient-to-r ${config.color} text-white rounded-2xl p-4 shadow-2xl 
+                bg-gradient-to-r ${config.color} text-white rounded-xl p-3 shadow-lg 
                 border border-white/20 backdrop-blur-sm cursor-pointer group
-                hover:shadow-3xl hover:scale-105 transition-all duration-200
+                hover:shadow-xl hover:scale-105 transition-all duration-200 max-w-xs
               `}
             >
-              <div className="flex items-start space-x-3">
-                <div className="flex-shrink-0 mt-1">
-                  {config.icon}
+              <div className="flex items-start space-x-2">
+                <div className="flex-shrink-0 mt-0.5">
+                  {React.cloneElement(config.icon, { className: "w-4 h-4" })}
                 </div>
                 
                 <div className="flex-1 min-w-0">
-                  <div className="flex items-center justify-between mb-2">
-                    <h4 className="font-semibold text-sm">
+                  <div className="flex items-center justify-between mb-1">
+                    <h4 className="font-medium text-xs">
                       {interpolatedContent.title}
                     </h4>
                     {config.dismissible && (
@@ -387,19 +387,19 @@ const SmartNudgeSystem: React.FC = () => {
                         }}
                         className="text-white/70 hover:text-white transition-colors"
                       >
-                        <X className="w-4 h-4" />
+                        <X className="w-3 h-3" />
                       </button>
                     )}
                   </div>
                   
-                  <p className="text-xs text-white/90 leading-relaxed mb-3">
+                  <p className="text-xs text-white/90 leading-tight mb-2">
                     {interpolatedContent.message}
                   </p>
                   
                   {interpolatedContent.action && (
                     <button
                       onClick={() => handleNudgeAction(config)}
-                      className="flex items-center space-x-2 bg-white/20 hover:bg-white/30 px-3 py-2 rounded-lg text-xs font-medium transition-all duration-200 group/button"
+                      className="flex items-center space-x-1 bg-white/20 hover:bg-white/30 px-2 py-1 rounded text-xs font-medium transition-all duration-200 group/button"
                     >
                       <span>{interpolatedContent.action}</span>
                       <ChevronRight className="w-3 h-3 group-hover/button:translate-x-0.5 transition-transform" />
