@@ -320,25 +320,13 @@ class BehavioralService:
     def generate_reward_content(self, trigger_event: str, trigger_data: Dict[str, Any]) -> Tuple[str, Dict[str, Any]]:
         """Generate appropriate reward content based on trigger"""
         
-        insight_cards = [
-            "Real interview tip: This concept appears in 73% of technical screens at top companies.",
-            "Expert insight: The pattern you just learned reduces solution complexity by an average of 40%.",
-            "Interview hack: Mentioning this approach shows deep algorithmic thinking to interviewers."
-        ]
-        
         if trigger_event == "subtopic_completion":
-            if random.random() < 0.6:  # 60% chance for insight card
-                return "insight_card", {
-                    "title": "Expert Insight",
-                    "content": random.choice(insight_cards),
-                    "animation": "fade_in"
-                }
-            else:  # 40% chance for confetti
-                return "confetti", {
-                    "style": "celebration",
-                    "duration": 2000,
-                    "particles": 50
-                }
+            # Removed insight cards - just show celebration confetti
+            return "confetti", {
+                "style": "celebration",
+                "duration": 2000,
+                "particles": 50
+            }
         
         elif trigger_event == "milestone_reached":
             return "achievement", {
