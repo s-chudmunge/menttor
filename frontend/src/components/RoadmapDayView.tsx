@@ -40,7 +40,7 @@ const RoadmapDayView: React.FC<RoadmapDayViewProps> = ({
                             {item.subTopic.title} <span className="text-gray-500 text-sm">(from {item.moduleTitle} - {item.topicTitle})</span>
                         </label>
                         <span className="ml-auto mr-4 font-bold text-primary-600">{scoreDisplay}</span>
-                        <Link href={`/learn?subtopic=${encodeURIComponent(item.subTopic.title)}`} target="_blank" className="text-primary-500 hover:text-primary-700 text-xl mx-1" title={`Learn more about ${item.subTopic.title}`}>
+                        <Link href={`/learn?subtopic=${encodeURIComponent(item.subTopic.title)}&subtopic_id=${encodeURIComponent(item.subTopic.id)}&roadmap_id=${roadmapData.id}`} target="_blank" className="text-primary-500 hover:text-primary-700 text-xl mx-1" title={`Learn more about ${item.subTopic.title}`}>
                             <FaBook />
                         </Link>
                         <Link

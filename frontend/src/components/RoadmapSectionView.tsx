@@ -86,7 +86,7 @@ const RoadmapSectionView: React.FC<RoadmapSectionViewProps> = ({
                                         {isCompleted && <FaCheckCircle className="text-accent-500 text-xl mr-3" />}
                                         <label className="flex-grow text-gray-700 text-base cursor-pointer">{subTopicTitle}</label>
                                         <span className="ml-auto mr-4 font-bold text-primary-600">{scoreDisplay}</span>
-                                        <Link href={`/learn?subtopic=${encodeURIComponent(subTopicTitle)}`} target="_blank" className="text-primary-500 hover:text-primary-700 text-xl mx-1" title={`Learn more about ${subTopicTitle}`}>
+                                        <Link href={`/learn?subtopic=${encodeURIComponent(subTopicTitle)}&subtopic_id=${encodeURIComponent(subTopicId)}&roadmap_id=${roadmapData.id}`} target="_blank" className="text-primary-500 hover:text-primary-700 text-xl mx-1" title={`Learn more about ${subTopicTitle}`}>
                                             <FaBook />
                                         </Link>
                                         <Link

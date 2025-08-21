@@ -507,7 +507,7 @@ const BehavioralLearnClientPage: React.FC<BehavioralLearnClientPageProps> = ({
               />
               
               {/* Next Subtopic Button */}
-              {nextSubtopic && (
+              {nextSubtopic ? (
                 <div className="mt-8 sm:mt-12 pt-6 sm:pt-8 border-t border-gray-200">
                   <div className="text-center">
                     <div className="mb-4">
@@ -525,13 +525,18 @@ const BehavioralLearnClientPage: React.FC<BehavioralLearnClientPageProps> = ({
                     </Link>
                   </div>
                 </div>
-              )}
+              ) : !isLoadingNextSubtopic && subtopicId && roadmapId ? (
+                <div className="mt-8 sm:mt-12 pt-6 sm:pt-8 border-t border-gray-200 text-center">
+                  <div className="text-gray-500 text-sm">No next topic available in your roadmap</div>
+                </div>
+              ) : null}
               
               {isLoadingNextSubtopic && (
                 <div className="mt-8 sm:mt-12 pt-6 sm:pt-8 border-t border-gray-200 text-center">
                   <div className="text-gray-500 text-sm">Loading next topic...</div>
                 </div>
               )}
+              
             </div>
           </div>
         ) : (

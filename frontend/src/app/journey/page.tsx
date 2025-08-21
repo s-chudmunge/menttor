@@ -11,6 +11,7 @@ import { formatSubtopicTitle, formatTitle, formatQuizQuestion } from './utils/te
 import { api, RoadmapData, UserProgress } from '../../lib/api';
 import { useRoadmap } from '../../hooks/useRoadmap';
 import { useProgress } from '../../hooks/useProgress';
+import { useRecommendedReviews } from '../../hooks/useRecommendedReviews';
 
 import JourneyHeader from './components/JourneyHeader';
 import SmartResumeCard from './components/SmartResumeCard';
@@ -56,6 +57,7 @@ const JourneyPage = () => {
   const { data: progressData, refetch: refetchProgress, isLoading: isLoadingProgress, error: progressError } = useProgress(
     roadmapData?.id && typeof roadmapData.id === 'number' ? roadmapData.id : null
   );
+  const { data: recommendedReviews, isLoading: isLoadingReviews } = useRecommendedReviews();
 
   // Force reload when returning from quiz results
   useEffect(() => {
@@ -538,7 +540,7 @@ const JourneyPage = () => {
                                       {/* Compact action buttons */}
                                       <div className="space-y-2">
                                         <Link 
-                                          href={`/learn?subtopic=${encodeURIComponent(subtopic.title)}&subtopic_id=${subtopic.id}`}
+                                          href={`/learn?subtopic=${encodeURIComponent(subtopic.title)}&subtopic_id=${subtopic.id}&roadmap_id=${roadmapData.id}`}
                                           className="btn-primary w-full py-2 text-xs flex items-center justify-center space-x-1.5 group"
                                           onClick={(e) => {
                                             // Prevent double clicks
@@ -608,7 +610,7 @@ const JourneyPage = () => {
           <LearningGuide className="mb-6 lg:mb-8" />
 
           {/* Recommended Reviews */}
-          <RecommendedReviews />
+          <RecommendedReviews recommendedReviews={recommendedReviews || []} />
         </main>
 
         {/* Old Roadmaps Modal */}

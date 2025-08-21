@@ -12,8 +12,7 @@ export const useRecommendedReviews = () => {
             if (!user) {
                 throw new Error('User not authenticated');
             }
-            const token = await user.getIdToken();
-            return fetchRecommendedReviews(token as string);
+            return fetchRecommendedReviews();
         },
         enabled: !loading && !!user,
         staleTime: 5 * 60 * 1000,

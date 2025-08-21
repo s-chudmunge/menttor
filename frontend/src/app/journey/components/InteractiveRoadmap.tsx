@@ -477,7 +477,7 @@ const InteractiveRoadmap: React.FC<InteractiveRoadmapProps> = ({ roadmapData, pr
                     {/* Quick Actions */}
                     <div className="flex space-x-1">
                       <Link
-                        href={`/learn?subtopic=${encodeURIComponent(subtopic.title)}&subtopic_id=${subtopic.id}`}
+                        href={`/learn?subtopic=${encodeURIComponent(subtopic.title)}&subtopic_id=${subtopic.id}&roadmap_id=${roadmapData.id}`}
                         className="flex-1 text-center py-1.5 px-2 bg-blue-600 hover:bg-blue-700 text-white text-xs rounded-md font-medium transition-colors"
                       >
                         Learn
