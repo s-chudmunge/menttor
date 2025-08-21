@@ -73,12 +73,12 @@ async def mark_subtopic_as_completed(
     db.refresh(progress)
     return progress
 
-@router.patch("/{sub_topic_id}/learn-completed", response_model=UserProgressRead)
-async def mark_learn_completed(
+# Helper function for direct calls
+def mark_learn_completed_helper(
     sub_topic_id: str,
-    db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
-):
+    db: Session,
+    current_user: User
+) -> UserProgress:
     progress = db.exec(
         select(UserProgress)
         .where(UserProgress.user_id == current_user.id, UserProgress.sub_topic_id == sub_topic_id)
@@ -99,6 +99,7 @@ async def mark_learn_completed(
         db.flush() # Flush to get an ID if it's a new object
 
     progress.learn_completed = True
+    progress.last_accessed_at = datetime.utcnow()  # Update last accessed time
     progress.status = _calculate_progress_status(progress)
     progress.completed_at = datetime.utcnow() if progress.status == "completed" else None
     
@@ -107,13 +108,21 @@ async def mark_learn_completed(
     db.refresh(progress)
     return progress
 
-@router.patch("/{sub_topic_id}/track-time", response_model=UserProgressRead)
-async def track_learning_time(
+@router.patch("/{sub_topic_id}/learn-completed", response_model=UserProgressRead)
+async def mark_learn_completed(
     sub_topic_id: str,
-    time_spent: int = Body(..., embed=True),
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
+    return mark_learn_completed_helper(sub_topic_id, db, current_user)
+
+# Helper function for direct calls
+def track_learning_time_helper(
+    sub_topic_id: str,
+    time_spent: int,
+    db: Session,
+    current_user: User
+) -> UserProgress:
     progress = db.exec(
         select(UserProgress)
         .where(UserProgress.user_id == current_user.id, UserProgress.sub_topic_id == sub_topic_id)
@@ -131,9 +140,11 @@ async def track_learning_time(
             roadmap_id=roadmap.id,
             time_spent_learning=time_spent
         )
+        db.add(progress)
     else:
         progress.time_spent_learning += time_spent
     
+    progress.last_accessed_at = datetime.utcnow()  # Update last accessed time
     progress.status = _calculate_progress_status(progress) # Recalculate status
     progress.completed_at = datetime.utcnow() if progress.status == "completed" else None
 
@@ -141,6 +152,15 @@ async def track_learning_time(
     db.commit()
     db.refresh(progress)
     return progress
+
+@router.patch("/{sub_topic_id}/track-time", response_model=UserProgressRead)
+async def track_learning_time(
+    sub_topic_id: str,
+    time_spent: int = Body(..., embed=True),
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    return track_learning_time_helper(sub_topic_id, time_spent, db, current_user)
 
 @router.get("/time-summary", response_model=TimeSummaryResponse)
 async def get_time_summary(

@@ -524,8 +524,8 @@ async def track_learning_time(
             raise HTTPException(status_code=400, detail="Invalid time tracking data")
         
         # Update progress tracking
-        from .progress import track_learning_time as track_progress_time
-        progress_result = await track_progress_time(subtopic_id, time_spent_minutes * 60, db, current_user)  # Convert to seconds
+        from .progress import track_learning_time_helper
+        progress_result = track_learning_time_helper(subtopic_id, time_spent_minutes * 60, db, current_user)  # Convert to seconds
         
         # Award XP for focus time
         behavioral_service = BehavioralService(db)
@@ -559,8 +559,8 @@ async def mark_learning_complete(
             raise HTTPException(status_code=400, detail="subtopic_id is required")
         
         # Mark learning as completed in progress tracker
-        from .progress import mark_learn_completed
-        progress_result = await mark_learn_completed(subtopic_id, db, current_user)
+        from .progress import mark_learn_completed_helper
+        progress_result = mark_learn_completed_helper(subtopic_id, db, current_user)
         
         # Award completion XP and update streaks
         behavioral_service = BehavioralService(db)
