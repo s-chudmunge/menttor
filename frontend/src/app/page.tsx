@@ -70,8 +70,8 @@ const MenttorLabsMainPage = () => {
   const features = [
     {
       icon: <Brain className="w-8 h-8" />,
-      title: "AI-Powered Learning",
-      description: "Advanced AI creates personalized roadmaps tailored to your learning style and goals."
+      title: "Intelligent Learning",
+      description: "Smart technology creates personalized roadmaps tailored to your learning style and goals."
     },
     {
       icon: <Target className="w-8 h-8" />,
@@ -100,7 +100,7 @@ const MenttorLabsMainPage = () => {
     {
       name: "Marcus Johnson",
       role: "Data Scientist",
-      content: "The AI-generated roadmaps are incredibly detailed and practical.",
+      content: "The personalized roadmaps are incredibly detailed and practical.",
       rating: 5
     },
     {
@@ -383,14 +383,14 @@ const MenttorLabsMainPage = () => {
             <div className="mb-8">
               <div className="inline-flex items-center px-4 py-2 rounded-full bg-blue-50/80 dark:bg-blue-900/30 border border-blue-200/50 dark:border-blue-700/50 text-blue-700 dark:text-blue-300 text-sm font-medium mb-6">
                 <Sparkles className="w-4 h-4 mr-2" />
-                AI-Powered Learning Platform
+                Smart Learning Platform
               </div>
             </div>
             
             <h1 className="heading-primary mb-8">
               Master Any Skill with{' '}
               <span className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent">
-                AI-Crafted
+                Expertly Crafted
               </span>{' '}
               Learning Paths
             </h1>
@@ -459,7 +459,7 @@ const MenttorLabsMainPage = () => {
             </div>
             <h2 className="heading-secondary mb-6">Why Choose Menttor?</h2>
             <p className="text-xl text-body max-w-3xl mx-auto">
-              Experience the future of personalized learning with our advanced AI technology 
+              Experience the future of personalized learning with our intelligent technology 
               and cutting-edge educational methodologies
             </p>
           </div>
@@ -559,7 +559,7 @@ const MenttorLabsMainPage = () => {
             </div>
             <h2 className="heading-secondary mb-6">Create Your Learning Journey</h2>
             <p className="text-xl text-body max-w-3xl mx-auto">
-              Share your goals and let our advanced AI craft a personalized roadmap 
+              Share your goals and let our intelligent system craft a personalized roadmap 
               that transforms your ambitions into achievable milestones
             </p>
           </div>
@@ -645,12 +645,12 @@ const MenttorLabsMainPage = () => {
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-4">
                     <Brain className="w-4 h-4 inline mr-2" />
-                    AI Model Selection
+                    Learning Engine Selection
                   </label>
                   <div className="bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-xl p-4 flex items-center justify-between shadow-sm hover:shadow-md transition-all duration-200">
                     <div className="flex-1">
                       <div className="font-medium text-gray-900 dark:text-white">{selectedModelName}</div>
-                      <div className="text-sm text-gray-600 dark:text-gray-400">Advanced AI model for personalized learning</div>
+                      <div className="text-sm text-gray-600 dark:text-gray-400">Advanced learning engine for personalized education</div>
                     </div>
                     <button
                       type="button"
@@ -679,9 +679,9 @@ const MenttorLabsMainPage = () => {
                           <Zap className="w-3 h-3 text-white" />
                         </div>
                       </div>
-                      <h3 className="heading-tertiary mb-4">AI-Powered Generation</h3>
+                      <h3 className="heading-tertiary mb-4">Intelligent Generation</h3>
                       <p className="text-body mb-6">
-                        Our advanced AI analyzes your goals and creates a structured, personalized learning path optimized for your success.
+                        Our smart system analyzes your goals and creates a structured, personalized learning path optimized for your success.
                       </p>
                       
                       <div className="space-y-3">
@@ -777,7 +777,7 @@ const MenttorLabsMainPage = () => {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-4xl font-bold mb-6">Ready to Start Your Learning Journey?</h2>
           <p className="text-xl opacity-90 mb-10">
-            Join thousands of learners who are achieving their goals with personalized AI roadmaps.
+            Join thousands of learners who are achieving their goals with personalized learning roadmaps.
           </p>
           <button 
             onClick={() => document.getElementById('generate').scrollIntoView({ behavior: 'smooth' })}
@@ -790,33 +790,77 @@ const MenttorLabsMainPage = () => {
       </section>
 
       {/* Footer */}
-      <footer className="bg-gray-800 dark:bg-gray-900 text-white py-12 transition-colors duration-300">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div>
-            <Logo />
-            <p className="text-gray-400 mt-4">Your personalized learning journey.</p>
-            <div className="flex space-x-4 mt-6">
-              <a href="#" className="text-gray-400 hover:text-white"><Globe className="w-6 h-6" /></a>
-              <a href="#" className="text-gray-400 hover:text-white"><Users className="w-6 h-6" /></a>
+      <footer className="bg-gray-900 dark:bg-gray-950 text-white py-16 transition-colors duration-300">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+            {/* Company Info */}
+            <div className="lg:col-span-1">
+              <Logo />
+              <p className="text-gray-300 mt-4 leading-relaxed">
+                Transforming education through intelligent, personalized learning experiences that adapt to every learner's unique journey.
+              </p>
+              <div className="flex space-x-4 mt-8">
+                <a href="#" className="text-gray-400 hover:text-blue-400 transition-colors duration-200">
+                  <Globe className="w-5 h-5" />
+                </a>
+                <a href="#" className="text-gray-400 hover:text-blue-400 transition-colors duration-200">
+                  <Users className="w-5 h-5" />
+                </a>
+              </div>
+            </div>
+
+            {/* Product */}
+            <div>
+              <h4 className="text-lg font-semibold mb-6 text-white">Product</h4>
+              <ul className="space-y-3">
+                <li><Link href="/" className="text-gray-300 hover:text-white transition-colors duration-200">Home</Link></li>
+                <li><a href="#generate" className="text-gray-300 hover:text-white transition-colors duration-200">Create Roadmap</a></li>
+                <li><button onClick={() => setShowOldRoadmaps(true)} className="text-gray-300 hover:text-white transition-colors duration-200">My Roadmaps</button></li>
+                <li><Link href="/dashboard" className="text-gray-300 hover:text-white transition-colors duration-200">Dashboard</Link></li>
+                <li><Link href="/performance-analysis" className="text-gray-300 hover:text-white transition-colors duration-200">Analytics</Link></li>
+              </ul>
+            </div>
+
+            {/* Company */}
+            <div>
+              <h4 className="text-lg font-semibold mb-6 text-white">Company</h4>
+              <ul className="space-y-3">
+                <li><a href="/about" className="text-gray-300 hover:text-white transition-colors duration-200">About Us</a></li>
+                <li><a href="/careers" className="text-gray-300 hover:text-white transition-colors duration-200">Careers</a></li>
+                <li><a href="/blog" className="text-gray-300 hover:text-white transition-colors duration-200">Blog</a></li>
+                <li><a href="/press" className="text-gray-300 hover:text-white transition-colors duration-200">Press</a></li>
+                <li><a href="/partnerships" className="text-gray-300 hover:text-white transition-colors duration-200">Partners</a></li>
+              </ul>
+            </div>
+
+            {/* Support */}
+            <div>
+              <h4 className="text-lg font-semibold mb-6 text-white">Support</h4>
+              <ul className="space-y-3">
+                <li><Link href="/help" className="text-gray-300 hover:text-white transition-colors duration-200">Help Center</Link></li>
+                <li><a href="/contact" className="text-gray-300 hover:text-white transition-colors duration-200">Contact Support</a></li>
+                <li><a href="/privacy" className="text-gray-300 hover:text-white transition-colors duration-200">Privacy Policy</a></li>
+                <li><a href="/terms" className="text-gray-300 hover:text-white transition-colors duration-200">Terms of Service</a></li>
+                <li><a href="/security" className="text-gray-300 hover:text-white transition-colors duration-200">Security</a></li>
+              </ul>
             </div>
           </div>
-          <div>
-            <h4 className="text-lg font-semibold mb-4 text-white">Quick Links</h4>
-            <ul className="space-y-2">
-              <li><Link href="/" className="text-gray-400 hover:text-white">Home</Link></li>
-              <li><a href="#generate" className="text-gray-400 hover:text-white">Generate Roadmap</a></li>
-              <li><button onClick={() => setShowOldRoadmaps(true)} className="text-gray-400 hover:text-white">Old Roadmaps</button></li>
-              <li><Link href="/auth/signin" className="text-gray-400 hover:text-white">Login</Link></li>
-            </ul>
+
+          {/* Bottom Section */}
+          <div className="mt-12 pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center">
+            <div className="text-gray-400 text-sm">
+              &copy; {new Date().getFullYear()} MenttorLabs. All rights reserved.
+            </div>
+            <div className="flex items-center space-x-6 mt-4 md:mt-0">
+              <a href="/sitemap" className="text-gray-400 hover:text-white text-sm transition-colors duration-200">Sitemap</a>
+              <span className="text-gray-600">|</span>
+              <a href="/status" className="text-gray-400 hover:text-white text-sm transition-colors duration-200">Status</a>
+              <span className="text-gray-600">|</span>
+              <div className="text-gray-400 text-sm">
+                Built by <a href="mailto:csankalp21@gmail.com" className="text-blue-400 hover:text-blue-300 transition-colors duration-200">Sankalp Chudmunge</a>
+              </div>
+            </div>
           </div>
-          <div>
-            <h4 className="text-lg font-semibold mb-4 text-white">Contact Us</h4>
-            <p className="text-gray-400">Email: csankalp21@gmail.com</p>
-            <p className="text-gray-400">Creator: Sankalp Chudmunge</p>
-          </div>
-        </div>
-        <div className="text-center text-gray-500 mt-12 border-t border-gray-700 pt-8">
-          &copy; {new Date().getFullYear()} Menttor. All rights reserved.
         </div>
       </footer>
 
