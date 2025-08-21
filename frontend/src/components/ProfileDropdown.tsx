@@ -5,6 +5,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useAuth } from '@/app/context/AuthContext';
 import { auth } from '@/lib/firebase/client';
 import { useRouter } from 'next/navigation';
+import { useTheme } from 'next-themes';
 import { 
   User, 
   Settings, 
@@ -15,7 +16,9 @@ import {
   Award,
   Bell,
   HelpCircle,
-  Shield
+  Shield,
+  Sun,
+  Moon
 } from 'lucide-react';
 
 interface ProfileDropdownProps {
@@ -26,6 +29,7 @@ interface ProfileDropdownProps {
 export default function ProfileDropdown({ className = '', variant = 'light' }: ProfileDropdownProps) {
   const { user } = useAuth();
   const router = useRouter();
+  const { theme, setTheme } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -66,6 +70,12 @@ export default function ProfileDropdown({ className = '', variant = 'light' }: P
       description: 'Track learning progress'
     },
     { type: 'divider' },
+    {
+      icon: theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />,
+      label: theme === 'dark' ? 'Light Mode' : 'Dark Mode',
+      action: () => setTheme(theme === 'dark' ? 'light' : 'dark'),
+      description: `Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`
+    },
     {
       icon: <HelpCircle className="w-4 h-4" />,
       label: 'Help & Support',

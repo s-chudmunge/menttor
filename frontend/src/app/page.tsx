@@ -7,6 +7,7 @@ import { useMutation } from '@tanstack/react-query';
 import { useAuth } from './context/AuthContext';
 import { auth } from '../lib/firebase/client';
 import Link from 'next/link';
+import { useTheme } from 'next-themes';
 import Logo from '@rootComponents/Logo';
 import SpiralMark from '@rootComponents/SpiralMark';
 import OldRoadmapsModal from './components/OldRoadmapsModal';
@@ -35,13 +36,16 @@ import {
   Zap,
   Globe,
   Users,
-  TrendingUp
+  TrendingUp,
+  Sun,
+  Moon
 } from 'lucide-react';
 import ProfileDropdown from '../components/ProfileDropdown';
 
 const MenttorLabsMainPage = () => {
   const router = useRouter();
   const { user, loading } = useAuth();
+  const { theme, setTheme } = useTheme();
   const [formData, setFormData] = useState({
     subject: '',
     goal: '',
@@ -318,7 +322,20 @@ const MenttorLabsMainPage = () => {
               >
                 Roadmaps
               </button>
-              <div className="ml-6 pl-6 border-l border-gray-200 dark:border-gray-700">
+              <div className="ml-6 pl-6 border-l border-gray-200 dark:border-gray-700 flex items-center space-x-3">
+                {/* Theme Toggle */}
+                <button
+                  onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+                  className="p-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-all duration-200"
+                  title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+                >
+                  {theme === 'dark' ? (
+                    <Sun className="w-5 h-5" />
+                  ) : (
+                    <Moon className="w-5 h-5" />
+                  )}
+                </button>
+                
                 {!loading && user ? (
                   <ProfileDropdown />
                 ) : (
@@ -353,6 +370,22 @@ const MenttorLabsMainPage = () => {
                     className="block py-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white text-left font-medium w-full"
                   >
                     Roadmaps
+                  </button>
+                  <button
+                    onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+                    className="flex items-center py-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white font-medium w-full"
+                  >
+                    {theme === 'dark' ? (
+                      <>
+                        <Sun className="w-4 h-4 mr-2" />
+                        Light Mode
+                      </>
+                    ) : (
+                      <>
+                        <Moon className="w-4 h-4 mr-2" />
+                        Dark Mode
+                      </>
+                    )}
                   </button>
                   <div className="pt-3 border-t border-gray-100 dark:border-gray-800 mt-3">
                     {!loading && user ? (
