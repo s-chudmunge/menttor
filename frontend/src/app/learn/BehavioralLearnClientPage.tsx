@@ -8,7 +8,8 @@ import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Clock, Target, Brain, Zap, Star, BookOpen, Play, Pause, 
-  Focus, Award, TrendingUp, Eye, Timer, CheckCircle, ArrowRight
+  Focus, Award, TrendingUp, Eye, Timer, CheckCircle, ArrowRight,
+  Home, Map, BarChart3, User, Menu, X
 } from 'lucide-react';
 
 import LearningContentRenderer from '../../../components/learning/LearningContentRenderer';
@@ -48,6 +49,7 @@ const BehavioralLearnClientPage: React.FC<BehavioralLearnClientPageProps> = ({
   const [nextSubtopic, setNextSubtopic] = useState<NextSubtopicResponse | null>(null);
   const [isLoadingNextSubtopic, setIsLoadingNextSubtopic] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
   
   // Refs
   const contentRef = useRef<HTMLDivElement>(null);
@@ -451,6 +453,38 @@ const BehavioralLearnClientPage: React.FC<BehavioralLearnClientPageProps> = ({
             </div>
             
             <div className="flex items-center justify-between sm:justify-end space-x-2 sm:space-x-4">
+              {/* Navigation Dropdown */}
+              <div className="relative">
+                <button
+                  onClick={() => setShowMobileMenu(!showMobileMenu)}
+                  className="flex items-center space-x-1 px-2 sm:px-3 py-1 sm:py-2 text-xs sm:text-sm text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded transition-colors"
+                >
+                  <Menu className="w-3 h-3 sm:w-4 sm:h-4" />
+                  <span className="hidden sm:inline">Menu</span>
+                </button>
+                
+                {showMobileMenu && (
+                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50">
+                    <Link href="/journey" className="flex items-center space-x-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+                      <Map className="w-4 h-4" />
+                      <span>Journey</span>
+                    </Link>
+                    <Link href="/dashboard" className="flex items-center space-x-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+                      <Home className="w-4 h-4" />
+                      <span>Dashboard</span>
+                    </Link>
+                    <Link href="/performance-analysis" className="flex items-center space-x-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+                      <BarChart3 className="w-4 h-4" />
+                      <span>Analytics</span>
+                    </Link>
+                    <Link href="/profile" className="flex items-center space-x-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+                      <User className="w-4 h-4" />
+                      <span>Profile</span>
+                    </Link>
+                  </div>
+                )}
+              </div>
+
               {/* Save and Share Buttons */}
               {contentData && (
                 <div className="hidden sm:block">
@@ -490,6 +524,13 @@ const BehavioralLearnClientPage: React.FC<BehavioralLearnClientPageProps> = ({
         </div>
       </div>
 
+      {/* Click outside to close dropdown */}
+      {showMobileMenu && (
+        <div
+          className="fixed inset-0 z-40"
+          onClick={() => setShowMobileMenu(false)}
+        />
+      )}
 
       {/* Learning Content with TOC */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-8">
