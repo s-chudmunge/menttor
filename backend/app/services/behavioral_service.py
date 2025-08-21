@@ -220,7 +220,7 @@ class BehavioralService:
         
         valid_transitions = {
             "WARMUP": ["FOCUS"],
-            "FOCUS": ["CHECKPOINT"],
+            "FOCUS": ["CHECKPOINT", "FOCUS"],  # Allow staying in FOCUS for extending/toggling
             "CHECKPOINT": ["REWARD", "PRIME_NEXT"],
             "REWARD": ["PRIME_NEXT"],
             "PRIME_NEXT": ["WARMUP", "FOCUS"]  # Can continue or start new session
