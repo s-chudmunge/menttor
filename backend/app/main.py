@@ -52,7 +52,7 @@ app.include_router(quiz_results.router)
 app.include_router(quiz_review.router)
 
 app.include_router(roadmaps.router)
-app.include_router(learn.router, prefix="/learn")
+app.include_router(learn.router)
 app.include_router(spaced_repetition.router)
 app.include_router(models.router)
 app.include_router(quiz_submission.router)
