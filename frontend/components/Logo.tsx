@@ -22,7 +22,7 @@ const Logo = () => (
         Menttor
       </span>
       <span className="text-xs font-medium text-gray-500 dark:text-gray-400 tracking-wide leading-none mt-0.5">
-        AI Based Learning
+        Smart Learning
       </span>
     </div>
   </div>
