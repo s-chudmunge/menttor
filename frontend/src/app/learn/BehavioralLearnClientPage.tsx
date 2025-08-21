@@ -111,18 +111,26 @@ const BehavioralLearnClientPage: React.FC<BehavioralLearnClientPageProps> = ({
   const completeLearnMutation = useMutation({
     mutationFn: async () => {
       if (!subtopicId) throw new Error('No subtopic ID');
-      return learningAPI.completeSubtopic(subtopicId, Math.floor(timeSpentRef.current / 60));
+      console.log('🔄 Starting learn completion for subtopicId:', subtopicId);
+      const result = await learningAPI.completeSubtopic(subtopicId, Math.floor(timeSpentRef.current / 60));
+      console.log('✅ Learn completion API response:', result);
+      return result;
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
+      console.log('🎉 Learn completion success callback triggered');
+      console.log('📊 Invalidating queries for roadmapId:', roadmapId, 'subtopicId:', subtopicId);
       setIsCompleted(true);
+      
       // Invalidate progress queries with the exact pattern used by useProgress hook
       queryClient.invalidateQueries({ queryKey: ['progress', roadmapId] });
       queryClient.invalidateQueries({ queryKey: ['progress'] });
       queryClient.invalidateQueries({ queryKey: ['userProgress'] });
       queryClient.invalidateQueries(['timeSummary']);
+      
+      console.log('🔄 Query invalidation completed');
     },
     onError: (error) => {
-      console.error('Failed to mark learning as complete:', error);
+      console.error('❌ Failed to mark learning as complete:', error);
     }
   });
 

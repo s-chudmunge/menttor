@@ -71,13 +71,18 @@ const JourneyPage = () => {
                                sessionStorage.getItem('returning-from-learn') === 'true';
         
         if (isFromQuizResults || isFromLearnPage) {
-          console.log(`Force reloading journey page data after ${isFromQuizResults ? 'quiz' : 'learn'} completion`);
+          console.log(`🔄 Force reloading journey page data after ${isFromQuizResults ? 'quiz' : 'learn'} completion`);
+          console.log('🔍 Session storage flags:', {
+            'returning-from-quiz': sessionStorage.getItem('returning-from-quiz'),
+            'returning-from-learn': sessionStorage.getItem('returning-from-learn')
+          });
           
           // Clear the flags
           sessionStorage.removeItem('returning-from-quiz');
           sessionStorage.removeItem('returning-from-learn');
           
           // Force reload all relevant data
+          console.log('🔄 Invalidating all queries...');
           queryClient.invalidateQueries({ queryKey: ['progress'] });
           queryClient.invalidateQueries({ queryKey: ['userProgress'] });
           queryClient.invalidateQueries({ queryKey: ['behavioral'] });
@@ -85,6 +90,7 @@ const JourneyPage = () => {
           
           // Also explicitly refetch progress
           if (roadmapData?.id) {
+            console.log('🔄 Explicitly refetching progress for roadmap:', roadmapData.id);
             refetchProgress();
           }
         }
@@ -490,6 +496,18 @@ const JourneyPage = () => {
                               const subtopicProgress = progressData?.find(p => p.sub_topic_id === subtopic.id);
                               const isCompleted = subtopicProgress?.status === 'completed';
                               const hasProgress = subtopicProgress?.learn_completed || subtopicProgress?.quiz_completed;
+                              
+                              // Debug logging for learn button state
+                              if (subtopic.title.includes('CUDA')) {  // Debug for CUDA or any specific subtopic
+                                console.log(`🔍 DEBUG for subtopic "${subtopic.title}"`);
+                                console.log('  subtopic.id:', subtopic.id);
+                                console.log('  subtopicProgress:', subtopicProgress);
+                                console.log('  learn_completed:', subtopicProgress?.learn_completed);
+                                console.log('  quiz_completed:', subtopicProgress?.quiz_completed);
+                                console.log('  status:', subtopicProgress?.status);
+                                console.log('  hasProgress:', hasProgress);
+                                console.log('  isCompleted:', isCompleted);
+                              }
                               
                               return (
                                 <div key={subtopicIndex} className="group/card relative">
