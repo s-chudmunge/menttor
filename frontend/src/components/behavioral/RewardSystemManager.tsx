@@ -8,7 +8,7 @@ import RewardAnimations from './RewardAnimations';
 
 interface ActiveReward {
   id: string;
-  type: 'confetti' | 'insight_card' | 'achievement' | 'streak_bonus' | 'level_up' | 'milestone';
+  type: 'confetti' | 'achievement' | 'streak_bonus' | 'level_up' | 'milestone';
   content: any;
   timestamp: Date;
 }
@@ -76,8 +76,7 @@ const RewardSystemManager: React.FC = () => {
     if (recentRewards.length > 0) {
       const latestReward = recentRewards[0];
       if (latestReward && !latestReward.engaged) {
-        const rewardType = latestReward.type === 'insight_card' ? 'insight_card' :
-                           latestReward.type === 'achievement' ? 'achievement' :
+        const rewardType = latestReward.type === 'achievement' ? 'achievement' :
                            latestReward.type === 'streak_bonus' ? 'streak_bonus' :
                            'confetti';
         

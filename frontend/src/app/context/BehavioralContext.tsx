@@ -211,9 +211,9 @@ export const BehavioralProvider: React.FC<BehavioralProviderProps> = ({
       if (latestReward && !latestReward.engaged) {
         showNotification({
           type: 'reward',
-          title: latestReward.type === 'insight_card' ? 'Expert Insight' : 'Celebration!',
+          title: 'Celebration!',
           message: latestReward.content.title || latestReward.content.content || 'Great work!',
-          duration: latestReward.type === 'insight_card' ? 7000 : 4000,
+          duration: 4000,
           priority: 'medium',
           data: latestReward
         });

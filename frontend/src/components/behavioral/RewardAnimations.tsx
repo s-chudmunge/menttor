@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, Trophy, Star, Zap, Award, Target, Brain, Heart, Crown, Gem } from 'lucide-react';
 
 interface RewardAnimationProps {
-  type: 'confetti' | 'insight_card' | 'achievement' | 'streak_bonus' | 'level_up' | 'milestone';
+  type: 'confetti' | 'achievement' | 'streak_bonus' | 'level_up' | 'milestone';
   content: any;
   isVisible: boolean;
   onComplete: () => void;
@@ -39,79 +39,6 @@ const ConfettiParticle: React.FC<{ delay: number; color: string }> = ({ delay, c
   );
 };
 
-// Insight Card Animation
-const InsightCard: React.FC<{ content: any; onClose: () => void }> = ({ content, onClose }) => {
-  return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.8, y: 20 }}
-      animate={{ opacity: 1, scale: 1, y: 0 }}
-      exit={{ opacity: 0, scale: 0.9, y: -20 }}
-      transition={{ duration: 0.4, type: "spring", stiffness: 300 }}
-      className="fixed inset-0 flex items-center justify-center z-50 p-4"
-      onClick={onClose}
-    >
-      <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" />
-      <motion.div
-        initial={{ rotateY: -90 }}
-        animate={{ rotateY: 0 }}
-        exit={{ rotateY: 90 }}
-        transition={{ duration: 0.6 }}
-        className="relative bg-gradient-to-br from-blue-500 via-purple-600 to-indigo-700 rounded-2xl p-8 max-w-md shadow-2xl text-white"
-        onClick={(e) => e.stopPropagation()}
-      >
-        {/* Sparkle effects */}
-        <div className="absolute inset-0 overflow-hidden rounded-2xl">
-          {[...Array(8)].map((_, i) => (
-            <motion.div
-              key={i}
-              className="absolute w-1 h-1 bg-white rounded-full"
-              style={{
-                top: `${Math.random() * 100}%`,
-                left: `${Math.random() * 100}%`,
-              }}
-              animate={{
-                opacity: [0, 1, 0],
-                scale: [0, 1.5, 0],
-              }}
-              transition={{
-                duration: 2,
-                repeat: Infinity,
-                delay: i * 0.3,
-              }}
-            />
-          ))}
-        </div>
-
-        <div className="relative z-10">
-          <div className="flex items-center mb-4">
-            <Brain className="w-8 h-8 text-yellow-300 mr-3" />
-            <h3 className="text-xl font-bold">Expert Insight</h3>
-          </div>
-          
-          <p className="text-lg leading-relaxed mb-6 text-blue-50">
-            {content.content || content.title}
-          </p>
-          
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2 text-blue-200">
-              <Sparkles className="w-4 h-4" />
-              <span className="text-sm">Knowledge Bonus</span>
-            </div>
-            <button
-              onClick={onClose}
-              className="bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg text-sm font-medium transition-colors"
-            >
-              Got it!
-            </button>
-          </div>
-        </div>
-        
-        {/* Glow effect */}
-        <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-blue-400/20 to-purple-400/20 blur-xl -z-10" />
-      </motion.div>
-    </motion.div>
-  );
-};
 
 // Achievement Badge Animation
 const AchievementBadge: React.FC<{ content: any; onClose: () => void }> = ({ content, onClose }) => {
@@ -379,8 +306,7 @@ const RewardAnimations: React.FC<RewardAnimationProps> = ({
       setShowAnimation(true);
       
       // Auto-dismiss after appropriate duration
-      const duration = type === 'insight_card' ? 8000 : 
-                      type === 'level_up' ? 6000 : 
+      const duration = type === 'level_up' ? 6000 : 
                       type === 'achievement' ? 5000 : 3000;
       
       const timer = setTimeout(() => {
@@ -402,7 +328,6 @@ const RewardAnimations: React.FC<RewardAnimationProps> = ({
       {showAnimation && (
         <>
           {type === 'confetti' && <ConfettiBurst onComplete={handleClose} />}
-          {type === 'insight_card' && <InsightCard content={content} onClose={handleClose} />}
           {type === 'achievement' && <AchievementBadge content={content} onClose={handleClose} />}
           {type === 'level_up' && <LevelUpCelebration content={content} onClose={handleClose} />}
           {type === 'streak_bonus' && <StreakBonus content={content} onClose={handleClose} />}
