@@ -51,7 +51,7 @@ api.interceptors.response.use(
 export const learningAPI = {
     // Track time spent learning
     trackTime: async (subtopicId: string, timeSpentMinutes: number) => {
-        const response = await api.post('/learn/track-time', {
+        const response = await api.post('/track-time', {
             subtopic_id: subtopicId,
             time_spent_minutes: timeSpentMinutes
         });
@@ -60,7 +60,7 @@ export const learningAPI = {
 
     // Mark learning as complete
     completeSubtopic: async (subtopicId: string, timeSpentMinutes?: number) => {
-        const response = await api.post('/learn/complete-learning', {
+        const response = await api.post('/complete-learning', {
             subtopic_id: subtopicId,
             time_spent_minutes: timeSpentMinutes || 0
         });
@@ -196,23 +196,23 @@ export const fetchUserRoadmap = async (): Promise<RoadmapData[]> => {
 
 // Enhanced learning content API functions
 export const saveLearningContent = async (contentId: number) => {
-  return api.post(`/learn/${contentId}/save`);
+  return api.post(`/${contentId}/save`);
 };
 
 export const saveNewLearningContent = async (contentData: LearningContentResponse) => {
-  return api.post('/learn/save', contentData);
+  return api.post('/save', contentData);
 };
 
 export const unsaveLearningContent = async (contentId: number) => {
-  return api.delete(`/learn/${contentId}/save`);
+  return api.delete(`/${contentId}/save`);
 };
 
 export const createShareLink = async (contentId: number) => {
-  return api.post(`/learn/${contentId}/share`);
+  return api.post(`/${contentId}/share`);
 };
 
 export const removeShareLink = async (contentId: number) => {
-  return api.delete(`/learn/${contentId}/share`);
+  return api.delete(`/${contentId}/share`);
 };
 
 export const getSharedContent = async (shareToken: string) => {
@@ -220,7 +220,7 @@ export const getSharedContent = async (shareToken: string) => {
 };
 
 export const getSavedLearningContent = async () => {
-  return api.get('/learn/saved');
+  return api.get('/saved');
 };
 
 // Get next subtopic in roadmap sequence
