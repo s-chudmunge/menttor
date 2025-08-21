@@ -115,7 +115,9 @@ const BehavioralLearnClientPage: React.FC<BehavioralLearnClientPageProps> = ({
     },
     onSuccess: () => {
       setIsCompleted(true);
-      queryClient.invalidateQueries(['progress']);
+      // Invalidate progress queries with the correct pattern used by useProgress hook
+      queryClient.invalidateQueries({ queryKey: ['progress'] });
+      queryClient.invalidateQueries({ queryKey: ['userProgress'] });
       queryClient.invalidateQueries(['timeSummary']);
     },
     onError: (error) => {
@@ -601,9 +603,19 @@ const BehavioralLearnClientPage: React.FC<BehavioralLearnClientPageProps> = ({
                   {/* Completion Success Message */}
                   {isCompleted && (
                     <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-4">
-                      <div className="flex items-center justify-center text-green-800">
+                      <div className="flex items-center justify-center text-green-800 mb-3">
                         <CheckCircle className="w-5 h-5 mr-2" />
                         <span className="font-medium">Learning completed! Great job! 🎉</span>
+                      </div>
+                      <div className="text-center">
+                        <Link
+                          href="/journey"
+                          onClick={() => sessionStorage.setItem('returning-from-learn', 'true')}
+                          className="inline-flex items-center gap-2 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-medium py-2 px-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 transform hover:scale-105 text-sm"
+                        >
+                          <ArrowRight className="w-4 h-4 rotate-180" />
+                          <span>Back to Journey</span>
+                        </Link>
                       </div>
                     </div>
                   )}

@@ -63,16 +63,19 @@ const JourneyPage = () => {
   useEffect(() => {
     const handleVisibilityChange = () => {
       if (document.visibilityState === 'visible') {
-        // Check if returning from quiz results page
+        // Check if returning from quiz results or learn page
         const referrer = document.referrer;
         const isFromQuizResults = referrer.includes('/quiz/results') || 
                                  sessionStorage.getItem('returning-from-quiz') === 'true';
+        const isFromLearnPage = referrer.includes('/learn') || 
+                               sessionStorage.getItem('returning-from-learn') === 'true';
         
-        if (isFromQuizResults) {
-          console.log('Force reloading journey page data after quiz completion');
+        if (isFromQuizResults || isFromLearnPage) {
+          console.log(`Force reloading journey page data after ${isFromQuizResults ? 'quiz' : 'learn'} completion`);
           
-          // Clear the flag
+          // Clear the flags
           sessionStorage.removeItem('returning-from-quiz');
+          sessionStorage.removeItem('returning-from-learn');
           
           // Force reload all relevant data
           queryClient.invalidateQueries({ queryKey: ['progress'] });
@@ -93,9 +96,11 @@ const JourneyPage = () => {
     
     // Also check on component mount in case user navigated directly
     const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('refresh') === 'true' || sessionStorage.getItem('returning-from-quiz') === 'true') {
+    const isReturningFromLearn = sessionStorage.getItem('returning-from-learn') === 'true';
+    if (urlParams.get('refresh') === 'true' || sessionStorage.getItem('returning-from-quiz') === 'true' || isReturningFromLearn) {
       console.log('Force reloading journey page data on mount');
       sessionStorage.removeItem('returning-from-quiz');
+      sessionStorage.removeItem('returning-from-learn');
       
       queryClient.invalidateQueries({ queryKey: ['progress'] });
       queryClient.invalidateQueries({ queryKey: ['userProgress'] });
