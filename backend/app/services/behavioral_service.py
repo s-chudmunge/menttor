@@ -323,7 +323,6 @@ class BehavioralService:
         insight_cards = [
             "Real interview tip: This concept appears in 73% of technical screens at top companies.",
             "Expert insight: The pattern you just learned reduces solution complexity by an average of 40%.",
-            "Industry secret: Senior engineers use this technique to optimize code in production systems.",
             "Interview hack: Mentioning this approach shows deep algorithmic thinking to interviewers."
         ]
         
