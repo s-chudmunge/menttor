@@ -159,6 +159,14 @@ export interface LearningContentResponse {
     updated_at?: string;
 }
 
+export interface NextSubtopicResponse {
+    module_title: string;
+    topic_title: string;
+    subtopic_title: string;
+    subtopic_id: string;
+    status: string;
+}
+
 // Query function for fetching a single quiz result
 export const fetchQuizResult = async (subTopicId: string): Promise<QuizResult | null> => {
   const response = await api.get(`/quizzes/results/subtopic/${subTopicId}`);
@@ -213,5 +221,48 @@ export const getSharedContent = async (shareToken: string) => {
 
 export const getSavedLearningContent = async () => {
   return api.get('/learn/saved');
+};
+
+// Get next subtopic in roadmap sequence
+export const getNextSubtopic = async (roadmapId: number, currentSubtopicId: string): Promise<NextSubtopicResponse | null> => {
+  try {
+    const response = await api.get(`/roadmaps/${roadmapId}`);
+    const roadmap = response.data;
+    
+    if (!roadmap?.roadmap_plan) return null;
+    
+    let foundCurrent = false;
+    
+    // Iterate through roadmap to find current subtopic and return the next one
+    for (const module of roadmap.roadmap_plan) {
+      if (!module.topics) continue;
+      
+      for (const topic of module.topics) {
+        if (!topic.subtopics) continue;
+        
+        for (const subtopic of topic.subtopics) {
+          if (foundCurrent) {
+            // Return the next subtopic after finding current
+            return {
+              module_title: module.title,
+              topic_title: topic.title,
+              subtopic_title: subtopic.title,
+              subtopic_id: subtopic.id,
+              status: 'available'
+            };
+          }
+          
+          if (subtopic.id === currentSubtopicId) {
+            foundCurrent = true;
+          }
+        }
+      }
+    }
+    
+    return null; // No next subtopic found
+  } catch (error) {
+    console.error('Error getting next subtopic:', error);
+    return null;
+  }
 };
 

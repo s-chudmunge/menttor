@@ -4,6 +4,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Clock, Target, Brain, Zap, Star, BookOpen, Play, Pause, 
@@ -16,7 +17,7 @@ import FloatingTOC from '../../../components/learning/FloatingTOC';
 import SaveShareButtons from '../../../components/learning/SaveShareButtons';
 import { useBehavioralContext } from '../context/BehavioralContext';
 import { useFocusMode, useSessionFSM, useBehavioralStats, useQuickChallenge } from '../../hooks/useBehavioral';
-import { api, LearningContentResponse } from '../../lib/api';
+import { api, LearningContentResponse, getNextSubtopic, NextSubtopicResponse } from '../../lib/api';
 
 const TIME_TRACKING_INTERVAL = 30000; // 30 seconds
 const FOCUS_SESSION_DURATION = 25; // 25-minute Pomodoro sessions
@@ -44,6 +45,8 @@ const BehavioralLearnClientPage: React.FC<BehavioralLearnClientPageProps> = ({
   const [showPhaseTransition, setShowPhaseTransition] = useState(false);
   const [currentMicrogoal, setCurrentMicrogoal] = useState('');
   const [completedMicrogoals, setCompletedMicrogoals] = useState<string[]>([]);
+  const [nextSubtopic, setNextSubtopic] = useState<NextSubtopicResponse | null>(null);
+  const [isLoadingNextSubtopic, setIsLoadingNextSubtopic] = useState(false);
   
   // Refs
   const contentRef = useRef<HTMLDivElement>(null);
@@ -364,6 +367,25 @@ const BehavioralLearnClientPage: React.FC<BehavioralLearnClientPageProps> = ({
     }
   }, [subtopic]);
 
+  // Load next subtopic information
+  useEffect(() => {
+    const loadNextSubtopic = async () => {
+      if (subtopicId && roadmapId) {
+        setIsLoadingNextSubtopic(true);
+        try {
+          const nextSubtopicData = await getNextSubtopic(roadmapId, subtopicId);
+          setNextSubtopic(nextSubtopicData);
+        } catch (error) {
+          console.error('Error loading next subtopic:', error);
+        } finally {
+          setIsLoadingNextSubtopic(false);
+        }
+      }
+    };
+
+    loadNextSubtopic();
+  }, [subtopicId, roadmapId]);
+
   const getPhaseColor = (phase: string) => {
     const colors = {
       'warmup': 'from-orange-500 to-red-500',
@@ -483,6 +505,33 @@ const BehavioralLearnClientPage: React.FC<BehavioralLearnClientPageProps> = ({
                 subject={learningContext.subject}
                 subtopic={learningContext.subtopic}
               />
+              
+              {/* Next Subtopic Button */}
+              {nextSubtopic && (
+                <div className="mt-8 sm:mt-12 pt-6 sm:pt-8 border-t border-gray-200">
+                  <div className="text-center">
+                    <div className="mb-4">
+                      <p className="text-gray-600 text-sm sm:text-base mb-2">Ready for the next topic?</p>
+                      <p className="text-gray-500 text-xs sm:text-sm">
+                        {nextSubtopic.topic_title} • {nextSubtopic.subtopic_title}
+                      </p>
+                    </div>
+                    <Link 
+                      href={`/learn?subtopic=${encodeURIComponent(nextSubtopic.subtopic_title)}&subtopic_id=${nextSubtopic.subtopic_id}&roadmap_id=${roadmapId}`}
+                      className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-medium py-2 sm:py-3 px-4 sm:px-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 transform hover:scale-105 text-sm sm:text-base"
+                    >
+                      <span>Continue Learning</span>
+                      <ArrowRight className="w-4 h-4" />
+                    </Link>
+                  </div>
+                </div>
+              )}
+              
+              {isLoadingNextSubtopic && (
+                <div className="mt-8 sm:mt-12 pt-6 sm:pt-8 border-t border-gray-200 text-center">
+                  <div className="text-gray-500 text-sm">Loading next topic...</div>
+                </div>
+              )}
             </div>
           </div>
         ) : (
