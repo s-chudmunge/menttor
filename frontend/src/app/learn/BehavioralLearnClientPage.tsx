@@ -115,7 +115,8 @@ const BehavioralLearnClientPage: React.FC<BehavioralLearnClientPageProps> = ({
     },
     onSuccess: () => {
       setIsCompleted(true);
-      // Invalidate progress queries with the correct pattern used by useProgress hook
+      // Invalidate progress queries with the exact pattern used by useProgress hook
+      queryClient.invalidateQueries({ queryKey: ['progress', roadmapId] });
       queryClient.invalidateQueries({ queryKey: ['progress'] });
       queryClient.invalidateQueries({ queryKey: ['userProgress'] });
       queryClient.invalidateQueries(['timeSummary']);
