@@ -18,7 +18,7 @@ import SessionTracker from "../components/SessionTracker";
 
 export const metadata: Metadata = {
   title: "Menttor - Smart Learning",
-  description: "Your personalized learning journey. Master new skills with adaptive roadmaps, interactive quizzes, and intelligent feedback.",
+  description: "Your personalized learning journey. Learn anything with adaptive roadmaps, interactive quizzes, and intelligent feedback.",
   icons: {
     icon: "/favicon.svg",
   },

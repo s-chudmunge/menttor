@@ -438,7 +438,7 @@ const MenttorLabsMainPage = () => {
             </div>
             
             <h1 className="heading-primary mb-8">
-              Master Any Skill with{' '}
+              Learn Anything with{' '}
               <span className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent">
                 Expertly Crafted
               </span>{' '}
@@ -493,7 +493,7 @@ const MenttorLabsMainPage = () => {
                 <Sparkles className="w-6 h-6 text-white" />
               </div>
               <div className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent mb-2">500+</div>
-              <div className="text-sm font-semibold text-gray-700 dark:text-gray-300">Skills Available</div>
+              <div className="text-sm font-semibold text-gray-700 dark:text-gray-300">Topics Available</div>
             </div>
           </div>
         </div>
