@@ -3,6 +3,7 @@
 import React from 'react';
 import { useAuth } from '@/app/context/AuthContext';
 import { useRouter } from 'next/navigation';
+import ActivityFeed from '@/components/ActivityFeed';
 import { 
   ArrowLeft,
   BookOpen,
@@ -223,6 +224,14 @@ export default function DashboardPage() {
           </div>
         </div>
 
+        {/* Activity Feed */}
+        <ActivityFeed 
+          showCalendar={true} 
+          showFeed={true} 
+          maxFeedItems={8}
+          className="mt-8"
+        />
+
         {/* Quick Actions */}
         <div className="mt-8">
           <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
@@ -244,7 +253,10 @@ export default function DashboardPage() {
                 <span className="font-medium text-green-600 dark:text-green-400">Continue Learning</span>
               </button>
               
-              <button className="flex items-center space-x-3 p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg hover:bg-purple-100 dark:hover:bg-purple-900/30 transition-colors">
+              <button 
+                onClick={() => router.push('/performance-analysis')}
+                className="flex items-center space-x-3 p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg hover:bg-purple-100 dark:hover:bg-purple-900/30 transition-colors"
+              >
                 <BarChart3 className="w-5 h-5 text-purple-600 dark:text-purple-400" />
                 <span className="font-medium text-purple-600 dark:text-purple-400">View Analytics</span>
               </button>

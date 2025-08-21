@@ -18,6 +18,7 @@ import { useBehavioralContext } from '../context/BehavioralContext';
 import { useProgress } from '../../hooks/useProgress';
 import ProfileDropdown from '../../components/ProfileDropdown';
 import Logo from '../../../components/Logo';
+import ActivityFeed from '../../components/ActivityFeed';
 import { api } from '../../lib/api';
 
 interface BehavioralPerformanceAnalysisClientPageProps {
@@ -480,6 +481,13 @@ const BehavioralPerformanceAnalysisClientPage: React.FC<BehavioralPerformanceAna
           </div>
         )}
 
+        {/* GitHub-style Activity Calendar */}
+        <ActivityFeed 
+          showCalendar={true} 
+          showFeed={true} 
+          maxFeedItems={12}
+        />
+
         {/* Progress Trend - Enhanced */}
         {behavioralStats && (
           <div className="bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl rounded-2xl border border-gray-200/50 dark:border-gray-700/50 p-6 lg:p-8 shadow-xl">
@@ -514,7 +522,7 @@ const BehavioralPerformanceAnalysisClientPage: React.FC<BehavioralPerformanceAna
               {/* Enhanced Recent Activity */}
               <div>
                 <div className="flex items-center justify-between mb-4">
-                  <span className="text-gray-900 dark:text-white font-bold text-lg">Recent Activity</span>
+                  <span className="text-gray-900 dark:text-white font-bold text-lg">Weekly Summary</span>
                   <div className="bg-blue-50 dark:bg-blue-900/30 px-3 py-1 rounded-full border border-blue-200 dark:border-blue-800">
                     <span className="text-blue-700 dark:text-blue-300 text-sm font-medium">Last 7 days</span>
                   </div>

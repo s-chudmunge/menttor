@@ -34,7 +34,7 @@ def decompress_content(compressed_data: str) -> List[dict]:
             return json.loads(compressed_data)
         return compressed_data
 
-@router.post("/learn/generate", response_model=LearningContentResponse)
+@router.post("/generate", response_model=LearningContentResponse)
 async def generate_learn_content_endpoint(
     request: LearningContentRequest = Body(...),
     current_user: User = Depends(get_current_user),
@@ -64,7 +64,7 @@ async def generate_learn_content_endpoint(
     except Exception as e:
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"Failed to generate learning content: {e}")
 
-@router.post("/learn/generate-3d", response_model=ThreeDVisualizationResponse)
+@router.post("/generate-3d", response_model=ThreeDVisualizationResponse)
 async def generate_3d_visualization_endpoint(
     request: ThreeDVisualizationRequest = Body(...),
     current_user: User = Depends(get_current_user)
@@ -207,7 +207,7 @@ def _ensure_user_milestones(user_id: int, roadmap_id: int, behavioral_service: B
     except Exception as e:
         print(f"Failed to create milestones: {e}")  # Log but don't fail the request
 
-@router.get("/learn/saved", response_model=List[LearningContentResponse])
+@router.get("/saved", response_model=List[LearningContentResponse])
 def get_saved_learn_content(
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db),
@@ -245,7 +245,7 @@ def get_saved_learn_content(
         print(f"Error retrieving saved learning content: {e}") # Added for debugging
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"Failed to retrieve saved learning content: {e}")
 
-@router.post("/learn/save")
+@router.post("/save")
 async def save_learning_content(
     content_data: dict = Body(...),
     current_user: User = Depends(get_current_user),
@@ -293,7 +293,7 @@ async def save_learning_content(
         raise HTTPException(status_code=500, detail=f"Failed to save content: {e}")
 
 # Keep the old endpoint for backward compatibility with existing saved content
-@router.post("/learn/{content_id}/save")
+@router.post("/{content_id}/save")
 async def toggle_existing_content_save(
     content_id: int,
     current_user: User = Depends(get_current_user),
@@ -324,7 +324,7 @@ async def toggle_existing_content_save(
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to save content: {e}")
 
-@router.delete("/learn/{content_id}/save")
+@router.delete("/{content_id}/save")
 async def unsave_learning_content(
     content_id: int,
     current_user: User = Depends(get_current_user),
@@ -355,7 +355,7 @@ async def unsave_learning_content(
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to unsave content: {e}")
 
-@router.post("/learn/{content_id}/share")
+@router.post("/{content_id}/share")
 async def create_share_link(
     content_id: int,
     current_user: User = Depends(get_current_user),
@@ -397,7 +397,7 @@ async def create_share_link(
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to create share link: {e}")
 
-@router.delete("/learn/{content_id}/share")
+@router.delete("/{content_id}/share")
 async def remove_share_link(
     content_id: int,
     current_user: User = Depends(get_current_user),
@@ -469,7 +469,7 @@ async def get_shared_learning_content(
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to get shared content: {e}")
 
-@router.get("/learn/saved", response_model=List[LearningContentResponse])
+@router.get("/saved", response_model=List[LearningContentResponse])
 def get_saved_learn_content_only(
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db),

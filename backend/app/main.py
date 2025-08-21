@@ -21,7 +21,7 @@ from sqlmodel import Session
 
 from database.session import create_db_and_tables, get_db
 from sql_models import User, Roadmap, SpacedRepetition, QuizAttempt
-from routers import auth, ml_insights, quiz, quiz_results, quiz_review, roadmaps, learn, spaced_repetition, models, quiz_submission, visualize, progress, behavioral, image_generation
+from routers import auth, ml_insights, quiz, quiz_results, quiz_review, roadmaps, learn, spaced_repetition, models, quiz_submission, visualize, progress, behavioral, image_generation, activity
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
@@ -52,13 +52,14 @@ app.include_router(quiz_results.router)
 app.include_router(quiz_review.router)
 
 app.include_router(roadmaps.router)
-app.include_router(learn.router)
+app.include_router(learn.router, prefix="/learn")
 app.include_router(spaced_repetition.router)
 app.include_router(models.router)
 app.include_router(quiz_submission.router)
 app.include_router(visualize.router)
 app.include_router(progress.router)
 app.include_router(behavioral.router)
+app.include_router(activity.router)
 app.include_router(image_generation.router, prefix="/images")
 
 from core.auth import get_current_user_from_websocket
