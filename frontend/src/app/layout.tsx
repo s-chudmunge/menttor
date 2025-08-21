@@ -13,6 +13,8 @@ import SmartNudgeSystem from "../components/behavioral/SmartNudgeSystem";
 import RewardSystemManager from "../components/behavioral/RewardSystemManager";
 import { ThemeProvider } from "./components/ThemeProvider";
 import { Analytics } from "@vercel/analytics/next";
+import PageTracker from "../components/PageTracker";
+import SessionTracker from "../components/SessionTracker";
 
 export const metadata: Metadata = {
   title: "Menttor - Smart Learning",
@@ -50,6 +52,8 @@ export default function RootLayout({
                 <MilestoneSystem />
                 <SmartNudgeSystem />
                 <RewardSystemManager />
+                <PageTracker />
+                <SessionTracker />
                 {children}
                 <Analytics />
               </BehavioralProvider>

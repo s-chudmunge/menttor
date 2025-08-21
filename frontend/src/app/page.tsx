@@ -9,6 +9,7 @@ import { auth } from '../lib/firebase/client';
 import Link from 'next/link';
 import { useTheme } from 'next-themes';
 import Logo from '@rootComponents/Logo';
+import { analytics } from '../lib/analytics';
 import SpiralMark from '@rootComponents/SpiralMark';
 import OldRoadmapsModal from './components/OldRoadmapsModal';
 import OldLearnPagesModal from './learn/OldLearnPagesModal';
@@ -186,6 +187,14 @@ const MenttorLabsMainPage = () => {
       return response.data;
     },
     onSuccess: (data) => {
+      // Track roadmap generation
+      analytics.roadmapGenerated({
+        subject: formData.subject,
+        timeValue: formData.time_value,
+        timeUnit: formData.time_unit,
+        model: formData.model,
+      });
+      
       displayRoadmap(data.roadmap_plan);
       sessionStorage.setItem('currentRoadmap', JSON.stringify(data)); // Store full roadmap data
       endGeneration(); // End generation on success
@@ -325,7 +334,11 @@ const MenttorLabsMainPage = () => {
               <div className="ml-6 pl-6 border-l border-gray-200 dark:border-gray-700 flex items-center space-x-3">
                 {/* Theme Toggle */}
                 <button
-                  onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+                  onClick={() => {
+                    const newTheme = theme === 'dark' ? 'light' : 'dark';
+                    analytics.themeChanged(theme || 'system', newTheme);
+                    setTheme(newTheme);
+                  }}
                   className="p-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-all duration-200"
                   title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
                 >
@@ -372,7 +385,11 @@ const MenttorLabsMainPage = () => {
                     Roadmaps
                   </button>
                   <button
-                    onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+                    onClick={() => {
+                      const newTheme = theme === 'dark' ? 'light' : 'dark';
+                      analytics.themeChanged(theme || 'system', newTheme);
+                      setTheme(newTheme);
+                    }}
                     className="flex items-center py-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white font-medium w-full"
                   >
                     {theme === 'dark' ? (

@@ -19,6 +19,7 @@ import SaveShareButtons from '../../../components/learning/SaveShareButtons';
 import { useBehavioralContext } from '../context/BehavioralContext';
 import { useFocusMode, useSessionFSM, useBehavioralStats, useQuickChallenge } from '../../hooks/useBehavioral';
 import { api, LearningContentResponse, getNextSubtopic, NextSubtopicResponse, learningAPI } from '../../lib/api';
+import { analytics } from '../../lib/analytics';
 
 const TIME_TRACKING_INTERVAL = 30000; // 30 seconds
 const FOCUS_SESSION_DURATION = 25; // 25-minute Pomodoro sessions
@@ -119,6 +120,17 @@ const BehavioralLearnClientPage: React.FC<BehavioralLearnClientPageProps> = ({
     onSuccess: (data) => {
       console.log('🎉 Learn completion success callback triggered');
       console.log('📊 Invalidating queries for roadmapId:', roadmapId, 'subtopicId:', subtopicId);
+      
+      // Track learn completion
+      if (subtopic && subtopicId) {
+        analytics.learnCompleted({
+          subtopicId: subtopicId,
+          subtopicTitle: subtopic,
+          timeSpent: Math.floor(timeSpentRef.current / 60), // Convert to minutes
+          roadmapId: roadmapId ? parseInt(roadmapId) : undefined,
+        });
+      }
+      
       setIsCompleted(true);
       
       // More aggressive cache busting - remove all cached data and force refetch
@@ -398,6 +410,10 @@ const BehavioralLearnClientPage: React.FC<BehavioralLearnClientPageProps> = ({
   useEffect(() => {
     if (subtopic) {
       handleLoadLearningContent(subtopic);
+      // Track learn started
+      if (subtopicId) {
+        analytics.learnStarted(subtopicId, subtopic);
+      }
     } else {
       setIsLoading(false);
     }
