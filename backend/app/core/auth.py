@@ -88,12 +88,25 @@ async def get_current_user(request: Request, db: Session = Depends(get_db)) -> U
         # Or raise an error if all users must pre-exist in your DB
         logger.warning(f"Auth: User with Firebase UID {uid} not found in database. Attempting to create.")
         try:
-            new_user = User(firebase_uid=uid, email=email, is_active=True, hashed_password=None, is_admin=False) # hashed_password can be empty or a placeholder
+            # Handle phone authentication where email might be None
+            user_email = email if email else f"{uid}@phone.auth"  # Generate placeholder email for phone auth
+            # For phone auth users, mark profile as incomplete so they complete onboarding
+            profile_completed = bool(email)  # Only complete if we have a real email
+            new_user = User(
+                firebase_uid=uid, 
+                email=user_email, 
+                is_active=True, 
+                hashed_password=None, 
+                is_admin=False,
+                display_name=decoded_token.get('name'),
+                profile_completed=profile_completed,
+                onboarding_completed=profile_completed
+            )
             db.add(new_user)
             db.commit()
             db.refresh(new_user)
             user = new_user
-            logger.info(f"Auth: New user created in DB with UID: {uid}, Email: {email}")
+            logger.info(f"Auth: New user created in DB with UID: {uid}, Email: {user_email}")
         except Exception as e:
             logger.error(f"Auth: Failed to create new user in DB: {e}")
             raise HTTPException(

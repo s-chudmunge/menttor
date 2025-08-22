@@ -9,6 +9,9 @@ class UserBase(SQLModel):
     email: str
     is_active: bool = True
     is_admin: bool = False
+    display_name: Optional[str] = None
+    profile_completed: bool = False
+    onboarding_completed: bool = False
 
 class UserCreate(UserBase):
     password: Optional[str] = None

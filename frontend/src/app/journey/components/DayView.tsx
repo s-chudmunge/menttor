@@ -192,156 +192,134 @@ const DayView: React.FC<DayViewProps> = ({ roadmapData, progressData }) => {
   }
 
   return (
-    <div className="space-y-6">
-      {/* Day Navigation Header */}
-      <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl border border-gray-200/50 dark:border-gray-700/50 shadow-lg overflow-hidden">
-        <div className="p-6">
-          <div className="flex items-center justify-between mb-4">
-            <button
-              onClick={() => handleNavigation('prev')}
-              disabled={currentDayIndex === 0}
-              className="flex items-center justify-center w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-gray-200 dark:hover:bg-gray-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              <ChevronLeft className="w-5 h-5" />
-            </button>
-
-            <div className="text-center">
-              <div className="flex items-center justify-center mb-2">
-                <Calendar className="w-6 h-6 text-indigo-600 mr-2" />
-                <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-                  Day {currentDay.day}
-                </h2>
-              </div>
-              <p className="text-gray-600 dark:text-gray-400">{currentDay.date}</p>
-              <div className="flex items-center justify-center space-x-4 mt-3">
-                <div className="flex items-center text-sm text-gray-600 dark:text-gray-400">
-                  <Clock className="w-4 h-4 mr-1" />
-                  <span>{currentDay.totalTime} min</span>
+    <div className="space-y-4">
+      {/* Multiple Days View */}
+      {roadmapByDay.slice(Math.max(0, currentDayIndex - 1), currentDayIndex + 2).map((day, dayOffset) => {
+        const isCurrentDay = dayOffset === Math.min(1, currentDayIndex);
+        return (
+          <motion.div
+            key={day.day}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: dayOffset * 0.1 }}
+            className={`${isCurrentDay ? 'ring-2 ring-indigo-500 ring-opacity-50' : ''}`}
+          >
+            {/* Compact Day Header */}
+            <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-lg border border-gray-200/50 dark:border-gray-700/50 shadow-sm mb-3">
+              <div className="p-4">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-3">
+                    <div className="flex items-center">
+                      <Calendar className="w-4 h-4 text-indigo-600 mr-2" />
+                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                        Day {day.day}
+                      </h3>
+                    </div>
+                    <span className="text-sm text-gray-600 dark:text-gray-400">{day.date}</span>
+                  </div>
+                  
+                  <div className="flex items-center space-x-4">
+                    <div className="flex items-center text-sm text-gray-600 dark:text-gray-400">
+                      <Clock className="w-3 h-3 mr-1" />
+                      <span>{day.totalTime}m</span>
+                    </div>
+                    <div className="flex items-center text-sm text-gray-600 dark:text-gray-400">
+                      <Target className="w-3 h-3 mr-1" />
+                      <span>{Math.round(day.completionRate)}%</span>
+                    </div>
+                  </div>
                 </div>
-                <div className="flex items-center text-sm text-gray-600 dark:text-gray-400">
-                  <Target className="w-4 h-4 mr-1" />
-                  <span>{Math.round(currentDay.completionRate)}% complete</span>
+
+                {/* Compact Progress Bar */}
+                <div className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden mt-3">
+                  <motion.div 
+                    className="h-full bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full"
+                    initial={{ width: 0 }}
+                    animate={{ width: `${day.completionRate}%` }}
+                    transition={{ duration: 0.5 }}
+                  />
                 </div>
               </div>
             </div>
 
-            <button
-              onClick={() => handleNavigation('next')}
-              disabled={currentDayIndex >= roadmapByDay.length - 1}
-              className="flex items-center justify-center w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-gray-200 dark:hover:bg-gray-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              <ChevronRight className="w-5 h-5" />
-            </button>
-          </div>
-
-          {/* Progress Bar */}
-          <div className="w-full h-3 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
-            <motion.div 
-              className="h-full bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full"
-              initial={{ width: 0 }}
-              animate={{ width: `${currentDay.completionRate}%` }}
-              transition={{ duration: 0.5 }}
-            />
-          </div>
-        </div>
-      </div>
-
-      {/* Topics List */}
-      <div className="space-y-4">
-        {currentDay.topics.map((topic, index) => (
+            {/* Topics Grid for this day */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 mb-6">
+              {day.topics.map((topic, index) => (
           <motion.div
             key={topic.id}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.1 }}
-            className={`bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-xl border-l-4 border border-gray-200/50 dark:border-gray-700/50 shadow-sm hover:shadow-md transition-all duration-200 ${getPriorityColor(topic.priority)}`}
+            transition={{ delay: index * 0.05 }}
+            className={`bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-lg border-l-3 border border-gray-200/50 dark:border-gray-700/50 shadow-sm hover:shadow-md transition-all duration-200 ${getPriorityColor(topic.priority)}`}
           >
-            <div className="p-6">
-              <div className="flex items-start justify-between mb-4">
-                <div className="flex-1 mr-4">
+            <div className="p-4">
+              <div className="flex items-start justify-between mb-3">
+                <div className="flex-1">
                   <div className="flex items-center mb-2">
                     {getStatusIcon(topic.status)}
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white ml-3">
+                    <h4 className="text-sm font-semibold text-gray-900 dark:text-white ml-2 line-clamp-2">
                       {topic.title}
-                    </h3>
+                    </h4>
                   </div>
                   
-                  <div className="text-sm text-gray-600 dark:text-gray-400 mb-3">
-                    <span className="font-medium">{topic.module_title}</span>
-                    <span className="mx-2">•</span>
-                    <span>{topic.topic_title}</span>
+                  <div className="flex items-center space-x-2 text-xs text-gray-500 dark:text-gray-400 mb-2">
+                    <Clock className="w-3 h-3" />
+                    <span>{topic.estimated_time}m</span>
+                    <span className="w-1 h-1 bg-gray-400 rounded-full"></span>
+                    <span className="capitalize">{topic.priority}</span>
                   </div>
 
-                  <div className="flex items-center space-x-4 text-sm text-gray-500 dark:text-gray-400 mb-4">
-                    <div className="flex items-center">
-                      <Clock className="w-4 h-4 mr-1" />
-                      <span>{topic.estimated_time} min</span>
-                    </div>
-                    <div className="flex items-center">
-                      <Star className="w-4 h-4 mr-1" />
-                      <span className="capitalize">{topic.priority} priority</span>
-                    </div>
-                  </div>
-
-                  {/* Activity Types */}
-                  <div className="flex items-center space-x-2 mb-4">
+                  {/* Activity Types - Compact */}
+                  <div className="flex items-center space-x-1 mb-3">
                     {topic.has_learn && (
-                      <span className="px-3 py-1 rounded-full text-xs bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 font-medium">
-                        <BookOpen className="w-3 h-3 inline mr-1" />
+                      <span className="px-2 py-1 rounded text-xs bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 font-medium">
                         Learn
                       </span>
                     )}
                     {topic.has_quiz && (
-                      <span className="px-3 py-1 rounded-full text-xs bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 font-medium">
-                        <Brain className="w-3 h-3 inline mr-1" />
+                      <span className="px-2 py-1 rounded text-xs bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 font-medium">
                         Quiz
-                      </span>
-                    )}
-                    {topic.has_code_challenge && (
-                      <span className="px-3 py-1 rounded-full text-xs bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 font-medium">
-                        <Code className="w-3 h-3 inline mr-1" />
-                        Code
                       </span>
                     )}
                   </div>
                 </div>
 
-                {/* Progress Indicator */}
+                {/* Progress Indicator - Compact */}
                 {topic.progress && (
-                  <div className="flex flex-col items-center space-y-2">
+                  <div className="flex space-x-1">
                     {topic.progress.learn_completed && (
-                      <div className="w-8 h-8 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center">
-                        <CheckCircle className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+                      <div className="w-6 h-6 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center">
+                        <CheckCircle className="w-3 h-3 text-blue-600 dark:text-blue-400" />
                       </div>
                     )}
                     {topic.progress.quiz_completed && (
-                      <div className="w-8 h-8 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center">
-                        <Trophy className="w-4 h-4 text-green-600 dark:text-green-400" />
+                      <div className="w-6 h-6 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center">
+                        <Trophy className="w-3 h-3 text-green-600 dark:text-green-400" />
                       </div>
                     )}
                   </div>
                 )}
               </div>
 
-              {/* Action Buttons */}
-              <div className="flex space-x-3">
+              {/* Action Buttons - Compact */}
+              <div className="flex space-x-2">
                 {topic.has_learn && (
                   <Link
                     href={`/learn?subtopic=${encodeURIComponent(topic.title)}&subtopic_id=${topic.id}&roadmap_id=${roadmapData.id}`}
-                    className={`flex-1 text-center py-2.5 px-4 text-sm rounded-lg font-medium transition-all duration-200 ${
+                    className={`flex-1 text-center py-2 px-3 text-xs rounded-md font-medium transition-all duration-200 ${
                       topic.progress?.learn_completed
                         ? 'bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300 hover:bg-orange-200 dark:hover:bg-orange-900/50'
                         : 'bg-blue-600 hover:bg-blue-700 text-white'
                     }`}
                   >
-                    {topic.progress?.learn_completed ? '↻ Review' : 'Learn'}
+                    {topic.progress?.learn_completed ? 'Review' : 'Learn'}
                   </Link>
                 )}
                 
                 {topic.has_quiz && (
                   <Link
                     href={`/quiz?subtopic_id=${topic.id}&subtopic=${encodeURIComponent(topic.title)}&subject=${encodeURIComponent(roadmapData.subject || 'General Subject')}&goal=${encodeURIComponent(roadmapData.goal || roadmapData.description || 'Learn new concepts')}&roadmap_id=${roadmapData.id}`}
-                    className="flex-1 text-center py-2.5 px-4 bg-green-600 hover:bg-green-700 text-white text-sm rounded-lg font-medium transition-all duration-200"
+                    className="flex-1 text-center py-2 px-3 bg-green-600 hover:bg-green-700 text-white text-xs rounded-md font-medium transition-all duration-200"
                   >
                     Quiz
                   </Link>
@@ -349,22 +327,35 @@ const DayView: React.FC<DayViewProps> = ({ roadmapData, progressData }) => {
               </div>
             </div>
           </motion.div>
-        ))}
-      </div>
+              ))}
+            </div>
+          </motion.div>
+        );
+      })}
 
-      {/* Day Navigation Footer */}
-      <div className="text-center">
-        <div className="inline-flex items-center space-x-2 bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-full px-6 py-3 border border-gray-200/50 dark:border-gray-700/50">
+      {/* Navigation Footer */}
+      <div className="flex items-center justify-center space-x-4 mt-6">
+        <button
+          onClick={() => handleNavigation('prev')}
+          disabled={currentDayIndex === 0}
+          className="flex items-center justify-center w-10 h-10 rounded-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-gray-50 dark:hover:bg-gray-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-sm"
+        >
+          <ChevronLeft className="w-5 h-5" />
+        </button>
+        
+        <div className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-full px-4 py-2 border border-gray-200/50 dark:border-gray-700/50">
           <span className="text-sm text-gray-600 dark:text-gray-400">
             Day {currentDayIndex + 1} of {roadmapByDay.length}
           </span>
-          <div className="w-32 h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
-            <div 
-              className="h-full bg-gradient-to-r from-indigo-600 to-purple-600 transition-all duration-300"
-              style={{ width: `${((currentDayIndex + 1) / roadmapByDay.length) * 100}%` }}
-            />
-          </div>
         </div>
+        
+        <button
+          onClick={() => handleNavigation('next')}
+          disabled={currentDayIndex >= roadmapByDay.length - 1}
+          className="flex items-center justify-center w-10 h-10 rounded-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-gray-50 dark:hover:bg-gray-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-sm"
+        >
+          <ChevronRight className="w-5 h-5" />
+        </button>
       </div>
     </div>
   );
