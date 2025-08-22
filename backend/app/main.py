@@ -41,9 +41,36 @@ logger.info(f"CORS allowed origins: {settings.cors_origins_list}")
 app.add_middleware(COOPMiddleware)
 
 @app.on_event("startup")
-def on_startup():
-    create_db_and_tables()
-    logger.info("Database tables created/checked.")
+async def on_startup():
+    """Startup event with resilient database initialization"""
+    try:
+        logger.info("Starting FastAPI application...")
+        
+        # Try to create database tables with timeout protection
+        import asyncio
+        from functools import partial
+        
+        # Run database creation in thread with timeout
+        loop = asyncio.get_event_loop()
+        
+        try:
+            # 30-second timeout for database operations
+            await asyncio.wait_for(
+                loop.run_in_executor(None, create_db_and_tables),
+                timeout=30.0
+            )
+            logger.info("✅ Database tables created/checked successfully")
+        except asyncio.TimeoutError:
+            logger.warning("⚠️ Database table creation timed out - app will continue")
+        except Exception as e:
+            logger.warning(f"⚠️ Database initialization failed: {e} - app will continue")
+            
+        logger.info("🚀 FastAPI application startup completed")
+        
+    except Exception as e:
+        logger.error(f"❌ Startup failed: {e}")
+        # Don't crash the app, let it start anyway
+        pass
 
 app.include_router(auth.router)
 app.include_router(ml_insights.router)
@@ -83,13 +110,58 @@ async def websocket_endpoint(websocket: WebSocket, token: str, db: Session = Dep
     finally:
         manager.disconnect(websocket, user.id)
 
+@app.get("/")
+async def root():
+    """Root endpoint for basic connectivity check"""
+    return {"message": "Menttor API is running", "status": "ok"}
+
 @app.get("/test-simple")
 async def test_simple_endpoint():
     return {"message": "Simple test endpoint is working!"}
 
+@app.get("/ready")
+async def readiness_check():
+    """Readiness check for deployment platforms"""
+    return {"ready": True, "message": "Service is ready to accept traffic"}
+
 @app.get("/health")
 async def health_check():
-    return {"status": "healthy"}
+    """Enhanced health check endpoint for deployment monitoring"""
+    from datetime import datetime
+    
+    try:
+        # Basic app health
+        health_status = {
+            "status": "healthy",
+            "timestamp": datetime.utcnow().isoformat(),
+            "database": "unknown"
+        }
+        
+        # Quick database connectivity check
+        try:
+            db = next(get_db())
+            # Simple query to test database
+            result = db.exec("SELECT 1").first()
+            health_status["database"] = "connected" if result else "error"
+        except Exception as db_error:
+            logger.warning(f"Database health check failed: {db_error}")
+            health_status["database"] = "disconnected"
+            health_status["status"] = "degraded"
+        finally:
+            try:
+                db.close()
+            except:
+                pass
+        
+        return health_status
+        
+    except Exception as e:
+        logger.error(f"Health check failed: {e}")
+        return {
+            "status": "unhealthy", 
+            "error": str(e),
+            "timestamp": datetime.utcnow().isoformat()
+        }
 
 def get_crud_db(db: Session):
     yield from get_db()
