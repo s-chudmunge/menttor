@@ -317,7 +317,9 @@ const JourneyPage = () => {
   const handleModuleNavigation = (direction: 'prev' | 'next') => {
     if (!roadmapData?.roadmap_plan) return;
     
-    const maxIndex = roadmapData.roadmap_plan.length - 1;
+    // Handle different roadmap plan structures
+    const modules = roadmapData.roadmap_plan?.modules || roadmapData.roadmap_plan || [];
+    const maxIndex = modules.length - 1;
     if (direction === 'prev' && currentModuleIndex > 0) {
       setCurrentModuleIndex(currentModuleIndex - 1);
     } else if (direction === 'next' && currentModuleIndex < maxIndex) {

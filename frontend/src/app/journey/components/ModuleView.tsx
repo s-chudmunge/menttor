@@ -30,9 +30,20 @@ const ModuleView: React.FC<ModuleViewProps> = ({
   currentModuleIndex, 
   onModuleNavigation 
 }) => {
-  const currentModule = roadmapData.roadmap_plan[currentModuleIndex];
+  // Early return for invalid roadmap data
+  if (!roadmapData) {
+    return (
+      <div className="text-center py-12">
+        <Target className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+        <p className="text-gray-600 dark:text-gray-400">Loading roadmap data...</p>
+      </div>
+    );
+  }
+  // Handle different roadmap plan structures
+  const modules = (roadmapData?.roadmap_plan as any)?.modules || roadmapData?.roadmap_plan || [];
+  const currentModule = modules[currentModuleIndex];
 
-  if (!currentModule) {
+  if (!currentModule || !modules.length) {
     return (
       <div className="text-center py-12">
         <Target className="w-12 h-12 text-gray-400 mx-auto mb-4" />
@@ -73,7 +84,7 @@ const ModuleView: React.FC<ModuleViewProps> = ({
 
         <button
           onClick={() => onModuleNavigation('next')}
-          disabled={currentModuleIndex >= roadmapData.roadmap_plan.length - 1}
+          disabled={currentModuleIndex >= modules.length - 1}
           className="flex items-center justify-center w-12 h-12 rounded-full bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-white dark:hover:bg-gray-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl"
         >
           <ChevronRight className="w-5 h-5" />

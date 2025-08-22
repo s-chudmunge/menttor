@@ -54,6 +54,16 @@ interface DayViewItem {
 const DayView: React.FC<DayViewProps> = ({ roadmapData, progressData }) => {
   const [currentDayIndex, setCurrentDayIndex] = useState(0);
 
+  // Early return for invalid roadmap data
+  if (!roadmapData) {
+    return (
+      <div className="text-center py-12">
+        <Calendar className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+        <p className="text-gray-600 dark:text-gray-400">Loading roadmap data...</p>
+      </div>
+    );
+  }
+
   // Transform roadmap data into day-based structure
   const roadmapByDay = useMemo(() => {
     if (!roadmapData?.roadmap_plan) return [];
