@@ -18,7 +18,13 @@ export const useProgress = (roadmapId: number | null) => {
       await new Promise(resolve => setTimeout(resolve, 100));
       
       try {
+        console.log(`🔄 useProgress: Fetching progress for roadmapId: ${roadmapId}, user: ${user?.uid}`);
         const response = await api.get(`/progress/${roadmapId}`);
+        console.log(`✅ useProgress: Received ${response.data?.length || 0} progress records`);
+        if (response.data?.length > 0) {
+          const learnCompletedCount = response.data.filter((p: any) => p.learn_completed).length;
+          console.log(`📚 useProgress: ${learnCompletedCount} subtopics marked as learn_completed`);
+        }
         return response.data;
       } catch (error: any) {
         // Handle common error cases gracefully
@@ -45,7 +51,7 @@ export const useProgress = (roadmapId: number | null) => {
     },
     retryDelay: 1000, // Wait 1 second between retries
     refetchOnWindowFocus: true, // Refetch when user returns to tab (e.g., after quiz)
-    staleTime: 30000, // Consider data stale after 30 seconds  
-    cacheTime: 60000, // Cache for 1 minute
+    staleTime: 0, // Always consider data stale to ensure fresh fetches after completion
+    cacheTime: 30000, // Cache for 30 seconds
   });
 };

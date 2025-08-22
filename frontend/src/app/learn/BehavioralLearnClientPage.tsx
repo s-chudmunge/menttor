@@ -119,6 +119,7 @@ const BehavioralLearnClientPage: React.FC<BehavioralLearnClientPageProps> = ({
     },
     onSuccess: (data) => {
       console.log('🎉 Learn completion success callback triggered');
+      console.log('📊 Completion API response:', data);
       console.log('📊 Invalidating queries for roadmapId:', roadmapId, 'subtopicId:', subtopicId);
       
       // Track learn completion
@@ -140,10 +141,27 @@ const BehavioralLearnClientPage: React.FC<BehavioralLearnClientPageProps> = ({
       queryClient.invalidateQueries({ queryKey: ['userProgress'] });
       queryClient.invalidateQueries(['timeSummary']);
       
+      // Also invalidate progress for the specific roadmap
+      if (roadmapId) {
+        queryClient.invalidateQueries({ 
+          queryKey: ['progress', roadmapId],
+          exact: false // This will match any query that starts with ['progress', roadmapId]
+        });
+        
+        // Force immediate refetch with new data
+        queryClient.refetchQueries({
+          queryKey: ['progress', roadmapId],
+          exact: false
+        });
+      }
+      
       // Set session storage flags for journey page reload
       sessionStorage.setItem('returning-from-learn', 'true');
       sessionStorage.setItem(`learn-completed-${subtopicId}`, 'true');
       sessionStorage.setItem('force-progress-refresh', Date.now().toString());
+      
+      // Set a timestamp for when this completion happened
+      sessionStorage.setItem('last-learn-completion', Date.now().toString());
       
       console.log('🔄 Query invalidation completed');
     },

@@ -25,6 +25,8 @@ import LearningGuide from './components/LearningGuide';
 import ReportButton from './components/ReportButton';
 import QuizReportModal from './components/QuizReportModal';
 import BehavioralIndicator from './components/BehavioralIndicator';
+import DayView from './components/DayView';
+import ModuleView from './components/ModuleView';
 
 import { 
   ChevronLeft, 
@@ -38,15 +40,17 @@ import {
   Home,
   BarChart3,
   TrendingUp,
-  Brain
+  Brain,
+  RefreshCw
 } from 'lucide-react';
 
 const JourneyPage = () => {
-  const [currentView, setCurrentView] = useState<'modules' | 'visual'>('visual');
+  const [currentView, setCurrentView] = useState<'day' | 'modules' | 'visual'>('day');
   const [currentModuleIndex, setCurrentModuleIndex] = useState(0);
   const [isOldRoadmapsModalOpen, setIsOldRoadmapsModalOpen] = useState(false);
   const [isOldLearnPagesModalOpen, setIsOldLearnPagesModalOpen] = useState(false);
   const [roadmapData, setRoadmapData] = useState<RoadmapData | null>(null);
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
   const { user, loading } = useAuth();
   const router = useRouter();
@@ -88,8 +92,15 @@ const JourneyPage = () => {
           queryClient.invalidateQueries({ queryKey: ['behavioral'] });
           queryClient.invalidateQueries({ queryKey: ['roadmap'] });
           
-          // Also explicitly refetch progress
+          // Specifically invalidate progress for this roadmap
           if (roadmapData?.id) {
+            console.log('🔄 Invalidating progress queries for roadmap:', roadmapData.id);
+            queryClient.invalidateQueries({ 
+              queryKey: ['progress', roadmapData.id],
+              exact: false // Match all variants of progress queries for this roadmap
+            });
+            
+            // Also explicitly refetch progress
             console.log('🔄 Explicitly refetching progress for roadmap:', roadmapData.id);
             refetchProgress();
           }
@@ -119,7 +130,12 @@ const JourneyPage = () => {
       queryClient.invalidateQueries({ queryKey: ['behavioral'] });
       queryClient.invalidateQueries({ queryKey: ['roadmap'] });
       
+      // Also invalidate specific progress queries
       if (roadmapData?.id) {
+        queryClient.invalidateQueries({ 
+          queryKey: ['progress', roadmapData.id],
+          exact: false
+        });
         refetchProgress();
       }
     }
@@ -202,6 +218,49 @@ const JourneyPage = () => {
     return () => {
       document.removeEventListener('visibilitychange', handleVisibilityChange);
       window.removeEventListener('focus', handleFocus);
+    };
+  }, [roadmapData?.id, refetchProgress]);
+
+  // Polling mechanism for progress updates after learn completion
+  useEffect(() => {
+    const checkForProgressUpdates = () => {
+      const lastCompletion = sessionStorage.getItem('last-learn-completion');
+      const forceRefresh = sessionStorage.getItem('force-progress-refresh');
+      
+      if (lastCompletion || forceRefresh) {
+        const completionTime = parseInt(lastCompletion || '0');
+        const now = Date.now();
+        
+        // If completion was within the last 30 seconds, keep polling
+        if (now - completionTime < 30000) {
+          console.log('🔄 Polling for progress updates after recent learn completion');
+          setIsRefreshing(true);
+          
+          if (roadmapData?.id) {
+            // Force refetch progress data
+            refetchProgress().then(() => {
+              console.log('✅ Progress data refreshed via polling');
+              setIsRefreshing(false);
+            }).catch(() => {
+              setIsRefreshing(false);
+            });
+          }
+        } else {
+          // Clean up old timestamps
+          sessionStorage.removeItem('last-learn-completion');
+          setIsRefreshing(false);
+        }
+      }
+    };
+
+    // Check immediately
+    checkForProgressUpdates();
+    
+    // Set up polling every 3 seconds for recent completions
+    const pollInterval = setInterval(checkForProgressUpdates, 3000);
+
+    return () => {
+      clearInterval(pollInterval);
     };
   }, [roadmapData?.id, refetchProgress]);
 
@@ -347,6 +406,7 @@ const JourneyPage = () => {
           onOldRoadmapsClick={() => setIsOldRoadmapsModalOpen(true)}
           onOldLearnPagesClick={() => setIsOldLearnPagesModalOpen(true)}
           roadmapId={roadmapData?.id}
+          isRefreshing={isRefreshing}
         />
 
         <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 lg:py-8">
@@ -366,78 +426,131 @@ const JourneyPage = () => {
             />
           )}
 
-          {/* Course Header */}
+          {/* Enhanced Course Header */}
           <div className="mb-6 lg:mb-8">
-            <div className="bg-gradient-to-r from-white to-blue-50 dark:from-gray-800 dark:to-blue-900/20 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 p-4 lg:p-8 transition-colors duration-300">
-              <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between space-y-4 lg:space-y-0">
+            <div className="bg-gradient-to-r from-white/90 via-blue-50/90 to-indigo-50/90 dark:from-gray-800/90 dark:via-blue-900/20 dark:to-indigo-900/20 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-200/50 dark:border-gray-700/50 p-6 lg:p-8 transition-all duration-300 hover:shadow-2xl">
+              <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between space-y-6 lg:space-y-0">
                 <div className="flex-1">
-                  <h1 className="text-xl lg:text-3xl font-bold text-gray-900 dark:text-white mb-2">
-                    {roadmapData.title || roadmapData.subject}
-                  </h1>
-                  <p className="text-gray-700 dark:text-gray-200 text-sm lg:text-lg mb-4 font-medium">{roadmapData.description || roadmapData.goal}</p>
-                  <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-6 space-y-2 sm:space-y-0 text-sm text-gray-600 dark:text-gray-300">
-                    <div className="flex items-center space-x-2">
-                      <Clock className="w-4 h-4" />
-                      <span className="text-xs lg:text-sm font-medium">{roadmapData.time_value} {roadmapData.time_unit}</span>
+                  <div className="mb-4">
+                    <h1 className="text-2xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-3 leading-tight">
+                      {roadmapData.title || roadmapData.subject}
+                    </h1>
+                    <p className="text-gray-700 dark:text-gray-200 text-base lg:text-xl mb-4 font-medium leading-relaxed">
+                      {roadmapData.description || roadmapData.goal}
+                    </p>
+                  </div>
+                  
+                  <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
+                    <div className="flex items-center space-x-3 bg-white/50 dark:bg-gray-800/50 rounded-lg p-3">
+                      <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-lg flex items-center justify-center">
+                        <Clock className="w-4 h-4 text-white" />
+                      </div>
+                      <div>
+                        <p className="text-xs text-gray-500 dark:text-gray-400 font-medium">Duration</p>
+                        <p className="text-sm font-bold text-gray-900 dark:text-white">{roadmapData.time_value} {roadmapData.time_unit}</p>
+                      </div>
                     </div>
-                    <div className="flex items-center space-x-2">
-                      <Target className="w-4 h-4" />
-                      <span className="text-xs lg:text-sm font-medium">{(roadmapData.roadmap_plan?.modules || roadmapData.roadmap_plan || []).length} Modules</span>
+                    
+                    <div className="flex items-center space-x-3 bg-white/50 dark:bg-gray-800/50 rounded-lg p-3">
+                      <div className="w-8 h-8 bg-gradient-to-r from-green-500 to-emerald-500 rounded-lg flex items-center justify-center">
+                        <Target className="w-4 h-4 text-white" />
+                      </div>
+                      <div>
+                        <p className="text-xs text-gray-500 dark:text-gray-400 font-medium">Modules</p>
+                        <p className="text-sm font-bold text-gray-900 dark:text-white">{(roadmapData.roadmap_plan?.modules || roadmapData.roadmap_plan || []).length}</p>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-center space-x-3 bg-white/50 dark:bg-gray-800/50 rounded-lg p-3">
+                      <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
+                        <Trophy className="w-4 h-4 text-white" />
+                      </div>
+                      <div>
+                        <p className="text-xs text-gray-500 dark:text-gray-400 font-medium">Completed</p>
+                        <p className="text-sm font-bold text-gray-900 dark:text-white">{progressMetrics.completedSubtopics}/{progressMetrics.totalSubtopics}</p>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-center space-x-3 bg-white/50 dark:bg-gray-800/50 rounded-lg p-3">
+                      <div className="w-8 h-8 bg-gradient-to-r from-orange-500 to-red-500 rounded-lg flex items-center justify-center">
+                        <BarChart3 className="w-4 h-4 text-white" />
+                      </div>
+                      <div>
+                        <p className="text-xs text-gray-500 dark:text-gray-400 font-medium">Progress</p>
+                        <p className="text-sm font-bold text-gray-900 dark:text-white">{progressMetrics.overallProgress}%</p>
+                      </div>
                     </div>
                   </div>
                 </div>
                 
-                {/* Progress Circle */}
-                <div className="relative w-20 h-20 lg:w-24 lg:h-24 self-center lg:self-start">
-                  <svg className="w-20 h-20 lg:w-24 lg:h-24 transform -rotate-90" viewBox="0 0 100 100">
-                    <circle cx="50" cy="50" r="40" stroke="#e5e7eb" strokeWidth="6" fill="none" className="dark:stroke-gray-600" />
+                {/* Enhanced Progress Circle */}
+                <div className="relative w-24 h-24 lg:w-32 lg:h-32 self-center lg:self-start">
+                  <svg className="w-24 h-24 lg:w-32 lg:h-32 transform -rotate-90" viewBox="0 0 100 100">
+                    <circle cx="50" cy="50" r="40" stroke="#e5e7eb" strokeWidth="4" fill="none" className="dark:stroke-gray-600" />
                     <circle 
                       cx="50" cy="50" r="40" 
-                      stroke="url(#gradient)" 
-                      strokeWidth="8" 
+                      stroke="url(#progressGradient)" 
+                      strokeWidth="6" 
                       fill="none"
                       strokeDasharray={`${progressMetrics.overallProgress * 2.51} 251`}
-                      className="transition-all duration-500"
+                      strokeLinecap="round"
+                      className="transition-all duration-500 drop-shadow-sm"
                     />
                     <defs>
-                      <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <linearGradient id="progressGradient" x1="0%" y1="0%" x2="100%" y2="0%">
                         <stop offset="0%" stopColor="#4F46E5" />
-                        <stop offset="100%" stopColor="#7C3AED" />
+                        <stop offset="50%" stopColor="#7C3AED" />
+                        <stop offset="100%" stopColor="#EC4899" />
                       </linearGradient>
                     </defs>
                   </svg>
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <span className="text-xl font-bold text-gray-900 dark:text-white">{progressMetrics.overallProgress}%</span>
+                  <div className="absolute inset-0 flex flex-col items-center justify-center">
+                    <span className="text-xl lg:text-2xl font-bold text-gray-900 dark:text-white">{progressMetrics.overallProgress}%</span>
+                    <span className="text-xs text-gray-500 dark:text-gray-400 font-medium">Complete</span>
                   </div>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* View Controls */}
+          {/* Enhanced View Controls */}
           <div className="mb-8">
-            <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-2 border border-gray-200/50 inline-flex">
+            <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-1.5 border border-gray-200/50 dark:border-gray-700/50 shadow-lg inline-flex">
+              <button
+                onClick={() => setCurrentView('day')}
+                className={`flex items-center space-x-2 px-6 py-3 rounded-xl font-semibold transition-all duration-200 ${
+                  currentView === 'day' 
+                    ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg scale-105' 
+                    : 'text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-700/50'
+                }`}
+              >
+                <Calendar className="w-4 h-4" />
+                <span className="hidden sm:inline">Day View</span>
+                <span className="sm:hidden">Day</span>
+              </button>
               <button
                 onClick={() => setCurrentView('visual')}
-                className={`flex items-center space-x-2 px-6 py-3 rounded-xl font-semibold transition-all ${
+                className={`flex items-center space-x-2 px-6 py-3 rounded-xl font-semibold transition-all duration-200 ${
                   currentView === 'visual' 
-                    ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg' 
-                    : 'text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-700'
+                    ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg scale-105' 
+                    : 'text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-700/50'
                 }`}
               >
                 <Target className="w-4 h-4" />
-                <span>Visual Overview</span>
+                <span className="hidden sm:inline">Visual Overview</span>
+                <span className="sm:hidden">Visual</span>
               </button>
               <button
                 onClick={() => setCurrentView('modules')}
-                className={`flex items-center space-x-2 px-6 py-3 rounded-xl font-semibold transition-all ${
+                className={`flex items-center space-x-2 px-6 py-3 rounded-xl font-semibold transition-all duration-200 ${
                   currentView === 'modules' 
-                    ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg' 
-                    : 'text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-700'
+                    ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg scale-105' 
+                    : 'text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-700/50'
                 }`}
               >
                 <List className="w-4 h-4" />
-                <span>Module View</span>
+                <span className="hidden sm:inline">Module View</span>
+                <span className="sm:hidden">Modules</span>
               </button>
             </div>
           </div>
@@ -448,208 +561,18 @@ const JourneyPage = () => {
               roadmapData={roadmapData}
               progressData={progressData}
             />
+          ) : currentView === 'day' ? (
+            <DayView 
+              roadmapData={roadmapData}
+              progressData={progressData}
+            />
           ) : (
-            <>
-              {/* Module Navigation */}
-              <div className="flex items-center justify-between mb-6">
-                <button
-                  onClick={() => handleModuleNavigation('prev')}
-                  disabled={currentModuleIndex === 0}
-                  className="flex items-center justify-center w-12 h-12 rounded-full bg-white/70 backdrop-blur-sm border border-gray-200/50 text-gray-600 hover:text-indigo-600 hover:bg-white transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg"
-                >
-                  <ChevronLeft className="w-5 h-5" />
-                </button>
-
-                <div className="flex-1 mx-4 text-center">
-                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-1">
-                    {formatTitle(roadmapData.roadmap_plan[currentModuleIndex]?.title)}
-                  </h2>
-                  <p className="text-gray-700 dark:text-gray-300 font-medium">{roadmapData.roadmap_plan[currentModuleIndex]?.timeline}</p>
-                </div>
-
-                <button
-                  onClick={() => handleModuleNavigation('next')}
-                  disabled={currentModuleIndex >= roadmapData.roadmap_plan.length - 1}
-                  className="flex items-center justify-center w-12 h-12 rounded-full bg-white/70 backdrop-blur-sm border border-gray-200/50 text-gray-600 hover:text-indigo-600 hover:bg-white transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg"
-                >
-                  <ChevronRight className="w-5 h-5" />
-                </button>
-              </div>
-
-              {/* Optimized Module Content */}
-              <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-800 p-4 sm:p-6">
-                <div className="space-y-4 sm:space-y-6">
-                  {roadmapData.roadmap_plan[currentModuleIndex]?.topics.map((topic, topicIndex) => (
-                    <div key={topicIndex} className="group relative">
-                      {/* Compact topic container */}
-                      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden smooth-hover">
-                        {/* Compact topic header */}
-                        <div className="p-3 sm:p-4 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/30 dark:to-indigo-900/30 border-b border-gray-200 dark:border-gray-700">
-                          <div className="flex items-center space-x-3">
-                            <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-lg flex items-center justify-center shadow-lg">
-                              <BookOpen className="w-4 h-4 text-white" />
-                            </div>
-                            <div>
-                              <h3 className="text-lg font-bold text-gray-900 dark:text-white">
-                                {formatTitle(topic.title)}
-                              </h3>
-                              <p className="text-muted text-xs">Topic {topicIndex + 1} of {roadmapData.roadmap_plan[currentModuleIndex]?.topics.length}</p>
-                            </div>
-                          </div>
-                        </div>
-                        
-                        {/* Optimized subtopics grid - more columns, less padding */}
-                        <div className="p-3 sm:p-4">
-                          <div className="grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                            {topic.subtopics.map((subtopic, subtopicIndex) => {
-                              // Find progress for this subtopic
-                              const subtopicProgress = progressData?.find(p => p.sub_topic_id === subtopic.id);
-                              const isCompleted = subtopicProgress?.status === 'completed';
-                              const hasProgress = subtopicProgress?.learn_completed || subtopicProgress?.quiz_completed;
-                              
-                              // Debug logging for learn button state
-                              if (subtopic.title.includes('CUDA')) {  // Debug for CUDA or any specific subtopic
-                                console.log(`🔍 DEBUG for subtopic "${subtopic.title}"`);
-                                console.log('  subtopic.id:', subtopic.id);
-                                console.log('  subtopicProgress:', subtopicProgress);
-                                console.log('  learn_completed:', subtopicProgress?.learn_completed);
-                                console.log('  quiz_completed:', subtopicProgress?.quiz_completed);
-                                console.log('  status:', subtopicProgress?.status);
-                                console.log('  hasProgress:', hasProgress);
-                                console.log('  isCompleted:', isCompleted);
-                              }
-                              
-                              return (
-                                <div key={subtopicIndex} className="group/card relative">
-                                  {/* Compact subtopic card */}
-                                  <div className="relative bg-gray-50 dark:bg-gray-700 rounded-lg shadow-md border border-gray-200 dark:border-gray-600 p-3 sm:p-4 smooth-hover overflow-hidden hover:shadow-lg transition-all duration-200">
-                                    {/* Compact completion indicator */}
-                                    <div className="absolute top-2 right-2">
-                                      {isCompleted ? (
-                                        <div className="w-5 h-5 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center shadow-lg">
-                                          <Trophy className="w-2.5 h-2.5 text-white" />
-                                        </div>
-                                      ) : hasProgress ? (
-                                        <div className="w-5 h-5 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full flex items-center justify-center shadow-lg">
-                                          <Clock className="w-2.5 h-2.5 text-white" />
-                                        </div>
-                                      ) : (
-                                        <div className="w-5 h-5 bg-gray-200 dark:bg-gray-700 rounded-full flex items-center justify-center">
-                                          <div className="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
-                                        </div>
-                                      )}
-                                    </div>
-                                    
-                                    <div className="relative pr-6">
-                                      {/* Compact header */}
-                                      <div className="mb-3">
-                                        <h4 className="font-semibold text-gray-900 dark:text-white text-sm leading-tight line-clamp-2">
-                                          {formatSubtopicTitle(subtopic.title)}
-                                        </h4>
-                                      </div>
-                                      
-                                      {/* Compact progress indicators */}
-                                      <div className="flex flex-wrap gap-1 mb-3">
-                                        {subtopic.has_learn && (
-                                          <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300">
-                                            <BookOpen className="w-2.5 h-2.5 mr-1" />
-                                            Learn
-                                          </span>
-                                        )}
-                                        {subtopic.has_quiz && (
-                                          <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300">
-                                            <Brain className="w-2.5 h-2.5 mr-1" />
-                                            Quiz
-                                          </span>
-                                        )}
-                                        {subtopic.has_code_challenge && (
-                                          <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-300">
-                                            <Target className="w-2.5 h-2.5 mr-1" />
-                                            Code
-                                          </span>
-                                        )}
-                                      </div>
-                                      
-                                      {/* Compact action buttons */}
-                                      <div className="space-y-2">
-                                        <Link 
-                                          href={`/learn?subtopic=${encodeURIComponent(subtopic.title)}&subtopic_id=${subtopic.id}&roadmap_id=${roadmapData.id}`}
-                                          className={`w-full py-2 text-xs flex items-center justify-center space-x-1.5 group rounded-md font-medium transition-all duration-200 ${
-                                            subtopicProgress?.learn_completed 
-                                              ? 'bg-green-100 text-green-800 border border-green-300 hover:bg-green-200' 
-                                              : 'btn-primary'
-                                          }`}
-                                          onClick={(e) => {
-                                            // Prevent double clicks
-                                            const target = e.currentTarget;
-                                            if (target.dataset.clicked === 'true') {
-                                              e.preventDefault();
-                                              return;
-                                            }
-                                            target.dataset.clicked = 'true';
-                                            setTimeout(() => {
-                                              target.dataset.clicked = 'false';
-                                            }, 1000);
-                                          }}
-                                        >
-                                          {subtopicProgress?.learn_completed ? (
-                                            <>
-                                              <CheckCircle className="w-3 h-3 group-hover:scale-110 transition-transform" />
-                                              <span>Review</span>
-                                            </>
-                                          ) : (
-                                            <>
-                                              <BookOpen className="w-3 h-3 group-hover:scale-110 transition-transform" />
-                                              <span>Learn</span>
-                                            </>
-                                          )}
-                                        </Link>
-                                        
-                                        {subtopic.has_quiz && (
-                                          <Link
-                                            href={`/quiz?subtopic_id=${subtopic.id}&subtopic=${encodeURIComponent(subtopic.title)}&subject=${encodeURIComponent(roadmapData.subject || 'General Subject')}&goal=${encodeURIComponent(roadmapData.goal || roadmapData.description || 'Learn new concepts')}&module_title=${encodeURIComponent(roadmapData.roadmap_plan[currentModuleIndex]?.title || 'Module')}&topic_title=${encodeURIComponent(topic.title)}&roadmap_id=${roadmapData.id}`}
-                                            className="btn-secondary w-full py-2 text-xs flex items-center justify-center space-x-1.5 group"
-                                          >
-                                            <Brain className="w-3 h-3 group-hover:scale-110 transition-transform" />
-                                            <span>Quiz</span>
-                                          </Link>
-                                        )}
-                                      </div>
-                                      
-                                      {/* Compact report button */}
-                                      <div className="mt-2">
-                                        <ReportButton subTopicId={subtopic.id} subtopicTitle={subtopic.title} />
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              );
-                            })}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Module Progress Indicator */}
-              <div className="mt-8 text-center">
-                <div className="inline-flex items-center space-x-2 bg-white/70 backdrop-blur-sm rounded-full px-4 py-2 border border-gray-200/50">
-                  <span className="text-sm text-gray-800 dark:text-gray-200 font-medium">
-                    Module {currentModuleIndex + 1} of {roadmapData.roadmap_plan.length}
-                  </span>
-                  <div className="w-24 h-2 bg-gray-200 rounded-full overflow-hidden">
-                    <div 
-                      className="h-full bg-gradient-to-r from-indigo-600 to-purple-600 transition-all duration-300"
-                      style={{
-                        width: `${((currentModuleIndex + 1) / roadmapData.roadmap_plan.length) * 100}%` 
-                      }}
-                    ></div>
-                  </div>
-                </div>
-              </div>
-            </>
+            <ModuleView 
+              roadmapData={roadmapData}
+              progressData={progressData}
+              currentModuleIndex={currentModuleIndex}
+              onModuleNavigation={handleModuleNavigation}
+            />
           )}
 
           {/* Learning Guide */}

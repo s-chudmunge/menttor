@@ -3,7 +3,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Home, Target, BookOpen, BarChart3, TrendingUp, Eye, User, LogOut, Trophy, Clock, Menu, X, Zap, Star, Focus, Play, Pause, Timer } from 'lucide-react';
+import { Home, Target, BookOpen, BarChart3, TrendingUp, Eye, User, LogOut, Trophy, Clock, Menu, X, Zap, Star, Focus, Play, Pause, Timer, RefreshCw } from 'lucide-react';
 import Logo from '../../../../components/Logo';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '../../context/AuthContext';
@@ -23,6 +23,7 @@ interface JourneyHeaderProps {
   timeSummaryToday?: TimeSummaryResponse;
   timeSummaryWeek?: TimeSummaryResponse;
   roadmapId?: number;
+  isRefreshing?: boolean;
 }
 
 const JourneyHeader: React.FC<JourneyHeaderProps> = ({ 
@@ -34,7 +35,8 @@ const JourneyHeader: React.FC<JourneyHeaderProps> = ({
   onOldLearnPagesClick,
   timeSummaryToday,
   timeSummaryWeek,
-  roadmapId
+  roadmapId,
+  isRefreshing = false
 }) => {
   const router = useRouter();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -73,6 +75,13 @@ const JourneyHeader: React.FC<JourneyHeaderProps> = ({
             {/* Logo */}
             <div className="flex items-center space-x-3">
               <Logo />
+              {/* Progress Refresh Indicator */}
+              {isRefreshing && (
+                <div className="flex items-center space-x-2 px-3 py-1.5 bg-blue-500/10 text-blue-400 border border-blue-500/20 rounded-lg">
+                  <RefreshCw className="w-3 h-3 animate-spin" />
+                  <span className="text-xs font-medium hidden sm:inline">Syncing progress...</span>
+                </div>
+              )}
             </div>
             
             {/* Desktop Navigation */}
