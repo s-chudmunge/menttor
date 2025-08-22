@@ -1,23 +1,242 @@
-from fastapi import APIRouter, Depends, HTTPException, status, Query
+from fastapi import APIRouter, Depends, HTTPException, status, Query, BackgroundTasks
 from sqlmodel import Session, select, desc, func, and_, or_
 from database.session import get_db
 from schemas import (
     CuratedRoadmapResponse, CuratedRoadmapListResponse, 
     CuratedRoadmapSearchRequest, CuratedRoadmapAdoptRequest, 
     CuratedRoadmapAdoptResponse, CuratedRoadmapCategoriesResponse,
-    RoadmapResponse
+    RoadmapResponse, RoadmapCreateRequest
 )
 from sql_models import CuratedRoadmap, UserCuratedRoadmap, Roadmap, User
 from .optional_auth import get_optional_current_user
 from .auth import get_current_user
+from services.ai_service import generate_roadmap_content
 from typing import List, Optional, Dict
 import uuid
+import logging
+import asyncio
+import re
 from datetime import datetime
 
 router = APIRouter(prefix="/curated-roadmaps", tags=["curated-roadmaps"])
 
+logger = logging.getLogger(__name__)
+
+def create_slug(title: str) -> str:
+    """Create URL-friendly slug from title"""
+    slug = title.lower()
+    slug = re.sub(r'[^\w\s-]', '', slug)  # Remove special chars
+    slug = re.sub(r'[\s_-]+', '-', slug)  # Replace spaces with hyphens
+    slug = slug.strip('-')  # Remove leading/trailing hyphens
+    return slug
+
+# Premium curated roadmaps configuration
+PREMIUM_ROADMAPS_CONFIG = [
+    {
+        "title": "Complete React Development with TypeScript",
+        "category": "web-development", 
+        "subcategory": "frontend",
+        "difficulty": "intermediate",
+        "target_audience": "Frontend developers wanting to master modern React with TypeScript",
+        "estimated_hours": 100,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.5,
+        "prerequisites": ["JavaScript ES6+", "HTML/CSS fundamentals", "Basic React knowledge"],
+        "learning_outcomes": [
+            "Build scalable React applications with TypeScript",
+            "Master React hooks and advanced patterns", 
+            "Implement state management with Context API and Redux Toolkit",
+            "Create reusable UI component libraries",
+            "Test React applications with Jest and React Testing Library"
+        ],
+        "tags": ["react", "typescript", "frontend", "javascript", "hooks", "testing"],
+        "request": {
+            "subject": "Modern React Development with TypeScript",
+            "goal": "I want to become an expert in building modern, scalable React applications using TypeScript. Teach me advanced React patterns, hooks, state management, component architecture, testing strategies, and performance optimization. Focus on industry best practices and real-world project development.",
+            "time_value": 8,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Python Data Science and Machine Learning",
+        "category": "data-science",
+        "subcategory": "machine-learning",
+        "difficulty": "beginner",
+        "target_audience": "Beginners wanting to start a career in data science and AI",
+        "estimated_hours": 140,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.6,
+        "prerequisites": ["Basic Python programming", "High school mathematics"],
+        "learning_outcomes": [
+            "Master NumPy, Pandas, and data manipulation",
+            "Build machine learning models with scikit-learn",
+            "Create data visualizations with Matplotlib and Seaborn",
+            "Understand statistics and feature engineering",
+            "Deploy ML models to production"
+        ],
+        "tags": ["python", "data-science", "machine-learning", "pandas", "scikit-learn", "visualization"],
+        "request": {
+            "subject": "Python Data Science and Machine Learning",
+            "goal": "I want to become proficient in data science and machine learning using Python. Start from data manipulation basics and progress to building, evaluating, and deploying ML models. Include hands-on projects with real datasets, statistical concepts, and industry best practices.",
+            "time_value": 12,
+            "time_unit": "weeks", 
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "AWS Cloud Solutions Architect",
+        "category": "cloud-computing",
+        "subcategory": "aws",
+        "difficulty": "intermediate",
+        "target_audience": "IT professionals preparing for AWS certification and cloud careers",
+        "estimated_hours": 160,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.3,
+        "prerequisites": ["Basic networking", "Linux fundamentals", "General IT experience"],
+        "learning_outcomes": [
+            "Design scalable and secure AWS architectures",
+            "Master core AWS services (EC2, S3, RDS, Lambda)",
+            "Implement CI/CD pipelines and DevOps practices",
+            "Pass AWS Solutions Architect Associate exam",
+            "Optimize costs and monitor cloud infrastructure"
+        ],
+        "tags": ["aws", "cloud-computing", "architecture", "certification", "devops", "security"],
+        "request": {
+            "subject": "AWS Cloud Solutions Architect",
+            "goal": "I want to become an AWS Solutions Architect and pass the certification exam. Teach me to design resilient, scalable, and cost-effective cloud architectures. Cover core services, security best practices, monitoring, and real-world implementation scenarios.",
+            "time_value": 12,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Node.js Backend Development with Express",
+        "category": "web-development",
+        "subcategory": "backend", 
+        "difficulty": "beginner",
+        "target_audience": "JavaScript developers transitioning to backend development",
+        "estimated_hours": 90,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 9.1,
+        "prerequisites": ["JavaScript fundamentals", "Basic understanding of web concepts"],
+        "learning_outcomes": [
+            "Build REST APIs and GraphQL endpoints",
+            "Implement authentication and authorization",
+            "Work with databases (MongoDB and PostgreSQL)",
+            "Handle file uploads and third-party integrations", 
+            "Deploy and monitor Node.js applications"
+        ],
+        "tags": ["nodejs", "express", "backend", "api", "javascript", "databases"],
+        "request": {
+            "subject": "Node.js Backend Development",
+            "goal": "I want to master backend development with Node.js and Express. Teach me to build secure, scalable APIs, work with databases, implement authentication, handle real-time communication, and deploy production applications. Focus on modern best practices.",
+            "time_value": 8,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Algorithms and Data Structures for Coding Interviews",
+        "category": "computer-science",
+        "subcategory": "algorithms", 
+        "difficulty": "intermediate",
+        "target_audience": "Software engineers preparing for technical interviews at top tech companies",
+        "estimated_hours": 130,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.7,
+        "prerequisites": ["Programming experience in Python/Java/C++", "Basic problem-solving skills"],
+        "learning_outcomes": [
+            "Master fundamental data structures and algorithms",
+            "Solve complex coding problems efficiently",
+            "Understand time and space complexity analysis",
+            "Excel in technical interviews at FAANG companies",
+            "Practice 150+ LeetCode-style problems with solutions"
+        ],
+        "tags": ["algorithms", "data-structures", "interviews", "leetcode", "problem-solving", "faang"],
+        "request": {
+            "subject": "Algorithms and Data Structures for Technical Interviews",
+            "goal": "I want to excel in coding interviews at top tech companies like Google, Meta, Amazon, and Apple. Teach me essential algorithms, data structures, problem-solving patterns, and interview strategies. Include extensive practice with explanations and optimization techniques.",
+            "time_value": 10,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    }
+]
+
+async def generate_curated_roadmap(roadmap_config: dict) -> CuratedRoadmap:
+    """Generate a single curated roadmap using AI"""
+    logger.info(f"🎯 Generating: {roadmap_config['title']}")
+    
+    # Create AI request
+    request = RoadmapCreateRequest(**roadmap_config['request'])
+    
+    # Generate content using AI service
+    ai_response = await generate_roadmap_content(request)
+    
+    # Create curated roadmap
+    curated_roadmap = CuratedRoadmap(
+        title=roadmap_config['title'],
+        description=ai_response.description,
+        category=roadmap_config['category'],
+        subcategory=roadmap_config.get('subcategory'),
+        difficulty=roadmap_config['difficulty'],
+        is_featured=roadmap_config['is_featured'],
+        is_verified=roadmap_config['is_verified'], 
+        quality_score=roadmap_config['quality_score'],
+        view_count=0,
+        adoption_count=0,
+        completion_rate=0.0,
+        average_rating=0.0,
+        roadmap_plan=ai_response.roadmap_plan.model_dump()["modules"],
+        estimated_hours=roadmap_config['estimated_hours'],
+        prerequisites=roadmap_config['prerequisites'],
+        learning_outcomes=roadmap_config['learning_outcomes'],
+        tags=roadmap_config['tags'],
+        target_audience=roadmap_config['target_audience'],
+        slug=create_slug(roadmap_config['title']),
+        created_at=datetime.utcnow(),
+        updated_at=datetime.utcnow()
+    )
+    
+    return curated_roadmap
+
+async def generate_all_curated_roadmaps_background(db: Session):
+    """Background task to generate all curated roadmaps"""
+    try:
+        logger.info("🚀 Starting background generation of curated roadmaps...")
+        generated_roadmaps = []
+        
+        for config in PREMIUM_ROADMAPS_CONFIG:
+            try:
+                roadmap = await generate_curated_roadmap(config)
+                generated_roadmaps.append(roadmap)
+                logger.info(f"✅ Generated: {config['title']}")
+                # Small delay to avoid API limits
+                await asyncio.sleep(2)
+            except Exception as e:
+                logger.error(f"❌ Failed to generate {config['title']}: {e}")
+                continue
+        
+        # Save all generated roadmaps
+        if generated_roadmaps:
+            for roadmap in generated_roadmaps:
+                db.add(roadmap)
+            db.commit()
+            logger.info(f"💾 Saved {len(generated_roadmaps)} curated roadmaps to database!")
+        
+    except Exception as e:
+        logger.error(f"💥 Background roadmap generation failed: {e}")
+        db.rollback()
+
 @router.get("/", response_model=List[CuratedRoadmapListResponse])
-def browse_curated_roadmaps(
+async def browse_curated_roadmaps(
+    background_tasks: BackgroundTasks,
     page: int = Query(1, ge=1, description="Page number"),
     per_page: int = Query(12, ge=1, le=50, description="Items per page"),
     category: Optional[str] = Query(None, description="Filter by category"),
@@ -33,7 +252,18 @@ def browse_curated_roadmaps(
     """
     Browse curated roadmaps with filtering and pagination.
     Public endpoint - no authentication required.
+    Auto-generates roadmaps if database is empty (first-time visit).
     """
+    
+    # Check if curated roadmaps exist - if not, generate them in background
+    existing_count = db.exec(select(func.count(CuratedRoadmap.id))).first()
+    if existing_count == 0:
+        logger.info("🎯 No curated roadmaps found. Starting background generation...")
+        # Start generation in background - don't wait for completion
+        background_tasks.add_task(generate_all_curated_roadmaps_background, db)
+        # Return empty array for now - roadmaps will be available after generation completes
+        return []
+    
     query = select(CuratedRoadmap)
     
     # Apply filters
