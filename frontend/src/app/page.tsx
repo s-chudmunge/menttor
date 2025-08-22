@@ -326,6 +326,7 @@ const MenttorLabsMainPage = () => {
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-1">
               <Link href="/" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white px-3 py-2 text-sm font-medium transition-colors duration-200">Home</Link>
+              <Link href="/explore" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white px-3 py-2 text-sm font-medium transition-colors duration-200">Explore</Link>
               <a href="#generate" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white px-3 py-2 text-sm font-medium transition-colors duration-200">Generate</a>
               <button 
                 onClick={() => setShowOldRoadmaps(true)}
@@ -379,6 +380,7 @@ const MenttorLabsMainPage = () => {
               <div className="md:hidden bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm border-t border-gray-100 dark:border-gray-800 transition-all duration-300">
                 <div className="px-4 py-3 space-y-1">
                   <Link href="/" className="block py-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white font-medium">Home</Link>
+                  <Link href="/explore" className="block py-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white font-medium">Explore</Link>
                   <a href="#generate" className="block py-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white font-medium">Generate</a>
                   <button 
                     onClick={() => setShowOldRoadmaps(true)}

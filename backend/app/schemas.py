@@ -343,3 +343,87 @@ class NextSubtopicResponse(BaseModel):
     subtopic_title: str
     subtopic_id: str
     status: str
+
+# Curated Roadmaps Schemas
+
+class CuratedRoadmapResponse(SQLModel):
+    """Response schema for curated roadmaps (public access)"""
+    id: int
+    title: str
+    description: str
+    category: str
+    subcategory: Optional[str] = None
+    difficulty: str
+    is_featured: bool
+    is_verified: bool
+    
+    # Engagement metrics for public display
+    view_count: int
+    adoption_count: int
+    average_rating: float
+    
+    # Learning metadata
+    roadmap_plan: List[Dict[str, Any]]
+    estimated_hours: Optional[int] = None
+    prerequisites: List[str]
+    learning_outcomes: List[str]
+    tags: List[str]
+    target_audience: Optional[str] = None
+    slug: Optional[str] = None
+    
+    created_at: datetime
+    updated_at: datetime
+
+class CuratedRoadmapListResponse(SQLModel):
+    """Response for browsing curated roadmaps"""
+    id: int
+    title: str
+    description: str
+    category: str
+    subcategory: Optional[str] = None
+    difficulty: str
+    is_featured: bool
+    is_verified: bool
+    
+    # Summary metrics
+    view_count: int
+    adoption_count: int
+    average_rating: float
+    estimated_hours: Optional[int] = None
+    tags: List[str]
+    target_audience: Optional[str] = None
+    slug: Optional[str] = None
+
+class CuratedRoadmapSearchRequest(SQLModel):
+    """Request schema for searching curated roadmaps"""
+    query: Optional[str] = None
+    category: Optional[str] = None
+    subcategory: Optional[str] = None
+    difficulty: Optional[str] = None
+    tags: Optional[List[str]] = None
+    min_rating: Optional[float] = None
+    featured_only: Optional[bool] = False
+    verified_only: Optional[bool] = False
+    
+    # Pagination
+    page: int = 1
+    per_page: int = 12
+    
+    # Sorting
+    sort_by: str = "popularity"  # popularity, rating, recent, alphabetical
+
+class CuratedRoadmapAdoptRequest(SQLModel):
+    """Request to adopt a curated roadmap"""
+    curated_roadmap_id: int
+    customize_title: Optional[str] = None  # Allow user to customize title
+
+class CuratedRoadmapAdoptResponse(SQLModel):
+    """Response after adopting a curated roadmap"""
+    success: bool
+    message: str
+    personal_roadmap_id: int
+    adoption_id: int
+
+class CuratedRoadmapCategoriesResponse(SQLModel):
+    """Response for available categories"""
+    categories: Dict[str, List[str]]  # category -> [subcategories]

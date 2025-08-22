@@ -387,3 +387,57 @@ class DependencyMap(SQLModel, table=True):
     minimum_mastery_score: float = Field(default=0.7)  # minimum score needed in prereq
     
     created_at: datetime = Field(default_factory=datetime.utcnow)
+
+# Curated Roadmaps System - Public Catalog for High-Quality Learning Paths
+
+class CuratedRoadmapBase(SQLModel):
+    """High-quality, curated learning roadmaps for public browsing"""
+    title: str = Field(max_length=200, description="Clear, descriptive roadmap title")
+    description: str = Field(max_length=1000, description="Detailed description of learning outcomes")
+    category: str = Field(max_length=50, index=True, description="Primary category (programming, data-science, etc)")
+    subcategory: Optional[str] = Field(max_length=50, index=True, description="Specific subcategory")
+    difficulty: str = Field(max_length=20, index=True, description="beginner, intermediate, advanced")
+    
+    # Quality and Curation Metrics
+    is_featured: bool = Field(default=False, description="Featured on homepage")
+    is_verified: bool = Field(default=False, description="Expert-verified quality")
+    quality_score: float = Field(default=0.0, description="Internal quality rating 0-10")
+    
+    # Public Engagement Metrics
+    view_count: int = Field(default=0, description="Public page views")
+    adoption_count: int = Field(default=0, description="Users who adopted this roadmap")
+    completion_rate: float = Field(default=0.0, description="% of adopters who completed")
+    average_rating: float = Field(default=0.0, description="User ratings average")
+    
+    # Learning Path Metadata
+    roadmap_plan: List[Dict[str, Any]] = Field(sa_column=Column(JSONB), description="Complete learning structure")
+    estimated_hours: Optional[int] = Field(description="Total estimated learning time")
+    prerequisites: Optional[List[str]] = Field(default_factory=list, sa_column=Column(JSONB), description="Required knowledge")
+    learning_outcomes: Optional[List[str]] = Field(default_factory=list, sa_column=Column(JSONB), description="What learners will achieve")
+    tags: List[str] = Field(default_factory=list, sa_column=Column(JSONB), description="Searchable tags")
+    
+    # SEO and Discovery
+    slug: Optional[str] = Field(max_length=200, index=True, description="URL-friendly identifier")
+    target_audience: Optional[str] = Field(max_length=200, description="Who this roadmap is for")
+    
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+    updated_at: datetime = Field(default_factory=datetime.utcnow, sa_column=Column(DateTime(timezone=True), onupdate=datetime.utcnow))
+
+class CuratedRoadmap(CuratedRoadmapBase, table=True):
+    """Database model for curated roadmaps"""
+    id: Optional[int] = Field(default=None, primary_key=True)
+
+class UserCuratedRoadmapBase(SQLModel):
+    """Tracks user adoption of curated roadmaps"""
+    user_id: int = Field(foreign_key="user.id", description="User who adopted the roadmap")
+    curated_roadmap_id: int = Field(foreign_key="curatedroadmap.id", description="Adopted curated roadmap")
+    personal_roadmap_id: Optional[int] = Field(foreign_key="roadmap.id", description="User's personal copy")
+    
+    # User Feedback
+    user_rating: Optional[int] = Field(description="User rating 1-5 stars")
+    
+    adopted_at: datetime = Field(default_factory=datetime.utcnow)
+
+class UserCuratedRoadmap(UserCuratedRoadmapBase, table=True):
+    """Database model for tracking user adoption of curated roadmaps"""
+    id: Optional[int] = Field(default=None, primary_key=True)
