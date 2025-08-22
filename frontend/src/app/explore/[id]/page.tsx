@@ -1,0 +1,469 @@
+"use client";
+
+import React, { useState, useEffect } from 'react';
+import { useParams, useRouter } from 'next/navigation';
+import { useAuth } from '../../context/AuthContext';
+import { BACKEND_URL } from '../../../config/config';
+import { 
+  ArrowLeft, 
+  Clock, 
+  Users, 
+  Star, 
+  Award, 
+  CheckCircle, 
+  Target,
+  BookOpen,
+  ChevronRight,
+  Play,
+  Loader2,
+  AlertCircle,
+  Eye,
+  Calendar,
+  Badge,
+  Zap,
+  TrendingUp,
+  Download
+} from 'lucide-react';
+
+interface RoadmapModule {
+  title: string;
+  description: string;
+  topics: RoadmapTopic[];
+}
+
+interface RoadmapTopic {
+  title: string;
+  description: string;
+  subtopics: RoadmapSubtopic[];
+}
+
+interface RoadmapSubtopic {
+  id: string;
+  title: string;
+  description: string;
+  learn: boolean;
+  quiz: boolean;
+  code: boolean;
+}
+
+interface CuratedRoadmapDetail {
+  id: number;
+  title: string;
+  description: string;
+  category: string;
+  subcategory?: string;
+  difficulty: string;
+  is_featured: boolean;
+  is_verified: boolean;
+  view_count: number;
+  adoption_count: number;
+  average_rating: number;
+  roadmap_plan: RoadmapModule[];
+  estimated_hours?: number;
+  prerequisites: string[];
+  learning_outcomes: string[];
+  tags: string[];
+  target_audience?: string;
+  slug?: string;
+}
+
+const RoadmapPreviewPage = () => {
+  const params = useParams();
+  const router = useRouter();
+  const { user } = useAuth();
+  const roadmapId = params.id as string;
+  
+  const [roadmap, setRoadmap] = useState<CuratedRoadmapDetail | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [adopting, setAdopting] = useState(false);
+
+  const categoryIcons: { [key: string]: string } = {
+    'web-development': '🌐',
+    'data-science': '📊',
+    'cloud-computing': '☁️',
+    'computer-science': '💻',
+    'mobile-development': '📱',
+    'devops': '⚙️',
+    'artificial-intelligence': '🤖',
+    'cybersecurity': '🔐',
+    'blockchain': '⛓️',
+    'game-development': '🎮',
+    'database': '🗃️',
+    'system-design': '🏗️',
+    'competitive-programming': '🏆',
+    'design': '🎨',
+    'programming-languages': '⌨️',
+    'data-engineering': '🔧',
+    'product-management': '📋'
+  };
+
+  const categoryColors: { [key: string]: string } = {
+    'web-development': 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300',
+    'data-science': 'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300',
+    'cloud-computing': 'bg-sky-100 text-sky-800 dark:bg-sky-900/30 dark:text-sky-300',
+    'computer-science': 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-300',
+    'mobile-development': 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300',
+    'devops': 'bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-300',
+    'artificial-intelligence': 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300',
+    'cybersecurity': 'bg-indigo-100 text-indigo-800 dark:bg-indigo-900/30 dark:text-indigo-300',
+    'blockchain': 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300',
+    'game-development': 'bg-pink-100 text-pink-800 dark:bg-pink-900/30 dark:text-pink-300',
+    'database': 'bg-teal-100 text-teal-800 dark:bg-teal-900/30 dark:text-teal-300',
+    'system-design': 'bg-violet-100 text-violet-800 dark:bg-violet-900/30 dark:text-violet-300',
+    'competitive-programming': 'bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-300',
+    'design': 'bg-rose-100 text-rose-800 dark:bg-rose-900/30 dark:text-rose-300',
+    'programming-languages': 'bg-lime-100 text-lime-800 dark:bg-lime-900/30 dark:text-lime-300',
+    'data-engineering': 'bg-cyan-100 text-cyan-800 dark:bg-cyan-900/30 dark:text-cyan-300',
+    'product-management': 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300'
+  };
+
+  const difficultyColors: { [key: string]: string } = {
+    beginner: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
+    intermediate: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200',
+    advanced: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
+  };
+
+  useEffect(() => {
+    fetchRoadmap();
+  }, [roadmapId]);
+
+  const fetchRoadmap = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      
+      const response = await fetch(`${BACKEND_URL}/curated-roadmaps/${roadmapId}`);
+      
+      if (!response.ok) {
+        if (response.status === 404) {
+          setError('Roadmap not found');
+        } else {
+          setError('Failed to fetch roadmap details');
+        }
+        return;
+      }
+      
+      const data = await response.json();
+      setRoadmap(data);
+    } catch (err) {
+      setError('Failed to load roadmap. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleAdoptRoadmap = async () => {
+    if (!user) {
+      router.push('/auth/signin');
+      return;
+    }
+
+    try {
+      setAdopting(true);
+      const response = await fetch(`${BACKEND_URL}/curated-roadmaps/${roadmapId}/adopt`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${await user.getIdToken()}`
+        },
+        body: JSON.stringify({
+          curated_roadmap_id: parseInt(roadmapId)
+        })
+      });
+
+      if (response.ok) {
+        router.push('/journey');
+      } else {
+        const error = await response.json();
+        alert(error.detail || 'Failed to adopt roadmap');
+      }
+    } catch (err) {
+      alert('Failed to adopt roadmap. Please try again.');
+    } finally {
+      setAdopting(false);
+    }
+  };
+
+  const formatNumber = (num: number) => {
+    if (num >= 1000) {
+      return `${(num / 1000).toFixed(1)}k`;
+    }
+    return num.toString();
+  };
+
+  const totalSubtopics = roadmap?.roadmap_plan?.reduce((acc, module) => 
+    acc + module.topics.reduce((topicAcc, topic) => topicAcc + topic.subtopics.length, 0), 0
+  ) || 0;
+
+  const totalTopics = roadmap?.roadmap_plan?.reduce((acc, module) => acc + module.topics.length, 0) || 0;
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50/20 dark:from-gray-900 dark:to-blue-950/20">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="animate-pulse">
+            <div className="h-8 bg-gray-200 dark:bg-gray-700 rounded mb-8 w-1/3"></div>
+            <div className="bg-white/80 dark:bg-gray-800/80 rounded-2xl p-8 mb-8">
+              <div className="h-12 bg-gray-200 dark:bg-gray-700 rounded mb-4"></div>
+              <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded mb-6 w-2/3"></div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                {[...Array(4)].map((_, i) => (
+                  <div key={i} className="h-20 bg-gray-200 dark:bg-gray-700 rounded"></div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50/20 dark:from-gray-900 dark:to-blue-950/20 flex items-center justify-center">
+        <div className="text-center max-w-md mx-auto p-6">
+          <div className="w-16 h-16 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
+            <AlertCircle className="w-8 h-8 text-red-600 dark:text-red-400" />
+          </div>
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Roadmap Not Found</h2>
+          <p className="text-gray-600 dark:text-gray-400 mb-6">{error}</p>
+          <button 
+            onClick={() => router.push('/explore')}
+            className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+          >
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Back to Explore
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  if (!roadmap) return null;
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50/20 dark:from-gray-900 dark:to-blue-950/20">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Back Button */}
+        <button
+          onClick={() => router.push('/explore')}
+          className="inline-flex items-center text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white mb-8 transition-colors"
+        >
+          <ArrowLeft className="w-5 h-5 mr-2" />
+          Back to Explore
+        </button>
+
+        {/* Header */}
+        <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-8 mb-8 border border-gray-200/50 dark:border-gray-700/50">
+          <div className="flex items-start justify-between mb-6">
+            <div className="flex items-center space-x-4">
+              <div className={`p-3 rounded-xl ${categoryColors[roadmap.category] || 'bg-gray-100 text-gray-600'}`}>
+                <span className="text-2xl">{categoryIcons[roadmap.category] || '📚'}</span>
+              </div>
+              <div>
+                <div className="flex items-center space-x-2 mb-2">
+                  {roadmap.is_featured && (
+                    <div className="flex items-center px-2 py-1 bg-yellow-100 dark:bg-yellow-900/30 rounded-full text-xs font-medium text-yellow-700 dark:text-yellow-300">
+                      <Award className="w-3 h-3 mr-1" />
+                      Featured
+                    </div>
+                  )}
+                  {roadmap.is_verified && (
+                    <div className="flex items-center px-2 py-1 bg-green-100 dark:bg-green-900/30 rounded-full text-xs font-medium text-green-700 dark:text-green-300">
+                      <CheckCircle className="w-3 h-3 mr-1" />
+                      Verified
+                    </div>
+                  )}
+                  <span className={`px-3 py-1 text-xs font-semibold rounded-full ${difficultyColors[roadmap.difficulty]}`}>
+                    {roadmap.difficulty}
+                  </span>
+                </div>
+                <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-2">
+                  {roadmap.title}
+                </h1>
+                <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
+                  {roadmap.description}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Stats */}
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 mb-8">
+            <div className="bg-gray-50 dark:bg-gray-700/50 rounded-xl p-4 text-center">
+              <div className="flex items-center justify-center mb-2">
+                <Eye className="w-4 h-4 text-blue-500" />
+              </div>
+              <div className="text-2xl font-bold text-gray-900 dark:text-white">{formatNumber(roadmap.view_count)}</div>
+              <div className="text-xs text-gray-500 dark:text-gray-400">Views</div>
+            </div>
+            <div className="bg-gray-50 dark:bg-gray-700/50 rounded-xl p-4 text-center">
+              <div className="flex items-center justify-center mb-2">
+                <Users className="w-4 h-4 text-green-500" />
+              </div>
+              <div className="text-2xl font-bold text-gray-900 dark:text-white">{formatNumber(roadmap.adoption_count)}</div>
+              <div className="text-xs text-gray-500 dark:text-gray-400">Learners</div>
+            </div>
+            {roadmap.estimated_hours && (
+              <div className="bg-gray-50 dark:bg-gray-700/50 rounded-xl p-4 text-center">
+                <div className="flex items-center justify-center mb-2">
+                  <Clock className="w-4 h-4 text-orange-500" />
+                </div>
+                <div className="text-2xl font-bold text-gray-900 dark:text-white">{roadmap.estimated_hours}</div>
+                <div className="text-xs text-gray-500 dark:text-gray-400">Hours</div>
+              </div>
+            )}
+            <div className="bg-gray-50 dark:bg-gray-700/50 rounded-xl p-4 text-center">
+              <div className="flex items-center justify-center mb-2">
+                <BookOpen className="w-4 h-4 text-purple-500" />
+              </div>
+              <div className="text-2xl font-bold text-gray-900 dark:text-white">{roadmap.roadmap_plan?.length || 0}</div>
+              <div className="text-xs text-gray-500 dark:text-gray-400">Modules</div>
+            </div>
+            <div className="bg-gray-50 dark:bg-gray-700/50 rounded-xl p-4 text-center">
+              <div className="flex items-center justify-center mb-2">
+                <Target className="w-4 h-4 text-indigo-500" />
+              </div>
+              <div className="text-2xl font-bold text-gray-900 dark:text-white">{totalTopics}</div>
+              <div className="text-xs text-gray-500 dark:text-gray-400">Topics</div>
+            </div>
+            <div className="bg-gray-50 dark:bg-gray-700/50 rounded-xl p-4 text-center">
+              <div className="flex items-center justify-center mb-2">
+                <Zap className="w-4 h-4 text-yellow-500" />
+              </div>
+              <div className="text-2xl font-bold text-gray-900 dark:text-white">{totalSubtopics}</div>
+              <div className="text-xs text-gray-500 dark:text-gray-400">Lessons</div>
+            </div>
+          </div>
+
+          {/* Action Button */}
+          <button
+            onClick={handleAdoptRoadmap}
+            disabled={adopting}
+            className="w-full md:w-auto inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-xl hover:from-blue-700 hover:to-blue-800 text-lg font-semibold transition-all duration-200 shadow-sm hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {adopting ? (
+              <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+            ) : (
+              <Download className="w-5 h-5 mr-2" />
+            )}
+            {adopting ? 'Adopting...' : user ? 'Start Learning Journey' : 'Sign In to Start Learning'}
+          </button>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Main Content */}
+          <div className="lg:col-span-2 space-y-6">
+            {/* Learning Path */}
+            <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-6 border border-gray-200/50 dark:border-gray-700/50">
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Learning Path</h2>
+              
+              {roadmap.roadmap_plan?.map((module, moduleIndex) => (
+                <div key={moduleIndex} className="mb-8 last:mb-0">
+                  <div className="flex items-center mb-4">
+                    <div className="flex items-center justify-center w-8 h-8 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full text-sm font-bold mr-3">
+                      {moduleIndex + 1}
+                    </div>
+                    <h3 className="text-xl font-semibold text-gray-900 dark:text-white">{module.title}</h3>
+                  </div>
+                  
+                  <p className="text-gray-600 dark:text-gray-400 mb-4 ml-11">{module.description}</p>
+                  
+                  <div className="ml-11 space-y-3">
+                    {module.topics.map((topic, topicIndex) => (
+                      <div key={topicIndex} className="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+                        <h4 className="font-semibold text-gray-900 dark:text-white mb-2">{topic.title}</h4>
+                        <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">{topic.description}</p>
+                        
+                        {topic.subtopics.length > 0 && (
+                          <div className="space-y-2">
+                            {topic.subtopics.slice(0, 3).map((subtopic, subtopicIndex) => (
+                              <div key={subtopicIndex} className="flex items-center justify-between py-2 px-3 bg-gray-50 dark:bg-gray-700/50 rounded">
+                                <span className="text-sm text-gray-700 dark:text-gray-300">{subtopic.title}</span>
+                                <div className="flex items-center space-x-1">
+                                  {subtopic.learn && <BookOpen className="w-3 h-3 text-blue-500" />}
+                                  {subtopic.quiz && <Badge className="w-3 h-3 text-green-500" />}
+                                  {subtopic.code && <Play className="w-3 h-3 text-purple-500" />}
+                                </div>
+                              </div>
+                            ))}
+                            {topic.subtopics.length > 3 && (
+                              <div className="text-xs text-gray-500 dark:text-gray-400 text-center py-2">
+                                +{topic.subtopics.length - 3} more lessons
+                              </div>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Sidebar */}
+          <div className="space-y-6">
+            {/* Prerequisites */}
+            {roadmap.prerequisites?.length > 0 && (
+              <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-6 border border-gray-200/50 dark:border-gray-700/50">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Prerequisites</h3>
+                <ul className="space-y-2">
+                  {roadmap.prerequisites.map((prereq, index) => (
+                    <li key={index} className="flex items-center text-sm text-gray-600 dark:text-gray-400">
+                      <CheckCircle className="w-4 h-4 text-green-500 mr-2 flex-shrink-0" />
+                      {prereq}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {/* Learning Outcomes */}
+            {roadmap.learning_outcomes?.length > 0 && (
+              <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-6 border border-gray-200/50 dark:border-gray-700/50">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">What You'll Learn</h3>
+                <ul className="space-y-2">
+                  {roadmap.learning_outcomes.map((outcome, index) => (
+                    <li key={index} className="flex items-center text-sm text-gray-600 dark:text-gray-400">
+                      <Target className="w-4 h-4 text-blue-500 mr-2 flex-shrink-0" />
+                      {outcome}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {/* Tags */}
+            {roadmap.tags?.length > 0 && (
+              <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-6 border border-gray-200/50 dark:border-gray-700/50">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Technologies & Skills</h3>
+                <div className="flex flex-wrap gap-2">
+                  {roadmap.tags.map((tag, index) => (
+                    <span
+                      key={index}
+                      className="px-3 py-1 bg-gray-100 dark:bg-gray-700/50 text-gray-700 dark:text-gray-300 text-sm rounded-lg font-medium"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Target Audience */}
+            {roadmap.target_audience && (
+              <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-6 border border-gray-200/50 dark:border-gray-700/50">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Perfect For</h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400">{roadmap.target_audience}</p>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default RoadmapPreviewPage;
