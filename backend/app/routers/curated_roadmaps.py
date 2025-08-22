@@ -169,6 +169,820 @@ PREMIUM_ROADMAPS_CONFIG = [
     }
 ]
 
+# 30 Additional Premium Roadmaps for Trending Topics, Skills, Certifications & Tech Stacks
+ADDITIONAL_PREMIUM_ROADMAPS = [
+    {
+        "title": "TensorFlow and Keras Deep Learning",
+        "category": "artificial-intelligence",
+        "subcategory": "deep-learning",
+        "difficulty": "intermediate",
+        "target_audience": "ML engineers wanting to master TensorFlow for production AI systems",
+        "estimated_hours": 130,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.3,
+        "prerequisites": ["Python programming", "Basic machine learning", "Linear algebra"],
+        "learning_outcomes": [
+            "Build and deploy neural networks with TensorFlow",
+            "Master Keras API for rapid prototyping",
+            "Implement computer vision and NLP models",
+            "Optimize models for production deployment",
+            "Use TensorFlow Serving and TFX for MLOps"
+        ],
+        "tags": ["tensorflow", "keras", "deep-learning", "ai", "neural-networks", "mlops"],
+        "request": {
+            "subject": "TensorFlow and Keras Deep Learning Development",
+            "goal": "I want to master TensorFlow and Keras for building production-ready deep learning systems. Teach me neural network architectures, model optimization, deployment strategies, and MLOps practices. Include computer vision, NLP, and scalable AI system design.",
+            "time_value": 10,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Kubernetes Certified Administrator (CKA)",
+        "category": "devops",
+        "subcategory": "certification",
+        "difficulty": "advanced",
+        "target_audience": "DevOps engineers preparing for Kubernetes certification",
+        "estimated_hours": 120,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.4,
+        "prerequisites": ["Linux administration", "Docker containers", "Basic networking"],
+        "learning_outcomes": [
+            "Pass the Kubernetes CKA certification exam",
+            "Master cluster architecture and components",
+            "Implement networking, storage, and security",
+            "Troubleshoot production Kubernetes issues",
+            "Manage multi-node cluster deployments"
+        ],
+        "tags": ["kubernetes", "cka", "certification", "devops", "containers", "orchestration"],
+        "request": {
+            "subject": "Kubernetes Certified Administrator (CKA) Exam Preparation",
+            "goal": "I want to pass the CKA certification exam and become an expert Kubernetes administrator. Teach me cluster management, networking, storage, security, troubleshooting, and hands-on practical skills needed for the exam and real-world scenarios.",
+            "time_value": 10,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Vue.js 3 with Composition API",
+        "category": "web-development",
+        "subcategory": "frontend",
+        "difficulty": "intermediate",
+        "target_audience": "Frontend developers wanting to master modern Vue.js development",
+        "estimated_hours": 85,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 9.0,
+        "prerequisites": ["JavaScript ES6+", "HTML/CSS", "Basic frontend framework experience"],
+        "learning_outcomes": [
+            "Master Vue.js 3 Composition API and reactivity",
+            "Build scalable single-page applications",
+            "Implement state management with Pinia",
+            "Create reusable Vue components and composables",
+            "Deploy Vue applications with optimal performance"
+        ],
+        "tags": ["vuejs", "composition-api", "frontend", "javascript", "pinia", "spa"],
+        "request": {
+            "subject": "Vue.js 3 Modern Frontend Development",
+            "goal": "I want to master Vue.js 3 with the Composition API for building modern, reactive web applications. Teach me component architecture, state management, routing, testing, and performance optimization. Focus on real-world project development.",
+            "time_value": 7,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Google Cloud Professional Architect",
+        "category": "cloud-computing",
+        "subcategory": "gcp",
+        "difficulty": "advanced",
+        "target_audience": "Cloud architects preparing for Google Cloud certification",
+        "estimated_hours": 140,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.2,
+        "prerequisites": ["Cloud computing basics", "Networking fundamentals", "System design experience"],
+        "learning_outcomes": [
+            "Design scalable Google Cloud architectures",
+            "Pass Google Cloud Professional Architect exam",
+            "Master GCP services and best practices",
+            "Implement security and compliance frameworks",
+            "Optimize costs and performance on GCP"
+        ],
+        "tags": ["gcp", "google-cloud", "certification", "architecture", "cloud-computing"],
+        "request": {
+            "subject": "Google Cloud Professional Cloud Architect Certification",
+            "goal": "I want to become a Google Cloud Professional Cloud Architect and pass the certification. Teach me GCP services, architecture patterns, security, networking, data management, and cost optimization. Include hands-on labs and real-world scenarios.",
+            "time_value": 11,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Competitive Programming and Contests",
+        "category": "competitive-programming",
+        "subcategory": "contests",
+        "difficulty": "advanced",
+        "target_audience": "Programmers wanting to excel in competitive programming contests",
+        "estimated_hours": 150,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.5,
+        "prerequisites": ["Strong programming skills", "Basic algorithms knowledge", "Mathematical thinking"],
+        "learning_outcomes": [
+            "Excel in Codeforces, AtCoder, and LeetCode contests",
+            "Master advanced algorithms and data structures",
+            "Develop speed and accuracy in problem solving",
+            "Understand mathematical concepts for programming",
+            "Achieve high ratings in competitive platforms"
+        ],
+        "tags": ["competitive-programming", "contests", "algorithms", "codeforces", "leetcode", "mathematics"],
+        "request": {
+            "subject": "Competitive Programming Mastery for Contests",
+            "goal": "I want to excel in competitive programming contests like Codeforces, AtCoder, and Google Code Jam. Teach me advanced algorithms, mathematical problem solving, optimization techniques, and contest strategies. Include extensive practice problems.",
+            "time_value": 12,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Django REST API Development",
+        "category": "web-development",
+        "subcategory": "backend",
+        "difficulty": "intermediate",
+        "target_audience": "Python developers building scalable web APIs",
+        "estimated_hours": 95,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 8.9,
+        "prerequisites": ["Python programming", "Basic web development", "Database concepts"],
+        "learning_outcomes": [
+            "Build robust REST APIs with Django",
+            "Implement authentication and permissions",
+            "Design scalable database schemas",
+            "Deploy and monitor Django applications",
+            "Integrate with third-party services and APIs"
+        ],
+        "tags": ["django", "python", "rest-api", "backend", "web-development", "postgresql"],
+        "request": {
+            "subject": "Django REST API Development and Deployment",
+            "goal": "I want to master Django for building production-ready REST APIs. Teach me Django REST framework, database design, authentication, testing, deployment, and scaling strategies. Focus on enterprise-level development practices.",
+            "time_value": 8,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "React Native Mobile Development",
+        "category": "mobile-development",
+        "subcategory": "cross-platform",
+        "difficulty": "intermediate",
+        "target_audience": "React developers transitioning to mobile app development",
+        "estimated_hours": 110,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.1,
+        "prerequisites": ["React experience", "JavaScript/TypeScript", "Mobile development basics"],
+        "learning_outcomes": [
+            "Build native mobile apps with React Native",
+            "Implement navigation and state management",
+            "Integrate with device APIs and sensors",
+            "Optimize performance for mobile platforms",
+            "Deploy apps to App Store and Google Play"
+        ],
+        "tags": ["react-native", "mobile-development", "react", "ios", "android", "cross-platform"],
+        "request": {
+            "subject": "React Native Cross-Platform Mobile Development",
+            "goal": "I want to master React Native for building high-performance mobile applications for iOS and Android. Teach me navigation, native modules, performance optimization, testing, and app store deployment. Include real-world app development.",
+            "time_value": 9,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "System Design for Senior Engineers",
+        "category": "system-design",
+        "subcategory": "architecture",
+        "difficulty": "advanced",
+        "target_audience": "Senior engineers and architects designing large-scale systems",
+        "estimated_hours": 120,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.6,
+        "prerequisites": ["Software engineering experience", "Database knowledge", "Distributed systems basics"],
+        "learning_outcomes": [
+            "Design scalable distributed systems",
+            "Master microservices architecture patterns",
+            "Implement caching and load balancing strategies",
+            "Handle data consistency and replication",
+            "Prepare for system design interviews"
+        ],
+        "tags": ["system-design", "architecture", "scalability", "microservices", "distributed-systems"],
+        "request": {
+            "subject": "Large-Scale System Design and Architecture",
+            "goal": "I want to master system design for building large-scale, distributed systems. Teach me architecture patterns, scalability strategies, database design, caching, load balancing, and fault tolerance. Include real-world case studies and interview preparation.",
+            "time_value": 10,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "FastAPI Modern Python Web Framework",
+        "category": "web-development",
+        "subcategory": "backend",
+        "difficulty": "beginner",
+        "target_audience": "Python developers wanting to build high-performance APIs",
+        "estimated_hours": 75,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 8.8,
+        "prerequisites": ["Python programming", "Basic web concepts", "Type hints knowledge"],
+        "learning_outcomes": [
+            "Build lightning-fast APIs with FastAPI",
+            "Implement automatic API documentation",
+            "Handle async programming and concurrency",
+            "Integrate with databases and ORMs",
+            "Deploy FastAPI applications at scale"
+        ],
+        "tags": ["fastapi", "python", "api", "async", "backend", "performance"],
+        "request": {
+            "subject": "FastAPI High-Performance Python Web Development",
+            "goal": "I want to master FastAPI for building modern, high-performance web APIs. Teach me async programming, automatic documentation, testing, database integration, and deployment. Focus on building production-ready applications with best practices.",
+            "time_value": 6,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Apache Kafka Streaming Architecture",
+        "category": "data-engineering",
+        "subcategory": "streaming",
+        "difficulty": "advanced",
+        "target_audience": "Data engineers building real-time streaming systems",
+        "estimated_hours": 115,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.2,
+        "prerequisites": ["Distributed systems knowledge", "Java or Python", "Database experience"],
+        "learning_outcomes": [
+            "Design real-time streaming architectures with Kafka",
+            "Implement Kafka Streams and Connect",
+            "Build fault-tolerant data pipelines",
+            "Monitor and optimize Kafka clusters",
+            "Integrate with various data sources and sinks"
+        ],
+        "tags": ["kafka", "streaming", "data-engineering", "real-time", "distributed-systems"],
+        "request": {
+            "subject": "Apache Kafka Real-Time Streaming Data Architecture",
+            "goal": "I want to master Apache Kafka for building real-time streaming data systems. Teach me Kafka architecture, Streams API, Connect framework, cluster management, monitoring, and integration patterns. Include hands-on streaming projects.",
+            "time_value": 9,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Svelte and SvelteKit Modern Frontend",
+        "category": "web-development",
+        "subcategory": "frontend",
+        "difficulty": "beginner",
+        "target_audience": "Frontend developers exploring modern, lightweight frameworks",
+        "estimated_hours": 80,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 8.7,
+        "prerequisites": ["JavaScript fundamentals", "HTML/CSS", "Basic component concepts"],
+        "learning_outcomes": [
+            "Build reactive UIs with Svelte",
+            "Create full-stack apps with SvelteKit",
+            "Implement server-side rendering",
+            "Optimize for performance and bundle size",
+            "Deploy Svelte applications efficiently"
+        ],
+        "tags": ["svelte", "sveltekit", "frontend", "javascript", "reactive", "performance"],
+        "request": {
+            "subject": "Svelte and SvelteKit Modern Web Development",
+            "goal": "I want to master Svelte and SvelteKit for building fast, reactive web applications. Teach me component creation, state management, routing, server-side rendering, and deployment. Focus on performance optimization and modern development practices.",
+            "time_value": 7,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Figma to Code Design Implementation",
+        "category": "design",
+        "subcategory": "design-to-code",
+        "difficulty": "intermediate",
+        "target_audience": "Designers and developers bridging design-development gap",
+        "estimated_hours": 90,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 8.9,
+        "prerequisites": ["Basic design knowledge", "HTML/CSS", "JavaScript fundamentals"],
+        "learning_outcomes": [
+            "Convert Figma designs to pixel-perfect code",
+            "Implement responsive design systems",
+            "Create reusable component libraries",
+            "Master CSS Grid, Flexbox, and animations",
+            "Collaborate effectively between design and development"
+        ],
+        "tags": ["figma", "design-to-code", "css", "responsive-design", "component-libraries"],
+        "request": {
+            "subject": "Figma to Code Implementation and Design Systems",
+            "goal": "I want to master converting Figma designs into high-quality, maintainable code. Teach me design system implementation, responsive layouts, CSS best practices, component architecture, and design-development collaboration workflows.",
+            "time_value": 7,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "PostgreSQL Database Mastery",
+        "category": "database",
+        "subcategory": "sql",
+        "difficulty": "intermediate",
+        "target_audience": "Backend developers and database administrators",
+        "estimated_hours": 100,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.1,
+        "prerequisites": ["SQL basics", "Database concepts", "Command line familiarity"],
+        "learning_outcomes": [
+            "Master advanced PostgreSQL features",
+            "Design optimal database schemas",
+            "Implement indexing and query optimization",
+            "Handle replication and high availability",
+            "Monitor and tune database performance"
+        ],
+        "tags": ["postgresql", "database", "sql", "performance", "administration"],
+        "request": {
+            "subject": "PostgreSQL Advanced Database Development and Administration",
+            "goal": "I want to master PostgreSQL for building scalable, high-performance database systems. Teach me advanced SQL, indexing strategies, query optimization, replication, backup strategies, and performance tuning. Include real-world scenarios.",
+            "time_value": 8,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Unity Game Development with C#",
+        "category": "game-development",
+        "subcategory": "unity",
+        "difficulty": "beginner",
+        "target_audience": "Aspiring game developers and C# programmers",
+        "estimated_hours": 120,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.0,
+        "prerequisites": ["Basic programming concepts", "C# fundamentals", "Creative thinking"],
+        "learning_outcomes": [
+            "Build 2D and 3D games with Unity",
+            "Master Unity's component system",
+            "Implement game physics and animations",
+            "Create user interfaces and game menus",
+            "Publish games to multiple platforms"
+        ],
+        "tags": ["unity", "game-development", "csharp", "2d", "3d", "mobile-games"],
+        "request": {
+            "subject": "Unity Game Development with C# Programming",
+            "goal": "I want to master Unity for creating engaging 2D and 3D games. Teach me Unity engine, C# scripting, physics, animations, UI design, sound integration, and multi-platform deployment. Include complete game development projects.",
+            "time_value": 10,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "GraphQL API Design and Implementation",
+        "category": "web-development",
+        "subcategory": "api",
+        "difficulty": "intermediate",
+        "target_audience": "Backend developers modernizing API architecture",
+        "estimated_hours": 85,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 8.8,
+        "prerequisites": ["API development experience", "JavaScript or Python", "Database knowledge"],
+        "learning_outcomes": [
+            "Design efficient GraphQL schemas",
+            "Implement resolvers and data loaders",
+            "Handle authentication and authorization",
+            "Optimize queries and prevent N+1 problems",
+            "Build real-time subscriptions"
+        ],
+        "tags": ["graphql", "api", "backend", "schema-design", "resolvers", "subscriptions"],
+        "request": {
+            "subject": "GraphQL API Development and Best Practices",
+            "goal": "I want to master GraphQL for building flexible, efficient APIs. Teach me schema design, resolver implementation, query optimization, authentication, testing, and real-time features. Focus on production-ready GraphQL services.",
+            "time_value": 7,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Terraform Infrastructure as Code",
+        "category": "devops",
+        "subcategory": "infrastructure",
+        "difficulty": "intermediate",
+        "target_audience": "DevOps engineers automating infrastructure management",
+        "estimated_hours": 95,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.0,
+        "prerequisites": ["Cloud computing basics", "Command line proficiency", "Infrastructure concepts"],
+        "learning_outcomes": [
+            "Automate infrastructure with Terraform",
+            "Design reusable infrastructure modules",
+            "Implement infrastructure CI/CD pipelines",
+            "Manage state and handle dependencies",
+            "Apply security and compliance best practices"
+        ],
+        "tags": ["terraform", "infrastructure-as-code", "devops", "aws", "azure", "automation"],
+        "request": {
+            "subject": "Terraform Infrastructure as Code Automation",
+            "goal": "I want to master Terraform for automating cloud infrastructure deployment and management. Teach me infrastructure design, module creation, state management, CI/CD integration, and multi-cloud deployments. Include security and best practices.",
+            "time_value": 8,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Spring Boot Java Enterprise Development",
+        "category": "web-development",
+        "subcategory": "backend",
+        "difficulty": "intermediate",
+        "target_audience": "Java developers building enterprise applications",
+        "estimated_hours": 110,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 9.1,
+        "prerequisites": ["Java programming", "Object-oriented design", "Database concepts"],
+        "learning_outcomes": [
+            "Build enterprise applications with Spring Boot",
+            "Implement security with Spring Security",
+            "Create RESTful APIs and microservices",
+            "Handle data with Spring Data JPA",
+            "Deploy and monitor Spring applications"
+        ],
+        "tags": ["spring-boot", "java", "enterprise", "microservices", "rest-api", "jpa"],
+        "request": {
+            "subject": "Spring Boot Enterprise Java Development",
+            "goal": "I want to master Spring Boot for building robust enterprise Java applications. Teach me Spring framework, security, data persistence, testing, microservices architecture, and deployment strategies. Focus on production-ready development.",
+            "time_value": 9,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "MongoDB NoSQL Database Development",
+        "category": "database",
+        "subcategory": "nosql",
+        "difficulty": "beginner",
+        "target_audience": "Developers working with document-based databases",
+        "estimated_hours": 80,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 8.7,
+        "prerequisites": ["Basic database concepts", "JSON understanding", "Programming experience"],
+        "learning_outcomes": [
+            "Design efficient MongoDB schemas",
+            "Master aggregation pipelines",
+            "Implement indexing and performance optimization",
+            "Handle replication and sharding",
+            "Integrate MongoDB with applications"
+        ],
+        "tags": ["mongodb", "nosql", "database", "aggregation", "indexing", "document-database"],
+        "request": {
+            "subject": "MongoDB NoSQL Database Development and Operations",
+            "goal": "I want to master MongoDB for building scalable document-based applications. Teach me schema design, aggregation framework, indexing strategies, replication, sharding, and integration with modern applications. Include performance optimization.",
+            "time_value": 7,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Angular Enterprise Application Development",
+        "category": "web-development",
+        "subcategory": "frontend",
+        "difficulty": "intermediate",
+        "target_audience": "Enterprise developers building large-scale Angular applications",
+        "estimated_hours": 105,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 8.9,
+        "prerequisites": ["TypeScript", "JavaScript ES6+", "Web development basics"],
+        "learning_outcomes": [
+            "Build scalable Angular applications",
+            "Master Angular architecture and patterns",
+            "Implement state management with NgRx",
+            "Create reusable component libraries",
+            "Optimize performance and bundle sizes"
+        ],
+        "tags": ["angular", "typescript", "enterprise", "ngrx", "components", "frontend"],
+        "request": {
+            "subject": "Angular Enterprise Application Development",
+            "goal": "I want to master Angular for building large-scale enterprise applications. Teach me Angular architecture, component design, state management, testing, performance optimization, and enterprise patterns. Focus on maintainable, scalable applications.",
+            "time_value": 8,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Redis Caching and Data Structures",
+        "category": "database",
+        "subcategory": "caching",
+        "difficulty": "intermediate",
+        "target_audience": "Backend developers optimizing application performance",
+        "estimated_hours": 70,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 8.6,
+        "prerequisites": ["Backend development experience", "Database knowledge", "Performance concepts"],
+        "learning_outcomes": [
+            "Implement caching strategies with Redis",
+            "Master Redis data structures and commands",
+            "Build real-time features with pub/sub",
+            "Handle session management and queues",
+            "Monitor and optimize Redis performance"
+        ],
+        "tags": ["redis", "caching", "performance", "data-structures", "session-management"],
+        "request": {
+            "subject": "Redis Caching and High-Performance Data Structures",
+            "goal": "I want to master Redis for building high-performance, scalable applications. Teach me caching strategies, data structures, pub/sub messaging, session management, and performance optimization. Include real-world use cases and patterns.",
+            "time_value": 6,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Swift iOS App Development",
+        "category": "mobile-development",
+        "subcategory": "ios",
+        "difficulty": "beginner",
+        "target_audience": "Developers wanting to create native iOS applications",
+        "estimated_hours": 115,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.2,
+        "prerequisites": ["Programming fundamentals", "Object-oriented concepts", "Mac development environment"],
+        "learning_outcomes": [
+            "Build native iOS apps with Swift",
+            "Master UIKit and SwiftUI frameworks",
+            "Implement Core Data and networking",
+            "Handle app lifecycle and performance",
+            "Publish apps to the App Store"
+        ],
+        "tags": ["swift", "ios", "mobile-development", "uikit", "swiftui", "app-store"],
+        "request": {
+            "subject": "Swift iOS Native App Development",
+            "goal": "I want to master Swift for building high-quality iOS applications. Teach me Swift language, UIKit, SwiftUI, Core Data, networking, testing, and App Store deployment. Include complete app development projects and best practices.",
+            "time_value": 9,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Elasticsearch Search and Analytics",
+        "category": "data-engineering",
+        "subcategory": "search",
+        "difficulty": "intermediate",
+        "target_audience": "Developers building search and analytics systems",
+        "estimated_hours": 90,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 8.8,
+        "prerequisites": ["Database concepts", "JSON understanding", "Basic networking"],
+        "learning_outcomes": [
+            "Build powerful search engines with Elasticsearch",
+            "Implement full-text search and analytics",
+            "Design optimal index mappings",
+            "Create complex aggregations and visualizations",
+            "Monitor and scale Elasticsearch clusters"
+        ],
+        "tags": ["elasticsearch", "search", "analytics", "full-text-search", "aggregations"],
+        "request": {
+            "subject": "Elasticsearch Search Engine and Analytics Platform",
+            "goal": "I want to master Elasticsearch for building sophisticated search and analytics systems. Teach me indexing, querying, aggregations, cluster management, performance optimization, and integration with applications. Include real-world search scenarios.",
+            "time_value": 7,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Kotlin Android Development",
+        "category": "mobile-development",
+        "subcategory": "android",
+        "difficulty": "beginner",
+        "target_audience": "Developers creating native Android applications",
+        "estimated_hours": 110,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.0,
+        "prerequisites": ["Programming basics", "Object-oriented programming", "Android Studio setup"],
+        "learning_outcomes": [
+            "Build native Android apps with Kotlin",
+            "Master Android architecture components",
+            "Implement Material Design principles",
+            "Handle data persistence and networking",
+            "Publish apps to Google Play Store"
+        ],
+        "tags": ["kotlin", "android", "mobile-development", "material-design", "architecture-components"],
+        "request": {
+            "subject": "Kotlin Android Native App Development",
+            "goal": "I want to master Kotlin for building modern Android applications. Teach me Kotlin language, Android architecture, UI design, data management, testing, and Play Store deployment. Focus on modern development practices and user experience.",
+            "time_value": 9,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Docker Containerization Mastery",
+        "category": "devops",
+        "subcategory": "containerization",
+        "difficulty": "beginner",
+        "target_audience": "Developers and DevOps engineers adopting containerization",
+        "estimated_hours": 75,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 8.9,
+        "prerequisites": ["Command line basics", "Software development experience", "Linux fundamentals"],
+        "learning_outcomes": [
+            "Master Docker containers and images",
+            "Create optimized Dockerfiles",
+            "Implement multi-container applications",
+            "Handle networking and volumes",
+            "Deploy containers in production"
+        ],
+        "tags": ["docker", "containerization", "devops", "deployment", "microservices"],
+        "request": {
+            "subject": "Docker Containerization for Modern Applications",
+            "goal": "I want to master Docker for containerizing and deploying modern applications. Teach me container creation, image optimization, docker-compose, networking, storage, security, and production deployment strategies. Include best practices.",
+            "time_value": 6,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "TypeScript Advanced Programming",
+        "category": "programming-languages",
+        "subcategory": "javascript",
+        "difficulty": "intermediate",
+        "target_audience": "JavaScript developers wanting to master TypeScript",
+        "estimated_hours": 85,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 9.1,
+        "prerequisites": ["Strong JavaScript knowledge", "ES6+ features", "Object-oriented programming"],
+        "learning_outcomes": [
+            "Master advanced TypeScript features",
+            "Design type-safe applications",
+            "Implement generic programming patterns",
+            "Create declaration files and type definitions",
+            "Migrate JavaScript projects to TypeScript"
+        ],
+        "tags": ["typescript", "javascript", "type-safety", "generics", "advanced-programming"],
+        "request": {
+            "subject": "TypeScript Advanced Programming and Type Safety",
+            "goal": "I want to master advanced TypeScript for building robust, type-safe applications. Teach me advanced types, generics, decorators, modules, compilation, tooling, and migration strategies. Focus on enterprise-level TypeScript development.",
+            "time_value": 7,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "MERN Stack Full Development",
+        "category": "web-development",
+        "subcategory": "fullstack",
+        "difficulty": "intermediate",
+        "target_audience": "Full-stack developers mastering the MERN technology stack",
+        "estimated_hours": 125,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.3,
+        "prerequisites": ["JavaScript/ES6+", "React basics", "Node.js fundamentals"],
+        "learning_outcomes": [
+            "Build complete MERN stack applications",
+            "Master MongoDB, Express, React, and Node.js",
+            "Implement authentication and authorization",
+            "Create real-time features and deployment",
+            "Handle state management and API integration"
+        ],
+        "tags": ["mern", "mongodb", "express", "react", "nodejs", "fullstack"],
+        "request": {
+            "subject": "MERN Stack Complete Full-Stack Development",
+            "goal": "I want to master the MERN stack for building modern full-stack web applications. Teach me MongoDB, Express.js, React, Node.js integration, authentication, real-time features, testing, and deployment. Include complete project development.",
+            "time_value": 10,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Jenkins CI/CD Pipeline Automation",
+        "category": "devops",
+        "subcategory": "ci-cd",
+        "difficulty": "intermediate",
+        "target_audience": "DevOps engineers implementing continuous integration",
+        "estimated_hours": 85,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 8.7,
+        "prerequisites": ["Software development lifecycle", "Version control (Git)", "Basic scripting"],
+        "learning_outcomes": [
+            "Design automated CI/CD pipelines",
+            "Master Jenkins configuration and plugins",
+            "Implement testing and deployment automation",
+            "Handle pipeline security and monitoring",
+            "Integrate with various development tools"
+        ],
+        "tags": ["jenkins", "ci-cd", "automation", "devops", "pipelines", "deployment"],
+        "request": {
+            "subject": "Jenkins CI/CD Pipeline Automation and DevOps",
+            "goal": "I want to master Jenkins for creating robust CI/CD pipelines and automation workflows. Teach me Jenkins setup, pipeline creation, plugin management, testing integration, deployment automation, and best practices for DevOps workflows.",
+            "time_value": 7,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Microservices Architecture Patterns",
+        "category": "system-design",
+        "subcategory": "microservices",
+        "difficulty": "advanced",
+        "target_audience": "Senior developers designing distributed microservice systems",
+        "estimated_hours": 130,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.4,
+        "prerequisites": ["Distributed systems knowledge", "API design experience", "Container technology"],
+        "learning_outcomes": [
+            "Design microservices architectures",
+            "Implement service communication patterns",
+            "Handle distributed data management",
+            "Apply monitoring and observability",
+            "Manage service deployment and scaling"
+        ],
+        "tags": ["microservices", "architecture", "distributed-systems", "api-design", "observability"],
+        "request": {
+            "subject": "Microservices Architecture Design and Implementation",
+            "goal": "I want to master microservices architecture for building scalable, distributed systems. Teach me service design, communication patterns, data management, deployment strategies, monitoring, and fault tolerance. Include real-world architecture patterns.",
+            "time_value": 11,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Data Science with R Programming",
+        "category": "data-science",
+        "subcategory": "r-programming",
+        "difficulty": "beginner",
+        "target_audience": "Analysts and researchers using R for data science",
+        "estimated_hours": 100,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 8.8,
+        "prerequisites": ["Basic statistics", "Mathematical thinking", "Programming concepts"],
+        "learning_outcomes": [
+            "Master R programming for data analysis",
+            "Create statistical models and visualizations",
+            "Handle data manipulation with dplyr and tidyr",
+            "Build interactive dashboards with Shiny",
+            "Conduct reproducible research workflows"
+        ],
+        "tags": ["r-programming", "data-science", "statistics", "visualization", "shiny"],
+        "request": {
+            "subject": "R Programming for Data Science and Statistical Analysis",
+            "goal": "I want to master R for data science, statistical analysis, and visualization. Teach me R fundamentals, data manipulation, statistical modeling, visualization with ggplot2, and interactive applications with Shiny. Include real-world data projects.",
+            "time_value": 8,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Tailwind CSS Utility-First Design",
+        "category": "web-development",
+        "subcategory": "css",
+        "difficulty": "beginner",
+        "target_audience": "Frontend developers adopting utility-first CSS approach",
+        "estimated_hours": 60,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 8.5,
+        "prerequisites": ["HTML/CSS basics", "Responsive design concepts", "Component thinking"],
+        "learning_outcomes": [
+            "Master Tailwind CSS utility classes",
+            "Build responsive designs efficiently",
+            "Create custom design systems",
+            "Optimize for production bundle sizes",
+            "Integrate with modern frameworks"
+        ],
+        "tags": ["tailwind-css", "css", "utility-first", "responsive-design", "frontend"],
+        "request": {
+            "subject": "Tailwind CSS Utility-First Design System",
+            "goal": "I want to master Tailwind CSS for building beautiful, responsive web interfaces efficiently. Teach me utility classes, responsive design, customization, component extraction, and integration with React/Vue. Focus on modern design workflows.",
+            "time_value": 5,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    }
+]
+
 async def generate_curated_roadmap(roadmap_config: dict) -> CuratedRoadmap:
     """Generate a single curated roadmap using AI"""
     logger.info(f"🎯 Generating: {roadmap_config['title']}")
@@ -206,10 +1020,10 @@ async def generate_curated_roadmap(roadmap_config: dict) -> CuratedRoadmap:
     
     return curated_roadmap
 
-async def generate_all_curated_roadmaps_background(db: Session):
-    """Background task to generate all curated roadmaps"""
+async def generate_initial_curated_roadmaps_background(db: Session):
+    """Background task to generate initial 5 curated roadmaps"""
     try:
-        logger.info("🚀 Starting background generation of curated roadmaps...")
+        logger.info("🚀 Starting background generation of initial 5 curated roadmaps...")
         generated_roadmaps = []
         
         for config in PREMIUM_ROADMAPS_CONFIG:
@@ -228,7 +1042,35 @@ async def generate_all_curated_roadmaps_background(db: Session):
             for roadmap in generated_roadmaps:
                 db.add(roadmap)
             db.commit()
-            logger.info(f"💾 Saved {len(generated_roadmaps)} curated roadmaps to database!")
+            logger.info(f"💾 Saved {len(generated_roadmaps)} initial curated roadmaps to database!")
+        
+    except Exception as e:
+        logger.error(f"💥 Background roadmap generation failed: {e}")
+        db.rollback()
+
+async def generate_additional_curated_roadmaps_background(db: Session):
+    """Background task to generate additional 30 curated roadmaps"""
+    try:
+        logger.info("🚀 Starting background generation of 30 additional curated roadmaps...")
+        generated_roadmaps = []
+        
+        for config in ADDITIONAL_PREMIUM_ROADMAPS:
+            try:
+                roadmap = await generate_curated_roadmap(config)
+                generated_roadmaps.append(roadmap)
+                logger.info(f"✅ Generated: {config['title']}")
+                # Small delay to avoid API limits
+                await asyncio.sleep(2)
+            except Exception as e:
+                logger.error(f"❌ Failed to generate {config['title']}: {e}")
+                continue
+        
+        # Save all generated roadmaps
+        if generated_roadmaps:
+            for roadmap in generated_roadmaps:
+                db.add(roadmap)
+            db.commit()
+            logger.info(f"💾 Saved {len(generated_roadmaps)} additional curated roadmaps to database!")
         
     except Exception as e:
         logger.error(f"💥 Background roadmap generation failed: {e}")
@@ -255,14 +1097,20 @@ async def browse_curated_roadmaps(
     Auto-generates roadmaps if database is empty (first-time visit).
     """
     
-    # Check if curated roadmaps exist - if not, generate them in background
+    # Check if curated roadmaps exist and generate accordingly
     existing_count = db.exec(select(func.count(CuratedRoadmap.id))).first()
+    
     if existing_count == 0:
-        logger.info("🎯 No curated roadmaps found. Starting background generation...")
-        # Start generation in background - don't wait for completion
-        background_tasks.add_task(generate_all_curated_roadmaps_background, db)
+        logger.info("🎯 No curated roadmaps found. Starting background generation of initial 5 roadmaps...")
+        # Start generation of initial 5 roadmaps in background
+        background_tasks.add_task(generate_initial_curated_roadmaps_background, db)
         # Return empty array for now - roadmaps will be available after generation completes
         return []
+    elif existing_count == 5:
+        logger.info("🚀 Found exactly 5 roadmaps. Starting background generation of 30 additional roadmaps...")
+        # Start generation of additional 30 roadmaps in background
+        background_tasks.add_task(generate_additional_curated_roadmaps_background, db)
+        # Continue to return existing roadmaps while additional ones generate
     
     query = select(CuratedRoadmap)
     
