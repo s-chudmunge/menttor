@@ -14,6 +14,7 @@ import SpiralMark from '@rootComponents/SpiralMark';
 import OldRoadmapsModal from './components/OldRoadmapsModal';
 import OldLearnPagesModal from './learn/OldLearnPagesModal';
 import D3ModelMapModal from './components/ModelSelectionMap';
+import OnboardingWrapper from '../components/OnboardingWrapper';
 import { BACKEND_URL } from '../config/config';
 import { RoadmapData, RoadmapItem, api } from '../lib/api';
 import { useAIState } from '@/store/aiState';
@@ -311,7 +312,8 @@ const MenttorLabsMainPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-white via-blue-50 to-blue-100 dark:from-gray-900 dark:via-blue-900 dark:to-gray-800 transition-colors duration-300">
+    <OnboardingWrapper>
+      <div className="min-h-screen bg-gradient-to-br from-white via-blue-50 to-blue-100 dark:from-gray-900 dark:via-blue-900 dark:to-gray-800 transition-colors duration-300">
 
       {/* Navigation */}
       <nav className="bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm border-b border-gray-100 dark:border-gray-800 sticky top-0 z-50 transition-all duration-300">
@@ -947,6 +949,7 @@ const MenttorLabsMainPage = () => {
 
       
     </div>
+    </OnboardingWrapper>
   );
 };
 
