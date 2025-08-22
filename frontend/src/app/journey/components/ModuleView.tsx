@@ -39,15 +39,33 @@ const ModuleView: React.FC<ModuleViewProps> = ({
       </div>
     );
   }
-  // Handle different roadmap plan structures
-  const modules = (roadmapData?.roadmap_plan as any)?.modules || roadmapData?.roadmap_plan || [];
-  const currentModule = modules[currentModuleIndex];
-
-  if (!currentModule || !modules.length) {
+  // Handle different roadmap plan structures with defensive checks
+  const roadmapPlan = roadmapData?.roadmap_plan;
+  if (!roadmapPlan) {
     return (
       <div className="text-center py-12">
         <Target className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-        <p className="text-gray-600 dark:text-gray-400">No module data available.</p>
+        <p className="text-gray-600 dark:text-gray-400">No roadmap plan available.</p>
+      </div>
+    );
+  }
+
+  const modules = (roadmapPlan as any)?.modules || roadmapPlan || [];
+  if (!Array.isArray(modules) || modules.length === 0) {
+    return (
+      <div className="text-center py-12">
+        <Target className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+        <p className="text-gray-600 dark:text-gray-400">No modules available in roadmap.</p>
+      </div>
+    );
+  }
+
+  const currentModule = modules[currentModuleIndex];
+  if (!currentModule) {
+    return (
+      <div className="text-center py-12">
+        <Target className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+        <p className="text-gray-600 dark:text-gray-400">Module not found.</p>
       </div>
     );
   }
@@ -101,7 +119,7 @@ const ModuleView: React.FC<ModuleViewProps> = ({
       >
         <div className="p-4 sm:p-6">
           <div className="space-y-4 sm:space-y-6">
-            {currentModule.topics.map((topic: any, topicIndex: number) => (
+            {currentModule.topics && Array.isArray(currentModule.topics) ? currentModule.topics.map((topic: any, topicIndex: number) => (
               <motion.div 
                 key={topicIndex}
                 initial={{ opacity: 0, x: -20 }}
@@ -131,7 +149,7 @@ const ModuleView: React.FC<ModuleViewProps> = ({
                   {/* Subtopics Grid */}
                   <div className="p-3 sm:p-4">
                     <div className="grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                      {topic.subtopics.map((subtopic: any, subtopicIndex: number) => {
+                      {topic.subtopics && Array.isArray(topic.subtopics) ? topic.subtopics.map((subtopic: any, subtopicIndex: number) => {
                         const subtopicProgress = progressData?.find(p => p.sub_topic_id === subtopic.id);
                         const isCompleted = subtopicProgress?.status === 'completed';
                         const hasProgress = subtopicProgress?.learn_completed || subtopicProgress?.quiz_completed;
@@ -246,12 +264,20 @@ const ModuleView: React.FC<ModuleViewProps> = ({
                             </div>
                           </motion.div>
                         );
-                      })}
+                      }) : (
+                        <div className="col-span-full text-center py-4">
+                          <p className="text-gray-500 dark:text-gray-400">No subtopics available for this topic.</p>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
               </motion.div>
-            ))}
+            )) : (
+              <div className="text-center py-8">
+                <p className="text-gray-500 dark:text-gray-400">No topics available in this module.</p>
+              </div>
+            )}
           </div>
         </div>
       </motion.div>
@@ -265,13 +291,13 @@ const ModuleView: React.FC<ModuleViewProps> = ({
       >
         <div className="inline-flex items-center space-x-2 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-full px-6 py-3 border border-gray-200/50 dark:border-gray-700/50 shadow-lg">
           <span className="text-sm text-gray-800 dark:text-gray-200 font-medium">
-            Module {currentModuleIndex + 1} of {roadmapData.roadmap_plan.length}
+            Module {currentModuleIndex + 1} of {modules.length}
           </span>
           <div className="w-24 h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
             <div 
               className="h-full bg-gradient-to-r from-indigo-600 to-purple-600 transition-all duration-500"
               style={{
-                width: `${((currentModuleIndex + 1) / roadmapData.roadmap_plan.length) * 100}%` 
+                width: `${((currentModuleIndex + 1) / modules.length) * 100}%` 
               }}
             />
           </div>
