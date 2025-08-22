@@ -1,6 +1,7 @@
 import logging
 from dotenv import load_dotenv
 
+# Load environment variables
 load_dotenv()
 
 from fastapi import FastAPI, Depends, WebSocket, status
