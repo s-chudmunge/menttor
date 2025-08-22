@@ -52,7 +52,8 @@ interface DayViewItem {
 }
 
 const DayView: React.FC<DayViewProps> = ({ roadmapData, progressData }) => {
-  const [currentDayIndex, setCurrentDayIndex] = useState(0);
+  const [currentWeekIndex, setCurrentWeekIndex] = useState(0);
+  const daysPerPage = 7; // Show 7 days at once (like a week)
 
   // Early return for invalid roadmap data
   if (!roadmapData) {
@@ -146,13 +147,17 @@ const DayView: React.FC<DayViewProps> = ({ roadmapData, progressData }) => {
     return days;
   }, [roadmapData, progressData]);
 
-  const currentDay = roadmapByDay[currentDayIndex];
+  // Calculate which days to show for current page
+  const startDayIndex = currentWeekIndex * daysPerPage;
+  const endDayIndex = Math.min(startDayIndex + daysPerPage, roadmapByDay.length);
+  const currentPageDays = roadmapByDay.slice(startDayIndex, endDayIndex);
+  const totalPages = Math.ceil(roadmapByDay.length / daysPerPage);
 
   const handleNavigation = (direction: 'prev' | 'next') => {
-    if (direction === 'prev' && currentDayIndex > 0) {
-      setCurrentDayIndex(currentDayIndex - 1);
-    } else if (direction === 'next' && currentDayIndex < roadmapByDay.length - 1) {
-      setCurrentDayIndex(currentDayIndex + 1);
+    if (direction === 'prev' && currentWeekIndex > 0) {
+      setCurrentWeekIndex(currentWeekIndex - 1);
+    } else if (direction === 'next' && currentWeekIndex < totalPages - 1) {
+      setCurrentWeekIndex(currentWeekIndex + 1);
     }
   };
 
@@ -182,7 +187,7 @@ const DayView: React.FC<DayViewProps> = ({ roadmapData, progressData }) => {
     }
   };
 
-  if (!currentDay || roadmapByDay.length === 0) {
+  if (!currentPageDays || roadmapByDay.length === 0) {
     return (
       <div className="text-center py-12">
         <Calendar className="w-12 h-12 text-gray-400 mx-auto mb-4" />
@@ -192,18 +197,43 @@ const DayView: React.FC<DayViewProps> = ({ roadmapData, progressData }) => {
   }
 
   return (
-    <div className="space-y-4">
-      {/* Multiple Days View */}
-      {roadmapByDay.slice(Math.max(0, currentDayIndex - 1), currentDayIndex + 2).map((day, dayOffset) => {
-        const isCurrentDay = dayOffset === Math.min(1, currentDayIndex);
-        return (
-          <motion.div
-            key={day.day}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: dayOffset * 0.1 }}
-            className={`${isCurrentDay ? 'ring-2 ring-indigo-500 ring-opacity-50' : ''}`}
-          >
+    <div className="space-y-6">
+      {/* Page Header */}
+      <div className="flex items-center justify-between mb-6">
+        <button
+          onClick={() => handleNavigation('prev')}
+          disabled={currentWeekIndex === 0}
+          className="flex items-center justify-center w-10 h-10 rounded-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-gray-50 dark:hover:bg-gray-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-sm"
+        >
+          <ChevronLeft className="w-5 h-5" />
+        </button>
+        
+        <div className="text-center">
+          <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
+            Days {startDayIndex + 1}-{endDayIndex}
+          </h2>
+          <p className="text-sm text-gray-600 dark:text-gray-400">
+            Page {currentWeekIndex + 1} of {totalPages}
+          </p>
+        </div>
+        
+        <button
+          onClick={() => handleNavigation('next')}
+          disabled={currentWeekIndex >= totalPages - 1}
+          className="flex items-center justify-center w-10 h-10 rounded-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-gray-50 dark:hover:bg-gray-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-sm"
+        >
+          <ChevronRight className="w-5 h-5" />
+        </button>
+      </div>
+
+      {/* All Days for Current Page */}
+      {currentPageDays.map((day, dayIndex) => (
+        <motion.div
+          key={day.day}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: dayIndex * 0.1 }}
+        >
             {/* Compact Day Header */}
             <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-lg border border-gray-200/50 dark:border-gray-700/50 shadow-sm mb-3">
               <div className="p-4">
@@ -330,33 +360,7 @@ const DayView: React.FC<DayViewProps> = ({ roadmapData, progressData }) => {
               ))}
             </div>
           </motion.div>
-        );
-      })}
-
-      {/* Navigation Footer */}
-      <div className="flex items-center justify-center space-x-4 mt-6">
-        <button
-          onClick={() => handleNavigation('prev')}
-          disabled={currentDayIndex === 0}
-          className="flex items-center justify-center w-10 h-10 rounded-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-gray-50 dark:hover:bg-gray-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-sm"
-        >
-          <ChevronLeft className="w-5 h-5" />
-        </button>
-        
-        <div className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-full px-4 py-2 border border-gray-200/50 dark:border-gray-700/50">
-          <span className="text-sm text-gray-600 dark:text-gray-400">
-            Day {currentDayIndex + 1} of {roadmapByDay.length}
-          </span>
-        </div>
-        
-        <button
-          onClick={() => handleNavigation('next')}
-          disabled={currentDayIndex >= roadmapByDay.length - 1}
-          className="flex items-center justify-center w-10 h-10 rounded-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-gray-50 dark:hover:bg-gray-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-sm"
-        >
-          <ChevronRight className="w-5 h-5" />
-        </button>
-      </div>
+        ))}
     </div>
   );
 };
