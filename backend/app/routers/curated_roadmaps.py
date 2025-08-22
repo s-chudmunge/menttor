@@ -51,8 +51,7 @@ def browse_curated_roadmaps(
     if search:
         search_filter = or_(
             CuratedRoadmap.title.icontains(search),
-            CuratedRoadmap.description.icontains(search),
-            func.array_to_string(CuratedRoadmap.tags, ' ').icontains(search)
+            CuratedRoadmap.description.icontains(search)
         )
         filters.append(search_filter)
     
