@@ -983,6 +983,955 @@ ADDITIONAL_PREMIUM_ROADMAPS = [
     }
 ]
 
+# 37 Advanced & Emerging Technology Roadmaps - Third Batch
+ADVANCED_PREMIUM_ROADMAPS = [
+    {
+        "title": "Generative AI and Large Language Models",
+        "category": "artificial-intelligence",
+        "subcategory": "generative-ai",
+        "difficulty": "intermediate",
+        "target_audience": "Developers wanting to build AI-powered applications with LLMs",
+        "estimated_hours": 120,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.6,
+        "prerequisites": ["Python programming", "Basic machine learning", "API development"],
+        "learning_outcomes": [
+            "Build applications with OpenAI GPT and Claude APIs",
+            "Master prompt engineering and fine-tuning techniques",
+            "Implement RAG (Retrieval Augmented Generation) systems",
+            "Deploy LLM applications at scale",
+            "Handle AI safety and ethical considerations"
+        ],
+        "tags": ["llm", "gpt", "claude", "prompt-engineering", "rag", "ai-safety"],
+        "request": {
+            "subject": "Generative AI and Large Language Model Development",
+            "goal": "I want to master building applications with LLMs like GPT and Claude. Teach me prompt engineering, fine-tuning, RAG systems, vector databases, AI safety, and deploying LLM applications. Include practical projects and ethical considerations.",
+            "time_value": 10,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Computer Vision with OpenCV and Deep Learning",
+        "category": "artificial-intelligence",
+        "subcategory": "computer-vision",
+        "difficulty": "intermediate",
+        "target_audience": "Developers building image processing and computer vision applications",
+        "estimated_hours": 110,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.3,
+        "prerequisites": ["Python programming", "Basic linear algebra", "Image processing concepts"],
+        "learning_outcomes": [
+            "Process and analyze images with OpenCV",
+            "Build object detection and facial recognition systems",
+            "Implement deep learning for computer vision",
+            "Create real-time video processing applications",
+            "Deploy computer vision models in production"
+        ],
+        "tags": ["opencv", "computer-vision", "deep-learning", "image-processing", "object-detection"],
+        "request": {
+            "subject": "Computer Vision with OpenCV and Deep Learning",
+            "goal": "I want to master computer vision using OpenCV and deep learning. Teach me image processing, object detection, facial recognition, video analysis, and deploying computer vision applications. Include hands-on projects with real-world datasets.",
+            "time_value": 9,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "MLOps and Machine Learning Deployment",
+        "category": "artificial-intelligence",
+        "subcategory": "mlops",
+        "difficulty": "advanced",
+        "target_audience": "ML engineers wanting to deploy and maintain ML systems in production",
+        "estimated_hours": 140,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.4,
+        "prerequisites": ["Machine learning experience", "Docker", "CI/CD basics", "Cloud platforms"],
+        "learning_outcomes": [
+            "Design end-to-end MLOps pipelines",
+            "Implement model monitoring and drift detection",
+            "Automate ML workflows with MLflow and Kubeflow",
+            "Deploy models with Docker and Kubernetes",
+            "Manage model versioning and A/B testing"
+        ],
+        "tags": ["mlops", "mlflow", "kubeflow", "model-deployment", "monitoring", "automation"],
+        "request": {
+            "subject": "MLOps and Production Machine Learning Systems",
+            "goal": "I want to master MLOps for deploying ML systems in production. Teach me CI/CD for ML, model monitoring, drift detection, automated retraining, containerization, and scaling ML infrastructure. Focus on enterprise-level practices.",
+            "time_value": 11,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Microsoft Azure Solutions Architect Expert",
+        "category": "cloud-computing",
+        "subcategory": "azure",
+        "difficulty": "advanced",
+        "target_audience": "Cloud architects preparing for Azure certification and enterprise solutions",
+        "estimated_hours": 150,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.2,
+        "prerequisites": ["Cloud computing basics", "Azure fundamentals", "System design experience"],
+        "learning_outcomes": [
+            "Design enterprise Azure architectures",
+            "Pass Azure Solutions Architect Expert certification",
+            "Implement hybrid and multi-cloud solutions",
+            "Master Azure security and governance",
+            "Optimize costs and performance in Azure"
+        ],
+        "tags": ["azure", "microsoft-cloud", "certification", "enterprise-architecture", "hybrid-cloud"],
+        "request": {
+            "subject": "Microsoft Azure Solutions Architect Expert Certification",
+            "goal": "I want to become an Azure Solutions Architect Expert and pass the certification. Teach me advanced Azure services, enterprise architecture patterns, hybrid cloud, security, governance, and cost optimization. Include hands-on labs and real scenarios.",
+            "time_value": 12,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Multi-Cloud Architecture and Strategy",
+        "category": "cloud-computing",
+        "subcategory": "multi-cloud",
+        "difficulty": "advanced",
+        "target_audience": "Enterprise architects designing multi-cloud and hybrid cloud solutions",
+        "estimated_hours": 130,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.1,
+        "prerequisites": ["AWS/Azure/GCP experience", "Enterprise architecture", "Networking knowledge"],
+        "learning_outcomes": [
+            "Design multi-cloud architectures across AWS, Azure, GCP",
+            "Implement cloud-agnostic solutions",
+            "Master hybrid cloud connectivity and networking",
+            "Handle multi-cloud security and compliance",
+            "Optimize costs across multiple cloud providers"
+        ],
+        "tags": ["multi-cloud", "hybrid-cloud", "aws", "azure", "gcp", "cloud-strategy"],
+        "request": {
+            "subject": "Multi-Cloud Architecture and Enterprise Strategy",
+            "goal": "I want to master multi-cloud architecture across AWS, Azure, and GCP. Teach me cloud-agnostic design, hybrid connectivity, multi-cloud security, cost optimization, and vendor management. Include enterprise case studies and best practices.",
+            "time_value": 11,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Site Reliability Engineering (SRE) Practices",
+        "category": "devops",
+        "subcategory": "sre",
+        "difficulty": "advanced",
+        "target_audience": "Engineers implementing Google's SRE practices for reliable systems",
+        "estimated_hours": 125,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.5,
+        "prerequisites": ["System administration", "DevOps experience", "Monitoring tools", "Programming skills"],
+        "learning_outcomes": [
+            "Implement Google's SRE practices and principles",
+            "Design and maintain SLIs, SLOs, and error budgets",
+            "Build robust monitoring and alerting systems",
+            "Conduct effective incident response and postmortems",
+            "Automate toil and improve system reliability"
+        ],
+        "tags": ["sre", "reliability", "monitoring", "incident-response", "sli-slo", "automation"],
+        "request": {
+            "subject": "Site Reliability Engineering and System Reliability",
+            "goal": "I want to master Site Reliability Engineering practices. Teach me SLIs, SLOs, error budgets, monitoring, alerting, incident response, postmortems, and automation. Include Google's SRE principles and real-world implementation strategies.",
+            "time_value": 10,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Bug Bounty Hunting and Ethical Hacking",
+        "category": "cybersecurity",
+        "subcategory": "ethical-hacking",
+        "difficulty": "intermediate",
+        "target_audience": "Security enthusiasts wanting to find vulnerabilities and earn bounties",
+        "estimated_hours": 115,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.0,
+        "prerequisites": ["Networking basics", "Web application knowledge", "Linux command line"],
+        "learning_outcomes": [
+            "Identify and exploit common web vulnerabilities",
+            "Use professional penetration testing tools",
+            "Write effective vulnerability reports",
+            "Navigate bug bounty platforms and programs",
+            "Build a successful bug bounty career"
+        ],
+        "tags": ["bug-bounty", "ethical-hacking", "penetration-testing", "vulnerability-assessment", "security"],
+        "request": {
+            "subject": "Bug Bounty Hunting and Ethical Penetration Testing",
+            "goal": "I want to become a successful bug bounty hunter and ethical hacker. Teach me vulnerability assessment, penetration testing tools, exploit development, report writing, and bug bounty strategies. Include hands-on practice with legal targets.",
+            "time_value": 9,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Cloud Security Architecture",
+        "category": "cybersecurity",
+        "subcategory": "cloud-security",
+        "difficulty": "advanced",
+        "target_audience": "Security architects specializing in cloud security across major platforms",
+        "estimated_hours": 120,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.2,
+        "prerequisites": ["Cloud platforms experience", "Security fundamentals", "Identity management"],
+        "learning_outcomes": [
+            "Secure cloud architectures across AWS, Azure, GCP",
+            "Implement zero-trust security models",
+            "Master cloud identity and access management",
+            "Design compliance frameworks for cloud",
+            "Respond to cloud security incidents"
+        ],
+        "tags": ["cloud-security", "zero-trust", "iam", "compliance", "incident-response"],
+        "request": {
+            "subject": "Cloud Security Architecture and Zero-Trust Implementation",
+            "goal": "I want to master cloud security across AWS, Azure, and GCP. Teach me zero-trust architecture, identity management, compliance, threat detection, incident response, and security automation. Focus on enterprise security practices.",
+            "time_value": 10,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "T3 Stack Development (Next.js + tRPC + Prisma)",
+        "category": "web-development",
+        "subcategory": "fullstack",
+        "difficulty": "intermediate",
+        "target_audience": "Full-stack developers building modern, type-safe web applications",
+        "estimated_hours": 95,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.1,
+        "prerequisites": ["React/Next.js", "TypeScript", "Database concepts"],
+        "learning_outcomes": [
+            "Build full-stack applications with T3 stack",
+            "Implement type-safe APIs with tRPC",
+            "Design databases with Prisma ORM",
+            "Deploy T3 applications to production",
+            "Optimize performance and scalability"
+        ],
+        "tags": ["t3-stack", "nextjs", "trpc", "prisma", "typescript", "fullstack"],
+        "request": {
+            "subject": "T3 Stack Modern Full-Stack Development",
+            "goal": "I want to master the T3 stack for building modern, type-safe full-stack applications. Teach me Next.js App Router, tRPC APIs, Prisma database management, authentication, and deployment. Focus on best practices and scalability.",
+            "time_value": 8,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Supabase Backend Development",
+        "category": "web-development",
+        "subcategory": "backend",
+        "difficulty": "beginner",
+        "target_audience": "Developers building modern backends with Supabase as Firebase alternative",
+        "estimated_hours": 80,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 8.9,
+        "prerequisites": ["JavaScript/TypeScript", "SQL basics", "Web development fundamentals"],
+        "learning_outcomes": [
+            "Build scalable backends with Supabase",
+            "Implement authentication and authorization",
+            "Design PostgreSQL databases with Supabase",
+            "Create real-time applications",
+            "Deploy and scale Supabase applications"
+        ],
+        "tags": ["supabase", "postgresql", "backend", "authentication", "real-time", "serverless"],
+        "request": {
+            "subject": "Supabase Backend Development and PostgreSQL",
+            "goal": "I want to master Supabase for building modern backend applications. Teach me database design, authentication, real-time subscriptions, edge functions, storage, and deployment. Focus on building production-ready applications with best practices.",
+            "time_value": 7,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Technical Writing and Developer Relations",
+        "category": "career-development",
+        "subcategory": "technical-writing",
+        "difficulty": "beginner",
+        "target_audience": "Developers wanting to excel in technical communication and developer advocacy",
+        "estimated_hours": 70,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 8.7,
+        "prerequisites": ["Programming experience", "Communication skills", "Basic marketing knowledge"],
+        "learning_outcomes": [
+            "Write clear technical documentation and tutorials",
+            "Build personal brand and thought leadership",
+            "Create engaging developer content",
+            "Master technical blogging and speaking",
+            "Develop developer advocacy skills"
+        ],
+        "tags": ["technical-writing", "developer-relations", "documentation", "content-creation", "advocacy"],
+        "request": {
+            "subject": "Technical Writing and Developer Relations Career",
+            "goal": "I want to excel in technical writing and developer relations. Teach me documentation best practices, content creation, technical blogging, community building, developer advocacy, and building a personal brand in tech.",
+            "time_value": 6,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Engineering Management and Tech Leadership",
+        "category": "career-development",
+        "subcategory": "management",
+        "difficulty": "advanced",
+        "target_audience": "Senior engineers transitioning to engineering management roles",
+        "estimated_hours": 100,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.0,
+        "prerequisites": ["Senior engineering experience", "Team collaboration", "Project management basics"],
+        "learning_outcomes": [
+            "Lead and mentor engineering teams effectively",
+            "Master engineering project management",
+            "Handle technical decision-making and architecture",
+            "Develop people management and coaching skills",
+            "Build high-performing engineering cultures"
+        ],
+        "tags": ["engineering-management", "tech-leadership", "team-management", "mentoring", "culture"],
+        "request": {
+            "subject": "Engineering Management and Technical Leadership",
+            "goal": "I want to transition from senior engineer to engineering manager. Teach me team leadership, people management, technical decision-making, project management, coaching, performance reviews, and building engineering culture.",
+            "time_value": 8,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Quantum Computing Fundamentals",
+        "category": "emerging-technology",
+        "subcategory": "quantum-computing",
+        "difficulty": "advanced",
+        "target_audience": "Researchers and developers exploring quantum computing applications",
+        "estimated_hours": 130,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 8.8,
+        "prerequisites": ["Linear algebra", "Python programming", "Physics basics", "Complex numbers"],
+        "learning_outcomes": [
+            "Understand quantum computing principles and algorithms",
+            "Program quantum circuits with Qiskit and Cirq",
+            "Implement quantum algorithms (Shor's, Grover's)",
+            "Explore quantum machine learning applications",
+            "Access and use quantum cloud platforms"
+        ],
+        "tags": ["quantum-computing", "qiskit", "quantum-algorithms", "quantum-ml", "physics"],
+        "request": {
+            "subject": "Quantum Computing Programming and Algorithms",
+            "goal": "I want to learn quantum computing fundamentals and programming. Teach me quantum mechanics basics, quantum algorithms, Qiskit programming, quantum machine learning, and practical applications. Include hands-on quantum circuit development.",
+            "time_value": 11,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Web3 and DeFi Protocol Development",
+        "category": "blockchain",
+        "subcategory": "defi",
+        "difficulty": "advanced",
+        "target_audience": "Blockchain developers building DeFi protocols and Web3 applications",
+        "estimated_hours": 140,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.0,
+        "prerequisites": ["Solidity programming", "Blockchain fundamentals", "Finance basics"],
+        "learning_outcomes": [
+            "Build DeFi protocols and yield farming applications",
+            "Implement AMMs, lending protocols, and DAOs",
+            "Master Web3 frontend development",
+            "Understand tokenomics and protocol design",
+            "Deploy and audit DeFi smart contracts"
+        ],
+        "tags": ["web3", "defi", "protocol-development", "amm", "dao", "tokenomics"],
+        "request": {
+            "subject": "Web3 DeFi Protocol Development and Tokenomics",
+            "goal": "I want to master Web3 and DeFi development beyond basic smart contracts. Teach me protocol design, AMMs, lending platforms, DAOs, tokenomics, Web3 frontends, and security auditing. Include real DeFi protocol case studies.",
+            "time_value": 12,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Game Development with Unreal Engine",
+        "category": "game-development",
+        "subcategory": "unreal-engine",
+        "difficulty": "intermediate",
+        "target_audience": "Game developers creating AAA-quality games with Unreal Engine",
+        "estimated_hours": 135,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.2,
+        "prerequisites": ["C++ programming", "3D graphics concepts", "Game design basics"],
+        "learning_outcomes": [
+            "Build 3D games with Unreal Engine 5",
+            "Master Blueprint visual scripting and C++",
+            "Implement advanced graphics and lighting",
+            "Create multiplayer and networking systems",
+            "Optimize games for different platforms"
+        ],
+        "tags": ["unreal-engine", "cpp", "3d-graphics", "blueprints", "multiplayer", "optimization"],
+        "request": {
+            "subject": "Unreal Engine 5 Game Development with C++",
+            "goal": "I want to master Unreal Engine 5 for creating professional-quality games. Teach me Blueprint scripting, C++ programming, graphics rendering, multiplayer networking, AI systems, and platform optimization. Include complete game development projects.",
+            "time_value": 11,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "AR/VR Development for Immersive Experiences",
+        "category": "emerging-technology",
+        "subcategory": "ar-vr",
+        "difficulty": "intermediate",
+        "target_audience": "Developers building augmented and virtual reality applications",
+        "estimated_hours": 120,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 8.9,
+        "prerequisites": ["Unity or Unreal Engine", "3D mathematics", "Mobile development"],
+        "learning_outcomes": [
+            "Develop AR applications for mobile and web",
+            "Create immersive VR experiences",
+            "Master spatial computing and hand tracking",
+            "Implement 3D user interfaces and interactions",
+            "Deploy AR/VR apps to various platforms"
+        ],
+        "tags": ["ar", "vr", "unity", "spatial-computing", "immersive-tech", "3d-interfaces"],
+        "request": {
+            "subject": "AR/VR Development and Immersive Technology",
+            "goal": "I want to master AR/VR development for creating immersive experiences. Teach me Unity/Unreal for AR/VR, spatial computing, hand tracking, 3D UI design, performance optimization, and platform deployment. Include practical AR/VR projects.",
+            "time_value": 10,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Modern Data Stack Engineering",
+        "category": "data-engineering",
+        "subcategory": "modern-data-stack",
+        "difficulty": "intermediate",
+        "target_audience": "Data engineers building modern data platforms and analytics systems",
+        "estimated_hours": 115,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.1,
+        "prerequisites": ["SQL proficiency", "Python programming", "Data modeling concepts"],
+        "learning_outcomes": [
+            "Build data pipelines with DBT and Airflow",
+            "Implement data warehousing with Snowflake",
+            "Master data ingestion with Fivetran and Airbyte",
+            "Create analytics and visualization dashboards",
+            "Design scalable data architecture"
+        ],
+        "tags": ["modern-data-stack", "dbt", "snowflake", "fivetran", "airflow", "data-engineering"],
+        "request": {
+            "subject": "Modern Data Stack Engineering and Analytics",
+            "goal": "I want to master the modern data stack for building scalable data platforms. Teach me DBT transformations, Snowflake data warehousing, data ingestion tools, orchestration, monitoring, and analytics. Focus on enterprise data engineering practices.",
+            "time_value": 9,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Real-time Data Processing with Apache Flink",
+        "category": "data-engineering",
+        "subcategory": "streaming",
+        "difficulty": "advanced",
+        "target_audience": "Data engineers building real-time streaming and event processing systems",
+        "estimated_hours": 105,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 8.9,
+        "prerequisites": ["Java or Scala", "Distributed systems", "Stream processing concepts"],
+        "learning_outcomes": [
+            "Build real-time data processing with Apache Flink",
+            "Implement complex event processing patterns",
+            "Handle stateful stream processing",
+            "Integrate with Kafka and other data sources",
+            "Deploy and monitor Flink applications"
+        ],
+        "tags": ["apache-flink", "stream-processing", "real-time-analytics", "event-processing", "kafka"],
+        "request": {
+            "subject": "Apache Flink Real-time Stream Processing",
+            "goal": "I want to master Apache Flink for real-time data processing and analytics. Teach me stream processing concepts, stateful computations, complex event processing, watermarks, checkpointing, and production deployment. Include practical streaming projects.",
+            "time_value": 8,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Advanced Git and Enterprise DevOps Workflows",
+        "category": "devops",
+        "subcategory": "version-control",
+        "difficulty": "intermediate",
+        "target_audience": "Developers mastering advanced Git and enterprise development workflows",
+        "estimated_hours": 75,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 8.8,
+        "prerequisites": ["Basic Git knowledge", "Command line proficiency", "Team development experience"],
+        "learning_outcomes": [
+            "Master advanced Git commands and workflows",
+            "Implement GitOps and Infrastructure as Code",
+            "Design branching strategies for large teams",
+            "Handle complex merge conflicts and history rewriting",
+            "Automate Git workflows with hooks and CI/CD"
+        ],
+        "tags": ["git", "gitops", "branching-strategy", "workflow-automation", "enterprise-development"],
+        "request": {
+            "subject": "Advanced Git and Enterprise Development Workflows",
+            "goal": "I want to master advanced Git techniques and enterprise development workflows. Teach me complex Git operations, branching strategies, GitOps, automated workflows, code review processes, and team collaboration best practices.",
+            "time_value": 6,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "API Design and Developer Experience",
+        "category": "web-development",
+        "subcategory": "api-design",
+        "difficulty": "intermediate",
+        "target_audience": "Backend developers and API architects focusing on developer experience",
+        "estimated_hours": 90,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 9.0,
+        "prerequisites": ["REST API experience", "Web development", "API documentation tools"],
+        "learning_outcomes": [
+            "Design intuitive and developer-friendly APIs",
+            "Master OpenAPI specification and documentation",
+            "Implement API versioning and backward compatibility",
+            "Build comprehensive API testing strategies",
+            "Create exceptional developer onboarding experiences"
+        ],
+        "tags": ["api-design", "openapi", "developer-experience", "api-documentation", "testing"],
+        "request": {
+            "subject": "API Design and Developer Experience Optimization",
+            "goal": "I want to master API design for exceptional developer experience. Teach me REST/GraphQL best practices, OpenAPI documentation, versioning, testing, monitoring, and developer onboarding. Focus on building APIs developers love to use.",
+            "time_value": 7,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Comprehensive Testing Strategy and Automation",
+        "category": "software-testing",
+        "subcategory": "test-automation",
+        "difficulty": "intermediate",
+        "target_audience": "Developers and QA engineers implementing comprehensive testing strategies",
+        "estimated_hours": 85,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 8.9,
+        "prerequisites": ["Programming experience", "Web development", "Testing frameworks basics"],
+        "learning_outcomes": [
+            "Design comprehensive testing pyramids",
+            "Implement unit, integration, and E2E testing",
+            "Master test automation with Cypress and Playwright",
+            "Build performance and security testing",
+            "Create maintainable test suites and CI/CD integration"
+        ],
+        "tags": ["testing", "test-automation", "cypress", "playwright", "tdd", "quality-assurance"],
+        "request": {
+            "subject": "Comprehensive Testing Strategy and Test Automation",
+            "goal": "I want to master testing strategies and automation for high-quality software. Teach me testing pyramids, unit/integration/E2E testing, test automation tools, performance testing, security testing, and CI/CD integration.",
+            "time_value": 7,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Web Performance Optimization Mastery",
+        "category": "web-development",
+        "subcategory": "performance",
+        "difficulty": "advanced",
+        "target_audience": "Frontend developers optimizing web application performance",
+        "estimated_hours": 95,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 9.1,
+        "prerequisites": ["JavaScript proficiency", "Web development", "Browser DevTools"],
+        "learning_outcomes": [
+            "Optimize Core Web Vitals and user experience",
+            "Implement advanced caching strategies",
+            "Master bundle optimization and code splitting",
+            "Optimize images, fonts, and static assets",
+            "Monitor and analyze real user performance"
+        ],
+        "tags": ["web-performance", "core-web-vitals", "optimization", "caching", "monitoring"],
+        "request": {
+            "subject": "Web Performance Optimization and Core Web Vitals",
+            "goal": "I want to master web performance optimization for lightning-fast applications. Teach me Core Web Vitals, bundle optimization, caching strategies, image optimization, performance monitoring, and user experience improvements.",
+            "time_value": 8,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Jamstack Architecture and Headless CMS",
+        "category": "web-development",
+        "subcategory": "jamstack",
+        "difficulty": "intermediate",
+        "target_audience": "Frontend developers building modern Jamstack applications",
+        "estimated_hours": 80,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 8.7,
+        "prerequisites": ["React/Vue.js", "Static site generators", "API integration"],
+        "learning_outcomes": [
+            "Build scalable Jamstack applications",
+            "Integrate headless CMS solutions",
+            "Implement static site generation and ISR",
+            "Master CDN and edge computing strategies",
+            "Deploy and scale Jamstack sites"
+        ],
+        "tags": ["jamstack", "headless-cms", "static-site-generation", "cdn", "edge-computing"],
+        "request": {
+            "subject": "Jamstack Architecture and Headless CMS Development",
+            "goal": "I want to master Jamstack architecture for building fast, scalable websites. Teach me static site generation, headless CMS integration, edge computing, CDN optimization, and modern deployment strategies. Include practical Jamstack projects.",
+            "time_value": 7,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Progressive Web Apps (PWA) Development",
+        "category": "web-development",
+        "subcategory": "pwa",
+        "difficulty": "intermediate",
+        "target_audience": "Web developers building app-like experiences with web technologies",
+        "estimated_hours": 85,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 8.8,
+        "prerequisites": ["JavaScript", "Web APIs", "Service Workers basics"],
+        "learning_outcomes": [
+            "Build offline-first Progressive Web Apps",
+            "Implement service workers and caching strategies",
+            "Create app-like user experiences",
+            "Handle push notifications and background sync",
+            "Deploy PWAs to app stores"
+        ],
+        "tags": ["pwa", "service-workers", "offline-first", "web-apis", "app-like-experience"],
+        "request": {
+            "subject": "Progressive Web Apps and Offline-First Development",
+            "goal": "I want to master PWA development for creating app-like web experiences. Teach me service workers, caching strategies, offline functionality, push notifications, background sync, and app store deployment.",
+            "time_value": 7,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "WebAssembly for High-Performance Web Apps",
+        "category": "web-development",
+        "subcategory": "webassembly",
+        "difficulty": "advanced",
+        "target_audience": "Developers building high-performance web applications with WebAssembly",
+        "estimated_hours": 100,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 8.6,
+        "prerequisites": ["C/C++ or Rust", "JavaScript", "Web development", "Performance concepts"],
+        "learning_outcomes": [
+            "Compile native code to WebAssembly",
+            "Integrate WASM modules with JavaScript",
+            "Optimize performance-critical web applications",
+            "Build games and multimedia apps with WASM",
+            "Debug and profile WebAssembly applications"
+        ],
+        "tags": ["webassembly", "wasm", "high-performance", "native-code", "optimization"],
+        "request": {
+            "subject": "WebAssembly High-Performance Web Development",
+            "goal": "I want to master WebAssembly for building high-performance web applications. Teach me compiling C/C++/Rust to WASM, JavaScript integration, performance optimization, memory management, and real-world WASM applications.",
+            "time_value": 8,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "IoT and Edge Computing Development",
+        "category": "emerging-technology",
+        "subcategory": "iot",
+        "difficulty": "intermediate",
+        "target_audience": "Developers building IoT systems and edge computing applications",
+        "estimated_hours": 110,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 8.9,
+        "prerequisites": ["Programming basics", "Networking concepts", "Hardware understanding"],
+        "learning_outcomes": [
+            "Build IoT systems with Raspberry Pi and Arduino",
+            "Implement edge computing and data processing",
+            "Handle IoT communication protocols (MQTT, CoAP)",
+            "Manage IoT security and device management",
+            "Deploy scalable IoT architectures"
+        ],
+        "tags": ["iot", "edge-computing", "raspberry-pi", "arduino", "mqtt", "sensor-data"],
+        "request": {
+            "subject": "IoT and Edge Computing System Development",
+            "goal": "I want to master IoT and edge computing for building connected systems. Teach me sensor programming, edge processing, communication protocols, cloud integration, security, and scalable IoT architectures. Include hands-on hardware projects.",
+            "time_value": 9,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Business Intelligence with Power BI",
+        "category": "data-science",
+        "subcategory": "business-intelligence",
+        "difficulty": "beginner",
+        "target_audience": "Business analysts and data professionals creating enterprise dashboards",
+        "estimated_hours": 75,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 8.6,
+        "prerequisites": ["Data analysis basics", "SQL knowledge", "Business domain understanding"],
+        "learning_outcomes": [
+            "Create interactive Power BI dashboards",
+            "Master DAX formulas and data modeling",
+            "Implement enterprise reporting solutions",
+            "Design self-service analytics platforms",
+            "Deploy and manage Power BI at scale"
+        ],
+        "tags": ["power-bi", "business-intelligence", "dax", "data-modeling", "enterprise-reporting"],
+        "request": {
+            "subject": "Power BI Business Intelligence and Enterprise Reporting",
+            "goal": "I want to master Power BI for creating enterprise business intelligence solutions. Teach me dashboard design, DAX formulas, data modeling, report automation, user management, and enterprise deployment strategies.",
+            "time_value": 6,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Startup CTO and Technical Leadership",
+        "category": "career-development",
+        "subcategory": "cto",
+        "difficulty": "advanced",
+        "target_audience": "Senior engineers aspiring to CTO roles and technical leadership",
+        "estimated_hours": 120,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.2,
+        "prerequisites": ["Senior engineering experience", "Architecture knowledge", "Business understanding"],
+        "learning_outcomes": [
+            "Lead technical strategy and architecture decisions",
+            "Build and scale engineering teams",
+            "Manage technical debt and system evolution",
+            "Navigate startup growth and technical challenges",
+            "Communicate effectively with stakeholders"
+        ],
+        "tags": ["cto", "technical-leadership", "startup", "team-building", "strategy"],
+        "request": {
+            "subject": "Startup CTO and Technical Leadership Excellence",
+            "goal": "I want to become a successful startup CTO and technical leader. Teach me technical strategy, team building, architecture decisions, stakeholder communication, scaling challenges, and building engineering culture in fast-growing companies.",
+            "time_value": 10,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Freelancing and Independent Consulting for Developers",
+        "category": "career-development",
+        "subcategory": "freelancing",
+        "difficulty": "beginner",
+        "target_audience": "Developers wanting to build successful freelancing and consulting careers",
+        "estimated_hours": 85,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 8.7,
+        "prerequisites": ["Programming skills", "Communication abilities", "Basic business knowledge"],
+        "learning_outcomes": [
+            "Build a successful freelancing business",
+            "Master client acquisition and relationship management",
+            "Price services and negotiate contracts effectively",
+            "Manage projects and deliver value consistently",
+            "Scale from freelancing to consulting agency"
+        ],
+        "tags": ["freelancing", "consulting", "client-management", "pricing", "business-development"],
+        "request": {
+            "subject": "Freelancing and Independent Consulting for Developers",
+            "goal": "I want to build a successful freelancing and consulting career as a developer. Teach me client acquisition, pricing strategies, contract negotiation, project management, value delivery, and scaling to a consulting business.",
+            "time_value": 7,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Reinforcement Learning and AI Agents",
+        "category": "artificial-intelligence",
+        "subcategory": "reinforcement-learning",
+        "difficulty": "advanced",
+        "target_audience": "ML researchers and developers building intelligent agents",
+        "estimated_hours": 140,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.1,
+        "prerequisites": ["Deep learning", "Python programming", "Mathematics (calculus, statistics)"],
+        "learning_outcomes": [
+            "Implement Q-learning and policy gradient algorithms",
+            "Build game-playing AI agents",
+            "Master multi-agent reinforcement learning",
+            "Apply RL to real-world optimization problems",
+            "Deploy and scale reinforcement learning systems"
+        ],
+        "tags": ["reinforcement-learning", "ai-agents", "q-learning", "policy-gradients", "multi-agent"],
+        "request": {
+            "subject": "Reinforcement Learning and Intelligent AI Agents",
+            "goal": "I want to master reinforcement learning for building intelligent AI agents. Teach me RL algorithms, Q-learning, policy gradients, multi-agent systems, game AI, robotics applications, and real-world deployment strategies.",
+            "time_value": 12,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "SOC Analyst and Security Operations",
+        "category": "cybersecurity",
+        "subcategory": "soc",
+        "difficulty": "intermediate",
+        "target_audience": "Security professionals working in Security Operations Centers",
+        "estimated_hours": 100,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 8.8,
+        "prerequisites": ["Networking fundamentals", "Security basics", "Log analysis"],
+        "learning_outcomes": [
+            "Monitor and analyze security events effectively",
+            "Use SIEM tools and threat intelligence platforms",
+            "Conduct incident response and threat hunting",
+            "Implement security automation and orchestration",
+            "Build comprehensive security monitoring programs"
+        ],
+        "tags": ["soc-analyst", "siem", "threat-hunting", "incident-response", "security-monitoring"],
+        "request": {
+            "subject": "SOC Analyst and Security Operations Excellence",
+            "goal": "I want to excel as a SOC analyst and security operations professional. Teach me SIEM management, log analysis, threat hunting, incident response, security automation, and building effective security operations programs.",
+            "time_value": 8,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Incident Response and Digital Forensics",
+        "category": "cybersecurity",
+        "subcategory": "incident-response",
+        "difficulty": "advanced",
+        "target_audience": "Security professionals specializing in incident response and forensics",
+        "estimated_hours": 125,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.0,
+        "prerequisites": ["Security fundamentals", "System administration", "Legal knowledge basics"],
+        "learning_outcomes": [
+            "Lead cybersecurity incident response teams",
+            "Conduct digital forensics investigations",
+            "Preserve and analyze digital evidence",
+            "Handle legal and compliance requirements",
+            "Build incident response capabilities"
+        ],
+        "tags": ["incident-response", "digital-forensics", "evidence-analysis", "cybersecurity", "investigation"],
+        "request": {
+            "subject": "Cybersecurity Incident Response and Digital Forensics",
+            "goal": "I want to master incident response and digital forensics for cybersecurity investigations. Teach me forensics tools, evidence preservation, malware analysis, legal procedures, team coordination, and building incident response programs.",
+            "time_value": 10,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Remix Full-Stack Web Framework",
+        "category": "web-development",
+        "subcategory": "fullstack",
+        "difficulty": "intermediate",
+        "target_audience": "React developers wanting to build full-stack web applications with Remix",
+        "estimated_hours": 90,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 8.8,
+        "prerequisites": ["React experience", "Web development", "Node.js basics"],
+        "learning_outcomes": [
+            "Build full-stack applications with Remix",
+            "Master nested routing and data loading",
+            "Implement progressive enhancement patterns",
+            "Handle forms and mutations effectively",
+            "Deploy Remix applications to production"
+        ],
+        "tags": ["remix", "react", "fullstack", "nested-routing", "progressive-enhancement"],
+        "request": {
+            "subject": "Remix Full-Stack Web Framework Development",
+            "goal": "I want to master Remix for building modern full-stack web applications. Teach me nested routing, data loading, progressive enhancement, form handling, error boundaries, and deployment strategies. Focus on performance and user experience.",
+            "time_value": 7,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Tauri Desktop App Development",
+        "category": "desktop-development",
+        "subcategory": "cross-platform",
+        "difficulty": "intermediate",
+        "target_audience": "Developers building cross-platform desktop applications with web technologies",
+        "estimated_hours": 95,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 8.7,
+        "prerequisites": ["Rust basics", "Web development", "Desktop application concepts"],
+        "learning_outcomes": [
+            "Build cross-platform desktop apps with Tauri",
+            "Integrate Rust backend with web frontend",
+            "Handle native system APIs and file operations",
+            "Implement secure desktop application patterns",
+            "Package and distribute desktop applications"
+        ],
+        "tags": ["tauri", "rust", "desktop-development", "cross-platform", "system-integration"],
+        "request": {
+            "subject": "Tauri Cross-Platform Desktop Application Development",
+            "goal": "I want to master Tauri for building secure, cross-platform desktop applications. Teach me Rust-web integration, native API access, security patterns, system integration, packaging, and distribution strategies for desktop apps.",
+            "time_value": 8,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "AI Ethics and Responsible AI Development",
+        "category": "artificial-intelligence",
+        "subcategory": "ai-ethics",
+        "difficulty": "intermediate",
+        "target_audience": "AI developers and researchers focusing on responsible AI practices",
+        "estimated_hours": 80,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.0,
+        "prerequisites": ["AI/ML experience", "Ethics awareness", "Policy understanding"],
+        "learning_outcomes": [
+            "Implement bias detection and mitigation strategies",
+            "Design fair and transparent AI systems",
+            "Handle AI governance and compliance frameworks",
+            "Conduct AI impact assessments",
+            "Build responsible AI development practices"
+        ],
+        "tags": ["ai-ethics", "responsible-ai", "bias-mitigation", "fairness", "ai-governance"],
+        "request": {
+            "subject": "AI Ethics and Responsible AI Development",
+            "goal": "I want to master responsible AI development and ethics. Teach me bias detection, fairness metrics, transparency, explainability, governance frameworks, impact assessment, and building ethical AI systems that benefit society.",
+            "time_value": 7,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    }
+]
+
 async def generate_curated_roadmap(roadmap_config: dict) -> CuratedRoadmap:
     """Generate a single curated roadmap using AI"""
     logger.info(f"🎯 Generating: {roadmap_config['title']}")
@@ -1076,6 +2025,34 @@ async def generate_additional_curated_roadmaps_background(db: Session):
         logger.error(f"💥 Background roadmap generation failed: {e}")
         db.rollback()
 
+async def generate_advanced_curated_roadmaps_background(db: Session):
+    """Background task to generate advanced 37 curated roadmaps"""
+    try:
+        logger.info("🎯 Starting background generation of 37 advanced curated roadmaps...")
+        generated_roadmaps = []
+        
+        for config in ADVANCED_PREMIUM_ROADMAPS:
+            try:
+                roadmap = await generate_curated_roadmap(config)
+                generated_roadmaps.append(roadmap)
+                logger.info(f"✅ Generated: {config['title']}")
+                # Small delay to avoid API limits
+                await asyncio.sleep(2)
+            except Exception as e:
+                logger.error(f"❌ Failed to generate {config['title']}: {e}")
+                continue
+        
+        # Save all generated roadmaps
+        if generated_roadmaps:
+            for roadmap in generated_roadmaps:
+                db.add(roadmap)
+            db.commit()
+            logger.info(f"💾 Saved {len(generated_roadmaps)} advanced curated roadmaps to database!")
+        
+    except Exception as e:
+        logger.error(f"💥 Advanced roadmap generation failed: {e}")
+        db.rollback()
+
 @router.get("/", response_model=List[CuratedRoadmapListResponse])
 async def browse_curated_roadmaps(
     background_tasks: BackgroundTasks,
@@ -1111,6 +2088,11 @@ async def browse_curated_roadmaps(
         # Start generation of additional 30 roadmaps in background
         background_tasks.add_task(generate_additional_curated_roadmaps_background, db)
         # Continue to return existing roadmaps while additional ones generate
+    elif existing_count == 35:
+        logger.info("🎯 Found exactly 35 roadmaps. Starting background generation of 37 advanced roadmaps...")
+        # Start generation of advanced 37 roadmaps in background
+        background_tasks.add_task(generate_advanced_curated_roadmaps_background, db)
+        # Continue to return existing roadmaps while advanced ones generate
     
     query = select(CuratedRoadmap)
     
