@@ -669,6 +669,32 @@ const BehavioralLearnClientPage: React.FC<BehavioralLearnClientPageProps> = ({
                     </div>
                   )}
 
+                  {/* Quiz Button for Current Subtopic */}
+                  {subtopic && subtopicId && roadmapId && (
+                    <div className="mb-6">
+                      <p className="text-gray-600 text-sm sm:text-base mb-2">Test your knowledge!</p>
+                      <p className="text-gray-500 text-xs sm:text-sm mb-3">
+                        Take a quiz on: {subtopic}
+                      </p>
+                      <Link 
+                        href={`/quiz?subtopic_id=${subtopicId}&subtopic=${encodeURIComponent(subtopic)}&subject=${encodeURIComponent(learningContext.subject || 'General Subject')}&goal=${encodeURIComponent(learningContext.goal || 'Learn new concepts')}&roadmap_id=${roadmapId}`}
+                        className="inline-flex items-center gap-2 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-medium py-2 sm:py-3 px-4 sm:px-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 transform hover:scale-105 text-sm sm:text-base"
+                        onClick={() => {
+                          // Track that user is going to quiz from learn page
+                          sessionStorage.setItem('returning-from-learn', 'true');
+                          analytics?.track('quiz_started_from_learn', {
+                            subtopic_id: subtopicId,
+                            subtopic: subtopic,
+                            roadmap_id: roadmapId
+                          });
+                        }}
+                      >
+                        <Brain className="w-4 h-4" />
+                        <span>Take Quiz</span>
+                      </Link>
+                    </div>
+                  )}
+
                   {/* Next Subtopic Button */}
                   {nextSubtopic && (
                     <div>
