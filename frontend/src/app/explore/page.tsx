@@ -69,7 +69,7 @@ const ExplorePage = () => {
     advanced: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
   };
 
-  const categoryIcons = {
+  const categoryIcons: { [key: string]: string } = {
     'web-development': '🌐',
     'data-science': '📊',
     'cloud-computing': '☁️',
