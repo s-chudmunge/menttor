@@ -57,7 +57,7 @@ async def generate_roadmap_endpoint(request: RoadmapCreateRequest, db: Session =
 
 @router.get("/", response_model=List[RoadmapResponse])
 def get_all_roadmaps(db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
-    roadmaps = db.exec(select(Roadmap).where(Roadmap.user_id == current_user.id)).all()
+    roadmaps = db.exec(select(Roadmap).where(Roadmap.user_id == current_user.id).order_by(Roadmap.id.desc())).all()
     return roadmaps
 
 @router.get("/{roadmap_id}", response_model=RoadmapResponse)

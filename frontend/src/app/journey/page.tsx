@@ -180,7 +180,20 @@ const JourneyPage = () => {
 
   // Load roadmap from session storage or user data
   useEffect(() => {
+    const newlyAdoptedId = sessionStorage.getItem('newlyAdoptedRoadmapId');
     const storedRoadmap = sessionStorage.getItem('currentRoadmap');
+    
+    if (newlyAdoptedId && userRoadmap && userRoadmap.length > 0) {
+      // User just adopted a roadmap, find and load it
+      const adoptedRoadmap = userRoadmap.find(roadmap => roadmap.id === parseInt(newlyAdoptedId));
+      if (adoptedRoadmap) {
+        setRoadmapData(adoptedRoadmap);
+        sessionStorage.setItem('currentRoadmap', JSON.stringify(adoptedRoadmap));
+        sessionStorage.removeItem('newlyAdoptedRoadmapId'); // Clear the flag
+        return;
+      }
+    }
+    
     if (storedRoadmap) {
       try {
         const parsedRoadmap: RoadmapData = JSON.parse(storedRoadmap);

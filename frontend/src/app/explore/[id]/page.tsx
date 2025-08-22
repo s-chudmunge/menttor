@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { useAuth } from '../../context/AuthContext';
+import { useQueryClient } from '@tanstack/react-query';
 import { BACKEND_URL } from '../../../config/config';
 import { 
   ArrowLeft, 
@@ -71,6 +72,7 @@ const RoadmapPreviewPage = () => {
   const params = useParams();
   const router = useRouter();
   const { user } = useAuth();
+  const queryClient = useQueryClient();
   const roadmapId = params.id as string;
   
   const [roadmap, setRoadmap] = useState<CuratedRoadmapDetail | null>(null);
@@ -173,6 +175,17 @@ const RoadmapPreviewPage = () => {
       });
 
       if (response.ok) {
+        const result = await response.json();
+        
+        // Clear any cached roadmap data to force refresh
+        sessionStorage.removeItem('currentRoadmap');
+        
+        // Store the new roadmap ID to ensure it loads first
+        sessionStorage.setItem('newlyAdoptedRoadmapId', result.personal_roadmap_id.toString());
+        
+        // Invalidate React Query cache to fetch fresh roadmap data
+        queryClient.invalidateQueries({ queryKey: ['userRoadmap'] });
+        
         router.push('/journey');
       } else {
         const error = await response.json();
