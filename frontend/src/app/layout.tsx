@@ -7,7 +7,6 @@ import { QueryClientProviderWrapper } from "./context/QueryClientProviderWrapper
 import SpiralMark from "../../components/SpiralMark";
 import ModelStatusIndicator from "../../components/ModelStatusIndicator";
 import BehavioralNotifications from "../components/behavioral/BehavioralNotifications";
-import { GlobalXPPop } from "../components/behavioral/XPPopAnimation";
 import MilestoneSystem from "../components/behavioral/MilestoneSystem";
 import SmartNudgeSystem from "../components/behavioral/SmartNudgeSystem";
 import RewardSystemManager from "../components/behavioral/RewardSystemManager";
@@ -48,7 +47,6 @@ export default function RootLayout({
               <BehavioralProvider>
                 <ModelStatusIndicator />
                 <BehavioralNotifications />
-                <GlobalXPPop />
                 <MilestoneSystem />
                 <SmartNudgeSystem />
                 <RewardSystemManager />
