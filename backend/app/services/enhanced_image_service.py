@@ -39,86 +39,141 @@ class UniversalImageGenerator:
             await self.session.close()
     
     def _extract_core_concepts(self, content: str, limit: int = 3) -> List[str]:
-        """Fast extraction of key concepts without subject rules."""
-        # Remove common words and extract meaningful terms
+        """Enhanced extraction of key educational concepts with domain awareness."""
+        # Clean and prepare text
         text = re.sub(r'[^\w\s]', ' ', content.lower())
         words = text.split()
         
-        # Filter meaningful words (4+ chars, not common words)
+        # Comprehensive stop words for educational content
         stop_words = {
             'this', 'that', 'with', 'from', 'they', 'have', 'been', 'were', 'said', 
             'each', 'which', 'their', 'time', 'will', 'about', 'would', 'there',
-            'could', 'other', 'after', 'first', 'well', 'also', 'many', 'some'
+            'could', 'other', 'after', 'first', 'well', 'also', 'many', 'some',
+            'what', 'when', 'where', 'while', 'because', 'during', 'before',
+            'example', 'examples', 'such', 'like', 'including', 'used', 'using'
         }
         
-        meaningful_words = [
-            word for word in words 
-            if len(word) >= 4 and word not in stop_words
-        ]
+        # Extract meaningful terms with better filtering
+        meaningful_words = []
+        for word in words:
+            if (len(word) >= 3 and 
+                word not in stop_words and 
+                not word.isdigit() and 
+                not re.match(r'^[a-z]{1,2}$', word)):  # Skip single/double letters
+                meaningful_words.append(word)
         
-        # Count frequency and get top terms
-        word_freq = {}
+        # Enhanced concept scoring considering educational importance
+        word_scores = {}
         for word in meaningful_words:
-            word_freq[word] = word_freq.get(word, 0) + 1
+            score = meaningful_words.count(word)
+            
+            # Boost technical/educational terms
+            if any(indicator in word for indicator in ['tion', 'ing', 'ment', 'ness', 'ity']):
+                score *= 1.3
+            
+            # Boost programming/technical terms
+            if any(indicator in word for indicator in ['code', 'function', 'variable', 'method', 'class']):
+                score *= 1.5
+                
+            # Boost scientific/mathematical terms
+            if any(indicator in word for indicator in ['formula', 'equation', 'theory', 'principle', 'law']):
+                score *= 1.4
+                
+            word_scores[word] = score
         
-        # Sort by frequency and take top concepts
-        top_concepts = sorted(word_freq.items(), key=lambda x: x[1], reverse=True)[:limit]
-        return [concept[0] for concept in top_concepts]
+        # Get top concepts with minimum score threshold
+        sorted_concepts = sorted(word_scores.items(), key=lambda x: x[1], reverse=True)
+        valid_concepts = [concept[0] for concept in sorted_concepts if concept[1] >= 1]
+        
+        return valid_concepts[:limit] if valid_concepts else ['concept']
     
     def _detect_content_type(self, content: str) -> str:
-        """Fast detection of content type for appropriate visualization."""
+        """Enhanced detection of content type with domain-specific patterns."""
         content_lower = content.lower()
         
-        # Pattern matching for visualization types
-        if any(word in content_lower for word in ['process', 'step', 'first', 'then', 'next', 'finally']):
+        # Check for programming/code content
+        programming_indicators = [
+            'operator', 'variable', 'function', 'class', 'method', 'loop', 'conditional',
+            'array', 'object', 'string', 'integer', 'boolean', 'syntax', '+=', '-=', '*=',
+            'def ', 'int ', 'str ', 'list', 'dict', 'import', 'return', 'print'
+        ]
+        if any(indicator in content_lower for indicator in programming_indicators):
+            return 'programming'
+            
+        # Check for mathematical/scientific content
+        math_indicators = [
+            'formula', 'equation', 'theorem', 'proof', 'derivative', 'integral',
+            'calculate', 'solve', 'variable', '=', '+', '-', '*', '/', '^',
+            'mathematics', 'algebra', 'geometry', 'calculus', 'statistics'
+        ]
+        if any(indicator in content_lower for indicator in math_indicators):
+            return 'mathematics'
+            
+        # Check for scientific content
+        science_indicators = [
+            'molecule', 'atom', 'cell', 'DNA', 'protein', 'reaction', 'experiment',
+            'hypothesis', 'theory', 'law', 'physics', 'chemistry', 'biology',
+            'force', 'energy', 'mass', 'velocity', 'acceleration', 'electron'
+        ]
+        if any(indicator in content_lower for indicator in science_indicators):
+            return 'science'
+            
+        # Check for business/economics content
+        business_indicators = [
+            'market', 'profit', 'revenue', 'customer', 'strategy', 'analysis',
+            'management', 'finance', 'economics', 'supply', 'demand', 'price'
+        ]
+        if any(indicator in content_lower for indicator in business_indicators):
+            return 'business'
+            
+        # Check for process/workflow content
+        process_indicators = [
+            'step', 'first', 'then', 'next', 'finally', 'process', 'procedure',
+            'workflow', 'methodology', 'sequence', 'order', 'phase'
+        ]
+        if any(indicator in content_lower for indicator in process_indicators):
             return 'process'
-        elif any(word in content_lower for word in ['compare', 'difference', 'versus', 'vs', 'between']):
+            
+        # Check for comparison content
+        comparison_indicators = [
+            'compare', 'contrast', 'difference', 'similar', 'versus', 'vs',
+            'between', 'unlike', 'whereas', 'however', 'on the other hand'
+        ]
+        if any(indicator in content_lower for indicator in comparison_indicators):
             return 'comparison'
-        elif any(word in content_lower for word in ['structure', 'component', 'part', 'consists', 'contains']):
+            
+        # Check for structural/hierarchical content
+        structure_indicators = [
+            'structure', 'component', 'part', 'consists', 'contains', 'hierarchy',
+            'organization', 'architecture', 'framework', 'system', 'model'
+        ]
+        if any(indicator in content_lower for indicator in structure_indicators):
             return 'structure'
-        elif any(word in content_lower for word in ['relationship', 'connect', 'link', 'related', 'causes']):
+            
+        # Check for relationship/network content
+        relationship_indicators = [
+            'relationship', 'connect', 'link', 'related', 'causes', 'affects',
+            'influence', 'interaction', 'correlation', 'network', 'dependency'
+        ]
+        if any(indicator in content_lower for indicator in relationship_indicators):
             return 'relationship'
-        elif any(word in content_lower for word in ['formula', 'equation', 'calculate', '=', '+', '-', '*', '/']):
-            return 'formula'
-        else:
-            return 'concept'
+            
+        # Default to concept visualization
+        return 'concept'
     
     def _create_learning_prompt(self, concept: str, content: str) -> tuple[str, str]:
-        """Generate minimal, effective prompt optimized for learning and speed."""
+        """Generate simple, effective educational prompt using just the subtopic name."""
         
-        # Extract 2-3 key concepts for focus
-        key_concepts = self._extract_core_concepts(content, limit=2)
-        content_type = self._detect_content_type(content)
+        # Use the subtopic name directly - let the AI figure out what's educational
+        main_concept = concept if concept and concept.strip() else "learning concept"
         
-        # Build focused, minimal prompt
-        main_concept = concept if concept else (key_concepts[0] if key_concepts else "concept")
+        # Simple, direct prompt that lets AI use its knowledge
+        prompt = f"Create an educational diagram that explains '{main_concept}'. Make it clear, informative, and helpful for learning. Include relevant labels, examples, and visual elements that would help a student understand this topic better. Use clean design with good contrast and readable text."
         
-        # Type-specific prompt templates (minimal for speed)
-        prompt_templates = {
-            'process': f"Step-by-step diagram: {main_concept}, clear numbered steps, arrows showing flow",
-            'comparison': f"Comparison chart: {main_concept}, side-by-side layout, clear differences",
-            'structure': f"Structure diagram: {main_concept}, labeled components, clear organization",
-            'relationship': f"Relationship diagram: {main_concept}, connected elements, clear connections",
-            'formula': f"Formula illustration: {main_concept}, clear mathematical representation",
-            'concept': f"Concept diagram: {main_concept}, visual explanation, clear elements"
-        }
+        # Simple negative prompt to avoid common issues
+        negative_prompt = "blurry, low quality, unclear text, cluttered, decorative only, cartoon, photorealistic, poor contrast"
         
-        base_prompt = prompt_templates.get(content_type, prompt_templates['concept'])
-        
-        # Add key concepts if different from main concept
-        if key_concepts and key_concepts[0] != main_concept:
-            additional_concepts = ", ".join(key_concepts[:2])
-            base_prompt += f", showing {additional_concepts}"
-        
-        # Universal educational style (minimal tokens)
-        style = "educational diagram, clean white background, clear labels, simple professional style"
-        
-        final_prompt = f"{base_prompt}, {style}"
-        
-        # Negative prompt (keep short for speed)
-        negative_prompt = "blurry, cluttered, decorative, photographic, cartoon, wrong labels"
-        
-        return final_prompt, negative_prompt
+        return prompt, negative_prompt
     
     async def _generate_with_vertex_ai(self, concept: str, content: str) -> Dict[str, Any]:
         """Fast Vertex AI generation with minimal processing."""
@@ -170,30 +225,167 @@ class UniversalImageGenerator:
             raise e
     
     def _create_fallback_svg(self, concept: str, content: str) -> Dict[str, Any]:
-        """Fast SVG fallback based on content analysis."""
-        content_type = self._detect_content_type(content)
-        key_concepts = self._extract_core_concepts(content, limit=2)
+        """Simple SVG fallback for the concept."""
+        # Just create a simple, clean concept visualization
+        main_concept = concept if concept and concept.strip() else "Learning Concept"
         
-        # Simple SVG templates for different content types
-        svg_templates = {
-            'process': self._create_process_svg(concept, key_concepts),
-            'comparison': self._create_comparison_svg(concept, key_concepts),
-            'structure': self._create_structure_svg(concept, key_concepts),
-            'relationship': self._create_relationship_svg(concept, key_concepts),
-            'formula': self._create_formula_svg(concept, key_concepts),
-            'concept': self._create_concept_svg(concept, key_concepts)
-        }
+        svg_content = f'''<svg width="512" height="300" xmlns="http://www.w3.org/2000/svg">
+  <rect width="100%" height="100%" fill="white"/>
+  <text x="256" y="50" text-anchor="middle" font-family="Arial" font-size="20" font-weight="bold" fill="#2563eb">{main_concept}</text>
+  
+  <!-- Main concept circle -->
+  <circle cx="256" cy="150" r="60" fill="#dbeafe" stroke="#2563eb" stroke-width="3"/>
+  <text x="256" y="155" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold">Key Concept</text>
+  
+  <!-- Educational note -->
+  <rect x="150" y="240" width="212" height="40" fill="#f1f5f9" stroke="#64748b" stroke-width="1" rx="5"/>
+  <text x="256" y="258" text-anchor="middle" font-family="Arial" font-size="11" fill="#64748b">Educational visualization for:</text>
+  <text x="256" y="272" text-anchor="middle" font-family="Arial" font-size="12" font-weight="bold" fill="#1e293b">{main_concept}</text>
+</svg>'''
         
-        svg_content = svg_templates.get(content_type, svg_templates['concept'])
         svg_base64 = base64.b64encode(svg_content.encode()).decode()
         
         return {
             "url": f"data:image/svg+xml;base64,{svg_base64}",
-            "prompt": f"Fallback diagram for {concept}",
+            "prompt": f"Simple educational diagram for {concept}",
             "model": "svg-fallback",
             "concept": concept,
-            "type": content_type
+            "type": "educational"
         }
+    
+    def _create_programming_svg(self, concept: str, concepts: List[str]) -> str:
+        """Create programming concept SVG with code examples."""
+        code_example = concepts[0] if concepts else "example"
+        variable = concepts[1] if len(concepts) > 1 else "variable"
+        
+        return f'''<svg width="512" height="300" xmlns="http://www.w3.org/2000/svg">
+  <rect width="100%" height="100%" fill="white"/>
+  <text x="256" y="25" text-anchor="middle" font-family="Arial" font-size="16" font-weight="bold">{concept}</text>
+  
+  <!-- Code Block -->
+  <rect x="50" y="50" width="400" height="120" fill="#f8f9fa" stroke="#e9ecef" stroke-width="2" rx="8"/>
+  <rect x="50" y="50" width="400" height="30" fill="#343a40" rx="8"/>
+  <rect x="50" y="80" width="400" height="90" fill="#f8f9fa"/>
+  
+  <!-- Code header -->
+  <text x="70" y="70" font-family="monospace" font-size="12" fill="white">Code Example</text>
+  
+  <!-- Code content -->
+  <text x="70" y="105" font-family="monospace" font-size="14" fill="#d73502"># {concept} example</text>
+  <text x="70" y="125" font-family="monospace" font-size="14" fill="#000">{variable} = "{code_example}"</text>
+  <text x="70" y="145" font-family="monospace" font-size="14" fill="#007020">print</text>
+  <text x="108" y="145" font-family="monospace" font-size="14" fill="#000">({variable})</text>
+  
+  <!-- Explanation -->
+  <text x="256" y="200" text-anchor="middle" font-family="Arial" font-size="12" fill="#666">Programming Concept Visualization</text>
+  <text x="256" y="220" text-anchor="middle" font-family="Arial" font-size="11" fill="#666">Shows: {code_example} implementation</text>
+</svg>'''
+    
+    def _create_mathematics_svg(self, concept: str, concepts: List[str]) -> str:
+        """Create mathematics concept SVG with equations."""
+        var1 = concepts[0] if concepts else "x"
+        var2 = concepts[1] if len(concepts) > 1 else "y"
+        
+        return f'''<svg width="512" height="300" xmlns="http://www.w3.org/2000/svg">
+  <rect width="100%" height="100%" fill="white"/>
+  <text x="256" y="25" text-anchor="middle" font-family="Arial" font-size="16" font-weight="bold">{concept}</text>
+  
+  <!-- Main equation box -->
+  <rect x="100" y="60" width="300" height="80" fill="#f8f9ff" stroke="#4dabf7" stroke-width="2" rx="8"/>
+  <text x="250" y="85" text-anchor="middle" font-family="Times New Roman" font-size="18" font-weight="bold">Mathematical Formula</text>
+  <text x="250" y="110" text-anchor="middle" font-family="Times New Roman" font-size="16">{var1} = f({var2})</text>
+  <text x="250" y="130" text-anchor="middle" font-family="Times New Roman" font-size="14">where {var1}, {var2} are variables</text>
+  
+  <!-- Variables explanation -->
+  <rect x="80" y="170" width="150" height="60" fill="#e7f5ff" stroke="#339af0" stroke-width="1" rx="5"/>
+  <text x="155" y="190" text-anchor="middle" font-family="Arial" font-size="12" font-weight="bold">Variables:</text>
+  <text x="155" y="210" text-anchor="middle" font-family="Arial" font-size="11">{var1}: input value</text>
+  <text x="155" y="225" text-anchor="middle" font-family="Arial" font-size="11">{var2}: result value</text>
+  
+  <!-- Solution steps -->
+  <rect x="280" y="170" width="150" height="60" fill="#fff3bf" stroke="#ffd43b" stroke-width="1" rx="5"/>
+  <text x="355" y="190" text-anchor="middle" font-family="Arial" font-size="12" font-weight="bold">Solution:</text>
+  <text x="355" y="210" text-anchor="middle" font-family="Arial" font-size="11">Step-by-step</text>
+  <text x="355" y="225" text-anchor="middle" font-family="Arial" font-size="11">calculation</text>
+</svg>'''
+    
+    def _create_science_svg(self, concept: str, concepts: List[str]) -> str:
+        """Create science concept SVG with scientific elements."""
+        element1 = concepts[0] if concepts else "Element A"
+        element2 = concepts[1] if len(concepts) > 1 else "Element B"
+        
+        return f'''<svg width="512" height="300" xmlns="http://www.w3.org/2000/svg">
+  <rect width="100%" height="100%" fill="white"/>
+  <text x="256" y="25" text-anchor="middle" font-family="Arial" font-size="16" font-weight="bold">{concept}</text>
+  
+  <!-- Scientific diagram -->
+  <circle cx="150" cy="120" r="40" fill="#e3f2fd" stroke="#1976d2" stroke-width="3"/>
+  <text x="150" y="127" text-anchor="middle" font-family="Arial" font-size="11" font-weight="bold">{element1}</text>
+  
+  <circle cx="350" cy="120" r="40" fill="#e8f5e8" stroke="#388e3c" stroke-width="3"/>
+  <text x="350" y="127" text-anchor="middle" font-family="Arial" font-size="11" font-weight="bold">{element2}</text>
+  
+  <!-- Interaction arrow -->
+  <line x1="190" y1="120" x2="310" y2="120" stroke="#ff6f00" stroke-width="3" marker-end="url(#arrow)"/>
+  <text x="250" y="110" text-anchor="middle" font-family="Arial" font-size="10" fill="#d84315">interaction</text>
+  
+  <!-- Result -->
+  <rect x="200" y="180" width="100" height="40" fill="#fff3e0" stroke="#f57c00" stroke-width="2" rx="5"/>
+  <text x="250" y="205" text-anchor="middle" font-family="Arial" font-size="11" font-weight="bold">Result/Product</text>
+  
+  <!-- Properties boxes -->
+  <rect x="50" y="200" width="100" height="60" fill="#f3e5f5" stroke="#7b1fa2" stroke-width="1" rx="3"/>
+  <text x="100" y="220" text-anchor="middle" font-family="Arial" font-size="10" font-weight="bold">Properties:</text>
+  <text x="100" y="235" text-anchor="middle" font-family="Arial" font-size="9">Observable</text>
+  <text x="100" y="250" text-anchor="middle" font-family="Arial" font-size="9">Measurable</text>
+  
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#ff6f00"/>
+    </marker>
+  </defs>
+</svg>'''
+    
+    def _create_business_svg(self, concept: str, concepts: List[str]) -> str:
+        """Create business concept SVG with professional elements."""
+        element1 = concepts[0] if concepts else "Input"
+        element2 = concepts[1] if len(concepts) > 1 else "Output"
+        
+        return f'''<svg width="512" height="300" xmlns="http://www.w3.org/2000/svg">
+  <rect width="100%" height="100%" fill="white"/>
+  <text x="256" y="25" text-anchor="middle" font-family="Arial" font-size="16" font-weight="bold">{concept}</text>
+  
+  <!-- Business process flow -->
+  <rect x="50" y="80" width="120" height="50" fill="#e8f5e8" stroke="#2e7d32" stroke-width="2" rx="5"/>
+  <text x="110" y="100" text-anchor="middle" font-family="Arial" font-size="11" font-weight="bold">Input</text>
+  <text x="110" y="115" text-anchor="middle" font-family="Arial" font-size="10">{element1}</text>
+  
+  <rect x="220" y="80" width="120" height="50" fill="#e3f2fd" stroke="#1976d2" stroke-width="2" rx="5"/>
+  <text x="280" y="100" text-anchor="middle" font-family="Arial" font-size="11" font-weight="bold">Process</text>
+  <text x="280" y="115" text-anchor="middle" font-family="Arial" font-size="10">Transformation</text>
+  
+  <rect x="390" y="80" width="120" height="50" fill="#fff3e0" stroke="#f57c00" stroke-width="2" rx="5"/>
+  <text x="450" y="100" text-anchor="middle" font-family="Arial" font-size="11" font-weight="bold">Output</text>
+  <text x="450" y="115" text-anchor="middle" font-family="Arial" font-size="10">{element2}</text>
+  
+  <!-- Flow arrows -->
+  <line x1="170" y1="105" x2="220" y2="105" stroke="#666" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="340" y1="105" x2="390" y2="105" stroke="#666" stroke-width="2" marker-end="url(#arrow)"/>
+  
+  <!-- KPIs/Metrics -->
+  <rect x="150" y="180" width="200" height="80" fill="#f5f5f5" stroke="#bdbdbd" stroke-width="1" rx="5"/>
+  <text x="250" y="200" text-anchor="middle" font-family="Arial" font-size="12" font-weight="bold">Key Metrics</text>
+  <text x="200" y="220" text-anchor="middle" font-family="Arial" font-size="10">• Efficiency</text>
+  <text x="200" y="235" text-anchor="middle" font-family="Arial" font-size="10">• Quality</text>
+  <text x="300" y="220" text-anchor="middle" font-family="Arial" font-size="10">• Cost</text>
+  <text x="300" y="235" text-anchor="middle" font-family="Arial" font-size="10">• Time</text>
+  
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#666"/>
+    </marker>
+  </defs>
+</svg>'''
     
     def _create_process_svg(self, concept: str, concepts: List[str]) -> str:
         """Create process flow SVG."""
