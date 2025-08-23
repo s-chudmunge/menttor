@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { useAuth } from '../context/AuthContext';
 import { BACKEND_URL } from '../../config/config';
 import { 
@@ -31,8 +32,13 @@ import {
   ChevronRight,
   Loader2,
   AlertCircle,
-  RefreshCw
+  RefreshCw,
+  Home,
+  Menu,
+  BarChart3
 } from 'lucide-react';
+import ProfileDropdown from '../../components/ProfileDropdown';
+import Logo from '../../../components/Logo';
 
 interface CuratedRoadmap {
   id: number;
@@ -77,6 +83,7 @@ const ExplorePage = () => {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [isGenerating, setIsGenerating] = useState(false);
   const [generationProgress, setGenerationProgress] = useState(0);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   // Enhanced filtering
   const [activeFiltersCount, setActiveFiltersCount] = useState(0);
@@ -325,8 +332,139 @@ const ExplorePage = () => {
     );
   }
 
+  const navigationItems = [
+    { href: '/', label: 'Home', icon: Home, active: false },
+    { href: '/explore', label: 'Explore', icon: BookOpen, active: true },
+    { href: '/journey', label: 'Journey', icon: Target, active: false },
+    { href: '/performance-analysis', label: 'Performance', icon: BarChart3, active: false },
+  ];
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50/20 dark:from-gray-900 dark:to-blue-950/20">
+      {/* Navigation Bar */}
+      <header className="bg-gray-900/95 dark:bg-gray-900/95 backdrop-blur-lg border-b border-gray-700/50 dark:border-gray-700/50 sticky top-0 z-50 shadow-lg">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-18 lg:h-20">
+            {/* Logo and Hamburger */}
+            <div className="flex items-center space-x-3">
+              {/* Hamburger Menu for Filters */}
+              <button
+                onClick={() => setShowFilters(!showFilters)}
+                className="lg:hidden flex items-center justify-center w-10 h-10 text-white hover:bg-white/10 rounded-lg transition-colors"
+              >
+                <Menu className="w-5 h-5" />
+              </button>
+              
+              <Logo />
+            </div>
+            
+            {/* Desktop Navigation */}
+            <nav className="hidden lg:flex items-center space-x-1">
+              {navigationItems.map((item) => {
+                const Icon = item.icon;
+                return (
+                  <Link 
+                    key={item.href}
+                    href={item.href} 
+                    className={`flex items-center space-x-2 px-4 py-2.5 rounded-lg font-medium transition-all duration-200 ${
+                      item.active 
+                        ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg transform scale-105' 
+                        : 'text-gray-300 hover:text-white hover:bg-white/10'
+                    }`}
+                  >
+                    <Icon className="w-4 h-4" />
+                    <span className="text-sm">{item.label}</span>
+                  </Link>
+                );
+              })}
+            </nav>
+
+            {/* Search Bar and Profile */}
+            <div className="flex items-center space-x-3">
+              {/* Compact Search Bar */}
+              <div className="relative hidden sm:block">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                <input
+                  type="text"
+                  placeholder="Search roadmaps..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-64 pl-10 pr-4 py-2.5 border border-gray-600 rounded-lg bg-gray-800/80 backdrop-blur-sm text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm text-sm"
+                />
+              </div>
+              
+              {/* Filter Toggle for Desktop */}
+              <button
+                onClick={() => setShowFilters(!showFilters)}
+                className="hidden lg:flex items-center px-3 py-2.5 border border-gray-600 rounded-lg bg-gray-800/80 backdrop-blur-sm text-gray-300 hover:bg-gray-700/80 transition-colors shadow-sm"
+              >
+                <SlidersHorizontal className="w-4 h-4 mr-2" />
+                Filters
+                {activeFiltersCount > 0 && (
+                  <span className="ml-2 px-2 py-0.5 bg-blue-500 text-white text-xs font-medium rounded-full">
+                    {activeFiltersCount}
+                  </span>
+                )}
+              </button>
+              
+              {/* Profile Dropdown */}
+              <ProfileDropdown />
+
+              {/* Mobile Menu Button */}
+              <button
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                className="lg:hidden flex items-center justify-center w-10 h-10 text-white hover:bg-white/10 rounded-lg transition-colors"
+              >
+                {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              </button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {/* Mobile Menu */}
+      {isMobileMenuOpen && (
+        <div className="lg:hidden fixed inset-0 z-40 bg-black/50" onClick={() => setIsMobileMenuOpen(false)}>
+          <div className="absolute right-0 top-20 bottom-0 w-80 bg-white dark:bg-gray-800 shadow-2xl" onClick={(e) => e.stopPropagation()}>
+            <div className="p-6">
+              <div className="space-y-2">
+                {navigationItems.map((item) => {
+                  const Icon = item.icon;
+                  return (
+                    <Link 
+                      key={item.href}
+                      href={item.href}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className={`flex items-center space-x-3 px-4 py-3 rounded-lg font-medium transition-all duration-200 ${
+                        item.active 
+                          ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg' 
+                          : 'text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-900/20'
+                      }`}
+                    >
+                      <Icon className="w-5 h-5" />
+                      <span>{item.label}</span>
+                    </Link>
+                  );
+                })}
+              </div>
+              
+              {/* Mobile Search */}
+              <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-600">
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                  <input
+                    type="text"
+                    placeholder="Search roadmaps..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="w-full pl-10 pr-4 py-3 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
       {/* Enhanced Header */}
       <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-b border-gray-200/50 dark:border-gray-700/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -360,158 +498,267 @@ const ExplorePage = () => {
             </div>
           </div>
 
-          {/* Enhanced Search and Controls */}
-          <div className="max-w-6xl mx-auto">
-            <div className="flex flex-col lg:flex-row gap-4 mb-6">
-              {/* Search */}
-              <div className="flex-1 relative">
-                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-                <input
-                  type="text"
-                  placeholder="Search roadmaps, technologies, skills..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-12 pr-4 py-4 border border-gray-200 dark:border-gray-600 rounded-xl bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm text-gray-900 dark:text-white placeholder-gray-500 focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm"
-                />
-              </div>
-              
-              {/* View Mode Toggle */}
-              <div className="flex items-center border border-gray-200 dark:border-gray-600 rounded-xl bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm p-1">
-                <button
-                  onClick={() => setViewMode('grid')}
-                  className={`p-2 rounded-lg transition-colors ${
-                    viewMode === 'grid' 
-                      ? 'bg-blue-100 text-blue-600 dark:bg-blue-900/40 dark:text-blue-400' 
-                      : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
-                  }`}
-                >
-                  <Grid3X3 className="w-5 h-5" />
-                </button>
-                <button
-                  onClick={() => setViewMode('list')}
-                  className={`p-2 rounded-lg transition-colors ${
-                    viewMode === 'list' 
-                      ? 'bg-blue-100 text-blue-600 dark:bg-blue-900/40 dark:text-blue-400' 
-                      : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
-                  }`}
-                >
-                  <List className="w-5 h-5" />
-                </button>
-              </div>
-              
-              {/* Filter Toggle */}
+          {/* View Mode Controls - Mobile */}
+          <div className="flex justify-center lg:hidden mb-6">
+            <div className="flex items-center border border-gray-200 dark:border-gray-600 rounded-xl bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm p-1">
               <button
-                onClick={() => setShowFilters(!showFilters)}
-                className="flex items-center px-6 py-4 border border-gray-200 dark:border-gray-600 rounded-xl bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm text-gray-700 dark:text-gray-300 hover:bg-white dark:hover:bg-gray-800 transition-colors shadow-sm"
+                onClick={() => setViewMode('grid')}
+                className={`p-2 rounded-lg transition-colors ${
+                  viewMode === 'grid' 
+                    ? 'bg-blue-100 text-blue-600 dark:bg-blue-900/40 dark:text-blue-400' 
+                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
+                }`}
               >
-                <SlidersHorizontal className="w-5 h-5 mr-2" />
-                Filters
-                {activeFiltersCount > 0 && (
-                  <span className="ml-2 px-2 py-1 bg-blue-100 text-blue-800 dark:bg-blue-900/40 dark:text-blue-300 text-xs font-medium rounded-full">
-                    {activeFiltersCount}
-                  </span>
-                )}
-                <ChevronDown className={`w-4 h-4 ml-2 transform transition-transform ${showFilters ? 'rotate-180' : ''}`} />
+                <Grid3X3 className="w-5 h-5" />
+              </button>
+              <button
+                onClick={() => setViewMode('list')}
+                className={`p-2 rounded-lg transition-colors ${
+                  viewMode === 'list' 
+                    ? 'bg-blue-100 text-blue-600 dark:bg-blue-900/40 dark:text-blue-400' 
+                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
+                }`}
+              >
+                <List className="w-5 h-5" />
               </button>
             </div>
-
-            {/* Enhanced Filters Panel */}
-            {showFilters && (
-              <div className="bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm rounded-xl p-6 mb-6 border border-gray-200/50 dark:border-gray-700/50 shadow-sm">
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Filter Roadmaps</h3>
-                  {activeFiltersCount > 0 && (
-                    <button
-                      onClick={clearAllFilters}
-                      className="text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium"
-                    >
-                      Clear All ({activeFiltersCount})
-                    </button>
-                  )}
-                </div>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                  {/* Category Filter */}
-                  <div>
-                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
-                      Category
-                    </label>
-                    <select
-                      value={selectedCategory}
-                      onChange={(e) => setSelectedCategory(e.target.value)}
-                      className="w-full p-3 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    >
-                      <option value="">All Categories</option>
-                      {Object.keys(categories).map(category => (
-                        <option key={category} value={category}>
-                          {categoryIcons[category] || '📚'} {category.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-
-                  {/* Difficulty Filter */}
-                  <div>
-                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
-                      Difficulty Level
-                    </label>
-                    <select
-                      value={selectedDifficulty}
-                      onChange={(e) => setSelectedDifficulty(e.target.value)}
-                      className="w-full p-3 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    >
-                      <option value="">All Levels</option>
-                      <option value="beginner">🌱 Beginner</option>
-                      <option value="intermediate">🚀 Intermediate</option>
-                      <option value="advanced">⭐ Advanced</option>
-                    </select>
-                  </div>
-
-                  {/* Sort By */}
-                  <div>
-                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
-                      Sort By
-                    </label>
-                    <select
-                      value={sortBy}
-                      onChange={(e) => setSortBy(e.target.value)}
-                      className="w-full p-3 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    >
-                      <option value="popularity">📈 Most Popular</option>
-                      <option value="rating">⭐ Highest Rated</option>
-                      <option value="recent">🆕 Most Recent</option>
-                      <option value="alphabetical">🔤 Alphabetical</option>
-                    </select>
-                  </div>
-
-                  {/* Special Filters */}
-                  <div className="space-y-3">
-                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300">
-                      Special Filters
-                    </label>
-                    <div className="space-y-2">
-                      <label className="flex items-center">
-                        <input
-                          type="checkbox"
-                          checked={featuredOnly}
-                          onChange={(e) => setFeaturedOnly(e.target.checked)}
-                          className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 dark:border-gray-600 rounded"
-                        />
-                        <span className="ml-3 text-sm text-gray-700 dark:text-gray-300">
-                          ⭐ Featured Only
-                        </span>
-                      </label>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
           </div>
         </div>
       </div>
 
+      {/* Left Sidebar Filters */}
+      {showFilters && (
+        <div className="fixed inset-0 z-30 bg-black/50 lg:hidden" onClick={() => setShowFilters(false)}>
+          <div className="absolute left-0 top-0 bottom-0 w-80 bg-white dark:bg-gray-800 shadow-2xl" onClick={(e) => e.stopPropagation()}>
+            <div className="p-6">
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Filters</h3>
+                <button
+                  onClick={() => setShowFilters(false)}
+                  className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+              
+              {activeFiltersCount > 0 && (
+                <button
+                  onClick={() => {
+                    clearAllFilters();
+                    setShowFilters(false);
+                  }}
+                  className="w-full mb-4 px-4 py-2 bg-red-100 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-lg hover:bg-red-200 dark:hover:bg-red-900/40 transition-colors font-medium"
+                >
+                  Clear All Filters ({activeFiltersCount})
+                </button>
+              )}
+              
+              <div className="space-y-6">
+                {/* Category Filter */}
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
+                    Category
+                  </label>
+                  <select
+                    value={selectedCategory}
+                    onChange={(e) => setSelectedCategory(e.target.value)}
+                    className="w-full p-3 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  >
+                    <option value="">All Categories</option>
+                    {Object.keys(categories).map(category => (
+                      <option key={category} value={category}>
+                        {categoryIcons[category] || '📚'} {category.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Difficulty Filter */}
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
+                    Difficulty Level
+                  </label>
+                  <select
+                    value={selectedDifficulty}
+                    onChange={(e) => setSelectedDifficulty(e.target.value)}
+                    className="w-full p-3 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  >
+                    <option value="">All Levels</option>
+                    <option value="beginner">🌱 Beginner</option>
+                    <option value="intermediate">🚀 Intermediate</option>
+                    <option value="advanced">⭐ Advanced</option>
+                  </select>
+                </div>
+
+                {/* Sort By */}
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
+                    Sort By
+                  </label>
+                  <select
+                    value={sortBy}
+                    onChange={(e) => setSortBy(e.target.value)}
+                    className="w-full p-3 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  >
+                    <option value="popularity">📈 Most Popular</option>
+                    <option value="rating">⭐ Highest Rated</option>
+                    <option value="recent">🆕 Most Recent</option>
+                    <option value="alphabetical">🔤 Alphabetical</option>
+                  </select>
+                </div>
+
+                {/* Special Filters */}
+                <div className="space-y-3">
+                  <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300">
+                    Special Filters
+                  </label>
+                  <div className="space-y-2">
+                    <label className="flex items-center">
+                      <input
+                        type="checkbox"
+                        checked={featuredOnly}
+                        onChange={(e) => setFeaturedOnly(e.target.checked)}
+                        className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 dark:border-gray-600 rounded"
+                      />
+                      <span className="ml-3 text-sm text-gray-700 dark:text-gray-300">
+                        ⭐ Featured Only
+                      </span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Desktop Filters Sidebar */}
+      <div className="hidden lg:block">
+        {showFilters && (
+          <div className="fixed left-0 top-20 bottom-0 w-80 bg-white/95 dark:bg-gray-800/95 backdrop-blur-lg border-r border-gray-200/50 dark:border-gray-700/50 shadow-lg z-20 overflow-y-auto">
+            <div className="p-6">
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Filters</h3>
+                {activeFiltersCount > 0 && (
+                  <button
+                    onClick={clearAllFilters}
+                    className="text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium"
+                  >
+                    Clear All ({activeFiltersCount})
+                  </button>
+                )}
+              </div>
+              
+              <div className="space-y-6">
+                {/* Category Filter */}
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
+                    Category
+                  </label>
+                  <select
+                    value={selectedCategory}
+                    onChange={(e) => setSelectedCategory(e.target.value)}
+                    className="w-full p-3 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  >
+                    <option value="">All Categories</option>
+                    {Object.keys(categories).map(category => (
+                      <option key={category} value={category}>
+                        {categoryIcons[category] || '📚'} {category.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Difficulty Filter */}
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
+                    Difficulty Level
+                  </label>
+                  <select
+                    value={selectedDifficulty}
+                    onChange={(e) => setSelectedDifficulty(e.target.value)}
+                    className="w-full p-3 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  >
+                    <option value="">All Levels</option>
+                    <option value="beginner">🌱 Beginner</option>
+                    <option value="intermediate">🚀 Intermediate</option>
+                    <option value="advanced">⭐ Advanced</option>
+                  </select>
+                </div>
+
+                {/* Sort By */}
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
+                    Sort By
+                  </label>
+                  <select
+                    value={sortBy}
+                    onChange={(e) => setSortBy(e.target.value)}
+                    className="w-full p-3 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  >
+                    <option value="popularity">📈 Most Popular</option>
+                    <option value="rating">⭐ Highest Rated</option>
+                    <option value="recent">🆕 Most Recent</option>
+                    <option value="alphabetical">🔤 Alphabetical</option>
+                  </select>
+                </div>
+
+                {/* Special Filters */}
+                <div className="space-y-3">
+                  <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300">
+                    Special Filters
+                  </label>
+                  <div className="space-y-2">
+                    <label className="flex items-center">
+                      <input
+                        type="checkbox"
+                        checked={featuredOnly}
+                        onChange={(e) => setFeaturedOnly(e.target.checked)}
+                        className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 dark:border-gray-600 rounded"
+                      />
+                      <span className="ml-3 text-sm text-gray-700 dark:text-gray-300">
+                        ⭐ Featured Only
+                      </span>
+                    </label>
+                  </div>
+                </div>
+
+                {/* View Mode Toggle - Desktop */}
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
+                    View Mode
+                  </label>
+                  <div className="flex items-center border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 p-1">
+                    <button
+                      onClick={() => setViewMode('grid')}
+                      className={`flex-1 p-2 rounded-md transition-colors ${
+                        viewMode === 'grid' 
+                          ? 'bg-blue-100 text-blue-600 dark:bg-blue-900/40 dark:text-blue-400' 
+                          : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
+                      }`}
+                    >
+                      <Grid3X3 className="w-4 h-4 mx-auto" />
+                    </button>
+                    <button
+                      onClick={() => setViewMode('list')}
+                      className={`flex-1 p-2 rounded-md transition-colors ${
+                        viewMode === 'list' 
+                          ? 'bg-blue-100 text-blue-600 dark:bg-blue-900/40 dark:text-blue-400' 
+                          : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
+                      }`}
+                    >
+                      <List className="w-4 h-4 mx-auto" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className={`max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 transition-all duration-300 ${showFilters ? 'lg:ml-80' : ''}`}>
         {/* Results Header */}
         <div className="flex items-center justify-between mb-8">
           <div>
