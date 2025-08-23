@@ -23,8 +23,10 @@ import {
   Badge,
   Zap,
   TrendingUp,
-  Download
+  Download,
+  Home
 } from 'lucide-react';
+import Link from 'next/link';
 
 interface RoadmapModule {
   title: string;
@@ -67,6 +69,121 @@ interface CuratedRoadmapDetail {
   target_audience?: string;
   slug?: string;
 }
+
+// Generate structured data for SEO
+const generateRoadmapStructuredData = (roadmap: CuratedRoadmapDetail) => {
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://menttor.vercel.app';
+  
+  return {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": roadmap.title,
+    "description": roadmap.description,
+    "provider": {
+      "@type": "Organization",
+      "name": "Menttor Labs",
+      "url": baseUrl,
+      "logo": {
+        "@type": "ImageObject",
+        "url": `${baseUrl}/favicon.svg`
+      }
+    },
+    "url": `${baseUrl}/explore/${roadmap.id}`,
+    "image": [
+      `${baseUrl}/og-roadmap-${roadmap.category}.png`,
+      `${baseUrl}/og-image.png`
+    ],
+    "courseCode": roadmap.slug || roadmap.id.toString(),
+    "educationalLevel": roadmap.difficulty,
+    "about": roadmap.category.replace('-', ' '),
+    "teaches": roadmap.learning_outcomes || [],
+    "coursePrerequisites": roadmap.prerequisites || [],
+    "keywords": roadmap.tags.join(', '),
+    "audience": {
+      "@type": "Audience",
+      "audienceType": roadmap.target_audience || "Developers and tech professionals"
+    },
+    "timeRequired": roadmap.estimated_hours ? `PT${roadmap.estimated_hours}H` : undefined,
+    "numberOfLessons": roadmap.roadmap_plan?.reduce((acc, module) => 
+      acc + module.topics.reduce((topicAcc, topic) => topicAcc + topic.subtopics.length, 0), 0
+    ) || 0,
+    "aggregateRating": roadmap.average_rating > 0 ? {
+      "@type": "AggregateRating",
+      "ratingValue": roadmap.average_rating,
+      "ratingCount": roadmap.adoption_count,
+      "bestRating": 5,
+      "worstRating": 1
+    } : undefined,
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD",
+      "availability": "https://schema.org/InStock",
+      "validFrom": new Date().toISOString()
+    },
+    "hasPart": roadmap.roadmap_plan?.map((module, moduleIndex) => ({
+      "@type": "LearningResource",
+      "name": module.title,
+      "description": module.description,
+      "position": moduleIndex + 1,
+      "hasPart": module.topics.map((topic, topicIndex) => ({
+        "@type": "LearningResource",
+        "name": topic.title,
+        "description": topic.description,
+        "position": topicIndex + 1,
+        "numberOfLessons": topic.subtopics.length
+      }))
+    })) || [],
+    "isAccessibleForFree": true,
+    "inLanguage": "en",
+    "learningResourceType": "Course",
+    "educationalUse": "Professional development",
+    "typicalAgeRange": "18-65",
+    "datePublished": new Date().toISOString(),
+    "dateModified": new Date().toISOString(),
+    "publisher": {
+      "@type": "Organization",
+      "name": "Menttor Labs",
+      "url": baseUrl
+    }
+  };
+};
+
+// Generate breadcrumb structured data
+const generateBreadcrumbStructuredData = (roadmap: CuratedRoadmapDetail) => {
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://menttor.vercel.app';
+  
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": baseUrl
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Explore Roadmaps",
+        "item": `${baseUrl}/explore`
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": roadmap.category.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase()),
+        "item": `${baseUrl}/explore?category=${encodeURIComponent(roadmap.category)}`
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": roadmap.title,
+        "item": `${baseUrl}/explore/${roadmap.id}`
+      }
+    ]
+  };
+};
 
 const RoadmapPreviewPage = () => {
   const params = useParams();
@@ -256,9 +373,50 @@ const RoadmapPreviewPage = () => {
   if (!roadmap) return null;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50/20 dark:from-gray-900 dark:to-blue-950/20">
+    <>
+      {/* Structured Data for SEO */}
+      {roadmap && (
+        <>
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify(generateRoadmapStructuredData(roadmap))
+            }}
+          />
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify(generateBreadcrumbStructuredData(roadmap))
+            }}
+          />
+        </>
+      )}
+      
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50/20 dark:from-gray-900 dark:to-blue-950/20">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Back Button */}
+        {/* Breadcrumb Navigation */}
+        <nav className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400 mb-8" aria-label="Breadcrumb">
+          <Link href="/" className="hover:text-gray-900 dark:hover:text-white transition-colors">
+            <Home className="w-4 h-4" />
+          </Link>
+          <ChevronRight className="w-4 h-4" />
+          <Link href="/explore" className="hover:text-gray-900 dark:hover:text-white transition-colors">
+            Explore Roadmaps
+          </Link>
+          <ChevronRight className="w-4 h-4" />
+          <Link 
+            href={`/explore?category=${encodeURIComponent(roadmap.category)}`} 
+            className="hover:text-gray-900 dark:hover:text-white transition-colors"
+          >
+            {roadmap.category.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())}
+          </Link>
+          <ChevronRight className="w-4 h-4" />
+          <span className="text-gray-900 dark:text-white font-medium truncate">
+            {roadmap.title}
+          </span>
+        </nav>
+        
+        {/* Back Button (Secondary) */}
         <button
           onClick={() => router.push('/explore')}
           className="inline-flex items-center text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white mb-8 transition-colors"
@@ -475,7 +633,8 @@ const RoadmapPreviewPage = () => {
           </div>
         </div>
       </div>
-    </div>
+      </div>
+    </>
   );
 };
 
