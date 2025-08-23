@@ -102,19 +102,18 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
         <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap" rel="stylesheet" />
         
-        {/* Google Analytics */}
-        <Script
-          src="https://www.googletagmanager.com/gtag/js?id=G-1YCW8BNWQX"
-          strategy="afterInteractive"
+        {/* Google Analytics - placed in head for Search Console verification */}
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-1YCW8BNWQX"></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-1YCW8BNWQX');
+            `,
+          }}
         />
-        <Script id="google-analytics" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-1YCW8BNWQX');
-          `}
-        </Script>
       </head>
       <body
         className={`antialiased`}
