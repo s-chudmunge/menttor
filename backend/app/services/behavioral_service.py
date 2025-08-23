@@ -223,7 +223,7 @@ class BehavioralService:
             "FOCUS": ["CHECKPOINT", "FOCUS"],  # Allow staying in FOCUS for extending/toggling
             "CHECKPOINT": ["REWARD", "PRIME_NEXT"],
             "REWARD": ["PRIME_NEXT"],
-            "PRIME_NEXT": ["WARMUP", "FOCUS"]  # Can continue or start new session
+            "PRIME_NEXT": ["WARMUP", "FOCUS", "PRIME_NEXT"]  # Allow staying in PRIME_NEXT (user refresh/retry)
         }
         
         if new_state not in valid_transitions.get(session.session_state, []):
