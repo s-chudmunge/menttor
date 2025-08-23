@@ -522,11 +522,12 @@ const ExplorePage = () => {
               Expert-Curated Learning Paths
             </div>
             <h1 className="text-5xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 dark:from-white dark:to-gray-200 bg-clip-text text-transparent mb-6">
-              Discover Your Next Skill
+              Learn {filteredAndSortedRoadmaps.length > 0 ? 
+                `${filteredAndSortedRoadmaps[0]?.tags?.[0]?.charAt(0).toUpperCase() + filteredAndSortedRoadmaps[0]?.tags?.[0]?.slice(1) || 'Programming'}` : 'Programming'}, Web Development & More
             </h1>
             <p className="text-xl text-gray-600 dark:text-gray-300 max-w-4xl mx-auto leading-relaxed">
-              Master in-demand skills with AI-powered, expert-verified roadmaps. From beginner to professional, 
-              we've curated the perfect learning path for your career growth.
+              Master <strong>React, Python, AWS, Machine Learning</strong> and 50+ other in-demand skills with AI-powered, expert-verified roadmaps. 
+              From beginner tutorials to advanced courses - find your perfect learning path for career advancement.
             </p>
             
             {/* Stats Banner */}

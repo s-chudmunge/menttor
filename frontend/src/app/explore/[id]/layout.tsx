@@ -48,17 +48,28 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
     };
   }
 
-  const title = `${roadmap.title} - ${roadmap.difficulty} Level | Menttor`;
-  const description = `${roadmap.description} Learn with our expert-curated ${roadmap.difficulty} level roadmap. ${roadmap.estimated_hours ? `Estimated: ${roadmap.estimated_hours} hours.` : ''} Join ${roadmap.adoption_count}+ learners.`;
+  const title = `${roadmap.title} - ${roadmap.difficulty} Level Learning Path | Menttor`;
+  const description = `Master ${roadmap.tags.slice(0, 3).join(', ')} with our expert-curated ${roadmap.difficulty} level roadmap. ${roadmap.description} ${roadmap.estimated_hours ? `Complete in ${roadmap.estimated_hours} hours.` : ''} Join ${roadmap.adoption_count}+ learners today.`;
+  
+  // Enhanced keywords for better search visibility
   const keywords = [
     roadmap.title,
     ...roadmap.tags,
     roadmap.category.replace('-', ' '),
     `${roadmap.difficulty} level`,
+    `${roadmap.category.replace('-', ' ')} tutorial`,
+    `${roadmap.category.replace('-', ' ')} course`,
+    `learn ${roadmap.tags[0] || roadmap.category.replace('-', ' ')}`,
+    `${roadmap.tags[0] || roadmap.category.replace('-', ' ')} roadmap`,
+    `${roadmap.tags[0] || roadmap.category.replace('-', ' ')} ${roadmap.difficulty}`,
     'learning roadmap',
     'online course',
     'skill development',
-    roadmap.target_audience || 'developers'
+    'career advancement',
+    'professional development',
+    roadmap.target_audience || 'developers',
+    'step by step guide',
+    'comprehensive tutorial'
   ];
 
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://menttor.vercel.app';
@@ -134,6 +145,59 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
       'course:students': roadmap.adoption_count.toString(),
       'course:rating': roadmap.average_rating.toString(),
     },
+    other: {
+      ...{
+        'article:author': 'Menttor Labs',
+        'article:section': roadmap.category.replace('-', ' '),
+        'article:tag': roadmap.tags.join(', '),
+        'course:difficulty': roadmap.difficulty,
+        'course:duration': roadmap.estimated_hours ? `${roadmap.estimated_hours} hours` : 'Variable',
+        'course:students': roadmap.adoption_count.toString(),
+        'course:rating': roadmap.average_rating.toString(),
+      },
+      // Structured Data for better search visibility
+      'application/ld+json': JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'Course',
+        name: roadmap.title,
+        description: roadmap.description,
+        provider: {
+          '@type': 'Organization',
+          name: 'Menttor Labs',
+          url: baseUrl,
+          logo: `${baseUrl}/logo.png`
+        },
+        educationalLevel: roadmap.difficulty,
+        about: roadmap.category.replace('-', ' '),
+        keywords: roadmap.tags.join(', '),
+        courseCode: roadmap.slug || roadmap.id.toString(),
+        url: url,
+        timeRequired: roadmap.estimated_hours ? `PT${roadmap.estimated_hours}H` : undefined,
+        aggregateRating: roadmap.average_rating > 0 ? {
+          '@type': 'AggregateRating',
+          ratingValue: roadmap.average_rating,
+          ratingCount: roadmap.adoption_count,
+          bestRating: 5,
+          worstRating: 1
+        } : undefined,
+        audience: {
+          '@type': 'EducationalAudience',
+          educationalRole: roadmap.target_audience || 'student'
+        },
+        teaches: roadmap.tags,
+        inLanguage: 'en',
+        isAccessibleForFree: true,
+        license: 'https://creativecommons.org/licenses/by/4.0/',
+        publisher: {
+          '@type': 'Organization',
+          name: 'Menttor Labs'
+        },
+        mainEntityOfPage: {
+          '@type': 'WebPage',
+          '@id': url
+        }
+      })
+    },
   };
 }
 
@@ -142,5 +206,9 @@ export default function RoadmapLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return children;
+  return (
+    <>
+      {children}
+    </>
+  );
 }

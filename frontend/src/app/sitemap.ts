@@ -42,8 +42,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ];
 
   try {
-    // Fetch roadmaps for dynamic routes
-    const response = await fetch(`${BACKEND_URL}/curated-roadmaps/?per_page=100`, {
+    // Fetch roadmaps for dynamic routes - use production backend for sitemap
+    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'https://menttor-backend.onrender.com';
+    const response = await fetch(`${backendUrl}/curated-roadmaps/?per_page=100`, {
       headers: {
         'Cache-Control': 'no-cache',
       },
