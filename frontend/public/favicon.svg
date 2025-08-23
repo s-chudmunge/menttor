@@ -1,15 +1,27 @@
 <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+    <!-- Exact gradient from Logo.tsx: blue-600 -> indigo-600 -> purple-600 -->
+    <linearGradient id="menttor-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" style="stop-color:#2563eb;stop-opacity:1" />
       <stop offset="50%" style="stop-color:#4f46e5;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#7c3aed;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#9333ea;stop-opacity:1" />
     </linearGradient>
+    
+    <!-- Enhanced glow effect for better small-size visibility -->
+    <filter id="glow" x="-25%" y="-25%" width="150%" height="150%">
+      <feGaussianBlur stdDeviation="0.8" result="coloredBlur"/>
+      <feMerge> 
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
   </defs>
-  <!-- Rounded square background matching Logo.tsx -->
-  <rect x="4" y="4" width="24" height="24" rx="6" ry="6" fill="url(#logoGradient)"/>
-  <!-- Educational/learning icon similar to Logo.tsx -->
-  <g fill="white">
-    <path d="M16 7L8 11l2.67 1.45v4L16 20l5.33-2.91v-4L24 11L16 7zm4.55 4L16 13.45 11.45 11 16 8.55 20.55 11zM19 15.09l-3 1.64-3-1.64v-2.48L16 14.18l3-1.57v2.48z"/>
+  
+  <!-- Rounded square background matching Logo.tsx w-8 h-8 proportions -->
+  <rect x="2" y="2" width="28" height="28" rx="7" ry="7" fill="url(#menttor-gradient)" filter="url(#glow)"/>
+  
+  <!-- Academic cap icon positioned to match Logo.tsx w-5 h-5 inside w-8 h-8 -->
+  <g fill="white" transform="translate(8.5, 8.5) scale(0.625)">
+    <path d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09V17h2V9L12 3zm6.82 6L12 12.72 5.18 9 12 5.28 18.82 9zM17 15.99l-5 2.73-5-2.73v-3.72L12 15l5-2.73v3.72z"/>
   </g>
 </svg>
