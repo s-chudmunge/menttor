@@ -62,6 +62,43 @@ interface Categories {
   [key: string]: string[];
 }
 
+// Structured Data for SEO
+const generateStructuredData = (roadmaps: CuratedRoadmap[]) => {
+  const itemListElements = roadmaps.slice(0, 10).map((roadmap, index) => ({
+    "@type": "ListItem",
+    "position": index + 1,
+    "item": {
+      "@type": "Course",
+      "name": roadmap.title,
+      "description": roadmap.description,
+      "provider": {
+        "@type": "Organization",
+        "name": "Menttor Labs",
+        "url": process.env.NEXT_PUBLIC_SITE_URL || "https://menttor.vercel.app"
+      },
+      "courseCode": roadmap.slug || roadmap.id.toString(),
+      "educationalLevel": roadmap.difficulty,
+      "about": roadmap.category.replace('-', ' '),
+      "keywords": roadmap.tags.join(', '),
+      "aggregateRating": roadmap.average_rating > 0 ? {
+        "@type": "AggregateRating",
+        "ratingValue": roadmap.average_rating,
+        "ratingCount": roadmap.adoption_count
+      } : undefined,
+      "url": `${process.env.NEXT_PUBLIC_SITE_URL || 'https://menttor.vercel.app'}/explore/${roadmap.id}`
+    }
+  }));
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "name": "Expert-Curated Learning Roadmaps",
+    "description": "Comprehensive collection of learning roadmaps for technology and professional skills development",
+    "numberOfItems": roadmaps.length,
+    "itemListElement": itemListElements
+  };
+};
+
 const ExplorePage = () => {
   const router = useRouter();
   const { user } = useAuth();
@@ -340,7 +377,18 @@ const ExplorePage = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50/20 dark:from-gray-900 dark:to-blue-950/20">
+    <>
+      {/* Structured Data */}
+      {filteredAndSortedRoadmaps.length > 0 && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(generateStructuredData(filteredAndSortedRoadmaps))
+          }}
+        />
+      )}
+      
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50/20 dark:from-gray-900 dark:to-blue-950/20">
       {/* Navigation Bar */}
       <header className="bg-gray-900/95 dark:bg-gray-900/95 backdrop-blur-lg border-b border-gray-700/50 dark:border-gray-700/50 sticky top-0 z-50 shadow-lg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -1021,6 +1069,7 @@ const ExplorePage = () => {
         )}
       </div>
     </div>
+    </>
   );
 };
 

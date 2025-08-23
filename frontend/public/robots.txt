@@ -1,0 +1,61 @@
+# Robots.txt for Menttor - AI-Powered Learning Platform
+
+User-agent: *
+Allow: /
+
+# Allow all search engines to crawl public pages
+Allow: /explore
+Allow: /explore/
+Allow: /explore/*
+
+# Allow crawling of static assets
+Allow: /assets/
+Allow: /images/
+Allow: /_next/static/
+Allow: /favicon.ico
+Allow: /favicon.svg
+
+# Disallow private user areas
+Disallow: /auth/
+Disallow: /profile
+Disallow: /journey
+Disallow: /dashboard
+Disallow: /performance-analysis
+Disallow: /quiz
+Disallow: /learn
+Disallow: /api/
+
+# Disallow admin and sensitive areas
+Disallow: /admin/
+Disallow: /_next/
+Disallow: /.next/
+
+# Special handling for major search engines
+User-agent: Googlebot
+Allow: /
+Allow: /explore
+Allow: /explore/
+Allow: /explore/*
+Crawl-delay: 1
+
+User-agent: Bingbot
+Allow: /
+Allow: /explore
+Allow: /explore/
+Allow: /explore/*
+Crawl-delay: 1
+
+User-agent: facebookexternalhit
+Allow: /
+Allow: /explore
+Allow: /explore/
+Allow: /explore/*
+
+User-agent: Twitterbot
+Allow: /
+Allow: /explore
+Allow: /explore/
+Allow: /explore/*
+
+# Sitemap location
+Sitemap: https://menttor.vercel.app/sitemap.xml
