@@ -24,9 +24,22 @@ from database.session import create_db_and_tables, get_db
 from sql_models import User, Roadmap, SpacedRepetition, QuizAttempt
 from routers import auth, ml_insights, quiz, quiz_results, quiz_review, roadmaps, learn, spaced_repetition, models, quiz_submission, visualize, progress, behavioral, image_generation, activity, curated_roadmaps
 
-# Configure logging
+# Configure logging with behavioral nudge filter
+class BehavioralNudgeFilter(logging.Filter):
+    """Filter to reduce noise from behavioral nudge requests"""
+    def filter(self, record):
+        message = record.getMessage()
+        # Filter out behavioral nudge should-show requests from uvicorn access logs
+        if "GET /behavioral/nudge/should-show/" in message and record.name == "uvicorn.access":
+            return False
+        return True
+
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
+
+# Apply filter to uvicorn access logger to reduce behavioral nudge noise
+uvicorn_access_logger = logging.getLogger("uvicorn.access")
+uvicorn_access_logger.addFilter(BehavioralNudgeFilter())
 
 app = FastAPI()
 
