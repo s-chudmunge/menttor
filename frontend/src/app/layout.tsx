@@ -12,6 +12,7 @@ import SmartNudgeSystem from "../components/behavioral/SmartNudgeSystem";
 import RewardSystemManager from "../components/behavioral/RewardSystemManager";
 import { ThemeProvider } from "./components/ThemeProvider";
 import { Analytics } from "@vercel/analytics/next";
+import Script from 'next/script';
 import PageTracker from "../components/PageTracker";
 import SessionTracker from "../components/SessionTracker";
 
@@ -100,6 +101,20 @@ export default function RootLayout({
       <head>
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
         <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap" rel="stylesheet" />
+        
+        {/* Google Analytics */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-1YCW8BNWQX"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-1YCW8BNWQX');
+          `}
+        </Script>
       </head>
       <body
         className={`antialiased`}
