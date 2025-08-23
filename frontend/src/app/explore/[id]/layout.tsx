@@ -144,17 +144,6 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
       'course:duration': roadmap.estimated_hours ? `${roadmap.estimated_hours} hours` : 'Variable',
       'course:students': roadmap.adoption_count.toString(),
       'course:rating': roadmap.average_rating.toString(),
-    },
-    other: {
-      ...{
-        'article:author': 'Menttor Labs',
-        'article:section': roadmap.category.replace('-', ' '),
-        'article:tag': roadmap.tags.join(', '),
-        'course:difficulty': roadmap.difficulty,
-        'course:duration': roadmap.estimated_hours ? `${roadmap.estimated_hours} hours` : 'Variable',
-        'course:students': roadmap.adoption_count.toString(),
-        'course:rating': roadmap.average_rating.toString(),
-      },
       // Structured Data for better search visibility
       'application/ld+json': JSON.stringify({
         '@context': 'https://schema.org',

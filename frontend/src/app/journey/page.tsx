@@ -14,7 +14,7 @@ import { useProgress } from '../../hooks/useProgress';
 import { useRecommendedReviews } from '../../hooks/useRecommendedReviews';
 
 import JourneyHeader from './components/JourneyHeader';
-import SmartResumeCard from './components/SmartResumeCard';
+import SimpleResumeCard from './components/SimpleResumeCard';
 import RoadmapVisualization from './components/RoadmapVisualization';
 import InteractiveRoadmap from './components/InteractiveRoadmap';
 import RecommendedReviews from './components/RecommendedReviews';
@@ -425,12 +425,11 @@ const JourneyPage = () => {
         />
 
         <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 lg:py-8">
-          {/* Smart Resume Card */}
+          {/* Simple Resume Card */}
           {resumeData && (
-            <SmartResumeCard 
+            <SimpleResumeCard 
               sessionSummary={resumeData}
               nextRecommendedSubtopic={undefined}
-              roadmapId={roadmapData?.id}
               onResume={() => {
                 // Handle resume functionality
                 if (resumeData.view_mode === 'modules') {
