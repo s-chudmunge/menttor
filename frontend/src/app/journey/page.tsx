@@ -14,7 +14,6 @@ import { useProgress } from '../../hooks/useProgress';
 import { useRecommendedReviews } from '../../hooks/useRecommendedReviews';
 
 import JourneyHeader from './components/JourneyHeader';
-import SimpleResumeCard from './components/SimpleResumeCard';
 import RoadmapVisualization from './components/RoadmapVisualization';
 import InteractiveRoadmap from './components/InteractiveRoadmap';
 import RecommendedReviews from './components/RecommendedReviews';
@@ -159,24 +158,6 @@ const JourneyPage = () => {
     }
   }, [roadmapData?.id, progressData, isLoadingProgress]);
 
-  // Simplified: Generate resume data from progress instead of complex session system
-  const resumeData = useMemo(() => {
-    if (!progressData || progressData.length === 0) return null;
-    
-    // Find the most recent activity
-    const lastActivity = progressData
-      .filter(p => p.last_accessed_at)
-      .sort((a, b) => new Date(b.last_accessed_at!).getTime() - new Date(a.last_accessed_at!).getTime())[0];
-    
-    if (!lastActivity) return null;
-    
-    return {
-      last_active_subtopic_id: lastActivity.sub_topic_id,
-      last_active_timestamp: lastActivity.last_accessed_at,
-      view_mode: 'modules',
-      current_index: 0
-    };
-  }, [progressData]);
 
   // Load roadmap from session storage or user data
   useEffect(() => {
@@ -425,20 +406,6 @@ const JourneyPage = () => {
         />
 
         <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 lg:py-8">
-          {/* Simple Resume Card */}
-          {resumeData && (
-            <SimpleResumeCard 
-              sessionSummary={resumeData}
-              nextRecommendedSubtopic={undefined}
-              onResume={() => {
-                // Handle resume functionality
-                if (resumeData.view_mode === 'modules') {
-                  setCurrentView('modules');
-                  setCurrentModuleIndex(resumeData.current_index || 0);
-                }
-              }}
-            />
-          )}
 
           {/* Enhanced Course Header */}
           <div className="mb-6 lg:mb-8">
