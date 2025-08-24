@@ -319,6 +319,86 @@ def get_admin_status(db: Session = Depends(get_db), admin: str = Depends(verify_
         "roadmaps": generated_status
     }
 
+@router.delete("/admin/clear-all")
+def clear_all_curated_roadmaps(db: Session = Depends(get_db), admin: str = Depends(verify_admin)):
+    """Delete ALL curated roadmaps from database - DANGER ZONE"""
+    
+    try:
+        # Get count before deletion
+        count_before = db.exec(select(func.count(CuratedRoadmap.id))).first()
+        
+        # Delete all UserCuratedRoadmap associations first (foreign key constraint)
+        user_adoptions = db.exec(select(UserCuratedRoadmap)).all()
+        for adoption in user_adoptions:
+            db.delete(adoption)
+        
+        # Delete all curated roadmaps
+        roadmaps = db.exec(select(CuratedRoadmap)).all()
+        for roadmap in roadmaps:
+            db.delete(roadmap)
+        
+        db.commit()
+        
+        logger.info(f"🗑️ Admin {admin} cleared ALL curated roadmaps: {count_before} deleted")
+        
+        return {
+            "success": True,
+            "message": f"Successfully deleted {count_before} curated roadmaps",
+            "deleted_count": count_before
+        }
+        
+    except Exception as e:
+        logger.error(f"❌ Failed to clear roadmaps: {str(e)}")
+        db.rollback()
+        raise HTTPException(
+            status_code=500,
+            detail=f"Failed to clear roadmaps: {str(e)}"
+        )
+
+@router.delete("/admin/delete/{roadmap_id}")
+def delete_single_curated_roadmap(
+    roadmap_id: int, 
+    db: Session = Depends(get_db), 
+    admin: str = Depends(verify_admin)
+):
+    """Delete a single curated roadmap by ID"""
+    
+    # Find the roadmap
+    roadmap = db.exec(select(CuratedRoadmap).where(CuratedRoadmap.id == roadmap_id)).first()
+    
+    if not roadmap:
+        raise HTTPException(status_code=404, detail="Roadmap not found")
+    
+    try:
+        # Delete associated user adoptions first
+        adoptions = db.exec(
+            select(UserCuratedRoadmap).where(UserCuratedRoadmap.curated_roadmap_id == roadmap_id)
+        ).all()
+        
+        for adoption in adoptions:
+            db.delete(adoption)
+        
+        # Delete the roadmap
+        roadmap_title = roadmap.title
+        db.delete(roadmap)
+        db.commit()
+        
+        logger.info(f"🗑️ Admin {admin} deleted roadmap: {roadmap_title} (ID: {roadmap_id})")
+        
+        return {
+            "success": True,
+            "message": f"Successfully deleted '{roadmap_title}'",
+            "deleted_id": roadmap_id
+        }
+        
+    except Exception as e:
+        logger.error(f"❌ Failed to delete roadmap {roadmap_id}: {str(e)}")
+        db.rollback()
+        raise HTTPException(
+            status_code=500,
+            detail=f"Failed to delete roadmap: {str(e)}"
+        )
+
 # ==============================================================================
 # PUBLIC ENDPOINTS FOR USERS
 # ==============================================================================

@@ -37,6 +37,7 @@ export default function AdminCuratedRoadmaps() {
   const [trendingList, setTrendingList] = useState<TrendingListResponse | null>(null)
   const [loading, setLoading] = useState(false)
   const [generating, setGenerating] = useState<number | null>(null)
+  const [clearing, setClearing] = useState(false)
   const [message, setMessage] = useState('')
 
   // Create basic auth header
@@ -132,6 +133,38 @@ export default function AdminCuratedRoadmaps() {
     }
   }
 
+  // Clear all roadmaps
+  const clearAllRoadmaps = async () => {
+    if (!confirm('⚠️ Are you sure you want to delete ALL curated roadmaps? This cannot be undone!')) {
+      return
+    }
+
+    setClearing(true)
+    setMessage('')
+
+    try {
+      const response = await fetch(`${BACKEND_URL}/curated-roadmaps/admin/clear-all`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': createAuthHeader()
+        }
+      })
+
+      const result = await response.json()
+
+      if (response.ok) {
+        setMessage(`🗑️ ${result.message}`)
+        await loadData() // Refresh status
+      } else {
+        setMessage(`❌ ${result.detail}`)
+      }
+    } catch (error) {
+      setMessage('❌ Network error during deletion')
+    } finally {
+      setClearing(false)
+    }
+  }
+
   // Login form
   if (!isAuthenticated) {
     return (
@@ -198,12 +231,21 @@ export default function AdminCuratedRoadmaps() {
               <h1 className="text-3xl font-bold text-gray-900">Curated Roadmaps Admin</h1>
               <p className="text-gray-600 mt-1">Generate and manage curated roadmaps for the explore page</p>
             </div>
-            <button
-              onClick={() => setIsAuthenticated(false)}
-              className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition duration-150 ease-in-out"
-            >
-              Logout
-            </button>
+            <div className="flex gap-3">
+              <button
+                onClick={clearAllRoadmaps}
+                disabled={clearing || (adminStatus?.total_generated === 0)}
+                className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-md transition duration-150 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {clearing ? 'Clearing...' : 'Clear All'}
+              </button>
+              <button
+                onClick={() => setIsAuthenticated(false)}
+                className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition duration-150 ease-in-out"
+              >
+                Logout
+              </button>
+            </div>
           </div>
         </div>
 
