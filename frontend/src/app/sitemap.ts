@@ -42,16 +42,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ];
 
   try {
-    // Fetch roadmaps for dynamic routes - use production backend for sitemap
-    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'https://menttor-backend.onrender.com';
-    const response = await fetch(`${backendUrl}/curated-roadmaps/?per_page=100`, {
+    // Fetch roadmaps for dynamic routes - always use production backend for sitemap
+    const backendUrl = 'https://menttor-backend.onrender.com';
+    const response = await fetch(`${backendUrl}/curated-roadmaps/?per_page=50`, {
       headers: {
         'Cache-Control': 'no-cache',
       },
+      signal: AbortSignal.timeout(10000), // 10 second timeout
     });
 
     if (!response.ok) {
-      console.warn('Failed to fetch roadmaps for sitemap, using static routes only');
+      console.warn(`Failed to fetch roadmaps for sitemap: ${response.status} ${response.statusText}`);
       return staticRoutes;
     }
 
@@ -90,7 +91,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       ...difficultyRoutes,
     ];
   } catch (error) {
-    console.error('Error generating sitemap:', error);
+    console.error('Error generating sitemap:', error instanceof Error ? error.message : error);
+    // Return static routes as fallback
     return staticRoutes;
   }
 }
