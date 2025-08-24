@@ -108,7 +108,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
           url: '/og-image.png', // Fallback
           width: 1200,
           height: 630,
-          alt: 'Menttor - AI-Powered Learning Platform',
+          alt: 'Menttor - Smart Learning Platform',
         },
       ],
       locale: 'en_US',

@@ -526,7 +526,7 @@ const ExplorePage = () => {
                 `${filteredAndSortedRoadmaps[0]?.tags?.[0]?.charAt(0).toUpperCase() + filteredAndSortedRoadmaps[0]?.tags?.[0]?.slice(1) || 'Programming'}` : 'Programming'}, Web Development & More
             </h1>
             <p className="text-xl text-gray-600 dark:text-gray-300 max-w-4xl mx-auto leading-relaxed">
-              Master <strong>React, Python, AWS, Machine Learning</strong> and 50+ other in-demand skills with AI-powered, expert-verified roadmaps. 
+              Master <strong>React, Python, AWS, Machine Learning</strong> and 50+ other in-demand skills with free, expert-verified roadmaps. 
               From beginner tutorials to advanced courses - find your perfect learning path for career advancement.
             </p>
             

@@ -18,13 +18,13 @@ import SessionTracker from "../components/SessionTracker";
 
 export const metadata: Metadata = {
   title: {
-    default: 'Menttor - AI-Powered Learning Platform',
+    default: 'Menttor - Smart Learning Platform',
     template: '%s | Menttor'
   },
-  description: 'Master new skills with AI-powered, personalized learning roadmaps. Interactive courses, expert-curated content, and adaptive learning paths for web development, data science, AI, and more.',
+  description: 'Menttor - Smart learning platform. Master new skills with free, personalized learning roadmaps. Interactive courses, expert-curated content, and adaptive learning paths for web development, data science, and more.',
   keywords: [
     'online learning platform',
-    'AI-powered education',
+    'free online education',
     'personalized learning',
     'skill development',
     'web development courses',
@@ -51,21 +51,21 @@ export const metadata: Metadata = {
     locale: 'en_US',
     url: 'https://menttor.vercel.app',
     siteName: 'Menttor',
-    title: 'Menttor - AI-Powered Learning Platform',
-    description: 'Master new skills with AI-powered, personalized learning roadmaps. Interactive courses and expert-curated content.',
+    title: 'Menttor - Smart Learning Platform',
+    description: 'Master new skills with free, personalized learning roadmaps. Interactive courses and expert-curated content.',
     images: [
       {
         url: '/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'Menttor - AI-Powered Learning Platform',
+        alt: 'Menttor - Smart Learning Platform',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Menttor - AI-Powered Learning Platform',
-    description: 'Master new skills with AI-powered, personalized learning roadmaps.',
+    title: 'Menttor - Smart Learning Platform',
+    description: 'Master new skills with free, personalized learning roadmaps.',
     images: ['/og-image.png'],
     creator: '@menttorlabs',
   },
