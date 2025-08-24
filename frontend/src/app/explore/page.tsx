@@ -85,7 +85,7 @@ const generateStructuredData = (roadmaps: CuratedRoadmap[]) => {
         "ratingValue": roadmap.average_rating,
         "ratingCount": roadmap.adoption_count
       } : undefined,
-      "url": `${process.env.NEXT_PUBLIC_SITE_URL || 'https://menttor.vercel.app'}/explore/${roadmap.id}`
+      "url": `${process.env.NEXT_PUBLIC_SITE_URL || 'https://menttor.vercel.app'}/explore/${roadmap.slug || roadmap.id}`
     }
   }));
 
@@ -330,8 +330,8 @@ const ExplorePage = () => {
     }
   };
 
-  const handleViewRoadmap = (roadmapId: number) => {
-    router.push(`/explore/${roadmapId}`);
+  const handleViewRoadmap = (roadmap: CuratedRoadmap) => {
+    router.push(`/explore/${roadmap.slug || roadmap.id}`);
   };
 
   const clearAllFilters = () => {
@@ -986,7 +986,7 @@ const ExplorePage = () => {
                     {/* Actions */}
                     <div className="flex space-x-3">
                       <button
-                        onClick={() => handleViewRoadmap(roadmap.id)}
+                        onClick={() => handleViewRoadmap(roadmap)}
                         className="flex-1 flex items-center justify-center px-4 py-3 border-2 border-gray-200 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-xl hover:border-gray-300 dark:hover:border-gray-500 hover:bg-gray-50 dark:hover:bg-gray-700/50 text-sm font-semibold transition-all duration-200"
                       >
                         <Play className="w-4 h-4 mr-2" />
@@ -1048,7 +1048,7 @@ const ExplorePage = () => {
                         
                         <div className="flex space-x-2">
                           <button
-                            onClick={() => handleViewRoadmap(roadmap.id)}
+                            onClick={() => handleViewRoadmap(roadmap)}
                             className="px-3 py-2 border border-gray-200 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700/50 text-sm font-medium transition-colors"
                           >
                             <Play className="w-4 h-4" />

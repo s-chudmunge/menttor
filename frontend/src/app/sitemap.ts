@@ -57,9 +57,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     const roadmaps: CuratedRoadmap[] = await response.json();
 
-    // Dynamic roadmap routes
+    // Dynamic roadmap routes - use slug for SEO-friendly URLs
     const roadmapRoutes = roadmaps.map((roadmap) => ({
-      url: `${baseUrl}/explore/${roadmap.id}`,
+      url: `${baseUrl}/explore/${roadmap.slug || roadmap.id}`,
       lastModified: new Date(),
       changeFrequency: 'weekly' as const,
       priority: roadmap.is_featured ? 0.8 : 0.7,

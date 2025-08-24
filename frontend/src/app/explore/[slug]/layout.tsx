@@ -19,9 +19,9 @@ interface CuratedRoadmap {
   slug?: string;
 }
 
-async function getRoadmapData(id: string): Promise<CuratedRoadmap | null> {
+async function getRoadmapData(slug: string): Promise<CuratedRoadmap | null> {
   try {
-    const response = await fetch(`${BACKEND_URL}/curated-roadmaps/${id}`, {
+    const response = await fetch(`${BACKEND_URL}/curated-roadmaps/slug/${slug}`, {
       headers: {
         'Cache-Control': 'no-cache',
       },
@@ -38,8 +38,8 @@ async function getRoadmapData(id: string): Promise<CuratedRoadmap | null> {
   }
 }
 
-export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
-  const roadmap = await getRoadmapData(params.id);
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+  const roadmap = await getRoadmapData(params.slug);
   
   if (!roadmap) {
     return {
@@ -73,7 +73,7 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
   ];
 
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://menttor.vercel.app';
-  const url = `${baseUrl}/explore/${roadmap.id}`;
+  const url = `${baseUrl}/explore/${roadmap.slug || roadmap.id}`;
 
   return {
     title,
@@ -90,7 +90,7 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
     },
     metadataBase: new URL(baseUrl),
     alternates: {
-      canonical: `/explore/${roadmap.id}`,
+      canonical: `/explore/${roadmap.slug || roadmap.id}`,
     },
     openGraph: {
       title,

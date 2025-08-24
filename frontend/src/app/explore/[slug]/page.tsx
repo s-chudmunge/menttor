@@ -88,7 +88,7 @@ const generateRoadmapStructuredData = (roadmap: CuratedRoadmapDetail) => {
         "url": `${baseUrl}/favicon.svg`
       }
     },
-    "url": `${baseUrl}/explore/${roadmap.id}`,
+    "url": `${baseUrl}/explore/${roadmap.slug || roadmap.id}`,
     "image": [
       `${baseUrl}/og-roadmap-${roadmap.category}.png`,
       `${baseUrl}/og-image.png`
@@ -179,7 +179,7 @@ const generateBreadcrumbStructuredData = (roadmap: CuratedRoadmapDetail) => {
         "@type": "ListItem",
         "position": 4,
         "name": roadmap.title,
-        "item": `${baseUrl}/explore/${roadmap.id}`
+        "item": `${baseUrl}/explore/${roadmap.slug || roadmap.id}`
       }
     ]
   };
@@ -190,7 +190,7 @@ const RoadmapPreviewPage = () => {
   const router = useRouter();
   const { user } = useAuth();
   const queryClient = useQueryClient();
-  const roadmapId = params.id as string;
+  const roadmapSlug = params.slug as string;
   
   const [roadmap, setRoadmap] = useState<CuratedRoadmapDetail | null>(null);
   const [loading, setLoading] = useState(true);
@@ -245,14 +245,33 @@ const RoadmapPreviewPage = () => {
 
   useEffect(() => {
     fetchRoadmap();
-  }, [roadmapId]);
+  }, [roadmapSlug]);
 
   const fetchRoadmap = async () => {
     try {
       setLoading(true);
       setError(null);
       
-      const response = await fetch(`${BACKEND_URL}/curated-roadmaps/${roadmapId}`);
+      // First try to fetch by slug
+      let response = await fetch(`${BACKEND_URL}/curated-roadmaps/slug/${roadmapSlug}`);
+      
+      // If slug fails and the parameter looks like a numeric ID, try the old ID endpoint for backward compatibility
+      if (!response.ok && /^\d+$/.test(roadmapSlug)) {
+        response = await fetch(`${BACKEND_URL}/curated-roadmaps/${roadmapSlug}`);
+        
+        if (response.ok) {
+          const data = await response.json();
+          // Redirect to slug-based URL if we found it by ID
+          if (data.slug) {
+            router.replace(`/explore/${data.slug}`);
+            return;
+          }
+          setRoadmap(data);
+        } else {
+          setError('Roadmap not found');
+        }
+        return;
+      }
       
       if (!response.ok) {
         if (response.status === 404) {
@@ -280,14 +299,14 @@ const RoadmapPreviewPage = () => {
 
     try {
       setAdopting(true);
-      const response = await fetch(`${BACKEND_URL}/curated-roadmaps/${roadmapId}/adopt`, {
+      const response = await fetch(`${BACKEND_URL}/curated-roadmaps/${roadmap?.id}/adopt`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${await user.getIdToken()}`
         },
         body: JSON.stringify({
-          curated_roadmap_id: parseInt(roadmapId)
+          curated_roadmap_id: roadmap?.id
         })
       });
 
