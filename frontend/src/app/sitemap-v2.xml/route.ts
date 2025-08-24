@@ -86,9 +86,8 @@ export async function GET() {
       'Cache-Control': 'no-cache, no-store, must-revalidate, max-age=0',
       'Pragma': 'no-cache',
       'Expires': '0',
-      'X-Robots-Tag': 'noindex, nofollow, nosnippet, noarchive, nocache',
       'Last-Modified': new Date().toUTCString(),
-      'ETag': `"${Date.now()}"`,
+      'ETag': `"v2-${Date.now()}"`,
       'Vary': 'User-Agent',
     },
   });
