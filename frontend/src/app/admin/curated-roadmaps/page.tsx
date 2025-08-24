@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import { Button } from '@/components/Button'
+import Button from '@/components/Button'
 
 interface RoadmapConfig {
   index: number
@@ -198,12 +198,12 @@ export default function AdminCuratedRoadmaps() {
               <h1 className="text-3xl font-bold text-gray-900">Curated Roadmaps Admin</h1>
               <p className="text-gray-600 mt-1">Generate and manage curated roadmaps for the explore page</p>
             </div>
-            <Button
+            <button
               onClick={() => setIsAuthenticated(false)}
-              variant="outline"
+              className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition duration-150 ease-in-out"
             >
               Logout
-            </Button>
+            </button>
           </div>
         </div>
 
@@ -306,13 +306,13 @@ export default function AdminCuratedRoadmaps() {
 
         {/* Refresh button */}
         <div className="mt-6 text-center">
-          <Button
+          <button
             onClick={loadData}
-            variant="outline"
             disabled={loading}
+            className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition duration-150 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {loading ? 'Refreshing...' : 'Refresh Status'}
-          </Button>
+          </button>
         </div>
       </div>
     </div>
