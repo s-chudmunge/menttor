@@ -398,7 +398,7 @@ const ExplorePage = () => {
               {/* Hamburger Menu for Filters */}
               <button
                 onClick={() => setShowFilters(!showFilters)}
-                className="lg:hidden flex items-center justify-center w-10 h-10 text-white hover:bg-white/10 rounded-lg transition-colors"
+                className="lg:hidden flex items-center justify-center w-10 h-10 text-gray-700 dark:text-white hover:bg-gray-200 dark:hover:bg-white/10 rounded-lg transition-colors"
               >
                 <Menu className="w-5 h-5" />
               </button>
@@ -417,7 +417,7 @@ const ExplorePage = () => {
                     className={`flex items-center space-x-2 px-4 py-2.5 rounded-lg font-medium transition-all duration-200 ${
                       item.active 
                         ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg transform scale-105' 
-                        : 'text-gray-300 hover:text-white hover:bg-white/10'
+                        : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/10'
                     }`}
                   >
                     <Icon className="w-4 h-4" />
@@ -431,20 +431,20 @@ const ExplorePage = () => {
             <div className="flex items-center space-x-3">
               {/* Compact Search Bar */}
               <div className="relative hidden sm:block">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-gray-400 w-4 h-4" />
                 <input
                   type="text"
                   placeholder="Search roadmaps..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-64 pl-10 pr-4 py-2.5 border border-gray-600 rounded-lg bg-gray-800/80 backdrop-blur-sm text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm text-sm"
+                  className="w-64 pl-10 pr-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg bg-white/90 dark:bg-gray-800/80 backdrop-blur-sm text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm text-sm"
                 />
               </div>
               
               {/* Filter Toggle for Desktop */}
               <button
                 onClick={() => setShowFilters(!showFilters)}
-                className="hidden lg:flex items-center px-3 py-2.5 border border-gray-600 rounded-lg bg-gray-800/80 backdrop-blur-sm text-gray-300 hover:bg-gray-700/80 transition-colors shadow-sm"
+                className="hidden lg:flex items-center px-3 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg bg-white/90 dark:bg-gray-800/80 backdrop-blur-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700/80 transition-colors shadow-sm"
               >
                 <SlidersHorizontal className="w-4 h-4 mr-2" />
                 Filters
@@ -461,7 +461,7 @@ const ExplorePage = () => {
               {/* Mobile Menu Button */}
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="lg:hidden flex items-center justify-center w-10 h-10 text-white hover:bg-white/10 rounded-lg transition-colors"
+                className="lg:hidden flex items-center justify-center w-10 h-10 text-gray-700 dark:text-white hover:bg-gray-200 dark:hover:bg-white/10 rounded-lg transition-colors"
               >
                 {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
               </button>
@@ -499,7 +499,7 @@ const ExplorePage = () => {
               {/* Mobile Search */}
               <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-600">
                 <div className="relative">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-gray-400 w-4 h-4" />
                   <input
                     type="text"
                     placeholder="Search roadmaps..."
