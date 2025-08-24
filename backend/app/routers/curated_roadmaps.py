@@ -22,6 +22,13 @@ router = APIRouter(prefix="/curated-roadmaps", tags=["curated-roadmaps"])
 
 logger = logging.getLogger(__name__)
 
+# Simple flag to prevent concurrent generations
+_generation_in_progress = {
+    'initial': False,
+    'additional': False, 
+    'advanced': False
+}
+
 def create_slug(title: str) -> str:
     """Create URL-friendly slug from title"""
     slug = title.lower()
@@ -1987,6 +1994,12 @@ async def generate_curated_roadmap(roadmap_config: dict) -> CuratedRoadmap:
 async def generate_initial_curated_roadmaps_background(db: Session):
     """Background task to generate initial curated roadmaps"""
     try:
+        # Check if already running
+        if _generation_in_progress['initial']:
+            logger.info("⚠️ Initial roadmap generation already in progress, skipping...")
+            return
+        
+        _generation_in_progress['initial'] = True
         logger.info("🚀 Starting background generation of initial curated roadmaps...")
         
         # Double-check current count to avoid race conditions
@@ -2036,29 +2049,54 @@ async def generate_initial_curated_roadmaps_background(db: Session):
         if generated_roadmaps:
             batch_size = 5
             total_saved = 0
+            logger.info(f"💾 Starting to save {len(generated_roadmaps)} generated roadmaps in batches...")
+            
             for i in range(0, len(generated_roadmaps), batch_size):
                 batch = generated_roadmaps[i:i + batch_size]
                 try:
+                    logger.info(f"💾 Saving batch {i//batch_size + 1} with {len(batch)} roadmaps...")
                     for roadmap in batch:
                         db.add(roadmap)
+                        logger.info(f"  ➕ Added roadmap: {roadmap.title}")
+                    
                     db.commit()
+                    db.refresh(batch[0])  # Refresh to confirm save
                     total_saved += len(batch)
-                    logger.info(f"💾 Saved batch {i//batch_size + 1}: {len(batch)} roadmaps")
+                    logger.info(f"✅ Successfully saved batch {i//batch_size + 1}: {len(batch)} roadmaps")
+                    
+                    # Verify the save worked
+                    count_after = db.exec(select(func.count(CuratedRoadmap.id))).first()
+                    logger.info(f"📊 Database now contains {count_after} total roadmaps")
+                    
                 except Exception as e:
-                    logger.error(f"❌ Failed to save batch {i//batch_size + 1}: {e}")
+                    logger.error(f"❌ Failed to save batch {i//batch_size + 1}: {str(e)}")
+                    logger.error(f"❌ Error type: {type(e).__name__}")
                     db.rollback()
                     # Continue with next batch
                     continue
             
-            logger.info(f"✅ Successfully saved {total_saved}/{len(generated_roadmaps)} new curated roadmaps!")
+            logger.info(f"✅ Batch saving complete! Saved {total_saved}/{len(generated_roadmaps)} new curated roadmaps!")
+            
+            # Final verification
+            final_count = db.exec(select(func.count(CuratedRoadmap.id))).first()
+            logger.info(f"🎯 Final database count: {final_count} roadmaps")
         
     except Exception as e:
         logger.error(f"💥 Background roadmap generation failed: {e}")
         db.rollback()
+    finally:
+        _generation_in_progress['initial'] = False
+        logger.info("🏁 Initial roadmap generation task completed")
 
 async def generate_additional_curated_roadmaps_background(db: Session):
     """Background task to generate additional curated roadmaps"""
     try:
+        # Check if already running
+        if _generation_in_progress['additional']:
+            logger.info("⚠️ Additional roadmap generation already in progress, skipping...")
+            return
+        
+        _generation_in_progress['additional'] = True
         logger.info("🚀 Starting background generation of additional curated roadmaps...")
         
         # Double-check current count to avoid race conditions
@@ -2109,29 +2147,54 @@ async def generate_additional_curated_roadmaps_background(db: Session):
         if generated_roadmaps:
             batch_size = 5
             total_saved = 0
+            logger.info(f"💾 Starting to save {len(generated_roadmaps)} generated additional roadmaps in batches...")
+            
             for i in range(0, len(generated_roadmaps), batch_size):
                 batch = generated_roadmaps[i:i + batch_size]
                 try:
+                    logger.info(f"💾 Saving additional batch {i//batch_size + 1} with {len(batch)} roadmaps...")
                     for roadmap in batch:
                         db.add(roadmap)
+                        logger.info(f"  ➕ Added roadmap: {roadmap.title}")
+                    
                     db.commit()
+                    db.refresh(batch[0])  # Refresh to confirm save
                     total_saved += len(batch)
-                    logger.info(f"💾 Saved additional batch {i//batch_size + 1}: {len(batch)} roadmaps")
+                    logger.info(f"✅ Successfully saved additional batch {i//batch_size + 1}: {len(batch)} roadmaps")
+                    
+                    # Verify the save worked
+                    count_after = db.exec(select(func.count(CuratedRoadmap.id))).first()
+                    logger.info(f"📊 Database now contains {count_after} total roadmaps")
+                    
                 except Exception as e:
-                    logger.error(f"❌ Failed to save additional batch {i//batch_size + 1}: {e}")
+                    logger.error(f"❌ Failed to save additional batch {i//batch_size + 1}: {str(e)}")
+                    logger.error(f"❌ Error type: {type(e).__name__}")
                     db.rollback()
                     # Continue with next batch
                     continue
             
-            logger.info(f"✅ Successfully saved {total_saved}/{len(generated_roadmaps)} new additional curated roadmaps!")
+            logger.info(f"✅ Additional batch saving complete! Saved {total_saved}/{len(generated_roadmaps)} new additional curated roadmaps!")
+            
+            # Final verification
+            final_count = db.exec(select(func.count(CuratedRoadmap.id))).first()
+            logger.info(f"🎯 Final database count: {final_count} roadmaps")
         
     except Exception as e:
         logger.error(f"💥 Background roadmap generation failed: {e}")
         db.rollback()
+    finally:
+        _generation_in_progress['additional'] = False
+        logger.info("🏁 Additional roadmap generation task completed")
 
 async def generate_advanced_curated_roadmaps_background(db: Session):
     """Background task to generate advanced curated roadmaps"""
     try:
+        # Check if already running
+        if _generation_in_progress['advanced']:
+            logger.info("⚠️ Advanced roadmap generation already in progress, skipping...")
+            return
+        
+        _generation_in_progress['advanced'] = True
         logger.info("🎯 Starting background generation of advanced curated roadmaps...")
         
         # Double-check current count to avoid race conditions
@@ -2182,25 +2245,44 @@ async def generate_advanced_curated_roadmaps_background(db: Session):
         if generated_roadmaps:
             batch_size = 5
             total_saved = 0
+            logger.info(f"💾 Starting to save {len(generated_roadmaps)} generated advanced roadmaps in batches...")
+            
             for i in range(0, len(generated_roadmaps), batch_size):
                 batch = generated_roadmaps[i:i + batch_size]
                 try:
+                    logger.info(f"💾 Saving advanced batch {i//batch_size + 1} with {len(batch)} roadmaps...")
                     for roadmap in batch:
                         db.add(roadmap)
+                        logger.info(f"  ➕ Added roadmap: {roadmap.title}")
+                    
                     db.commit()
+                    db.refresh(batch[0])  # Refresh to confirm save
                     total_saved += len(batch)
-                    logger.info(f"💾 Saved advanced batch {i//batch_size + 1}: {len(batch)} roadmaps")
+                    logger.info(f"✅ Successfully saved advanced batch {i//batch_size + 1}: {len(batch)} roadmaps")
+                    
+                    # Verify the save worked
+                    count_after = db.exec(select(func.count(CuratedRoadmap.id))).first()
+                    logger.info(f"📊 Database now contains {count_after} total roadmaps")
+                    
                 except Exception as e:
-                    logger.error(f"❌ Failed to save advanced batch {i//batch_size + 1}: {e}")
+                    logger.error(f"❌ Failed to save advanced batch {i//batch_size + 1}: {str(e)}")
+                    logger.error(f"❌ Error type: {type(e).__name__}")
                     db.rollback()
                     # Continue with next batch
                     continue
             
-            logger.info(f"✅ Successfully saved {total_saved}/{len(generated_roadmaps)} new advanced curated roadmaps!")
+            logger.info(f"✅ Advanced batch saving complete! Saved {total_saved}/{len(generated_roadmaps)} new advanced curated roadmaps!")
+            
+            # Final verification
+            final_count = db.exec(select(func.count(CuratedRoadmap.id))).first()
+            logger.info(f"🎯 Final database count: {final_count} roadmaps")
         
     except Exception as e:
         logger.error(f"💥 Advanced roadmap generation failed: {e}")
         db.rollback()
+    finally:
+        _generation_in_progress['advanced'] = False
+        logger.info("🏁 Advanced roadmap generation task completed")
 
 @router.get("/", response_model=List[CuratedRoadmapListResponse])
 async def browse_curated_roadmaps(
