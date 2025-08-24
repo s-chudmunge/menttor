@@ -1936,118 +1936,244 @@ async def generate_curated_roadmap(roadmap_config: dict) -> CuratedRoadmap:
     """Generate a single curated roadmap using AI"""
     logger.info(f"🎯 Generating: {roadmap_config['title']}")
     
-    # Create AI request
-    request = RoadmapCreateRequest(**roadmap_config['request'])
-    
-    # Generate content using AI service
-    ai_response = await generate_roadmap_content(request)
-    
-    # Create curated roadmap
-    curated_roadmap = CuratedRoadmap(
-        title=roadmap_config['title'],
-        description=ai_response.description,
-        category=roadmap_config['category'],
-        subcategory=roadmap_config.get('subcategory'),
-        difficulty=roadmap_config['difficulty'],
-        is_featured=roadmap_config['is_featured'],
-        is_verified=roadmap_config['is_verified'], 
-        quality_score=roadmap_config['quality_score'],
-        view_count=0,
-        adoption_count=0,
-        completion_rate=0.0,
-        average_rating=0.0,
-        roadmap_plan=ai_response.roadmap_plan.model_dump()["modules"],
-        estimated_hours=roadmap_config['estimated_hours'],
-        prerequisites=roadmap_config['prerequisites'],
-        learning_outcomes=roadmap_config['learning_outcomes'],
-        tags=roadmap_config['tags'],
-        target_audience=roadmap_config['target_audience'],
-        slug=create_slug(roadmap_config['title']),
-        created_at=datetime.utcnow(),
-        updated_at=datetime.utcnow()
-    )
-    
-    return curated_roadmap
+    try:
+        # Create AI request
+        request = RoadmapCreateRequest(**roadmap_config['request'])
+        
+        # Generate content using AI service with retry logic
+        max_retries = 3
+        for attempt in range(max_retries):
+            try:
+                ai_response = await generate_roadmap_content(request)
+                break
+            except Exception as e:
+                if attempt == max_retries - 1:
+                    raise e
+                logger.warning(f"⚠️ Attempt {attempt + 1} failed for {roadmap_config['title']}: {e}")
+                await asyncio.sleep(5 * (attempt + 1))  # Exponential backoff
+        
+        # Create curated roadmap
+        curated_roadmap = CuratedRoadmap(
+            title=roadmap_config['title'],
+            description=ai_response.description,
+            category=roadmap_config['category'],
+            subcategory=roadmap_config.get('subcategory'),
+            difficulty=roadmap_config['difficulty'],
+            is_featured=roadmap_config['is_featured'],
+            is_verified=roadmap_config['is_verified'], 
+            quality_score=roadmap_config['quality_score'],
+            view_count=0,
+            adoption_count=0,
+            completion_rate=0.0,
+            average_rating=0.0,
+            roadmap_plan=ai_response.roadmap_plan.model_dump()["modules"],
+            estimated_hours=roadmap_config['estimated_hours'],
+            prerequisites=roadmap_config['prerequisites'],
+            learning_outcomes=roadmap_config['learning_outcomes'],
+            tags=roadmap_config['tags'],
+            target_audience=roadmap_config['target_audience'],
+            slug=create_slug(roadmap_config['title']),
+            created_at=datetime.utcnow(),
+            updated_at=datetime.utcnow()
+        )
+        
+        logger.info(f"✅ Successfully generated: {roadmap_config['title']}")
+        return curated_roadmap
+        
+    except Exception as e:
+        logger.error(f"❌ Failed to generate {roadmap_config['title']}: {str(e)}")
+        raise e
 
 async def generate_initial_curated_roadmaps_background(db: Session):
     """Background task to generate initial 5 curated roadmaps"""
     try:
-        logger.info("🚀 Starting background generation of initial 5 curated roadmaps...")
-        generated_roadmaps = []
+        logger.info("🚀 Starting background generation of initial curated roadmaps...")
         
+        # Get existing roadmap titles to avoid duplicates
+        existing_titles = set(db.exec(select(CuratedRoadmap.title)).all())
+        logger.info(f"📋 Found {len(existing_titles)} existing roadmaps in database")
+        
+        generated_roadmaps = []
+        configs_to_generate = []
+        
+        # Filter out already existing roadmaps
         for config in PREMIUM_ROADMAPS_CONFIG:
+            if config['title'] not in existing_titles:
+                configs_to_generate.append(config)
+            else:
+                logger.info(f"⏭️ Skipping existing roadmap: {config['title']}")
+        
+        logger.info(f"🎯 Need to generate {len(configs_to_generate)} new roadmaps")
+        
+        if not configs_to_generate:
+            logger.info("✅ All initial roadmaps already exist in database")
+            return
+        
+        for i, config in enumerate(configs_to_generate, 1):
             try:
+                logger.info(f"🔄 Generating ({i}/{len(configs_to_generate)}): {config['title']}")
                 roadmap = await generate_curated_roadmap(config)
                 generated_roadmaps.append(roadmap)
                 logger.info(f"✅ Generated: {config['title']}")
-                # Small delay to avoid API limits
-                await asyncio.sleep(2)
+                
+                # Progressive delay to avoid API limits (5-10 seconds)
+                delay = min(5 + (i * 2), 10)
+                logger.info(f"⏳ Waiting {delay}s before next generation...")
+                await asyncio.sleep(delay)
+                
             except Exception as e:
                 logger.error(f"❌ Failed to generate {config['title']}: {e}")
+                # Continue with other roadmaps even if one fails
                 continue
         
-        # Save all generated roadmaps
+        # Save generated roadmaps in batches for better performance
         if generated_roadmaps:
-            for roadmap in generated_roadmaps:
-                db.add(roadmap)
-            db.commit()
-            logger.info(f"💾 Saved {len(generated_roadmaps)} initial curated roadmaps to database!")
+            batch_size = 5
+            for i in range(0, len(generated_roadmaps), batch_size):
+                batch = generated_roadmaps[i:i + batch_size]
+                try:
+                    for roadmap in batch:
+                        db.add(roadmap)
+                    db.commit()
+                    logger.info(f"💾 Saved batch {i//batch_size + 1}: {len(batch)} roadmaps")
+                except Exception as e:
+                    logger.error(f"❌ Failed to save batch {i//batch_size + 1}: {e}")
+                    db.rollback()
+                    # Continue with next batch
+                    continue
+            
+            total_saved = len([r for r in generated_roadmaps if r.id])
+            logger.info(f"✅ Successfully saved {total_saved}/{len(generated_roadmaps)} new curated roadmaps!")
         
     except Exception as e:
         logger.error(f"💥 Background roadmap generation failed: {e}")
         db.rollback()
 
 async def generate_additional_curated_roadmaps_background(db: Session):
-    """Background task to generate additional 30 curated roadmaps"""
+    """Background task to generate additional curated roadmaps"""
     try:
-        logger.info("🚀 Starting background generation of 30 additional curated roadmaps...")
-        generated_roadmaps = []
+        logger.info("🚀 Starting background generation of additional curated roadmaps...")
         
+        # Get existing roadmap titles to avoid duplicates
+        existing_titles = set(db.exec(select(CuratedRoadmap.title)).all())
+        logger.info(f"📋 Found {len(existing_titles)} existing roadmaps in database")
+        
+        generated_roadmaps = []
+        configs_to_generate = []
+        
+        # Filter out already existing roadmaps
         for config in ADDITIONAL_PREMIUM_ROADMAPS:
+            if config['title'] not in existing_titles:
+                configs_to_generate.append(config)
+            else:
+                logger.info(f"⏭️ Skipping existing roadmap: {config['title']}")
+        
+        logger.info(f"🎯 Need to generate {len(configs_to_generate)} new additional roadmaps")
+        
+        if not configs_to_generate:
+            logger.info("✅ All additional roadmaps already exist in database")
+            return
+        
+        for i, config in enumerate(configs_to_generate, 1):
             try:
+                logger.info(f"🔄 Generating ({i}/{len(configs_to_generate)}): {config['title']}")
                 roadmap = await generate_curated_roadmap(config)
                 generated_roadmaps.append(roadmap)
                 logger.info(f"✅ Generated: {config['title']}")
-                # Small delay to avoid API limits
-                await asyncio.sleep(2)
+                
+                # Progressive delay to avoid API limits (8-15 seconds)
+                delay = min(8 + (i * 2), 15)
+                logger.info(f"⏳ Waiting {delay}s before next generation...")
+                await asyncio.sleep(delay)
+                
             except Exception as e:
                 logger.error(f"❌ Failed to generate {config['title']}: {e}")
+                # Continue with other roadmaps even if one fails
                 continue
         
-        # Save all generated roadmaps
+        # Save generated roadmaps in batches for better performance
         if generated_roadmaps:
-            for roadmap in generated_roadmaps:
-                db.add(roadmap)
-            db.commit()
-            logger.info(f"💾 Saved {len(generated_roadmaps)} additional curated roadmaps to database!")
+            batch_size = 5
+            for i in range(0, len(generated_roadmaps), batch_size):
+                batch = generated_roadmaps[i:i + batch_size]
+                try:
+                    for roadmap in batch:
+                        db.add(roadmap)
+                    db.commit()
+                    logger.info(f"💾 Saved additional batch {i//batch_size + 1}: {len(batch)} roadmaps")
+                except Exception as e:
+                    logger.error(f"❌ Failed to save additional batch {i//batch_size + 1}: {e}")
+                    db.rollback()
+                    # Continue with next batch
+                    continue
+            
+            total_saved = len([r for r in generated_roadmaps if r.id])
+            logger.info(f"✅ Successfully saved {total_saved}/{len(generated_roadmaps)} new additional curated roadmaps!")
         
     except Exception as e:
         logger.error(f"💥 Background roadmap generation failed: {e}")
         db.rollback()
 
 async def generate_advanced_curated_roadmaps_background(db: Session):
-    """Background task to generate advanced 37 curated roadmaps"""
+    """Background task to generate advanced curated roadmaps"""
     try:
-        logger.info("🎯 Starting background generation of 37 advanced curated roadmaps...")
-        generated_roadmaps = []
+        logger.info("🎯 Starting background generation of advanced curated roadmaps...")
         
+        # Get existing roadmap titles to avoid duplicates
+        existing_titles = set(db.exec(select(CuratedRoadmap.title)).all())
+        logger.info(f"📋 Found {len(existing_titles)} existing roadmaps in database")
+        
+        generated_roadmaps = []
+        configs_to_generate = []
+        
+        # Filter out already existing roadmaps
         for config in ADVANCED_PREMIUM_ROADMAPS:
+            if config['title'] not in existing_titles:
+                configs_to_generate.append(config)
+            else:
+                logger.info(f"⏭️ Skipping existing roadmap: {config['title']}")
+        
+        logger.info(f"🎯 Need to generate {len(configs_to_generate)} new advanced roadmaps")
+        
+        if not configs_to_generate:
+            logger.info("✅ All advanced roadmaps already exist in database")
+            return
+        
+        for i, config in enumerate(configs_to_generate, 1):
             try:
+                logger.info(f"🔄 Generating ({i}/{len(configs_to_generate)}): {config['title']}")
                 roadmap = await generate_curated_roadmap(config)
                 generated_roadmaps.append(roadmap)
                 logger.info(f"✅ Generated: {config['title']}")
-                # Small delay to avoid API limits
-                await asyncio.sleep(2)
+                
+                # Progressive delay to avoid API limits (10-20 seconds)
+                delay = min(10 + (i * 3), 20)
+                logger.info(f"⏳ Waiting {delay}s before next generation...")
+                await asyncio.sleep(delay)
+                
             except Exception as e:
                 logger.error(f"❌ Failed to generate {config['title']}: {e}")
+                # Continue with other roadmaps even if one fails
                 continue
         
-        # Save all generated roadmaps
+        # Save generated roadmaps in batches for better performance
         if generated_roadmaps:
-            for roadmap in generated_roadmaps:
-                db.add(roadmap)
-            db.commit()
-            logger.info(f"💾 Saved {len(generated_roadmaps)} advanced curated roadmaps to database!")
+            batch_size = 5
+            for i in range(0, len(generated_roadmaps), batch_size):
+                batch = generated_roadmaps[i:i + batch_size]
+                try:
+                    for roadmap in batch:
+                        db.add(roadmap)
+                    db.commit()
+                    logger.info(f"💾 Saved advanced batch {i//batch_size + 1}: {len(batch)} roadmaps")
+                except Exception as e:
+                    logger.error(f"❌ Failed to save advanced batch {i//batch_size + 1}: {e}")
+                    db.rollback()
+                    # Continue with next batch
+                    continue
+            
+            total_saved = len([r for r in generated_roadmaps if r.id])
+            logger.info(f"✅ Successfully saved {total_saved}/{len(generated_roadmaps)} new advanced curated roadmaps!")
         
     except Exception as e:
         logger.error(f"💥 Advanced roadmap generation failed: {e}")
@@ -2076,23 +2202,25 @@ async def browse_curated_roadmaps(
     
     # Check if curated roadmaps exist and generate accordingly
     existing_count = db.exec(select(func.count(CuratedRoadmap.id))).first()
+    total_configured = len(PREMIUM_ROADMAPS_CONFIG) + len(ADDITIONAL_PREMIUM_ROADMAPS) + len(ADVANCED_PREMIUM_ROADMAPS)
+    
+    logger.info(f"📊 Database status: {existing_count}/{total_configured} roadmaps exist")
     
     if existing_count == 0:
-        logger.info("🎯 No curated roadmaps found. Starting background generation of initial 5 roadmaps...")
-        # Start generation of initial 5 roadmaps in background
+        logger.info("🎯 No curated roadmaps found. Starting background generation of initial roadmaps...")
         background_tasks.add_task(generate_initial_curated_roadmaps_background, db)
-        # Return empty array for now - roadmaps will be available after generation completes
         return []
-    elif existing_count == 5:
-        logger.info("🚀 Found exactly 5 roadmaps. Starting background generation of 30 additional roadmaps...")
-        # Start generation of additional 30 roadmaps in background
+    elif existing_count < len(PREMIUM_ROADMAPS_CONFIG):
+        logger.info(f"🚀 Found {existing_count} roadmaps. Completing initial set in background...")
+        background_tasks.add_task(generate_initial_curated_roadmaps_background, db)
+    elif existing_count < len(PREMIUM_ROADMAPS_CONFIG) + len(ADDITIONAL_PREMIUM_ROADMAPS):
+        logger.info(f"📈 Found {existing_count} roadmaps. Generating additional roadmaps in background...")
         background_tasks.add_task(generate_additional_curated_roadmaps_background, db)
-        # Continue to return existing roadmaps while additional ones generate
-    elif existing_count == 35:
-        logger.info("🎯 Found exactly 35 roadmaps. Starting background generation of 37 advanced roadmaps...")
-        # Start generation of advanced 37 roadmaps in background
+    elif existing_count < total_configured:
+        logger.info(f"🎯 Found {existing_count} roadmaps. Generating advanced roadmaps in background...")
         background_tasks.add_task(generate_advanced_curated_roadmaps_background, db)
-        # Continue to return existing roadmaps while advanced ones generate
+    else:
+        logger.info(f"✅ All {existing_count} roadmaps are already generated!")
     
     query = select(CuratedRoadmap)
     
