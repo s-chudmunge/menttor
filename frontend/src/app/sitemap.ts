@@ -51,12 +51,26 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       signal: AbortSignal.timeout(10000), // 10 second timeout
     });
 
-    if (!response.ok) {
-      console.warn(`Failed to fetch roadmaps for sitemap: ${response.status} ${response.statusText}`);
-      return staticRoutes;
-    }
+    let roadmaps: CuratedRoadmap[] = [];
 
-    const roadmaps: CuratedRoadmap[] = await response.json();
+    if (response.ok) {
+      roadmaps = await response.json();
+    } else {
+      console.warn(`Failed to fetch roadmaps for sitemap: ${response.status} ${response.statusText}`);
+      // Fallback to static roadmap list for SEO while backend is down
+      roadmaps = [
+        { id: 30, title: 'TypeScript Advanced Programming', category: 'programming-languages', difficulty: 'intermediate', is_featured: false, slug: 'typescript-advanced-programming' },
+        { id: 26, title: 'Swift iOS App Development', category: 'mobile-development', difficulty: 'beginner', is_featured: true, slug: 'swift-ios-app-development' },
+        { id: 14, title: 'FastAPI Modern Python Web Framework', category: 'web-development', difficulty: 'beginner', is_featured: false, slug: 'fastapi-modern-python-web-framework' },
+        { id: 11, title: 'Django REST API Development', category: 'web-development', difficulty: 'intermediate', is_featured: false, slug: 'django-rest-api-development' },
+        { id: 17, title: 'Figma to Code Design Implementation', category: 'design', difficulty: 'intermediate', is_featured: false, slug: 'figma-to-code-design-implementation' },
+        { id: 3, title: 'AWS Cloud Solutions Architect', category: 'cloud-computing', difficulty: 'intermediate', is_featured: true, slug: 'aws-cloud-solutions-architect' },
+        { id: 31, title: 'MERN Stack Full Development', category: 'web-development', difficulty: 'intermediate', is_featured: true, slug: 'mern-stack-full-development' },
+        { id: 36, title: 'Generative AI and Large Language Models', category: 'artificial-intelligence', difficulty: 'intermediate', is_featured: true, slug: 'generative-ai-and-large-language-models' },
+        { id: 28, title: 'Kotlin Android Development', category: 'mobile-development', difficulty: 'beginner', is_featured: true, slug: 'kotlin-android-development' },
+        { id: 13, title: 'System Design for Senior Engineers', category: 'system-design', difficulty: 'advanced', is_featured: true, slug: 'system-design-for-senior-engineers' },
+      ];
+    }
 
     // Dynamic roadmap routes - use slug for SEO-friendly URLs
     const roadmapRoutes = roadmaps.map((roadmap) => ({
