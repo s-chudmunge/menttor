@@ -31,14 +31,22 @@ The root object should be a JSON object with a single key "content", which is an
     -   `"type": "active_recall"`
     -   `"data": { "question": "A question to trigger memory retrieval.", "answer": "The concise answer." }`
 
-5.  **`dual_coding`**: For visual explanations alongside text. The frontend will automatically generate appropriate visualizations based on the text content.
+5.  **`dual_coding`**: For visual explanations alongside text. **ONLY use this when the content would significantly benefit from a visual representation.**
     -   `"type": "dual_coding"`
     -   `"data": { "text": "A detailed explanation of the concept. Include specific technical terms and keywords that help the system understand what type of visualization to generate.", "position": "right" }` (position can be "left" or "right")
     
-    **CRITICAL CONSTRAINT**: 
-    - Do NOT include `visual_url` field. The system automatically creates visualizations from the text content.
-    - **STRICT LIMIT: Use EXACTLY ONE dual_coding block per learning module. No exceptions. This is mandatory to conserve image generation resources.**
-    - If you need to present multiple visual concepts, consolidate them into a single dual_coding block with comprehensive text, or use other block types like `callout`, `comparison_table`, or `mermaid_diagram`.
+    **INTELLIGENT USAGE CRITERIA**: 
+    - **ONLY include dual_coding when the subtopic involves:**
+      - Complex visual concepts (anatomy, molecular structures, geometric shapes, physics phenomena)
+      - Spatial relationships (architecture, geography, engineering designs)
+      - Data visualizations (graphs, charts, statistical concepts)
+      - Abstract concepts that benefit from visual metaphors (algorithms, processes, systems)
+    - **DO NOT use dual_coding for:**
+      - Pure theoretical concepts (philosophy, abstract mathematics, literary analysis)
+      - Historical events or biographical content
+      - Text-heavy subjects (language learning, literature, writing)
+      - Simple procedural instructions
+    - **STRICT LIMIT: Use EXACTLY ONE dual_coding block per learning module when appropriate. No exceptions.**
 
 6.  **`comparison_table`**: For structured comparisons.
     -   `"type": "comparison_table"`
@@ -48,9 +56,21 @@ The root object should be a JSON object with a single key "content", which is an
     -   `"type": "callout"`
     -   `"data": { "text": "The highlighted content.", "style": "metaphor" }` (style can be "metaphor", "analogy", "example", or "warning")
 
-8.  **`mermaid_diagram`**: For rendering flow charts and process diagrams.
+8.  **`mermaid_diagram`**: For rendering flow charts and process diagrams. **ONLY use when the content involves clear sequential processes, workflows, or relationships.**
     -   `"type": "mermaid_diagram"`
     -   `"data": { "chart": "graph TD\n    A[Start] --> B[Process]\n    B --> C[End]" }`
+    -   **INTELLIGENT USAGE CRITERIA:**
+        - **ONLY include mermaid_diagram when the subtopic involves:**
+          - Step-by-step processes (algorithms, workflows, scientific methods)
+          - System architectures or organizational structures
+          - Decision trees or logical flows
+          - Cause-and-effect relationships
+          - Network or hierarchical relationships
+        - **DO NOT use mermaid_diagram for:**
+          - Simple lists or enumerations
+          - Purely descriptive content without clear relationships
+          - Abstract concepts without defined processes
+          - Content that doesn't follow a logical sequence or hierarchy
     -   **STRICT Guidelines for Mermaid charts:**
         - Always start with `graph TD` (top-down) or `graph LR` (left-right)
         - Use ONLY alphanumeric characters, spaces, and hyphens in labels
@@ -61,9 +81,24 @@ The root object should be a JSON object with a single key "content", which is an
         - Example: `A[Data Input] --> B[Processing] --> C[Output]`
         - **AVOID**: Complex syntax, decision nodes `{}`, or edge labels
 
-9.  **`3d_visualization`**: To link to an interactive 3D model.
+9.  **`3d_visualization`**: To link to an interactive 3D model. **ONLY use when the content involves inherently 3D concepts that require spatial understanding.**
     -   `"type": "3d_visualization"`
     -   `"data": { "description": "A detailed text description of the 3D model to be generated." }`
+    -   **INTELLIGENT USAGE CRITERIA:**
+        - **ONLY include 3d_visualization when the subtopic involves:**
+          - 3D geometric shapes, structures, or spatial relationships
+          - Molecular structures, crystal lattices, or atomic models
+          - Anatomical structures (organs, skeletal systems, cellular components)
+          - Architectural designs, engineering structures, or mechanical parts
+          - Astronomical objects (planets, solar systems, orbital mechanics)
+          - Physics phenomena with spatial components (wave propagation, field visualization)
+          - Mathematical surfaces, functions, or geometric transformations
+        - **DO NOT use 3d_visualization for:**
+          - 2D concepts (graphs, charts, flat diagrams)
+          - Abstract theoretical concepts without spatial components
+          - Historical events, biographical content, or literary analysis
+          - Simple procedural instructions or text-based content
+          - Concepts that are better understood through 2D representations
 
 **Learning Request:**
 
