@@ -1985,9 +1985,15 @@ async def generate_curated_roadmap(roadmap_config: dict) -> CuratedRoadmap:
         raise e
 
 async def generate_initial_curated_roadmaps_background(db: Session):
-    """Background task to generate initial 5 curated roadmaps"""
+    """Background task to generate initial curated roadmaps"""
     try:
         logger.info("🚀 Starting background generation of initial curated roadmaps...")
+        
+        # Double-check current count to avoid race conditions
+        current_count = db.exec(select(func.count(CuratedRoadmap.id))).first()
+        if current_count >= len(PREMIUM_ROADMAPS_CONFIG):
+            logger.info(f"✅ Initial generation already complete: {current_count} roadmaps exist")
+            return
         
         # Get existing roadmap titles to avoid duplicates
         existing_titles = set(db.exec(select(CuratedRoadmap.title)).all())
@@ -2029,12 +2035,14 @@ async def generate_initial_curated_roadmaps_background(db: Session):
         # Save generated roadmaps in batches for better performance
         if generated_roadmaps:
             batch_size = 5
+            total_saved = 0
             for i in range(0, len(generated_roadmaps), batch_size):
                 batch = generated_roadmaps[i:i + batch_size]
                 try:
                     for roadmap in batch:
                         db.add(roadmap)
                     db.commit()
+                    total_saved += len(batch)
                     logger.info(f"💾 Saved batch {i//batch_size + 1}: {len(batch)} roadmaps")
                 except Exception as e:
                     logger.error(f"❌ Failed to save batch {i//batch_size + 1}: {e}")
@@ -2042,7 +2050,6 @@ async def generate_initial_curated_roadmaps_background(db: Session):
                     # Continue with next batch
                     continue
             
-            total_saved = len([r for r in generated_roadmaps if r.id])
             logger.info(f"✅ Successfully saved {total_saved}/{len(generated_roadmaps)} new curated roadmaps!")
         
     except Exception as e:
@@ -2053,6 +2060,13 @@ async def generate_additional_curated_roadmaps_background(db: Session):
     """Background task to generate additional curated roadmaps"""
     try:
         logger.info("🚀 Starting background generation of additional curated roadmaps...")
+        
+        # Double-check current count to avoid race conditions
+        current_count = db.exec(select(func.count(CuratedRoadmap.id))).first()
+        target_count = len(PREMIUM_ROADMAPS_CONFIG) + len(ADDITIONAL_PREMIUM_ROADMAPS)
+        if current_count >= target_count:
+            logger.info(f"✅ Additional generation already complete: {current_count} roadmaps exist")
+            return
         
         # Get existing roadmap titles to avoid duplicates
         existing_titles = set(db.exec(select(CuratedRoadmap.title)).all())
@@ -2094,12 +2108,14 @@ async def generate_additional_curated_roadmaps_background(db: Session):
         # Save generated roadmaps in batches for better performance
         if generated_roadmaps:
             batch_size = 5
+            total_saved = 0
             for i in range(0, len(generated_roadmaps), batch_size):
                 batch = generated_roadmaps[i:i + batch_size]
                 try:
                     for roadmap in batch:
                         db.add(roadmap)
                     db.commit()
+                    total_saved += len(batch)
                     logger.info(f"💾 Saved additional batch {i//batch_size + 1}: {len(batch)} roadmaps")
                 except Exception as e:
                     logger.error(f"❌ Failed to save additional batch {i//batch_size + 1}: {e}")
@@ -2107,7 +2123,6 @@ async def generate_additional_curated_roadmaps_background(db: Session):
                     # Continue with next batch
                     continue
             
-            total_saved = len([r for r in generated_roadmaps if r.id])
             logger.info(f"✅ Successfully saved {total_saved}/{len(generated_roadmaps)} new additional curated roadmaps!")
         
     except Exception as e:
@@ -2118,6 +2133,13 @@ async def generate_advanced_curated_roadmaps_background(db: Session):
     """Background task to generate advanced curated roadmaps"""
     try:
         logger.info("🎯 Starting background generation of advanced curated roadmaps...")
+        
+        # Double-check current count to avoid race conditions
+        current_count = db.exec(select(func.count(CuratedRoadmap.id))).first()
+        total_target = len(PREMIUM_ROADMAPS_CONFIG) + len(ADDITIONAL_PREMIUM_ROADMAPS) + len(ADVANCED_PREMIUM_ROADMAPS)
+        if current_count >= total_target:
+            logger.info(f"✅ Advanced generation already complete: {current_count}/{total_target} roadmaps exist")
+            return
         
         # Get existing roadmap titles to avoid duplicates
         existing_titles = set(db.exec(select(CuratedRoadmap.title)).all())
@@ -2159,12 +2181,14 @@ async def generate_advanced_curated_roadmaps_background(db: Session):
         # Save generated roadmaps in batches for better performance
         if generated_roadmaps:
             batch_size = 5
+            total_saved = 0
             for i in range(0, len(generated_roadmaps), batch_size):
                 batch = generated_roadmaps[i:i + batch_size]
                 try:
                     for roadmap in batch:
                         db.add(roadmap)
                     db.commit()
+                    total_saved += len(batch)
                     logger.info(f"💾 Saved advanced batch {i//batch_size + 1}: {len(batch)} roadmaps")
                 except Exception as e:
                     logger.error(f"❌ Failed to save advanced batch {i//batch_size + 1}: {e}")
@@ -2172,7 +2196,6 @@ async def generate_advanced_curated_roadmaps_background(db: Session):
                     # Continue with next batch
                     continue
             
-            total_saved = len([r for r in generated_roadmaps if r.id])
             logger.info(f"✅ Successfully saved {total_saved}/{len(generated_roadmaps)} new advanced curated roadmaps!")
         
     except Exception as e:
