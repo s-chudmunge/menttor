@@ -38,6 +38,9 @@ if not firebase_admin._apps:
         # Depending on your application's needs, you might want to exit or raise an error here
 
 async def get_current_user(request: Request, db: Session = Depends(get_db)) -> User:
+    from database.cache import query_cache, cache_user_query
+    from database.monitor import monitor_query, db_monitor
+    
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Could not validate credentials",
@@ -55,6 +58,12 @@ async def get_current_user(request: Request, db: Session = Depends(get_db)) -> U
     # Test bypass for development/testing
     if settings.ENABLE_AUTH_BYPASS and token == "test_token":
         logger.info("Auth: Using test bypass mode")
+        # Check cache first for test user
+        cache_key = "test_user:test@example.com"
+        cached_user = query_cache.get(cache_key)
+        if cached_user:
+            return cached_user
+            
         # Return a test user or create one if needed
         test_user = db.exec(select(User).where(User.email == "test@example.com")).first()
         if not test_user:
@@ -68,21 +77,43 @@ async def get_current_user(request: Request, db: Session = Depends(get_db)) -> U
             db.add(test_user)
             db.commit()
             db.refresh(test_user)
+        
+        # Cache test user for 10 minutes
+        query_cache.set(cache_key, test_user, ttl=600)
         return test_user
 
     try:
-        # Verify Firebase ID token
+        # Verify Firebase ID token (this is cached by Firebase SDK)
         decoded_token = auth.verify_id_token(token)
         uid = decoded_token['uid']
         email = decoded_token.get('email')
-        logger.info(f"Auth: Decoded Firebase ID token for UID: {uid}, Email: {email}")
+        logger.debug(f"Auth: Decoded Firebase ID token for UID: {uid}")
     except Exception as e:
         logger.error(f"Auth: Firebase ID token verification failed: {e}")
         raise credentials_exception
 
-    # Fetch user from your database using UID or email
-    # It's recommended to use UID as it's unique and immutable in Firebase
-    user = db.exec(select(User).where(User.firebase_uid == uid)).first()
+    # Check user cache first
+    user_cache_key = f"user:uid:{uid}"
+    cached_user = query_cache.get(user_cache_key)
+    if cached_user:
+        logger.debug(f"Auth: Using cached user for UID: {uid}")
+        return cached_user
+
+    # Rate limit check
+    allowed, reason = db_monitor.check_rate_limit(uid)
+    if not allowed:
+        logger.warning(f"Auth rate limit exceeded for user {uid}: {reason}")
+        raise HTTPException(
+            status_code=status.HTTP_429_TOO_MANY_REQUESTS,
+            detail="Too many requests. Please try again later."
+        )
+
+    # Fetch user from database
+    @monitor_query("select", "user")
+    def fetch_user_by_uid(firebase_uid: str) -> Optional[User]:
+        return db.exec(select(User).where(User.firebase_uid == firebase_uid)).first()
+    
+    user = fetch_user_by_uid(uid)
     if user is None:
         # If user doesn't exist in your DB, create them (optional, depending on your flow)
         # Or raise an error if all users must pre-exist in your DB
@@ -121,6 +152,9 @@ async def get_current_user(request: Request, db: Session = Depends(get_db)) -> U
             detail="Internal server error: User ID could not be determined.",
         )
 
+    # Cache the user for future requests (5 minutes TTL)
+    query_cache.set(user_cache_key, user, ttl=300)
+    
     logger.info(f"Auth: Successfully authenticated user: {user.email}, ID: {user.id}")
     return user
 

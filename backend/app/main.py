@@ -22,7 +22,7 @@ from sqlmodel import Session
 
 from database.session import create_db_and_tables, get_db
 from sql_models import User, Roadmap, SpacedRepetition, QuizAttempt
-from routers import auth, ml_insights, quiz, quiz_results, quiz_review, roadmaps, learn, spaced_repetition, models, quiz_submission, visualize, progress, behavioral, image_generation, activity, curated_roadmaps
+from routers import auth, ml_insights, quiz, quiz_results, quiz_review, roadmaps, learn, spaced_repetition, models, quiz_submission, visualize, progress, behavioral, image_generation, activity, curated_roadmaps, monitoring
 
 # Configure logging with behavioral nudge filter
 class BehavioralNudgeFilter(logging.Filter):
@@ -78,6 +78,19 @@ async def on_startup():
             logger.warning("⚠️ Database table creation timed out - app will continue")
         except Exception as e:
             logger.warning(f"⚠️ Database initialization failed: {e} - app will continue")
+        
+        # Initialize database monitoring and optimization systems
+        try:
+            from database.monitor import db_monitor
+            from database.cache import query_cache
+            from database.batch import batch_processor
+            
+            logger.info("📊 Database monitoring systems initialized")
+            logger.info(f"🗄️  Query cache: {query_cache.max_size} entries max")
+            logger.info(f"📦 Batch processor: {batch_processor.batch_size} operations per batch")
+            
+        except Exception as e:
+            logger.warning(f"⚠️ Monitoring systems initialization failed: {e}")
             
         logger.info("🚀 FastAPI application startup completed")
         
@@ -103,6 +116,7 @@ app.include_router(behavioral.router)
 app.include_router(activity.router)
 app.include_router(image_generation.router, prefix="/images")
 app.include_router(curated_roadmaps.router)
+app.include_router(monitoring.router)
 
 from core.auth import get_current_user_from_websocket
 from database.session import get_db
