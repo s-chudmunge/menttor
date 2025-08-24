@@ -2222,6 +2222,7 @@ async def generate_advanced_curated_roadmaps_background(db: Session):
         
         if not configs_to_generate:
             logger.info("✅ All advanced roadmaps already exist in database")
+            _generation_in_progress['advanced'] = False
             return
         
         for i, config in enumerate(configs_to_generate, 1):
@@ -2256,7 +2257,16 @@ async def generate_advanced_curated_roadmaps_background(db: Session):
                         logger.info(f"  ➕ Added roadmap: {roadmap.title}")
                     
                     db.commit()
-                    db.refresh(batch[0])  # Refresh to confirm save
+                    db.flush()  # Force flush to database
+                    
+                    # Verify each roadmap was actually saved
+                    for roadmap in batch:
+                        db.refresh(roadmap)
+                        if not roadmap.id:
+                            logger.error(f"❌ Roadmap {roadmap.title} was not assigned an ID after commit!")
+                        else:
+                            logger.info(f"✅ Confirmed save: {roadmap.title} (ID: {roadmap.id})")
+                    
                     total_saved += len(batch)
                     logger.info(f"✅ Successfully saved advanced batch {i//batch_size + 1}: {len(batch)} roadmaps")
                     
