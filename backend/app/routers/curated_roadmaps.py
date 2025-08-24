@@ -470,6 +470,593 @@ TRENDING_ROADMAPS_CONFIG = [
             "time_unit": "weeks",
             "model": "vertexai:gemini-2.5-flash"
         }
+    },
+
+    # SPECIALIZED DEVELOPMENT AREAS
+    {
+        "title": "IoT Development with Embedded Systems",
+        "category": "embedded-systems",
+        "subcategory": "iot",
+        "difficulty": "intermediate",
+        "target_audience": "Developers building IoT solutions and embedded applications",
+        "estimated_hours": 110,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.0,
+        "prerequisites": ["C/C++ programming", "Basic electronics knowledge", "Linux fundamentals"],
+        "learning_outcomes": [
+            "Design and program microcontroller-based systems",
+            "Build IoT devices with sensor integration",
+            "Implement wireless communication protocols",
+            "Develop edge computing applications",
+            "Deploy IoT solutions with cloud connectivity"
+        ],
+        "tags": ["iot", "embedded", "arduino", "raspberry-pi", "sensors", "mqtt"],
+        "request": {
+            "subject": "IoT Development with Embedded Systems",
+            "goal": "I want to master IoT development from hardware to cloud integration. Teach me embedded programming, sensor interfacing, wireless protocols, edge computing, and building complete IoT solutions. Focus on practical projects and real-world applications.",
+            "time_value": 9,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Game Development with Unity and C#",
+        "category": "game-development",
+        "subcategory": "unity",
+        "difficulty": "intermediate",
+        "target_audience": "Aspiring game developers and interactive media creators",
+        "estimated_hours": 130,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.2,
+        "prerequisites": ["Basic programming concepts", "C# fundamentals", "3D mathematics basics"],
+        "learning_outcomes": [
+            "Master Unity engine and C# scripting",
+            "Create 2D and 3D games from concept to deployment",
+            "Implement game physics and animation systems",
+            "Design user interfaces and game mechanics",
+            "Publish games to multiple platforms"
+        ],
+        "tags": ["unity", "game-development", "csharp", "3d-graphics", "mobile-games"],
+        "request": {
+            "subject": "Game Development with Unity and C#",
+            "goal": "I want to become proficient in game development using Unity and C#. Teach me game design principles, Unity editor, scripting, physics, animation, UI design, and publishing. Include hands-on projects building complete games.",
+            "time_value": 11,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "3D Graphics and WebGL Programming",
+        "category": "graphics-programming",
+        "subcategory": "webgl",
+        "difficulty": "advanced",
+        "target_audience": "Developers creating interactive 3D web experiences",
+        "estimated_hours": 120,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 8.9,
+        "prerequisites": ["JavaScript proficiency", "Linear algebra knowledge", "Computer graphics basics"],
+        "learning_outcomes": [
+            "Master WebGL and Three.js for 3D web graphics",
+            "Implement shaders and lighting systems",
+            "Create interactive 3D scenes and animations",
+            "Optimize 3D performance for web browsers",
+            "Build immersive web experiences and visualizations"
+        ],
+        "tags": ["webgl", "threejs", "3d-graphics", "shaders", "visualization"],
+        "request": {
+            "subject": "3D Graphics and WebGL Programming",
+            "goal": "I want to master 3D graphics programming for the web using WebGL and Three.js. Teach me 3D mathematics, shader programming, lighting, texturing, and performance optimization. Focus on creating interactive 3D experiences and data visualizations.",
+            "time_value": 10,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Rust Systems Programming",
+        "category": "programming-languages",
+        "subcategory": "systems",
+        "difficulty": "intermediate",
+        "target_audience": "Developers interested in memory-safe systems programming",
+        "estimated_hours": 100,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.1,
+        "prerequisites": ["Programming experience", "Understanding of memory management", "Command line familiarity"],
+        "learning_outcomes": [
+            "Master Rust syntax and ownership model",
+            "Build high-performance systems applications",
+            "Implement concurrent and parallel programs",
+            "Create CLI tools and web services",
+            "Contribute to open-source Rust projects"
+        ],
+        "tags": ["rust", "systems-programming", "memory-safety", "performance", "concurrency"],
+        "request": {
+            "subject": "Rust Systems Programming",
+            "goal": "I want to master Rust for systems programming. Teach me ownership, borrowing, lifetimes, concurrency, error handling, and building high-performance applications. Include practical projects like CLI tools, web servers, and system utilities.",
+            "time_value": 8,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # EMERGING TECHNOLOGIES
+    {
+        "title": "Quantum Computing with Qiskit",
+        "category": "quantum-computing",
+        "subcategory": "programming",
+        "difficulty": "advanced",
+        "target_audience": "Researchers and developers exploring quantum computing applications",
+        "estimated_hours": 90,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 8.7,
+        "prerequisites": ["Linear algebra", "Python programming", "Basic quantum mechanics"],
+        "learning_outcomes": [
+            "Understand quantum computing principles and algorithms",
+            "Program quantum circuits using Qiskit",
+            "Implement quantum algorithms like Shor's and Grover's",
+            "Work with quantum simulators and real hardware",
+            "Explore quantum machine learning applications"
+        ],
+        "tags": ["quantum-computing", "qiskit", "quantum-algorithms", "python", "research"],
+        "request": {
+            "subject": "Quantum Computing with Qiskit",
+            "goal": "I want to learn quantum computing programming using Qiskit. Teach me quantum mechanics basics, quantum circuits, key algorithms, quantum machine learning, and practical applications. Focus on hands-on programming with simulators and real quantum hardware.",
+            "time_value": 8,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "AR/VR Development with Unity XR",
+        "category": "extended-reality",
+        "subcategory": "ar-vr",
+        "difficulty": "intermediate",
+        "target_audience": "Developers building immersive AR/VR applications",
+        "estimated_hours": 120,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.0,
+        "prerequisites": ["Unity basics", "C# programming", "3D development concepts"],
+        "learning_outcomes": [
+            "Build AR applications for mobile devices",
+            "Create VR experiences for headsets",
+            "Implement spatial tracking and hand interactions",
+            "Design immersive user interfaces",
+            "Deploy to AR/VR platforms and app stores"
+        ],
+        "tags": ["ar", "vr", "unity-xr", "immersive-tech", "spatial-computing"],
+        "request": {
+            "subject": "AR/VR Development with Unity XR",
+            "goal": "I want to master AR/VR development using Unity XR Toolkit. Teach me spatial tracking, interaction systems, UI design for immersive experiences, performance optimization, and deployment to multiple XR platforms. Include practical AR and VR projects.",
+            "time_value": 10,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # SPECIALIZED DATA & ANALYTICS
+    {
+        "title": "Real-time Data Engineering with Apache Kafka",
+        "category": "data-engineering",
+        "subcategory": "streaming",
+        "difficulty": "intermediate",
+        "target_audience": "Data engineers building real-time data pipelines",
+        "estimated_hours": 100,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.3,
+        "prerequisites": ["Distributed systems basics", "Java/Python programming", "Database knowledge"],
+        "learning_outcomes": [
+            "Design and implement Kafka streaming architectures",
+            "Build real-time data pipelines and ETL processes",
+            "Integrate with databases and analytics platforms",
+            "Monitor and scale streaming applications",
+            "Implement event-driven microservices"
+        ],
+        "tags": ["kafka", "streaming", "real-time", "data-pipelines", "event-driven"],
+        "request": {
+            "subject": "Real-time Data Engineering with Apache Kafka",
+            "goal": "I want to master real-time data engineering using Apache Kafka. Teach me streaming architectures, Kafka Streams, Connect, schema registry, monitoring, and building event-driven systems. Focus on production-ready data pipelines and microservices.",
+            "time_value": 8,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "MLOps and Model Deployment at Scale",
+        "category": "machine-learning-ops",
+        "subcategory": "deployment",
+        "difficulty": "intermediate",
+        "target_audience": "ML engineers deploying and maintaining ML systems in production",
+        "estimated_hours": 110,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.4,
+        "prerequisites": ["Machine learning basics", "Python programming", "Docker knowledge", "Cloud platforms"],
+        "learning_outcomes": [
+            "Design ML deployment pipelines with CI/CD",
+            "Implement model versioning and monitoring",
+            "Build scalable inference services",
+            "Manage model drift and retraining workflows",
+            "Deploy ML models on cloud and edge platforms"
+        ],
+        "tags": ["mlops", "model-deployment", "kubernetes", "monitoring", "ci-cd"],
+        "request": {
+            "subject": "MLOps and Model Deployment at Scale",
+            "goal": "I want to master MLOps for deploying and maintaining machine learning models in production. Teach me CI/CD for ML, model serving, monitoring, versioning, A/B testing, and scaling inference systems. Include real-world deployment scenarios.",
+            "time_value": 9,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # CREATIVE TECHNOLOGY
+    {
+        "title": "Creative Coding with p5.js and Generative Art",
+        "category": "creative-technology",
+        "subcategory": "generative-art",
+        "difficulty": "beginner",
+        "target_audience": "Artists, designers, and developers interested in creative coding",
+        "estimated_hours": 80,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 8.8,
+        "prerequisites": ["Basic programming concepts", "JavaScript fundamentals", "Visual design interest"],
+        "learning_outcomes": [
+            "Master p5.js for interactive visual programming",
+            "Create generative art and algorithmic designs",
+            "Build interactive installations and web experiences",
+            "Implement data visualization and creative coding techniques",
+            "Develop digital art portfolios and exhibitions"
+        ],
+        "tags": ["p5js", "creative-coding", "generative-art", "interactive-design", "visualization"],
+        "request": {
+            "subject": "Creative Coding with p5.js and Generative Art",
+            "goal": "I want to learn creative coding and generative art using p5.js. Teach me algorithmic design, interactive visuals, animation techniques, data visualization, and creating digital art installations. Focus on artistic expression through code.",
+            "time_value": 7,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # BUSINESS & ENTREPRENEURSHIP
+    {
+        "title": "Tech Startup Fundamentals and MVP Development",
+        "category": "entrepreneurship",
+        "subcategory": "startups",
+        "difficulty": "intermediate",
+        "target_audience": "Aspiring tech entrepreneurs and startup founders",
+        "estimated_hours": 100,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.0,
+        "prerequisites": ["Business acumen", "Basic technical understanding", "Problem-solving skills"],
+        "learning_outcomes": [
+            "Validate startup ideas and identify market opportunities",
+            "Build MVP products using lean development principles",
+            "Understand funding options and investor pitching",
+            "Master growth hacking and customer acquisition",
+            "Navigate legal and operational aspects of startups"
+        ],
+        "tags": ["startup", "mvp", "entrepreneurship", "product-management", "business"],
+        "request": {
+            "subject": "Tech Startup Fundamentals and MVP Development",
+            "goal": "I want to learn how to build and launch a successful tech startup. Teach me idea validation, MVP development, market research, funding strategies, team building, and scaling. Include real startup case studies and practical frameworks.",
+            "time_value": 8,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # SPECIALIZED TESTING & QUALITY
+    {
+        "title": "Advanced Test Automation and Quality Engineering",
+        "category": "quality-assurance",
+        "subcategory": "automation",
+        "difficulty": "intermediate",
+        "target_audience": "QA engineers and developers focusing on test automation",
+        "estimated_hours": 90,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.1,
+        "prerequisites": ["Testing fundamentals", "Programming basics", "Web technologies"],
+        "learning_outcomes": [
+            "Design comprehensive test automation frameworks",
+            "Implement end-to-end testing with Selenium and Playwright",
+            "Build API testing and performance testing suites",
+            "Master CI/CD integration for automated testing",
+            "Establish quality metrics and testing best practices"
+        ],
+        "tags": ["test-automation", "selenium", "playwright", "api-testing", "quality-assurance"],
+        "request": {
+            "subject": "Advanced Test Automation and Quality Engineering",
+            "goal": "I want to master test automation and quality engineering. Teach me framework design, UI automation, API testing, performance testing, CI/CD integration, and quality metrics. Focus on building robust, maintainable test suites.",
+            "time_value": 7,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # INDIAN COMPETITIVE EXAMS - JEE/NEET PREPARATION
+    {
+        "title": "JEE Mathematics Mastery - Calculus and Algebra",
+        "category": "competitive-exams",
+        "subcategory": "jee-mathematics",
+        "difficulty": "advanced",
+        "target_audience": "JEE aspirants focusing on mathematics excellence",
+        "estimated_hours": 150,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.3,
+        "prerequisites": ["Class 10 mathematics", "Basic algebra", "Coordinate geometry"],
+        "learning_outcomes": [
+            "Master differential and integral calculus concepts",
+            "Solve complex algebraic equations and inequalities",
+            "Apply calculus in physics and engineering problems",
+            "Develop speed and accuracy for JEE Main and Advanced",
+            "Master coordinate geometry and vector algebra"
+        ],
+        "tags": ["jee", "mathematics", "calculus", "algebra", "competitive-exam"],
+        "request": {
+            "subject": "JEE Mathematics - Calculus and Algebra Mastery",
+            "goal": "I want to master JEE Mathematics focusing on Calculus and Algebra. Teach me differential calculus, integral calculus, limits, continuity, algebraic manipulations, coordinate geometry, and complex numbers. Include JEE-level problem solving techniques and time management strategies.",
+            "time_value": 12,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "JEE Physics Mastery - Mechanics and Electromagnetism",
+        "category": "competitive-exams",
+        "subcategory": "jee-physics",
+        "difficulty": "advanced",
+        "target_audience": "JEE aspirants seeking physics excellence",
+        "estimated_hours": 140,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.4,
+        "prerequisites": ["Class 10 physics", "Basic mathematics", "Vector concepts"],
+        "learning_outcomes": [
+            "Master classical mechanics and rotational motion",
+            "Understand electromagnetic theory and applications",
+            "Solve complex physics problems with mathematical rigor",
+            "Apply physics concepts to engineering scenarios",
+            "Develop problem-solving strategies for JEE Advanced"
+        ],
+        "tags": ["jee", "physics", "mechanics", "electromagnetism", "competitive-exam"],
+        "request": {
+            "subject": "JEE Physics - Mechanics and Electromagnetism",
+            "goal": "I want to master JEE Physics focusing on Mechanics and Electromagnetism. Teach me kinematics, dynamics, rotational mechanics, waves, electricity, magnetism, and electromagnetic induction. Include advanced problem solving, conceptual understanding, and JEE exam strategies.",
+            "time_value": 11,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "NEET Biology Mastery - Cell Biology and Genetics",
+        "category": "competitive-exams",
+        "subcategory": "neet-biology",
+        "difficulty": "intermediate",
+        "target_audience": "NEET aspirants focusing on biology excellence",
+        "estimated_hours": 120,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.2,
+        "prerequisites": ["Class 10 biology", "Basic chemistry", "Scientific terminology"],
+        "learning_outcomes": [
+            "Master cell structure and molecular biology concepts",
+            "Understand genetics, heredity, and evolution",
+            "Apply biological concepts to medical scenarios",
+            "Develop diagram-based problem solving skills",
+            "Master NCERT concepts for NEET preparation"
+        ],
+        "tags": ["neet", "biology", "cell-biology", "genetics", "medical-entrance"],
+        "request": {
+            "subject": "NEET Biology - Cell Biology and Genetics Mastery",
+            "goal": "I want to master NEET Biology focusing on Cell Biology and Genetics. Teach me cell structure, biomolecules, cell division, genetics, molecular biology, evolution, and biotechnology. Include NCERT-based learning, diagram practice, and NEET-specific problem solving strategies.",
+            "time_value": 10,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # UPSC CIVIL SERVICES PREPARATION
+    {
+        "title": "UPSC Geography Mastery - Physical and Human Geography",
+        "category": "competitive-exams",
+        "subcategory": "upsc-geography",
+        "difficulty": "intermediate",
+        "target_audience": "UPSC aspirants with Geography as optional or general studies",
+        "estimated_hours": 180,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.1,
+        "prerequisites": ["Basic world knowledge", "Map reading skills", "Current affairs awareness"],
+        "learning_outcomes": [
+            "Master physical geography concepts and processes",
+            "Understand human geography and population dynamics",
+            "Analyze geographical factors in current affairs",
+            "Develop map-based answer writing skills",
+            "Apply geographical concepts to policy analysis"
+        ],
+        "tags": ["upsc", "geography", "civil-services", "physical-geography", "human-geography"],
+        "request": {
+            "subject": "UPSC Geography - Physical and Human Geography",
+            "goal": "I want to master Geography for UPSC Civil Services. Teach me geomorphology, climatology, oceanography, biogeography, population geography, settlement geography, and economic geography. Include answer writing techniques, current affairs integration, and map-based studies.",
+            "time_value": 15,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "UPSC History Mastery - Ancient and Medieval India",
+        "category": "competitive-exams",
+        "subcategory": "upsc-history",
+        "difficulty": "intermediate",
+        "target_audience": "UPSC aspirants focusing on Indian history",
+        "estimated_hours": 160,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.0,
+        "prerequisites": ["Basic Indian history knowledge", "Timeline understanding", "Historical analysis skills"],
+        "learning_outcomes": [
+            "Master ancient Indian civilizations and empires",
+            "Understand medieval Indian history and culture",
+            "Analyze historical events and their contemporary relevance",
+            "Develop chronological and thematic understanding",
+            "Apply historical knowledge to current affairs"
+        ],
+        "tags": ["upsc", "history", "ancient-india", "medieval-india", "civil-services"],
+        "request": {
+            "subject": "UPSC History - Ancient and Medieval India",
+            "goal": "I want to master Indian History for UPSC preparation. Teach me Indus Valley Civilization, Vedic period, ancient empires, medieval dynasties, cultural developments, and socio-economic changes. Include answer writing, source-based questions, and connecting history with current affairs.",
+            "time_value": 13,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "UPSC Polity and Constitution Mastery",
+        "category": "competitive-exams",
+        "subcategory": "upsc-polity",
+        "difficulty": "intermediate",
+        "target_audience": "UPSC aspirants focusing on Indian polity and governance",
+        "estimated_hours": 140,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.3,
+        "prerequisites": ["Basic civics knowledge", "Current affairs awareness", "Legal terminology"],
+        "learning_outcomes": [
+            "Master Indian Constitution and its key features",
+            "Understand governance structures and processes",
+            "Analyze contemporary political developments",
+            "Apply constitutional knowledge to current affairs",
+            "Develop answer writing for polity questions"
+        ],
+        "tags": ["upsc", "polity", "constitution", "governance", "civil-services"],
+        "request": {
+            "subject": "UPSC Polity and Constitution Mastery",
+            "goal": "I want to master Indian Polity and Constitution for UPSC. Teach me constitutional provisions, fundamental rights, directive principles, government structures, electoral processes, judiciary, federalism, and local governance. Include current affairs integration and answer writing techniques.",
+            "time_value": 11,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # CAT AND MBA ENTRANCE PREPARATION
+    {
+        "title": "CAT Quantitative Aptitude Mastery",
+        "category": "competitive-exams",
+        "subcategory": "cat-quant",
+        "difficulty": "intermediate",
+        "target_audience": "CAT and MBA entrance exam aspirants",
+        "estimated_hours": 100,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.2,
+        "prerequisites": ["Class 10 mathematics", "Basic algebra", "Logical reasoning"],
+        "learning_outcomes": [
+            "Master arithmetic and number systems",
+            "Solve complex geometry and mensuration problems",
+            "Apply advanced algebra and functions",
+            "Develop speed calculation techniques",
+            "Master time management for CAT exam"
+        ],
+        "tags": ["cat", "quantitative-aptitude", "mba", "mathematics", "entrance-exam"],
+        "request": {
+            "subject": "CAT Quantitative Aptitude Mastery",
+            "goal": "I want to master Quantitative Aptitude for CAT and MBA entrances. Teach me arithmetic, algebra, geometry, number systems, percentages, profit-loss, time-work, and advanced mathematics. Include shortcut techniques, time management, and mock test strategies.",
+            "time_value": 8,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "CAT Logical Reasoning and Data Interpretation",
+        "category": "competitive-exams",
+        "subcategory": "cat-reasoning",
+        "difficulty": "intermediate",
+        "target_audience": "CAT aspirants focusing on reasoning and data analysis",
+        "estimated_hours": 90,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.1,
+        "prerequisites": ["Basic mathematics", "Analytical thinking", "Pattern recognition"],
+        "learning_outcomes": [
+            "Master logical reasoning and critical thinking",
+            "Analyze and interpret complex data sets",
+            "Solve puzzles and arrangement problems",
+            "Develop data interpretation skills for charts and graphs",
+            "Apply reasoning techniques to business scenarios"
+        ],
+        "tags": ["cat", "logical-reasoning", "data-interpretation", "analytical-thinking", "mba"],
+        "request": {
+            "subject": "CAT Logical Reasoning and Data Interpretation",
+            "goal": "I want to master Logical Reasoning and Data Interpretation for CAT. Teach me seating arrangements, blood relations, syllogisms, data sufficiency, charts analysis, table interpretation, and critical reasoning. Include solving techniques and time optimization strategies.",
+            "time_value": 7,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # GATE ENGINEERING PREPARATION
+    {
+        "title": "GATE Computer Science - Algorithms and Data Structures",
+        "category": "competitive-exams",
+        "subcategory": "gate-cs",
+        "difficulty": "advanced",
+        "target_audience": "GATE CS aspirants and computer science students",
+        "estimated_hours": 120,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.4,
+        "prerequisites": ["Programming fundamentals", "Mathematics for CS", "Basic data structures"],
+        "learning_outcomes": [
+            "Master advanced algorithms and complexity analysis",
+            "Implement and analyze data structures efficiently",
+            "Solve GATE-level computational problems",
+            "Apply algorithmic thinking to engineering problems",
+            "Develop optimization and design strategies"
+        ],
+        "tags": ["gate", "computer-science", "algorithms", "data-structures", "engineering"],
+        "request": {
+            "subject": "GATE Computer Science - Algorithms and Data Structures",
+            "goal": "I want to master Algorithms and Data Structures for GATE CS. Teach me sorting, searching, graph algorithms, dynamic programming, greedy algorithms, trees, hashing, and complexity analysis. Include GATE previous years problems and optimization techniques.",
+            "time_value": 10,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "GATE Electrical Engineering - Power Systems and Machines",
+        "category": "competitive-exams",
+        "subcategory": "gate-ee",
+        "difficulty": "advanced",
+        "target_audience": "GATE EE aspirants and electrical engineering students",
+        "estimated_hours": 130,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.3,
+        "prerequisites": ["Circuit analysis", "Electromagnetic theory", "Mathematics for engineers"],
+        "learning_outcomes": [
+            "Master power system analysis and protection",
+            "Understand electrical machines and drives",
+            "Analyze power electronics and control systems",
+            "Apply electrical engineering to practical problems",
+            "Solve complex GATE-level numerical problems"
+        ],
+        "tags": ["gate", "electrical-engineering", "power-systems", "machines", "engineering"],
+        "request": {
+            "subject": "GATE Electrical Engineering - Power Systems and Machines",
+            "goal": "I want to master Power Systems and Electrical Machines for GATE EE. Teach me power generation, transmission, distribution, transformers, induction motors, synchronous machines, power electronics, and control systems. Include numerical problem solving and GATE preparation strategies.",
+            "time_value": 11,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
     }
 ]
 

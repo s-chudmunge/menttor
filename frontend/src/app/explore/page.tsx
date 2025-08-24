@@ -117,10 +117,11 @@ const ExplorePage = () => {
   
   // UI State
   const [showFilters, setShowFilters] = useState(false);
-  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  const [viewMode, setViewMode] = useState<'grid' | 'list' | 'grouped'>('grouped');
   const [isGenerating, setIsGenerating] = useState(false);
   const [generationProgress, setGenerationProgress] = useState(0);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [expandedGroups, setExpandedGroups] = useState<Set<string>>(new Set());
 
   // Enhanced filtering
   const [activeFiltersCount, setActiveFiltersCount] = useState(0);
@@ -181,6 +182,120 @@ const ExplorePage = () => {
     return count;
   }, [searchQuery, selectedCategory, selectedDifficulty, featuredOnly]);
 
+  // Category grouping configuration
+  const categoryGroups = {
+    'web-development': {
+      title: '🌐 Web Development',
+      description: 'Frontend, Backend, and Full-Stack Development',
+      subcategories: ['frontend', 'backend', 'fullstack']
+    },
+    'data-science': {
+      title: '📊 Data Science & Analytics', 
+      description: 'Machine Learning, Data Analysis, and Statistics',
+      subcategories: ['machine-learning', 'analytics']
+    },
+    'artificial-intelligence': {
+      title: '🤖 Artificial Intelligence',
+      description: 'AI, Machine Learning, and Deep Learning',
+      subcategories: ['generative-ai', 'computer-vision', 'nlp']
+    },
+    'cloud-computing': {
+      title: '☁️ Cloud & DevOps',
+      description: 'Cloud Platforms, DevOps, and Infrastructure',
+      subcategories: ['aws', 'azure', 'gcp']
+    },
+    'devops': {
+      title: '⚙️ DevOps & Infrastructure',
+      description: 'Containerization, CI/CD, and System Administration',
+      subcategories: ['containerization', 'automation']
+    },
+    'mobile-development': {
+      title: '📱 Mobile Development',
+      description: 'iOS, Android, and Cross-Platform Development',
+      subcategories: ['cross-platform', 'ios', 'android']
+    },
+    'competitive-exams': {
+      title: '📚 Competitive Exams',
+      description: 'JEE, NEET, UPSC, CAT, GATE preparation',
+      subcategories: ['jee-mathematics', 'jee-physics', 'neet-biology', 'upsc-geography', 'upsc-history', 'upsc-polity', 'cat-quant', 'cat-reasoning', 'gate-cs', 'gate-ee']
+    },
+    'programming-languages': {
+      title: '⌨️ Programming Languages',
+      description: 'Language-specific mastery and systems programming',
+      subcategories: ['backend', 'systems', 'functional']
+    },
+    'cybersecurity': {
+      title: '🔐 Cybersecurity',
+      description: 'Ethical Hacking, Security Analysis, and Protection',
+      subcategories: ['ethical-hacking', 'security-analysis']
+    },
+    'blockchain': {
+      title: '⛓️ Blockchain & Web3',
+      description: 'Cryptocurrency, Smart Contracts, and Decentralized Apps',
+      subcategories: ['smart-contracts', 'defi']
+    },
+    'database': {
+      title: '🗃️ Database & Data Engineering',
+      description: 'Database Design, Data Pipelines, and Storage Solutions',
+      subcategories: ['relational', 'nosql']
+    },
+    'data-engineering': {
+      title: '🔧 Data Engineering',
+      description: 'Real-time Processing, ETL, and Big Data',
+      subcategories: ['streaming', 'pipelines']
+    },
+    'machine-learning-ops': {
+      title: '🎯 MLOps',
+      description: 'ML Model Deployment and Production Systems',
+      subcategories: ['deployment', 'monitoring']
+    },
+    'game-development': {
+      title: '🎮 Game Development',
+      description: 'Game Engines, Graphics, and Interactive Media',
+      subcategories: ['unity', '2d', '3d']
+    },
+    'graphics-programming': {
+      title: '🎨 Graphics Programming',
+      description: '3D Graphics, Shaders, and Visual Computing',
+      subcategories: ['webgl', '3d', 'rendering']
+    },
+    'embedded-systems': {
+      title: '🔌 IoT & Embedded',
+      description: 'Internet of Things, Microcontrollers, and Hardware',
+      subcategories: ['iot', 'microcontrollers']
+    },
+    'quantum-computing': {
+      title: '⚛️ Quantum Computing',
+      description: 'Quantum Algorithms, Qiskit, and Advanced Computing',
+      subcategories: ['programming', 'algorithms']
+    },
+    'extended-reality': {
+      title: '🥽 AR/VR Development',
+      description: 'Augmented Reality, Virtual Reality, and Immersive Tech',
+      subcategories: ['ar-vr', 'spatial-computing']
+    },
+    'creative-technology': {
+      title: '🎭 Creative Technology',
+      description: 'Creative Coding, Generative Art, and Digital Art',
+      subcategories: ['generative-art', 'interactive-design']
+    },
+    'entrepreneurship': {
+      title: '🚀 Entrepreneurship',
+      description: 'Startup Development, Business Strategy, and Innovation',
+      subcategories: ['startups', 'business-development']
+    },
+    'quality-assurance': {
+      title: '✅ Quality Assurance',
+      description: 'Testing, Automation, and Quality Engineering',
+      subcategories: ['automation', 'testing']
+    },
+    'system-design': {
+      title: '🏗️ System Design',
+      description: 'Architecture, Scalability, and Distributed Systems',
+      subcategories: ['architecture', 'scalability']
+    }
+  };
+
   // Filter and sort roadmaps client-side for better UX
   const filteredAndSortedRoadmaps = useMemo(() => {
     let filtered = [...roadmaps];
@@ -229,6 +344,30 @@ const ExplorePage = () => {
 
     return filtered;
   }, [roadmaps, searchQuery, selectedCategory, selectedDifficulty, featuredOnly, sortBy]);
+
+  // Group roadmaps by category for grouped view
+  const groupedRoadmaps = useMemo(() => {
+    const groups: { [key: string]: CuratedRoadmap[] } = {};
+    
+    filteredAndSortedRoadmaps.forEach(roadmap => {
+      if (!groups[roadmap.category]) {
+        groups[roadmap.category] = [];
+      }
+      groups[roadmap.category].push(roadmap);
+    });
+    
+    return groups;
+  }, [filteredAndSortedRoadmaps]);
+
+  const toggleGroup = (category: string) => {
+    const newExpanded = new Set(expandedGroups);
+    if (newExpanded.has(category)) {
+      newExpanded.delete(category);
+    } else {
+      newExpanded.add(category);
+    }
+    setExpandedGroups(newExpanded);
+  };
 
   useEffect(() => {
     setActiveFiltersCount(activeFilters);
@@ -551,12 +690,24 @@ const ExplorePage = () => {
           <div className="flex justify-center lg:hidden mb-6">
             <div className="flex items-center border border-gray-200 dark:border-gray-600 rounded-xl bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm p-1">
               <button
+                onClick={() => setViewMode('grouped')}
+                className={`p-2 rounded-lg transition-colors ${
+                  viewMode === 'grouped' 
+                    ? 'bg-blue-100 text-blue-600 dark:bg-blue-900/40 dark:text-blue-400' 
+                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
+                }`}
+                title="Grouped View"
+              >
+                <BarChart3 className="w-5 h-5" />
+              </button>
+              <button
                 onClick={() => setViewMode('grid')}
                 className={`p-2 rounded-lg transition-colors ${
                   viewMode === 'grid' 
                     ? 'bg-blue-100 text-blue-600 dark:bg-blue-900/40 dark:text-blue-400' 
                     : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
                 }`}
+                title="Grid View"
               >
                 <Grid3X3 className="w-5 h-5" />
               </button>
@@ -567,6 +718,7 @@ const ExplorePage = () => {
                     ? 'bg-blue-100 text-blue-600 dark:bg-blue-900/40 dark:text-blue-400' 
                     : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
                 }`}
+                title="List View"
               >
                 <List className="w-5 h-5" />
               </button>
@@ -779,12 +931,24 @@ const ExplorePage = () => {
                   </label>
                   <div className="flex items-center border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 p-1">
                     <button
+                      onClick={() => setViewMode('grouped')}
+                      className={`flex-1 p-2 rounded-md transition-colors ${
+                        viewMode === 'grouped' 
+                          ? 'bg-blue-100 text-blue-600 dark:bg-blue-900/40 dark:text-blue-400' 
+                          : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
+                      }`}
+                      title="Grouped View"
+                    >
+                      <BarChart3 className="w-4 h-4 mx-auto" />
+                    </button>
+                    <button
                       onClick={() => setViewMode('grid')}
                       className={`flex-1 p-2 rounded-md transition-colors ${
                         viewMode === 'grid' 
                           ? 'bg-blue-100 text-blue-600 dark:bg-blue-900/40 dark:text-blue-400' 
                           : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
                       }`}
+                      title="Grid View"
                     >
                       <Grid3X3 className="w-4 h-4 mx-auto" />
                     </button>
@@ -795,6 +959,7 @@ const ExplorePage = () => {
                           ? 'bg-blue-100 text-blue-600 dark:bg-blue-900/40 dark:text-blue-400' 
                           : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
                       }`}
+                      title="List View"
                     >
                       <List className="w-4 h-4 mx-auto" />
                     </button>
@@ -822,17 +987,32 @@ const ExplorePage = () => {
 
         {/* Loading State */}
         {loading ? (
-          <div className={viewMode === 'grid' ? 
-            "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" : 
+          <div className={
+            viewMode === 'grouped' ? "space-y-6" :
+            viewMode === 'grid' ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" : 
             "space-y-4"
           }>
-            {[...Array(viewMode === 'grid' ? 6 : 4)].map((_, i) => (
+            {[...Array(viewMode === 'grouped' ? 3 : viewMode === 'grid' ? 6 : 4)].map((_, i) => (
               <div key={i} className={
+                viewMode === 'grouped' ? 
+                  "bg-white/80 dark:bg-gray-800/80 rounded-xl p-6 shadow-sm animate-pulse backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50" :
                 viewMode === 'grid' 
                   ? "bg-white/80 dark:bg-gray-800/80 rounded-xl p-6 shadow-sm animate-pulse backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50"
                   : "bg-white/80 dark:bg-gray-800/80 rounded-xl p-6 shadow-sm animate-pulse backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 flex items-center space-x-4"
               }>
-                {viewMode === 'grid' ? (
+                {viewMode === 'grouped' ? (
+                  <>
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded w-1/3"></div>
+                      <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-16"></div>
+                    </div>
+                    <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded mb-4 w-2/3"></div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="h-32 bg-gray-200 dark:bg-gray-700 rounded"></div>
+                      <div className="h-32 bg-gray-200 dark:bg-gray-700 rounded"></div>
+                    </div>
+                  </>
+                ) : viewMode === 'grid' ? (
                   <>
                     <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded mb-4 w-3/4"></div>
                     <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded mb-2"></div>
