@@ -34,7 +34,7 @@ const DualCodingLayout: React.FC<Props> = ({ data, subject, subtopic, allowAIGen
     return 'concept';
   };
 
-  const concept = extractMainConcept(data.text);
+  const concept = subtopic || extractMainConcept(data.text);
   const hasValidImage = data.visual_url && data.visual_url.trim() !== '';
 
   const renderVisualization = () => {
@@ -69,6 +69,7 @@ const DualCodingLayout: React.FC<Props> = ({ data, subject, subtopic, allowAIGen
       <AIGeneratedDiagram
         concept={concept}
         subject={subject || 'Learning'}
+        subtopic={subtopic}
         content={data.text}
         width={400}
         height={300}

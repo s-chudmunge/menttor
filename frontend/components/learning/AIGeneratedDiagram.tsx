@@ -10,6 +10,7 @@ import { api } from '../../src/lib/api';
 interface AIGeneratedDiagramProps {
   concept: string;
   subject: string;
+  subtopic?: string;
   content: string;
   width?: number;
   height?: number;
@@ -27,6 +28,7 @@ interface GeneratedImage {
 const AIGeneratedDiagram: React.FC<AIGeneratedDiagramProps> = ({
   concept,
   subject,
+  subtopic,
   content,
   width = 512,
   height = 512,
@@ -37,8 +39,8 @@ const AIGeneratedDiagram: React.FC<AIGeneratedDiagramProps> = ({
   const [initialLoad, setInitialLoad] = useState(true);
   const [error, setError] = useState<string>('');
 
-  // Simple cache key for this concept + content
-  const cacheKey = `diagram_${concept}_${subject}_${content}`.substring(0, 100);
+  // Enhanced cache key with subtopic context
+  const cacheKey = `diagram_${concept}_${subject}_${subtopic || 'general'}_${content}`.substring(0, 100);
   
   // Check if we have cached image data
   const checkCache = () => {
@@ -70,7 +72,7 @@ const AIGeneratedDiagram: React.FC<AIGeneratedDiagramProps> = ({
     }, 100); // Small delay to let the page render first
 
     return () => clearTimeout(timer);
-  }, [concept, subject, content]);
+  }, [concept, subject, subtopic, content]);
 
   const generateDiagram = async () => {
     setLoading(true);
@@ -85,6 +87,8 @@ const AIGeneratedDiagram: React.FC<AIGeneratedDiagramProps> = ({
       const apiPromise = api.post('/images/generate-diagram', {
         concept,
         subject,
+        subtopic_title: subtopic,
+        roadmap_category: subject, // Use subject as roadmap category fallback
         content,
         width,
         height
@@ -147,7 +151,7 @@ const AIGeneratedDiagram: React.FC<AIGeneratedDiagramProps> = ({
         <div className="text-center">
           <div className="w-10 h-10 border-3 border-gray-200 border-t-blue-500 rounded-full animate-spin mx-auto mb-3"></div>
           <h4 className="text-base font-semibold text-gray-700 mb-2">🎨 Creating Learning Visual</h4>
-          <p className="text-sm text-gray-600 mb-2">Analyzing: <strong>{concept}</strong></p>
+          <p className="text-sm text-gray-600 mb-2">Topic: <strong>{subtopic || concept}</strong></p>
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mt-3">
             <p className="text-xs text-blue-700 mb-2">💡 <strong>Keep reading!</strong> An educational diagram will appear here.</p>
             <p className="text-xs text-gray-500">Usually takes 5-15 seconds</p>

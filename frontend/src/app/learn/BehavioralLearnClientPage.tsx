@@ -61,6 +61,7 @@ const BehavioralLearnClientPage: React.FC<BehavioralLearnClientPageProps> = ({
   // URL parameters
   const searchParams = useSearchParams();
   const subtopic = searchParams.get('subtopic');
+  const roadmapTitle = searchParams.get('roadmap_title') || '';
   const subtopicId = searchParams.get('subtopic_id');
   const roadmapId = parseInt(searchParams.get('roadmap_id') || '1');
 

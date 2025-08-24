@@ -161,25 +161,126 @@ class UniversalImageGenerator:
         # Default to concept visualization
         return 'concept'
     
-    def _create_learning_prompt(self, concept: str, content: str) -> tuple[str, str]:
-        """Generate simple, effective educational prompt using just the subtopic name."""
+    def _create_learning_prompt(self, concept: str, content: str, subject: str = None, subtopic_title: str = None, roadmap_category: str = None) -> tuple[str, str]:
+        """Generate contextually rich educational prompt using subtopic and subject context."""
         
-        # Use the subtopic name directly - let the AI figure out what's educational
-        main_concept = concept if concept and concept.strip() else "learning concept"
+        # Use subtopic title as primary context if available, fallback to concept
+        primary_topic = subtopic_title or concept or "learning concept"
         
-        # Simple, direct prompt that lets AI use its knowledge
-        prompt = f"Create an educational diagram that explains '{main_concept}'. Make it clear, informative, and helpful for learning. Include relevant labels, examples, and visual elements that would help a student understand this topic better. Use clean design with good contrast and readable text."
+        # Extract learning objectives and key points from content
+        content_insights = self._extract_learning_insights(content)
         
-        # Simple negative prompt to avoid common issues
-        negative_prompt = "blurry, low quality, unclear text, cluttered, decorative only, cartoon, photorealistic, poor contrast"
+        # Create subject-aware prompt based on roadmap category/subject
+        subject_context = self._get_subject_context(subject, roadmap_category)
+        
+        # Build comprehensive educational prompt
+        prompt_parts = [
+            f"Create a detailed educational diagram explaining '{primary_topic}'",
+            f"in the context of {subject_context}."
+        ]
+        
+        # Add content-specific guidance
+        if content_insights['type'] == 'programming':
+            prompt_parts.append("Show code structure, syntax examples, and execution flow with proper formatting.")
+        elif content_insights['type'] == 'mathematics':
+            prompt_parts.append("Include formulas, variables, mathematical relationships, and step-by-step solutions.")
+        elif content_insights['type'] == 'science':
+            prompt_parts.append("Illustrate scientific concepts, processes, relationships, and real-world applications.")
+        elif content_insights['type'] == 'process':
+            prompt_parts.append("Show step-by-step workflow, decision points, and outcomes in a clear sequence.")
+        else:
+            prompt_parts.append("Break down complex concepts into visual components with clear relationships.")
+        
+        # Add key concepts if found
+        if content_insights['key_concepts']:
+            key_concepts_str = ", ".join(content_insights['key_concepts'][:3])
+            prompt_parts.append(f"Focus on these key elements: {key_concepts_str}.")
+        
+        # Add learning-focused requirements
+        prompt_parts.extend([
+            "Use educational design principles: clear hierarchy, consistent styling, informative labels.",
+            "Include annotations, examples, or brief explanations where helpful.",
+            "Design should be clean, professional, and optimized for learning comprehension."
+        ])
+        
+        prompt = " ".join(prompt_parts)
+        
+        # Enhanced negative prompt for better quality
+        negative_prompt = "blurry, low quality, unclear text, cluttered, decorative only, cartoon, photorealistic, poor contrast, confusing layout, too much text, illegible fonts"
         
         return prompt, negative_prompt
     
-    async def _generate_with_vertex_ai(self, concept: str, content: str) -> Dict[str, Any]:
-        """Fast Vertex AI generation with minimal processing."""
+    def _extract_learning_insights(self, content: str) -> dict:
+        """Extract learning insights from content to guide image generation."""
+        content_lower = content.lower()
         
-        # Generate optimized prompt
-        prompt, negative_prompt = self._create_learning_prompt(concept, content)
+        # Determine content type with improved detection
+        content_type = self._detect_content_type(content)
+        
+        # Extract key learning concepts more intelligently
+        key_concepts = []
+        
+        # Look for definitions and important terms
+        definition_patterns = [
+            r'(?:is defined as|is called|refers to|means that|is a type of)\s+([^.!?]{10,50})',
+            r'([A-Z][a-z]+(?:\s+[A-Z][a-z]+)*):?\s+(?:is|are|refers|means)',
+            r'\*\*([^*]+)\*\*',  # Bold text often indicates key terms
+            r'`([^`]+)`'  # Code snippets
+        ]
+        
+        for pattern in definition_patterns:
+            matches = re.findall(pattern, content, re.IGNORECASE)
+            for match in matches:
+                if isinstance(match, tuple):
+                    match = match[0]
+                cleaned = re.sub(r'[^a-zA-Z0-9\s]', ' ', match).strip()
+                if cleaned and len(cleaned.split()) <= 4:
+                    key_concepts.append(cleaned)
+        
+        # Remove duplicates and limit
+        key_concepts = list(dict.fromkeys(key_concepts))[:5]
+        
+        return {
+            'type': content_type,
+            'key_concepts': key_concepts
+        }
+    
+    def _get_subject_context(self, subject: str = None, roadmap_category: str = None) -> str:
+        """Get appropriate subject context for prompt generation."""
+        
+        # Use roadmap category as primary context
+        if roadmap_category:
+            category_contexts = {
+                'web-development': 'web development and frontend technologies',
+                'backend-development': 'backend development and server-side programming',
+                'data-science': 'data science, analytics, and machine learning',
+                'mobile-development': 'mobile app development and programming',
+                'devops': 'DevOps, system administration, and deployment',
+                'ai-ml': 'artificial intelligence and machine learning',
+                'cybersecurity': 'cybersecurity and information security',
+                'blockchain': 'blockchain technology and cryptocurrencies',
+                'game-development': 'game development and interactive media',
+                'ui-ux': 'user interface and user experience design',
+                'programming-fundamentals': 'programming fundamentals and computer science',
+                'databases': 'database design and management',
+                'cloud-computing': 'cloud computing and distributed systems',
+                'software-engineering': 'software engineering and development practices'
+            }
+            
+            context = category_contexts.get(roadmap_category.lower(), f'{roadmap_category} technology')
+            return context
+        
+        # Fallback to subject if no roadmap category
+        if subject:
+            return f'{subject} education'
+        
+        return 'technical education'
+    
+    async def _generate_with_vertex_ai(self, concept: str, content: str, subject: str = None, subtopic_title: str = None, roadmap_category: str = None) -> Dict[str, Any]:
+        """Enhanced Vertex AI generation with rich contextual prompts."""
+        
+        # Generate contextually rich prompt
+        prompt, negative_prompt = self._create_learning_prompt(concept, content, subject, subtopic_title, roadmap_category)
         
         logger.info(f"Generating with prompt: {prompt}")
         
@@ -517,6 +618,9 @@ class UniversalImageGenerator:
         self, 
         concept: str, 
         content: str,
+        subject: str = None,
+        subtopic_title: str = None,
+        roadmap_category: str = None,
         width: int = 512,
         height: int = 512
     ) -> Optional[Dict[str, Any]]:
@@ -526,7 +630,7 @@ class UniversalImageGenerator:
             # Try Vertex AI first (with timeout for speed)
             if self._vertex_initialized and self._imagen_model:
                 return await asyncio.wait_for(
-                    self._generate_with_vertex_ai(concept, content),
+                    self._generate_with_vertex_ai(concept, content, subject, subtopic_title, roadmap_category),
                     timeout=15.0  # 15 second timeout for speed
                 )
         except asyncio.TimeoutError:
@@ -544,6 +648,9 @@ universal_generator = UniversalImageGenerator()
 async def generate_learning_visual(
     concept: str,
     content: str,
+    subject: str = None,
+    subtopic_title: str = None,
+    roadmap_category: str = None,
     width: int = 512,
     height: int = 512
 ) -> Optional[Dict[str, Any]]:
@@ -553,6 +660,9 @@ async def generate_learning_visual(
         return await generator.generate_learning_image(
             concept=concept,
             content=content,
+            subject=subject,
+            subtopic_title=subtopic_title,
+            roadmap_category=roadmap_category,
             width=width,
             height=height
         )

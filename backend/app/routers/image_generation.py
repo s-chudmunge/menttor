@@ -12,8 +12,10 @@ router = APIRouter()
 
 class ImageGenerationRequest(BaseModel):
     concept: str
-    subject: str  # Keep for backward compatibility but won't be used
+    subject: str
     content: str
+    subtopic_title: Optional[str] = None  # Add subtopic title for better context
+    roadmap_category: Optional[str] = None  # Add roadmap category for better context
     width: Optional[int] = 512
     height: Optional[int] = 512
 
@@ -36,6 +38,9 @@ async def generate_educational_diagram(
         result = await generate_learning_visual(
             concept=request.concept,
             content=request.content,
+            subject=request.subject,
+            subtopic_title=request.subtopic_title,
+            roadmap_category=request.roadmap_category,
             width=request.width,
             height=request.height
         )
