@@ -6,24 +6,24 @@ from core.config import settings
 
 logger = logging.getLogger(__name__)
 
-# Optimized connection pool settings for quota management
+# Generous connection pool settings for stability
 engine = create_engine(
     settings.get_database_url(),
     echo=settings.DATABASE_ECHO,
-    # Reduced pool size to minimize concurrent connections
-    pool_size=3,  # Reduced from 10
-    max_overflow=5,  # Reduced from 20
-    pool_recycle=1800,  # 30 minutes instead of 1 hour
+    # Generous pool size for high availability
+    pool_size=20,  # Increased for better availability
+    max_overflow=30,  # Increased overflow capacity
+    pool_recycle=3600,  # 1 hour recycle time
     pool_pre_ping=True,  # Verify connections before use
-    pool_timeout=10,  # Fail fast if no connections available
+    pool_timeout=30,  # More generous timeout
     # Use QueuePool which is most efficient for connection reuse
     poolclass=None,  # Default QueuePool
     # Additional optimization settings
     connect_args={
-        "connect_timeout": 10,
+        "connect_timeout": 30,  # Increased connect timeout
         "application_name": "menttorlabs_backend",
         # Compression and performance settings
-        "options": "-c statement_timeout=30000"  # 30 second query timeout
+        "options": "-c statement_timeout=60000"  # 60 second query timeout
     }
 )
 
