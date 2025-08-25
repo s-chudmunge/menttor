@@ -1677,6 +1677,10 @@ def get_curated_roadmap_by_slug(
         updated_at=roadmap.updated_at
     )
 
+# Include the adopt functionality
+from .curated_roadmaps_adopt import router as adopt_router
+router.include_router(adopt_router)
+
 @router.get("/{roadmap_id}", response_model=CuratedRoadmapResponse)
 def get_curated_roadmap(
     roadmap_id: int,
@@ -1718,3 +1722,7 @@ def get_curated_roadmap(
         created_at=roadmap.created_at,
         updated_at=roadmap.updated_at
     )
+
+# Include the adopt functionality
+from .curated_roadmaps_adopt import router as adopt_router
+router.include_router(adopt_router)
