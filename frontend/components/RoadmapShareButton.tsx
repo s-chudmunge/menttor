@@ -170,7 +170,7 @@ const RoadmapShareButton: React.FC<RoadmapShareButtonProps> = ({
       {/* Share Options Dropdown */}
       {showShareOptions && (
         <>
-          <div className="absolute right-0 mt-2 w-80 bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-200 dark:border-gray-700 py-2 z-50">
+          <div className="absolute right-0 mt-2 w-80 max-w-[calc(100vw-2rem)] bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-200 dark:border-gray-700 py-2 z-[9999] max-h-[80vh] overflow-y-auto xl:right-0 lg:right-0 md:right-0 sm:right-[-12rem] right-[-12rem]">
             <div className="px-4 py-3 border-b border-gray-100 dark:border-gray-700">
               <h4 className="font-semibold text-gray-900 dark:text-white">Share Roadmap</h4>
               <p className="text-xs text-gray-500 dark:text-gray-400 mt-1 line-clamp-2">
