@@ -43,6 +43,7 @@ import {
   Moon
 } from 'lucide-react';
 import ProfileDropdown from '../components/ProfileDropdown';
+import { ThreeDGeneratorCard, ThreeDGeneratorModal } from '../../components/ThreeDGenerator';
 
 const MenttorLabsMainPage = () => {
   const router = useRouter();
@@ -63,6 +64,7 @@ const MenttorLabsMainPage = () => {
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [showOldLearnPages, setShowOldLearnPages] = useState(false);
   const [activeFeature, setActiveFeature] = useState(0);
+  const [show3DGenerator, setShow3DGenerator] = useState(false);
 
   // Define GenerateRoadmapRequest interface here or import if already defined
   interface GenerateRoadmapRequest {
@@ -799,6 +801,31 @@ const MenttorLabsMainPage = () => {
               </div>
             </div>
           )}
+        </div>
+      </section>
+
+      {/* Quick Tools Section */}
+      <section className="py-16 bg-white dark:bg-gray-900 transition-colors duration-300">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <div className="inline-flex items-center px-4 py-2 rounded-full bg-purple-50/80 dark:bg-purple-900/30 border border-purple-200/50 dark:border-purple-700/50 text-purple-700 dark:text-purple-300 text-sm font-medium mb-6">
+              <Sparkles className="w-4 h-4 mr-2" />
+              Quick Tools
+            </div>
+            <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
+              More Ways to Learn
+            </h2>
+            <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+              Explore additional tools to enhance your learning experience
+            </p>
+          </div>
+          
+          <div className="max-w-2xl mx-auto">
+            <ThreeDGeneratorCard 
+              onClick={() => setShow3DGenerator(true)}
+              className="w-full"
+            />
+          </div>
         </div>
       </section>
 
