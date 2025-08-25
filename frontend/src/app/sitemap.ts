@@ -3,7 +3,7 @@ import { MetadataRoute } from 'next'
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://menttor.vercel.app'
   
-  // Core static pages - guaranteed to work
+  // Core static pages - only include pages that actually exist
   const staticPages: MetadataRoute.Sitemap = [
     {
       url: baseUrl,
@@ -28,30 +28,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: new Date(), 
       changeFrequency: 'monthly',
       priority: 0.4,
-    },
-    {
-      url: `${baseUrl}/about`,
-      lastModified: new Date(),
-      changeFrequency: 'yearly',
-      priority: 0.5,
-    },
-    {
-      url: `${baseUrl}/privacy`,
-      lastModified: new Date(),
-      changeFrequency: 'yearly', 
-      priority: 0.3,
-    },
-    {
-      url: `${baseUrl}/terms`,
-      lastModified: new Date(),
-      changeFrequency: 'yearly',
-      priority: 0.3,
-    },
-    {
-      url: `${baseUrl}/security`, 
-      lastModified: new Date(),
-      changeFrequency: 'yearly',
-      priority: 0.3,
     },
   ]
 
