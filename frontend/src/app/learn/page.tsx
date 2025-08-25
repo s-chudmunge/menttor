@@ -4,7 +4,9 @@ import ProtectedRoute from '../components/ProtectedRoute';
 const LearnPage = () => {
     return (
         <ProtectedRoute>
-            <LearnClientPage initialContent={null} error={null} />
+            <div className="light">
+                <LearnClientPage initialContent={null} error={null} />
+            </div>
         </ProtectedRoute>
     );
 }
