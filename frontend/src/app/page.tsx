@@ -65,6 +65,9 @@ const MenttorLabsMainPage = () => {
   const [showOldLearnPages, setShowOldLearnPages] = useState(false);
   const [activeFeature, setActiveFeature] = useState(0);
   const [show3DGenerator, setShow3DGenerator] = useState(false);
+  const [threeDModel, setThreeDModel] = useState('gemini-2.5-flash-lite');
+  const [threeDModelName, setThreeDModelName] = useState('Loading models...');
+  const [show3DModelModal, setShow3DModelModal] = useState(false);
 
   // Define GenerateRoadmapRequest interface here or import if already defined
   interface GenerateRoadmapRequest {
@@ -175,6 +178,48 @@ const MenttorLabsMainPage = () => {
       fetchAndSetDefaultModel();
     }
   }, [formData.model]);
+
+  // Set default model for 3D generator
+  useEffect(() => {
+    const fetchAndSet3DModel = async () => {
+      try {
+        const response = await fetch(`${BACKEND_URL}/models/`);
+        if (response.ok) {
+          const models = await response.json();
+          
+          // Find the first Vertex AI model as default for 3D generator
+          const vertexAIModel = models.find(model => 
+            model.id && model.id.startsWith('vertexai:')
+          );
+          
+          if (vertexAIModel) {
+            setThreeDModel(vertexAIModel.id.replace('vertexai:', ''));
+            setThreeDModelName(vertexAIModel.name);
+          } else {
+            // Fallback to first available model
+            const firstModel = models[0];
+            if (firstModel) {
+              setThreeDModel(firstModel.id.replace('vertexai:', ''));
+              setThreeDModelName(firstModel.name);
+            } else {
+              // Final fallback
+              setThreeDModel('gemini-2.5-flash-lite');
+              setThreeDModelName('Google Gemini (gemini-2.5-flash-lite)');
+            }
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching 3D models:', error);
+        setThreeDModel('gemini-2.5-flash-lite');
+        setThreeDModelName('Google Gemini (gemini-2.5-flash-lite)');
+      }
+    };
+
+    // Only fetch if no 3D model is currently set
+    if (threeDModelName === 'Loading models...') {
+      fetchAndSet3DModel();
+    }
+  }, [threeDModelName]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -306,6 +351,14 @@ const MenttorLabsMainPage = () => {
   const handleSelectModel = (modelId: string, modelName: string) => {
     setFormData(prev => ({ ...prev, model: modelId }));
     setSelectedModelName(modelName); // This will be updated by the useEffect
+  };
+
+  const handleSelect3DModel = (modelId: string, modelName: string) => {
+    // Remove vertexai: prefix if it exists for 3D generator
+    const cleanModelId = modelId.startsWith('vertexai:') ? modelId.replace('vertexai:', '') : modelId;
+    setThreeDModel(cleanModelId);
+    setThreeDModelName(modelName);
+    setShow3DModelModal(false);
   };
 
   const handleLoadOldLearningContent = (content: any) => {
@@ -983,7 +1036,20 @@ const MenttorLabsMainPage = () => {
       <ThreeDGeneratorModal
         isOpen={show3DGenerator}
         onClose={() => setShow3DGenerator(false)}
+        selectedModel={threeDModel}
+        selectedModelName={threeDModelName}
+        onModelSelect={() => setShow3DModelModal(true)}
       />
+
+      {/* 3D Model Selection Modal */}
+      {show3DModelModal && (
+        <D3ModelMapModal
+          isOpen={show3DModelModal}
+          onClose={() => setShow3DModelModal(false)}
+          onSelectModel={handleSelect3DModel}
+          currentModelId={`vertexai:${threeDModel}`}
+        />
+      )}
       
     </div>
     </OnboardingWrapper>

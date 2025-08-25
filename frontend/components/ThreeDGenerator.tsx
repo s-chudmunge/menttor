@@ -10,19 +10,29 @@ import {
   Loader2,
   User,
   LogIn,
-  X
+  X,
+  Brain
 } from 'lucide-react';
 
 interface ThreeDGeneratorModalProps {
   isOpen: boolean;
   onClose: () => void;
+  selectedModel: string;
+  selectedModelName: string;
+  onModelSelect: () => void;
 }
 
-const ThreeDGeneratorModal: React.FC<ThreeDGeneratorModalProps> = ({ isOpen, onClose }) => {
+const ThreeDGeneratorModal: React.FC<ThreeDGeneratorModalProps> = ({ 
+  isOpen, 
+  onClose, 
+  selectedModel, 
+  selectedModelName, 
+  onModelSelect 
+}) => {
   const router = useRouter();
   const { user, loading } = useAuth();
   const [description, setDescription] = useState('');
-  const [model] = useState('gemini-2.5-flash-lite');
+  // Model is now passed from parent component
   const [isGenerating, setIsGenerating] = useState(false);
 
   const handleGenerate = async (e: React.FormEvent) => {
@@ -39,7 +49,7 @@ const ThreeDGeneratorModal: React.FC<ThreeDGeneratorModalProps> = ({ isOpen, onC
     setIsGenerating(true);
     
     // Open visualization page in new tab
-    const visualizeUrl = `/visualize?description=${encodeURIComponent(description.trim())}&model=${model}`;
+    const visualizeUrl = `/visualize?description=${encodeURIComponent(description.trim())}&model=${selectedModel}`;
     window.open(visualizeUrl, '_blank', 'noopener,noreferrer');
     
     // Reset form and close modal after a short delay
@@ -95,6 +105,26 @@ const ThreeDGeneratorModal: React.FC<ThreeDGeneratorModalProps> = ({ isOpen, onC
               />
               <div className="text-right text-xs text-gray-500 dark:text-gray-400 mt-1">
                 {description.length}/500
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <Brain className="w-4 h-4 inline mr-2" />
+                AI Model Selection
+              </label>
+              <div className="bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg p-3 flex items-center justify-between">
+                <div className="flex-1">
+                  <div className="font-medium text-gray-900 dark:text-white text-sm">{selectedModelName}</div>
+                  <div className="text-xs text-gray-600 dark:text-gray-400">Advanced AI for 3D generation</div>
+                </div>
+                <button
+                  type="button"
+                  onClick={onModelSelect}
+                  className="text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 text-sm font-medium transition-colors"
+                >
+                  Change
+                </button>
               </div>
             </div>
 
