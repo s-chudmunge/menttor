@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '../src/app/context/AuthContext';
 import { 
-  Cube, 
+  Box, 
   ArrowRight, 
   Sparkles, 
   Loader2,
@@ -68,7 +68,7 @@ const ThreeDGeneratorModal: React.FC<ThreeDGeneratorModalProps> = ({ isOpen, onC
         <div className="p-6">
           <div className="text-center mb-6">
             <div className="inline-flex items-center justify-center w-14 h-14 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-2xl mb-4">
-              <Cube className="w-7 h-7 text-white" />
+              <Box className="w-7 h-7 text-white" />
             </div>
             <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
               Create 3D Visualization
@@ -158,7 +158,7 @@ const ThreeDGeneratorCard: React.FC<ThreeDGeneratorCardProps> = ({ onClick, clas
     >
       <div className="flex items-center space-x-4">
         <div className="w-12 h-12 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
-          <Cube className="w-6 h-6 text-white" />
+          <Box className="w-6 h-6 text-white" />
         </div>
         <div className="flex-1">
           <h3 className="font-semibold text-gray-900 dark:text-white mb-1 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
