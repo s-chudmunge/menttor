@@ -979,6 +979,11 @@ const MenttorLabsMainPage = () => {
         />
       )}
 
+      {/* 3D Generator Modal */}
+      <ThreeDGeneratorModal
+        isOpen={show3DGenerator}
+        onClose={() => setShow3DGenerator(false)}
+      />
       
     </div>
     </OnboardingWrapper>
