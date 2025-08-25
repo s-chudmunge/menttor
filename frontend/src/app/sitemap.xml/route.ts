@@ -16,28 +16,12 @@ export async function GET() {
   const staticUrls = [
     { url: baseUrl, priority: '1.0', changefreq: 'weekly' },
     { url: `${baseUrl}/explore`, priority: '0.9', changefreq: 'daily' },
-    { url: `${baseUrl}/auth/signin`, priority: '0.5', changefreq: 'monthly' },
     { url: `${baseUrl}/help`, priority: '0.6', changefreq: 'monthly' },
-    { url: `${baseUrl}/dashboard`, priority: '0.8', changefreq: 'weekly' },
-    { url: `${baseUrl}/journey`, priority: '0.8', changefreq: 'weekly' },
-    { url: `${baseUrl}/learn`, priority: '0.7', changefreq: 'weekly' },
-    { url: `${baseUrl}/quiz`, priority: '0.7', changefreq: 'weekly' },
-    { url: `${baseUrl}/visualize`, priority: '0.7', changefreq: 'weekly' },
-    { url: `${baseUrl}/performance-analysis`, priority: '0.7', changefreq: 'weekly' },
-    { url: `${baseUrl}/results`, priority: '0.7', changefreq: 'weekly' },
-    { url: `${baseUrl}/quiz/results`, priority: '0.6', changefreq: 'weekly' },
-    { url: `${baseUrl}/profile`, priority: '0.5', changefreq: 'monthly' },
-    { url: `${baseUrl}/auth/reset-password`, priority: '0.4', changefreq: 'yearly' },
-    { url: `${baseUrl}/contact`, priority: '0.5', changefreq: 'yearly' },
-    { url: `${baseUrl}/status`, priority: '0.5', changefreq: 'yearly' },
+    { url: `${baseUrl}/sitemap`, priority: '0.4', changefreq: 'monthly' },
+    { url: `${baseUrl}/about`, priority: '0.5', changefreq: 'yearly' },
     { url: `${baseUrl}/privacy`, priority: '0.3', changefreq: 'yearly' },
     { url: `${baseUrl}/terms`, priority: '0.3', changefreq: 'yearly' },
     { url: `${baseUrl}/security`, priority: '0.3', changefreq: 'yearly' },
-    { url: `${baseUrl}/about`, priority: '0.4', changefreq: 'yearly' },
-    { url: `${baseUrl}/careers`, priority: '0.4', changefreq: 'yearly' },
-    { url: `${baseUrl}/blog`, priority: '0.6', changefreq: 'weekly' },
-    { url: `${baseUrl}/press`, priority: '0.4', changefreq: 'yearly' },
-    { url: `${baseUrl}/partnerships`, priority: '0.4', changefreq: 'yearly' },
   ];
 
   let allUrls = [...staticUrls];
@@ -103,13 +87,9 @@ export async function GET() {
   return new NextResponse(xml, {
     headers: {
       'Content-Type': 'application/xml; charset=utf-8',
-      'Cache-Control': 'no-cache, no-store, must-revalidate, max-age=0',
-      'Pragma': 'no-cache',
-      'Expires': '0',
-      'X-Robots-Tag': 'noindex, nofollow, nosnippet, noarchive, nocache',
+      'Cache-Control': 'public, max-age=3600, s-maxage=7200',
       'Last-Modified': new Date().toUTCString(),
       'ETag': `"${Date.now()}"`,
-      'Vary': 'User-Agent',
     },
   });
 }

@@ -4,7 +4,7 @@ const nextConfig = {
   compress: true,
   poweredByHeader: false,
   
-  // SEO and performance headers
+  // SEO and security headers
   async headers() {
     return [
       {
@@ -15,7 +15,7 @@ const nextConfig = {
             value: 'nosniff',
           },
           {
-            key: 'X-Frame-Options',
+            key: 'X-Frame-Options', 
             value: 'DENY',
           },
           {
@@ -24,7 +24,24 @@ const nextConfig = {
           },
           {
             key: 'Referrer-Policy',
-            value: 'origin-when-cross-origin',
+            value: 'strict-origin-when-cross-origin',
+          },
+          {
+            key: 'Permissions-Policy',
+            value: 'geolocation=(), microphone=(), camera=(), payment=(), usb=(), magnetometer=(), gyroscope=(), speaker=()',
+          },
+          {
+            key: 'Strict-Transport-Security',
+            value: 'max-age=31536000; includeSubDomains',
+          },
+        ],
+      },
+      {
+        source: '/explore/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=3600, s-maxage=7200',
           },
         ],
       },
@@ -33,7 +50,11 @@ const nextConfig = {
         headers: [
           {
             key: 'Cache-Control',
-            value: 'public, max-age=86400, s-maxage=86400',
+            value: 'public, max-age=3600, s-maxage=7200',
+          },
+          {
+            key: 'Content-Type',
+            value: 'application/xml; charset=utf-8',
           },
         ],
       },
@@ -43,6 +64,23 @@ const nextConfig = {
           {
             key: 'Cache-Control',
             value: 'public, max-age=86400, s-maxage=86400',
+          },
+          {
+            key: 'Content-Type',
+            value: 'text/plain; charset=utf-8',
+          },
+        ],
+      },
+      {
+        source: '/manifest.json',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000',
+          },
+          {
+            key: 'Content-Type',
+            value: 'application/json; charset=utf-8',
           },
         ],
       },
@@ -57,11 +95,26 @@ const nextConfig = {
         port: '',
         pathname: '/wikipedia/commons/thumb/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+        port: '',
+        pathname: '/**',
+      },
     ],
     formats: ['image/avif', 'image/webp'],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    minimumCacheTTL: 31536000,
+    dangerouslyAllowSVG: false,
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
   },
+
+  // Enhanced SEO with trailing slash normalization
+  trailingSlash: false,
+  
+  // Performance optimizations
+  swcMinify: true,
   async rewrites() {
     return [
       {
@@ -69,7 +122,7 @@ const nextConfig = {
         destination: '/api/auth/register',
       },
       {
-        source: '/api/auth/login',
+        source: '/api/auth/login', 
         destination: '/api/auth/login',
       },
       {
@@ -77,6 +130,11 @@ const nextConfig = {
         destination: '/api/auth/validate_token',
       },
     ];
+  },
+
+  // Generate additional sitemaps for better SEO
+  async generateBuildId() {
+    return `build-${Date.now()}`;
   },
 };
 

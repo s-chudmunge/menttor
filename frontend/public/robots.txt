@@ -3,10 +3,16 @@
 User-agent: *
 Allow: /
 
-# Allow all search engines to crawl public pages
+# Allow crawling of public content and learning pages
 Allow: /explore
 Allow: /explore/
 Allow: /explore/*
+Allow: /help
+Allow: /sitemap
+Allow: /about
+Allow: /privacy
+Allow: /terms
+Allow: /security
 
 # Allow crawling of static assets
 Allow: /assets/
@@ -14,21 +20,30 @@ Allow: /images/
 Allow: /_next/static/
 Allow: /favicon.ico
 Allow: /favicon.svg
+Allow: /manifest.json
 
-# Disallow private user areas
+# Disallow private user areas and authentication
 Disallow: /auth/
 Disallow: /profile
+Disallow: /profile/
 Disallow: /journey
+Disallow: /journey/
 Disallow: /dashboard
+Disallow: /dashboard/
 Disallow: /performance-analysis
 Disallow: /quiz
+Disallow: /quiz/
 Disallow: /learn
+Disallow: /learn/
+Disallow: /visualize
+Disallow: /results
 Disallow: /api/
 
 # Disallow admin and sensitive areas
 Disallow: /admin/
 Disallow: /_next/
 Disallow: /.next/
+Disallow: /shared/
 
 # Special handling for major search engines
 User-agent: Googlebot
