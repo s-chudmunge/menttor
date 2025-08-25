@@ -12,6 +12,9 @@ import {
   Home, Map, BarChart3, User, Menu, X
 } from 'lucide-react';
 
+import Logo from '../../../components/Logo';
+import ProfileDropdown from '../../components/ProfileDropdown';
+
 import LearningContentRenderer from '../../../components/learning/LearningContentRenderer';
 import OldLearnPagesModal from './OldLearnPagesModal';
 import FloatingTOC from '../../../components/learning/FloatingTOC';
@@ -493,53 +496,53 @@ const BehavioralLearnClientPage: React.FC<BehavioralLearnClientPageProps> = ({
   };
 
   return (
-    <div className="min-h-screen bg-white">
-      {/* Clean Learning Header */}
-      <div className="bg-white border-b border-gray-200 sticky top-0 z-40">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 py-3 sm:py-4">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-0">
-            <div className="flex-1 min-w-0">
-              <h1 className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-900 truncate">
-                {subtopic || 'Learning Session'}
-              </h1>
+    <div className="min-h-screen bg-gradient-to-br from-white via-blue-50 to-blue-100 dark:from-gray-900 dark:via-blue-900 dark:to-gray-800 transition-colors duration-300">
+      {/* Enhanced Learning Header */}
+      <header className="bg-white/95 dark:bg-gray-900/95 backdrop-blur-lg border-b border-gray-200/50 dark:border-gray-700/50 sticky top-0 z-50 shadow-lg">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-18 lg:h-20">
+            {/* Logo */}
+            <div className="flex items-center space-x-3">
+              <Logo />
             </div>
             
-            <div className="flex items-center justify-between sm:justify-end space-x-2 sm:space-x-4">
-              {/* Navigation Dropdown */}
-              <div className="relative">
-                <button
-                  onClick={() => setShowMobileMenu(!showMobileMenu)}
-                  className="flex items-center space-x-1 px-2 sm:px-3 py-1 sm:py-2 text-xs sm:text-sm text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded transition-colors"
-                >
-                  <Menu className="w-3 h-3 sm:w-4 sm:h-4" />
-                  <span className="hidden sm:inline">Menu</span>
-                </button>
-                
-                {showMobileMenu && (
-                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50">
-                    <Link href="/journey" className="flex items-center space-x-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
-                      <Map className="w-4 h-4" />
-                      <span>Journey</span>
-                    </Link>
-                    <Link href="/dashboard" className="flex items-center space-x-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
-                      <Home className="w-4 h-4" />
-                      <span>Dashboard</span>
-                    </Link>
-                    <Link href="/performance-analysis" className="flex items-center space-x-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
-                      <BarChart3 className="w-4 h-4" />
-                      <span>Analytics</span>
-                    </Link>
-                    <Link href="/profile" className="flex items-center space-x-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
-                      <User className="w-4 h-4" />
-                      <span>Profile</span>
-                    </Link>
-                  </div>
-                )}
-              </div>
+            {/* Desktop Navigation */}
+            <nav className="hidden lg:flex items-center space-x-1">
+              <Link 
+                href="/" 
+                className="flex items-center space-x-2 px-4 py-2.5 rounded-lg font-medium transition-all duration-200 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/10"
+              >
+                <Home className="w-4 h-4" />
+                <span className="text-sm">Home</span>
+              </Link>
+              <Link 
+                href="/explore" 
+                className="flex items-center space-x-2 px-4 py-2.5 rounded-lg font-medium transition-all duration-200 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/10"
+              >
+                <BookOpen className="w-4 h-4" />
+                <span className="text-sm">Explore</span>
+              </Link>
+              <Link 
+                href="/journey" 
+                className="flex items-center space-x-2 px-4 py-2.5 rounded-lg font-medium transition-all duration-200 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/10"
+              >
+                <Target className="w-4 h-4" />
+                <span className="text-sm">Journey</span>
+              </Link>
+              <Link 
+                href="/performance-analysis" 
+                className="flex items-center space-x-2 px-4 py-2.5 rounded-lg font-medium transition-all duration-200 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/10"
+              >
+                <BarChart3 className="w-4 h-4" />
+                <span className="text-sm">Performance</span>
+              </Link>
+            </nav>
 
+            {/* Actions */}
+            <div className="flex items-center space-x-3">
               {/* Save and Share Buttons */}
               {contentData && (
-                <div className="hidden sm:block">
+                <div className="hidden lg:block">
                   <SaveShareButtons 
                     content={contentData}
                     onContentUpdate={setContentData}
@@ -547,42 +550,97 @@ const BehavioralLearnClientPage: React.FC<BehavioralLearnClientPageProps> = ({
                 </div>
               )}
               
-              {/* Simple Progress */}
-              <span className="text-xs sm:text-sm text-gray-600 whitespace-nowrap">{readingProgress}% complete</span>
-              
-              {/* Focus Mode Toggle */}
+              {/* Profile Dropdown */}
+              <ProfileDropdown />
+
+              {/* Mobile Menu Button */}
               <button
-                onClick={() => toggleFocus(!focusMode, FOCUS_SESSION_DURATION)}
-                className={`px-2 sm:px-3 py-1 sm:py-1 rounded text-xs sm:text-sm font-medium transition-colors whitespace-nowrap ${
-                  focusMode 
-                    ? 'bg-blue-600 text-white' 
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                }`}
+                onClick={() => setShowMobileMenu(!showMobileMenu)}
+                className="lg:hidden flex items-center justify-center w-10 h-10 text-gray-700 dark:text-white hover:bg-gray-200 dark:hover:bg-white/10 rounded-lg transition-colors"
               >
-                {focusMode ? 'Focus ON' : 'Focus Mode'}
+                {showMobileMenu ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
               </button>
             </div>
           </div>
-          
-          {/* Mobile Save/Share Row */}
-          {contentData && (
-            <div className="mt-3 sm:hidden">
-              <SaveShareButtons 
-                content={contentData}
-                onContentUpdate={setContentData}
-              />
+        </div>
+      </header>
+
+      {/* Mobile Menu */}
+      {showMobileMenu && (
+        <div className="lg:hidden fixed inset-0 z-40 bg-black/50" onClick={() => setShowMobileMenu(false)}>
+          <div className="absolute right-0 top-20 bottom-0 w-80 bg-white dark:bg-gray-800 shadow-2xl" onClick={(e) => e.stopPropagation()}>
+            <div className="p-6">
+              <div className="space-y-2">
+                <Link 
+                  href="/"
+                  onClick={() => setShowMobileMenu(false)}
+                  className="flex items-center space-x-3 px-4 py-3 rounded-lg font-medium transition-all duration-200 text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-900/20"
+                >
+                  <Home className="w-5 h-5" />
+                  <span>Home</span>
+                </Link>
+                <Link 
+                  href="/explore"
+                  onClick={() => setShowMobileMenu(false)}
+                  className="flex items-center space-x-3 px-4 py-3 rounded-lg font-medium transition-all duration-200 text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-900/20"
+                >
+                  <BookOpen className="w-5 h-5" />
+                  <span>Explore</span>
+                </Link>
+                <Link 
+                  href="/journey"
+                  onClick={() => setShowMobileMenu(false)}
+                  className="flex items-center space-x-3 px-4 py-3 rounded-lg font-medium transition-all duration-200 text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-900/20"
+                >
+                  <Target className="w-5 h-5" />
+                  <span>Journey</span>
+                </Link>
+                <Link 
+                  href="/performance-analysis"
+                  onClick={() => setShowMobileMenu(false)}
+                  className="flex items-center space-x-3 px-4 py-3 rounded-lg font-medium transition-all duration-200 text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-900/20"
+                >
+                  <BarChart3 className="w-5 h-5" />
+                  <span>Performance</span>
+                </Link>
+              </div>
+              
+              {/* Mobile Save and Share */}
+              {contentData && (
+                <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-600">
+                  <SaveShareButtons 
+                    content={contentData}
+                    onContentUpdate={setContentData}
+                  />
+                </div>
+              )}
             </div>
-          )}
+          </div>
+        </div>
+      )}
+
+      {/* Learning Context Header */}
+      <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-b border-gray-200/50 dark:border-gray-700/50">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 py-4">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-0">
+            <div className="flex-1 min-w-0">
+              <h1 className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-900 dark:text-white truncate">
+                {subtopic || 'Learning Session'}
+              </h1>
+              {roadmapTitle && (
+                <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                  Part of: {roadmapTitle}
+                </p>
+              )}
+            </div>
+            
+            <div className="flex items-center space-x-4">
+              {/* Simple Progress */}
+              <span className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 whitespace-nowrap">{readingProgress}% complete</span>
+            </div>
+          </div>
         </div>
       </div>
-
-      {/* Click outside to close dropdown */}
-      {showMobileMenu && (
-        <div
-          className="fixed inset-0 z-40"
-          onClick={() => setShowMobileMenu(false)}
-        />
-      )}
 
       {/* Learning Content with TOC */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-8">

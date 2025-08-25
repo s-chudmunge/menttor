@@ -1,7 +1,8 @@
 import React from 'react';
+import Link from 'next/link';
 
 const Logo = () => (
-  <div className="flex items-center space-x-3">
+  <Link href="/" className="flex items-center space-x-3 hover:opacity-80 transition-opacity">
     {/* Modern minimalist icon */}
     <div className="relative">
       <div className="w-8 h-8 bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-600 rounded-lg flex items-center justify-center shadow-lg">
@@ -25,7 +26,7 @@ const Logo = () => (
         Smart Learning
       </span>
     </div>
-  </div>
+  </Link>
 );
 
 export default Logo;
