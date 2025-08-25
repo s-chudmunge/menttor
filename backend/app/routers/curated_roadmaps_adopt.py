@@ -1,7 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlmodel import Session, select, and_
 from database.session import get_db
-from sql_models import CuratedRoadmap, UserCuratedRoadmap, User, Roadmap, RoadmapModule, RoadmapTopic, RoadmapSubTopic
+from sql_models import CuratedRoadmap, UserCuratedRoadmap, User, Roadmap
+from schemas import RoadmapModule, RoadmapTopic, Subtopic
 from schemas import CuratedRoadmapAdoptRequest, CuratedRoadmapAdoptResponse
 from routers.auth import get_current_user
 import logging
@@ -103,7 +104,7 @@ async def adopt_curated_roadmap(
                         if not isinstance(subtopic_data, dict):
                             continue
                             
-                        subtopic = RoadmapSubTopic(
+                        subtopic = Subtopic(
                             topic_id=topic.id,
                             title=subtopic_data.get("title", f"Subtopic {subtopic_idx + 1}"),
                             description=subtopic_data.get("description", ""),
