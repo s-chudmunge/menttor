@@ -941,7 +941,7 @@ const MenttorLabsMainPage = () => {
               <a href="/status" className="text-gray-400 hover:text-white text-sm transition-colors duration-200">Status</a>
               <span className="text-gray-600">|</span>
               <div className="text-gray-400 text-sm">
-                Built by <a href="mailto:csankalp21@gmail.com" className="text-blue-400 hover:text-blue-300 transition-colors duration-200">Sankalp Chudmunge</a>
+                <a href="https://github.com/mountain-snatcher" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300 transition-colors duration-200">GitHub</a>
               </div>
             </div>
           </div>
