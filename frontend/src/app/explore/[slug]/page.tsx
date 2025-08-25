@@ -27,6 +27,7 @@ import {
   Home
 } from 'lucide-react';
 import Link from 'next/link';
+import RoadmapShareButton from '../../../../components/RoadmapShareButton';
 
 interface RoadmapModule {
   title: string;
@@ -495,19 +496,25 @@ const RoadmapPreviewPage = () => {
             </div>
           </div>
           
-          {/* CTA Button */}
-          <button
-            onClick={handleAdoptRoadmap}
-            disabled={adopting}
-            className="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {adopting ? (
-              <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-            ) : (
-              <Download className="w-4 h-4 mr-2" />
-            )}
-            {adopting ? 'Starting...' : user ? 'Start Learning' : 'Sign In to Start'}
-          </button>
+          {/* CTA Buttons */}
+          <div className="flex items-center gap-4">
+            <button
+              onClick={handleAdoptRoadmap}
+              disabled={adopting}
+              className="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {adopting ? (
+                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+              ) : (
+                <Download className="w-4 h-4 mr-2" />
+              )}
+              {adopting ? 'Starting...' : user ? 'Start Learning' : 'Sign In to Start'}
+            </button>
+            <RoadmapShareButton 
+              roadmap={roadmap} 
+              variant="button"
+            />
+          </div>
 
         </div>
 

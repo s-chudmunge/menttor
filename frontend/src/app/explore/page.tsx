@@ -40,6 +40,7 @@ import {
 } from 'lucide-react';
 import ProfileDropdown from '../../components/ProfileDropdown';
 import Logo from '../../../components/Logo';
+import RoadmapShareButton from '../../../components/RoadmapShareButton';
 
 interface CuratedRoadmap {
   id: number;
@@ -123,6 +124,7 @@ const ExplorePage = () => {
   const [generationProgress, setGenerationProgress] = useState(0);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [expandedGroups, setExpandedGroups] = useState<Set<string>>(new Set());
+  const [showBackToTop, setShowBackToTop] = useState(false);
 
   // Enhanced filtering
   const [activeFiltersCount, setActiveFiltersCount] = useState(0);
@@ -186,112 +188,112 @@ const ExplorePage = () => {
   // Category grouping configuration
   const categoryGroups = {
     'web-development': {
-      title: '🌐 Web Development',
+      title: 'Web Development',
       description: 'Frontend, Backend, and Full-Stack Development',
       subcategories: ['frontend', 'backend', 'fullstack']
     },
     'data-science': {
-      title: '📊 Data Science & Analytics', 
+      title: 'Data Science & Analytics', 
       description: 'Machine Learning, Data Analysis, and Statistics',
       subcategories: ['machine-learning', 'analytics']
     },
     'artificial-intelligence': {
-      title: '🤖 Artificial Intelligence',
+      title: 'Artificial Intelligence',
       description: 'AI, Machine Learning, and Deep Learning',
       subcategories: ['generative-ai', 'computer-vision', 'nlp']
     },
     'cloud-computing': {
-      title: '☁️ Cloud & DevOps',
+      title: 'Cloud & DevOps',
       description: 'Cloud Platforms, DevOps, and Infrastructure',
       subcategories: ['aws', 'azure', 'gcp']
     },
     'devops': {
-      title: '⚙️ DevOps & Infrastructure',
+      title: 'DevOps & Infrastructure',
       description: 'Containerization, CI/CD, and System Administration',
       subcategories: ['containerization', 'automation']
     },
     'mobile-development': {
-      title: '📱 Mobile Development',
+      title: 'Mobile Development',
       description: 'iOS, Android, and Cross-Platform Development',
       subcategories: ['cross-platform', 'ios', 'android']
     },
     'competitive-exams': {
-      title: '📚 Competitive Exams',
+      title: 'Competitive Exams',
       description: 'JEE, NEET, UPSC, CAT, GATE preparation',
       subcategories: ['jee-mathematics', 'jee-physics', 'neet-biology', 'upsc-geography', 'upsc-history', 'upsc-polity', 'cat-quant', 'cat-reasoning', 'gate-cs', 'gate-ee']
     },
     'programming-languages': {
-      title: '⌨️ Programming Languages',
+      title: 'Programming Languages',
       description: 'Language-specific mastery and systems programming',
       subcategories: ['backend', 'systems', 'functional']
     },
     'cybersecurity': {
-      title: '🔐 Cybersecurity',
+      title: 'Cybersecurity',
       description: 'Ethical Hacking, Security Analysis, and Protection',
       subcategories: ['ethical-hacking', 'security-analysis']
     },
     'blockchain': {
-      title: '⛓️ Blockchain & Web3',
+      title: 'Blockchain & Web3',
       description: 'Cryptocurrency, Smart Contracts, and Decentralized Apps',
       subcategories: ['smart-contracts', 'defi']
     },
     'database': {
-      title: '🗃️ Database & Data Engineering',
+      title: 'Database & Data Engineering',
       description: 'Database Design, Data Pipelines, and Storage Solutions',
       subcategories: ['relational', 'nosql']
     },
     'data-engineering': {
-      title: '🔧 Data Engineering',
+      title: 'Data Engineering',
       description: 'Real-time Processing, ETL, and Big Data',
       subcategories: ['streaming', 'pipelines']
     },
     'machine-learning-ops': {
-      title: '🎯 MLOps',
+      title: 'MLOps',
       description: 'ML Model Deployment and Production Systems',
       subcategories: ['deployment', 'monitoring']
     },
     'game-development': {
-      title: '🎮 Game Development',
+      title: 'Game Development',
       description: 'Game Engines, Graphics, and Interactive Media',
       subcategories: ['unity', '2d', '3d']
     },
     'graphics-programming': {
-      title: '🎨 Graphics Programming',
+      title: 'Graphics Programming',
       description: '3D Graphics, Shaders, and Visual Computing',
       subcategories: ['webgl', '3d', 'rendering']
     },
     'embedded-systems': {
-      title: '🔌 IoT & Embedded',
+      title: 'IoT & Embedded',
       description: 'Internet of Things, Microcontrollers, and Hardware',
       subcategories: ['iot', 'microcontrollers']
     },
     'quantum-computing': {
-      title: '⚛️ Quantum Computing',
+      title: 'Quantum Computing',
       description: 'Quantum Algorithms, Qiskit, and Advanced Computing',
       subcategories: ['programming', 'algorithms']
     },
     'extended-reality': {
-      title: '🥽 AR/VR Development',
+      title: 'AR/VR Development',
       description: 'Augmented Reality, Virtual Reality, and Immersive Tech',
       subcategories: ['ar-vr', 'spatial-computing']
     },
     'creative-technology': {
-      title: '🎭 Creative Technology',
+      title: 'Creative Technology',
       description: 'Creative Coding, Generative Art, and Digital Art',
       subcategories: ['generative-art', 'interactive-design']
     },
     'entrepreneurship': {
-      title: '🚀 Entrepreneurship',
+      title: 'Entrepreneurship',
       description: 'Startup Development, Business Strategy, and Innovation',
       subcategories: ['startups', 'business-development']
     },
     'quality-assurance': {
-      title: '✅ Quality Assurance',
+      title: 'Quality Assurance',
       description: 'Testing, Automation, and Quality Engineering',
       subcategories: ['automation', 'testing']
     },
     'system-design': {
-      title: '🏗️ System Design',
+      title: 'System Design',
       description: 'Architecture, Scalability, and Distributed Systems',
       subcategories: ['architecture', 'scalability']
     }
@@ -378,6 +380,19 @@ const ExplorePage = () => {
     fetchRoadmaps();
     fetchCategories();
   }, []);
+
+  // Handle scroll for back to top button
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowBackToTop(window.scrollY > 400);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   const fetchRoadmaps = async () => {
     try {
@@ -1085,7 +1100,7 @@ const ExplorePage = () => {
             {Object.entries(groupedRoadmaps).map(([category, categoryRoadmaps]) => {
               const groupInfo = categoryGroups[category as keyof typeof categoryGroups];
               const isExpanded = expandedGroups.has(category);
-              const displayedRoadmaps = isExpanded ? categoryRoadmaps : categoryRoadmaps.slice(0, 2);
+              const displayedRoadmaps = isExpanded ? categoryRoadmaps : categoryRoadmaps.slice(0, 4);
               
               return (
                 <div key={category} className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-6 shadow-sm border border-gray-200/50 dark:border-gray-700/50">
@@ -1117,80 +1132,73 @@ const ExplorePage = () => {
                     </div>
                   </div>
 
-                  {/* Roadmaps Grid */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {displayedRoadmaps.map((roadmap) => (
-                      <div key={roadmap.id} className="group bg-white/60 dark:bg-gray-700/60 backdrop-blur-sm rounded-xl p-4 shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-200/30 dark:border-gray-600/30 hover:border-blue-200 dark:hover:border-blue-700/50 hover:-translate-y-0.5">
-                        {/* Header */}
-                        <div className="flex items-start justify-between mb-3">
-                          <div className="flex items-center space-x-2">
-                            {roadmap.is_featured && (
-                              <div className="p-1 bg-yellow-100 dark:bg-yellow-900/30 rounded-full">
-                                <Award className="w-3 h-3 text-yellow-600 dark:text-yellow-400" />
-                              </div>
-                            )}
-                            {roadmap.is_verified && (
-                              <div className="p-1 bg-green-100 dark:bg-green-900/30 rounded-full">
-                                <CheckCircle className="w-3 h-3 text-green-600 dark:text-green-400" />
-                              </div>
-                            )}
-                          </div>
-                          <span className={`px-2 py-1 text-xs font-semibold rounded-full ${difficultyColors[roadmap.difficulty]}`}>
-                            {roadmap.difficulty}
-                          </span>
-                        </div>
-
-                        {/* Content */}
-                        <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-2 line-clamp-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                          {roadmap.title}
-                        </h4>
-                        <p className="text-gray-600 dark:text-gray-400 text-sm mb-3 line-clamp-2 leading-relaxed">
-                          {roadmap.description}
-                        </p>
-
-                        {/* Stats */}
-                        <div className="flex items-center space-x-3 text-xs text-gray-500 dark:text-gray-400 mb-4">
-                          <div className="flex items-center">
-                            <Users className="w-3 h-3 mr-1" />
-                            {formatNumber(roadmap.adoption_count)}
-                          </div>
-                          {roadmap.estimated_hours && (
-                            <div className="flex items-center">
-                              <Clock className="w-3 h-3 mr-1" />
-                              {roadmap.estimated_hours}h
+                  {/* Compact Roadmaps List */}
+                  <div className="space-y-3">
+                    {displayedRoadmaps.map((roadmap, index) => (
+                      <div key={roadmap.id} className="group bg-white/60 dark:bg-gray-700/60 backdrop-blur-sm rounded-lg p-4 shadow-sm hover:shadow-md transition-all duration-200 border border-gray-200/30 dark:border-gray-600/30 hover:border-blue-200 dark:hover:border-blue-700/50">
+                        <div className="flex items-center gap-4">
+                          {/* Left: Title and Description */}
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-2 mb-1">
+                              <h4 className="text-base font-semibold text-gray-900 dark:text-white line-clamp-1 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                                {roadmap.title}
+                              </h4>
+                              {roadmap.is_featured && <Award className="w-3 h-3 text-yellow-500 flex-shrink-0" />}
+                              {roadmap.is_verified && <CheckCircle className="w-3 h-3 text-green-500 flex-shrink-0" />}
+                              <span className={`px-2 py-0.5 text-xs font-medium rounded-full flex-shrink-0 ${difficultyColors[roadmap.difficulty]}`}>
+                                {roadmap.difficulty}
+                              </span>
                             </div>
-                          )}
-                          {roadmap.average_rating > 0 && (
-                            <div className="flex items-center">
-                              <Star className="w-3 h-3 mr-1 text-yellow-500" />
-                              {roadmap.average_rating.toFixed(1)}
+                            <p className="text-gray-600 dark:text-gray-400 text-sm line-clamp-1 mb-2">
+                              {roadmap.description}
+                            </p>
+                            <div className="flex items-center gap-4 text-xs text-gray-500 dark:text-gray-400">
+                              <div className="flex items-center">
+                                <Users className="w-3 h-3 mr-1" />
+                                {formatNumber(roadmap.adoption_count)}
+                              </div>
+                              {roadmap.estimated_hours && (
+                                <div className="flex items-center">
+                                  <Clock className="w-3 h-3 mr-1" />
+                                  {roadmap.estimated_hours}h
+                                </div>
+                              )}
+                              {roadmap.average_rating > 0 && (
+                                <div className="flex items-center">
+                                  <Star className="w-3 h-3 mr-1 text-yellow-500" />
+                                  {roadmap.average_rating.toFixed(1)}
+                                </div>
+                              )}
                             </div>
-                          )}
-                        </div>
-
-                        {/* Actions */}
-                        <div className="flex space-x-2">
-                          <button
-                            onClick={() => handleViewRoadmap(roadmap)}
-                            className="flex-1 flex items-center justify-center px-3 py-2 border border-gray-200 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:border-gray-300 dark:hover:border-gray-500 hover:bg-gray-50 dark:hover:bg-gray-700/50 text-sm font-medium transition-all duration-200"
-                          >
-                            <Eye className="w-4 h-4 mr-1" />
-                            Preview
-                          </button>
-                          <button
-                            onClick={() => handleAdoptRoadmap(roadmap.id, roadmap.title)}
-                            className="flex-1 flex items-center justify-center px-3 py-2 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 text-sm font-medium transition-all duration-200 shadow-sm hover:shadow-md"
-                          >
-                            <Download className="w-4 h-4 mr-1" />
-                            {user ? 'Adopt' : 'Sign In'}
-                          </button>
+                          </div>
+                          
+                          {/* Right: Actions */}
+                          <div className="flex items-center space-x-2 flex-shrink-0">
+                            <button
+                              onClick={() => handleViewRoadmap(roadmap)}
+                              className="px-3 py-2 border border-gray-200 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700/50 text-sm font-medium transition-colors"
+                              title="Preview Roadmap"
+                            >
+                              <Eye className="w-4 h-4" />
+                            </button>
+                            <button
+                              onClick={() => handleAdoptRoadmap(roadmap.id, roadmap.title)}
+                              className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 text-sm font-medium transition-colors"
+                            >
+                              {user ? 'Start' : 'Sign In'}
+                            </button>
+                            <RoadmapShareButton 
+                              roadmap={roadmap} 
+                              variant="icon"
+                            />
+                          </div>
                         </div>
                       </div>
                     ))}
                   </div>
 
                   {/* Show More/Less Button */}
-                  {categoryRoadmaps.length > 2 && (
+                  {categoryRoadmaps.length > 4 && (
                     <div className="mt-4 text-center">
                       <button
                         onClick={() => toggleGroup(category)}
@@ -1214,6 +1222,7 @@ const ExplorePage = () => {
               );
             })}
           </div>
+          </>
         ) : (
           /* Grid/List View */
           <div className={viewMode === 'grid' ? 
@@ -1300,21 +1309,27 @@ const ExplorePage = () => {
                     </div>
 
                     {/* Actions */}
-                    <div className="flex space-x-3">
-                      <button
-                        onClick={() => handleViewRoadmap(roadmap)}
-                        className="flex-1 flex items-center justify-center px-4 py-3 border-2 border-gray-200 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-xl hover:border-gray-300 dark:hover:border-gray-500 hover:bg-gray-50 dark:hover:bg-gray-700/50 text-sm font-semibold transition-all duration-200"
-                      >
-                        <Play className="w-4 h-4 mr-2" />
-                        Preview
-                      </button>
-                      <button
-                        onClick={() => handleAdoptRoadmap(roadmap.id, roadmap.title)}
-                        className="flex-1 flex items-center justify-center px-4 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-xl hover:from-blue-700 hover:to-blue-800 text-sm font-semibold transition-all duration-200 shadow-sm hover:shadow-md"
-                      >
-                        <Target className="w-4 h-4 mr-2" />
-                        {user ? 'Start Learning' : 'Sign In'}
-                      </button>
+                    <div className="flex items-center space-x-3">
+                      <div className="flex space-x-3 flex-1">
+                        <button
+                          onClick={() => handleViewRoadmap(roadmap)}
+                          className="flex-1 flex items-center justify-center px-4 py-3 border-2 border-gray-200 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-xl hover:border-gray-300 dark:hover:border-gray-500 hover:bg-gray-50 dark:hover:bg-gray-700/50 text-sm font-semibold transition-all duration-200"
+                        >
+                          <Play className="w-4 h-4 mr-2" />
+                          Preview
+                        </button>
+                        <button
+                          onClick={() => handleAdoptRoadmap(roadmap.id, roadmap.title)}
+                          className="flex-1 flex items-center justify-center px-4 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-xl hover:from-blue-700 hover:to-blue-800 text-sm font-semibold transition-all duration-200 shadow-sm hover:shadow-md"
+                        >
+                          <Target className="w-4 h-4 mr-2" />
+                          {user ? 'Start Learning' : 'Sign In'}
+                        </button>
+                      </div>
+                      <RoadmapShareButton 
+                        roadmap={roadmap} 
+                        variant="icon"
+                      />
                     </div>
                   </>
                 ) : (
@@ -1375,6 +1390,10 @@ const ExplorePage = () => {
                           >
                             <Target className="w-4 h-4" />
                           </button>
+                          <RoadmapShareButton 
+                            roadmap={roadmap} 
+                            variant="icon"
+                          />
                         </div>
                       </div>
                     </div>
@@ -1385,6 +1404,17 @@ const ExplorePage = () => {
           </div>
         )}
       </div>
+      
+      {/* Floating Back to Top Button */}
+      {showBackToTop && (
+        <button
+          onClick={scrollToTop}
+          className="fixed bottom-6 right-6 z-50 p-3 bg-blue-600 hover:bg-blue-700 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105"
+          title="Back to top"
+        >
+          <ChevronUp className="w-5 h-5" />
+        </button>
+      )}
     </div>
     </>
   );
