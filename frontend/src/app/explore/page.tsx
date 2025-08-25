@@ -1096,6 +1096,41 @@ const ExplorePage = () => {
           </div>
         ) : viewMode === 'grouped' ? (
           /* Grouped View */
+          <>
+            {/* Quick Category Overview */}
+            <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-xl p-6 mb-6 border border-gray-200/50 dark:border-gray-700/50">
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Jump to Category</h3>
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">
+                {Object.entries(groupedRoadmaps).map(([category, categoryRoadmaps]) => {
+                  const groupInfo = categoryGroups[category as keyof typeof categoryGroups];
+                  return (
+                    <button
+                      key={category}
+                      onClick={() => {
+                        document.getElementById(`category-${category}`)?.scrollIntoView({ 
+                          behavior: 'smooth', 
+                          block: 'start' 
+                        });
+                      }}
+                      className="flex items-center space-x-2 p-3 bg-gray-50 dark:bg-gray-700/50 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors text-left group"
+                    >
+                      <div className={`p-1.5 rounded-md ${categoryColors[category] || 'bg-gray-100 text-gray-600'}`}>
+                        <span className="text-sm">{categoryIcons[category] || '📚'}</span>
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <div className="text-sm font-medium text-gray-900 dark:text-white truncate group-hover:text-blue-600 dark:group-hover:text-blue-400">
+                          {groupInfo?.title || category.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())}
+                        </div>
+                        <div className="text-xs text-gray-500 dark:text-gray-400">
+                          {categoryRoadmaps.length} roadmap{categoryRoadmaps.length !== 1 ? 's' : ''}
+                        </div>
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+            
           <div className="space-y-6">
             {Object.entries(groupedRoadmaps).map(([category, categoryRoadmaps]) => {
               const groupInfo = categoryGroups[category as keyof typeof categoryGroups];
@@ -1103,7 +1138,7 @@ const ExplorePage = () => {
               const displayedRoadmaps = isExpanded ? categoryRoadmaps : categoryRoadmaps.slice(0, 4);
               
               return (
-                <div key={category} className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-6 shadow-sm border border-gray-200/50 dark:border-gray-700/50">
+                <div key={category} id={`category-${category}`} className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-6 shadow-sm border border-gray-200/50 dark:border-gray-700/50">
                   {/* Group Header */}
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center space-x-4">
