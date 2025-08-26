@@ -27,5 +27,5 @@ COPY start_fast.sh ./start_fast.sh
 # Make start scripts executable
 RUN chmod +x ./start.sh ./start_fresh.sh ./start_migration.sh ./start_fast.sh
 
-# Use fast startup to avoid timeout issues
-CMD ["./start_fast.sh"]
+# Use normal startup with migrations and Cloud SQL Auth Proxy
+CMD ["./start.sh"]
