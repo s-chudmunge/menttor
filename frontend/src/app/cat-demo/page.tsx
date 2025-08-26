@@ -1,7 +1,7 @@
 "use client";
 
 import React from 'react';
-import CatLearningAnimation from '../../components/CatLearningAnimation';
+import CyberpunkCatAnimation from '../../components/CatLearningAnimation';
 
 export default function CatDemoPage() {
   return (
@@ -23,7 +23,7 @@ export default function CatDemoPage() {
 
         {/* Main Animation */}
         <div className="flex justify-center mb-8">
-          <CatLearningAnimation />
+          <CyberpunkCatAnimation />
         </div>
 
         {/* Performance Info */}
