@@ -1,7 +1,7 @@
 "use client";
 
 import React from 'react';
-import ProfessionalLearningAnimation from '../../components/CatLearningAnimation';
+import SimpleLearningAnimation from '../../components/CatLearningAnimation';
 
 export default function LearningAnimationDemoPage() {
   return (
@@ -9,30 +9,28 @@ export default function LearningAnimationDemoPage() {
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-slate-900 dark:text-white mb-4">
-            Professional Learning Animation
+            Simple Learning Animation
           </h1>
           <p className="text-xl text-slate-600 dark:text-gray-300 mb-8">
-            Clean, modern animation perfect for an enterprise learning platform
+            Clean, minimal design inspired by LiteLLM - immediately clear value proposition
           </p>
           <div className="text-sm text-slate-500 dark:text-gray-400 bg-white/80 dark:bg-gray-800/50 rounded-xl p-6 inline-block border border-slate-200 dark:border-gray-700">
-            <strong className="text-slate-700 dark:text-gray-300">Animation Sequence:</strong><br/>
+            <strong className="text-slate-700 dark:text-gray-300">Simple & Clean:</strong><br/>
             <div className="mt-3 space-y-1 text-left">
-              <div>0. 🎯 <strong>Immediate Value:</strong> "Master Any Skill in Weeks, Not Years"</div>
-              <div>1. 🌐 Learning ecosystem visualization appears</div>
-              <div>2. 🔗 Structured learning path connections form</div>
-              <div>3. 📊 Real learning scenarios with outcomes</div>
-              <div>4. 📈 Success metrics and social proof</div>
-              <div>5. 🚀 Strong call-to-action with brand</div>
+              <div>✨ <strong>Clear headline:</strong> "Learn Any Skill" - instantly understandable</div>
+              <div>🎯 <strong>Simple diagram:</strong> You → Menttor → Skills (like LiteLLM)</div>
+              <div>📚 <strong>Minimal elements:</strong> No clutter, clean connections</div>
+              <div>⚡ <strong>Fast & readable:</strong> 8-second cycle, easy to grasp</div>
             </div>
             <div className="mt-4 pt-3 border-t border-slate-300 dark:border-gray-600">
-              <em>18-second cycle • Immediate clarity on platform value • Professional design</em>
+              <em>8-second cycle • LiteLLM-inspired simplicity • Professional & clear</em>
             </div>
           </div>
         </div>
 
         {/* Main Animation */}
         <div className="flex justify-center mb-12">
-          <ProfessionalLearningAnimation />
+          <SimpleLearningAnimation />
         </div>
 
         {/* Features */}
