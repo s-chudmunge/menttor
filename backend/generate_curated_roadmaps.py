@@ -190,6 +190,277 @@ PREMIUM_ROADMAPS = [
             "time_unit": "weeks",
             "model": "vertexai:gemini-1.5-flash-001"
         }
+    },
+    # Research-focused roadmaps for graduate students
+    {
+        "title": "Deep Learning Research and Large Language Models",
+        "category": "artificial-intelligence",
+        "subcategory": "deep-learning",
+        "difficulty": "advanced",
+        "target_audience": "Graduate students and researchers in AI/ML focusing on current deep learning research",
+        "estimated_hours": 200,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.8,
+        "prerequisites": ["Advanced mathematics (linear algebra, calculus, statistics)", "Machine learning fundamentals", "Python programming", "Research methodology"],
+        "learning_outcomes": [
+            "Understand transformer architectures and attention mechanisms in depth",
+            "Implement and fine-tune large language models (GPT, BERT, T5)",
+            "Master advanced optimization techniques and distributed training",
+            "Conduct reproducible research with proper experimental design",
+            "Publish research papers in top-tier conferences (NeurIPS, ICLR, ICML)"
+        ],
+        "tags": ["deep-learning", "transformers", "llm", "research", "neural-networks", "attention", "pytorch"],
+        "request": {
+            "subject": "Advanced Deep Learning Research",
+            "goal": "I am a graduate student wanting to conduct cutting-edge research in deep learning, particularly focusing on large language models and transformer architectures. Cover latest research papers, implementation details, advanced optimization, distributed training, research methodology, and how to contribute to the field through publications.",
+            "time_value": 16,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-1.5-flash-001"
+        }
+    },
+    {
+        "title": "Computational Biology and Bioinformatics Research",
+        "category": "data-science",
+        "subcategory": "bioinformatics",
+        "difficulty": "advanced",
+        "target_audience": "Graduate students in computational biology, bioinformatics, and related fields",
+        "estimated_hours": 180,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.5,
+        "prerequisites": ["Biology fundamentals", "Statistics and probability", "Programming (Python/R)", "Basic genetics knowledge"],
+        "learning_outcomes": [
+            "Analyze genomic and transcriptomic data using state-of-the-art tools",
+            "Implement machine learning for biological data analysis",
+            "Understand single-cell sequencing analysis pipelines",
+            "Conduct phylogenetic and evolutionary analyses",
+            "Develop novel computational methods for biological problems"
+        ],
+        "tags": ["bioinformatics", "genomics", "computational-biology", "single-cell", "phylogenetics", "research"],
+        "request": {
+            "subject": "Computational Biology Research",
+            "goal": "I want to master computational biology and bioinformatics for graduate-level research. Cover genomic data analysis, single-cell sequencing, machine learning applications in biology, phylogenetics, and how to develop novel computational methods. Focus on current research trends and publication-ready analysis.",
+            "time_value": 14,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-1.5-flash-001"
+        }
+    },
+    {
+        "title": "Quantum Computing Research and Algorithm Development",
+        "category": "quantum-computing",
+        "subcategory": "algorithms",
+        "difficulty": "advanced",
+        "target_audience": "Graduate students and researchers in quantum computing, physics, and computer science",
+        "estimated_hours": 160,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.4,
+        "prerequisites": ["Linear algebra", "Complex analysis", "Quantum mechanics fundamentals", "Programming experience"],
+        "learning_outcomes": [
+            "Implement quantum algorithms (Shor's, Grover's, VQE, QAOA)",
+            "Design quantum circuits using Qiskit, Cirq, and PennyLane",
+            "Understand quantum error correction and fault tolerance",
+            "Conduct research in quantum machine learning and optimization",
+            "Contribute to quantum computing research publications"
+        ],
+        "tags": ["quantum-computing", "quantum-algorithms", "qiskit", "quantum-machine-learning", "research"],
+        "request": {
+            "subject": "Quantum Computing Research",
+            "goal": "I am pursuing graduate research in quantum computing. Teach me advanced quantum algorithms, quantum circuit design, error correction, quantum machine learning, and current research frontiers. Include hands-on implementation and preparation for research contributions in the field.",
+            "time_value": 12,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-1.5-flash-001"
+        }
+    },
+    {
+        "title": "Advanced Materials Science and Computational Chemistry",
+        "category": "materials-science",
+        "subcategory": "computational",
+        "difficulty": "advanced",
+        "target_audience": "Graduate students in materials science, chemistry, and physics doing computational research",
+        "estimated_hours": 170,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.3,
+        "prerequisites": ["Physical chemistry", "Quantum mechanics", "Solid state physics", "Programming skills"],
+        "learning_outcomes": [
+            "Master density functional theory (DFT) calculations using VASP, Quantum ESPRESSO",
+            "Perform molecular dynamics simulations with LAMMPS, GROMACS",
+            "Analyze electronic structure and material properties",
+            "Design novel materials using high-throughput computational screening",
+            "Integrate machine learning with materials discovery"
+        ],
+        "tags": ["materials-science", "dft", "molecular-dynamics", "computational-chemistry", "vasp", "research"],
+        "request": {
+            "subject": "Computational Materials Science Research",
+            "goal": "I need to master computational methods in materials science for my graduate research. Cover DFT calculations, molecular dynamics simulations, electronic structure analysis, high-throughput screening, and machine learning applications in materials discovery. Focus on current research methodologies and tools.",
+            "time_value": 14,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-1.5-flash-001"
+        }
+    },
+    {
+        "title": "Climate Science and Earth System Modeling",
+        "category": "earth-sciences",
+        "subcategory": "climate-modeling",
+        "difficulty": "advanced",
+        "target_audience": "Graduate students in climate science, atmospheric science, and environmental modeling",
+        "estimated_hours": 190,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.6,
+        "prerequisites": ["Atmospheric physics", "Fluid dynamics", "Statistics", "Programming (Python/Fortran)", "Calculus and differential equations"],
+        "learning_outcomes": [
+            "Understand climate system components and feedback mechanisms",
+            "Run and analyze global climate models (CESM, GISS)",
+            "Process and analyze large climate datasets using xarray and pandas",
+            "Conduct statistical downscaling and bias correction",
+            "Research climate change impacts and publish findings"
+        ],
+        "tags": ["climate-science", "climate-modeling", "earth-system", "atmospheric-science", "research"],
+        "request": {
+            "subject": "Climate Science and Earth System Modeling",
+            "goal": "I am a graduate student focusing on climate science research. Teach me climate system dynamics, global climate modeling, data analysis techniques, statistical methods for climate data, and current research in climate change. Focus on hands-on modeling and analysis for research publications.",
+            "time_value": 15,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-1.5-flash-001"
+        }
+    },
+    {
+        "title": "Advanced Neuroscience Research and Computational Modeling",
+        "category": "neuroscience",
+        "subcategory": "computational",
+        "difficulty": "advanced",
+        "target_audience": "Graduate students in neuroscience, cognitive science, and computational biology",
+        "estimated_hours": 175,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.4,
+        "prerequisites": ["Neurobiology fundamentals", "Statistics", "Programming (Python/MATLAB)", "Linear algebra"],
+        "learning_outcomes": [
+            "Analyze neural data from fMRI, EEG, and single-cell recordings",
+            "Implement computational models of neural networks and brain dynamics",
+            "Use machine learning for decoding neural signals and behavior",
+            "Conduct connectivity analysis and network neuroscience",
+            "Design and analyze neuroscience experiments for publication"
+        ],
+        "tags": ["neuroscience", "computational-neuroscience", "fmri", "neural-networks", "brain-modeling", "research"],
+        "request": {
+            "subject": "Computational Neuroscience Research",
+            "goal": "I am pursuing graduate research in neuroscience with a computational focus. Cover neural data analysis, brain imaging techniques, computational modeling of neural systems, machine learning applications, and current research methodologies. Prepare me to conduct and publish neuroscience research.",
+            "time_value": 14,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-1.5-flash-001"
+        }
+    },
+    {
+        "title": "Advanced Mathematical Physics and Theoretical Research",
+        "category": "physics",
+        "subcategory": "theoretical",
+        "difficulty": "advanced",
+        "target_audience": "Graduate students in theoretical physics and applied mathematics",
+        "estimated_hours": 200,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.7,
+        "prerequisites": ["Advanced calculus", "Linear algebra", "Complex analysis", "Classical mechanics", "Quantum mechanics"],
+        "learning_outcomes": [
+            "Master advanced mathematical methods in theoretical physics",
+            "Understand quantum field theory and particle physics",
+            "Work with differential geometry and general relativity",
+            "Conduct research in condensed matter theory",
+            "Develop new theoretical models and publish in physics journals"
+        ],
+        "tags": ["theoretical-physics", "quantum-field-theory", "mathematical-physics", "research", "particle-physics"],
+        "request": {
+            "subject": "Theoretical Physics Research",
+            "goal": "I want to pursue advanced theoretical physics research at the graduate level. Cover quantum field theory, general relativity, condensed matter theory, mathematical methods, and current research frontiers. Focus on developing theoretical models and preparing for research publications in top physics journals.",
+            "time_value": 16,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-1.5-flash-001"
+        }
+    },
+    {
+        "title": "Behavioral Economics and Experimental Design",
+        "category": "economics",
+        "subcategory": "behavioral",
+        "difficulty": "advanced",
+        "target_audience": "Graduate students in economics, psychology, and behavioral science research",
+        "estimated_hours": 140,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.2,
+        "prerequisites": ["Microeconomics", "Statistics", "Research methods", "Psychology fundamentals"],
+        "learning_outcomes": [
+            "Design and conduct behavioral economics experiments",
+            "Analyze decision-making under uncertainty and behavioral biases",
+            "Use advanced econometric methods for causal inference",
+            "Understand neuroeconomics and computational models of choice",
+            "Publish research in economics and psychology journals"
+        ],
+        "tags": ["behavioral-economics", "experimental-design", "decision-theory", "econometrics", "research"],
+        "request": {
+            "subject": "Behavioral Economics Research",
+            "goal": "I am a graduate student interested in behavioral economics research. Teach me experimental design, behavioral theory, econometric analysis, neuroeconomics, and current research methods. Focus on conducting rigorous experiments and preparing publications for top economics journals.",
+            "time_value": 12,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-1.5-flash-001"
+        }
+    },
+    {
+        "title": "Advanced Data Science for Social Science Research",
+        "category": "data-science",
+        "subcategory": "social-science",
+        "difficulty": "advanced",
+        "target_audience": "Graduate students in sociology, political science, and social science research",
+        "estimated_hours": 150,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.1,
+        "prerequisites": ["Statistics", "Research methods", "Programming (R/Python)", "Social science theory"],
+        "learning_outcomes": [
+            "Apply machine learning to social science questions",
+            "Conduct network analysis and computational social science",
+            "Use natural language processing for text analysis",
+            "Implement causal inference methods and quasi-experiments",
+            "Publish computational social science research"
+        ],
+        "tags": ["computational-social-science", "network-analysis", "causal-inference", "nlp", "research"],
+        "request": {
+            "subject": "Computational Social Science Research",
+            "goal": "I want to apply advanced data science methods to social science research. Cover machine learning for social data, network analysis, text mining, causal inference, and computational methods. Focus on current research practices and publishing in social science journals.",
+            "time_value": 12,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-1.5-flash-001"
+        }
+    },
+    {
+        "title": "Advanced Biomedical Engineering and Medical Device Research",
+        "category": "biomedical-engineering",
+        "subcategory": "medical-devices",
+        "difficulty": "advanced",
+        "target_audience": "Graduate students in biomedical engineering and medical technology research",
+        "estimated_hours": 165,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.3,
+        "prerequisites": ["Engineering mathematics", "Biology/physiology", "Materials science", "Programming", "Signal processing"],
+        "learning_outcomes": [
+            "Design and prototype medical devices and instruments",
+            "Understand biomedical signal processing and imaging",
+            "Conduct biomaterials research and tissue engineering",
+            "Navigate medical device regulations and FDA approval",
+            "Publish biomedical engineering research and develop patents"
+        ],
+        "tags": ["biomedical-engineering", "medical-devices", "tissue-engineering", "biomaterials", "research"],
+        "request": {
+            "subject": "Biomedical Engineering Research",
+            "goal": "I am pursuing graduate research in biomedical engineering focusing on medical device development. Cover device design, biomedical signal processing, biomaterials, tissue engineering, regulatory aspects, and current research trends. Prepare me for industry and academic research careers.",
+            "time_value": 13,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-1.5-flash-001"
+        }
     }
 ]
 

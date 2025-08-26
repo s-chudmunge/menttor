@@ -49,6 +49,13 @@ class Settings(BaseSettings):
     ENABLE_AUTH_BYPASS: bool = False  # Set to True to bypass auth for testing
     
     CORS_ALLOWED_ORIGINS: str = "http://localhost:3000,http://localhost:3001,http://127.0.0.1:3000,http://127.0.0.1:3001"
+    
+    # Google Cloud SQL Configuration
+    USE_CLOUD_SQL_AUTH_PROXY: bool = False
+    GOOGLE_CLOUD_PROJECT_ID: Optional[str] = None
+    CLOUD_SQL_INSTANCE_NAME: str = "menttor-db-instance"
+    CLOUD_SQL_REGION: str = "asia-south1"
+    GOOGLE_APPLICATION_CREDENTIALS_JSON: Optional[str] = None
 
     @computed_field
     @property
