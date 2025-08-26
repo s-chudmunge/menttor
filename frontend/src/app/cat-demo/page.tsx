@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import SimpleLearningAnimation from '../../components/CatLearningAnimation';
+import { BACKEND_URL } from '../../config/config';
 
 interface VideoData {
   success: boolean;
@@ -27,7 +28,7 @@ export default function LearningAnimationDemoPage() {
     setError(null);
     
     try {
-      const response = await fetch('/api/video/generate-promo', {
+      const response = await fetch(`${BACKEND_URL}/api/video/generate-promo`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
