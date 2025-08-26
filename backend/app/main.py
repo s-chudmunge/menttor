@@ -201,21 +201,16 @@ async def health_check():
             "database": "unknown"
         }
         
-        # Quick database connectivity check
+        # Quick database connectivity check with proper session management
         try:
-            db = next(get_db())
-            # Simple query to test database
-            result = db.exec("SELECT 1").first()
-            health_status["database"] = "connected" if result else "error"
+            with next(get_db()) as db:
+                # Simple query to test database
+                result = db.exec("SELECT 1").first()
+                health_status["database"] = "connected" if result else "error"
         except Exception as db_error:
             logger.warning(f"Database health check failed: {db_error}")
             health_status["database"] = "disconnected"
             health_status["status"] = "degraded"
-        finally:
-            try:
-                db.close()
-            except:
-                pass
         
         return health_status
         
@@ -223,6 +218,33 @@ async def health_check():
         logger.error(f"Health check failed: {e}")
         return {
             "status": "unhealthy", 
+            "error": str(e),
+            "timestamp": datetime.utcnow().isoformat()
+        }
+
+@app.get("/pool-status")
+async def pool_status():
+    """Connection pool monitoring endpoint"""
+    try:
+        from database.session import get_pool_status
+        from datetime import datetime
+        
+        pool_info = get_pool_status()
+        
+        # Add timestamp and calculate metrics
+        pool_info.update({
+            "timestamp": datetime.utcnow().isoformat(),
+            "total_connections": pool_info["checked_in"] + pool_info["checked_out"],
+            "utilization_pct": round((pool_info["checked_out"] / max(pool_info["pool_size"], 1)) * 100, 2),
+            "available_connections": pool_info["pool_size"] - pool_info["checked_out"],
+            "status": "ok" if pool_info["checked_out"] < pool_info["pool_size"] * 0.8 else "high_usage"
+        })
+        
+        return pool_info
+        
+    except Exception as e:
+        logger.error(f"Pool status check failed: {e}")
+        return {
             "error": str(e),
             "timestamp": datetime.utcnow().isoformat()
         }

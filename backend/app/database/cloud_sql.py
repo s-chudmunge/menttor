@@ -106,11 +106,11 @@ class CloudSQLConnector:
             engine = create_engine(
                 "postgresql+pg8000://",
                 creator=get_conn,
-                pool_size=10,
-                max_overflow=20,
-                pool_recycle=3600,
+                pool_size=5,  # Reduced for Cloud SQL limits
+                max_overflow=10,  # Total max 15 connections
+                pool_recycle=1800,  # 30 minutes
                 pool_pre_ping=True,
-                pool_timeout=30,
+                pool_timeout=20,  # Reduced timeout
                 connect_args={
                     "application_name": "menttorlabs_backend",
                 }
@@ -131,15 +131,15 @@ class CloudSQLConnector:
         engine = create_engine(
             settings.get_database_url(),
             echo=settings.DATABASE_ECHO,
-            pool_size=20,
-            max_overflow=30,
-            pool_recycle=3600,
+            pool_size=5,  # Reduced for consistency
+            max_overflow=10,  # Total max 15 connections
+            pool_recycle=1800,  # 30 minutes
             pool_pre_ping=True,
-            pool_timeout=30,
+            pool_timeout=20,  # Reduced timeout
             connect_args={
-                "connect_timeout": 30,
+                "connect_timeout": 20,
                 "application_name": "menttorlabs_backend",
-                "options": "-c statement_timeout=60000"
+                "options": "-c statement_timeout=30000 -c idle_in_transaction_session_timeout=300000"
             }
         )
         

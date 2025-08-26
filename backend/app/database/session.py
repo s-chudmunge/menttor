@@ -29,20 +29,20 @@ def create_database_engine():
     return create_engine(
         settings.get_database_url(),
         echo=settings.DATABASE_ECHO,
-        # Generous pool size for high availability
-        pool_size=20,  # Increased for better availability
-        max_overflow=30,  # Increased overflow capacity
-        pool_recycle=3600,  # 1 hour recycle time
+        # Conservative pool settings to prevent connection exhaustion
+        pool_size=5,  # Reduced from 20 - Cloud SQL has connection limits
+        max_overflow=10,  # Reduced from 30 - max total 15 connections
+        pool_recycle=1800,  # 30 minutes - more aggressive recycling
         pool_pre_ping=True,  # Verify connections before use
-        pool_timeout=30,  # More generous timeout
+        pool_timeout=20,  # Reduced timeout to fail faster
         # Use QueuePool which is most efficient for connection reuse
         poolclass=None,  # Default QueuePool
         # Additional optimization settings
         connect_args={
-            "connect_timeout": 30,  # Increased connect timeout
+            "connect_timeout": 20,  # Reduced connect timeout
             "application_name": "menttorlabs_backend",
             # Compression and performance settings
-            "options": "-c statement_timeout=60000"  # 60 second query timeout
+            "options": "-c statement_timeout=30000 -c idle_in_transaction_session_timeout=300000"  # 30s query, 5min idle timeout
         }
     )
 
