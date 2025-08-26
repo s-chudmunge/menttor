@@ -48,14 +48,14 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: new URL('https://menttor.vercel.app'),
+  metadataBase: new URL('https://menttor.live'),
   alternates: {
     canonical: '/',
   },
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://menttor.vercel.app',
+    url: 'https://menttor.live',
     siteName: 'Menttor',
     title: 'Menttor - Free Smart Learning Platform | Programming & Tech Courses',
     description: 'Learn programming, web development, and data science with smart personalized roadmaps. Free interactive courses with quizzes, coding challenges, and career guidance.',
@@ -110,7 +110,7 @@ export default function RootLayout({
         <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap" rel="stylesheet" />
         
         {/* Security Headers */}
-        <meta httpEquiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: blob:; media-src 'self' blob:; object-src 'none'; frame-src 'self' https:; connect-src 'self' https: wss:;" />
+        <meta httpEquiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://cdn.jsdelivr.net https://apis.google.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: blob:; media-src 'self' blob:; object-src 'none'; frame-src 'self' https:; connect-src 'self' https: wss:;" />
         <meta httpEquiv="X-Content-Type-Options" content="nosniff" />
         <meta httpEquiv="X-Frame-Options" content="DENY" />
         <meta httpEquiv="X-XSS-Protection" content="1; mode=block" />
@@ -130,10 +130,10 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "EducationalOrganization",
               "name": "Menttor Labs",
-              "url": "https://menttor.vercel.app",
+              "url": "https://menttor.live",
               "logo": {
                 "@type": "ImageObject",
-                "url": "https://menttor.vercel.app/favicon.svg"
+                "url": "https://menttor.live/favicon.svg"
               },
               "description": "Smart learning platform offering free personalized roadmaps for programming, web development, and data science",
               "sameAs": [

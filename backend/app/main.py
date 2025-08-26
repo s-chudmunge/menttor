@@ -203,10 +203,14 @@ async def health_check():
         
         # Quick database connectivity check with proper session management
         try:
-            with next(get_db()) as db:
+            from sqlmodel import text
+            db_session = next(get_db())
+            try:
                 # Simple query to test database
-                result = db.exec("SELECT 1").first()
+                result = db_session.exec(text("SELECT 1")).first()
                 health_status["database"] = "connected" if result else "error"
+            finally:
+                db_session.close()
         except Exception as db_error:
             logger.warning(f"Database health check failed: {db_error}")
             health_status["database"] = "disconnected"
