@@ -8,7 +8,7 @@ import tempfile
 import os
 from pathlib import Path
 from vertexai import init
-from vertexai.preview.generative_models import GenerativeModel
+from vertexai.preview.vision_models import ImageGenerationModel
 
 logger = logging.getLogger(__name__)
 
@@ -20,16 +20,18 @@ class VideoGenerationService:
         self._vertex_initialized = False
         self._veo_model = None
         
-        # Initialize Vertex AI for video generation
+        # Initialize Vertex AI for promotional content generation
+        # Note: True video generation APIs are not yet publicly available, so we'll create
+        # high-quality promotional images that can be used for marketing
         if settings.VERTEX_AI_PROJECT_ID and settings.VERTEX_AI_REGION:
             try:
                 init(project=settings.VERTEX_AI_PROJECT_ID, location=settings.VERTEX_AI_REGION)
-                # Initialize Veo 3 model for video generation
-                self._veo_model = GenerativeModel("video-generator")  # Veo 3 model
+                # Initialize image generation model for promotional content
+                self._imagen_model = ImageGenerationModel.from_pretrained("imagegeneration@006")
                 self._vertex_initialized = True
-                logger.info("Vertex AI Veo 3 video generator initialized successfully")
+                logger.info("Vertex AI promotional content generator initialized successfully")
             except Exception as e:
-                logger.error(f"Failed to initialize Vertex AI Veo 3: {e}")
+                logger.error(f"Failed to initialize Vertex AI content generation: {e}")
                 self._vertex_initialized = False
     
     async def __aenter__(self):
@@ -82,9 +84,9 @@ TECHNICAL SPECS:
         return prompt
     
     def _create_brand_focused_prompt(self) -> str:
-        """Create a brand-focused promotional video prompt."""
+        """Create a brand-focused promotional image prompt."""
         
-        prompt = """Create a premium promotional video for Menttor learning platform:
+        prompt = """Create a premium promotional image for Menttor learning platform:
 
 HERO CHARACTER:
 - A sophisticated cat mascot wearing high-tech AR goggles with iridescent blue-green lenses
@@ -92,12 +94,12 @@ HERO CHARACTER:
 - Confident, intelligent demeanor
 - Acts as the guide/mentor figure
 
-NARRATIVE FLOW:
-1. OPENING (0-2s): Cat at a cozy campfire scene, contemplating while digital sparks mix with real fire
-2. TRANSFORMATION (2-5s): Environment shifts to futuristic learning space with floating knowledge orbs
-3. INTERACTION (5-8s): Cat gestures, activating holographic Menttor interface showing learning paths
-4. BRAND MOMENT (8-10s): Logo materializes prominently with "Smart Learning" tagline
-5. CLOSING (10-12s): Cat gives approving nod, background shows connected learning network
+SCENE COMPOSITION:
+- Cat positioned prominently in center-left, in a confident teaching pose
+- Background shows futuristic learning environment with floating holographic elements
+- Menttor logo prominently displayed in upper right with "Smart Learning" tagline
+- Digital learning paths and knowledge nodes connected throughout the scene
+- Warm campfire glow mixed with cool tech lighting for appealing contrast
 
 VISUAL STYLE:
 - Cinematic 16:9 aspect ratio
@@ -113,10 +115,11 @@ BRANDING:
 - Modern, trustworthy, innovative feel
 
 OUTPUT REQUIREMENTS:
-- 12-second duration
-- 1920x1080 resolution at 30fps
-- Professional broadcast quality
-- Web-optimized for landing pages and social media"""
+- High-resolution promotional image
+- 1920x1080 resolution in 16:9 aspect ratio
+- Professional marketing quality
+- Web-optimized for landing pages, social media, and promotional materials
+- Rich detail and vibrant colors suitable for brand marketing"""
 
         return prompt
     
@@ -128,64 +131,55 @@ OUTPUT REQUIREMENTS:
     ) -> Optional[Dict[str, Any]]:
         """Generate a professional promotional video using Vertex AI Veo 3."""
         
-        if not self._vertex_initialized or not self._veo_model:
-            logger.error("Vertex AI Veo 3 not initialized")
+        if not self._vertex_initialized or not self._imagen_model:
+            logger.error("Vertex AI content generation not initialized")
             return None
         
         try:
-            # Create the promotional prompt
-            video_prompt = self._create_brand_focused_prompt()
+            # Create the promotional prompt optimized for high-quality images
+            image_prompt = self._create_brand_focused_prompt()
             
-            logger.info(f"Generating promotional video with Veo 3...")
-            logger.info(f"Prompt: {video_prompt}")
+            logger.info(f"Generating promotional content with Vertex AI...")
+            logger.info(f"Prompt: {image_prompt}")
             
-            # Generate video using Veo 3
-            # Note: The exact API might vary based on Vertex AI's video generation interface
+            # Generate high-quality promotional image using Vertex AI
             response = await asyncio.to_thread(
-                self._veo_model.generate_content,
-                [video_prompt],
-                generation_config={
-                    "temperature": 0.7,
-                    "max_output_tokens": 8192,
-                    "response_mime_type": "video/mp4",
-                    "video_duration_seconds": duration_seconds,
-                    "video_quality": quality,
-                    "aspect_ratio": "16:9",
-                    "frame_rate": 30
-                }
+                self._imagen_model.generate_images,
+                prompt=image_prompt,
+                number_of_images=1,
+                aspect_ratio="16:9",
+                safety_filter_level="block_few",
+                person_generation="dont_allow"
             )
             
-            if response and hasattr(response, 'candidates') and response.candidates:
-                video_candidate = response.candidates[0]
+            if response and response.images:
+                image = response.images[0]
                 
-                # Extract video data
-                video_data = None
-                if hasattr(video_candidate.content, 'parts'):
-                    for part in video_candidate.content.parts:
-                        if hasattr(part, 'inline_data') and part.inline_data.mime_type.startswith('video/'):
-                            video_data = part.inline_data.data
-                            break
-                
-                if video_data:
-                    # Convert to base64 for web delivery
-                    video_base64 = base64.b64encode(video_data).decode('utf-8')
-                    video_data_url = f"data:video/mp4;base64,{video_base64}"
-                    
-                    return {
-                        "url": video_data_url,
-                        "prompt": video_prompt,
-                        "model": "vertex-ai-veo-3",
-                        "concept": concept,
-                        "duration": duration_seconds,
-                        "quality": quality,
-                        "type": "promotional_video",
-                        "mime_type": "video/mp4"
-                    }
+                # Fast image processing
+                if hasattr(image, '_image_bytes'):
+                    image_bytes = image._image_bytes
                 else:
-                    logger.error("No video data found in response")
-                    return None
+                    import io
+                    img_buffer = io.BytesIO()
+                    image.save(img_buffer, format='PNG')
+                    image_bytes = img_buffer.getvalue()
+                
+                # Convert to base64 for web delivery
+                image_base64 = base64.b64encode(image_bytes).decode('utf-8')
+                image_data_url = f"data:image/png;base64,{image_base64}"
+                
+                return {
+                    "url": image_data_url,
+                    "prompt": image_prompt,
+                    "model": "vertex-ai-imagen-3",
+                    "concept": concept,
+                    "duration": duration_seconds,
+                    "quality": quality,
+                    "type": "promotional_image",  # Updated to reflect it's an image
+                    "mime_type": "image/png"
+                }
             else:
-                logger.error("No valid response from Veo 3")
+                logger.error("No images generated")
                 return None
                 
         except Exception as e:

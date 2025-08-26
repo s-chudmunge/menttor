@@ -125,24 +125,33 @@ export default function LearningAnimationDemoPage() {
             <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-xl border border-slate-200 dark:border-gray-700">
               <div className="text-center mb-4">
                 <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">
-                  Generated Promotional Video
+                  Generated Promotional Content
                 </h3>
                 <p className="text-slate-600 dark:text-gray-300">
-                  Featuring our tech cat mascot and Menttor branding
+                  AI-generated content featuring our tech cat mascot and Menttor branding
                 </p>
               </div>
               
               <div className="relative max-w-2xl mx-auto">
-                <video 
-                  src={videoData.url}
-                  controls
-                  autoPlay
-                  loop
-                  className="w-full h-auto rounded-xl shadow-lg"
-                  style={{ aspectRatio: '16/9' }}
-                >
-                  Your browser does not support the video tag.
-                </video>
+                {videoData.mime_type?.startsWith('video/') ? (
+                  <video 
+                    src={videoData.url}
+                    controls
+                    autoPlay
+                    loop
+                    className="w-full h-auto rounded-xl shadow-lg"
+                    style={{ aspectRatio: '16/9' }}
+                  >
+                    Your browser does not support the video tag.
+                  </video>
+                ) : (
+                  <img 
+                    src={videoData.url}
+                    alt="Generated promotional content featuring Menttor's tech cat mascot"
+                    className="w-full h-auto rounded-xl shadow-lg"
+                    style={{ aspectRatio: '16/9' }}
+                  />
+                )}
               </div>
               
               {/* Video Details */}
@@ -176,7 +185,7 @@ export default function LearningAnimationDemoPage() {
                   onClick={() => window.open(videoData.url, '_blank')}
                   className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-lg transition-colors duration-300"
                 >
-                  Download Video
+                  {videoData.mime_type?.startsWith('video/') ? 'Download Video' : 'Download Image'}
                 </button>
               </div>
             </div>
