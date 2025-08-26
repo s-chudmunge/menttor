@@ -12,12 +12,12 @@ router = APIRouter(prefix="/api/video", tags=["video-generation"])
 class PromoVideoRequest(BaseModel):
     concept: Optional[str] = Field(default="Menttor Smart Learning Platform", description="The concept/brand to showcase")
     duration_seconds: Optional[int] = Field(default=12, ge=5, le=30, description="Video duration in seconds")
-    quality: Optional[str] = Field(default="high", regex="^(high|medium|low)$", description="Video quality level")
+    quality: Optional[str] = Field(default="high", pattern="^(high|medium|low)$", description="Video quality level")
 
 class CustomVideoRequest(BaseModel):
     prompt: str = Field(..., description="Custom video generation prompt", min_length=10, max_length=1000)
     duration_seconds: Optional[int] = Field(default=8, ge=3, le=20, description="Video duration in seconds")
-    quality: Optional[str] = Field(default="high", regex="^(high|medium|low)$", description="Video quality level")
+    quality: Optional[str] = Field(default="high", pattern="^(high|medium|low)$", description="Video quality level")
     style: Optional[str] = Field(default="professional", description="Video style (professional, creative, cinematic)")
 
 class VideoResponse(BaseModel):
