@@ -72,7 +72,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     'comprehensive tutorial'
   ];
 
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://menttor.vercel.app';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://menttor.live';
   const url = `${baseUrl}/explore/${roadmap.slug || roadmap.id}`;
 
   return {

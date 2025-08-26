@@ -73,4 +73,4 @@ Allow: /explore/
 Allow: /explore/*
 
 # Sitemap location
-Sitemap: https://menttor.vercel.app/sitemap.xml
+Sitemap: https://menttor.live/sitemap.xml

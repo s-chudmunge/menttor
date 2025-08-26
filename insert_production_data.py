@@ -8,7 +8,7 @@ import json
 from datetime import datetime
 
 # Production Neon database connection string
-DATABASE_URL = "postgresql://neondb_owner:npg_qUyogcuNI05H@ep-rough-breeze-a1a0wgqt-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
+DATABASE_URL = "postgresql://admin-db:tyson2012@34.93.60.80:5432/menttor-db"
 
 def insert_sample_roadmaps():
     """Insert sample curated roadmaps data into production."""

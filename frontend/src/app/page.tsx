@@ -44,6 +44,8 @@ import {
 } from 'lucide-react';
 import ProfileDropdown from '../components/ProfileDropdown';
 import { ThreeDGeneratorCard, ThreeDGeneratorModal } from '../../components/ThreeDGenerator';
+import PromotionalBackground from '../components/PromotionalBackground';
+import SimpleLearningAnimation from '../components/SimpleLearningAnimation';
 
 const MenttorLabsMainPage = () => {
   const router = useRouter();
@@ -481,85 +483,90 @@ const MenttorLabsMainPage = () => {
       </nav>
 
       {/* Hero Section */}
-      <section id="home" className="relative pt-20 pb-32 overflow-hidden">
-        {/* Background Elements */}
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 via-white to-indigo-50/50 dark:from-gray-900 dark:via-blue-900/20 dark:to-gray-800"></div>
-        <div className="absolute top-0 left-0 w-96 h-96 bg-blue-400/10 rounded-full filter blur-3xl"></div>
-        <div className="absolute bottom-0 right-0 w-96 h-96 bg-indigo-400/10 rounded-full filter blur-3xl"></div>
-        
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-20">
-            <div className="mb-8">
-              <div className="inline-flex items-center px-4 py-2 rounded-full bg-blue-50/80 dark:bg-blue-900/30 border border-blue-200/50 dark:border-blue-700/50 text-blue-700 dark:text-blue-300 text-sm font-medium mb-6">
-                <Sparkles className="w-4 h-4 mr-2" />
-                Smart Learning Platform
+      <PromotionalBackground className="pt-20 pb-32 overflow-hidden min-h-screen">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
+          <div className="grid lg:grid-cols-2 gap-16 items-center min-h-[calc(100vh-10rem)]">
+            {/* Left Column - Main Content */}
+            <div className="text-left lg:text-left">
+              <div className="mb-8">
+                <div className="inline-flex items-center px-4 py-2 rounded-full bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border border-blue-200/50 dark:border-blue-700/50 text-blue-700 dark:text-blue-300 text-sm font-medium mb-6 shadow-sm">
+                  <Sparkles className="w-4 h-4 mr-2" />
+                  Smart Learning Platform
+                </div>
+              </div>
+              
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-8 leading-tight">
+                Learn Anything with{' '}
+                <span className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent">
+                  Expertly Crafted
+                </span>{' '}
+                Learning Paths
+              </h1>
+              
+              <p className="text-xl md:text-2xl text-gray-700 dark:text-gray-200 mb-10 leading-relaxed max-w-2xl">
+                Transform your ambitions into achievements with personalized roadmaps that adapt to your pace, 
+                style, and goals. Experience the future of education.
+              </p>
+              
+              <div className="flex flex-col sm:flex-row gap-6 mb-12">
+                <button 
+                  onClick={() => document.getElementById('generate').scrollIntoView({ behavior: 'smooth' })}
+                  className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white text-lg px-10 py-4 rounded-full font-semibold shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 group"
+                >
+                  <span>Start Your Journey</span>
+                  <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+                </button>
+                <button 
+                  onClick={() => router.push('/explore')}
+                  className="bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/20 text-white text-lg px-8 py-4 rounded-full font-semibold transition-all duration-300 hover:shadow-xl group"
+                >
+                  <BookOpen className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
+                  <span>Explore Roadmaps</span>
+                </button>
               </div>
             </div>
-            
-            <h1 className="heading-primary mb-8">
-              Learn Anything with{' '}
-              <span className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent">
-                Expertly Crafted
-              </span>{' '}
-              Learning Paths
-            </h1>
-            
-            <p className="text-xl md:text-2xl text-body max-w-4xl mx-auto mb-10 leading-relaxed">
-              Transform your ambitions into achievements with personalized roadmaps that adapt to your pace, 
-              style, and goals. Experience the future of education.
-            </p>
-            
-            <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-12">
-              <button 
-                onClick={() => document.getElementById('generate').scrollIntoView({ behavior: 'smooth' })}
-                className="btn-primary text-lg px-10 py-4 group"
-              >
-                <span>Start Your Journey</span>
-                <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
-              </button>
-              <button 
-                onClick={() => router.push('/explore')}
-                className="btn-ghost text-lg px-8 py-4 group"
-              >
-                <BookOpen className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
-                <span>Explore Roadmaps</span>
-              </button>
+
+            {/* Right Column - Animation */}
+            <div className="flex justify-center lg:justify-end">
+              <div className="w-full max-w-lg">
+                <SimpleLearningAnimation />
+              </div>
             </div>
           </div>
 
-          {/* Enhanced Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 lg:gap-8">
-            <div className="glass-card rounded-2xl p-6 text-center group smooth-hover">
-              <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center mx-auto mb-4">
-                <Users className="w-6 h-6 text-white" />
+          {/* Enhanced Stats - More Spacious Layout */}
+          <div className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-8 lg:gap-12">
+            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 text-center border border-white/20 shadow-xl hover:bg-white/20 transition-all duration-300 group">
+              <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300">
+                <Users className="w-8 h-8 text-white" />
               </div>
-              <div className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent mb-2">50K+</div>
-              <div className="text-sm font-semibold text-gray-700 dark:text-gray-300">Active Learners</div>
+              <div className="text-4xl md:text-5xl font-bold text-white mb-3 drop-shadow-sm">50K+</div>
+              <div className="text-base font-semibold text-blue-100">Active Learners</div>
             </div>
-            <div className="glass-card rounded-2xl p-6 text-center group smooth-hover">
-              <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-600 rounded-xl flex items-center justify-center mx-auto mb-4">
-                <Target className="w-6 h-6 text-white" />
+            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 text-center border border-white/20 shadow-xl hover:bg-white/20 transition-all duration-300 group">
+              <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300">
+                <Target className="w-8 h-8 text-white" />
               </div>
-              <div className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-2">1M+</div>
-              <div className="text-sm font-semibold text-gray-700 dark:text-gray-300">Learning Paths</div>
+              <div className="text-4xl md:text-5xl font-bold text-white mb-3 drop-shadow-sm">1M+</div>
+              <div className="text-base font-semibold text-purple-100">Learning Paths</div>
             </div>
-            <div className="glass-card rounded-2xl p-6 text-center group smooth-hover">
-              <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-emerald-600 rounded-xl flex items-center justify-center mx-auto mb-4">
-                <TrendingUp className="w-6 h-6 text-white" />
+            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 text-center border border-white/20 shadow-xl hover:bg-white/20 transition-all duration-300 group">
+              <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300">
+                <TrendingUp className="w-8 h-8 text-white" />
               </div>
-              <div className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent mb-2">95%</div>
-              <div className="text-sm font-semibold text-gray-700 dark:text-gray-300">Success Rate</div>
+              <div className="text-4xl md:text-5xl font-bold text-white mb-3 drop-shadow-sm">95%</div>
+              <div className="text-base font-semibold text-green-100">Success Rate</div>
             </div>
-            <div className="glass-card rounded-2xl p-6 text-center group smooth-hover">
-              <div className="w-12 h-12 bg-gradient-to-r from-orange-500 to-red-600 rounded-xl flex items-center justify-center mx-auto mb-4">
-                <Sparkles className="w-6 h-6 text-white" />
+            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 text-center border border-white/20 shadow-xl hover:bg-white/20 transition-all duration-300 group">
+              <div className="w-16 h-16 bg-gradient-to-r from-orange-500 to-red-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300">
+                <Sparkles className="w-8 h-8 text-white" />
               </div>
-              <div className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent mb-2">500+</div>
-              <div className="text-sm font-semibold text-gray-700 dark:text-gray-300">Topics Available</div>
+              <div className="text-4xl md:text-5xl font-bold text-white mb-3 drop-shadow-sm">500+</div>
+              <div className="text-base font-semibold text-orange-100">Topics Available</div>
             </div>
           </div>
         </div>
-      </section>
+      </PromotionalBackground>
 
       {/* Features Section */}
       <section className="py-32 bg-gradient-to-b from-white to-gray-50/50 dark:from-gray-900 dark:to-gray-800/50 transition-colors duration-300">

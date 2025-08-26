@@ -73,7 +73,7 @@ interface CuratedRoadmapDetail {
 
 // Generate structured data for SEO
 const generateRoadmapStructuredData = (roadmap: CuratedRoadmapDetail) => {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://menttor.vercel.app';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://menttor.live';
   
   return {
     "@context": "https://schema.org",
@@ -152,7 +152,7 @@ const generateRoadmapStructuredData = (roadmap: CuratedRoadmapDetail) => {
 
 // Generate breadcrumb structured data
 const generateBreadcrumbStructuredData = (roadmap: CuratedRoadmapDetail) => {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://menttor.vercel.app';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://menttor.live';
   
   return {
     "@context": "https://schema.org",

@@ -254,11 +254,8 @@ OUTPUT REQUIREMENTS:
                     image.save(img_buffer, format='PNG')
                     image_bytes = img_buffer.getvalue()
                 
-                # Add Menttor branding to the image
-                branded_image_bytes = self._add_menttor_branding(image_bytes)
-                
-                # Convert to base64 for web delivery
-                image_base64 = base64.b64encode(branded_image_bytes).decode('utf-8')
+                # Convert to base64 for web delivery (no branding overlay)
+                image_base64 = base64.b64encode(image_bytes).decode('utf-8')
                 image_data_url = f"data:image/png;base64,{image_base64}"
                 
                 return {

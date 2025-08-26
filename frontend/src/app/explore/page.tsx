@@ -76,7 +76,7 @@ const generateStructuredData = (roadmaps: CuratedRoadmap[]) => {
       "provider": {
         "@type": "Organization",
         "name": "Menttor Labs",
-        "url": process.env.NEXT_PUBLIC_SITE_URL || "https://menttor.vercel.app"
+        "url": process.env.NEXT_PUBLIC_SITE_URL || "https://menttor.live"
       },
       "courseCode": roadmap.slug || roadmap.id.toString(),
       "educationalLevel": roadmap.difficulty,
@@ -87,7 +87,7 @@ const generateStructuredData = (roadmaps: CuratedRoadmap[]) => {
         "ratingValue": roadmap.average_rating,
         "ratingCount": roadmap.adoption_count
       } : undefined,
-      "url": `${process.env.NEXT_PUBLIC_SITE_URL || 'https://menttor.vercel.app'}/explore/${roadmap.slug || roadmap.id}`
+      "url": `${process.env.NEXT_PUBLIC_SITE_URL || 'https://menttor.live'}/explore/${roadmap.slug || roadmap.id}`
     }
   }));
 

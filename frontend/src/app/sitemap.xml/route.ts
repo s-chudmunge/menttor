@@ -10,7 +10,7 @@ interface CuratedRoadmap {
 }
 
 export async function GET() {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://menttor.vercel.app';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://menttor.live';
 
   // Static routes
   const staticUrls = [

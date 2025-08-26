@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="60" viewBox="0 0 200 60">
+  <style>
+    .text {
+      font-family: sans-serif;
+      font-size: 30px;
+      font-weight: bold;
+    }
+    .slogan {
+      font-family: sans-serif;
+      font-size: 12px;
+    }
+  </style>
+  <g transform="translate(10, 10)">
+    <g>
+      <rect width="40" height="40" rx="8" ry="8" fill="url(#grad)" />
+      <path d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09V17h2V9L12 3zm6.82 6L12 12.72 5.18 9 12 5.28 18.82 9zM17 15.99l-5 2.73-5-2.73v-3.72L12 15l5-2.73v3.72z" fill="white" transform="translate(8, 8) scale(1.2)"/>
+    </g>
+    <text x="50" y="25" class="text" fill="black">Menttor</text>
+    <text x="50" y="45" class="slogan" fill="gray">Smart Learning</text>
+  </g>
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4F46E5;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#8B5CF6;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+</svg>

@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://menttor.vercel.app/</loc>
+    <loc>https://menttor.live/</loc>
     <lastmod>2025-08-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://menttor.vercel.app/explore</loc>
+    <loc>https://menttor.live/explore</loc>
     <lastmod>2025-08-25</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://menttor.vercel.app/help</loc>
+    <loc>https://menttor.live/help</loc>
     <lastmod>2025-08-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://menttor.vercel.app/sitemap</loc>
+    <loc>https://menttor.live/sitemap</loc>
     <lastmod>2025-08-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>

@@ -6,7 +6,7 @@ export async function GET(request: NextRequest) {
 
   if (check === 'sitemap') {
     // Return sitemap status
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://menttor.vercel.app';
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://menttor.live';
     
     return NextResponse.json({
       sitemap_url: `${baseUrl}/sitemap.xml`,
