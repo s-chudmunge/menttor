@@ -104,4 +104,4 @@ fi
 
 # Start the FastAPI application with memory optimization
 echo "🌟 Starting FastAPI application..."
-exec python -m uvicorn main:app --host 0.0.0.0 --port $PORT --workers 1 --worker-class uvicorn.workers.UvicornWorker
+exec python -m uvicorn main:app --host 0.0.0.0 --port $PORT --workers 1
