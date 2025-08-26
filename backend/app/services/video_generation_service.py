@@ -9,6 +9,8 @@ import os
 from pathlib import Path
 from vertexai import init
 from vertexai.preview.vision_models import ImageGenerationModel
+from PIL import Image, ImageDraw, ImageFont
+import io
 
 logger = logging.getLogger(__name__)
 
@@ -123,6 +125,95 @@ OUTPUT REQUIREMENTS:
 
         return prompt
     
+    def _add_menttor_branding(self, image_bytes: bytes) -> bytes:
+        """Add Menttor logo and branding to the generated image."""
+        try:
+            # Open the generated image
+            image = Image.open(io.BytesIO(image_bytes))
+            draw = ImageDraw.Draw(image)
+            
+            # Get image dimensions
+            width, height = image.size
+            
+            # Create a semi-transparent overlay for branding
+            overlay = Image.new('RGBA', (width, height), (0, 0, 0, 0))
+            overlay_draw = ImageDraw.Draw(overlay)
+            
+            # Logo area dimensions (top-right corner)
+            logo_width = int(width * 0.25)  # 25% of image width
+            logo_height = int(height * 0.15)  # 15% of image height
+            logo_x = width - logo_width - 20
+            logo_y = 20
+            
+            # Create logo background with gradient effect
+            logo_bg = Image.new('RGBA', (logo_width, logo_height), (0, 0, 0, 0))
+            logo_draw = ImageDraw.Draw(logo_bg)
+            
+            # Draw rounded rectangle background for logo
+            logo_draw.rounded_rectangle(
+                [(0, 0), (logo_width, logo_height)],
+                radius=15,
+                fill=(67, 70, 229, 200),  # Purple with transparency
+                outline=(139, 92, 246, 255),  # Purple border
+                width=2
+            )
+            
+            # Try to load a font, fallback to default if not available
+            try:
+                # Try to use a system font
+                title_font = ImageFont.truetype("/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf", 
+                                               size=int(logo_height * 0.35))
+                subtitle_font = ImageFont.truetype("/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf", 
+                                                 size=int(logo_height * 0.2))
+            except (OSError, IOError):
+                # Fallback to default font
+                title_font = ImageFont.load_default()
+                subtitle_font = ImageFont.load_default()
+            
+            # Add "Menttor" text
+            title_text = "Menttor"
+            title_bbox = logo_draw.textbbox((0, 0), title_text, font=title_font)
+            title_width = title_bbox[2] - title_bbox[0]
+            title_x = (logo_width - title_width) // 2
+            title_y = int(logo_height * 0.2)
+            
+            logo_draw.text((title_x, title_y), title_text, 
+                          fill=(255, 255, 255, 255), font=title_font)
+            
+            # Add "Smart Learning" subtitle
+            subtitle_text = "Smart Learning"
+            subtitle_bbox = logo_draw.textbbox((0, 0), subtitle_text, font=subtitle_font)
+            subtitle_width = subtitle_bbox[2] - subtitle_bbox[0]
+            subtitle_x = (logo_width - subtitle_width) // 2
+            subtitle_y = int(logo_height * 0.65)
+            
+            logo_draw.text((subtitle_x, subtitle_y), subtitle_text, 
+                          fill=(200, 200, 255, 255), font=subtitle_font)
+            
+            # Paste logo onto overlay
+            overlay.paste(logo_bg, (logo_x, logo_y), logo_bg)
+            
+            
+            # Composite the overlay onto the original image
+            if image.mode != 'RGBA':
+                image = image.convert('RGBA')
+            
+            branded_image = Image.alpha_composite(image, overlay)
+            
+            # Convert back to RGB for final output
+            final_image = Image.new('RGB', branded_image.size, (255, 255, 255))
+            final_image.paste(branded_image, mask=branded_image.split()[-1])
+            
+            # Save to bytes
+            output = io.BytesIO()
+            final_image.save(output, format='PNG', quality=95)
+            return output.getvalue()
+            
+        except Exception as e:
+            logger.error(f"Failed to add branding to image: {e}")
+            # Return original image if branding fails
+            return image_bytes
+    
     async def generate_promotional_video(
         self,
         concept: str = "Menttor Smart Learning Platform",
@@ -159,13 +250,15 @@ OUTPUT REQUIREMENTS:
                 if hasattr(image, '_image_bytes'):
                     image_bytes = image._image_bytes
                 else:
-                    import io
                     img_buffer = io.BytesIO()
                     image.save(img_buffer, format='PNG')
                     image_bytes = img_buffer.getvalue()
                 
+                # Add Menttor branding to the image
+                branded_image_bytes = self._add_menttor_branding(image_bytes)
+                
                 # Convert to base64 for web delivery
-                image_base64 = base64.b64encode(image_bytes).decode('utf-8')
+                image_base64 = base64.b64encode(branded_image_bytes).decode('utf-8')
                 image_data_url = f"data:image/png;base64,{image_base64}"
                 
                 return {
