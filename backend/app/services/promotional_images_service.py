@@ -190,6 +190,13 @@ class PromotionalImagesService:
                 session.rollback()
             
             return selected_image
+            
+        except Exception as e:
+            logger.error(f"Error getting current image: {e}")
+            session.rollback()
+            return None
+        finally:
+            session.close()
     
     def get_all_images(self) -> List[PromotionalImage]:
         """Get all promotional images from database."""
