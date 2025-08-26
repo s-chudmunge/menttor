@@ -72,47 +72,74 @@ class PromotionalImagesService:
         return generated_images
     
     async def save_images_to_database(self, images: List[Dict[str, Any]]) -> List[PromotionalImage]:
-        """Save generated images to the database."""
-        logger.info(f"Saving {len(images)} images to database")
+        """Save generated images to the database in batches of 5."""
+        logger.info(f"Saving {len(images)} images to database in batches of 5")
         
-        saved_images = []
+        all_saved_images = []
+        batch_size = 5
         
-        with Session(next(get_db())) as session:
-            for image_data in images:
-                try:
-                    promotional_image = PromotionalImage(
-                        image_url=image_data["url"],
-                        prompt=image_data.get("prompt", ""),
-                        model=image_data.get("model", "vertex-ai-imagen"),
-                        concept=image_data.get("concept", "promotional content"),
-                        quality=image_data.get("quality", "high"),
-                        width=1920,
-                        height=1080,
-                        aspect_ratio="16:9",
-                        is_active=True,
-                        usage_count=0
-                    )
-                    
-                    session.add(promotional_image)
-                    saved_images.append(promotional_image)
-                    
-                except Exception as e:
-                    logger.error(f"Error saving image to database: {e}")
-                    continue
+        # Process images in batches of 5
+        for i in range(0, len(images), batch_size):
+            batch = images[i:i + batch_size]
+            batch_num = (i // batch_size) + 1
+            
+            logger.info(f"Processing batch {batch_num}: {len(batch)} images")
+            
+            # Get fresh database session for each batch
+            db_gen = get_db()
+            session = next(db_gen)
             
             try:
+                batch_saved_images = []
+                
+                for image_data in batch:
+                    try:
+                        promotional_image = PromotionalImage(
+                            image_url=image_data["url"],
+                            prompt=image_data.get("prompt", ""),
+                            model=image_data.get("model", "vertex-ai-imagen"),
+                            concept=image_data.get("concept", "promotional content"),
+                            quality=image_data.get("quality", "high"),
+                            width=1920,
+                            height=1080,
+                            aspect_ratio="16:9",
+                            is_active=True,
+                            usage_count=0
+                        )
+                        
+                        session.add(promotional_image)
+                        batch_saved_images.append(promotional_image)
+                        
+                    except Exception as e:
+                        logger.error(f"Error preparing image for database: {e}")
+                        continue
+                
+                # Commit this batch
                 session.commit()
-                logger.info(f"Successfully saved {len(saved_images)} images to database")
+                
+                # Refresh to get IDs
+                for img in batch_saved_images:
+                    session.refresh(img)
+                
+                all_saved_images.extend(batch_saved_images)
+                logger.info(f"Successfully saved batch {batch_num}: {len(batch_saved_images)} images")
+                
             except Exception as e:
                 session.rollback()
-                logger.error(f"Error committing images to database: {e}")
-                raise
+                logger.error(f"Error committing batch {batch_num}: {e}")
+                # Continue with next batch instead of raising
+            finally:
+                session.close()
         
-        return saved_images
+        logger.info(f"Completed batch saving: {len(all_saved_images)} total images saved")
+        return all_saved_images
     
     def get_current_image(self) -> Optional[PromotionalImage]:
         """Get the current image for rotation based on time and usage."""
-        with Session(next(get_db())) as session:
+        db_gen = get_db()
+        session = next(db_gen)
+        
+        try:
             # Get all active images
             statement = select(PromotionalImage).where(PromotionalImage.is_active == True)
             images = session.exec(statement).all()
