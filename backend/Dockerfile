@@ -20,9 +20,11 @@ COPY app/ ./
 COPY alembic.ini ./
 COPY alembic/ ./alembic/
 COPY start.sh ./start.sh
+COPY start_fresh.sh ./start_fresh.sh
+COPY start_migration.sh ./start_migration.sh
 
-# Make start script executable
-RUN chmod +x ./start.sh
+# Make start scripts executable
+RUN chmod +x ./start.sh ./start_fresh.sh ./start_migration.sh
 
-# Use our custom start script
-CMD ["./start.sh"]
+# Use migration script that handles both fresh setup and future migrations
+CMD ["./start_migration.sh"]

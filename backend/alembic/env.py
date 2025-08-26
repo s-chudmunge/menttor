@@ -40,7 +40,7 @@ def run_migrations_offline() -> None:
     script output.
 
     """
-    url = settings.DATABASE_URL
+    url = settings.get_database_url()
     context.configure(
         url=url,
         target_metadata=target_metadata,
@@ -61,7 +61,9 @@ def run_migrations_online() -> None:
     """
     # Use the same database configuration as the main app
     from sqlalchemy import create_engine
-    connectable = create_engine(settings.DATABASE_URL)
+    database_url = settings.get_database_url()
+    print(f"🔍 Using database URL: {database_url.replace(settings.POSTGRES_PASSWORD, '****') if settings.POSTGRES_PASSWORD else database_url}")
+    connectable = create_engine(database_url)
 
     with connectable.connect() as connection:
         context.configure(

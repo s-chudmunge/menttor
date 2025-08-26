@@ -1,8 +1,8 @@
 #!/bin/bash
 
-# Menttor Backend Startup Script for Render Docker with Google Cloud SQL Auth Proxy
+# Menttor Backend Startup Script - Fresh Database Setup
 
-echo "🚀 Starting Menttor Backend..."
+echo "🚀 Starting Menttor Backend with fresh database setup..."
 
 # Set environment variables for Cloud SQL
 export USE_CLOUD_SQL_AUTH_PROXY=true
@@ -20,42 +20,27 @@ fi
 # Set Python path for Docker container
 export PYTHONPATH=/app
 
-# Debug environment variables
-echo "🔍 Environment check:"
-echo "USE_CLOUD_SQL_AUTH_PROXY: $USE_CLOUD_SQL_AUTH_PROXY"
-echo "POSTGRES_USER: $POSTGRES_USER"
-echo "POSTGRES_DB: $POSTGRES_DB"
-echo "GOOGLE_CLOUD_PROJECT_ID: $GOOGLE_CLOUD_PROJECT_ID"
-
-# Test database connection first
-echo "🔧 Testing database connection..."
+# Create fresh database tables (skip migrations)
+echo "🔧 Creating fresh database tables..."
 python -c "
 import sys
 sys.path.append('/app')
-from core.config import settings
-print(f'Database URL configured: {settings.get_database_url()[:50]}...')
-"
 
-# Run database migrations
-echo "🔧 Running database migrations..."
-python -m alembic upgrade head
-
-if [ $? -ne 0 ]; then
-    echo "❌ Database migration failed. Trying fresh table creation..."
-    python -c "
-import sys
-sys.path.append('/app')
 try:
     from database.session import create_db_and_tables
     create_db_and_tables()
-    print('✅ Fresh database tables created successfully')
+    print('✅ Database tables created successfully')
 except Exception as e:
     print(f'❌ Failed to create database tables: {e}')
     sys.exit(1)
-    "
+"
+
+if [ $? -ne 0 ]; then
+    echo "❌ Database table creation failed. Exiting..."
+    exit 1
 fi
 
-echo "✅ Database migrations completed successfully"
+echo "✅ Database setup completed successfully"
 
 # Start the FastAPI application
 echo "🌟 Starting FastAPI application..."
