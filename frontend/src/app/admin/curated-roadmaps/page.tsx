@@ -39,6 +39,8 @@ export default function AdminCuratedRoadmaps() {
   const [generating, setGenerating] = useState<number | null>(null)
   const [clearing, setClearing] = useState(false)
   const [message, setMessage] = useState('')
+  const [generatingImages, setGeneratingImages] = useState(false)
+  const [imageMessage, setImageMessage] = useState('')
 
   // Create basic auth header
   const createAuthHeader = () => {
@@ -165,6 +167,39 @@ export default function AdminCuratedRoadmaps() {
     }
   }
 
+  // Generate promotional images
+  const generatePromotionalImages = async () => {
+    if (!confirm('Generate 12 promotional images for the main page? This will take a few minutes.')) {
+      return
+    }
+
+    setGeneratingImages(true)
+    setImageMessage('Generating promotional images... This may take 3-5 minutes.')
+    
+    try {
+      const response = await fetch(`${BACKEND_URL}/api/promotional-images/generate-bulk`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ count: 12 })
+      })
+
+      const result = await response.json()
+      
+      if (result.success) {
+        setImageMessage(`✅ Successfully generated ${result.generated_count} promotional images! They will now rotate on the main page.`)
+      } else {
+        setImageMessage(`❌ Failed to generate images: ${result.error || 'Unknown error'}`)
+      }
+    } catch (error) {
+      console.error('Error generating images:', error)
+      setImageMessage('❌ Error generating promotional images')
+    } finally {
+      setGeneratingImages(false)
+    }
+  }
+
   // Login form
   if (!isAuthenticated) {
     return (
@@ -233,6 +268,13 @@ export default function AdminCuratedRoadmaps() {
             </div>
             <div className="flex gap-3">
               <button
+                onClick={generatePromotionalImages}
+                disabled={generatingImages}
+                className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-md transition duration-150 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {generatingImages ? 'Generating...' : '🎨 Generate Images'}
+              </button>
+              <button
                 onClick={clearAllRoadmaps}
                 disabled={clearing || (adminStatus?.total_generated === 0)}
                 className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-md transition duration-150 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed"
@@ -270,10 +312,17 @@ export default function AdminCuratedRoadmaps() {
           </div>
         )}
 
-        {/* Message */}
+        {/* Messages */}
         {message && (
           <div className="bg-white rounded-lg shadow-sm p-4 mb-6">
             <div className="text-center font-medium">{message}</div>
+          </div>
+        )}
+        
+        {/* Image Generation Message */}
+        {imageMessage && (
+          <div className="bg-purple-50 border border-purple-200 rounded-lg shadow-sm p-4 mb-6">
+            <div className="text-center font-medium text-purple-800">{imageMessage}</div>
           </div>
         )}
 
