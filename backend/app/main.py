@@ -118,6 +118,40 @@ app.include_router(image_generation.router, prefix="/images")
 app.include_router(curated_roadmaps.router)
 app.include_router(monitoring.router)
 
+# Temporary database test endpoint
+@app.get("/test-db")
+async def test_database():
+    """Test database connectivity"""
+    try:
+        from database.session import engine
+        from sqlalchemy import text
+        
+        with engine.connect() as conn:
+            result = conn.execute(text("SELECT 1 as test"))
+            data = result.fetchone()
+            
+            # Test table existence
+            tables_result = conn.execute(text("""
+                SELECT COUNT(*) as table_count 
+                FROM information_schema.tables 
+                WHERE table_schema = 'public'
+            """))
+            table_count = tables_result.fetchone()[0]
+            
+            return {
+                "status": "success",
+                "message": "Database connection working!",
+                "test_query": data[0],
+                "tables_count": table_count,
+                "connection_url": "postgresql://admin-db:****@34.93.60.80:5432/menttor-db"
+            }
+            
+    except Exception as e:
+        return {
+            "status": "error", 
+            "message": f"Database connection failed: {str(e)}"
+        }
+
 from core.auth import get_current_user_from_websocket
 from database.session import get_db
 
