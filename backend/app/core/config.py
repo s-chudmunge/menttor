@@ -48,7 +48,7 @@ class Settings(BaseSettings):
     FIREBASE_CREDENTIALS: str
     ENABLE_AUTH_BYPASS: bool = False  # Set to True to bypass auth for testing
     
-    CORS_ALLOWED_ORIGINS: str = "http://localhost:3000,http://localhost:3001,http://127.0.0.1:3000,http://127.0.0.1:3001"
+    CORS_ALLOWED_ORIGINS: str = "http://localhost:3000,http://localhost:3001,http://127.0.0.1:3000,http://127.0.0.1:3001,https://menttor.live,https://www.menttor.live,https://menttor.vercel.app"
     
     # Google Cloud SQL Configuration
     USE_CLOUD_SQL_AUTH_PROXY: bool = False
