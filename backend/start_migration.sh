@@ -76,10 +76,11 @@ import sys
 sys.path.append('/app')
 try:
     from database.session import engine
+    from sqlalchemy import text
     with engine.connect() as conn:
         # Create a simple migration marker
-        conn.execute(\"CREATE TABLE IF NOT EXISTS _migration_status (migrated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP)\")
-        conn.execute(\"INSERT INTO _migration_status DEFAULT VALUES\")
+        conn.execute(text('CREATE TABLE IF NOT EXISTS _migration_status (migrated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP)'))
+        conn.execute(text('INSERT INTO _migration_status DEFAULT VALUES'))
         conn.commit()
         print('✅ Migration marker created')
 except Exception as e:
@@ -101,6 +102,6 @@ else
     echo "✅ Database migrations completed successfully"
 fi
 
-# Start the FastAPI application
+# Start the FastAPI application with memory optimization
 echo "🌟 Starting FastAPI application..."
-exec python -m uvicorn main:app --host 0.0.0.0 --port $PORT --workers 4
+exec python -m uvicorn main:app --host 0.0.0.0 --port $PORT --workers 1 --worker-class uvicorn.workers.UvicornWorker
