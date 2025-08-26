@@ -22,9 +22,10 @@ COPY alembic/ ./alembic/
 COPY start.sh ./start.sh
 COPY start_fresh.sh ./start_fresh.sh
 COPY start_migration.sh ./start_migration.sh
+COPY start_fast.sh ./start_fast.sh
 
 # Make start scripts executable
-RUN chmod +x ./start.sh ./start_fresh.sh ./start_migration.sh
+RUN chmod +x ./start.sh ./start_fresh.sh ./start_migration.sh ./start_fast.sh
 
-# Use migration script that handles both fresh setup and future migrations
-CMD ["./start_migration.sh"]
+# Use fast startup to avoid timeout issues
+CMD ["./start_fast.sh"]
