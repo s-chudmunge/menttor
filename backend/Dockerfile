@@ -21,9 +21,10 @@ COPY alembic.ini ./
 COPY alembic/ ./alembic/
 COPY start.sh ./start.sh
 COPY start_production.sh ./start_production.sh
+COPY start_fast_production.sh ./start_fast_production.sh
 
 # Make start scripts executable
-RUN chmod +x ./start.sh ./start_production.sh
+RUN chmod +x ./start.sh ./start_production.sh ./start_fast_production.sh
 
-# Use production-safe startup that preserves all user data
-CMD ["./start_production.sh"]
+# Use fast production startup for quick deployments
+CMD ["./start_fast_production.sh"]
