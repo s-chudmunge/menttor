@@ -29,5 +29,4 @@ jinja2==3.1.4
 json-repair==0.48.0
 pillow
 instructor
-google-cloud-sql-connector
-pg8000
+cloud-sql-python-connector[pg8000]==1.11.0
