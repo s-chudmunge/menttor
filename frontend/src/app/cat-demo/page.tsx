@@ -1,81 +1,229 @@
 "use client";
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import SimpleLearningAnimation from '../../components/CatLearningAnimation';
 
+interface VideoData {
+  success: boolean;
+  url?: string;
+  prompt?: string;
+  model?: string;
+  concept?: string;
+  duration?: number;
+  quality?: string;
+  type?: string;
+  mime_type?: string;
+  error?: string;
+}
+
 export default function LearningAnimationDemoPage() {
+  const [videoData, setVideoData] = useState<VideoData | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [showAnimation, setShowAnimation] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const generateVideo = async () => {
+    setLoading(true);
+    setError(null);
+    
+    try {
+      const response = await fetch('/api/video/generate-promo', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          concept: "Menttor Smart Learning Platform",
+          duration_seconds: 12,
+          quality: "high"
+        }),
+      });
+
+      const data: VideoData = await response.json();
+      
+      if (data.success && data.url) {
+        setVideoData(data);
+        setShowAnimation(false);
+      } else {
+        setError(data.error || 'Video generation failed');
+      }
+    } catch (err) {
+      setError('Failed to connect to video generation service');
+      console.error('Video generation error:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50 dark:from-gray-900 dark:via-blue-900 dark:to-gray-800 flex items-center justify-center p-8 transition-colors duration-300">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-slate-900 dark:text-white mb-4">
-            Simple Learning Animation
+            Menttor Promotional Video
           </h1>
           <p className="text-xl text-slate-600 dark:text-gray-300 mb-8">
-            Clean, minimal design inspired by LiteLLM - immediately clear value proposition
+            AI-generated promotional content featuring our tech-savvy cat mascot and brand
           </p>
-          <div className="text-sm text-slate-500 dark:text-gray-400 bg-white/80 dark:bg-gray-800/50 rounded-xl p-6 inline-block border border-slate-200 dark:border-gray-700">
-            <strong className="text-slate-700 dark:text-gray-300">Enhanced & Spacious:</strong><br/>
-            <div className="mt-3 space-y-1 text-left">
-              <div>🎯 <strong>More spacious:</strong> Larger canvas (500px vs 400px) with better breathing room</div>
-              <div>✨ <strong>Smooth connections:</strong> Curved SVG paths with gradients and animations</div>
-              <div>🎨 <strong>Better elements:</strong> Larger, more prominent components with hover effects</div>
-              <div>⚡ <strong>Fluid animations:</strong> Ease-out transitions with staggered timing</div>
-              <div>🌟 <strong>Ambient details:</strong> Floating particles and enhanced visual hierarchy</div>
+          {!videoData && (
+            <div className="text-sm text-slate-500 dark:text-gray-400 bg-white/80 dark:bg-gray-800/50 rounded-xl p-6 inline-block border border-slate-200 dark:border-gray-700">
+              <strong className="text-slate-700 dark:text-gray-300">AI Video Generation:</strong><br/>
+              <div className="mt-3 space-y-1 text-left">
+                <div>🎬 <strong>Vertex AI Veo 3:</strong> Professional quality video generation</div>
+                <div>🐱 <strong>Tech Cat Mascot:</strong> Featuring our AR goggle-wearing cat</div>
+                <div>🎨 <strong>Brand Integration:</strong> Menttor logo and "Smart Learning" tagline</div>
+                <div>⚡ <strong>12-second promo:</strong> Perfect for landing pages and social media</div>
+                <div>🌟 <strong>Cinematic quality:</strong> Professional lighting and smooth camera work</div>
+              </div>
+              <div className="mt-4 pt-3 border-t border-slate-300 dark:border-gray-600">
+                <em>AI-powered promotional content • Brand-focused • High-quality output</em>
+              </div>
             </div>
-            <div className="mt-4 pt-3 border-t border-slate-300 dark:border-gray-600">
-              <em>8-second cycle • Professional & spacious • Smooth animations</em>
+          )}
+          
+          {/* Generate Video Button */}
+          {!videoData && (
+            <div className="mt-8">
+              <button 
+                onClick={generateVideo}
+                disabled={loading}
+                className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 disabled:from-gray-400 disabled:to-gray-500 text-white font-semibold py-4 px-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 disabled:transform-none disabled:hover:scale-100"
+              >
+                {loading ? (
+                  <div className="flex items-center space-x-2">
+                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                    <span>Generating Video with Veo 3...</span>
+                  </div>
+                ) : (
+                  <div className="flex items-center space-x-2">
+                    <span>🎬</span>
+                    <span>Generate Promotional Video</span>
+                  </div>
+                )}
+              </button>
             </div>
-          </div>
+          )}
+
+          {/* Error Display */}
+          {error && (
+            <div className="mt-8 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl p-4">
+              <div className="flex items-center space-x-2 text-red-700 dark:text-red-400">
+                <span>⚠️</span>
+                <strong>Error:</strong>
+                <span>{error}</span>
+              </div>
+            </div>
+          )}
         </div>
 
-        {/* Main Animation */}
+        {/* Main Content Area */}
         <div className="flex justify-center mb-12">
-          <SimpleLearningAnimation />
+          {showAnimation && !videoData ? (
+            <SimpleLearningAnimation />
+          ) : videoData?.url ? (
+            <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-xl border border-slate-200 dark:border-gray-700">
+              <div className="text-center mb-4">
+                <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">
+                  Generated Promotional Video
+                </h3>
+                <p className="text-slate-600 dark:text-gray-300">
+                  Featuring our tech cat mascot and Menttor branding
+                </p>
+              </div>
+              
+              <div className="relative max-w-2xl mx-auto">
+                <video 
+                  src={videoData.url}
+                  controls
+                  autoPlay
+                  loop
+                  className="w-full h-auto rounded-xl shadow-lg"
+                  style={{ aspectRatio: '16/9' }}
+                >
+                  Your browser does not support the video tag.
+                </video>
+              </div>
+              
+              {/* Video Details */}
+              <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                <div className="bg-slate-50 dark:bg-gray-700 rounded-lg p-3">
+                  <div className="font-semibold text-slate-700 dark:text-gray-300">Model</div>
+                  <div className="text-slate-600 dark:text-gray-400">{videoData.model}</div>
+                </div>
+                <div className="bg-slate-50 dark:bg-gray-700 rounded-lg p-3">
+                  <div className="font-semibold text-slate-700 dark:text-gray-300">Duration</div>
+                  <div className="text-slate-600 dark:text-gray-400">{videoData.duration}s</div>
+                </div>
+                <div className="bg-slate-50 dark:bg-gray-700 rounded-lg p-3">
+                  <div className="font-semibold text-slate-700 dark:text-gray-300">Quality</div>
+                  <div className="text-slate-600 dark:text-gray-400">{videoData.quality}</div>
+                </div>
+              </div>
+              
+              {/* Action Buttons */}
+              <div className="mt-6 flex flex-wrap gap-4 justify-center">
+                <button 
+                  onClick={() => {
+                    setVideoData(null);
+                    setShowAnimation(true);
+                  }}
+                  className="bg-slate-600 hover:bg-slate-700 text-white font-medium py-2 px-6 rounded-lg transition-colors duration-300"
+                >
+                  Generate New Video
+                </button>
+                <button 
+                  onClick={() => window.open(videoData.url, '_blank')}
+                  className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-lg transition-colors duration-300"
+                >
+                  Download Video
+                </button>
+              </div>
+            </div>
+          ) : null}
         </div>
 
         {/* Features */}
         <div className="bg-white/70 dark:bg-gray-800/30 rounded-2xl p-8 text-center border border-slate-200 dark:border-gray-700">
-          <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Perfect for Professional Platforms</h3>
+          <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">AI-Powered Video Generation</h3>
           <div className="grid md:grid-cols-4 gap-6 text-slate-600 dark:text-gray-300">
             <div className="bg-white dark:bg-gray-700/50 rounded-xl p-6 border border-slate-200 dark:border-gray-600">
-              <div className="text-blue-600 dark:text-blue-400 font-bold text-lg mb-2">Enterprise Ready</div>
-              <div className="text-sm">Clean, professional aesthetic suitable for corporate environments</div>
+              <div className="text-blue-600 dark:text-blue-400 font-bold text-lg mb-2">Vertex AI Veo 3</div>
+              <div className="text-sm">State-of-the-art video generation with cinematic quality</div>
             </div>
             <div className="bg-white dark:bg-gray-700/50 rounded-xl p-6 border border-slate-200 dark:border-gray-600">
-              <div className="text-indigo-600 dark:text-indigo-400 font-bold text-lg mb-2">Performance First</div>
-              <div className="text-sm">Optimized SVG and CSS animations with minimal bundle impact</div>
+              <div className="text-indigo-600 dark:text-indigo-400 font-bold text-lg mb-2">Brand Integration</div>
+              <div className="text-sm">Seamless logo and mascot integration with professional styling</div>
             </div>
             <div className="bg-white dark:bg-gray-700/50 rounded-xl p-6 border border-slate-200 dark:border-gray-600">
-              <div className="text-purple-600 dark:text-purple-400 font-bold text-lg mb-2">Responsive Design</div>
-              <div className="text-sm">Works perfectly across all screen sizes and devices</div>
+              <div className="text-purple-600 dark:text-purple-400 font-bold text-lg mb-2">Promo Ready</div>
+              <div className="text-sm">Perfect for landing pages, social media, and marketing campaigns</div>
             </div>
             <div className="bg-white dark:bg-gray-700/50 rounded-xl p-6 border border-slate-200 dark:border-gray-600">
-              <div className="text-green-600 dark:text-green-400 font-bold text-lg mb-2">Theme Adaptive</div>
-              <div className="text-sm">Seamlessly switches between light and dark modes</div>
+              <div className="text-green-600 dark:text-green-400 font-bold text-lg mb-2">High Quality</div>
+              <div className="text-sm">Professional 1080p HD output optimized for web delivery</div>
             </div>
           </div>
         </div>
 
         {/* Integration Guide */}
         <div className="mt-8 bg-slate-100 dark:bg-gray-800 rounded-xl p-6 border border-slate-200 dark:border-gray-700">
-          <h4 className="text-lg font-semibold text-slate-900 dark:text-white mb-4">Integration Options</h4>
+          <h4 className="text-lg font-semibold text-slate-900 dark:text-white mb-4">Video Usage Scenarios</h4>
           <div className="grid md:grid-cols-2 gap-4 text-sm">
             <div className="space-y-2">
-              <div className="font-medium text-slate-700 dark:text-gray-300">Hero Section:</div>
-              <div className="text-slate-600 dark:text-gray-400">Perfect as main page centerpiece animation</div>
+              <div className="font-medium text-slate-700 dark:text-gray-300">Landing Page Hero:</div>
+              <div className="text-slate-600 dark:text-gray-400">Eye-catching promotional content for homepage header</div>
             </div>
             <div className="space-y-2">
-              <div className="font-medium text-slate-700 dark:text-gray-300">Loading States:</div>
-              <div className="text-slate-600 dark:text-gray-400">Great for course loading or onboarding</div>
+              <div className="font-medium text-slate-700 dark:text-gray-300">Social Media:</div>
+              <div className="text-slate-600 dark:text-gray-400">Branded content for Instagram, Twitter, LinkedIn campaigns</div>
             </div>
             <div className="space-y-2">
-              <div className="font-medium text-slate-700 dark:text-gray-300">Feature Highlights:</div>
-              <div className="text-slate-600 dark:text-gray-400">Showcase learning pathways and skills</div>
+              <div className="font-medium text-slate-700 dark:text-gray-300">About Page:</div>
+              <div className="text-slate-600 dark:text-gray-400">Explain Menttor's mission with engaging visuals</div>
             </div>
             <div className="space-y-2">
-              <div className="font-medium text-slate-700 dark:text-gray-300">About/Demo Pages:</div>
-              <div className="text-slate-600 dark:text-gray-400">Explain platform capabilities visually</div>
+              <div className="font-medium text-slate-700 dark:text-gray-300">Product Demos:</div>
+              <div className="text-slate-600 dark:text-gray-400">Showcase smart learning features and capabilities</div>
             </div>
           </div>
         </div>
@@ -83,10 +231,10 @@ export default function LearningAnimationDemoPage() {
         {/* Navigation */}
         <div className="mt-8 text-center">
           <button 
-            className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold py-3 px-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+            className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-semibold py-3 px-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
             onClick={() => window.location.href = '/'}
           >
-            Back to Main Page
+            🏠 Back to Main Page
           </button>
         </div>
       </div>
