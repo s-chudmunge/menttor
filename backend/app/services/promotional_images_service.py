@@ -2,8 +2,8 @@ import asyncio
 import logging
 from typing import List, Dict, Any, Optional
 from sqlmodel import Session, select
-from database.session import get_db
-from sql_models import PromotionalImage
+from database.session import get_db, engine
+from sql_models import PromotionalImage, SQLModel
 from services.video_generation_service import generate_promotional_video
 from datetime import datetime, timedelta
 import random
@@ -14,6 +14,8 @@ class PromotionalImagesService:
     """Service for managing promotional images with rotation and database storage."""
     
     def __init__(self):
+        # Ensure the promotional images table exists
+        self._ensure_table_exists()
         self.concepts = [
             "Tech cat mentor with AR goggles teaching coding concepts",
             "Futuristic cat guide showing data science visualizations",
@@ -31,6 +33,15 @@ class PromotionalImagesService:
             "Future cat instructor with advanced AI interfaces",
             "Digital native cat teacher with smart learning tools"
         ]
+    
+    def _ensure_table_exists(self):
+        """Ensure the promotional images table exists in the database."""
+        try:
+            # Create the table if it doesn't exist
+            SQLModel.metadata.create_all(engine, tables=[PromotionalImage.__table__])
+            logger.info("Promotional images table ready")
+        except Exception as e:
+            logger.error(f"Error ensuring promotional images table exists: {e}")
     
     async def generate_bulk_images(self, count: int = 12) -> List[Dict[str, Any]]:
         """Generate multiple promotional images with varied concepts."""
