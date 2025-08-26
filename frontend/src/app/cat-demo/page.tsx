@@ -17,14 +17,15 @@ export default function LearningAnimationDemoPage() {
           <div className="text-sm text-slate-500 dark:text-gray-400 bg-white/80 dark:bg-gray-800/50 rounded-xl p-6 inline-block border border-slate-200 dark:border-gray-700">
             <strong className="text-slate-700 dark:text-gray-300">Animation Sequence:</strong><br/>
             <div className="mt-3 space-y-1 text-left">
-              <div>1. 📍 Knowledge nodes appear (Code, Data, Design, Cloud, AI/ML)</div>
-              <div>2. 🔗 Connection lines form between nodes</div>
-              <div>3. 📈 Progress indicator shows learning paths</div>
-              <div>4. 🏆 Skill badges unlock (Expert, Certified, Advanced)</div>
-              <div>5. 🎯 Professional brand reveal</div>
+              <div>0. 🎯 <strong>Immediate Value:</strong> "Master Any Skill in Weeks, Not Years"</div>
+              <div>1. 🌐 Learning ecosystem visualization appears</div>
+              <div>2. 🔗 Structured learning path connections form</div>
+              <div>3. 📊 Real learning scenarios with outcomes</div>
+              <div>4. 📈 Success metrics and social proof</div>
+              <div>5. 🚀 Strong call-to-action with brand</div>
             </div>
             <div className="mt-4 pt-3 border-t border-slate-300 dark:border-gray-600">
-              <em>Loops every 10 seconds • Dark/Light mode compatible</em>
+              <em>18-second cycle • Immediate clarity on platform value • Professional design</em>
             </div>
           </div>
         </div>
