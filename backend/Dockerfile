@@ -19,6 +19,10 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY app/ ./
 COPY alembic.ini ./
 COPY alembic/ ./alembic/
+COPY start.sh ./start.sh
 
-# Use PORT environment variable (required by Render)
-CMD python -m uvicorn main:app --host 0.0.0.0 --port $PORT
+# Make start script executable
+RUN chmod +x ./start.sh
+
+# Use our custom start script
+CMD ["./start.sh"]
