@@ -15,15 +15,16 @@ export default function LearningAnimationDemoPage() {
             Clean, minimal design inspired by LiteLLM - immediately clear value proposition
           </p>
           <div className="text-sm text-slate-500 dark:text-gray-400 bg-white/80 dark:bg-gray-800/50 rounded-xl p-6 inline-block border border-slate-200 dark:border-gray-700">
-            <strong className="text-slate-700 dark:text-gray-300">Simple & Clean:</strong><br/>
+            <strong className="text-slate-700 dark:text-gray-300">Enhanced & Spacious:</strong><br/>
             <div className="mt-3 space-y-1 text-left">
-              <div>✨ <strong>Clear headline:</strong> "Learn Any Skill" - instantly understandable</div>
-              <div>🎯 <strong>Simple diagram:</strong> You → Menttor → Skills (like LiteLLM)</div>
-              <div>📚 <strong>Minimal elements:</strong> No clutter, clean connections</div>
-              <div>⚡ <strong>Fast & readable:</strong> 8-second cycle, easy to grasp</div>
+              <div>🎯 <strong>More spacious:</strong> Larger canvas (500px vs 400px) with better breathing room</div>
+              <div>✨ <strong>Smooth connections:</strong> Curved SVG paths with gradients and animations</div>
+              <div>🎨 <strong>Better elements:</strong> Larger, more prominent components with hover effects</div>
+              <div>⚡ <strong>Fluid animations:</strong> Ease-out transitions with staggered timing</div>
+              <div>🌟 <strong>Ambient details:</strong> Floating particles and enhanced visual hierarchy</div>
             </div>
             <div className="mt-4 pt-3 border-t border-slate-300 dark:border-gray-600">
-              <em>8-second cycle • LiteLLM-inspired simplicity • Professional & clear</em>
+              <em>8-second cycle • Professional & spacious • Smooth animations</em>
             </div>
           </div>
         </div>
