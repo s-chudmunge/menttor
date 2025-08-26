@@ -251,4 +251,4 @@ const CyberpunkCatAnimation = () => {
   );
 };
 
-export default CatLearningAnimation;
+export default CyberpunkCatAnimation;
