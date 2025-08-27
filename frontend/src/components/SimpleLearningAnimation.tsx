@@ -4,185 +4,229 @@ import React from 'react';
 
 export default function SimpleLearningAnimation() {
   return (
-    <div className="relative w-full max-w-7xl mx-auto">
+    <div className="relative w-full max-w-7xl mx-auto bg-gradient-to-br from-purple-900 via-indigo-900 to-purple-800 min-h-screen rounded-2xl overflow-hidden p-8">
       <svg 
         viewBox="0 0 1000 600" 
-        className="w-full h-auto min-h-[500px]"
-        style={{ filter: 'drop-shadow(0 10px 30px rgba(0,0,0,0.15))' }}
+        className="w-full h-auto min-h-[600px]"
       >
-        {/* Background Glow */}
-        <circle cx="500" cy="300" r="400" fill="url(#backgroundGlow)" opacity="0.1"/>
+        {/* Background Grid Pattern */}
+        <defs>
+          <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(139, 92, 246, 0.1)" strokeWidth="1"/>
+          </pattern>
+          
+          {/* Background Glows */}
+          <radialGradient id="backgroundGlow1">
+            <stop offset="0%" stopColor="#8B5CF6" stopOpacity="0.4"/>
+            <stop offset="100%" stopColor="#8B5CF6" stopOpacity="0"/>
+          </radialGradient>
+          
+          <radialGradient id="backgroundGlow2">
+            <stop offset="0%" stopColor="#A855F7" stopOpacity="0.3"/>
+            <stop offset="100%" stopColor="#A855F7" stopOpacity="0"/>
+          </radialGradient>
+          
+          <radialGradient id="backgroundGlow3">
+            <stop offset="0%" stopColor="#6366F1" stopOpacity="0.2"/>
+            <stop offset="100%" stopColor="#6366F1" stopOpacity="0"/>
+          </radialGradient>
+          
+          {/* Glass Card Effect */}
+          <linearGradient id="glassCard" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="rgba(255,255,255,0.1)" stopOpacity="1"/>
+            <stop offset="100%" stopColor="rgba(255,255,255,0.05)" stopOpacity="1"/>
+          </linearGradient>
+          
+          {/* Feature Card Gradient */}
+          <linearGradient id="featureCard" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="rgba(139,92,246,0.2)" stopOpacity="1"/>
+            <stop offset="100%" stopColor="rgba(139,92,246,0.1)" stopOpacity="1"/>
+          </linearGradient>
+          
+          {/* Premium Feature Gradient */}
+          <linearGradient id="premiumFeature" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="rgba(139,92,246,0.3)" stopOpacity="1"/>
+            <stop offset="50%" stopColor="rgba(168,85,247,0.25)" stopOpacity="1"/>
+            <stop offset="100%" stopColor="rgba(192,132,252,0.2)" stopOpacity="1"/>
+          </linearGradient>
+          
+          {/* Icon Background */}
+          <radialGradient id="iconBackground">
+            <stop offset="0%" stopColor="rgba(139,92,246,0.8)" stopOpacity="1"/>
+            <stop offset="100%" stopColor="rgba(139,92,246,0.4)" stopOpacity="1"/>
+          </radialGradient>
+          
+          {/* Border Gradients */}
+          <linearGradient id="cardBorder" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="rgba(139,92,246,0.5)" stopOpacity="1"/>
+            <stop offset="100%" stopColor="rgba(168,85,247,0.3)" stopOpacity="1"/>
+          </linearGradient>
+          
+          <linearGradient id="featureBorder" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="rgba(139,92,246,0.3)" stopOpacity="1"/>
+            <stop offset="100%" stopColor="rgba(139,92,246,0.1)" stopOpacity="1"/>
+          </linearGradient>
+          
+          {/* Connection Gradient */}
+          <linearGradient id="connectionGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="#8B5CF6" stopOpacity="0.9"/>
+            <stop offset="50%" stopColor="#A855F7" stopOpacity="0.8"/>
+            <stop offset="100%" stopColor="#C084FC" stopOpacity="0.7"/>
+          </linearGradient>
+        </defs>
+        
+        <rect width="100%" height="100%" fill="url(#grid)"/>
+        
+        {/* Background Glows */}
+        <circle cx="200" cy="150" r="200" fill="url(#backgroundGlow1)" opacity="0.3"/>
+        <circle cx="800" cy="450" r="180" fill="url(#backgroundGlow2)" opacity="0.2"/>
+        <circle cx="500" cy="300" r="300" fill="url(#backgroundGlow3)" opacity="0.15"/>
         
         {/* User Box (Left) */}
         <g>
-          <rect x="80" y="220" width="150" height="160" rx="25" fill="url(#userBoxGradient)" 
+          <rect x="80" y="220" width="150" height="160" rx="20" fill="url(#glassCard)" 
+                stroke="url(#cardBorder)" strokeWidth="1"
                 className="animate-pulse" style={{ animationDuration: '4s' }}/>
-          <circle cx="155" cy="270" r="30" fill="white" opacity="0.9"/>
-          {/* Standard User Icon */}
-          <circle cx="155" cy="260" r="12" fill="url(#iconGradient)"/>
-          <path d="M135 285 C135 275, 143 270, 155 270 C167 270, 175 275, 175 285" 
-                fill="url(#iconGradient)" stroke="none"/>
-          <text x="155" y="330" textAnchor="middle" fill="white" fontSize="16" fontWeight="bold">Learner</text>
-          <text x="155" y="350" textAnchor="middle" fill="rgba(255,255,255,0.8)" fontSize="12">Professional Goals</text>
+          <circle cx="155" cy="270" r="35" fill="url(#iconBackground)" stroke="url(#cardBorder)" strokeWidth="1"/>
+          {/* Modern User Icon */}
+          <circle cx="155" cy="260" r="15" fill="white"/>
+          <path d="M130 290 C130 278, 140 272, 155 272 C170 272, 180 278, 180 290" 
+                fill="white" stroke="none"/>
+          <text x="155" y="330" textAnchor="middle" fill="white" fontSize="16" fontWeight="600">User</text>
+          <text x="155" y="350" textAnchor="middle" fill="rgba(255,255,255,0.7)" fontSize="12">Learner</text>
         </g>
 
         {/* Central Menttor Platform Box */}
         <g>
-          <rect x="320" y="150" width="360" height="300" rx="30" fill="url(#platformGradient)" 
+          <rect x="300" y="120" width="400" height="360" rx="25" fill="url(#glassCard)" 
+                stroke="url(#cardBorder)" strokeWidth="1"
                 className="animate-pulse" style={{ animationDuration: '5s' }}/>
           
-          {/* Platform Header */}
-          <text x="500" y="185" textAnchor="middle" fill="white" fontSize="22" fontWeight="bold">🧠 Menttor Platform</text>
+          {/* Platform Header with Icon */}
+          <circle cx="430" cy="155" r="20" fill="url(#iconBackground)"/>
+          <rect x="418" y="143" width="24" height="24" rx="4" fill="white"/>
+          <text x="460" y="160" fill="white" fontSize="20" fontWeight="600">Menttor</text>
           
-          {/* Feature Boxes - Row 1 */}
-          <rect x="340" y="210" width="130" height="40" rx="10" fill="rgba(255,255,255,0.15)"/>
-          <text x="405" y="233" textAnchor="middle" fill="white" fontSize="13" fontWeight="600">📊 Elo Ratings</text>
+          {/* Feature Grid - 3x3 Layout */}
+          {/* Row 1 */}
+          <rect x="320" y="190" width="110" height="50" rx="12" fill="url(#featureCard)" stroke="url(#featureBorder)" strokeWidth="0.5"/>
+          <text x="375" y="210" textAnchor="middle" fill="white" fontSize="12" fontWeight="500">Cost Tracking</text>
+          <text x="375" y="225" textAnchor="middle" fill="rgba(255,255,255,0.6)" fontSize="10">Monitor Usage</text>
           
-          <rect x="530" y="210" width="130" height="40" rx="10" fill="rgba(255,255,255,0.15)"/>
-          <text x="595" y="233" textAnchor="middle" fill="white" fontSize="13" fontWeight="600">🎯 Quest Map</text>
+          <rect x="445" y="190" width="110" height="50" rx="12" fill="url(#featureCard)" stroke="url(#featureBorder)" strokeWidth="0.5"/>
+          <text x="500" y="210" textAnchor="middle" fill="white" fontSize="12" fontWeight="500">Elo Ratings</text>
+          <text x="500" y="225" textAnchor="middle" fill="rgba(255,255,255,0.6)" fontSize="10">Skill Assessment</text>
           
-          {/* Feature Boxes - Row 2 */}
-          <rect x="340" y="270" width="130" height="40" rx="10" fill="rgba(255,255,255,0.15)"/>
-          <text x="405" y="293" textAnchor="middle" fill="white" fontSize="13" fontWeight="600">⚡ XP System</text>
+          <rect x="570" y="190" width="110" height="50" rx="12" fill="url(#featureCard)" stroke="url(#featureBorder)" strokeWidth="0.5"/>
+          <text x="625" y="210" textAnchor="middle" fill="white" fontSize="12" fontWeight="500">Quest Map</text>
+          <text x="625" y="225" textAnchor="middle" fill="rgba(255,255,255,0.6)" fontSize="10">Learning Path</text>
           
-          <rect x="530" y="270" width="130" height="40" rx="10" fill="rgba(255,255,255,0.15)"/>
-          <text x="595" y="293" textAnchor="middle" fill="white" fontSize="13" fontWeight="600">🔁 Spaced Repetition</text>
+          {/* Row 2 */}
+          <rect x="320" y="255" width="110" height="50" rx="12" fill="url(#featureCard)" stroke="url(#featureBorder)" strokeWidth="0.5"/>
+          <text x="375" y="275" textAnchor="middle" fill="white" fontSize="12" fontWeight="500">Guardrails</text>
+          <text x="375" y="290" textAnchor="middle" fill="rgba(255,255,255,0.6)" fontSize="10">Safety First</text>
           
-          {/* Feature Boxes - Row 3 */}
-          <rect x="340" y="330" width="130" height="40" rx="10" fill="rgba(255,255,255,0.15)"/>
-          <text x="405" y="353" textAnchor="middle" fill="white" fontSize="13" fontWeight="600">🔥 Streak System</text>
+          <rect x="445" y="255" width="110" height="50" rx="12" fill="url(#featureCard)" stroke="url(#featureBorder)" strokeWidth="0.5"/>
+          <text x="500" y="275" textAnchor="middle" fill="white" fontSize="12" fontWeight="500">XP System</text>
+          <text x="500" y="290" textAnchor="middle" fill="rgba(255,255,255,0.6)" fontSize="10">Gamification</text>
           
-          <rect x="530" y="330" width="130" height="40" rx="10" fill="rgba(255,255,255,0.15)"/>
-          <text x="595" y="353" textAnchor="middle" fill="white" fontSize="13" fontWeight="600">🚀 Focus Mode</text>
+          <rect x="570" y="255" width="110" height="50" rx="12" fill="url(#featureCard)" stroke="url(#featureBorder)" strokeWidth="0.5"/>
+          <text x="625" y="275" textAnchor="middle" fill="white" fontSize="12" fontWeight="500">Model Access</text>
+          <text x="625" y="290" textAnchor="middle" fill="rgba(255,255,255,0.6)" fontSize="10">AI Integration</text>
           
-          {/* Feature Boxes - Row 4 */}
-          <rect x="340" y="390" width="320" height="40" rx="10" fill="rgba(255,255,255,0.2)"/>
-          <text x="500" y="413" textAnchor="middle" fill="white" fontSize="13" fontWeight="600">🧠 Behavioral Psychology</text>
+          {/* Row 3 */}
+          <rect x="320" y="320" width="110" height="50" rx="12" fill="url(#featureCard)" stroke="url(#featureBorder)" strokeWidth="0.5"/>
+          <text x="375" y="340" textAnchor="middle" fill="white" fontSize="12" fontWeight="500">Budgets</text>
+          <text x="375" y="355" textAnchor="middle" fill="rgba(255,255,255,0.6)" fontSize="10">Cost Control</text>
+          
+          <rect x="445" y="320" width="110" height="50" rx="12" fill="url(#featureCard)" stroke="url(#featureBorder)" strokeWidth="0.5"/>
+          <text x="500" y="340" textAnchor="middle" fill="white" fontSize="12" fontWeight="500">Focus Mode</text>
+          <text x="500" y="355" textAnchor="middle" fill="rgba(255,255,255,0.6)" fontSize="10">Deep Learning</text>
+          
+          <rect x="570" y="320" width="110" height="50" rx="12" fill="url(#featureCard)" stroke="url(#featureBorder)" strokeWidth="0.5"/>
+          <text x="625" y="340" textAnchor="middle" fill="white" fontSize="12" fontWeight="500">Observability</text>
+          <text x="625" y="355" textAnchor="middle" fill="rgba(255,255,255,0.6)" fontSize="10">Analytics</text>
+          
+          {/* Bottom Feature - Full Width */}
+          <rect x="320" y="385" width="360" height="50" rx="12" fill="url(#premiumFeature)" stroke="url(#cardBorder)" strokeWidth="1"/>
+          <text x="500" y="405" textAnchor="middle" fill="white" fontSize="14" fontWeight="600">Behavioral Psychology</text>
+          <text x="500" y="420" textAnchor="middle" fill="rgba(255,255,255,0.7)" fontSize="12">Advanced Learning Optimization</text>
         </g>
 
-        {/* Data Sources (Right) */}
+        {/* AI Services (Right) */}
         <g>
-          {/* Vertex AI Source */}
-          <rect x="770" y="180" width="100" height="100" rx="20" fill="url(#dataSource1)" 
+          {/* Anthropic AI */}
+          <rect x="770" y="150" width="120" height="80" rx="16" fill="url(#glassCard)" 
+                stroke="url(#cardBorder)" strokeWidth="1"
                 className="animate-pulse" style={{ animationDelay: '0.5s', animationDuration: '3s' }}/>
-          <circle cx="820" cy="215" r="18" fill="white" opacity="0.9"/>
-          <rect x="808" y="203" width="24" height="24" rx="3" fill="url(#iconGradient)"/>
-          <text x="820" y="250" textAnchor="middle" fill="white" fontSize="12" fontWeight="bold">🧠 Vertex AI</text>
-          <text x="820" y="265" textAnchor="middle" fill="rgba(255,255,255,0.8)" fontSize="10">ML Models</text>
+          <circle cx="810" cy="175" r="15" fill="url(#iconBackground)"/>
+          <text x="810" y="180" textAnchor="middle" fill="white" fontSize="16" fontWeight="bold">A</text>
+          <text x="830" y="180" fill="white" fontSize="13" fontWeight="600">Anthropic</text>
+          <text x="830" y="200" fill="rgba(255,255,255,0.7)" fontSize="11">Claude API</text>
           
-          {/* Analytics Source */}
-          <rect x="770" y="300" width="100" height="100" rx="20" fill="url(#dataSource2)" 
+          {/* Vertex AI */}
+          <rect x="770" y="250" width="120" height="80" rx="16" fill="url(#glassCard)" 
+                stroke="url(#cardBorder)" strokeWidth="1"
                 className="animate-pulse" style={{ animationDelay: '1s', animationDuration: '3s' }}/>
-          <circle cx="820" cy="335" r="18" fill="white" opacity="0.9"/>
-          <path d="M808 325l24 10-24 10v-8h-12v-4h12v-8z" fill="url(#iconGradient)"/>
-          <text x="820" y="370" textAnchor="middle" fill="white" fontSize="12" fontWeight="bold">📊 Analytics</text>
-          <text x="820" y="385" textAnchor="middle" fill="rgba(255,255,255,0.8)" fontSize="10">Tracking</text>
+          <circle cx="810" cy="275" r="15" fill="url(#iconBackground)"/>
+          <circle cx="810" cy="275" r="8" fill="none" stroke="white" strokeWidth="2"/>
+          <circle cx="810" cy="275" r="3" fill="white"/>
+          <text x="830" y="280" fill="white" fontSize="13" fontWeight="600">Vertex AI</text>
+          <text x="830" y="300" fill="rgba(255,255,255,0.7)" fontSize="11">Google Cloud</text>
           
-          {/* Performance Source */}
-          <rect x="770" y="420" width="100" height="100" rx="20" fill="url(#dataSource3)" 
+          {/* Analytics Engine */}
+          <rect x="770" y="350" width="120" height="80" rx="16" fill="url(#glassCard)" 
+                stroke="url(#cardBorder)" strokeWidth="1"
                 className="animate-pulse" style={{ animationDelay: '1.5s', animationDuration: '3s' }}/>
-          <circle cx="820" cy="455" r="18" fill="white" opacity="0.9"/>
-          <circle cx="820" cy="455" r="12" fill="none" stroke="url(#iconGradient)" strokeWidth="3"/>
-          <circle cx="820" cy="455" r="4" fill="url(#iconGradient)"/>
-          <text x="820" y="490" textAnchor="middle" fill="white" fontSize="12" fontWeight="bold">⚡ Performance</text>
-          <text x="820" y="505" textAnchor="middle" fill="rgba(255,255,255,0.8)" fontSize="10">Optimization</text>
+          <circle cx="810" cy="375" r="15" fill="url(#iconBackground)"/>
+          <path d="M800 370 L810 365 L820 370 L815 380 L805 380 Z" fill="white"/>
+          <text x="830" y="380" fill="white" fontSize="13" fontWeight="600">Analytics</text>
+          <text x="830" y="400" fill="rgba(255,255,255,0.7)" fontSize="11">Insights</text>
         </g>
 
-        {/* Connection Lines - Clearly Visible */}
-        <g stroke="url(#connectionGradient)" strokeWidth="3" fill="none" opacity="0.9" strokeLinecap="round">
-          {/* User to Platform - Main connection */}
-          <path d="M 230 300 Q 275 300 320 300" strokeWidth="4">
-            <animate attributeName="opacity" values="0.7;1;0.7" dur="3s" repeatCount="indefinite"/>
+        {/* Modern Connection Lines with Glow Effect */}
+        <g stroke="url(#connectionGradient)" strokeWidth="2" fill="none" opacity="0.8" strokeLinecap="round">
+          {/* User to Platform */}
+          <path d="M 230 300 Q 265 300 300 300" strokeWidth="3">
+            <animate attributeName="opacity" values="0.5;1;0.5" dur="3s" repeatCount="indefinite"/>
+            <animate attributeName="strokeWidth" values="2;4;2" dur="3s" repeatCount="indefinite"/>
           </path>
           
-          {/* Platform to Vertex AI Source */}
-          <path d="M 680 230 Q 725 230 770 230" strokeWidth="3">
-            <animate attributeName="opacity" values="0.6;0.9;0.6" dur="4s" repeatCount="indefinite" begin="0.5s"/>
+          {/* Platform to Anthropic */}
+          <path d="M 700 190 Q 735 190 770 190" strokeWidth="2">
+            <animate attributeName="opacity" values="0.4;0.9;0.4" dur="4s" repeatCount="indefinite" begin="0.5s"/>
           </path>
           
-          {/* Platform to Analytics Source */}
-          <path d="M 680 350 Q 725 350 770 350" strokeWidth="3">
-            <animate attributeName="opacity" values="0.6;0.9;0.6" dur="4s" repeatCount="indefinite" begin="1s"/>
+          {/* Platform to Vertex AI */}
+          <path d="M 700 290 Q 735 290 770 290" strokeWidth="2">
+            <animate attributeName="opacity" values="0.4;0.9;0.4" dur="4s" repeatCount="indefinite" begin="1s"/>
           </path>
           
-          {/* Platform to Performance Source */}
-          <path d="M 680 420 Q 725 435 770 470" strokeWidth="3">
-            <animate attributeName="opacity" values="0.6;0.9;0.6" dur="4s" repeatCount="indefinite" begin="1.5s"/>
-          </path>
-          
-          {/* Additional connecting lines for better flow visualization */}
-          <path d="M 680 300 Q 710 280 740 260" stroke="url(#connectionGradient)" strokeWidth="2" opacity="0.7">
-            <animate attributeName="opacity" values="0.4;0.8;0.4" dur="5s" repeatCount="indefinite" begin="0.5s"/>
-          </path>
-          <path d="M 680 300 Q 710 380 740 460" stroke="url(#connectionGradient)" strokeWidth="2" opacity="0.7">
-            <animate attributeName="opacity" values="0.4;0.8;0.4" dur="5s" repeatCount="indefinite" begin="2.5s"/>
+          {/* Platform to Analytics */}
+          <path d="M 700 390 Q 735 390 770 390" strokeWidth="2">
+            <animate attributeName="opacity" values="0.4;0.9;0.4" dur="4s" repeatCount="indefinite" begin="1.5s"/>
           </path>
         </g>
 
-        {/* Data Flow Indicators */}
+        {/* Floating Data Particles */}
         <g>
-          <circle cx="275" cy="295" r="5" fill="#10B981">
-            <animate attributeName="cx" values="275;295;275" dur="2s" repeatCount="indefinite"/>
-            <animate attributeName="opacity" values="1;0.3;1" dur="2s" repeatCount="indefinite"/>
+          <circle cx="265" cy="295" r="3" fill="#8B5CF6" opacity="0.8">
+            <animate attributeName="cx" values="265;280;265" dur="2.5s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" values="0.8;0.2;0.8" dur="2.5s" repeatCount="indefinite"/>
           </circle>
-          <circle cx="725" cy="225" r="4" fill="#F59E0B">
-            <animate attributeName="cx" values="725;745;725" dur="2.5s" repeatCount="indefinite"/>
-            <animate attributeName="opacity" values="1;0.3;1" dur="2.5s" repeatCount="indefinite"/>
+          <circle cx="735" cy="185" r="2.5" fill="#A855F7" opacity="0.7">
+            <animate attributeName="cx" values="735;750;735" dur="3s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" values="0.7;0.2;0.7" dur="3s" repeatCount="indefinite"/>
           </circle>
-          <circle cx="725" cy="345" r="4" fill="#8B5CF6">
-            <animate attributeName="cx" values="725;745;725" dur="3s" repeatCount="indefinite" begin="1s"/>
-            <animate attributeName="opacity" values="1;0.3;1" dur="3s" repeatCount="indefinite" begin="1s"/>
+          <circle cx="735" cy="285" r="2.5" fill="#C084FC" opacity="0.7">
+            <animate attributeName="cx" values="735;750;735" dur="2.8s" repeatCount="indefinite" begin="1s"/>
+            <animate attributeName="opacity" values="0.7;0.2;0.7" dur="2.8s" repeatCount="indefinite" begin="1s"/>
           </circle>
-          <circle cx="725" cy="450" r="4" fill="#EF4444">
-            <animate attributeName="cx" values="725;745;725" dur="2.8s" repeatCount="indefinite" begin="0.5s"/>
-            <animate attributeName="opacity" values="1;0.3;1" dur="2.8s" repeatCount="indefinite" begin="0.5s"/>
+          <circle cx="735" cy="385" r="2.5" fill="#DDD6FE" opacity="0.7">
+            <animate attributeName="cx" values="735;750;735" dur="3.2s" repeatCount="indefinite" begin="0.5s"/>
+            <animate attributeName="opacity" values="0.7;0.2;0.7" dur="3.2s" repeatCount="indefinite" begin="0.5s"/>
           </circle>
         </g>
-
-        {/* Gradient Definitions */}
-        <defs>
-          <radialGradient id="backgroundGlow">
-            <stop offset="0%" style={{ stopColor: '#4F46E5', stopOpacity: 0.1 }}/>
-            <stop offset="100%" style={{ stopColor: '#8B5CF6', stopOpacity: 0.05 }}/>
-          </radialGradient>
-          
-          <linearGradient id="userBoxGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" style={{ stopColor: '#1E293B', stopOpacity: 0.9 }}/>
-            <stop offset="100%" style={{ stopColor: '#334155', stopOpacity: 0.9 }}/>
-          </linearGradient>
-          
-          <linearGradient id="platformGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" style={{ stopColor: '#1E293B', stopOpacity: 0.9 }}/>
-            <stop offset="50%" style={{ stopColor: '#334155', stopOpacity: 0.9 }}/>
-            <stop offset="100%" style={{ stopColor: '#475569', stopOpacity: 0.9 }}/>
-          </linearGradient>
-          
-          <linearGradient id="dataSource1" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" style={{ stopColor: '#1E293B', stopOpacity: 0.9 }}/>
-            <stop offset="100%" style={{ stopColor: '#334155', stopOpacity: 0.9 }}/>
-          </linearGradient>
-          
-          <linearGradient id="dataSource2" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" style={{ stopColor: '#1E293B', stopOpacity: 0.9 }}/>
-            <stop offset="100%" style={{ stopColor: '#334155', stopOpacity: 0.9 }}/>
-          </linearGradient>
-          
-          <linearGradient id="dataSource3" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" style={{ stopColor: '#1E293B', stopOpacity: 0.9 }}/>
-            <stop offset="100%" style={{ stopColor: '#334155', stopOpacity: 0.9 }}/>
-          </linearGradient>
-          
-          <linearGradient id="connectionGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" style={{ stopColor: '#6366F1', stopOpacity: 1 }}/>
-            <stop offset="50%" style={{ stopColor: '#8B5CF6', stopOpacity: 0.9 }}/>
-            <stop offset="100%" style={{ stopColor: '#A855F7', stopOpacity: 0.8 }}/>
-          </linearGradient>
-          
-          <linearGradient id="iconGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" style={{ stopColor: '#4F46E5', stopOpacity: 1 }}/>
-            <stop offset="100%" style={{ stopColor: '#8B5CF6', stopOpacity: 1 }}/>
-          </linearGradient>
-        </defs>
       </svg>
     </div>
   );
