@@ -92,12 +92,20 @@ export class TimetableGenerator {
     let currentDate = new Date();
     let cumulativeMinutes = 0;
 
-    roadmapData.roadmap_plan.modules.forEach((module, moduleIndex) => {
-      const moduleDuration = this.calculateDuration(module.estimated_duration);
+    // Handle different roadmap data structures
+    const modules = roadmapData.roadmap_plan?.modules || roadmapData.roadmap_plan || [];
+    
+    if (!modules || !Array.isArray(modules)) {
+      console.warn('No valid modules found in roadmap data');
+      return schedule;
+    }
+
+    modules.forEach((module, moduleIndex) => {
+      const moduleDuration = this.calculateDuration(module.estimated_duration || '1 hour');
       
       schedule.push({
-        title: module.module_name,
-        description: module.description,
+        title: module.module_name || module.name || `Module ${moduleIndex + 1}`,
+        description: module.description || '',
         duration: moduleDuration,
         startDate: new Date(currentDate),
         type: 'module',
@@ -108,12 +116,13 @@ export class TimetableGenerator {
       const dailyStudyMinutes = 120;
       const daysForModule = Math.ceil(moduleDuration / dailyStudyMinutes);
       
-      module.topics?.forEach((topic, topicIndex) => {
-        const topicDuration = this.calculateDuration(topic.estimated_duration);
+      const topics = module.topics || [];
+      topics.forEach((topic, topicIndex) => {
+        const topicDuration = this.calculateDuration(topic.estimated_duration || '30 minutes');
         
         schedule.push({
-          title: topic.topic_name,
-          description: topic.description,
+          title: topic.topic_name || topic.name || `Topic ${topicIndex + 1}`,
+          description: topic.description || '',
           duration: topicDuration,
           startDate: new Date(currentDate),
           type: 'topic',
@@ -121,12 +130,13 @@ export class TimetableGenerator {
           topicIndex
         });
 
-        topic.subtopics?.forEach((subtopic) => {
-          const subtopicDuration = this.calculateDuration(subtopic.estimated_duration);
+        const subtopics = topic.subtopics || [];
+        subtopics.forEach((subtopic) => {
+          const subtopicDuration = this.calculateDuration(subtopic.estimated_duration || '15 minutes');
           
           schedule.push({
-            title: subtopic.title,
-            description: subtopic.description,
+            title: subtopic.title || subtopic.name || 'Subtopic',
+            description: subtopic.description || '',
             duration: subtopicDuration,
             startDate: new Date(currentDate),
             type: 'subtopic',
@@ -153,9 +163,14 @@ export class TimetableGenerator {
   }
 
   public generatePDF(roadmapData: RoadmapData): void {
-    const doc = new jsPDF();
-    const pageWidth = doc.internal.pageSize.width;
-    const pageHeight = doc.internal.pageSize.height;
+    try {
+      if (!roadmapData) {
+        throw new Error('No roadmap data provided');
+      }
+
+      const doc = new jsPDF();
+      const pageWidth = doc.internal.pageSize.width;
+      const pageHeight = doc.internal.pageSize.height;
     
     // Add branding
     this.addMentorBranding(doc, pageWidth);
@@ -192,7 +207,17 @@ export class TimetableGenerator {
     
     doc.setFontSize(9);
     
-    roadmapData.roadmap_plan.modules.forEach((module, moduleIndex) => {
+    // Handle different roadmap data structures
+    const modules = roadmapData.roadmap_plan?.modules || roadmapData.roadmap_plan || [];
+    
+    if (!modules || !Array.isArray(modules)) {
+      doc.setFontSize(12);
+      doc.text('No modules found in roadmap data', 20, yPosition);
+      doc.save(`${roadmapData.title.replace(/[^a-z0-9]/gi, '_')}_timetable.pdf`);
+      return;
+    }
+    
+    modules.forEach((module, moduleIndex) => {
       if (yPosition > pageHeight - 40) {
         doc.addPage();
         this.addMentorBranding(doc, pageWidth);
@@ -202,21 +227,25 @@ export class TimetableGenerator {
       // Module header
       doc.setFont('helvetica', 'bold');
       doc.setTextColor(0, 102, 204); // Blue color
-      doc.text(`Module ${moduleIndex + 1}: ${module.module_name}`, 20, yPosition);
+      const moduleTitle = module.module_name || module.name || `Module ${moduleIndex + 1}`;
+      doc.text(`Module ${moduleIndex + 1}: ${moduleTitle}`, 20, yPosition);
       yPosition += 6;
       
       doc.setFont('helvetica', 'normal');
       doc.setTextColor(60, 60, 60);
-      const moduleDescLines = doc.splitTextToSize(module.description, pageWidth - 45);
+      const moduleDesc = module.description || 'No description available';
+      const moduleDescLines = doc.splitTextToSize(moduleDesc, pageWidth - 45);
       doc.text(moduleDescLines, 25, yPosition);
       yPosition += moduleDescLines.length * 4 + 2;
       
       doc.setTextColor(100, 100, 100);
-      doc.text(`Estimated Duration: ${module.estimated_duration}`, 25, yPosition);
+      const duration = module.estimated_duration || '1 hour';
+      doc.text(`Estimated Duration: ${duration}`, 25, yPosition);
       yPosition += 8;
       
       // Topics and subtopics
-      module.topics?.forEach((topic, topicIndex) => {
+      const topics = module.topics || [];
+      topics.forEach((topic, topicIndex) => {
         if (yPosition > pageHeight - 30) {
           doc.addPage();
           this.addMentorBranding(doc, pageWidth);
@@ -225,10 +254,12 @@ export class TimetableGenerator {
         
         doc.setFont('helvetica', 'bold');
         doc.setTextColor(0, 0, 0);
-        doc.text(`  ${topicIndex + 1}. ${topic.topic_name}`, 25, yPosition);
+        const topicName = topic.topic_name || topic.name || `Topic ${topicIndex + 1}`;
+        doc.text(`  ${topicIndex + 1}. ${topicName}`, 25, yPosition);
         yPosition += 5;
         
-        topic.subtopics?.forEach((subtopic, subtopicIndex) => {
+        const subtopics = topic.subtopics || [];
+        subtopics.forEach((subtopic, subtopicIndex) => {
           if (yPosition > pageHeight - 25) {
             doc.addPage();
             this.addMentorBranding(doc, pageWidth);
@@ -237,7 +268,8 @@ export class TimetableGenerator {
           
           doc.setFont('helvetica', 'normal');
           doc.setTextColor(80, 80, 80);
-          const subtopicTitle = `    • ${subtopic.title}`;
+          const subtopicName = subtopic.title || subtopic.name || 'Subtopic';
+          const subtopicTitle = `    • ${subtopicName}`;
           const titleLines = doc.splitTextToSize(subtopicTitle, pageWidth - 55);
           doc.text(titleLines, 30, yPosition);
           yPosition += titleLines.length * 4 + 1;
@@ -286,12 +318,24 @@ export class TimetableGenerator {
     });
     
     // Download the PDF
-    doc.save(`${roadmapData.title.replace(/[^a-z0-9]/gi, '_')}_timetable.pdf`);
+    const fileName = (roadmapData.title || 'roadmap').replace(/[^a-z0-9]/gi, '_');
+    doc.save(`${fileName}_timetable.pdf`);
+    
+    } catch (error) {
+      console.error('Error generating PDF:', error);
+      throw error;
+    }
   }
 
   public generateCalendarEvents(roadmapData: RoadmapData): string {
-    const schedule = this.generateSchedule(roadmapData);
-    const events: EventAttributes[] = [];
+    try {
+      if (!roadmapData) {
+        console.error('No roadmap data provided for calendar generation');
+        return '';
+      }
+
+      const schedule = this.generateSchedule(roadmapData);
+      const events: EventAttributes[] = [];
 
     schedule.forEach((item, index) => {
       if (item.type === 'subtopic') { // Only create calendar events for subtopics
@@ -334,39 +378,66 @@ export class TimetableGenerator {
     });
 
     return icsContent;
+    
+    } catch (error) {
+      console.error('Error generating calendar events:', error);
+      return '';
+    }
   }
 
   public downloadCalendar(roadmapData: RoadmapData): void {
-    const icsContent = this.generateCalendarEvents(roadmapData);
-    const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(blob);
-    link.download = `${roadmapData.title.replace(/[^a-z0-9]/gi, '_')}_schedule.ics`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    try {
+      const icsContent = this.generateCalendarEvents(roadmapData);
+      if (!icsContent) {
+        throw new Error('Failed to generate calendar content');
+      }
+      
+      const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      const fileName = (roadmapData?.title || 'roadmap').replace(/[^a-z0-9]/gi, '_');
+      link.download = `${fileName}_schedule.ics`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (error) {
+      console.error('Error downloading calendar:', error);
+      throw error;
+    }
   }
 
   public addToGoogleCalendar(roadmapData: RoadmapData): void {
-    const schedule = this.generateSchedule(roadmapData);
-    const firstEvent = schedule.find(item => item.type === 'subtopic');
-    
-    if (!firstEvent) return;
+    try {
+      if (!roadmapData) {
+        throw new Error('No roadmap data provided');
+      }
 
-    const startDate = firstEvent.startDate;
-    const endDate = new Date(startDate.getTime() + firstEvent.duration * 60000);
-    
-    const googleCalendarUrl = new URL('https://calendar.google.com/calendar/render');
-    googleCalendarUrl.searchParams.set('action', 'TEMPLATE');
-    googleCalendarUrl.searchParams.set('text', `Study Session: ${roadmapData.title}`);
-    googleCalendarUrl.searchParams.set('dates', 
-      `${startDate.toISOString().replace(/[-:]/g, '').split('.')[0]}Z/${endDate.toISOString().replace(/[-:]/g, '').split('.')[0]}Z`
-    );
-    googleCalendarUrl.searchParams.set('details', 
-      `Learning roadmap: ${roadmapData.description}\n\nGenerated by Menttor.ai - Your AI Learning Companion`
-    );
-    googleCalendarUrl.searchParams.set('location', 'Your Study Space');
-    
-    window.open(googleCalendarUrl.toString(), '_blank');
+      const schedule = this.generateSchedule(roadmapData);
+      const firstEvent = schedule.find(item => item.type === 'subtopic');
+      
+      if (!firstEvent) {
+        console.warn('No study sessions found to add to calendar');
+        return;
+      }
+
+      const startDate = firstEvent.startDate;
+      const endDate = new Date(startDate.getTime() + firstEvent.duration * 60000);
+      
+      const googleCalendarUrl = new URL('https://calendar.google.com/calendar/render');
+      googleCalendarUrl.searchParams.set('action', 'TEMPLATE');
+      googleCalendarUrl.searchParams.set('text', `Study Session: ${roadmapData.title || 'Learning Roadmap'}`);
+      googleCalendarUrl.searchParams.set('dates', 
+        `${startDate.toISOString().replace(/[-:]/g, '').split('.')[0]}Z/${endDate.toISOString().replace(/[-:]/g, '').split('.')[0]}Z`
+      );
+      googleCalendarUrl.searchParams.set('details', 
+        `Learning roadmap: ${roadmapData.description || 'No description'}\n\nGenerated by Menttor.ai - Your AI Learning Companion`
+      );
+      googleCalendarUrl.searchParams.set('location', 'Your Study Space');
+      
+      window.open(googleCalendarUrl.toString(), '_blank');
+    } catch (error) {
+      console.error('Error adding to Google Calendar:', error);
+      throw error;
+    }
   }
 }
