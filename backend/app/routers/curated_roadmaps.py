@@ -781,6 +781,352 @@ TRENDING_ROADMAPS_CONFIG = [
         }
     },
 
+    # ==============================================================================
+    # MBA & BUSINESS SKILLS - COMPREHENSIVE COLLECTION
+    # ==============================================================================
+
+    # MARKETING & BRAND MANAGEMENT
+    {
+        "title": "Digital Marketing Strategy and Analytics",
+        "category": "business",
+        "subcategory": "marketing",
+        "difficulty": "beginner",
+        "target_audience": "Anyone looking to master modern marketing across all industries and career paths",
+        "estimated_hours": 120,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.4,
+        "prerequisites": ["Basic computer skills", "Understanding of social media platforms"],
+        "learning_outcomes": [
+            "Develop comprehensive digital marketing strategies across channels",
+            "Master Google Analytics, Facebook Ads, and marketing automation tools",
+            "Create compelling content and brand messaging",
+            "Analyze marketing data and optimize campaigns for ROI",
+            "Build personal brand and professional marketing skills"
+        ],
+        "tags": ["digital-marketing", "analytics", "social-media", "content-marketing", "brand-building"],
+        "request": {
+            "subject": "Complete Digital Marketing Strategy and Analytics",
+            "goal": "I want to master digital marketing from strategy to execution. Teach me SEO, social media marketing, Google Ads, email marketing, content creation, analytics, conversion optimization, and building effective marketing campaigns. Make it applicable for any business or personal brand.",
+            "time_value": 10,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Brand Strategy and Customer Psychology",
+        "category": "business",
+        "subcategory": "branding",
+        "difficulty": "intermediate",
+        "target_audience": "Professionals, entrepreneurs, and individuals building brands in any field",
+        "estimated_hours": 100,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.2,
+        "prerequisites": ["Basic marketing knowledge", "Understanding of consumer behavior"],
+        "learning_outcomes": [
+            "Develop powerful brand strategies and positioning",
+            "Understand consumer psychology and decision-making processes",
+            "Create brand identity systems and messaging frameworks",
+            "Build emotional connections with target audiences",
+            "Apply branding principles to personal and professional contexts"
+        ],
+        "tags": ["brand-strategy", "consumer-psychology", "positioning", "brand-identity", "marketing-psychology"],
+        "request": {
+            "subject": "Brand Strategy and Consumer Psychology Mastery",
+            "goal": "I want to master brand building and consumer psychology. Teach me brand positioning, consumer behavior analysis, emotional branding, visual identity creation, brand storytelling, and how to build memorable brands that connect with people. Include both business and personal branding applications.",
+            "time_value": 8,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # FINANCE & INVESTMENT
+    {
+        "title": "Financial Analysis and Investment Strategy",
+        "category": "business",
+        "subcategory": "finance",
+        "difficulty": "intermediate",
+        "target_audience": "Anyone wanting to master personal finance, investing, and financial decision-making",
+        "estimated_hours": 140,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.5,
+        "prerequisites": ["Basic math skills", "Understanding of economic concepts"],
+        "learning_outcomes": [
+            "Analyze financial statements and company valuations",
+            "Build diversified investment portfolios and retirement planning",
+            "Understand risk management and insurance strategies",
+            "Master personal budgeting and debt management",
+            "Make informed financial decisions for life goals"
+        ],
+        "tags": ["financial-analysis", "investing", "portfolio-management", "personal-finance", "valuation"],
+        "request": {
+            "subject": "Complete Financial Analysis and Investment Mastery",
+            "goal": "I want to master finance from personal money management to investment strategies. Teach me financial statement analysis, stock/bond investing, portfolio theory, risk management, retirement planning, tax strategies, and how to build long-term wealth. Make it practical for anyone regardless of current income level.",
+            "time_value": 12,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Corporate Finance and Business Valuation",
+        "category": "business",
+        "subcategory": "corporate-finance",
+        "difficulty": "intermediate",
+        "target_audience": "Business professionals, entrepreneurs, and anyone evaluating business opportunities",
+        "estimated_hours": 110,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.3,
+        "prerequisites": ["Basic accounting knowledge", "Financial math fundamentals"],
+        "learning_outcomes": [
+            "Evaluate business opportunities and startup investments",
+            "Perform DCF analysis and business valuations",
+            "Understand capital structure and funding options",
+            "Analyze merger and acquisition opportunities",
+            "Make strategic financial decisions for any organization"
+        ],
+        "tags": ["corporate-finance", "business-valuation", "dcf-analysis", "capital-structure", "financial-modeling"],
+        "request": {
+            "subject": "Corporate Finance and Business Valuation",
+            "goal": "I want to master corporate finance and business valuation. Teach me financial modeling, DCF analysis, business valuation methods, capital budgeting, funding strategies, and how to evaluate investment opportunities. Make it applicable for entrepreneurs, investors, and business decision-makers.",
+            "time_value": 9,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # OPERATIONS & SUPPLY CHAIN
+    {
+        "title": "Operations Management and Process Optimization",
+        "category": "business",
+        "subcategory": "operations",
+        "difficulty": "intermediate",
+        "target_audience": "Managers, entrepreneurs, and professionals optimizing any type of workflow or process",
+        "estimated_hours": 100,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.1,
+        "prerequisites": ["Basic business understanding", "Analytical thinking"],
+        "learning_outcomes": [
+            "Design efficient processes and eliminate waste",
+            "Implement Lean Six Sigma methodologies",
+            "Optimize supply chains and inventory management",
+            "Use data analytics for operational decisions",
+            "Build scalable systems for any organization"
+        ],
+        "tags": ["operations-management", "process-optimization", "lean-six-sigma", "supply-chain", "efficiency"],
+        "request": {
+            "subject": "Operations Management and Process Optimization",
+            "goal": "I want to master operations and process optimization. Teach me Lean methodology, Six Sigma, supply chain management, inventory optimization, quality control, and how to build efficient systems. Make it applicable for any business, nonprofit, or personal productivity system.",
+            "time_value": 8,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # LEADERSHIP & MANAGEMENT
+    {
+        "title": "Leadership Development and Team Management",
+        "category": "business",
+        "subcategory": "leadership",
+        "difficulty": "intermediate",
+        "target_audience": "Current and aspiring leaders across all industries and organizational levels",
+        "estimated_hours": 90,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.3,
+        "prerequisites": ["Professional experience", "Interest in leadership roles"],
+        "learning_outcomes": [
+            "Develop authentic leadership style and emotional intelligence",
+            "Master team building and conflict resolution",
+            "Learn effective communication and delegation skills",
+            "Build high-performance teams and organizational culture",
+            "Lead through change and uncertainty"
+        ],
+        "tags": ["leadership", "team-management", "emotional-intelligence", "communication", "organizational-behavior"],
+        "request": {
+            "subject": "Leadership Development and Team Management",
+            "goal": "I want to become an effective leader and team manager. Teach me leadership styles, emotional intelligence, team dynamics, conflict resolution, performance management, and organizational psychology. Make it applicable for any leadership role - from managing a small team to running an organization.",
+            "time_value": 7,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Strategic Management and Business Planning",
+        "category": "business",
+        "subcategory": "strategy",
+        "difficulty": "intermediate",
+        "target_audience": "Business professionals, entrepreneurs, and anyone involved in strategic planning",
+        "estimated_hours": 120,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.4,
+        "prerequisites": ["Business fundamentals", "Analytical thinking"],
+        "learning_outcomes": [
+            "Develop comprehensive business strategies and competitive analysis",
+            "Create effective business plans and strategic roadmaps",
+            "Analyze market opportunities and competitive positioning",
+            "Implement strategic initiatives and measure success",
+            "Lead strategic transformation in any organization"
+        ],
+        "tags": ["strategic-management", "business-planning", "competitive-analysis", "strategic-thinking", "business-strategy"],
+        "request": {
+            "subject": "Strategic Management and Business Planning",
+            "goal": "I want to master strategic thinking and business planning. Teach me strategic frameworks, competitive analysis, business model design, strategic planning processes, and implementation strategies. Make it valuable for entrepreneurs, business managers, and anyone making strategic decisions.",
+            "time_value": 10,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # ENTREPRENEURSHIP & INNOVATION
+    {
+        "title": "Entrepreneurship and Startup Strategy",
+        "category": "business",
+        "subcategory": "entrepreneurship",
+        "difficulty": "intermediate",
+        "target_audience": "Aspiring entrepreneurs, side-hustle creators, and innovation-minded professionals",
+        "estimated_hours": 130,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.5,
+        "prerequisites": ["Business interest", "Problem-solving mindset"],
+        "learning_outcomes": [
+            "Identify and validate business opportunities",
+            "Build minimum viable products and test market fit",
+            "Understand funding options and investor relations",
+            "Master lean startup methodology and agile development",
+            "Scale businesses and manage growth challenges"
+        ],
+        "tags": ["entrepreneurship", "startup", "business-validation", "lean-startup", "innovation"],
+        "request": {
+            "subject": "Entrepreneurship and Startup Strategy",
+            "goal": "I want to master entrepreneurship from idea to scale. Teach me opportunity recognition, business model validation, MVP development, funding strategies, growth hacking, and scaling operations. Include both traditional business and modern startup approaches applicable to any industry.",
+            "time_value": 11,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # DATA ANALYTICS FOR BUSINESS
+    {
+        "title": "Business Analytics and Data-Driven Decision Making",
+        "category": "business",
+        "subcategory": "analytics",
+        "difficulty": "intermediate",
+        "target_audience": "Business professionals wanting to leverage data for better decision-making",
+        "estimated_hours": 110,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.2,
+        "prerequisites": ["Basic Excel skills", "Statistical thinking"],
+        "learning_outcomes": [
+            "Master business intelligence tools and dashboards",
+            "Perform statistical analysis and predictive modeling",
+            "Create data visualizations and storytelling with data",
+            "Implement A/B testing and experimental design",
+            "Build data-driven cultures and decision frameworks"
+        ],
+        "tags": ["business-analytics", "data-visualization", "statistical-analysis", "business-intelligence", "decision-making"],
+        "request": {
+            "subject": "Business Analytics and Data-Driven Decision Making",
+            "goal": "I want to master business analytics and data-driven decision making. Teach me Excel advanced functions, SQL, Tableau/Power BI, statistical analysis, A/B testing, and how to translate data insights into business actions. Make it practical for any role that involves decision-making with data.",
+            "time_value": 9,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # SALES & NEGOTIATION
+    {
+        "title": "Sales Mastery and Negotiation Skills",
+        "category": "business",
+        "subcategory": "sales",
+        "difficulty": "beginner",
+        "target_audience": "Anyone wanting to improve persuasion, negotiation, and sales skills for career and life",
+        "estimated_hours": 100,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.3,
+        "prerequisites": ["Communication skills", "Interpersonal interest"],
+        "learning_outcomes": [
+            "Master consultative selling and relationship building",
+            "Develop advanced negotiation and persuasion techniques",
+            "Build sales funnels and customer acquisition systems",
+            "Handle objections and close deals effectively",
+            "Apply sales psychology to career advancement and personal goals"
+        ],
+        "tags": ["sales", "negotiation", "persuasion", "relationship-building", "communication"],
+        "request": {
+            "subject": "Sales Mastery and Advanced Negotiation",
+            "goal": "I want to master sales and negotiation skills. Teach me consultative selling, relationship building, negotiation psychology, objection handling, closing techniques, and sales process design. Make it valuable for formal sales roles, career advancement, and everyday negotiations.",
+            "time_value": 8,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # PROJECT MANAGEMENT
+    {
+        "title": "Project Management and Agile Methodologies",
+        "category": "business",
+        "subcategory": "project-management",
+        "difficulty": "intermediate",
+        "target_audience": "Professionals managing projects, teams, or complex initiatives in any field",
+        "estimated_hours": 90,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.1,
+        "prerequisites": ["Team collaboration experience", "Organizational skills"],
+        "learning_outcomes": [
+            "Master PMP and Agile project management frameworks",
+            "Plan, execute, and deliver projects on time and budget",
+            "Lead cross-functional teams and manage stakeholders",
+            "Use project management tools and software effectively",
+            "Apply project management to personal and professional goals"
+        ],
+        "tags": ["project-management", "agile", "scrum", "pmp", "team-leadership"],
+        "request": {
+            "subject": "Project Management and Agile Methodologies",
+            "goal": "I want to master project management across different methodologies. Teach me traditional PM (PMP), Agile, Scrum, Kanban, stakeholder management, risk management, and project planning tools. Make it applicable for any type of project from business initiatives to personal goals.",
+            "time_value": 7,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # HUMAN RESOURCES & ORGANIZATIONAL BEHAVIOR
+    {
+        "title": "Human Resource Management and Organizational Psychology",
+        "category": "business",
+        "subcategory": "human-resources",
+        "difficulty": "intermediate",
+        "target_audience": "Managers, HR professionals, and anyone working with people in organizations",
+        "estimated_hours": 100,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.0,
+        "prerequisites": ["People management experience", "Psychology interest"],
+        "learning_outcomes": [
+            "Understand talent acquisition and performance management",
+            "Design compensation and benefits strategies",
+            "Master employee development and retention strategies",
+            "Navigate employment law and workplace compliance",
+            "Build positive organizational culture and employee engagement"
+        ],
+        "tags": ["human-resources", "talent-management", "organizational-psychology", "employee-engagement", "performance-management"],
+        "request": {
+            "subject": "Human Resource Management and Organizational Psychology",
+            "goal": "I want to master HR and organizational psychology. Teach me recruitment, performance management, compensation design, employee development, labor relations, and building great workplace cultures. Make it valuable for HR professionals, managers, and entrepreneurs building teams.",
+            "time_value": 8,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
     # INDIAN COMPETITIVE EXAMS - JEE/NEET PREPARATION
     {
         "title": "JEE Mathematics Mastery - Calculus and Algebra",
