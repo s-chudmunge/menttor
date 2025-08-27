@@ -206,6 +206,7 @@ const BehavioralQuizInterface: React.FC<QuizInterfaceProps> = ({ quizParams }) =
                     data: { xpGain, responseTime, isCorrect }
                 });
             }
+        }
         
         // Reset response timer for next question
         setTimeout(() => setResponseStartTime(new Date()), 100);

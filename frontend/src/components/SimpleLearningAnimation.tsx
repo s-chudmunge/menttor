@@ -4,10 +4,12 @@ import React from 'react';
 
 export default function SimpleLearningAnimation() {
   return (
-    <div className="relative w-full max-w-6xl mx-auto p-4">
+    <div className="relative w-full max-w-7xl mx-auto p-2 sm:p-4 md:p-6">
       <svg 
         viewBox="0 0 1000 600" 
-        className="w-full h-auto min-h-[600px]"
+        className="w-full h-auto min-h-[400px] sm:min-h-[500px] md:min-h-[600px] lg:min-h-[700px]"
+        preserveAspectRatio="xMidYMid meet"
+        style={{ maxHeight: '800px' }}
       >
         {/* Background Grid Pattern */}
         <defs>
@@ -85,16 +87,16 @@ export default function SimpleLearningAnimation() {
         
         {/* User Box (Left) */}
         <g>
-          <rect x="80" y="220" width="150" height="160" rx="20" fill="url(#glassCard)" 
+          <rect x="50" y="220" width="180" height="160" rx="20" fill="url(#glassCard)" 
                 stroke="url(#cardBorder)" strokeWidth="1"
                 className="animate-pulse" style={{ animationDuration: '4s' }}/>
-          <circle cx="155" cy="270" r="35" fill="url(#iconBackground)" stroke="url(#cardBorder)" strokeWidth="1"/>
+          <circle cx="140" cy="270" r="35" fill="url(#iconBackground)" stroke="url(#cardBorder)" strokeWidth="1"/>
           {/* Modern User Icon */}
-          <circle cx="155" cy="260" r="15" fill="white"/>
-          <path d="M130 290 C130 278, 140 272, 155 272 C170 272, 180 278, 180 290" 
+          <circle cx="140" cy="260" r="15" fill="white"/>
+          <path d="M115 290 C115 278, 125 272, 140 272 C155 272, 165 278, 165 290" 
                 fill="white" stroke="none"/>
-          <text x="155" y="330" textAnchor="middle" fill="white" fontSize="16" fontWeight="600">User</text>
-          <text x="155" y="350" textAnchor="middle" fill="rgba(255,255,255,0.7)" fontSize="12">Learner</text>
+          <text x="140" y="330" textAnchor="middle" fill="white" fontSize="16" fontWeight="600">User</text>
+          <text x="140" y="350" textAnchor="middle" fill="rgba(255,255,255,0.7)" fontSize="12">Learner</text>
         </g>
 
         {/* Central Menttor Platform Box */}
@@ -110,124 +112,125 @@ export default function SimpleLearningAnimation() {
           
           {/* Feature Grid - 3x3 Layout */}
           {/* Row 1 */}
-          <rect x="320" y="190" width="110" height="50" rx="12" fill="url(#featureCard)" stroke="url(#featureBorder)" strokeWidth="0.5"/>
-          <text x="375" y="210" textAnchor="middle" fill="white" fontSize="12" fontWeight="500">Cost Tracking</text>
-          <text x="375" y="225" textAnchor="middle" fill="rgba(255,255,255,0.6)" fontSize="10">Monitor Usage</text>
+          <rect x="320" y="190" width="110" height="55" rx="12" fill="url(#featureCard)" stroke="url(#featureBorder)" strokeWidth="0.5"/>
+          <text x="375" y="212" textAnchor="middle" fill="white" fontSize="13" fontWeight="600">Cost Tracking</text>
+          <text x="375" y="228" textAnchor="middle" fill="rgba(255,255,255,0.7)" fontSize="11">Monitor Usage</text>
           
-          <rect x="445" y="190" width="110" height="50" rx="12" fill="url(#featureCard)" stroke="url(#featureBorder)" strokeWidth="0.5"/>
-          <text x="500" y="210" textAnchor="middle" fill="white" fontSize="12" fontWeight="500">Elo Ratings</text>
-          <text x="500" y="225" textAnchor="middle" fill="rgba(255,255,255,0.6)" fontSize="10">Skill Assessment</text>
+          <rect x="445" y="190" width="110" height="55" rx="12" fill="url(#featureCard)" stroke="url(#featureBorder)" strokeWidth="0.5"/>
+          <text x="500" y="212" textAnchor="middle" fill="white" fontSize="13" fontWeight="600">Elo Ratings</text>
+          <text x="500" y="228" textAnchor="middle" fill="rgba(255,255,255,0.7)" fontSize="11">Skill Assessment</text>
           
-          <rect x="570" y="190" width="110" height="50" rx="12" fill="url(#featureCard)" stroke="url(#featureBorder)" strokeWidth="0.5"/>
-          <text x="625" y="210" textAnchor="middle" fill="white" fontSize="12" fontWeight="500">Quest Map</text>
-          <text x="625" y="225" textAnchor="middle" fill="rgba(255,255,255,0.6)" fontSize="10">Learning Path</text>
+          <rect x="570" y="190" width="110" height="55" rx="12" fill="url(#featureCard)" stroke="url(#featureBorder)" strokeWidth="0.5"/>
+          <text x="625" y="212" textAnchor="middle" fill="white" fontSize="13" fontWeight="600">Quest Map</text>
+          <text x="625" y="228" textAnchor="middle" fill="rgba(255,255,255,0.7)" fontSize="11">Learning Path</text>
           
           {/* Row 2 */}
-          <rect x="320" y="255" width="110" height="50" rx="12" fill="url(#featureCard)" stroke="url(#featureBorder)" strokeWidth="0.5"/>
-          <text x="375" y="275" textAnchor="middle" fill="white" fontSize="12" fontWeight="500">Guardrails</text>
-          <text x="375" y="290" textAnchor="middle" fill="rgba(255,255,255,0.6)" fontSize="10">Safety First</text>
+          <rect x="320" y="260" width="110" height="55" rx="12" fill="url(#featureCard)" stroke="url(#featureBorder)" strokeWidth="0.5"/>
+          <text x="375" y="282" textAnchor="middle" fill="white" fontSize="13" fontWeight="600">Guardrails</text>
+          <text x="375" y="298" textAnchor="middle" fill="rgba(255,255,255,0.7)" fontSize="11">Safety First</text>
           
-          <rect x="445" y="255" width="110" height="50" rx="12" fill="url(#featureCard)" stroke="url(#featureBorder)" strokeWidth="0.5"/>
-          <text x="500" y="275" textAnchor="middle" fill="white" fontSize="12" fontWeight="500">XP System</text>
-          <text x="500" y="290" textAnchor="middle" fill="rgba(255,255,255,0.6)" fontSize="10">Gamification</text>
+          <rect x="445" y="260" width="110" height="55" rx="12" fill="url(#featureCard)" stroke="url(#featureBorder)" strokeWidth="0.5"/>
+          <text x="500" y="282" textAnchor="middle" fill="white" fontSize="13" fontWeight="600">XP System</text>
+          <text x="500" y="298" textAnchor="middle" fill="rgba(255,255,255,0.7)" fontSize="11">Gamification</text>
           
-          <rect x="570" y="255" width="110" height="50" rx="12" fill="url(#featureCard)" stroke="url(#featureBorder)" strokeWidth="0.5"/>
-          <text x="625" y="275" textAnchor="middle" fill="white" fontSize="12" fontWeight="500">Model Access</text>
-          <text x="625" y="290" textAnchor="middle" fill="rgba(255,255,255,0.6)" fontSize="10">AI Integration</text>
+          <rect x="570" y="260" width="110" height="55" rx="12" fill="url(#featureCard)" stroke="url(#featureBorder)" strokeWidth="0.5"/>
+          <text x="625" y="282" textAnchor="middle" fill="white" fontSize="13" fontWeight="600">Model Access</text>
+          <text x="625" y="298" textAnchor="middle" fill="rgba(255,255,255,0.7)" fontSize="11">AI Integration</text>
           
           {/* Row 3 */}
-          <rect x="320" y="320" width="110" height="50" rx="12" fill="url(#featureCard)" stroke="url(#featureBorder)" strokeWidth="0.5"/>
-          <text x="375" y="340" textAnchor="middle" fill="white" fontSize="12" fontWeight="500">Budgets</text>
-          <text x="375" y="355" textAnchor="middle" fill="rgba(255,255,255,0.6)" fontSize="10">Cost Control</text>
+          <rect x="320" y="330" width="110" height="55" rx="12" fill="url(#featureCard)" stroke="url(#featureBorder)" strokeWidth="0.5"/>
+          <text x="375" y="352" textAnchor="middle" fill="white" fontSize="13" fontWeight="600">Budgets</text>
+          <text x="375" y="368" textAnchor="middle" fill="rgba(255,255,255,0.7)" fontSize="11">Cost Control</text>
           
-          <rect x="445" y="320" width="110" height="50" rx="12" fill="url(#featureCard)" stroke="url(#featureBorder)" strokeWidth="0.5"/>
-          <text x="500" y="340" textAnchor="middle" fill="white" fontSize="12" fontWeight="500">Focus Mode</text>
-          <text x="500" y="355" textAnchor="middle" fill="rgba(255,255,255,0.6)" fontSize="10">Deep Learning</text>
+          <rect x="445" y="330" width="110" height="55" rx="12" fill="url(#featureCard)" stroke="url(#featureBorder)" strokeWidth="0.5"/>
+          <text x="500" y="352" textAnchor="middle" fill="white" fontSize="13" fontWeight="600">Focus Mode</text>
+          <text x="500" y="368" textAnchor="middle" fill="rgba(255,255,255,0.7)" fontSize="11">Deep Learning</text>
           
-          <rect x="570" y="320" width="110" height="50" rx="12" fill="url(#featureCard)" stroke="url(#featureBorder)" strokeWidth="0.5"/>
-          <text x="625" y="340" textAnchor="middle" fill="white" fontSize="12" fontWeight="500">Observability</text>
-          <text x="625" y="355" textAnchor="middle" fill="rgba(255,255,255,0.6)" fontSize="10">Analytics</text>
+          <rect x="570" y="330" width="110" height="55" rx="12" fill="url(#featureCard)" stroke="url(#featureBorder)" strokeWidth="0.5"/>
+          <text x="625" y="352" textAnchor="middle" fill="white" fontSize="13" fontWeight="600">Observability</text>
+          <text x="625" y="368" textAnchor="middle" fill="rgba(255,255,255,0.7)" fontSize="11">Analytics</text>
           
           {/* Bottom Feature - Full Width */}
-          <rect x="320" y="385" width="360" height="50" rx="12" fill="url(#premiumFeature)" stroke="url(#cardBorder)" strokeWidth="1"/>
-          <text x="500" y="405" textAnchor="middle" fill="white" fontSize="14" fontWeight="600">Behavioral Psychology</text>
-          <text x="500" y="420" textAnchor="middle" fill="rgba(255,255,255,0.7)" fontSize="12">Advanced Learning Optimization</text>
+          <rect x="320" y="400" width="360" height="60" rx="12" fill="url(#premiumFeature)" stroke="url(#cardBorder)" strokeWidth="1"/>
+          <text x="500" y="425" textAnchor="middle" fill="white" fontSize="15" fontWeight="600">Behavioral Psychology</text>
+          <text x="500" y="445" textAnchor="middle" fill="rgba(255,255,255,0.8)" fontSize="12">Advanced Learning Optimization</text>
         </g>
 
         {/* Learning Outcomes (Right) */}
         <g>
           {/* Build Real World Skills */}
-          <rect x="770" y="150" width="150" height="80" rx="16" fill="url(#glassCard)" 
+          <rect x="750" y="140" width="190" height="90" rx="16" fill="url(#glassCard)" 
                 stroke="url(#cardBorder)" strokeWidth="1"
                 className="animate-pulse" style={{ animationDelay: '0.5s', animationDuration: '3s' }}/>
-          <circle cx="820" cy="175" r="15" fill="url(#iconBackground)"/>
-          <text x="820" y="180" textAnchor="middle" fill="white" fontSize="14" fontWeight="bold">🎯</text>
-          <text x="845" y="180" fill="white" fontSize="12" fontWeight="600">Build Real World</text>
-          <text x="845" y="195" fill="white" fontSize="12" fontWeight="600">Skills</text>
-          <text x="845" y="210" fill="rgba(255,255,255,0.7)" fontSize="10">From Best Curated</text>
-          <text x="845" y="222" fill="rgba(255,255,255,0.7)" fontSize="10">Roadmaps</text>
+          <circle cx="775" cy="170" r="15" fill="url(#iconBackground)"/>
+          <text x="775" y="175" textAnchor="middle" fill="white" fontSize="14" fontWeight="bold">🎯</text>
+          <text x="800" y="170" fill="white" fontSize="13" fontWeight="600">Build Real World Skills</text>
+          <text x="800" y="188" fill="rgba(255,255,255,0.8)" fontSize="11">From Best Curated Roadmaps</text>
+          <text x="800" y="205" fill="rgba(255,255,255,0.6)" fontSize="10">Expert-designed learning paths</text>
           
           {/* Build Projects */}
-          <rect x="770" y="250" width="150" height="80" rx="16" fill="url(#glassCard)" 
+          <rect x="750" y="250" width="190" height="90" rx="16" fill="url(#glassCard)" 
                 stroke="url(#cardBorder)" strokeWidth="1"
                 className="animate-pulse" style={{ animationDelay: '1s', animationDuration: '3s' }}/>
-          <circle cx="820" cy="275" r="15" fill="url(#iconBackground)"/>
-          <text x="820" y="280" textAnchor="middle" fill="white" fontSize="14" fontWeight="bold">🚀</text>
-          <text x="845" y="280" fill="white" fontSize="12" fontWeight="600">Build Projects</text>
-          <text x="845" y="300" fill="rgba(255,255,255,0.7)" fontSize="10">Hands-on Experience</text>
+          <circle cx="775" cy="280" r="15" fill="url(#iconBackground)"/>
+          <text x="775" y="285" textAnchor="middle" fill="white" fontSize="14" fontWeight="bold">🚀</text>
+          <text x="800" y="280" fill="white" fontSize="13" fontWeight="600">Build Projects</text>
+          <text x="800" y="298" fill="rgba(255,255,255,0.8)" fontSize="11">Hands-on Experience</text>
+          <text x="800" y="315" fill="rgba(255,255,255,0.6)" fontSize="10">Real-world applications</text>
           
           {/* Industry Ready */}
-          <rect x="770" y="350" width="150" height="80" rx="16" fill="url(#glassCard)" 
+          <rect x="750" y="360" width="190" height="90" rx="16" fill="url(#glassCard)" 
                 stroke="url(#cardBorder)" strokeWidth="1"
                 className="animate-pulse" style={{ animationDelay: '1.5s', animationDuration: '3s' }}/>
-          <circle cx="820" cy="375" r="15" fill="url(#iconBackground)"/>
-          <text x="820" y="380" textAnchor="middle" fill="white" fontSize="14" fontWeight="bold">💼</text>
-          <text x="845" y="380" fill="white" fontSize="12" fontWeight="600">Industry Ready</text>
-          <text x="845" y="400" fill="rgba(255,255,255,0.7)" fontSize="10">Professional Skills</text>
+          <circle cx="775" cy="390" r="15" fill="url(#iconBackground)"/>
+          <text x="775" y="395" textAnchor="middle" fill="white" fontSize="14" fontWeight="bold">💼</text>
+          <text x="800" y="390" fill="white" fontSize="13" fontWeight="600">Industry Ready</text>
+          <text x="800" y="408" fill="rgba(255,255,255,0.8)" fontSize="11">Professional Skills</text>
+          <text x="800" y="425" fill="rgba(255,255,255,0.6)" fontSize="10">Career-focused training</text>
         </g>
 
-        {/* Modern Connection Lines with Glow Effect */}
-        <g stroke="url(#connectionGradient)" strokeWidth="2" fill="none" opacity="0.8" strokeLinecap="round">
-          {/* User to Platform */}
-          <path d="M 230 300 Q 265 300 300 300" strokeWidth="3">
-            <animate attributeName="opacity" values="0.5;1;0.5" dur="3s" repeatCount="indefinite"/>
-            <animate attributeName="strokeWidth" values="2;4;2" dur="3s" repeatCount="indefinite"/>
-          </path>
-          
-          {/* Platform to Real World Skills */}
-          <path d="M 700 190 Q 735 190 770 190" strokeWidth="2">
-            <animate attributeName="opacity" values="0.4;0.9;0.4" dur="4s" repeatCount="indefinite" begin="0.5s"/>
-          </path>
-          
-          {/* Platform to Build Projects */}
-          <path d="M 700 290 Q 735 290 770 290" strokeWidth="2">
-            <animate attributeName="opacity" values="0.4;0.9;0.4" dur="4s" repeatCount="indefinite" begin="1s"/>
-          </path>
-          
-          {/* Platform to Industry Ready */}
-          <path d="M 700 390 Q 735 390 770 390" strokeWidth="2">
-            <animate attributeName="opacity" values="0.4;0.9;0.4" dur="4s" repeatCount="indefinite" begin="1.5s"/>
-          </path>
-        </g>
 
-        {/* Floating Data Particles */}
+        {/* Enhanced Connecting Lines */}
         <g>
-          <circle cx="265" cy="295" r="3" fill="#8B5CF6" opacity="0.8">
-            <animate attributeName="cx" values="265;280;265" dur="2.5s" repeatCount="indefinite"/>
-            <animate attributeName="opacity" values="0.8;0.2;0.8" dur="2.5s" repeatCount="indefinite"/>
-          </circle>
-          <circle cx="735" cy="185" r="2.5" fill="#A855F7" opacity="0.7">
-            <animate attributeName="cx" values="735;750;735" dur="3s" repeatCount="indefinite"/>
-            <animate attributeName="opacity" values="0.7;0.2;0.7" dur="3s" repeatCount="indefinite"/>
-          </circle>
-          <circle cx="735" cy="285" r="2.5" fill="#C084FC" opacity="0.7">
-            <animate attributeName="cx" values="735;750;735" dur="2.8s" repeatCount="indefinite" begin="1s"/>
-            <animate attributeName="opacity" values="0.7;0.2;0.7" dur="2.8s" repeatCount="indefinite" begin="1s"/>
-          </circle>
-          <circle cx="735" cy="385" r="2.5" fill="#DDD6FE" opacity="0.7">
-            <animate attributeName="cx" values="735;750;735" dur="3.2s" repeatCount="indefinite" begin="0.5s"/>
-            <animate attributeName="opacity" values="0.7;0.2;0.7" dur="3.2s" repeatCount="indefinite" begin="0.5s"/>
-          </circle>
+          {/* Solid base connections */}
+          <g stroke="#8B5CF6" strokeWidth="3" fill="none" opacity="0.8" strokeLinecap="round">
+            {/* User to Platform - Main connection */}
+            <path d="M 230 300 Q 265 285 300 300" strokeWidth="4" opacity="0.9">
+              <animate attributeName="stroke-dasharray" values="0,1000;20,980;0,1000" dur="3s" repeatCount="indefinite"/>
+            </path>
+            
+            {/* Platform to Skills - Top connection */}
+            <path d="M 700 185 Q 720 175 750 185" strokeWidth="3" opacity="0.85">
+              <animate attributeName="stroke-dasharray" values="0,1000;15,985;0,1000" dur="4s" repeatCount="indefinite" begin="0.5s"/>
+            </path>
+            
+            {/* Platform to Projects - Middle connection */}
+            <path d="M 700 295 Q 720 285 750 295" strokeWidth="3" opacity="0.85">
+              <animate attributeName="stroke-dasharray" values="0,1000;15,985;0,1000" dur="4s" repeatCount="indefinite" begin="1s"/>
+            </path>
+            
+            {/* Platform to Industry - Bottom connection */}
+            <path d="M 700 405 Q 720 415 750 405" strokeWidth="3" opacity="0.85">
+              <animate attributeName="stroke-dasharray" values="0,1000;15,985;0,1000" dur="4s" repeatCount="indefinite" begin="1.5s"/>
+            </path>
+          </g>
+          
+          {/* Data flow indicators */}
+          <g>
+            {/* Moving dots along connections */}
+            <circle r="4" fill="#8B5CF6" opacity="0.9">
+              <animateMotion dur="3s" repeatCount="indefinite" path="M 230 300 Q 265 285 300 300"/>
+            </circle>
+            <circle r="3" fill="#A855F7" opacity="0.8">
+              <animateMotion dur="4s" repeatCount="indefinite" begin="0.5s" path="M 700 185 Q 720 175 750 185"/>
+            </circle>
+            <circle r="3" fill="#C084FC" opacity="0.8">
+              <animateMotion dur="4s" repeatCount="indefinite" begin="1s" path="M 700 295 Q 720 285 750 295"/>
+            </circle>
+            <circle r="3" fill="#DDD6FE" opacity="0.8">
+              <animateMotion dur="4s" repeatCount="indefinite" begin="1.5s" path="M 700 405 Q 720 415 750 405"/>
+            </circle>
+          </g>
         </g>
       </svg>
     </div>
