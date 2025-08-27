@@ -421,7 +421,7 @@ export default function DashboardPage() {
                     label: 'Average Score',
                     value: statsLoading ? '...' : (stats?.averageScore ? `${stats.averageScore.toFixed(1)}%` : '0%'),
                     change: '+' + (stats?.monthlyProgress || 0) + '% this month',
-                    changeType: stats?.monthlyProgress > 0 ? 'positive' : 'neutral',
+                    changeType: stats?.monthlyProgress && stats.monthlyProgress > 0 ? 'positive' : 'neutral',
                     icon: <Trophy className="w-5 h-5" />,
                     color: 'yellow'
                   }
