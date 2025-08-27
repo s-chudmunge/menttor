@@ -68,7 +68,7 @@ const MenttorLabsMainPage = () => {
   const [showOldLearnPages, setShowOldLearnPages] = useState(false);
   const [activeFeature, setActiveFeature] = useState(0);
   const [show3DGenerator, setShow3DGenerator] = useState(false);
-  const [threeDModel, setThreeDModel] = useState('gemini-2.5-flash-lite');
+  const [threeDModel, setThreeDModel] = useState('vertexai:gemini-2.5-flash-lite');
   const [threeDModelName, setThreeDModelName] = useState('Loading models...');
   const [show3DModelModal, setShow3DModelModal] = useState(false);
   const [showLearnAboutSomething, setShowLearnAboutSomething] = useState(false);
@@ -361,9 +361,9 @@ const MenttorLabsMainPage = () => {
   };
 
   const handleSelect3DModel = (modelId: string, modelName: string) => {
-    // Remove vertexai: prefix if it exists for 3D generator
-    const cleanModelId = modelId.startsWith('vertexai:') ? modelId.replace('vertexai:', '') : modelId;
-    setThreeDModel(cleanModelId);
+    // Keep the full model ID for 3D generation to support all providers
+    // (vertexai:, openrouter:, huggingface:, etc.)
+    setThreeDModel(modelId);
     setThreeDModelName(modelName);
     setShow3DModelModal(false);
   };
@@ -1105,7 +1105,7 @@ const MenttorLabsMainPage = () => {
           isOpen={show3DModelModal}
           onClose={() => setShow3DModelModal(false)}
           onSelectModel={handleSelect3DModel}
-          currentModelId={`vertexai:${threeDModel}`}
+          currentModelId={threeDModel.includes(':') ? threeDModel : `vertexai:${threeDModel}`}
         />
       )}
 

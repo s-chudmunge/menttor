@@ -20,6 +20,9 @@ import RecommendedReviews from './components/RecommendedReviews';
 import OldRoadmapsModal from '../components/OldRoadmapsModal';
 import OldLearnPagesModal from '../learn/OldLearnPagesModal';
 import ProtectedRoute from '../components/ProtectedRoute';
+import { ThreeDGeneratorCard, ThreeDGeneratorModal } from '../../../components/ThreeDGenerator';
+import { LearnAboutSomethingCard, LearnAboutSomethingModal } from '../../../components/LearnAboutSomething';
+import D3ModelMapModal from '../components/ModelSelectionMap';
 import LearningGuide from './components/LearningGuide';
 import ReportButton from './components/ReportButton';
 import QuizReportModal from './components/QuizReportModal';
@@ -39,7 +42,9 @@ import {
   BarChart3,
   TrendingUp,
   Brain,
-  RefreshCw
+  RefreshCw,
+  Sparkles,
+  Box
 } from 'lucide-react';
 
 const JourneyPage = () => {
@@ -48,6 +53,16 @@ const JourneyPage = () => {
   const [isOldRoadmapsModalOpen, setIsOldRoadmapsModalOpen] = useState(false);
   const [isOldLearnPagesModalOpen, setIsOldLearnPagesModalOpen] = useState(false);
   const [roadmapData, setRoadmapData] = useState<RoadmapData | null>(null);
+  
+  // Quick tools state
+  const [show3DGenerator, setShow3DGenerator] = useState(false);
+  const [threeDModel, setThreeDModel] = useState('vertexai:gemini-2.5-flash-lite');
+  const [threeDModelName, setThreeDModelName] = useState('Gemini 2.5 Flash Lite');
+  const [show3DModelModal, setShow3DModelModal] = useState(false);
+  const [showLearnAboutSomething, setShowLearnAboutSomething] = useState(false);
+  const [learnModel, setLearnModel] = useState('vertexai:gemini-2.5-flash-lite');
+  const [learnModelName, setLearnModelName] = useState('Gemini 2.5 Flash Lite');
+  const [showLearnModelModal, setShowLearnModelModal] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
 
   const { user, loading } = useAuth();
@@ -331,6 +346,19 @@ const JourneyPage = () => {
     window.open(`/learn?content_id=${content.id}`, '_blank');
   };
 
+  // Quick tools handlers
+  const handleSelect3DModel = (modelId: string, modelName: string) => {
+    setThreeDModel(modelId);
+    setThreeDModelName(modelName);
+    setShow3DModelModal(false);
+  };
+
+  const handleSelectLearnModel = (modelId: string, modelName: string) => {
+    setLearnModel(modelId);
+    setLearnModelName(modelName);
+    setShowLearnModelModal(false);
+  };
+
   // Enhanced loading state
   if (loading || isLoadingRoadmap) {
     return (
@@ -493,6 +521,35 @@ const JourneyPage = () => {
             </div>
           </div>
 
+          {/* Quick Tools Section */}
+          <div className="mb-8">
+            <div className="bg-gradient-to-r from-white/90 via-blue-50/90 to-indigo-50/90 dark:from-gray-800/90 dark:via-blue-900/20 dark:to-indigo-900/20 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-200/50 dark:border-gray-700/50 p-6 transition-all duration-300 hover:shadow-2xl">
+              <div className="text-center mb-6">
+                <div className="inline-flex items-center px-3 py-1.5 rounded-full bg-purple-50/80 dark:bg-purple-900/30 border border-purple-200/50 dark:border-purple-700/50 text-purple-700 dark:text-purple-300 text-sm font-medium mb-3">
+                  <Sparkles className="w-4 h-4 mr-2" />
+                  Quick Tools
+                </div>
+                <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">
+                  Enhance Your Learning Experience
+                </h3>
+                <p className="text-sm text-gray-600 dark:text-gray-300">
+                  Access additional tools to boost your learning journey
+                </p>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-2xl mx-auto">
+                <ThreeDGeneratorCard 
+                  onClick={() => setShow3DGenerator(true)}
+                  className="w-full"
+                />
+                <LearnAboutSomethingCard 
+                  onClick={() => setShowLearnAboutSomething(true)}
+                  className="w-full"
+                />
+              </div>
+            </div>
+          </div>
+
           {/* Enhanced View Controls */}
           <div className="mb-8">
             <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-1.5 border border-gray-200/50 dark:border-gray-700/50 shadow-lg inline-flex">
@@ -577,6 +634,42 @@ const JourneyPage = () => {
             isOpen={isOldLearnPagesModalOpen}
             onClose={() => setIsOldLearnPagesModalOpen(false)}
             onLoadLearningContent={handleLoadLearningContent}
+          />
+        )}
+
+        {/* Quick Tools Modals */}
+        <ThreeDGeneratorModal
+          isOpen={show3DGenerator}
+          onClose={() => setShow3DGenerator(false)}
+          selectedModel={threeDModel}
+          selectedModelName={threeDModelName}
+          onModelSelect={() => setShow3DModelModal(true)}
+        />
+
+        <LearnAboutSomethingModal
+          isOpen={showLearnAboutSomething}
+          onClose={() => setShowLearnAboutSomething(false)}
+          selectedModel={learnModel}
+          selectedModelName={learnModelName}
+          onModelSelect={() => setShowLearnModelModal(true)}
+        />
+
+        {/* Model Selection Modals */}
+        {show3DModelModal && (
+          <D3ModelMapModal
+            isOpen={show3DModelModal}
+            onClose={() => setShow3DModelModal(false)}
+            onSelectModel={handleSelect3DModel}
+            currentModelId={threeDModel.includes(':') ? threeDModel : `vertexai:${threeDModel}`}
+          />
+        )}
+
+        {showLearnModelModal && (
+          <D3ModelMapModal
+            isOpen={showLearnModelModal}
+            onClose={() => setShowLearnModelModal(false)}
+            onSelectModel={handleSelectLearnModel}
+            currentModelId={learnModel.includes(':') ? learnModel : `vertexai:${learnModel}`}
           />
         )}
 
