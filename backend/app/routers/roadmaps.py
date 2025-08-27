@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlmodel import Session, select
 from database.session import get_db
 from schemas import RoadmapCreateRequest, RoadmapResponse, RoadmapUpdate
-from sql_models import Roadmap, User
+from sql_models import Roadmap, User, UserCuratedRoadmap, UserProgress, LearningSession, MilestoneProgress, DependencyMap
 from services.ai_service import generate_roadmap_content
 from typing import List, Optional
 from .optional_auth import get_optional_current_user
@@ -87,6 +87,53 @@ def delete_roadmap(roadmap_id: int, db: Session = Depends(get_db), current_user:
     if not roadmap:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Roadmap not found")
     
-    db.delete(roadmap)
-    db.commit()
-    return
+    try:
+        # Handle all foreign key references before deleting the roadmap
+        
+        # 1. Handle UserCuratedRoadmap records that reference this roadmap
+        curated_roadmap_refs = db.exec(
+            select(UserCuratedRoadmap).where(UserCuratedRoadmap.personal_roadmap_id == roadmap_id)
+        ).all()
+        for ref in curated_roadmap_refs:
+            ref.personal_roadmap_id = None
+            db.add(ref)
+        
+        # 2. Delete UserProgress records for this roadmap
+        user_progress_records = db.exec(
+            select(UserProgress).where(UserProgress.roadmap_id == roadmap_id)
+        ).all()
+        for progress in user_progress_records:
+            db.delete(progress)
+        
+        # 3. Delete LearningSession records for this roadmap
+        learning_sessions = db.exec(
+            select(LearningSession).where(LearningSession.roadmap_id == roadmap_id)
+        ).all()
+        for session in learning_sessions:
+            db.delete(session)
+        
+        # 4. Delete MilestoneProgress records for this roadmap
+        milestone_progress = db.exec(
+            select(MilestoneProgress).where(MilestoneProgress.roadmap_id == roadmap_id)
+        ).all()
+        for milestone in milestone_progress:
+            db.delete(milestone)
+        
+        # 5. Delete DependencyMap records for this roadmap
+        dependency_maps = db.exec(
+            select(DependencyMap).where(DependencyMap.roadmap_id == roadmap_id)
+        ).all()
+        for dependency in dependency_maps:
+            db.delete(dependency)
+        
+        # Now we can safely delete the roadmap
+        db.delete(roadmap)
+        db.commit()
+        return
+        
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, 
+            detail=f"Failed to delete roadmap: {str(e)}"
+        )
