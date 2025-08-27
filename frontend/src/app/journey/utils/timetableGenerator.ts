@@ -241,7 +241,8 @@ export class TimetableGenerator {
     if (!modules || !Array.isArray(modules)) {
       doc.setFontSize(12);
       doc.text('No modules found in roadmap data', 20, yPosition);
-      doc.save(`${roadmapData.title.replace(/[^a-z0-9]/gi, '_')}_timetable.pdf`);
+      const fileName = (roadmapData.title || 'roadmap').replace(/[^a-z0-9]/gi, '_');
+      doc.save(`${fileName}_timetable.pdf`);
       return;
     }
     
