@@ -100,7 +100,16 @@ export class TimetableGenerator {
     let cumulativeMinutes = 0;
 
     // Handle different roadmap data structures
-    const modules = roadmapData.roadmap_plan?.modules || roadmapData.roadmap_plan || [];
+    let modules: RoadmapModule[] = [];
+    if (roadmapData.roadmap_plan) {
+      if (Array.isArray(roadmapData.roadmap_plan)) {
+        // roadmap_plan is directly an array of modules
+        modules = roadmapData.roadmap_plan;
+      } else if (roadmapData.roadmap_plan.modules) {
+        // roadmap_plan is an object with modules property
+        modules = roadmapData.roadmap_plan.modules;
+      }
+    }
     
     if (!modules || !Array.isArray(modules)) {
       console.warn('No valid modules found in roadmap data');
@@ -218,7 +227,16 @@ export class TimetableGenerator {
     doc.setFontSize(9);
     
     // Handle different roadmap data structures
-    const modules = roadmapData.roadmap_plan?.modules || roadmapData.roadmap_plan || [];
+    let modules: RoadmapModule[] = [];
+    if (roadmapData.roadmap_plan) {
+      if (Array.isArray(roadmapData.roadmap_plan)) {
+        // roadmap_plan is directly an array of modules
+        modules = roadmapData.roadmap_plan;
+      } else if (roadmapData.roadmap_plan.modules) {
+        // roadmap_plan is an object with modules property
+        modules = roadmapData.roadmap_plan.modules;
+      }
+    }
     
     if (!modules || !Array.isArray(modules)) {
       doc.setFontSize(12);
