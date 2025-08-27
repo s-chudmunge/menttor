@@ -84,15 +84,15 @@ export default function PromotionalBackground({ className = "", children }: Prom
             }
           }}
         />
-        {/* Overlay for content readability */}
-        <div className="absolute inset-0 bg-gradient-to-br from-black/40 via-transparent to-black/30 dark:from-black/60 dark:via-black/20 dark:to-black/50" />
-        {/* Additional overlay for better text contrast */}
-        <div className="absolute inset-0 bg-gradient-to-t from-white/80 via-white/20 to-white/60 dark:from-gray-900/80 dark:via-gray-900/20 dark:to-gray-900/60" />
+        {/* Overlay for content readability - Enhanced for light theme */}
+        <div className="absolute inset-0 bg-gradient-to-br from-black/50 via-black/20 to-black/40 dark:from-black/60 dark:via-black/20 dark:to-black/50" />
+        {/* Additional overlay for better text contrast - Better light theme support */}
+        <div className="absolute inset-0 bg-gradient-to-t from-white/90 via-white/40 to-white/70 dark:from-gray-900/80 dark:via-gray-900/20 dark:to-gray-900/60" />
       </div>
       
-      {/* Floating decorative elements */}
-      <div className="absolute top-0 left-0 w-96 h-96 bg-blue-400/20 rounded-full filter blur-3xl animate-pulse" />
-      <div className="absolute bottom-0 right-0 w-96 h-96 bg-indigo-400/20 rounded-full filter blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+      {/* Floating decorative elements - Enhanced for light theme */}
+      <div className="absolute top-0 left-0 w-96 h-96 bg-blue-400/30 dark:bg-blue-400/20 rounded-full filter blur-3xl animate-pulse" />
+      <div className="absolute bottom-0 right-0 w-96 h-96 bg-indigo-400/30 dark:bg-indigo-400/20 rounded-full filter blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
       
       {/* Content */}
       <div className="relative z-10">
