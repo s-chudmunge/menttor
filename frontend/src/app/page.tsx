@@ -496,11 +496,11 @@ const MenttorLabsMainPage = () => {
               </div>
               
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-8 leading-tight">
-                Learn Anything with{' '}
+                Master Any Subject with{' '}
                 <span className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent">
-                  Expertly Crafted
+                  Expert Curated
                 </span>{' '}
-                Learning Paths
+                Learning Roadmaps
               </h1>
               
               <p className="text-xl md:text-2xl text-gray-700 dark:text-gray-200 mb-10 leading-relaxed max-w-2xl">
