@@ -38,10 +38,10 @@ const QuickToolsSidePanel: React.FC<QuickToolsSidePanelProps> = ({
         border-r border-gray-200/50 dark:border-gray-700/50 shadow-2xl z-50
         transition-transform duration-300 ease-in-out
         ${isOpen ? 'translate-x-0' : '-translate-x-full'}
-        w-80 lg:w-96
+        w-80 lg:w-96 flex flex-col
       `}>
         {/* Header */}
-        <div className="p-6 border-b border-gray-200/50 dark:border-gray-700/50">
+        <div className="p-4 border-b border-gray-200/50 dark:border-gray-700/50 flex-shrink-0">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
               <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg flex items-center justify-center">
@@ -59,31 +59,33 @@ const QuickToolsSidePanel: React.FC<QuickToolsSidePanelProps> = ({
               <ChevronLeft className="w-5 h-5 text-gray-500 dark:text-gray-400" />
             </button>
           </div>
-          <p className="text-sm text-gray-600 dark:text-gray-300 mt-2">
+          <p className="text-xs text-gray-600 dark:text-gray-300 mt-2">
             Access additional tools to enhance your learning experience
           </p>
         </div>
 
         {/* Content */}
-        <div className="p-6 space-y-4 overflow-y-auto flex-1">
-          {/* Timetable Tools */}
-          {roadmapData && (
-            <TimetableTools roadmapData={roadmapData} />
-          )}
-          
-          {/* AI Tools - All together */}
-          <ThreeDGeneratorCard 
-            onClick={onShow3DGenerator}
-            className="w-full"
-          />
-          <LearnAboutSomethingCard 
-            onClick={onShowLearnAboutSomething}
-            className="w-full"
-          />
+        <div className="flex-1 overflow-y-auto">
+          <div className="p-4 space-y-3">
+            {/* Timetable Tools */}
+            {roadmapData && (
+              <TimetableTools roadmapData={roadmapData} />
+            )}
+            
+            {/* AI Tools - All together */}
+            <ThreeDGeneratorCard 
+              onClick={onShow3DGenerator}
+              className="w-full"
+            />
+            <LearnAboutSomethingCard 
+              onClick={onShowLearnAboutSomething}
+              className="w-full"
+            />
+          </div>
         </div>
 
         {/* Footer */}
-        <div className="p-6 border-t border-gray-200/50 dark:border-gray-700/50">
+        <div className="p-3 border-t border-gray-200/50 dark:border-gray-700/50 flex-shrink-0">
           <p className="text-xs text-gray-500 dark:text-gray-400 text-center">
             More tools coming soon
           </p>
