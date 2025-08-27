@@ -19,7 +19,7 @@ const Logo = () => (
     
     {/* Clean, modern text */}
     <div className="flex flex-col">
-      <span className="text-xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 dark:from-white dark:to-gray-300 bg-clip-text text-transparent leading-none">
+      <span className="text-xl font-bold bg-gradient-to-r from-slate-900 to-slate-800 dark:from-white dark:to-gray-100 bg-clip-text text-transparent leading-none">
         Menttor
       </span>
       <span className="text-xs font-medium text-gray-500 dark:text-gray-400 tracking-wide leading-none mt-0.5">
