@@ -140,7 +140,7 @@ export default function LearningAnimationDemoPage() {
                     autoPlay
                     loop
                     className="w-full h-auto rounded-xl shadow-lg"
-                    style={{ aspectRatio: '16/9' }}
+                    style={{ aspectRatio: '9/16' }}
                   >
                     Your browser does not support the video tag.
                   </video>
@@ -149,7 +149,7 @@ export default function LearningAnimationDemoPage() {
                     src={videoData.url}
                     alt="Generated promotional content featuring Menttor's tech cat mascot"
                     className="w-full h-auto rounded-xl shadow-lg"
-                    style={{ aspectRatio: '16/9' }}
+                    style={{ aspectRatio: '9/16' }}
                   />
                 )}
               </div>

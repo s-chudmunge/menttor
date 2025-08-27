@@ -111,14 +111,7 @@ const BehavioralQuizInterface: React.FC<QuizInterfaceProps> = ({ quizParams }) =
                 });
                 setIsWarningModalOpen(true);
                 
-                // Show behavioral feedback for violations
-                showNotification({
-                    type: 'focus',
-                    title: 'Focus Interrupted',
-                    message: 'Stay concentrated for better learning outcomes',
-                    duration: 3000,
-                    priority: 'medium'
-                });
+                // Focus violation recorded but no nudge notification
             }
             return { ...prev, [type]: newCount };
         });
@@ -202,18 +195,17 @@ const BehavioralQuizInterface: React.FC<QuizInterfaceProps> = ({ quizParams }) =
                 [questionId]: { correct: isCorrect }
             }));
             
-            // Show immediate feedback
-            showNotification({
-                type: isCorrect ? 'xp' : 'focus',
-                title: isCorrect ? `+${xpGain} XP` : 'Keep Learning',
-                message: isCorrect ? 
-                    `Great answer! ${responseTime < 5 ? 'Lightning fast! ⚡' : ''}` :
-                    'Every mistake is a learning opportunity',
-                duration: 2000,
-                priority: 'low',
-                data: { xpGain, responseTime, isCorrect }
-            });
-        }
+            // Show XP feedback for correct answers only
+            if (isCorrect) {
+                showNotification({
+                    type: 'xp',
+                    title: `+${xpGain} XP`,
+                    message: `Great answer! ${responseTime < 5 ? 'Lightning fast! ⚡' : ''}`,
+                    duration: 2000,
+                    priority: 'low',
+                    data: { xpGain, responseTime, isCorrect }
+                });
+            }
         
         // Reset response timer for next question
         setTimeout(() => setResponseStartTime(new Date()), 100);
@@ -366,16 +358,7 @@ const BehavioralQuizInterface: React.FC<QuizInterfaceProps> = ({ quizParams }) =
             setQuestions(formattedQuestions);
             setSessionToken(data.session_token);
             
-            // Show difficulty adaptation message
-            if (difficulty === 'adaptive' && userElo !== 1200) {
-                showNotification({
-                    type: 'session',
-                    title: 'Quiz Adapted',
-                    message: `Difficulty adjusted based on your ${userElo > 1200 ? 'strong' : 'developing'} performance`,
-                    duration: 4000,
-                    priority: 'low'
-                });
-            }
+            // Difficulty adaptation handled silently
 
         } catch (err: any) {
             console.error('Quiz generation error:', err);
@@ -394,24 +377,7 @@ const BehavioralQuizInterface: React.FC<QuizInterfaceProps> = ({ quizParams }) =
             setTimeLeft((prev) => {
                 const newTime = prev - 1;
                 
-                // Time-based nudges
-                if (newTime === 60) {
-                    showNotification({
-                        type: 'focus',
-                        title: '1 Minute Remaining',
-                        message: 'Focus on your strongest answers now',
-                        duration: 3000,
-                        priority: 'medium'
-                    });
-                } else if (newTime === 300 && prev > 300) {
-                    showNotification({
-                        type: 'session',
-                        title: '5 Minutes Left',
-                        message: 'You\'re doing great! Keep the momentum going',
-                        duration: 2000,
-                        priority: 'low'
-                    });
-                }
+                // Time tracking without nudges
                 
                 if (newTime <= 0) {
                     // Exit fullscreen before auto-submit due to timeout

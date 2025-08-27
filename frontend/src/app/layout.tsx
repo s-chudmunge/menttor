@@ -8,7 +8,6 @@ import SpiralMark from "../../components/SpiralMark";
 import ModelStatusIndicator from "../../components/ModelStatusIndicator";
 import BehavioralNotifications from "../components/behavioral/BehavioralNotifications";
 import MilestoneSystem from "../components/behavioral/MilestoneSystem";
-import SmartNudgeSystem from "../components/behavioral/SmartNudgeSystem";
 import RewardSystemManager from "../components/behavioral/RewardSystemManager";
 import { ThemeProvider } from "./components/ThemeProvider";
 import { Analytics } from "@vercel/analytics/next";
@@ -203,7 +202,6 @@ export default function RootLayout({
                 <ModelStatusIndicator />
                 <BehavioralNotifications />
                 <MilestoneSystem />
-                <SmartNudgeSystem />
                 <RewardSystemManager />
                 <PageTracker />
                 <SessionTracker />

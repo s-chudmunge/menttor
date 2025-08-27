@@ -23,7 +23,6 @@ import ProtectedRoute from '../components/ProtectedRoute';
 import LearningGuide from './components/LearningGuide';
 import ReportButton from './components/ReportButton';
 import QuizReportModal from './components/QuizReportModal';
-import BehavioralIndicator from './components/BehavioralIndicator';
 import DayView from './components/DayView';
 import ModuleView from './components/ModuleView';
 
@@ -584,13 +583,6 @@ const JourneyPage = () => {
         {/* Quiz Report Modal */}
         <QuizReportModal />
 
-        {/* Floating Behavioral Indicator */}
-        <BehavioralIndicator 
-          roadmapId={roadmapData?.id}
-          overallProgress={progressMetrics.overallProgress}
-          completedTopics={progressMetrics.completedSubtopics}
-          totalTopics={progressMetrics.totalSubtopics}
-        />
       </div>
     </ProtectedRoute>
   );

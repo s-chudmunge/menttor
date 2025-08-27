@@ -9,10 +9,16 @@ const BehavioralNotifications: React.FC = () => {
   const { notifications, dismissNotification } = useBehavioralContext();
   const [visibleNotifications, setVisibleNotifications] = useState<BehavioralNotification[]>([]);
 
-  // Limit visible notifications to avoid overwhelming the user
+  // Only show milestone-related notifications, filter out nudges
   useEffect(() => {
     const maxVisible = 3;
-    const sortedByPriority = [...notifications]
+    // Only show milestone, achievement, level-up, and XP notifications
+    const allowedTypes = ['milestone', 'levelup', 'xp', 'reward'];
+    const filteredNotifications = notifications.filter(notification => 
+      allowedTypes.includes(notification.type)
+    );
+    
+    const sortedByPriority = [...filteredNotifications]
       .sort((a, b) => {
         const priorityOrder = { high: 3, medium: 2, low: 1 };
         return priorityOrder[b.priority] - priorityOrder[a.priority];
