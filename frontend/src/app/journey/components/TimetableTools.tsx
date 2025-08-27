@@ -24,7 +24,7 @@ const TimetableTools: React.FC<TimetableToolsProps> = ({ roadmapData, className 
     try {
       // Small delay to show loading state
       await new Promise(resolve => setTimeout(resolve, 500));
-      timetableGenerator.generatePDF(roadmapData);
+      await timetableGenerator.generatePDF(roadmapData);
       
       // Show success for 2 seconds
       setTimeout(() => {
