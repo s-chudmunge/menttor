@@ -54,11 +54,13 @@ export default function PromotionalBackground({ className = "", children }: Prom
   if (loading) {
     return (
       <div className={`relative ${className}`}>
-        {/* Fallback gradient background while loading */}
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 via-white to-indigo-50/50 dark:from-gray-900 dark:via-blue-900/20 dark:to-gray-800" />
-        <div className="absolute top-0 left-0 w-96 h-96 bg-blue-400/10 rounded-full filter blur-3xl" />
-        <div className="absolute bottom-0 right-0 w-96 h-96 bg-indigo-400/10 rounded-full filter blur-3xl" />
-        {children}
+        {/* Fallback gradient background while loading - Mobile optimized */}
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-50/60 via-white to-indigo-50/60 dark:from-gray-900 dark:via-blue-900/25 dark:to-gray-800" />
+        <div className="absolute top-0 left-0 w-64 h-64 sm:w-96 sm:h-96 bg-blue-400/15 dark:bg-blue-400/10 rounded-full filter blur-2xl sm:blur-3xl" />
+        <div className="absolute bottom-0 right-0 w-64 h-64 sm:w-96 sm:h-96 bg-indigo-400/15 dark:bg-indigo-400/10 rounded-full filter blur-2xl sm:blur-3xl" />
+        <div className="relative z-10">
+          {children}
+        </div>
       </div>
     );
   }
@@ -67,15 +69,27 @@ export default function PromotionalBackground({ className = "", children }: Prom
 
   return (
     <div className={`relative ${className}`}>
-      {/* Static Promotional Image Background */}
+      {/* Responsive Background Solution */}
       <div className="absolute inset-0 overflow-hidden">
+        {/* Mobile-optimized background */}
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat sm:hidden"
+          style={{ 
+            backgroundImage: `url(${currentImageSrc})`,
+            filter: 'brightness(0.3) blur(1px)',
+            backgroundPosition: 'center center',
+            backgroundSize: 'cover'
+          }}
+        />
+        
+        {/* Desktop background with object-fit */}
         <img
           src={currentImageSrc}
           alt={`Promotional background featuring tech cat mascot - Image ${currentImageIndex + 1}`}
-          className="w-full h-full object-cover object-center"
+          className="hidden sm:block w-full h-full object-cover object-center min-h-full min-w-full"
           style={{ 
             filter: 'brightness(0.3) blur(1px)',
-            transform: 'scale(1.05)' // Slight zoom to avoid edge artifacts
+            transform: 'scale(1.02)' // Minimal zoom to avoid edge artifacts
           }}
           onError={(e) => {
             // Fallback to first image if current image fails to load
@@ -84,15 +98,18 @@ export default function PromotionalBackground({ className = "", children }: Prom
             }
           }}
         />
-        {/* Overlay for content readability - Enhanced for light theme */}
-        <div className="absolute inset-0 bg-gradient-to-br from-black/50 via-black/20 to-black/40 dark:from-black/60 dark:via-black/20 dark:to-black/50" />
-        {/* Additional overlay for better text contrast - Better light theme support */}
-        <div className="absolute inset-0 bg-gradient-to-t from-white/90 via-white/40 to-white/70 dark:from-gray-900/80 dark:via-gray-900/20 dark:to-gray-900/60" />
+        
+        {/* Gradient overlays for content readability */}
+        <div className="absolute inset-0 bg-gradient-to-br from-black/40 via-black/10 to-black/30 dark:from-black/50 dark:via-black/15 dark:to-black/40" />
+        <div className="absolute inset-0 bg-gradient-to-t from-white/85 via-white/30 to-white/60 dark:from-gray-900/75 dark:via-gray-900/15 dark:to-gray-900/50" />
+        
+        {/* Mobile-specific overlay for better text readability */}
+        <div className="absolute inset-0 bg-white/20 dark:bg-gray-900/20 sm:hidden" />
       </div>
       
-      {/* Floating decorative elements - Enhanced for light theme */}
-      <div className="absolute top-0 left-0 w-96 h-96 bg-blue-400/30 dark:bg-blue-400/20 rounded-full filter blur-3xl animate-pulse" />
-      <div className="absolute bottom-0 right-0 w-96 h-96 bg-indigo-400/30 dark:bg-indigo-400/20 rounded-full filter blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+      {/* Floating decorative elements - Enhanced for mobile */}
+      <div className="absolute top-0 left-0 w-64 h-64 sm:w-96 sm:h-96 bg-blue-400/25 dark:bg-blue-400/15 rounded-full filter blur-2xl sm:blur-3xl animate-pulse" />
+      <div className="absolute bottom-0 right-0 w-64 h-64 sm:w-96 sm:h-96 bg-indigo-400/25 dark:bg-indigo-400/15 rounded-full filter blur-2xl sm:blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
       
       {/* Content */}
       <div className="relative z-10">
