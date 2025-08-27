@@ -105,16 +105,23 @@ export default function SimpleLearningAnimation() {
                 stroke="url(#cardBorder)" strokeWidth="1"
                 className="animate-pulse" style={{ animationDuration: '5s' }}/>
           
-          {/* Platform Header with Icon */}
+          {/* Platform Header with Logo */}
           <circle cx="430" cy="155" r="20" fill="url(#iconBackground)"/>
-          <rect x="418" y="143" width="24" height="24" rx="4" fill="white"/>
+          {/* Menttor Logo SVG */}
+          <svg x="418" y="143" width="24" height="24" viewBox="0 0 24 24">
+            <path 
+              fill="white" 
+              d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09V17h2V9L12 3zm6.82 6L12 12.72 5.18 9 12 5.28 18.82 9zM17 15.99l-5 2.73-5-2.73v-3.72L12 15l5-2.73v3.72z"
+            />
+          </svg>
           <text x="460" y="160" fill="white" fontSize="20" fontWeight="600">Menttor</text>
           
           {/* Feature Grid - 3x3 Layout */}
           {/* Row 1 */}
           <rect x="320" y="190" width="110" height="55" rx="12" fill="url(#featureCard)" stroke="url(#featureBorder)" strokeWidth="0.5"/>
-          <text x="375" y="212" textAnchor="middle" fill="white" fontSize="13" fontWeight="600">Cost Tracking</text>
-          <text x="375" y="228" textAnchor="middle" fill="rgba(255,255,255,0.7)" fontSize="11">Monitor Usage</text>
+          <text x="375" y="208" textAnchor="middle" fill="white" fontSize="11" fontWeight="600">Personal Feedback</text>
+          <text x="375" y="222" textAnchor="middle" fill="white" fontSize="11" fontWeight="600">and Adaptive</text>
+          <text x="375" y="236" textAnchor="middle" fill="white" fontSize="11" fontWeight="600">Algorithms</text>
           
           <rect x="445" y="190" width="110" height="55" rx="12" fill="url(#featureCard)" stroke="url(#featureBorder)" strokeWidth="0.5"/>
           <text x="500" y="212" textAnchor="middle" fill="white" fontSize="13" fontWeight="600">Elo Ratings</text>
@@ -152,8 +159,8 @@ export default function SimpleLearningAnimation() {
           
           {/* Bottom Feature - Full Width */}
           <rect x="320" y="400" width="360" height="60" rx="12" fill="url(#premiumFeature)" stroke="url(#cardBorder)" strokeWidth="1"/>
-          <text x="500" y="425" textAnchor="middle" fill="white" fontSize="15" fontWeight="600">Behavioral Psychology</text>
-          <text x="500" y="445" textAnchor="middle" fill="rgba(255,255,255,0.8)" fontSize="12">Advanced Learning Optimization</text>
+          <text x="500" y="425" textAnchor="middle" fill="white" fontSize="15" fontWeight="600">Learning the Way you want to</text>
+          <text x="500" y="445" textAnchor="middle" fill="rgba(255,255,255,0.8)" fontSize="12">Personalized Learning Experience</text>
         </g>
 
         {/* Learning Outcomes (Right) */}
