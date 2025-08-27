@@ -417,8 +417,8 @@ const BehavioralPerformanceAnalysisClientPage: React.FC<BehavioralPerformanceAna
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
               {['morning', 'afternoon', 'evening', 'night'].map((timeSlot) => {
-                const data = optimalTime.optimal_windows?.[timeSlot];
-                const isOptimal = optimalTime.best_window?.[0] === timeSlot;
+                const data = optimalTime?.optimal_windows?.[timeSlot];
+                const isOptimal = optimalTime?.best_window?.[0] === timeSlot;
                 
                 return (
                   <div key={timeSlot} className={`p-6 rounded-2xl border-2 shadow-lg transition-all duration-200 ${isOptimal ? 'border-green-500 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/30 dark:to-emerald-900/30' : 'border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800'}`}>
@@ -435,13 +435,13 @@ const BehavioralPerformanceAnalysisClientPage: React.FC<BehavioralPerformanceAna
               })}
             </div>
             
-            {optimalTime.best_window && (
+            {optimalTime?.best_window && (
               <div className="bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/30 dark:to-emerald-900/30 border border-green-200 dark:border-green-800 rounded-2xl p-6">
                 <div className="flex items-center space-x-3 text-green-700 dark:text-green-300">
                   <Target className="w-5 h-5" />
                   <span className="font-bold text-lg">Best learning time:</span>
-                  <span className="capitalize font-semibold">{optimalTime.best_window[0]}</span>
-                  <span>with {Math.round(optimalTime.best_window[1].completion_rate * 100)}% success rate</span>
+                  <span className="capitalize font-semibold">{optimalTime?.best_window?.[0]}</span>
+                  <span>with {Math.round(optimalTime?.best_window?.[1]?.completion_rate * 100 || 0)}% success rate</span>
                 </div>
               </div>
             )}
