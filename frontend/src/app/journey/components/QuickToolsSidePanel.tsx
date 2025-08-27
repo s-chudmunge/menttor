@@ -4,19 +4,22 @@ import React from 'react';
 import { ChevronLeft, ChevronRight, Sparkles } from 'lucide-react';
 import { ThreeDGeneratorCard } from '../../../../components/ThreeDGenerator';
 import { LearnAboutSomethingCard } from '../../../../components/LearnAboutSomething';
+import TimetableTools from './TimetableTools';
 
 interface QuickToolsSidePanelProps {
   isOpen: boolean;
   onToggle: () => void;
   onShow3DGenerator: () => void;
   onShowLearnAboutSomething: () => void;
+  roadmapData?: any;
 }
 
 const QuickToolsSidePanel: React.FC<QuickToolsSidePanelProps> = ({
   isOpen,
   onToggle,
   onShow3DGenerator,
-  onShowLearnAboutSomething
+  onShowLearnAboutSomething,
+  roadmapData
 }) => {
   return (
     <>
@@ -62,15 +65,32 @@ const QuickToolsSidePanel: React.FC<QuickToolsSidePanelProps> = ({
         </div>
 
         {/* Content */}
-        <div className="p-6 space-y-4 overflow-y-auto flex-1">
-          <ThreeDGeneratorCard 
-            onClick={onShow3DGenerator}
-            className="w-full"
-          />
-          <LearnAboutSomethingCard 
-            onClick={onShowLearnAboutSomething}
-            className="w-full"
-          />
+        <div className="p-6 space-y-6 overflow-y-auto flex-1">
+          {/* Timetable Tools */}
+          {roadmapData && (
+            <TimetableTools roadmapData={roadmapData} />
+          )}
+          
+          {/* Divider */}
+          <div className="border-t border-gray-200/50 dark:border-gray-700/50"></div>
+          
+          {/* AI Tools */}
+          <div className="space-y-4">
+            <div className="text-center">
+              <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-4">
+                AI Learning Tools
+              </h3>
+            </div>
+            
+            <ThreeDGeneratorCard 
+              onClick={onShow3DGenerator}
+              className="w-full"
+            />
+            <LearnAboutSomethingCard 
+              onClick={onShowLearnAboutSomething}
+              className="w-full"
+            />
+          </div>
         </div>
 
         {/* Footer */}

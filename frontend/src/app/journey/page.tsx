@@ -655,6 +655,7 @@ const JourneyPage = () => {
           onToggle={() => setIsQuickToolsPanelOpen(!isQuickToolsPanelOpen)}
           onShow3DGenerator={() => setShow3DGenerator(true)}
           onShowLearnAboutSomething={() => setShowLearnAboutSomething(true)}
+          roadmapData={roadmapData}
         />
 
       </div>
