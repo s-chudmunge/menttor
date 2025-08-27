@@ -398,7 +398,7 @@ const ExplorePage = () => {
       setLoading(true);
       setError(null);
       
-      const response = await fetch(`${BACKEND_URL}/curated-roadmaps/?per_page=50`);
+      const response = await fetch(`${BACKEND_URL}/curated-roadmaps/?per_page=100`);
       
       if (!response.ok) {
         throw new Error('Failed to fetch roadmaps');
@@ -412,7 +412,7 @@ const ExplorePage = () => {
         // Poll for roadmaps every 10 seconds
         const pollInterval = setInterval(async () => {
           try {
-            const pollResponse = await fetch(`${BACKEND_URL}/curated-roadmaps/?per_page=50`);
+            const pollResponse = await fetch(`${BACKEND_URL}/curated-roadmaps/?per_page=100`);
             if (pollResponse.ok) {
               const pollData = await pollResponse.json();
               if (pollData.length > 0) {
