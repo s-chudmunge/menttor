@@ -40,7 +40,6 @@ import {
 } from 'lucide-react';
 import ProfileDropdown from '../../components/ProfileDropdown';
 import Logo from '../../../components/Logo';
-import RoadmapShareButton from '../../../components/RoadmapShareButton';
 
 interface CuratedRoadmap {
   id: number;
@@ -1222,10 +1221,6 @@ const ExplorePage = () => {
                             >
                               {user ? 'Start' : 'Sign In'}
                             </button>
-                            <RoadmapShareButton 
-                              roadmap={roadmap} 
-                              variant="icon"
-                            />
                           </div>
                         </div>
                       </div>
@@ -1361,10 +1356,6 @@ const ExplorePage = () => {
                           {user ? 'Start Learning' : 'Sign In'}
                         </button>
                       </div>
-                      <RoadmapShareButton 
-                        roadmap={roadmap} 
-                        variant="icon"
-                      />
                     </div>
                   </>
                 ) : (
@@ -1425,10 +1416,6 @@ const ExplorePage = () => {
                           >
                             <Target className="w-4 h-4" />
                           </button>
-                          <RoadmapShareButton 
-                            roadmap={roadmap} 
-                            variant="icon"
-                          />
                         </div>
                       </div>
                     </div>
