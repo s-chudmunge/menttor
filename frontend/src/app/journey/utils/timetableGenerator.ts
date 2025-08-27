@@ -51,16 +51,39 @@ export class TimetableGenerator {
       if (logoResponse.ok) {
         const logoBlob = await logoResponse.blob();
         const logoDataUrl = await this.blobToDataURL(logoBlob);
-        doc.addImage(logoDataUrl, 'PNG', 20, 12, 16, 16);
         
-        // Add text next to logo
+        // Create image to get natural dimensions
+        const img = new Image();
+        img.src = logoDataUrl;
+        
+        await new Promise((resolve) => {
+          img.onload = resolve;
+        });
+        
+        // Calculate dimensions to maintain aspect ratio
+        const maxWidth = 20;
+        const maxHeight = 16;
+        const aspectRatio = img.width / img.height;
+        
+        let logoWidth = maxWidth;
+        let logoHeight = maxWidth / aspectRatio;
+        
+        // If height exceeds max, scale based on height instead
+        if (logoHeight > maxHeight) {
+          logoHeight = maxHeight;
+          logoWidth = maxHeight * aspectRatio;
+        }
+        
+        doc.addImage(logoDataUrl, 'PNG', 20, 12, logoWidth, logoHeight);
+        
+        // Add text next to logo (adjust position based on logo width)
         doc.setFontSize(16);
         doc.setFont('helvetica', 'bold');
-        doc.text('MENTTOR Learning Platform', 42, 20);
+        doc.text('MENTTOR Learning Platform', 20 + logoWidth + 6, 20);
         
         doc.setFontSize(10);
         doc.setFont('helvetica', 'normal');
-        doc.text('Your Smart Learning Companion', 42, 26);
+        doc.text('Your Smart Learning Companion', 20 + logoWidth + 6, 26);
       } else {
         // Fallback if logo not found
         doc.setFontSize(16);
