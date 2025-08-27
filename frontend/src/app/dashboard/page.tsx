@@ -323,7 +323,7 @@ export default function DashboardPage() {
                 Here's your learning progress and achievements
               </p>
             </div>
-            {stats?.currentStreak > 0 && (
+            {stats?.currentStreak && stats.currentStreak > 0 && (
               <motion.div 
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
@@ -340,7 +340,7 @@ export default function DashboardPage() {
           </div>
 
           {/* Momentum Indicator */}
-          {stats?.weeklyProgress > 0 && (
+          {stats?.weeklyProgress && stats.weeklyProgress > 0 && (
             <motion.div 
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
