@@ -67,6 +67,11 @@ const BehavioralLearnClientPage: React.FC<BehavioralLearnClientPageProps> = ({
   const roadmapTitle = searchParams.get('roadmap_title') || '';
   const subtopicId = searchParams.get('subtopic_id');
   const roadmapId = parseInt(searchParams.get('roadmap_id') || '1');
+  // Custom learning parameters
+  const isCustomLearning = searchParams.get('custom') === 'true';
+  const customSubject = searchParams.get('subject');
+  const customGoal = searchParams.get('goal');
+  const customModel = searchParams.get('model');
 
   // Behavioral hooks
   const { 
@@ -406,7 +411,21 @@ const BehavioralLearnClientPage: React.FC<BehavioralLearnClientPageProps> = ({
     setIsLoading(true);
     setFetchError(null);
     try {
-      const response = await api.get(`/ml/learn?subtopic=${encodeURIComponent(subtopic)}&subtopic_id=${subtopicId}`);
+      let response;
+      
+      if (isCustomLearning && customSubject && customGoal && customModel) {
+        // Use the /generate endpoint for custom learning with user-selected model
+        response = await api.post('/generate', {
+          subtopic: subtopic,
+          subject: customSubject,
+          goal: customGoal,
+          model: customModel
+        });
+      } else {
+        // Use the hardcoded model endpoint for journey page learning
+        response = await api.get(`/ml/learn?subtopic=${encodeURIComponent(subtopic)}&subtopic_id=${subtopicId}`);
+      }
+      
       const data: LearningContentResponse = response.data;
       setContentData(data);
       setContent(data.content);

@@ -44,6 +44,7 @@ import {
 } from 'lucide-react';
 import ProfileDropdown from '../components/ProfileDropdown';
 import { ThreeDGeneratorCard, ThreeDGeneratorModal } from '../../components/ThreeDGenerator';
+import { LearnAboutSomethingCard, LearnAboutSomethingModal } from '../../components/LearnAboutSomething';
 import PromotionalBackground from '../components/PromotionalBackground';
 import SimpleLearningAnimation from '../components/SimpleLearningAnimation';
 
@@ -70,6 +71,10 @@ const MenttorLabsMainPage = () => {
   const [threeDModel, setThreeDModel] = useState('gemini-2.5-flash-lite');
   const [threeDModelName, setThreeDModelName] = useState('Loading models...');
   const [show3DModelModal, setShow3DModelModal] = useState(false);
+  const [showLearnAboutSomething, setShowLearnAboutSomething] = useState(false);
+  const [learnModel, setLearnModel] = useState('vertexai:gemini-2.5-flash-lite');
+  const [learnModelName, setLearnModelName] = useState('Loading models...');
+  const [showLearnModelModal, setShowLearnModelModal] = useState(false);
 
   // Define GenerateRoadmapRequest interface here or import if already defined
   interface GenerateRoadmapRequest {
@@ -361,6 +366,14 @@ const MenttorLabsMainPage = () => {
     setThreeDModel(cleanModelId);
     setThreeDModelName(modelName);
     setShow3DModelModal(false);
+  };
+
+  const handleSelectLearnModel = (modelId: string, modelName: string) => {
+    // Keep the full model ID for learning content generation to support all providers
+    // (vertexai:, openrouter:, huggingface:, etc.)
+    setLearnModel(modelId);
+    setLearnModelName(modelName);
+    setShowLearnModelModal(false);
   };
 
   const handleLoadOldLearningContent = (content: any) => {
@@ -903,11 +916,17 @@ const MenttorLabsMainPage = () => {
             </p>
           </div>
           
-          <div className="max-w-2xl mx-auto">
-            <ThreeDGeneratorCard 
-              onClick={() => setShow3DGenerator(true)}
-              className="w-full"
-            />
+          <div className="max-w-4xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <ThreeDGeneratorCard 
+                onClick={() => setShow3DGenerator(true)}
+                className="w-full"
+              />
+              <LearnAboutSomethingCard 
+                onClick={() => setShowLearnAboutSomething(true)}
+                className="w-full"
+              />
+            </div>
           </div>
         </div>
       </section>
@@ -1071,6 +1090,15 @@ const MenttorLabsMainPage = () => {
         onModelSelect={() => setShow3DModelModal(true)}
       />
 
+      {/* Learn About Something Modal */}
+      <LearnAboutSomethingModal
+        isOpen={showLearnAboutSomething}
+        onClose={() => setShowLearnAboutSomething(false)}
+        selectedModel={learnModel}
+        selectedModelName={learnModelName}
+        onModelSelect={() => setShowLearnModelModal(true)}
+      />
+
       {/* 3D Model Selection Modal */}
       {show3DModelModal && (
         <D3ModelMapModal
@@ -1078,6 +1106,16 @@ const MenttorLabsMainPage = () => {
           onClose={() => setShow3DModelModal(false)}
           onSelectModel={handleSelect3DModel}
           currentModelId={`vertexai:${threeDModel}`}
+        />
+      )}
+
+      {/* Learn About Something Model Selection Modal */}
+      {showLearnModelModal && (
+        <D3ModelMapModal
+          isOpen={showLearnModelModal}
+          onClose={() => setShowLearnModelModal(false)}
+          onSelectModel={handleSelectLearnModel}
+          currentModelId={learnModel.includes(':') ? learnModel : `vertexai:${learnModel}`}
         />
       )}
       
