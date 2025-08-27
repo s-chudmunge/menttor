@@ -4,7 +4,7 @@ import React from 'react';
 
 export default function SimpleLearningAnimation() {
   return (
-    <div className="relative w-full max-w-7xl mx-auto bg-gradient-to-br from-purple-900 via-indigo-900 to-purple-800 min-h-screen rounded-2xl overflow-hidden p-8">
+    <div className="relative w-full max-w-6xl mx-auto p-4">
       <svg 
         viewBox="0 0 1000 600" 
         className="w-full h-auto min-h-[600px]"
@@ -75,12 +75,13 @@ export default function SimpleLearningAnimation() {
           </linearGradient>
         </defs>
         
-        <rect width="100%" height="100%" fill="url(#grid)"/>
+        {/* Subtle background */}
+        <rect width="100%" height="100%" fill="rgba(139, 92, 246, 0.02)"/>
         
-        {/* Background Glows */}
-        <circle cx="200" cy="150" r="200" fill="url(#backgroundGlow1)" opacity="0.3"/>
-        <circle cx="800" cy="450" r="180" fill="url(#backgroundGlow2)" opacity="0.2"/>
-        <circle cx="500" cy="300" r="300" fill="url(#backgroundGlow3)" opacity="0.15"/>
+        {/* Minimal Background Glows */}
+        <circle cx="200" cy="150" r="100" fill="url(#backgroundGlow1)" opacity="0.1"/>
+        <circle cx="800" cy="450" r="100" fill="url(#backgroundGlow2)" opacity="0.08"/>
+        <circle cx="500" cy="300" r="150" fill="url(#backgroundGlow3)" opacity="0.06"/>
         
         {/* User Box (Left) */}
         <g>
@@ -153,35 +154,36 @@ export default function SimpleLearningAnimation() {
           <text x="500" y="420" textAnchor="middle" fill="rgba(255,255,255,0.7)" fontSize="12">Advanced Learning Optimization</text>
         </g>
 
-        {/* AI Services (Right) */}
+        {/* Learning Outcomes (Right) */}
         <g>
-          {/* Anthropic AI */}
-          <rect x="770" y="150" width="120" height="80" rx="16" fill="url(#glassCard)" 
+          {/* Build Real World Skills */}
+          <rect x="770" y="150" width="150" height="80" rx="16" fill="url(#glassCard)" 
                 stroke="url(#cardBorder)" strokeWidth="1"
                 className="animate-pulse" style={{ animationDelay: '0.5s', animationDuration: '3s' }}/>
-          <circle cx="810" cy="175" r="15" fill="url(#iconBackground)"/>
-          <text x="810" y="180" textAnchor="middle" fill="white" fontSize="16" fontWeight="bold">A</text>
-          <text x="830" y="180" fill="white" fontSize="13" fontWeight="600">Anthropic</text>
-          <text x="830" y="200" fill="rgba(255,255,255,0.7)" fontSize="11">Claude API</text>
+          <circle cx="820" cy="175" r="15" fill="url(#iconBackground)"/>
+          <text x="820" y="180" textAnchor="middle" fill="white" fontSize="14" fontWeight="bold">🎯</text>
+          <text x="845" y="180" fill="white" fontSize="12" fontWeight="600">Build Real World</text>
+          <text x="845" y="195" fill="white" fontSize="12" fontWeight="600">Skills</text>
+          <text x="845" y="210" fill="rgba(255,255,255,0.7)" fontSize="10">From Best Curated</text>
+          <text x="845" y="222" fill="rgba(255,255,255,0.7)" fontSize="10">Roadmaps</text>
           
-          {/* Vertex AI */}
-          <rect x="770" y="250" width="120" height="80" rx="16" fill="url(#glassCard)" 
+          {/* Build Projects */}
+          <rect x="770" y="250" width="150" height="80" rx="16" fill="url(#glassCard)" 
                 stroke="url(#cardBorder)" strokeWidth="1"
                 className="animate-pulse" style={{ animationDelay: '1s', animationDuration: '3s' }}/>
-          <circle cx="810" cy="275" r="15" fill="url(#iconBackground)"/>
-          <circle cx="810" cy="275" r="8" fill="none" stroke="white" strokeWidth="2"/>
-          <circle cx="810" cy="275" r="3" fill="white"/>
-          <text x="830" y="280" fill="white" fontSize="13" fontWeight="600">Vertex AI</text>
-          <text x="830" y="300" fill="rgba(255,255,255,0.7)" fontSize="11">Google Cloud</text>
+          <circle cx="820" cy="275" r="15" fill="url(#iconBackground)"/>
+          <text x="820" y="280" textAnchor="middle" fill="white" fontSize="14" fontWeight="bold">🚀</text>
+          <text x="845" y="280" fill="white" fontSize="12" fontWeight="600">Build Projects</text>
+          <text x="845" y="300" fill="rgba(255,255,255,0.7)" fontSize="10">Hands-on Experience</text>
           
-          {/* Analytics Engine */}
-          <rect x="770" y="350" width="120" height="80" rx="16" fill="url(#glassCard)" 
+          {/* Industry Ready */}
+          <rect x="770" y="350" width="150" height="80" rx="16" fill="url(#glassCard)" 
                 stroke="url(#cardBorder)" strokeWidth="1"
                 className="animate-pulse" style={{ animationDelay: '1.5s', animationDuration: '3s' }}/>
-          <circle cx="810" cy="375" r="15" fill="url(#iconBackground)"/>
-          <path d="M800 370 L810 365 L820 370 L815 380 L805 380 Z" fill="white"/>
-          <text x="830" y="380" fill="white" fontSize="13" fontWeight="600">Analytics</text>
-          <text x="830" y="400" fill="rgba(255,255,255,0.7)" fontSize="11">Insights</text>
+          <circle cx="820" cy="375" r="15" fill="url(#iconBackground)"/>
+          <text x="820" y="380" textAnchor="middle" fill="white" fontSize="14" fontWeight="bold">💼</text>
+          <text x="845" y="380" fill="white" fontSize="12" fontWeight="600">Industry Ready</text>
+          <text x="845" y="400" fill="rgba(255,255,255,0.7)" fontSize="10">Professional Skills</text>
         </g>
 
         {/* Modern Connection Lines with Glow Effect */}
@@ -192,17 +194,17 @@ export default function SimpleLearningAnimation() {
             <animate attributeName="strokeWidth" values="2;4;2" dur="3s" repeatCount="indefinite"/>
           </path>
           
-          {/* Platform to Anthropic */}
+          {/* Platform to Real World Skills */}
           <path d="M 700 190 Q 735 190 770 190" strokeWidth="2">
             <animate attributeName="opacity" values="0.4;0.9;0.4" dur="4s" repeatCount="indefinite" begin="0.5s"/>
           </path>
           
-          {/* Platform to Vertex AI */}
+          {/* Platform to Build Projects */}
           <path d="M 700 290 Q 735 290 770 290" strokeWidth="2">
             <animate attributeName="opacity" values="0.4;0.9;0.4" dur="4s" repeatCount="indefinite" begin="1s"/>
           </path>
           
-          {/* Platform to Analytics */}
+          {/* Platform to Industry Ready */}
           <path d="M 700 390 Q 735 390 770 390" strokeWidth="2">
             <animate attributeName="opacity" values="0.4;0.9;0.4" dur="4s" repeatCount="indefinite" begin="1.5s"/>
           </path>

@@ -526,10 +526,10 @@ const MenttorLabsMainPage = () => {
               </div>
             </div>
 
-            {/* Right Column - Animation */}
+            {/* Right Column - CTA or Additional Info */}
             <div className="flex justify-center lg:justify-end">
               <div className="w-full max-w-lg">
-                <SimpleLearningAnimation />
+                {/* Additional CTA or testimonial could go here */}
               </div>
             </div>
           </div>
@@ -660,6 +660,29 @@ const MenttorLabsMainPage = () => {
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* How It Works - Interactive Flow */}
+      <section className="py-20 bg-white dark:bg-gray-900 transition-colors duration-300">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center px-4 py-2 rounded-full bg-blue-50/80 dark:bg-blue-900/30 border border-blue-200/50 dark:border-blue-700/50 text-blue-700 dark:text-blue-300 text-sm font-medium mb-6">
+              <Target className="w-4 h-4 mr-2" />
+              How It Works
+            </div>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+              Your Learning Journey Visualized
+            </h2>
+            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+              See how Menttor transforms your learning goals into structured, achievable pathways
+            </p>
+          </div>
+          
+          {/* Animation Component */}
+          <div className="flex justify-center">
+            <SimpleLearningAnimation />
           </div>
         </div>
       </section>
