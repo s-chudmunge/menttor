@@ -138,8 +138,8 @@ async def generate_static_data():
     """Generate static data file by fetching from database and saving to disk"""
     try:
         from sqlmodel import Session, select
-        from ..database.session import engine
-        from ..sql_models import CuratedRoadmap, CuratedRoadmapCategory
+        from app.database.session import engine
+        from app.sql_models import CuratedRoadmap, CuratedRoadmapCategory
         
         # Create the static data directory
         static_data_dir = "/app/curated_roadmaps_data"
