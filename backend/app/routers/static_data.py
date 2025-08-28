@@ -115,6 +115,39 @@ async def get_static_curated_roadmaps():
         print(f"DEBUG: General error: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Error reading static data: {str(e)}")
 
+@router.get("/debug")
+async def debug_paths():
+    """Debug endpoint to show current paths and directory structure"""
+    debug_info = {
+        "current_working_directory": os.getcwd(),
+        "current_file_location": __file__,
+        "current_file_directory": os.path.dirname(__file__),
+        "possible_paths": [],
+        "directory_listings": {}
+    }
+    
+    # Check all possible paths
+    for possible_dir in POSSIBLE_STATIC_DIRS:
+        abs_path = os.path.abspath(possible_dir)
+        debug_info["possible_paths"].append({
+            "original_path": possible_dir,
+            "absolute_path": abs_path,
+            "exists": os.path.exists(abs_path)
+        })
+    
+    # List contents of key directories
+    for debug_dir in [os.getcwd(), "/app", "/opt/render/project/src", os.path.dirname(os.path.dirname(os.path.dirname(__file__)))]:
+        try:
+            if os.path.exists(debug_dir):
+                contents = os.listdir(debug_dir)
+                debug_info["directory_listings"][debug_dir] = contents
+            else:
+                debug_info["directory_listings"][debug_dir] = "Directory does not exist"
+        except Exception as e:
+            debug_info["directory_listings"][debug_dir] = f"Error: {str(e)}"
+    
+    return debug_info
+
 @router.get("/curated-roadmaps/info")
 async def get_static_file_info():
     """Get information about the available static data file"""
