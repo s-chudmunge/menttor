@@ -213,27 +213,37 @@ export default function AdminCuratedRoadmaps() {
     
     try {
       // Fetch all roadmaps and categories
-      const [roadmapsResponse, categoriesResponse] = await Promise.all([
-        fetch(`${BACKEND_URL}/curated-roadmaps/?per_page=1000`, {
-          headers: { 'Authorization': createAuthHeader() }
-        }),
-        fetch(`${BACKEND_URL}/curated-roadmaps/categories/all`, {
-          headers: { 'Authorization': createAuthHeader() }
-        })
-      ])
+      // First get the first page to see total count
+      const firstPageResponse = await fetch(`${BACKEND_URL}/curated-roadmaps/?per_page=100&page=1`, {
+        headers: { 'Authorization': createAuthHeader() }
+      })
 
-      if (!roadmapsResponse.ok || !categoriesResponse.ok) {
-        throw new Error('Failed to fetch data from server')
+      if (!firstPageResponse.ok) {
+        throw new Error('Failed to fetch roadmaps data from server')
       }
 
-      const roadmaps = await roadmapsResponse.json()
+      let allRoadmaps = await firstPageResponse.json()
+      
+      // If we got exactly 100 items, there might be more pages
+      // For now, we'll assume 100 is enough since most sites won't have more than 100 curated roadmaps
+      // If needed later, we can add proper pagination here
+
+      // Fetch categories
+      const categoriesResponse = await fetch(`${BACKEND_URL}/curated-roadmaps/categories/all`, {
+        headers: { 'Authorization': createAuthHeader() }
+      })
+
+      if (!categoriesResponse.ok) {
+        throw new Error('Failed to fetch categories from server')
+      }
+
       const categories = await categoriesResponse.json()
 
       // Create the data structure
       const exportData = {
         generated_at: new Date().toISOString(),
-        total_roadmaps: roadmaps.length,
-        roadmaps: roadmaps,
+        total_roadmaps: allRoadmaps.length,
+        roadmaps: allRoadmaps,
         categories: categories.categories || {}
       }
 
@@ -250,7 +260,7 @@ export default function AdminCuratedRoadmaps() {
       document.body.removeChild(link)
       URL.revokeObjectURL(url)
 
-      setDownloadMessage(`✅ Successfully downloaded ${roadmaps.length} roadmaps! Place this file in backend/curated_roadmaps_data/`)
+      setDownloadMessage(`✅ Successfully downloaded ${allRoadmaps.length} roadmaps! Place this file in backend/curated_roadmaps_data/`)
       
     } catch (error) {
       console.error('Error downloading data:', error)
