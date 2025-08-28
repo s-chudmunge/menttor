@@ -123,6 +123,10 @@ app.include_router(static_data.router)
 app.include_router(monitoring.router)
 app.include_router(practice.router)
 
+# Temporary migration endpoint
+from migration_endpoint import migration_router
+app.include_router(migration_router)
+
 # Temporary database test endpoint
 @app.get("/test-db")
 async def test_database():
