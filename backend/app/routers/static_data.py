@@ -11,19 +11,48 @@ router = APIRouter(prefix="/static-data", tags=["static-data"])
 
 # Try multiple possible paths for the static data directory
 POSSIBLE_STATIC_DIRS = [
-    os.path.join(os.path.dirname(__file__), "..", "..", "curated_roadmaps_data"),  # Local development
-    os.path.join("/app", "curated_roadmaps_data"),  # Render.com deployment
-    os.path.join(os.getcwd(), "curated_roadmaps_data"),  # Current working directory
-    os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "curated_roadmaps_data"),  # Backend root
+    # Local development paths
+    os.path.join(os.path.dirname(__file__), "..", "..", "curated_roadmaps_data"),
+    # Backend root relative to app/routers
+    os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "curated_roadmaps_data"),
+    # Current working directory variations
+    os.path.join(os.getcwd(), "curated_roadmaps_data"),
+    os.path.join(os.getcwd(), "backend", "curated_roadmaps_data"),
+    # Render.com deployment paths
+    os.path.join("/app", "curated_roadmaps_data"),
+    os.path.join("/opt/render/project/src", "curated_roadmaps_data"),
+    os.path.join("/opt/render/project/src/backend", "curated_roadmaps_data"),
+    # Docker deployment paths
+    os.path.join("/usr/src/app", "curated_roadmaps_data"),
+    # Absolute path fallback
+    "/curated_roadmaps_data",
+    # Additional fallbacks based on current file location
+    os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "curated_roadmaps_data")),
 ]
 
 def get_static_data_dir():
     """Find the correct static data directory"""
+    print(f"DEBUG: Current working directory: {os.getcwd()}")
+    print(f"DEBUG: Current file location: {__file__}")
+    print(f"DEBUG: Current file directory: {os.path.dirname(__file__)}")
+    
     for possible_dir in POSSIBLE_STATIC_DIRS:
-        print(f"DEBUG: Checking possible directory: {possible_dir}")
-        if os.path.exists(possible_dir):
-            print(f"DEBUG: Found static data directory: {possible_dir}")
-            return possible_dir
+        abs_path = os.path.abspath(possible_dir)
+        print(f"DEBUG: Checking possible directory: {possible_dir} -> {abs_path}")
+        if os.path.exists(abs_path):
+            print(f"DEBUG: Found static data directory: {abs_path}")
+            return abs_path
+    
+    # Final debugging: list contents of some key directories
+    print("DEBUG: Listing contents of key directories:")
+    for debug_dir in [os.getcwd(), "/app", "/opt/render/project/src"]:
+        try:
+            if os.path.exists(debug_dir):
+                contents = os.listdir(debug_dir)
+                print(f"DEBUG: Contents of {debug_dir}: {contents}")
+        except Exception as e:
+            print(f"DEBUG: Could not list {debug_dir}: {e}")
+    
     print("DEBUG: No static data directory found")
     return None
 
