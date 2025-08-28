@@ -56,8 +56,9 @@ async def get_user_behavioral_stats(
     db: Session = Depends(get_db)
 ) -> Dict[str, Any]:
     """Get comprehensive user behavioral statistics"""
+    user_id = user.id  # Extract ID while user is bound to session
     service = BehavioralService(db)
-    return service.get_user_stats(user.id)
+    return service.get_user_stats(user_id)
 
 @router.post("/award-xp")
 async def award_experience_points(
@@ -66,12 +67,13 @@ async def award_experience_points(
     db: Session = Depends(get_db)
 ) -> Dict[str, Any]:
     """Award XP for user activities and check for level ups"""
+    user_id = user.id  # Extract ID while user is bound to session
     service = BehavioralService(db)
-    result = service.award_xp(user.id, request.activity_type, request.context)
+    result = service.award_xp(user_id, request.activity_type, request.context)
     
     # Check for milestone updates
     if request.activity_type == "subtopic_completion":
-        milestone_result = service.update_milestone_progress(user.id, "Foundation Builder", 1)
+        milestone_result = service.update_milestone_progress(user_id, "Foundation Builder", 1)
         if milestone_result and milestone_result["just_completed"]:
             result["milestone_completed"] = milestone_result
     
@@ -83,8 +85,9 @@ async def update_user_streak(
     db: Session = Depends(get_db)
 ) -> Dict[str, Any]:
     """Update user's learning streak"""
+    user_id = user.id  # Extract ID while user is bound to session
     service = BehavioralService(db)
-    return service.update_streak(user.id)
+    return service.update_streak(user_id)
 
 @router.get("/progress-copy/{roadmap_id}")
 async def get_progress_copy(
@@ -94,8 +97,9 @@ async def get_progress_copy(
     db: Session = Depends(get_db)
 ) -> Dict[str, str]:
     """Get motivational progress copy"""
+    user_id = user.id  # Extract ID while user is bound to session
     service = BehavioralService(db)
-    copy_text = service.generate_progress_copy(user.id, roadmap_id, copy_type)
+    copy_text = service.generate_progress_copy(user_id, roadmap_id, copy_type)
     return {"copy": copy_text, "type": copy_type}
 
 # ===== SESSION MANAGEMENT =====
@@ -107,9 +111,10 @@ async def create_learning_session(
     db: Session = Depends(get_db)
 ) -> Dict[str, Any]:
     """Create new learning session with FSM state"""
+    user_id = user.id  # Extract ID while user is bound to session
     service = BehavioralService(db)
     session = service.create_learning_session(
-        user.id, request.roadmap_id, request.session_plan
+        user_id, request.roadmap_id, request.session_plan
     )
     
     return {
@@ -128,9 +133,10 @@ async def transition_session_state(
     """Transition session through FSM states"""
     service = BehavioralService(db)
     
+    user_id = user.id  # Extract ID while user is bound to session
     # Verify session belongs to user
     session = db.get(LearningSession, request.session_id)
-    if not session or session.user_id != user.id:
+    if not session or session.user_id != user_id:
         raise HTTPException(status_code=404, detail="Session not found")
     
     updated_session = service.transition_session_state(
@@ -141,7 +147,7 @@ async def transition_session_state(
     reward = None
     if request.new_state == "CHECKPOINT":
         reward = service.create_reward_event(
-            user.id, "checkpoint_reached", request.context or {}, request.session_id
+            user_id, "checkpoint_reached", request.context or {}, request.session_id
         )
     
     return {
@@ -157,8 +163,9 @@ async def get_session_status(
     db: Session = Depends(get_db)
 ) -> Dict[str, Any]:
     """Get current session status"""
+    user_id = user.id  # Extract ID while user is bound to session
     session = db.get(LearningSession, session_id)
-    if not session or session.user_id != user.id:
+    if not session or session.user_id != user_id:
         raise HTTPException(status_code=404, detail="Session not found")
     
     return {
@@ -184,9 +191,10 @@ async def get_warmup_challenge(
     db: Session = Depends(get_db)
 ) -> Dict[str, Any]:
     """Get a quick challenge for warmup"""
+    user_id = user.id  # Extract ID while user is bound to session
     # Get user's concept Elos to adjust difficulty
     service = BehavioralService(db)
-    user_elos = service.get_user_concept_elos(user.id)
+    user_elos = service.get_user_concept_elos(user_id)
     
     # Find appropriate challenge (simplified for now)
     challenge = db.exec(
@@ -198,7 +206,7 @@ async def get_warmup_challenge(
     if not challenge:
         # Generate a simple recall challenge
         challenge = QuickChallenge(
-            user_id=user.id,
+            user_id=user_id,
             subtopic_id=subtopic_id,
             challenge_type="mcq",
             question="Which concept did you learn in the previous session?",
@@ -236,9 +244,10 @@ async def submit_challenge_attempt(
     
     is_correct = request.user_answer.lower() == challenge.correct_answer.lower()
     
+    user_id = user.id  # Extract ID while user is bound to session
     # Create attempt record
     attempt = ChallengeAttempt(
-        user_id=user.id,
+        user_id=user_id,
         challenge_id=request.challenge_id,
         user_answer=request.user_answer,
         is_correct=is_correct,
@@ -265,14 +274,14 @@ async def submit_challenge_attempt(
     if challenge.concept_tags:
         for tag in challenge.concept_tags:
             outcome = 1.0 if is_correct else 0.0
-            new_elo = service.update_concept_elo(user.id, tag, outcome)
+            new_elo = service.update_concept_elo(user_id, tag, outcome)
     
     db.commit()
     
     # Award XP for correct answers
     xp_result = None
     if is_correct:
-        xp_result = service.award_xp(user.id, "quick_challenge", {"correct": True})
+        xp_result = service.award_xp(user_id, "quick_challenge", {"correct": True})
     
     return {
         "correct": is_correct,
@@ -290,8 +299,9 @@ async def get_user_elo_ratings(
     db: Session = Depends(get_db)
 ) -> Dict[str, float]:
     """Get user's concept Elo ratings"""
+    user_id = user.id  # Extract ID while user is bound to session
     service = BehavioralService(db)
-    return service.get_user_concept_elos(user.id)
+    return service.get_user_concept_elos(user_id)
 
 @router.post("/update-elo")
 async def update_concept_elo(
@@ -302,8 +312,9 @@ async def update_concept_elo(
     db: Session = Depends(get_db)
 ) -> Dict[str, float]:
     """Update Elo rating for a concept"""
+    user_id = user.id  # Extract ID while user is bound to session
     service = BehavioralService(db)
-    new_elo = service.update_concept_elo(user.id, concept_tag, outcome, item_difficulty)
+    new_elo = service.update_concept_elo(user_id, concept_tag, outcome, item_difficulty)
     
     return {
         "concept": concept_tag,
@@ -320,9 +331,10 @@ async def get_recent_rewards(
     db: Session = Depends(get_db)
 ) -> List[Dict[str, Any]]:
     """Get user's recent rewards"""
+    user_id = user.id  # Extract ID while user is bound to session
     rewards = db.exec(
         select(RewardEvent)
-        .where(RewardEvent.user_id == user.id)
+        .where(RewardEvent.user_id == user_id)
         .order_by(RewardEvent.created_at.desc())
         .limit(limit)
     ).all()
@@ -346,8 +358,9 @@ async def engage_with_reward(
     db: Session = Depends(get_db)
 ) -> Dict[str, str]:
     """Record user engagement with reward"""
+    user_id = user.id  # Extract ID while user is bound to session
     reward = db.get(RewardEvent, request.reward_id)
-    if not reward or reward.user_id != user.id:
+    if not reward or reward.user_id != user_id:
         raise HTTPException(status_code=404, detail="Reward not found")
     
     reward.user_engaged = request.engaged
@@ -367,10 +380,11 @@ async def record_nudge_interaction(
     db: Session = Depends(get_db)
 ) -> Dict[str, Any]:
     """Record user interaction with nudge"""
+    user_id = user.id  # Extract ID while user is bound to session
     service = BehavioralService(db)
     
     dismissed = request.interaction == "dismissed"
-    new_intensity = service.update_nudge_intensity(user.id, dismissed)
+    new_intensity = service.update_nudge_intensity(user_id, dismissed)
     
     return {
         "nudge_type": request.nudge_type,
@@ -385,8 +399,9 @@ async def should_show_nudge(
     db: Session = Depends(get_db)
 ) -> Dict[str, bool]:
     """Check if nudge should be shown to user"""
+    user_id = user.id  # Extract ID while user is bound to session
     service = BehavioralService(db)
-    should_show = service.should_show_nudge(user.id, nudge_type)
+    should_show = service.should_show_nudge(user_id, nudge_type)
     
     return {"should_show": should_show}
 
@@ -398,8 +413,9 @@ async def get_optimal_learning_time(
     db: Session = Depends(get_db)
 ) -> Dict[str, Any]:
     """Get user's optimal learning time windows"""
+    user_id = user.id  # Extract ID while user is bound to session
     service = BehavioralService(db)
-    optimal_time = service.get_optimal_learning_time(user.id)
+    optimal_time = service.get_optimal_learning_time(user_id)
     
     if not optimal_time:
         return {"status": "insufficient_data"}
@@ -413,8 +429,9 @@ async def get_prerequisite_status(
     db: Session = Depends(get_db)
 ) -> Dict[str, Any]:
     """Get prerequisite status for a subtopic"""
+    user_id = user.id  # Extract ID while user is bound to session
     service = BehavioralService(db)
-    return service.get_prerequisites_status(user.id, subtopic_id)
+    return service.get_prerequisites_status(user_id, subtopic_id)
 
 # ===== MOMENTUM AND CONSISTENCY =====
 
@@ -424,8 +441,9 @@ async def get_momentum_score(
     db: Session = Depends(get_db)
 ) -> Dict[str, float]:
     """Get user's current momentum score"""
+    user_id = user.id  # Extract ID while user is bound to session
     service = BehavioralService(db)
-    momentum = service.calculate_momentum_score(user.id)
+    momentum = service.calculate_momentum_score(user_id)
     
     return {"momentum_score": momentum}
 
@@ -439,12 +457,13 @@ async def toggle_focus_mode(
     db: Session = Depends(get_db)
 ) -> Dict[str, Any]:
     """Toggle focus mode for user"""
+    user_id = user.id  # Extract ID while user is bound to session
     behavior = db.exec(
-        select(UserBehavior).where(UserBehavior.user_id == user.id)
+        select(UserBehavior).where(UserBehavior.user_id == user_id)
     ).first()
     
     if not behavior:
-        behavior = UserBehavior(user_id=user.id)
+        behavior = UserBehavior(user_id=user_id)
     
     if enable:
         behavior.focus_mode_enabled = True

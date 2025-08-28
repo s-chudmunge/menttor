@@ -89,8 +89,9 @@ async def get_learn_content_endpoint(
         roadmap_subject = subtopic
         roadmap_goal = subtopic
 
+        current_user_id = current_user.id  # Extract ID while user is bound to session
         user_roadmaps = db.exec(
-            select(Roadmap).where(Roadmap.user_id == current_user.id)
+            select(Roadmap).where(Roadmap.user_id == current_user_id)
         ).all()
 
         for roadmap in user_roadmaps:
@@ -122,19 +123,19 @@ async def get_learn_content_endpoint(
         
         if roadmap_id:
             # Ensure user has milestones set up
-            _ensure_user_milestones(current_user.id, roadmap_id, behavioral_service)
+            _ensure_user_milestones(current_user_id, roadmap_id, behavioral_service)
         
         # Award XP for accessing learning content
-        xp_result = behavioral_service.award_xp(current_user.id, "subtopic_completion", {
+        xp_result = behavioral_service.award_xp(current_user_id, "subtopic_completion", {
             "subtopic": subtopic,
             "subtopic_id": subtopic_id
         })
         
         # Update streak
-        streak_result = behavioral_service.update_streak(current_user.id)
+        streak_result = behavioral_service.update_streak(current_user_id)
         
         # Update milestones
-        milestone_result = behavioral_service.update_milestone_progress(current_user.id, "Foundation Builder", 1)
+        milestone_result = behavioral_service.update_milestone_progress(current_user_id, "Foundation Builder", 1)
 
         # Return the generated content without saving to database
         content_dict = [block.model_dump() for block in ai_generated_content.content]
@@ -215,9 +216,10 @@ def get_saved_learn_content(
     limit: int = Query(100, ge=1, le=100)
 ):
     try:
+        current_user_id = current_user.id  # Extract ID while user is bound to session
         saved_content = db.exec(
             select(LearningContent).where(
-                LearningContent.user_id == current_user.id
+                LearningContent.user_id == current_user_id
             ).offset(skip).limit(limit)
         ).all()
         
@@ -261,13 +263,14 @@ async def save_learning_content(
         model = content_data.get('model', '')
         subtopic_id = content_data.get('subtopic_id', '')
         
+        current_user_id = current_user.id  # Extract ID while user is bound to session
         # Compress and save the content
         compressed_content = compress_content(content_blocks)
         
         db_learning_content = LearningContent(
             subtopic=subtopic,
             content=compressed_content,
-            user_id=current_user.id,
+            user_id=current_user_id,
             model=model,
             subject=subject,
             goal=goal,
@@ -301,11 +304,12 @@ async def toggle_existing_content_save(
 ):
     """Toggle save status for existing saved content"""
     try:
+        current_user_id = current_user.id  # Extract ID while user is bound to session
         # Find the content
         content = db.exec(
             select(LearningContent).where(
                 LearningContent.id == content_id,
-                LearningContent.user_id == current_user.id
+                LearningContent.user_id == current_user_id
             )
         ).first()
         
@@ -332,11 +336,12 @@ async def unsave_learning_content(
 ):
     """Remove a learning content from saved items"""
     try:
+        current_user_id = current_user.id  # Extract ID while user is bound to session
         # Find the content
         content = db.exec(
             select(LearningContent).where(
                 LearningContent.id == content_id,
-                LearningContent.user_id == current_user.id
+                LearningContent.user_id == current_user_id
             )
         ).first()
         
@@ -363,11 +368,12 @@ async def create_share_link(
 ):
     """Create a shareable link for learning content"""
     try:
+        current_user_id = current_user.id  # Extract ID while user is bound to session
         # Find the content
         content = db.exec(
             select(LearningContent).where(
                 LearningContent.id == content_id,
-                LearningContent.user_id == current_user.id
+                LearningContent.user_id == current_user_id
             )
         ).first()
         
@@ -405,11 +411,12 @@ async def remove_share_link(
 ):
     """Remove sharing for learning content"""
     try:
+        current_user_id = current_user.id  # Extract ID while user is bound to session
         # Find the content
         content = db.exec(
             select(LearningContent).where(
                 LearningContent.id == content_id,
-                LearningContent.user_id == current_user.id
+                LearningContent.user_id == current_user_id
             )
         ).first()
         
@@ -478,9 +485,10 @@ def get_saved_learn_content_only(
 ):
     """Get only the content that user has explicitly saved"""
     try:
+        current_user_id = current_user.id  # Extract ID while user is bound to session
         saved_content = db.exec(
             select(LearningContent).where(
-                LearningContent.user_id == current_user.id,
+                LearningContent.user_id == current_user_id,
                 LearningContent.is_saved == True
             ).offset(skip).limit(limit).order_by(LearningContent.updated_at.desc())
         ).all()
@@ -523,13 +531,14 @@ async def track_learning_time(
         if not subtopic_id or time_spent_minutes <= 0:
             raise HTTPException(status_code=400, detail="Invalid time tracking data")
         
+        current_user_id = current_user.id  # Extract ID while user is bound to session
         # Update progress tracking
         from .progress import track_learning_time_helper
         progress_result = track_learning_time_helper(subtopic_id, time_spent_minutes * 60, db, current_user)  # Convert to seconds
         
         # Award XP for focus time
         behavioral_service = BehavioralService(db)
-        xp_result = behavioral_service.award_xp(current_user.id, "focus_time", {
+        xp_result = behavioral_service.award_xp(current_user_id, "focus_time", {
             "minutes": time_spent_minutes,
             "subtopic_id": subtopic_id
         })
@@ -558,6 +567,7 @@ async def mark_learning_complete(
         if not subtopic_id:
             raise HTTPException(status_code=400, detail="subtopic_id is required")
         
+        current_user_id = current_user.id  # Extract ID while user is bound to session
         # Mark learning as completed in progress tracker
         from .progress import mark_learn_completed_helper
         progress_result = mark_learn_completed_helper(subtopic_id, db, current_user)
@@ -566,20 +576,20 @@ async def mark_learning_complete(
         behavioral_service = BehavioralService(db)
         
         # Award completion XP
-        xp_result = behavioral_service.award_xp(current_user.id, "subtopic_completion", {
+        xp_result = behavioral_service.award_xp(current_user_id, "subtopic_completion", {
             "subtopic_id": subtopic_id,
             "time_spent": time_spent
         })
         
         # Update streak
-        streak_result = behavioral_service.update_streak(current_user.id)
+        streak_result = behavioral_service.update_streak(current_user_id)
         
         # Update milestones
-        milestone_result = behavioral_service.update_milestone_progress(current_user.id, "Foundation Builder", 1)
+        milestone_result = behavioral_service.update_milestone_progress(current_user_id, "Foundation Builder", 1)
         
         # Check for rewards
         reward = behavioral_service.create_reward_event(
-            current_user.id, 
+            current_user_id, 
             "subtopic_completion", 
             {"subtopic_id": subtopic_id},
             session_id=None
