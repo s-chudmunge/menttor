@@ -19,6 +19,7 @@ import {
 } from 'lucide-react';
 import ProtectedRoute from '../components/ProtectedRoute';
 import { useAuth } from '@/app/context/AuthContext';
+import { api } from '@/lib/api';
 
 interface PracticeConfig {
   subtopicIds: string[];
@@ -107,18 +108,9 @@ const PracticeSessionContent = () => {
   const fetchSessionData = async (token: string) => {
     try {
       setIsLoading(true);
-      const authToken = user ? await user.getIdToken() : '';
-      const response = await fetch(`/api/practice/sessions/${token}`, {
-        headers: {
-          'Authorization': `Bearer ${authToken}`
-        }
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to fetch session data');
-      }
-
-      const sessionData = await response.json();
+      const response = await api.get(`/practice/sessions/${token}`);
+      
+      const sessionData = response.data;
       
       // Set up config from session data
       setConfig({
@@ -291,22 +283,14 @@ const PracticeSessionContent = () => {
     // For real API, submit answer and get correctness from backend
     if (sessionToken) {
       try {
-        const authToken = user ? await user.getIdToken() : '';
-        const response = await fetch(`/api/practice/sessions/${sessionToken}/answers`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${authToken}`
-          },
-          body: JSON.stringify({
-            question_id: parseInt(currentQuestion.id),
-            user_answer: currentAnswer,
-            time_spent: timeSpent,
-            hint_used: hintUsedForCurrent
-          })
+        const response = await api.post(`/practice/sessions/${sessionToken}/answers`, {
+          question_id: parseInt(currentQuestion.id),
+          user_answer: currentAnswer,
+          time_spent: timeSpent,
+          hint_used: hintUsedForCurrent
         });
 
-        const result = await response.json();
+        const result = response.data;
         
         const newAnswer: Answer = {
           questionId: currentQuestion.id,
@@ -379,17 +363,9 @@ const PracticeSessionContent = () => {
     if (sessionToken) {
       try {
         // Complete session via API and get results
-        const authToken = user ? await user.getIdToken() : '';
-        const response = await fetch(`/api/practice/sessions/${sessionToken}/complete`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${authToken}`
-          }
-        });
-
-        if (response.ok) {
-          const results = await response.json();
+        const response = await api.post(`/practice/sessions/${sessionToken}/complete`);
+        
+        const results = response.data;
           sessionStorage.setItem('practiceResults', JSON.stringify(results));
           router.push('/practice-results');
           return;

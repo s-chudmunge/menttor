@@ -22,6 +22,8 @@ import {
 import { RoadmapData } from '../../../lib/api';
 import { formatSubtopicTitle, formatTitle } from '../utils/textFormatting';
 import { useAuth } from '@/app/context/AuthContext';
+import { api } from '@/lib/api';
+import { useRouter } from 'next/navigation';
 
 interface PracticeViewProps {
   roadmapData: RoadmapData;
@@ -90,6 +92,7 @@ const QUESTION_TYPES = [
 
 const PracticeView: React.FC<PracticeViewProps> = ({ roadmapData, progressData }) => {
   const { user } = useAuth();
+  const router = useRouter();
   const [practiceSession, setPracticeSession] = useState<PracticeSession>({
     selectedSubtopics: [],
     questionCount: 20,
@@ -189,31 +192,15 @@ const PracticeView: React.FC<PracticeViewProps> = ({ roadmapData, progressData }
         goal: roadmapData.goal || roadmapData.description || 'Practice Questions'
       };
 
-      // Get Firebase auth token
-      const authToken = user ? await user.getIdToken() : '';
-
-      const response = await fetch('/api/practice/sessions', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${authToken}`
-        },
-        body: JSON.stringify(sessionData)
-      });
-
-      if (!response.ok) {
-        const errorData = await response.text();
-        throw new Error(`Failed to create practice session: ${response.status} ${errorData}`);
-      }
-
-      const sessionResponse = await response.json();
+      const response = await api.post('/practice/sessions', sessionData);
       
       // Navigate to practice session with session token
-      window.open(`/practice-session?session_token=${sessionResponse.session_token}`, '_blank');
+      router.push(`/practice-session?session_token=${response.data.session_token}`);
       
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error creating practice session:', error);
-      alert('Failed to create practice session. Please check your connection and try again.');
+      const errorMessage = error?.response?.data?.detail || error.message || 'Failed to create practice session';
+      alert(`${errorMessage}. Please check your connection and try again.`);
     }
   };
 
