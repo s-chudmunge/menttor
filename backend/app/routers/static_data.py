@@ -86,18 +86,36 @@ def get_latest_roadmaps_file() -> Optional[str]:
 async def get_static_curated_roadmaps():
     """
     Get curated roadmaps from static JSON file
-    Falls back to indicating no static data available
+    Auto-generates the file if it doesn't exist, then serves it
     """
     try:
         print("DEBUG: Static roadmaps endpoint called")
         file_path = get_latest_roadmaps_file()
         print(f"DEBUG: get_latest_roadmaps_file returned: {file_path}")
         
+        # If file doesn't exist, try to auto-generate it
         if not file_path or not os.path.exists(file_path):
-            print(f"DEBUG: File not found or doesn't exist: {file_path}")
+            print("DEBUG: Static data file not found, attempting to auto-generate...")
+            try:
+                # Call the generate function to create the static data
+                generate_result = await generate_static_data()
+                print(f"DEBUG: Auto-generation result: {generate_result}")
+                
+                # Try to get the file path again after generation
+                file_path = get_latest_roadmaps_file()
+                print(f"DEBUG: After auto-generation, file_path: {file_path}")
+            except Exception as gen_error:
+                print(f"DEBUG: Auto-generation failed: {str(gen_error)}")
+                raise HTTPException(
+                    status_code=503, 
+                    detail="Static data not available and could not be auto-generated. System will fall back to database."
+                )
+        
+        if not file_path or not os.path.exists(file_path):
+            print(f"DEBUG: File still not found after auto-generation: {file_path}")
             raise HTTPException(
-                status_code=404, 
-                detail="No static roadmaps data available. Please generate and download from admin panel."
+                status_code=503, 
+                detail="Static data temporarily unavailable. System will fall back to database."
             )
         
         print(f"DEBUG: Attempting to read file: {file_path}")
@@ -114,6 +132,85 @@ async def get_static_curated_roadmaps():
     except Exception as e:
         print(f"DEBUG: General error: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Error reading static data: {str(e)}")
+
+@router.post("/generate")
+async def generate_static_data():
+    """Generate static data file by fetching from database and saving to disk"""
+    try:
+        from sqlmodel import Session, select
+        from ..database.session import engine
+        from ..sql_models import CuratedRoadmap, CuratedRoadmapCategory
+        
+        # Create the static data directory
+        static_data_dir = "/app/curated_roadmaps_data"
+        os.makedirs(static_data_dir, exist_ok=True)
+        
+        with Session(engine) as session:
+            # Fetch all roadmaps (limit to 100 to match the frontend expectation)
+            roadmaps_query = select(CuratedRoadmap).limit(100)
+            roadmaps = session.exec(roadmaps_query).all()
+            
+            # Convert to dict format
+            roadmaps_data = []
+            for roadmap in roadmaps:
+                roadmap_dict = {
+                    "id": roadmap.id,
+                    "title": roadmap.title,
+                    "description": roadmap.description,
+                    "category": roadmap.category,
+                    "subcategory": roadmap.subcategory,
+                    "difficulty": roadmap.difficulty,
+                    "is_featured": roadmap.is_featured,
+                    "is_verified": roadmap.is_verified,
+                    "view_count": roadmap.view_count,
+                    "adoption_count": roadmap.adoption_count,
+                    "average_rating": roadmap.average_rating,
+                    "roadmap_plan": roadmap.roadmap_plan,
+                    "estimated_hours": roadmap.estimated_hours,
+                    "prerequisites": roadmap.prerequisites,
+                    "learning_outcomes": roadmap.learning_outcomes,
+                    "tags": roadmap.tags,
+                    "target_audience": roadmap.target_audience,
+                    "slug": roadmap.slug
+                }
+                roadmaps_data.append(roadmap_dict)
+            
+            # Fetch categories
+            categories_query = select(CuratedRoadmapCategory)
+            categories = session.exec(categories_query).all()
+            
+            categories_dict = {}
+            for category in categories:
+                if category.name not in categories_dict:
+                    categories_dict[category.name] = []
+                categories_dict[category.name].append({
+                    "name": category.subcategory_name,
+                    "count": category.roadmap_count
+                })
+        
+        # Create the export data structure
+        export_data = {
+            "generated_at": "2025-08-28T12:00:00Z",  # Use fixed timestamp for consistency
+            "total_roadmaps": len(roadmaps_data),
+            "roadmaps": roadmaps_data,
+            "categories": categories_dict
+        }
+        
+        # Save to file
+        file_path = os.path.join(static_data_dir, "curated_roadmaps_data_2025-08-28.json")
+        with open(file_path, 'w', encoding='utf-8') as f:
+            json.dump(export_data, f, indent=2, ensure_ascii=False)
+        
+        return {
+            "success": True,
+            "message": f"Static data generated successfully at {file_path}",
+            "total_roadmaps": len(roadmaps_data),
+            "file_size_mb": round(os.path.getsize(file_path) / (1024 * 1024), 2)
+        }
+        
+    except Exception as e:
+        print(f"Error generating static data: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to generate static data: {str(e)}")
 
 @router.get("/debug")
 async def debug_paths():
