@@ -702,44 +702,6 @@ const ExplorePage = () => {
             </div>
           </div>
 
-          {/* View Mode Controls - Mobile */}
-          <div className="flex justify-center lg:hidden mb-6">
-            <div className="flex items-center border border-gray-200 dark:border-gray-600 rounded-xl bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm p-1">
-              <button
-                onClick={() => setViewMode('grouped')}
-                className={`p-2 rounded-lg transition-colors ${
-                  viewMode === 'grouped' 
-                    ? 'bg-blue-100 text-blue-600 dark:bg-blue-900/40 dark:text-blue-400' 
-                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
-                }`}
-                title="Grouped View"
-              >
-                <BarChart3 className="w-5 h-5" />
-              </button>
-              <button
-                onClick={() => setViewMode('grid')}
-                className={`p-2 rounded-lg transition-colors ${
-                  viewMode === 'grid' 
-                    ? 'bg-blue-100 text-blue-600 dark:bg-blue-900/40 dark:text-blue-400' 
-                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
-                }`}
-                title="Grid View"
-              >
-                <Grid3X3 className="w-5 h-5" />
-              </button>
-              <button
-                onClick={() => setViewMode('list')}
-                className={`p-2 rounded-lg transition-colors ${
-                  viewMode === 'list' 
-                    ? 'bg-blue-100 text-blue-600 dark:bg-blue-900/40 dark:text-blue-400' 
-                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
-                }`}
-                title="List View"
-              >
-                <List className="w-5 h-5" />
-              </button>
-            </div>
-          </div>
         </div>
       </div>
 
@@ -940,47 +902,6 @@ const ExplorePage = () => {
                   </div>
                 </div>
 
-                {/* View Mode Toggle - Desktop */}
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
-                    View Mode
-                  </label>
-                  <div className="flex items-center border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 p-1">
-                    <button
-                      onClick={() => setViewMode('grouped')}
-                      className={`flex-1 p-2 rounded-md transition-colors ${
-                        viewMode === 'grouped' 
-                          ? 'bg-blue-100 text-blue-600 dark:bg-blue-900/40 dark:text-blue-400' 
-                          : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
-                      }`}
-                      title="Grouped View"
-                    >
-                      <BarChart3 className="w-4 h-4 mx-auto" />
-                    </button>
-                    <button
-                      onClick={() => setViewMode('grid')}
-                      className={`flex-1 p-2 rounded-md transition-colors ${
-                        viewMode === 'grid' 
-                          ? 'bg-blue-100 text-blue-600 dark:bg-blue-900/40 dark:text-blue-400' 
-                          : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
-                      }`}
-                      title="Grid View"
-                    >
-                      <Grid3X3 className="w-4 h-4 mx-auto" />
-                    </button>
-                    <button
-                      onClick={() => setViewMode('list')}
-                      className={`flex-1 p-2 rounded-md transition-colors ${
-                        viewMode === 'list' 
-                          ? 'bg-blue-100 text-blue-600 dark:bg-blue-900/40 dark:text-blue-400' 
-                          : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
-                      }`}
-                      title="List View"
-                    >
-                      <List className="w-4 h-4 mx-auto" />
-                    </button>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
@@ -989,8 +910,8 @@ const ExplorePage = () => {
 
       {/* Main Content */}
       <div className={`max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 transition-all duration-300 ${showFilters ? 'lg:ml-80' : ''}`}>
-        {/* Results Header */}
-        <div className="flex items-center justify-between mb-8">
+        {/* Results Header with View Mode Toggle */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
           <div>
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
               {filteredAndSortedRoadmaps.length} Learning Path{filteredAndSortedRoadmaps.length !== 1 ? 's' : ''}
@@ -998,6 +919,49 @@ const ExplorePage = () => {
             <p className="text-gray-600 dark:text-gray-400 mt-1">
               {activeFiltersCount > 0 ? 'Filtered results' : 'All available roadmaps'}
             </p>
+          </div>
+          
+          {/* View Mode Toggle */}
+          <div className="flex items-center gap-4">
+            <span className="text-sm font-medium text-gray-700 dark:text-gray-300">View:</span>
+            <div className="flex items-center border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 p-1">
+              <button
+                onClick={() => setViewMode('grouped')}
+                className={`flex items-center px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                  viewMode === 'grouped' 
+                    ? 'bg-blue-100 text-blue-600 dark:bg-blue-900/40 dark:text-blue-400' 
+                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-600/50'
+                }`}
+                title="Grouped by Category"
+              >
+                <BarChart3 className="w-4 h-4 mr-2" />
+                Grouped
+              </button>
+              <button
+                onClick={() => setViewMode('grid')}
+                className={`flex items-center px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                  viewMode === 'grid' 
+                    ? 'bg-blue-100 text-blue-600 dark:bg-blue-900/40 dark:text-blue-400' 
+                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-600/50'
+                }`}
+                title="Grid View"
+              >
+                <Grid3X3 className="w-4 h-4 mr-2" />
+                Grid
+              </button>
+              <button
+                onClick={() => setViewMode('list')}
+                className={`flex items-center px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                  viewMode === 'list' 
+                    ? 'bg-blue-100 text-blue-600 dark:bg-blue-900/40 dark:text-blue-400' 
+                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-600/50'
+                }`}
+                title="List View"
+              >
+                <List className="w-4 h-4 mr-2" />
+                List
+              </button>
+            </div>
           </div>
         </div>
 
