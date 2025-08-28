@@ -28,6 +28,7 @@ import ReportButton from './components/ReportButton';
 import QuizReportModal from './components/QuizReportModal';
 import DayView from './components/DayView';
 import ModuleView from './components/ModuleView';
+import PracticeView from './components/PracticeView';
 import QuickToolsSidePanel from './components/QuickToolsSidePanel';
 
 import { 
@@ -44,11 +45,12 @@ import {
   TrendingUp,
   Brain,
   RefreshCw,
-  Box
+  Box,
+  PenTool
 } from 'lucide-react';
 
 const JourneyPage = () => {
-  const [currentView, setCurrentView] = useState<'day' | 'modules' | 'visual'>('day');
+  const [currentView, setCurrentView] = useState<'day' | 'modules' | 'visual' | 'practice'>('day');
   const [currentModuleIndex, setCurrentModuleIndex] = useState(0);
   const [isOldRoadmapsModalOpen, setIsOldRoadmapsModalOpen] = useState(false);
   const [isOldLearnPagesModalOpen, setIsOldLearnPagesModalOpen] = useState(false);
@@ -562,6 +564,18 @@ const JourneyPage = () => {
                 <span className="hidden sm:inline">Module View</span>
                 <span className="sm:hidden">Modules</span>
               </button>
+              <button
+                onClick={() => setCurrentView('practice')}
+                className={`flex items-center space-x-2 px-6 py-3 rounded-xl font-semibold transition-all duration-200 ${
+                  currentView === 'practice' 
+                    ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg scale-105' 
+                    : 'text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-700/50'
+                }`}
+              >
+                <PenTool className="w-4 h-4" />
+                <span className="hidden sm:inline">Practice</span>
+                <span className="sm:hidden">Practice</span>
+              </button>
             </div>
           </div>
 
@@ -573,6 +587,11 @@ const JourneyPage = () => {
             />
           ) : currentView === 'day' ? (
             <DayView 
+              roadmapData={roadmapData}
+              progressData={progressData}
+            />
+          ) : currentView === 'practice' ? (
+            <PracticeView 
               roadmapData={roadmapData}
               progressData={progressData}
             />

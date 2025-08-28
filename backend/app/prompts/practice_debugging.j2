@@ -1,0 +1,48 @@
+Generate {{ count }} debugging/error identification questions for practice/exam mode:
+
+Subject: {{ subject }}
+Goal: {{ goal }}
+Subtopic: {{ subtopic_title }}
+Context: {{ context }}
+Difficulty Level: Mixed (easy, medium, hard)
+
+Create realistic debugging scenarios with common errors related to {{ subtopic_title }}. Each question should:
+1. Present code or statements with subtle but important errors
+2. Require identifying what's wrong and why
+3. Test understanding of common pitfalls and best practices
+4. Include both syntax errors and logical errors
+5. Provide clear explanation of the issue and correction
+
+Error types to include:
+- Syntax errors (missing punctuation, incorrect keywords)
+- Logical errors (wrong operators, incorrect conditions)
+- Runtime errors (null references, array bounds)
+- Design errors (inefficient algorithms, poor practices)
+- Conceptual errors (misapplied principles)
+
+Format the output as a JSON object:
+
+```json
+{
+  "questions": [
+    {
+      "id": 1,
+      "question_text": "Identify the error in the following code/statement and explain what's wrong:",
+      "code_snippet": "for i in range(10):\n    if i = 5:\n        print('Found five!')",
+      "correct_answer": "The condition 'i = 5' uses assignment (=) instead of comparison (==). It should be 'if i == 5:'",
+      "explanation": "The error is using a single equals sign (=) for assignment instead of double equals (==) for comparison. In the if statement, 'i = 5' assigns the value 5 to i rather than checking if i equals 5. This will cause a syntax error in most languages or unexpected behavior.",
+      "hint": "Look carefully at the conditional statement - is it checking equality or doing something else? (only if hints enabled: {{ hints_enabled }})",
+      "difficulty": "easy",
+      "error_type": "syntax_error"
+    }
+  ]
+}
+```
+
+Focus on errors that are:
+- Commonly made by learners of {{ subtopic_title }}
+- Representative of important concepts
+- Educational when corrected
+- Realistic in professional contexts
+
+Ensure examples are relevant to {{ goal }} and appropriate for the subject matter.

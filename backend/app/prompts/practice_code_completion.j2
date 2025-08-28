@@ -1,0 +1,44 @@
+Generate {{ count }} code completion questions for practice/exam mode:
+
+Subject: {{ subject }}
+Goal: {{ goal }}
+Subtopic: {{ subtopic_title }}
+Context: {{ context }}
+Difficulty Level: Mixed (easy, medium, hard)
+
+Create practical coding exercises that require completing missing code segments. Each question should:
+1. Present realistic code snippets with strategic gaps
+2. Test understanding of {{ subtopic_title }} programming concepts
+3. Require specific syntax, logic, or implementation knowledge
+4. Include clear context about what the code should accomplish
+5. Have one correct completion that makes the code functional
+
+Code completion types to include:
+- Function implementations
+- Algorithm completions
+- Data structure operations
+- Loop and conditional logic
+- API calls and method implementations
+- Variable declarations and assignments
+
+Format the output as a JSON object:
+
+```json
+{
+  "questions": [
+    {
+      "id": 1,
+      "question_text": "Complete the following function to accomplish [specific task]:",
+      "code_snippet": "def calculate_average(numbers):\n    total = 0\n    for num in numbers:\n        _____ \n    return _____",
+      "correct_answer": "total += num\ntotal / len(numbers)",
+      "explanation": "The missing code should: 1) Add each number to the total in the loop: 'total += num', 2) Return the average by dividing total by count: 'total / len(numbers)'",
+      "hint": "Think about what operations are needed to calculate an average: sum all values, then divide by count (only if hints enabled: {{ hints_enabled }})",
+      "difficulty": "easy",
+      "programming_language": "python"
+    }
+  ]
+}
+```
+
+Ensure code examples are relevant to {{ goal }} and test practical application of {{ subtopic_title }} concepts.
+Use appropriate syntax for the subject's primary programming language.

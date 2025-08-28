@@ -1,0 +1,43 @@
+Generate {{ count }} numerical/problem-solving questions for practice/exam mode:
+
+Subject: {{ subject }}
+Goal: {{ goal }}
+Subtopic: {{ subtopic_title }}
+Context: {{ context }}
+Difficulty Level: Mixed (easy, medium, hard)
+
+Create practical problems that require calculation, analysis, or numerical reasoning. Each question should:
+1. Present a realistic problem or scenario requiring calculation
+2. Have a specific numerical answer (number, percentage, formula result, etc.)
+3. Include step-by-step solution in the explanation
+4. Provide a helpful hint that guides thinking without revealing the answer
+5. Test understanding of {{ subtopic_title }} concepts through quantitative analysis
+
+Question types to include:
+- Mathematical calculations and formulas
+- Percentage/ratio problems
+- Data analysis and interpretation
+- Unit conversions
+- Statistical calculations
+- Problem-solving with given parameters
+
+Format the output as a JSON object:
+
+```json
+{
+  "questions": [
+    {
+      "id": 1,
+      "question_text": "Detailed problem statement with specific values and requirements. Calculate: [specific request]",
+      "correct_answer": "42.5",
+      "explanation": "Step-by-step solution: Step 1: ... Step 2: ... Final answer: 42.5",
+      "hint": "Consider using [specific approach/formula] to solve this problem (only if hints enabled: {{ hints_enabled }})",
+      "difficulty": "medium",
+      "unit": "%",
+      "answer_format": "decimal"
+    }
+  ]
+}
+```
+
+Make problems realistic and applicable to {{ goal }}. Ensure answers are precise and calculable.

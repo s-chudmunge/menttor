@@ -44,6 +44,7 @@ from schemas import (LearningContentRequest, QuizAIResponse, QuizGenerateRequest
                      LearningContentOutlineRequest, LearningContentOutlineResponse,
                      LearningContentChunkRequest, LearningContentChunkResponse, QuestionBase, ThreeDVisualizationRequest, ThreeDVisualizationResponse,
                      GenerateFeedbackRequest, GenerateFeedbackResponse)
+from schemas.practice import PracticeQuestionResponse
 
 # Define a TypeVar for BaseModel subclasses
 T = TypeVar('T', bound=BaseModel)
@@ -850,3 +851,286 @@ async def get_available_models() -> List[Dict[str, Any]]:
         # raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="No AI models are available.")
 
     return combined_models
+
+# --- Practice Question Generation Functions ---
+
+class PracticeQuestionRequest(BaseModel):
+    """Request model for practice question generation"""
+    question_type: str  # mcq, numerical, caseStudy, codeCompletion, debugging
+    subtopic_title: str
+    subtopic_context: str
+    subject: str
+    goal: str
+    count: int
+    hints_enabled: bool = True
+    model: str = "vertexai:gemini-2.0-flash-lite"
+    max_output_tokens: int = 8192
+
+class PracticeQuestionAIResponse(BaseModel):
+    """AI response model for practice questions"""
+    questions: List[Dict[str, Any]]
+    model: str
+
+async def generate_practice_questions_ai(
+    question_type: str,
+    subtopic_id: str,
+    subtopic_details: Dict[str, Any],
+    count: int,
+    subject: str,
+    goal: str,
+    hints_enabled: bool = True,
+    model: str = "vertexai:gemini-2.0-flash-lite"
+) -> List[PracticeQuestionResponse]:
+    """
+    Generate practice questions using AI for different question types.
+    This is the main function called by the practice service.
+    """
+    logger.info(f"Generating {count} {question_type} questions for subtopic: {subtopic_details.get('title', subtopic_id)}")
+    
+    # Ensure model has provider prefix
+    if ':' not in model:
+        model = f"vertexai:{model}"
+    
+    # Create request for AI generation
+    request = PracticeQuestionRequest(
+        question_type=question_type,
+        subtopic_title=subtopic_details.get('title', 'Unknown Subtopic'),
+        subtopic_context=f"Module: {subtopic_details.get('module_title', 'N/A')}, Topic: {subtopic_details.get('topic_title', 'N/A')}",
+        subject=subject,
+        goal=goal,
+        count=count,
+        hints_enabled=hints_enabled,
+        model=model
+    )
+    
+    try:
+        # Generate questions using the appropriate template
+        result = await ai_executor.execute(
+            task_type=f"practice_{question_type}",
+            request_data=request,
+            response_schema=PracticeQuestionAIResponse,
+            is_json=True
+        )
+        
+        ai_response = result["response"]
+        
+        # Convert AI response to PracticeQuestionResponse objects
+        practice_questions = []
+        for i, question_data in enumerate(ai_response.questions):
+            try:
+                # Create standardized question response
+                question_response = _create_practice_question_response(
+                    question_data=question_data,
+                    question_type=question_type,
+                    subtopic_id=subtopic_id,
+                    index=i,
+                    model_used=result["model"]
+                )
+                practice_questions.append(question_response)
+                
+            except Exception as e:
+                logger.warning(f"Failed to process question {i+1}: {e}")
+                continue
+        
+        logger.info(f"Successfully generated {len(practice_questions)} {question_type} questions")
+        return practice_questions
+        
+    except Exception as e:
+        logger.error(f"Failed to generate {question_type} questions: {e}")
+        # Return fallback questions if AI generation fails
+        return _generate_fallback_questions(question_type, count, subtopic_id, subtopic_details, model)
+
+def _create_practice_question_response(
+    question_data: Dict[str, Any], 
+    question_type: str, 
+    subtopic_id: str, 
+    index: int,
+    model_used: str
+) -> PracticeQuestionResponse:
+    """Convert AI question data to standardized PracticeQuestionResponse"""
+    
+    # Extract common fields
+    question_id = question_data.get('id', index + 1)
+    question_text = question_data.get('question_text', question_data.get('question', ''))
+    difficulty = question_data.get('difficulty', 'medium')
+    hint = question_data.get('hint') if question_data.get('hint') else None
+    explanation = question_data.get('explanation', '')
+    
+    # Handle different question types
+    if question_type == 'mcq':
+        options = question_data.get('options', [])
+        # Convert options to simple list of strings for frontend
+        option_texts = []
+        if isinstance(options, list) and len(options) > 0:
+            if isinstance(options[0], dict):
+                option_texts = [opt.get('text', str(opt)) for opt in options]
+            else:
+                option_texts = [str(opt) for opt in options]
+        
+        correct_answer = question_data.get('correct_answer_id', 'A')
+        
+        return PracticeQuestionResponse(
+            id=question_id,
+            question_type=question_type,
+            question=question_text,
+            options=option_texts,
+            hint=hint,
+            code_snippet=None,
+            difficulty=difficulty,
+            subtopic_id=subtopic_id,
+            order_index=index
+        )
+    
+    elif question_type == 'numerical':
+        return PracticeQuestionResponse(
+            id=question_id,
+            question_type=question_type,
+            question=question_text,
+            options=None,
+            hint=hint,
+            code_snippet=None,
+            difficulty=difficulty,
+            subtopic_id=subtopic_id,
+            order_index=index
+        )
+    
+    elif question_type == 'caseStudy':
+        options = question_data.get('options', [])
+        option_texts = []
+        if isinstance(options, list) and len(options) > 0:
+            if isinstance(options[0], dict):
+                option_texts = [opt.get('text', str(opt)) for opt in options]
+            else:
+                option_texts = [str(opt) for opt in options]
+        
+        return PracticeQuestionResponse(
+            id=question_id,
+            question_type=question_type,
+            question=question_text,
+            options=option_texts,
+            hint=hint,
+            code_snippet=None,
+            difficulty=difficulty,
+            subtopic_id=subtopic_id,
+            order_index=index
+        )
+    
+    elif question_type in ['codeCompletion', 'debugging']:
+        code_snippet = question_data.get('code_snippet', '')
+        
+        return PracticeQuestionResponse(
+            id=question_id,
+            question_type=question_type,
+            question=question_text,
+            options=None,
+            hint=hint,
+            code_snippet=code_snippet,
+            difficulty=difficulty,
+            subtopic_id=subtopic_id,
+            order_index=index
+        )
+    
+    else:
+        # Default case
+        return PracticeQuestionResponse(
+            id=question_id,
+            question_type=question_type,
+            question=question_text,
+            options=None,
+            hint=hint,
+            code_snippet=None,
+            difficulty=difficulty,
+            subtopic_id=subtopic_id,
+            order_index=index
+        )
+
+def _generate_fallback_questions(
+    question_type: str, 
+    count: int, 
+    subtopic_id: str, 
+    subtopic_details: Dict[str, Any],
+    model: str
+) -> List[PracticeQuestionResponse]:
+    """Generate fallback questions when AI generation fails"""
+    logger.info(f"Generating {count} fallback {question_type} questions")
+    
+    fallback_questions = []
+    subtopic_title = subtopic_details.get('title', 'Unknown Subtopic')
+    
+    for i in range(count):
+        if question_type == 'mcq':
+            fallback_questions.append(PracticeQuestionResponse(
+                id=i + 1,
+                question_type=question_type,
+                question=f"Which of the following best describes {subtopic_title}?",
+                options=[
+                    "A fundamental concept in this area",
+                    "An advanced technique requiring expertise", 
+                    "A basic principle every learner should know",
+                    "A specialized application with limited use"
+                ],
+                hint="Consider the foundational importance of this concept",
+                code_snippet=None,
+                difficulty="medium",
+                subtopic_id=subtopic_id,
+                order_index=i
+            ))
+        
+        elif question_type == 'numerical':
+            fallback_questions.append(PracticeQuestionResponse(
+                id=i + 1,
+                question_type=question_type,
+                question=f"Calculate the result for this {subtopic_title} problem: If x = 10 and y = 5, what is x + y?",
+                options=None,
+                hint="Add the two numbers together",
+                code_snippet=None,
+                difficulty="easy",
+                subtopic_id=subtopic_id,
+                order_index=i
+            ))
+        
+        elif question_type == 'caseStudy':
+            fallback_questions.append(PracticeQuestionResponse(
+                id=i + 1,
+                question_type=question_type,
+                question=f"In a real-world scenario involving {subtopic_title}, what would be the most effective approach?",
+                options=[
+                    "Apply standard industry practices",
+                    "Use a customized solution based on specific requirements",
+                    "Follow established protocols exactly",
+                    "Adapt the approach based on available resources"
+                ],
+                hint="Consider the balance between standardization and customization",
+                code_snippet=None,
+                difficulty="hard",
+                subtopic_id=subtopic_id,
+                order_index=i
+            ))
+        
+        elif question_type == 'codeCompletion':
+            fallback_questions.append(PracticeQuestionResponse(
+                id=i + 1,
+                question_type=question_type,
+                question=f"Complete the following code related to {subtopic_title}:",
+                options=None,
+                hint="Think about the basic syntax and logic required",
+                code_snippet="def example_function(x):\n    # Complete this function\n    return _____",
+                difficulty="medium",
+                subtopic_id=subtopic_id,
+                order_index=i
+            ))
+        
+        elif question_type == 'debugging':
+            fallback_questions.append(PracticeQuestionResponse(
+                id=i + 1,
+                question_type=question_type,
+                question=f"Find the error in this {subtopic_title} related code:",
+                options=None,
+                hint="Look for common syntax or logical errors",
+                code_snippet="if x = 5:\n    print('x equals five')",
+                difficulty="easy",
+                subtopic_id=subtopic_id,
+                order_index=i
+            ))
+    
+    return fallback_questions

@@ -198,6 +198,71 @@ class UserPerformance(SQLModel, table=True):
     average_score: float = Field(default=0.0)
     overall_accuracy: float = Field(default=0.0)
 
+# Practice Session Models
+
+class PracticeSession(SQLModel, table=True):
+    """Practice sessions for custom practice/exam mode"""
+    id: Optional[int] = Field(default=None, primary_key=True)
+    user_id: int = Field(index=True, foreign_key="user.id")
+    roadmap_id: int = Field(index=True, foreign_key="roadmap.id")
+    session_token: str = Field(unique=True, index=True)
+    
+    # Configuration
+    subtopic_ids: List[str] = Field(sa_column=Column(JSONB))
+    question_types: List[str] = Field(sa_column=Column(JSONB))
+    question_count: int
+    time_limit: int  # in minutes
+    hints_enabled: bool = Field(default=True)
+    subject: str
+    goal: str
+    
+    # Session tracking
+    status: str = Field(default="active")  # active, completed, expired
+    started_at: Optional[datetime] = Field(default=None)
+    completed_at: Optional[datetime] = Field(default=None)
+    total_time_spent: Optional[int] = Field(default=None)  # in seconds
+    
+    # Results
+    final_score: Optional[float] = Field(default=None)
+    correct_answers: Optional[int] = Field(default=None)
+    hints_used: Optional[int] = Field(default=None)
+    
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+
+class PracticeQuestion(SQLModel, table=True):
+    """Generated questions for practice sessions"""
+    id: Optional[int] = Field(default=None, primary_key=True)
+    session_id: int = Field(index=True, foreign_key="practicesession.id")
+    subtopic_id: str = Field(index=True)
+    
+    # Question details
+    question_type: str  # mcq, numerical, caseStudy, codeCompletion, debugging
+    question_data: Dict[str, Any] = Field(sa_column=Column(JSONB))  # question, options, correct_answer, explanation, hint, code_snippet, etc.
+    difficulty: str = Field(default="medium")  # easy, medium, hard
+    order_index: int
+    
+    # AI generation details
+    model_used: Optional[str] = Field(default=None)
+    generation_prompt: Optional[str] = Field(default=None, sa_column=Column(Text))
+    
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+
+class PracticeAnswer(SQLModel, table=True):
+    """User answers for practice questions"""
+    id: Optional[int] = Field(default=None, primary_key=True)
+    session_id: int = Field(index=True, foreign_key="practicesession.id")
+    question_id: int = Field(index=True, foreign_key="practicequestion.id")
+    
+    # Answer details
+    user_answer: str = Field(sa_column=Column(Text))
+    is_correct: bool
+    time_spent: int  # seconds spent on this question
+    hint_used: bool = Field(default=False)
+    
+    # Metadata
+    answered_at: datetime = Field(default_factory=datetime.utcnow)
+    question_order: int = Field(default=0)  # order in which question was answered
+
 # Behavioral Design System Models
 
 class UserBehavior(SQLModel, table=True):
