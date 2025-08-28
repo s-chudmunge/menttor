@@ -37,17 +37,63 @@ export interface RoadmapData {
 
 export class TimetableGenerator {
   private async addMentorBranding(doc: jsPDF, pageWidth: number) {
-    // Add watermark
-    doc.setTextColor(240, 240, 240);
-    doc.setFontSize(60);
-    doc.text('MENTTOR', pageWidth / 2, 150, { align: 'center', angle: -45 });
+    // Add watermark with logo
+    try {
+      const watermarkResponse = await fetch('/Menttor.png');
+      if (watermarkResponse.ok) {
+        const watermarkBlob = await watermarkResponse.blob();
+        const watermarkDataUrl = await this.blobToDataURL(watermarkBlob);
+        
+        // Create image to get natural dimensions
+        const watermarkImg = new Image();
+        watermarkImg.src = watermarkDataUrl;
+        
+        await new Promise((resolve) => {
+          watermarkImg.onload = resolve;
+        });
+        
+        // Calculate watermark dimensions (larger for watermark)
+        const maxWatermarkWidth = 80;
+        const maxWatermarkHeight = 60;
+        const watermarkAspectRatio = watermarkImg.width / watermarkImg.height;
+        
+        let watermarkWidth = maxWatermarkWidth;
+        let watermarkHeight = maxWatermarkWidth / watermarkAspectRatio;
+        
+        if (watermarkHeight > maxWatermarkHeight) {
+          watermarkHeight = maxWatermarkHeight;
+          watermarkWidth = maxWatermarkHeight * watermarkAspectRatio;
+        }
+        
+        // Add semi-transparent watermark in center (no rotation)
+        doc.saveGraphicsState();
+        doc.setGState(new doc.GState({ opacity: 0.1 }));
+        
+        doc.addImage(
+          watermarkDataUrl, 
+          'PNG', 
+          (pageWidth - watermarkWidth) / 2, 
+          130, 
+          watermarkWidth, 
+          watermarkHeight
+        );
+        
+        doc.restoreGraphicsState();
+      } else {
+        // Skip watermark if logo not available
+        console.warn('Menttor.png not found, skipping watermark');
+      }
+    } catch (error) {
+      console.warn('Could not load watermark logo, skipping watermark:', error);
+      // Skip watermark if logo loading fails
+    }
     
     // Reset color
     doc.setTextColor(0, 0, 0);
     
     // Add logo to header if available
     try {
-      const logoResponse = await fetch('/logo.png');
+      const logoResponse = await fetch('/Menttor.png');
       if (logoResponse.ok) {
         const logoBlob = await logoResponse.blob();
         const logoDataUrl = await this.blobToDataURL(logoBlob);
@@ -106,11 +152,19 @@ export class TimetableGenerator {
       doc.text('Your Smart Learning Companion', 20, 28);
     }
     
-    // Add footer with updated branding
+    // Add footer with updated branding and clickable link
     const pageHeight = doc.internal.pageSize.height;
     doc.setFontSize(8);
     doc.setTextColor(100, 100, 100);
-    doc.text('Crafted by Menttor.live - Your Smart Learning Companion', pageWidth / 2, pageHeight - 10, { align: 'center' });
+    
+    // Add clickable link to menttor.live
+    const linkText = 'Crafted by Menttor.live - Your Smart Learning Companion';
+    const linkWidth = doc.getTextWidth(linkText);
+    const linkX = (pageWidth - linkWidth) / 2;
+    const linkY = pageHeight - 10;
+    
+    // Create clickable link
+    doc.textWithLink(linkText, linkX, linkY, { url: 'https://menttor.live' });
     doc.text(`Generated on: ${format(new Date(), 'MMM dd, yyyy')}`, pageWidth / 2, pageHeight - 6, { align: 'center' });
   }
 
