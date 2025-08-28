@@ -398,6 +398,23 @@ const ExplorePage = () => {
       setLoading(true);
       setError(null);
       
+      // Try static data first for faster loading
+      try {
+        const staticResponse = await fetch(`${BACKEND_URL}/static-data/curated-roadmaps`);
+        if (staticResponse.ok) {
+          const staticData = await staticResponse.json();
+          if (staticData.roadmaps && staticData.roadmaps.length > 0) {
+            setRoadmaps(staticData.roadmaps);
+            setIsGenerating(false);
+            console.info(`Loaded ${staticData.roadmaps.length} roadmaps from static cache`);
+            return;
+          }
+        }
+      } catch (staticError) {
+        console.info('Static data not available, falling back to database');
+      }
+
+      // Fallback to database
       const response = await fetch(`${BACKEND_URL}/curated-roadmaps/?per_page=100`);
       
       if (!response.ok) {
@@ -431,6 +448,7 @@ const ExplorePage = () => {
       } else {
         setRoadmaps(data);
         setIsGenerating(false);
+        console.info(`Loaded ${data.length} roadmaps from database`);
       }
       
     } catch (err) {
@@ -443,6 +461,21 @@ const ExplorePage = () => {
 
   const fetchCategories = async () => {
     try {
+      // Try static data first
+      try {
+        const staticResponse = await fetch(`${BACKEND_URL}/static-data/curated-roadmaps`);
+        if (staticResponse.ok) {
+          const staticData = await staticResponse.json();
+          if (staticData.categories && Object.keys(staticData.categories).length > 0) {
+            setCategories(staticData.categories);
+            return;
+          }
+        }
+      } catch (staticError) {
+        console.info('Static categories not available, falling back to database');
+      }
+
+      // Fallback to database
       const response = await fetch(`${BACKEND_URL}/curated-roadmaps/categories/all`);
       if (response.ok) {
         const data = await response.json();

@@ -41,6 +41,8 @@ export default function AdminCuratedRoadmaps() {
   const [message, setMessage] = useState('')
   const [generatingImages, setGeneratingImages] = useState(false)
   const [imageMessage, setImageMessage] = useState('')
+  const [downloading, setDownloading] = useState(false)
+  const [downloadMessage, setDownloadMessage] = useState('')
 
   // Create basic auth header
   const createAuthHeader = () => {
@@ -200,6 +202,64 @@ export default function AdminCuratedRoadmaps() {
     }
   }
 
+  // Download curated roadmaps data
+  const downloadCuratedRoadmaps = async () => {
+    if (!confirm('Download all curated roadmaps data as JSON? This will include all roadmaps and categories for static loading.')) {
+      return
+    }
+
+    setDownloading(true)
+    setDownloadMessage('Fetching curated roadmaps data...')
+    
+    try {
+      // Fetch all roadmaps and categories
+      const [roadmapsResponse, categoriesResponse] = await Promise.all([
+        fetch(`${BACKEND_URL}/curated-roadmaps/?per_page=1000`, {
+          headers: { 'Authorization': createAuthHeader() }
+        }),
+        fetch(`${BACKEND_URL}/curated-roadmaps/categories/all`, {
+          headers: { 'Authorization': createAuthHeader() }
+        })
+      ])
+
+      if (!roadmapsResponse.ok || !categoriesResponse.ok) {
+        throw new Error('Failed to fetch data from server')
+      }
+
+      const roadmaps = await roadmapsResponse.json()
+      const categories = await categoriesResponse.json()
+
+      // Create the data structure
+      const exportData = {
+        generated_at: new Date().toISOString(),
+        total_roadmaps: roadmaps.length,
+        roadmaps: roadmaps,
+        categories: categories.categories || {}
+      }
+
+      // Create and download the JSON file
+      const jsonString = JSON.stringify(exportData, null, 2)
+      const blob = new Blob([jsonString], { type: 'application/json' })
+      const url = URL.createObjectURL(blob)
+      
+      const link = document.createElement('a')
+      link.href = url
+      link.download = `curated_roadmaps_data_${new Date().toISOString().split('T')[0]}.json`
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+      URL.revokeObjectURL(url)
+
+      setDownloadMessage(`✅ Successfully downloaded ${roadmaps.length} roadmaps! Place this file in backend/curated_roadmaps_data/`)
+      
+    } catch (error) {
+      console.error('Error downloading data:', error)
+      setDownloadMessage('❌ Failed to download curated roadmaps data')
+    } finally {
+      setDownloading(false)
+    }
+  }
+
   // Login form
   if (!isAuthenticated) {
     return (
@@ -268,6 +328,13 @@ export default function AdminCuratedRoadmaps() {
             </div>
             <div className="flex gap-3">
               <button
+                onClick={downloadCuratedRoadmaps}
+                disabled={downloading}
+                className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md transition duration-150 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {downloading ? 'Downloading...' : '📥 Download Data'}
+              </button>
+              <button
                 onClick={generatePromotionalImages}
                 disabled={generatingImages}
                 className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-md transition duration-150 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed"
@@ -323,6 +390,13 @@ export default function AdminCuratedRoadmaps() {
         {imageMessage && (
           <div className="bg-purple-50 border border-purple-200 rounded-lg shadow-sm p-4 mb-6">
             <div className="text-center font-medium text-purple-800">{imageMessage}</div>
+          </div>
+        )}
+
+        {/* Download Message */}
+        {downloadMessage && (
+          <div className="bg-blue-50 border border-blue-200 rounded-lg shadow-sm p-4 mb-6">
+            <div className="text-center font-medium text-blue-800">{downloadMessage}</div>
           </div>
         )}
 

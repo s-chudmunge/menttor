@@ -253,6 +253,34 @@ const RoadmapPreviewPage = () => {
       setLoading(true);
       setError(null);
       
+      // Try static data first for faster loading
+      try {
+        const staticResponse = await fetch(`${BACKEND_URL}/static-data/curated-roadmaps`);
+        if (staticResponse.ok) {
+          const staticData = await staticResponse.json();
+          if (staticData.roadmaps && staticData.roadmaps.length > 0) {
+            // Search for roadmap by slug or ID in static data
+            const foundRoadmap = staticData.roadmaps.find((r: any) => 
+              r.slug === roadmapSlug || r.id.toString() === roadmapSlug
+            );
+            
+            if (foundRoadmap) {
+              // If found by ID but has slug, redirect to slug URL
+              if (/^\d+$/.test(roadmapSlug) && foundRoadmap.slug) {
+                router.replace(`/explore/${foundRoadmap.slug}`);
+                return;
+              }
+              setRoadmap(foundRoadmap);
+              console.info(`Loaded roadmap from static cache: ${foundRoadmap.title}`);
+              return;
+            }
+          }
+        }
+      } catch (staticError) {
+        console.info('Static data not available, falling back to database');
+      }
+
+      // Fallback to database
       // First try to fetch by slug
       let response = await fetch(`${BACKEND_URL}/curated-roadmaps/slug/${roadmapSlug}`);
       
@@ -285,6 +313,7 @@ const RoadmapPreviewPage = () => {
       
       const data = await response.json();
       setRoadmap(data);
+      console.info(`Loaded roadmap from database: ${data.title}`);
     } catch (err) {
       setError('Failed to load roadmap. Please try again.');
     } finally {
