@@ -366,10 +366,9 @@ const PracticeSessionContent = () => {
         const response = await api.post(`/practice/sessions/${sessionToken}/complete`);
         
         const results = response.data;
-          sessionStorage.setItem('practiceResults', JSON.stringify(results));
-          router.push('/practice-results');
-          return;
-        }
+        sessionStorage.setItem('practiceResults', JSON.stringify(results));
+        router.push('/practice-results');
+        return;
       } catch (error) {
         console.error('Error completing session via API:', error);
       }
