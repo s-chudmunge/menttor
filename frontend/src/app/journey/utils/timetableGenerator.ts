@@ -67,7 +67,7 @@ export class TimetableGenerator {
         
         // Add semi-transparent watermark in center (no rotation)
         doc.saveGraphicsState();
-        doc.setGState(new doc.GState({ opacity: 0.1 }));
+        doc.setGState({ opacity: 0.1 });
         
         doc.addImage(
           watermarkDataUrl, 
