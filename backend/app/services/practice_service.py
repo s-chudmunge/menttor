@@ -7,7 +7,7 @@ from sql_models import (
     PracticeSession, PracticeQuestion, PracticeAnswer, 
     Roadmap, UserProgress
 )
-from schemas.practice import (
+from schemas import (
     PracticeSessionCreate, PracticeQuestionResponse,
     PracticeAnswerCreate, PracticeResultsResponse,
     PracticeAnswerResult, PracticeStrength, PracticeWeakness,

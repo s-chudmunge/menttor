@@ -107,9 +107,10 @@ const PracticeSessionPage = () => {
   const fetchSessionData = async (token: string) => {
     try {
       setIsLoading(true);
+      const authToken = user ? await user.getIdToken() : '';
       const response = await fetch(`/api/practice/sessions/${token}`, {
         headers: {
-          'Authorization': `Bearer ${user?.accessToken || ''}`
+          'Authorization': `Bearer ${authToken}`
         }
       });
 
@@ -290,11 +291,12 @@ const PracticeSessionPage = () => {
     // For real API, submit answer and get correctness from backend
     if (sessionToken) {
       try {
+        const authToken = user ? await user.getIdToken() : '';
         const response = await fetch(`/api/practice/sessions/${sessionToken}/answers`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${user?.accessToken || ''}`
+            'Authorization': `Bearer ${authToken}`
           },
           body: JSON.stringify({
             question_id: parseInt(currentQuestion.id),
@@ -377,11 +379,12 @@ const PracticeSessionPage = () => {
     if (sessionToken) {
       try {
         // Complete session via API and get results
+        const authToken = user ? await user.getIdToken() : '';
         const response = await fetch(`/api/practice/sessions/${sessionToken}/complete`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${user?.accessToken || ''}`
+            'Authorization': `Bearer ${authToken}`
           }
         });
 

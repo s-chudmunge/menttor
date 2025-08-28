@@ -43,8 +43,7 @@ from schemas import (LearningContentRequest, QuizAIResponse, QuizGenerateRequest
                      RoadmapAIResponse, RoadmapCreateRequest, RoadmapPlan, LearningContentResponse,
                      LearningContentOutlineRequest, LearningContentOutlineResponse,
                      LearningContentChunkRequest, LearningContentChunkResponse, QuestionBase, ThreeDVisualizationRequest, ThreeDVisualizationResponse,
-                     GenerateFeedbackRequest, GenerateFeedbackResponse)
-from schemas.practice import PracticeQuestionResponse
+                     GenerateFeedbackRequest, GenerateFeedbackResponse, PracticeQuestionResponse)
 
 # Define a TypeVar for BaseModel subclasses
 T = TypeVar('T', bound=BaseModel)

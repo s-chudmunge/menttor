@@ -189,11 +189,14 @@ const PracticeView: React.FC<PracticeViewProps> = ({ roadmapData, progressData }
         goal: roadmapData.goal || roadmapData.description || 'Practice Questions'
       };
 
+      // Get Firebase auth token
+      const authToken = user ? await user.getIdToken() : '';
+
       const response = await fetch('/api/practice/sessions', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${user?.accessToken || ''}`
+          'Authorization': `Bearer ${authToken}`
         },
         body: JSON.stringify(sessionData)
       });
