@@ -13,16 +13,31 @@ STATIC_DATA_DIR = os.path.join(os.path.dirname(__file__), "..", "..", "curated_r
 
 def get_latest_roadmaps_file() -> Optional[str]:
     """Get the path to the latest curated roadmaps JSON file"""
+    print(f"DEBUG: Looking for static data in: {STATIC_DATA_DIR}")
+    print(f"DEBUG: Directory exists: {os.path.exists(STATIC_DATA_DIR)}")
+    
     if not os.path.exists(STATIC_DATA_DIR):
+        print(f"DEBUG: Static data directory does not exist: {STATIC_DATA_DIR}")
         return None
     
-    json_files = [f for f in os.listdir(STATIC_DATA_DIR) if f.endswith('.json') and f.startswith('curated_roadmaps_data_')]
-    if not json_files:
+    try:
+        all_files = os.listdir(STATIC_DATA_DIR)
+        print(f"DEBUG: Files in directory: {all_files}")
+        
+        json_files = [f for f in all_files if f.endswith('.json') and f.startswith('curated_roadmaps_data_')]
+        print(f"DEBUG: JSON files found: {json_files}")
+        
+        if not json_files:
+            return None
+        
+        # Sort by filename (which includes date) to get the latest
+        json_files.sort(reverse=True)
+        file_path = os.path.join(STATIC_DATA_DIR, json_files[0])
+        print(f"DEBUG: Selected file: {file_path}")
+        return file_path
+    except Exception as e:
+        print(f"DEBUG: Error listing files: {str(e)}")
         return None
-    
-    # Sort by filename (which includes date) to get the latest
-    json_files.sort(reverse=True)
-    return os.path.join(STATIC_DATA_DIR, json_files[0])
 
 @router.get("/curated-roadmaps")
 async def get_static_curated_roadmaps():
@@ -31,23 +46,30 @@ async def get_static_curated_roadmaps():
     Falls back to indicating no static data available
     """
     try:
+        print("DEBUG: Static roadmaps endpoint called")
         file_path = get_latest_roadmaps_file()
+        print(f"DEBUG: get_latest_roadmaps_file returned: {file_path}")
         
         if not file_path or not os.path.exists(file_path):
+            print(f"DEBUG: File not found or doesn't exist: {file_path}")
             raise HTTPException(
                 status_code=404, 
                 detail="No static roadmaps data available. Please generate and download from admin panel."
             )
         
+        print(f"DEBUG: Attempting to read file: {file_path}")
         with open(file_path, 'r', encoding='utf-8') as f:
             data = json.load(f)
         
+        print(f"DEBUG: Successfully loaded data with {len(data.get('roadmaps', []))} roadmaps")
         # Return the same structure as the database API
         return JSONResponse(content=data)
     
-    except json.JSONDecodeError:
+    except json.JSONDecodeError as e:
+        print(f"DEBUG: JSON decode error: {str(e)}")
         raise HTTPException(status_code=500, detail="Invalid JSON file format")
     except Exception as e:
+        print(f"DEBUG: General error: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Error reading static data: {str(e)}")
 
 @router.get("/curated-roadmaps/info")
