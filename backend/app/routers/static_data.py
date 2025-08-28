@@ -9,19 +9,33 @@ from fastapi.responses import JSONResponse
 
 router = APIRouter(prefix="/static-data", tags=["static-data"])
 
-STATIC_DATA_DIR = os.path.join(os.path.dirname(__file__), "..", "..", "curated_roadmaps_data")
+# Try multiple possible paths for the static data directory
+POSSIBLE_STATIC_DIRS = [
+    os.path.join(os.path.dirname(__file__), "..", "..", "curated_roadmaps_data"),  # Local development
+    os.path.join("/app", "curated_roadmaps_data"),  # Render.com deployment
+    os.path.join(os.getcwd(), "curated_roadmaps_data"),  # Current working directory
+    os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "curated_roadmaps_data"),  # Backend root
+]
+
+def get_static_data_dir():
+    """Find the correct static data directory"""
+    for possible_dir in POSSIBLE_STATIC_DIRS:
+        print(f"DEBUG: Checking possible directory: {possible_dir}")
+        if os.path.exists(possible_dir):
+            print(f"DEBUG: Found static data directory: {possible_dir}")
+            return possible_dir
+    print("DEBUG: No static data directory found")
+    return None
 
 def get_latest_roadmaps_file() -> Optional[str]:
     """Get the path to the latest curated roadmaps JSON file"""
-    print(f"DEBUG: Looking for static data in: {STATIC_DATA_DIR}")
-    print(f"DEBUG: Directory exists: {os.path.exists(STATIC_DATA_DIR)}")
+    static_data_dir = get_static_data_dir()
     
-    if not os.path.exists(STATIC_DATA_DIR):
-        print(f"DEBUG: Static data directory does not exist: {STATIC_DATA_DIR}")
+    if not static_data_dir:
         return None
     
     try:
-        all_files = os.listdir(STATIC_DATA_DIR)
+        all_files = os.listdir(static_data_dir)
         print(f"DEBUG: Files in directory: {all_files}")
         
         json_files = [f for f in all_files if f.endswith('.json') and f.startswith('curated_roadmaps_data_')]
@@ -32,7 +46,7 @@ def get_latest_roadmaps_file() -> Optional[str]:
         
         # Sort by filename (which includes date) to get the latest
         json_files.sort(reverse=True)
-        file_path = os.path.join(STATIC_DATA_DIR, json_files[0])
+        file_path = os.path.join(static_data_dir, json_files[0])
         print(f"DEBUG: Selected file: {file_path}")
         return file_path
     except Exception as e:
