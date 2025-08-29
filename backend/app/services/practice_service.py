@@ -230,7 +230,7 @@ async def submit_practice_answer(
     
     db.add(practice_answer)
     db.commit()
-    # Remove refresh to avoid session binding issues
+    db.refresh(practice_answer)
     
     return practice_answer
 
@@ -287,85 +287,98 @@ async def get_practice_results(
     user_id: int
 ) -> PracticeResultsResponse:
     """Get detailed results for a completed practice session with AI evaluation"""
+    from fastapi import HTTPException, status
     
-    # Verify session
-    session = db.get(PracticeSession, session_id)
-    if not session or session.user_id != user_id:
-        raise ValueError("Invalid session")
-    
-    # Mark session as completed if not already
-    if session.status != "completed":
-        session.status = "completed"
-        session.completed_at = datetime.utcnow()
-        if session.started_at:
-            session.total_time_spent = int((session.completed_at - session.started_at).total_seconds())
-    
-    # Get all answers
-    answers = db.exec(
-        select(PracticeAnswer).where(PracticeAnswer.session_id == session_id)
-    ).all()
-    
-    # Get all questions
-    questions = db.exec(
-        select(PracticeQuestion).where(PracticeQuestion.session_id == session_id)
-    ).all()
-    
-    # Calculate basic metrics
-    correct_answers = len([a for a in answers if a.is_correct])
-    total_questions = len(questions)
-    final_score = (correct_answers / total_questions * 100) if total_questions > 0 else 0
-    hints_used = len([a for a in answers if a.hint_used])
-    total_time = session.total_time_spent or 0
-    
-    # Update session with final results
-    session.final_score = final_score
-    session.correct_answers = correct_answers
-    session.hints_used = hints_used
-    db.add(session)
-    db.commit()
-    
-    # Build detailed results with AI feedback
-    question_results = []
-    for question in questions:
-        answer = next((a for a in answers if a.question_id == question.id), None)
-        if answer:
-            # Generate AI feedback for this question
-            ai_feedback = await generate_ai_feedback_for_answer(
-                question=question.question_data.get("question", ""),
-                user_answer=answer.user_answer,
-                question_type=question.question_type,
-                is_correct=answer.is_correct,
-                code_snippet=question.question_data.get("code_snippet"),
-                subject=session.subject
+    try:
+        # Verify session
+        session = db.get(PracticeSession, session_id)
+        if not session:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Practice session not found"
             )
-            
-            question_results.append(PracticeAnswerResult(
-                question_id=question.id,
-                user_answer=answer.user_answer,
-                correct_answer=question.question_data.get("correct_answer", ""),
-                is_correct=answer.is_correct,
-                explanation=ai_feedback,
-                time_spent=answer.time_spent,
-                hint_used=answer.hint_used
-            ))
-    
-    # Analyze performance with AI insights
-    performance_analysis = await analyze_practice_performance_with_ai(questions, answers, session)
-    
-    return PracticeResultsResponse(
-        session_id=session_id,
-        final_score=final_score,
-        correct_answers=correct_answers,
-        total_questions=total_questions,
-        total_time=total_time,
-        hints_used=hints_used,
-        strengths=performance_analysis["strengths"],
-        weaknesses=performance_analysis["weaknesses"],
-        question_results=question_results,
-        performance_by_type=performance_analysis["by_type"],
-        performance_by_difficulty=performance_analysis["by_difficulty"],
-        completed_at=session.completed_at or datetime.utcnow()
-    )
+        
+        if session.user_id != user_id:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="Access denied to this practice session"
+            )
+        
+        # Mark session as completed if not already
+        if session.status != "completed":
+            session.status = "completed"
+            session.completed_at = datetime.utcnow()
+            if session.started_at:
+                session.total_time_spent = int((session.completed_at - session.started_at).total_seconds())
+        
+        # Get all answers
+        answers = db.exec(
+            select(PracticeAnswer).where(PracticeAnswer.session_id == session_id)
+        ).all()
+        
+        # Get all questions
+        questions = db.exec(
+            select(PracticeQuestion).where(PracticeQuestion.session_id == session_id)
+        ).all()
+        
+        # Calculate basic metrics
+        correct_answers = len([a for a in answers if a.is_correct])
+        total_questions = len(questions)
+        final_score = (correct_answers / total_questions * 100) if total_questions > 0 else 0
+        hints_used = len([a for a in answers if a.hint_used])
+        total_time = session.total_time_spent or 0
+        
+        # Update session with final results
+        session.final_score = final_score
+        session.correct_answers = correct_answers
+        session.hints_used = hints_used
+        db.add(session)
+        db.commit()
+        
+        # Build detailed results with simplified feedback for stability
+        question_results = []
+        for question in questions:
+            answer = next((a for a in answers if a.question_id == question.id), None)
+            if answer:
+                # Use simple feedback instead of AI to avoid failures
+                explanation = "Correct! Well done." if answer.is_correct else "Incorrect. Review the concepts for this topic."
+                
+                question_results.append(PracticeAnswerResult(
+                    question_id=question.id,
+                    user_answer=answer.user_answer,
+                    correct_answer=question.question_data.get("correct_answer", ""),
+                    is_correct=answer.is_correct,
+                    explanation=explanation,
+                    time_spent=answer.time_spent,
+                    hint_used=answer.hint_used
+                ))
+        
+        # Use basic performance analysis for stability
+        performance_analysis = analyze_practice_performance(questions, answers, session)
+        
+        return PracticeResultsResponse(
+            session_id=session_id,
+            final_score=final_score,
+            correct_answers=correct_answers,
+            total_questions=total_questions,
+            total_time=total_time,
+            hints_used=hints_used,
+            strengths=performance_analysis["strengths"],
+            weaknesses=performance_analysis["weaknesses"],
+            question_results=question_results,
+            performance_by_type=performance_analysis["by_type"],
+            performance_by_difficulty=performance_analysis["by_difficulty"],
+            completed_at=session.completed_at or datetime.utcnow()
+        )
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error getting practice results for session {session_id}: {e}", exc_info=True)
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Failed to get practice results"
+        )
 
 async def generate_ai_feedback_for_answer(
     question: str,

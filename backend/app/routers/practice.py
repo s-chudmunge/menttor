@@ -431,6 +431,15 @@ async def submit_answer(
                 detail="Practice session not found"
             )
         
+        # Validate question exists and belongs to session
+        from sql_models import PracticeQuestion
+        question = db.get(PracticeQuestion, answer_data.question_id)
+        if not question or question.session_id != session.id:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Invalid question for this session"
+            )
+        
         result = await submit_practice_answer(
             db=db,
             session_id=session.id,
@@ -446,10 +455,10 @@ async def submit_answer(
     except HTTPException:
         raise
     except Exception as e:
-        logger.error(f"Error submitting answer: {e}")
+        logger.error(f"Error submitting answer for session {session_token}: {e}", exc_info=True)
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Failed to submit answer: {str(e)}"
+            detail="Failed to submit answer"
         )
 
 @router.post("/sessions/{session_token}/complete")
@@ -476,6 +485,10 @@ async def complete_session(
                 detail="Practice session not found"
             )
         
+        # Check if session is already completed
+        if session.status == "completed":
+            logger.info(f"Session {session_token} already completed, returning existing results")
+        
         results = await get_practice_results(
             db=db,
             session_id=session.id,
@@ -487,10 +500,10 @@ async def complete_session(
     except HTTPException:
         raise
     except Exception as e:
-        logger.error(f"Error completing session: {e}")
+        logger.error(f"Error completing session {session_token}: {e}", exc_info=True)
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Failed to complete session: {str(e)}"
+            detail="Failed to complete session"
         )
 
 @router.get("/sessions/{session_id}/results", response_model=PracticeResultsResponse)
