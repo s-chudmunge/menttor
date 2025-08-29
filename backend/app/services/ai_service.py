@@ -903,9 +903,20 @@ async def generate_practice_questions_ai(
     )
     
     try:
+        # Map question types to correct template names
+        template_mapping = {
+            "mcq": "practice_mcq",
+            "numerical": "practice_numerical", 
+            "caseStudy": "practice_case_study",
+            "codeCompletion": "practice_code_completion",
+            "debugging": "practice_debugging"
+        }
+        
+        template_name = template_mapping.get(question_type, f"practice_{question_type}")
+        
         # Generate questions using the appropriate template
         result = await ai_executor.execute(
-            task_type=f"practice_{question_type}",
+            task_type=template_name,
             request_data=request,
             response_schema=PracticeQuestionAIResponse,
             is_json=True

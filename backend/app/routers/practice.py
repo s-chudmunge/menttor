@@ -67,6 +67,65 @@ async def create_practice_session_endpoint(
             detail=f"Failed to create practice session: {str(e)}"
         )
 
+@router.get("/sessions/{session_token}")
+async def get_practice_session(
+    session_token: str,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    """Get practice session data by session token"""
+    try:
+        from sql_models import PracticeSession, PracticeQuestion
+        
+        # Find session by token
+        session = db.exec(
+            select(PracticeSession).where(
+                PracticeSession.session_token == session_token,
+                PracticeSession.user_id == current_user.id
+            )
+        ).first()
+        
+        if not session:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Practice session not found"
+            )
+        
+        # Get questions for this session
+        questions = db.exec(
+            select(PracticeQuestion).where(
+                PracticeQuestion.session_id == session.id
+            ).order_by(PracticeQuestion.order_index)
+        ).all()
+        
+        # Convert to response format
+        question_responses = []
+        for q in questions:
+            question_responses.append(PracticeQuestionResponse(
+                id=q.id,
+                question_type=q.question_type,
+                question_data=q.question_data,
+                difficulty=q.difficulty,
+                order_index=q.order_index
+            ))
+        
+        return PracticeSessionResponse(
+            session_id=session.id,
+            session_token=session.session_token,
+            questions=question_responses,
+            time_limit=session.time_limit,
+            hints_enabled=session.hints_enabled
+        )
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error fetching practice session: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Failed to fetch practice session: {str(e)}"
+        )
+
 @router.post("/sessions/{session_id}/answers")
 async def submit_answer(
     session_id: int,
