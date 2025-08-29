@@ -314,6 +314,37 @@ class BehavioralData(BaseModel):
     current_streak: int = 1
     milestone_completed: bool = False
 
+# Practice Session Schemas
+class PracticeQuestionResponse(BaseModel):
+    id: int
+    question_type: str
+    question: str
+    options: Optional[List[str]] = None
+    hint: Optional[str] = None
+    code_snippet: Optional[str] = None
+    difficulty: str
+    subtopic_id: str
+    order_index: int
+
+class PracticeSessionResponse(BaseModel):
+    session_id: int
+    session_token: str
+    questions: List[PracticeQuestionResponse]
+    time_limit: int
+    hints_enabled: bool
+    question_count: int
+    subtopic_ids: List[str]
+    question_types: List[str]
+    roadmap_id: int
+    subject: str
+    goal: str
+
+class PracticeAnswerCreate(BaseModel):
+    question_id: int
+    user_answer: str
+    time_spent: int  # seconds
+    hint_used: bool = False
+
 class LearningContentResponse(BaseModel):
     id: Optional[int] = None
     content: List[ContentBlock]
@@ -439,12 +470,6 @@ class PracticeSessionCreate(BaseModel):
     roadmap_id: int
     subject: str
     goal: str
-
-class PracticeAnswerCreate(BaseModel):
-    question_id: int
-    user_answer: str
-    time_spent: int  # seconds
-    hint_used: bool = False
 
 class PracticeQuestionResponse(BaseModel):
     id: int

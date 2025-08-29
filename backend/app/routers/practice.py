@@ -354,7 +354,13 @@ async def get_practice_session(
             session_token=session.session_token,
             questions=question_responses,
             time_limit=session.time_limit,
-            hints_enabled=session.hints_enabled
+            hints_enabled=session.hints_enabled,
+            question_count=session.question_count,
+            subtopic_ids=session.subtopic_ids,
+            question_types=session.question_types,
+            roadmap_id=session.roadmap_id,
+            subject=session.subject,
+            goal=session.goal
         )
         
     except HTTPException:
