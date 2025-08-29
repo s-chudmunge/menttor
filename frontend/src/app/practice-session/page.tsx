@@ -798,9 +798,27 @@ const PracticeSessionContent = () => {
                         <div className="text-xs text-gray-500 dark:text-gray-400">Think critically</div>
                       </div>
                       <ReactMarkdown
-                        className="prose prose-sm dark:prose-invert max-w-none mb-4"
+                        className="leading-relaxed text-base max-w-none mb-4"
                         remarkPlugins={[remarkMath]}
                         rehypePlugins={[rehypeKatex]}
+                        components={{
+                          p: ({ children }) => <p className="mb-3 text-gray-900 dark:text-gray-100">{children}</p>,
+                          strong: ({ children }) => <strong className="font-semibold text-gray-950 dark:text-white">{children}</strong>,
+                          em: ({ children }) => <em className="italic text-gray-800 dark:text-gray-200">{children}</em>,
+                          code: ({ children, ...props }) => (
+                            <code className="bg-gray-200 dark:bg-gray-600 text-gray-900 dark:text-gray-100 px-2 py-1 rounded text-sm font-mono" {...props}>
+                              {children}
+                            </code>
+                          ),
+                          ul: ({ children }) => <ul className="list-disc pl-6 mb-3 text-gray-900 dark:text-gray-100">{children}</ul>,
+                          ol: ({ children }) => <ol className="list-decimal pl-6 mb-3 text-gray-900 dark:text-gray-100">{children}</ol>,
+                          li: ({ children }) => <li className="mb-1 text-gray-900 dark:text-gray-100">{children}</li>,
+                          blockquote: ({ children }) => (
+                            <blockquote className="border-l-4 border-indigo-500 pl-4 italic text-gray-800 dark:text-gray-200 my-3">
+                              {children}
+                            </blockquote>
+                          )
+                        }}
                       >
                         {currentQuestion.question}
                       </ReactMarkdown>
