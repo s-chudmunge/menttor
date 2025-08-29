@@ -29,16 +29,50 @@ def upgrade() -> None:
         # Table doesn't exist yet, skip the deletion
         pass
     
-    op.add_column('learningcontent', sa.Column('is_saved', sa.Boolean(), nullable=False))
-    op.add_column('learningcontent', sa.Column('is_public', sa.Boolean(), nullable=False))
-    op.add_column('learningcontent', sa.Column('share_token', sqlmodel.sql.sqltypes.AutoString(), nullable=True))
-    op.add_column('learningcontent', sa.Column('created_at', sa.DateTime(), nullable=False))
-    op.add_column('learningcontent', sa.Column('updated_at', sa.DateTime(), nullable=False))
-    op.add_column('learningcontent', sa.Column('subject', sqlmodel.sql.sqltypes.AutoString(), nullable=True))
-    op.add_column('learningcontent', sa.Column('goal', sqlmodel.sql.sqltypes.AutoString(), nullable=True))
-    op.add_column('learningcontent', sa.Column('subtopic_id', sqlmodel.sql.sqltypes.AutoString(), nullable=True))
-    op.create_index(op.f('ix_learningcontent_share_token'), 'learningcontent', ['share_token'], unique=False)
-    op.create_index(op.f('ix_learningcontent_subtopic_id'), 'learningcontent', ['subtopic_id'], unique=False)
+    # Add columns only if they don't exist
+    connection = op.get_bind()
+    inspector = sa.inspect(connection)
+    
+    try:
+        columns = [col['name'] for col in inspector.get_columns('learningcontent')]
+        
+        if 'is_saved' not in columns:
+            op.add_column('learningcontent', sa.Column('is_saved', sa.Boolean(), nullable=False))
+        if 'is_public' not in columns:
+            op.add_column('learningcontent', sa.Column('is_public', sa.Boolean(), nullable=False))
+        if 'share_token' not in columns:
+            op.add_column('learningcontent', sa.Column('share_token', sqlmodel.sql.sqltypes.AutoString(), nullable=True))
+        if 'created_at' not in columns:
+            op.add_column('learningcontent', sa.Column('created_at', sa.DateTime(), nullable=False))
+        if 'updated_at' not in columns:
+            op.add_column('learningcontent', sa.Column('updated_at', sa.DateTime(), nullable=False))
+        if 'subject' not in columns:
+            op.add_column('learningcontent', sa.Column('subject', sqlmodel.sql.sqltypes.AutoString(), nullable=True))
+        if 'goal' not in columns:
+            op.add_column('learningcontent', sa.Column('goal', sqlmodel.sql.sqltypes.AutoString(), nullable=True))
+        if 'subtopic_id' not in columns:
+            op.add_column('learningcontent', sa.Column('subtopic_id', sqlmodel.sql.sqltypes.AutoString(), nullable=True))
+        
+        # Add indexes only if they don't exist
+        indexes = [idx['name'] for idx in inspector.get_indexes('learningcontent')]
+        
+        if 'ix_learningcontent_share_token' not in indexes:
+            op.create_index(op.f('ix_learningcontent_share_token'), 'learningcontent', ['share_token'], unique=False)
+        if 'ix_learningcontent_subtopic_id' not in indexes:
+            op.create_index(op.f('ix_learningcontent_subtopic_id'), 'learningcontent', ['subtopic_id'], unique=False)
+            
+    except Exception as e:
+        # Table doesn't exist, add all columns normally
+        op.add_column('learningcontent', sa.Column('is_saved', sa.Boolean(), nullable=False))
+        op.add_column('learningcontent', sa.Column('is_public', sa.Boolean(), nullable=False))
+        op.add_column('learningcontent', sa.Column('share_token', sqlmodel.sql.sqltypes.AutoString(), nullable=True))
+        op.add_column('learningcontent', sa.Column('created_at', sa.DateTime(), nullable=False))
+        op.add_column('learningcontent', sa.Column('updated_at', sa.DateTime(), nullable=False))
+        op.add_column('learningcontent', sa.Column('subject', sqlmodel.sql.sqltypes.AutoString(), nullable=True))
+        op.add_column('learningcontent', sa.Column('goal', sqlmodel.sql.sqltypes.AutoString(), nullable=True))
+        op.add_column('learningcontent', sa.Column('subtopic_id', sqlmodel.sql.sqltypes.AutoString(), nullable=True))
+        op.create_index(op.f('ix_learningcontent_share_token'), 'learningcontent', ['share_token'], unique=False)
+        op.create_index(op.f('ix_learningcontent_subtopic_id'), 'learningcontent', ['subtopic_id'], unique=False)
     # ### end Alembic commands ###
 
 
