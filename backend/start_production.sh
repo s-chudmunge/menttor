@@ -16,33 +16,41 @@ echo "POSTGRES_DB: $POSTGRES_DB"
 # Quick database connectivity test
 echo "🔧 Testing database connectivity..."
 
-# Run Alembic migrations (CI/CD safe - only adds new schema changes)
-echo "🔄 Running incremental database migrations (preserves all data)..."
+# Create fresh database schema (wipe and recreate for clean deployment)
+echo "🔄 Creating fresh database schema..."
+python -c "
+import sys
+sys.path.append('/app')
+from database.session import engine
+from sqlalchemy import text
+
+print('🗑️ Dropping all existing tables...')
+with engine.begin() as conn:
+    # Drop all tables to start fresh
+    conn.execute(text('DROP SCHEMA public CASCADE'))
+    conn.execute(text('CREATE SCHEMA public'))
+    conn.execute(text('GRANT ALL ON SCHEMA public TO postgres'))
+    conn.execute(text('GRANT ALL ON SCHEMA public TO public'))
+
+print('✅ Database wiped clean')
+"
+
+# Run fresh migrations
+echo "📦 Running complete database migrations..."
 python -m alembic upgrade head
 
 if [ $? -eq 0 ]; then
-    echo "✅ Database migrations completed - all data preserved"
+    echo "✅ Fresh database schema created successfully"
 else
-    echo "⚠️ Alembic migrations encountered issues (likely tables already exist)"
-    echo "🛡️ Ensuring core tables exist without affecting data..."
-    
-    timeout 30 python -c "
+    echo "❌ Migration failed, falling back to SQLModel table creation"
+    python -c "
 import sys
 sys.path.append('/app')
-try:
-    from database.session import create_db_and_tables
-    # SQLModel.metadata.create_all() only creates missing tables
-    create_db_and_tables()
-    print('✅ Database schema verified (all existing data preserved)')
-except Exception as e:
-    print(f'⚠️ Schema verification: {e}')
-    print('✅ Continuing - database likely already properly configured')
+from database.session import create_db_and_tables
+create_db_and_tables()
+print('✅ Database tables created via SQLModel')
     "
 fi
-
-# Ensure practice tables exist (temporary fix for practice migration)
-echo "🔧 Ensuring practice tables exist..."
-python run_practice_migration.py
 
 echo "✅ Database ready for production"
 
