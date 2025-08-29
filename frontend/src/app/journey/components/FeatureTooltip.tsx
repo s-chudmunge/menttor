@@ -18,10 +18,10 @@ const FeatureTooltip: React.FC<FeatureTooltipProps> = ({ type, isAvailable, clas
         return {
           title: 'Learn Module',
           icon: CheckCircle,
-          description: 'AI-powered interactive learning with personalized explanations and examples',
+          description: 'Smart learning interactive experience with personalized explanations and examples',
           features: [
             'Adaptive content based on your pace',
-            'Interactive Q&A with AI tutor',
+            'Interactive Q&A with smart tutor',
             'Real-time progress tracking',
             'Comprehensive examples and practice'
           ],

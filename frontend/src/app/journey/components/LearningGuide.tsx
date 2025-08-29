@@ -18,7 +18,7 @@ const LearningGuide: React.FC<LearningGuideProps> = ({ className = '' }) => {
       iconColor: 'bg-blue-600 dark:bg-blue-500',
       status: 'Available now',
       statusColor: 'text-green-600 dark:text-green-400',
-      description: 'AI-powered interactive content tailored to your pace'
+      description: 'Smart learning interactive content tailored to your pace'
     },
     {
       id: 'quiz',
@@ -113,7 +113,7 @@ const LearningGuide: React.FC<LearningGuideProps> = ({ className = '' }) => {
                   <div className="flex items-center space-x-2">
                     <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
                     <span className="text-sm text-gray-700 dark:text-gray-300">
-                      <strong>Learn:</strong> Start here to understand concepts with AI-powered explanations
+                      <strong>Learn:</strong> Start here to understand concepts with smart learning explanations
                     </span>
                   </div>
                   <div className="flex items-center space-x-2">

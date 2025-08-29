@@ -115,7 +115,7 @@ const LearnAboutSomethingModal: React.FC<LearnAboutSomethingModalProps> = ({
               <div className="bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg p-3 flex items-center justify-between">
                 <div className="flex-1">
                   <div className="font-medium text-gray-900 dark:text-white text-sm">{selectedModelName}</div>
-                  <div className="text-xs text-gray-600 dark:text-gray-400">Advanced AI for personalized learning</div>
+                  <div className="text-xs text-gray-600 dark:text-gray-400">Advanced smart learning technology</div>
                 </div>
                 <button
                   type="button"
@@ -194,7 +194,7 @@ const LearnAboutSomethingCard: React.FC<LearnAboutSomethingCardProps> = ({ onCli
             Learn About Something
           </h3>
           <p className="text-sm text-gray-600 dark:text-gray-400">
-            Enter any topic and get personalized AI-generated learning content
+            Enter any topic and get personalized smart learning content
           </p>
         </div>
         <ArrowRight className="w-5 h-5 text-green-600 dark:text-green-400 group-hover:translate-x-1 transition-transform" />

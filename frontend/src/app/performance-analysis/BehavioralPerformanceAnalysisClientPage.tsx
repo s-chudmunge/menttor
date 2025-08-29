@@ -370,7 +370,7 @@ const BehavioralPerformanceAnalysisClientPage: React.FC<BehavioralPerformanceAna
                 <Lightbulb className="w-5 h-5 text-white" />
               </div>
               <div>
-                <h2 className="text-2xl lg:text-3xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 dark:from-white dark:to-gray-300 bg-clip-text text-transparent">AI Insights</h2>
+                <h2 className="text-2xl lg:text-3xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 dark:from-white dark:to-gray-300 bg-clip-text text-transparent">Smart Insights</h2>
                 <p className="text-gray-600 dark:text-gray-400 text-sm lg:text-base font-medium">Personalized recommendations based on your learning patterns</p>
               </div>
             </div>

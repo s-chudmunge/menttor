@@ -268,7 +268,7 @@ const PracticeResultsPage = () => {
           >
             <div className="flex items-center mb-4">
               <Brain className="w-6 h-6 text-purple-600 mr-3" />
-              <h3 className="text-xl font-bold text-gray-900 dark:text-white">AI Performance Analysis</h3>
+              <h3 className="text-xl font-bold text-gray-900 dark:text-white">Smart Performance Analysis</h3>
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
@@ -448,7 +448,7 @@ const PracticeResultsPage = () => {
                           ? 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200'
                           : 'bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200'
                       }`}>
-                        <strong>AI Feedback:</strong> 
+                        <strong>Smart Feedback:</strong> 
                         <span className="ml-1">
                           {isBackendFormat ? questionResult.explanation : question?.explanation || 'Detailed feedback will be available in future sessions.'}
                         </span>

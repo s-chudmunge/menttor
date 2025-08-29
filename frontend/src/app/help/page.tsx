@@ -32,8 +32,8 @@ export default function HelpPage() {
       answer: 'Your progress is automatically tracked as you complete lessons and quizzes. Visit your dashboard to see detailed analytics.'
     },
     {
-      question: 'What AI models are available?',
-      answer: 'We offer various AI models including GPT-4, Claude, and Gemini. You can select your preferred model when generating roadmaps.'
+      question: 'What smart learning models are available?',
+      answer: 'We offer various smart learning models including GPT-4, Claude, and Gemini. You can select your preferred model when generating roadmaps.'
     },
     {
       question: 'How do I change my account settings?',

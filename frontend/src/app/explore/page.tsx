@@ -1023,7 +1023,7 @@ const ExplorePage = () => {
                 Generating Premium Roadmaps
               </h3>
               <p className="text-gray-600 dark:text-gray-400 mb-6 leading-relaxed">
-                Our AI is crafting personalized, expert-verified learning paths just for you. 
+                Our smart learning system is crafting personalized, expert-verified learning paths just for you. 
                 This usually takes 2-3 minutes to complete.
               </p>
               <div className="bg-gray-200 dark:bg-gray-700 rounded-full h-2 mb-4">

@@ -151,7 +151,7 @@ export default function SignInPage() {
                 </div>
                 <div>
                   <h3 className="text-lg font-semibold">Adaptive Learning</h3>
-                  <p className="text-blue-100 text-sm mt-1">AI-powered content that adapts to your learning style and progress</p>
+                  <p className="text-blue-100 text-sm mt-1">Smart learning content that adapts to your learning style and progress</p>
                 </div>
               </div>
               
@@ -179,7 +179,7 @@ export default function SignInPage() {
             {/* Bottom Quote */}
             <div className="mt-16 p-6 bg-white/10 backdrop-blur-sm rounded-2xl border border-white/20">
               <p className="text-white/90 italic text-sm">
-                "Transform your learning experience with AI-powered education tailored just for you."
+                "Transform your learning experience with smart learning technology tailored just for you."
               </p>
             </div>
           </div>
