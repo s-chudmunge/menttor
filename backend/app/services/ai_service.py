@@ -857,7 +857,7 @@ class PracticeQuestionRequest(BaseModel):
     """Request model for practice question generation"""
     question_type: str  # mcq, numerical, caseStudy, codeCompletion, debugging
     subtopic_title: str
-    subtopic_context: str
+    context: str
     subject: str
     goal: str
     count: int
@@ -894,7 +894,7 @@ async def generate_practice_questions_ai(
     request = PracticeQuestionRequest(
         question_type=question_type,
         subtopic_title=subtopic_details.get('title', 'Unknown Subtopic'),
-        subtopic_context=f"Module: {subtopic_details.get('module_title', 'N/A')}, Topic: {subtopic_details.get('topic_title', 'N/A')}",
+        context=f"Module: {subtopic_details.get('module_title', 'N/A')}, Topic: {subtopic_details.get('topic_title', 'N/A')}",
         subject=subject,
         goal=goal,
         count=count,

@@ -154,6 +154,11 @@ async def create_practice_session_stream(
                             model="vertexai:gemini-2.0-flash-lite"
                         )
                         
+                        # If no questions generated, skip this iteration
+                        if not ai_questions:
+                            logger.warning(f"No {question_type} questions generated for {subtopic_id}")
+                            continue
+                        
                         # Save and stream the single question
                         for ai_question in ai_questions:
                             # Save to database
@@ -194,15 +199,53 @@ async def create_practice_session_stream(
                                 order_index=order_index
                             )
                             
-                            question_event = {
-                                "type": "question_ready",
-                                "data": question_response.dict()
-                            }
-                            yield f"data: {json.dumps(question_event)}\n\n"
+                            # Ensure JSON safety by sanitizing question data
+                            try:
+                                # Create question response with safe JSON serialization
+                                question_dict = question_response.dict()
+                                
+                                # Sanitize text fields to prevent JSON issues
+                                for field in ['question', 'hint']:
+                                    if question_dict.get(field):
+                                        # Escape quotes and newlines properly
+                                        question_dict[field] = str(question_dict[field]).replace('"', '\\"').replace('\n', '\\n')
+                                
+                                # Sanitize code snippet if present
+                                if question_dict.get('code_snippet'):
+                                    question_dict['code_snippet'] = str(question_dict['code_snippet']).replace('"', '\\"').replace('\n', '\\n')
+                                
+                                # Sanitize options if present
+                                if question_dict.get('options') and isinstance(question_dict['options'], list):
+                                    question_dict['options'] = [str(opt).replace('"', '\\"').replace('\n', '\\n') for opt in question_dict['options']]
+                                
+                                question_event = {
+                                    "type": "question_ready",
+                                    "data": question_dict
+                                }
+                                json_data = json.dumps(question_event, ensure_ascii=False, separators=(',', ':'))
+                                yield f"data: {json_data}\n\n"
+                                
+                            except (TypeError, ValueError) as json_e:
+                                logger.error(f"JSON serialization error for question: {json_e}")
+                                # Use fallback question to keep session going
+                                fallback_question = {
+                                    "type": "question_ready", 
+                                    "data": {
+                                        "id": practice_question.id,
+                                        "question_type": question_type,
+                                        "question": f"Practice question about {subtopic_details[subtopic_id].get('title', 'this topic')}",
+                                        "options": ["Option A", "Option B", "Option C", "Option D"] if question_type == 'mcq' else None,
+                                        "hint": "Think about the key concepts",
+                                        "code_snippet": None,
+                                        "difficulty": "medium",
+                                        "subtopic_id": subtopic_id,
+                                        "order_index": order_index
+                                    }
+                                }
+                                yield f"data: {json.dumps(fallback_question)}\n\n"
                             
                             order_index += 1
                             total_generated += 1
-                            remaining -= 1
                             
                             # Send progress update
                             progress_event = {
