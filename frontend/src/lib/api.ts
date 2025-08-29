@@ -18,12 +18,12 @@ api.interceptors.request.use(async (config) => {
             config.headers.Authorization = `Bearer ${token}`;
         } catch (error) {
             console.error('Failed to get Firebase ID token:', error);
-            // Fallback to test token for development
-            config.headers.Authorization = `Bearer test_token`;
+            // Don't add any authorization header if token fails
+            delete config.headers.Authorization;
         }
     } else {
-        // If no user is logged in, use test token for development
-        config.headers.Authorization = `Bearer test_token`;
+        // If no user is logged in, don't add authorization header
+        delete config.headers.Authorization;
     }
     return config;
 }, (error) => {

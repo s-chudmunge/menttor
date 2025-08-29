@@ -24,6 +24,7 @@ import { RoadmapData } from '../../../lib/api';
 import { formatSubtopicTitle, formatTitle } from '../utils/textFormatting';
 import { useAuth } from '@/app/context/AuthContext';
 import { api } from '@/lib/api';
+import { auth } from '@/lib/firebase/client';
 import { useRouter } from 'next/navigation';
 
 interface PracticeViewProps {
@@ -197,12 +198,26 @@ const PracticeView: React.FC<PracticeViewProps> = ({ roadmapData, progressData }
         goal: roadmapData.goal || roadmapData.description || 'Practice Questions'
       };
 
+      // Get auth token using Firebase (same as api.ts)
+      const user = auth.currentUser;
+      if (!user) {
+        throw new Error('Please log in to start a practice session');
+      }
+      
+      let token;
+      try {
+        token = await user.getIdToken();
+      } catch (error) {
+        console.error('Failed to get Firebase ID token:', error);
+        throw new Error('Authentication failed. Please log in again.');
+      }
+
       // Use fetch for streaming instead of axios
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://menttor-backend.onrender.com'}/practice/sessions/stream`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
+          'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify(sessionData)
       });
