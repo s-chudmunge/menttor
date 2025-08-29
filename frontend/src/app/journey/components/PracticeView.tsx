@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { 
   PenTool,
@@ -18,7 +18,8 @@ import {
   Trash2,
   GripVertical,
   Timer,
-  Loader2
+  Loader2,
+  Lock
 } from 'lucide-react';
 import { RoadmapData } from '../../../lib/api';
 import { formatSubtopicTitle, formatTitle } from '../utils/textFormatting';
@@ -95,6 +96,7 @@ const QUESTION_TYPES = [
 const PracticeView: React.FC<PracticeViewProps> = ({ roadmapData, progressData }) => {
   const { user } = useAuth();
   const router = useRouter();
+  const [isPracticeLocked, setIsPracticeLocked] = useState(false);
   const [practiceSession, setPracticeSession] = useState<PracticeSession>({
     selectedSubtopics: [],
     questionCount: 20,
@@ -111,6 +113,26 @@ const PracticeView: React.FC<PracticeViewProps> = ({ roadmapData, progressData }
 
   const [searchTerm, setSearchTerm] = useState('');
   const [isCreatingSession, setIsCreatingSession] = useState(false);
+  
+  // Check practice lock status
+  useEffect(() => {
+    const checkPracticeLock = () => {
+      const locked = localStorage.getItem('practiceLocked') === 'true';
+      setIsPracticeLocked(locked);
+    };
+    
+    checkPracticeLock();
+    
+    // Listen for storage changes (when admin toggles lock)
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === 'practiceLocked') {
+        checkPracticeLock();
+      }
+    };
+    
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
+  }, []);
 
   // Extract all available subtopics from roadmap
   const availableSubtopics = useMemo(() => {
@@ -280,6 +302,44 @@ const PracticeView: React.FC<PracticeViewProps> = ({ roadmapData, progressData }
 
   const selectedTypeCount = Object.values(practiceSession.questionTypes).filter(Boolean).length;
   const canStartPractice = practiceSession.selectedSubtopics.length > 0 && selectedTypeCount > 0 && !isCreatingSession;
+
+  // Show locked state if practice is locked
+  if (isPracticeLocked) {
+    return (
+      <div className="space-y-6">
+        {/* Header */}
+        <motion.div 
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-center"
+        >
+          <h2 className="text-2xl lg:text-3xl font-bold text-gray-900 dark:text-white mb-2">
+            Practice & Exam Mode
+          </h2>
+          <p className="text-gray-700 dark:text-gray-300">
+            Create custom practice sessions with questions from selected subtopics
+          </p>
+        </motion.div>
+
+        {/* Locked State */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="flex flex-col items-center justify-center py-20 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-200/50 dark:border-gray-700/50"
+        >
+          <div className="w-20 h-20 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center mb-6">
+            <Lock className="w-10 h-10 text-red-600" />
+          </div>
+          <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+            Practice Mode Locked
+          </h3>
+          <p className="text-gray-600 dark:text-gray-400 text-center max-w-md">
+            Practice sessions are currently disabled. This feature will be available soon.
+          </p>
+        </motion.div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">

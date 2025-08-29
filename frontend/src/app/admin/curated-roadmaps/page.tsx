@@ -43,6 +43,19 @@ export default function AdminCuratedRoadmaps() {
   const [imageMessage, setImageMessage] = useState('')
   const [downloading, setDownloading] = useState(false)
   const [downloadMessage, setDownloadMessage] = useState('')
+  const [practiceLocked, setPracticeLocked] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('practiceLocked') === 'true'
+    }
+    return false
+  })
+
+  // Toggle practice lock
+  const togglePracticeLock = () => {
+    const newLockState = !practiceLocked
+    setPracticeLocked(newLockState)
+    localStorage.setItem('practiceLocked', newLockState.toString())
+  }
 
   // Create basic auth header
   const createAuthHeader = () => {
@@ -357,6 +370,16 @@ export default function AdminCuratedRoadmaps() {
                 className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-md transition duration-150 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {clearing ? 'Clearing...' : 'Clear All'}
+              </button>
+              <button
+                onClick={togglePracticeLock}
+                className={`px-4 py-2 rounded-md transition duration-150 ease-in-out ${
+                  practiceLocked 
+                    ? 'bg-red-600 hover:bg-red-700 text-white' 
+                    : 'bg-green-600 hover:bg-green-700 text-white'
+                }`}
+              >
+                {practiceLocked ? '🔒 Unlock Practice' : '🔓 Lock Practice'}
               </button>
               <button
                 onClick={() => setIsAuthenticated(false)}
