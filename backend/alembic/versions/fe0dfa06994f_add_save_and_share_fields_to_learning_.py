@@ -29,50 +29,34 @@ def upgrade() -> None:
         # Table doesn't exist yet, skip the deletion
         pass
     
-    # Add columns only if they don't exist
-    connection = op.get_bind()
-    inspector = sa.inspect(connection)
+    # Add columns with error handling for each column individually
+    def add_column_safe(table_name, column):
+        try:
+            op.add_column(table_name, column)
+        except Exception:
+            # Column already exists or other error, skip
+            pass
     
-    try:
-        columns = [col['name'] for col in inspector.get_columns('learningcontent')]
-        
-        if 'is_saved' not in columns:
-            op.add_column('learningcontent', sa.Column('is_saved', sa.Boolean(), nullable=False))
-        if 'is_public' not in columns:
-            op.add_column('learningcontent', sa.Column('is_public', sa.Boolean(), nullable=False))
-        if 'share_token' not in columns:
-            op.add_column('learningcontent', sa.Column('share_token', sqlmodel.sql.sqltypes.AutoString(), nullable=True))
-        if 'created_at' not in columns:
-            op.add_column('learningcontent', sa.Column('created_at', sa.DateTime(), nullable=False))
-        if 'updated_at' not in columns:
-            op.add_column('learningcontent', sa.Column('updated_at', sa.DateTime(), nullable=False))
-        if 'subject' not in columns:
-            op.add_column('learningcontent', sa.Column('subject', sqlmodel.sql.sqltypes.AutoString(), nullable=True))
-        if 'goal' not in columns:
-            op.add_column('learningcontent', sa.Column('goal', sqlmodel.sql.sqltypes.AutoString(), nullable=True))
-        if 'subtopic_id' not in columns:
-            op.add_column('learningcontent', sa.Column('subtopic_id', sqlmodel.sql.sqltypes.AutoString(), nullable=True))
-        
-        # Add indexes only if they don't exist
-        indexes = [idx['name'] for idx in inspector.get_indexes('learningcontent')]
-        
-        if 'ix_learningcontent_share_token' not in indexes:
-            op.create_index(op.f('ix_learningcontent_share_token'), 'learningcontent', ['share_token'], unique=False)
-        if 'ix_learningcontent_subtopic_id' not in indexes:
-            op.create_index(op.f('ix_learningcontent_subtopic_id'), 'learningcontent', ['subtopic_id'], unique=False)
-            
-    except Exception as e:
-        # Table doesn't exist, add all columns normally
-        op.add_column('learningcontent', sa.Column('is_saved', sa.Boolean(), nullable=False))
-        op.add_column('learningcontent', sa.Column('is_public', sa.Boolean(), nullable=False))
-        op.add_column('learningcontent', sa.Column('share_token', sqlmodel.sql.sqltypes.AutoString(), nullable=True))
-        op.add_column('learningcontent', sa.Column('created_at', sa.DateTime(), nullable=False))
-        op.add_column('learningcontent', sa.Column('updated_at', sa.DateTime(), nullable=False))
-        op.add_column('learningcontent', sa.Column('subject', sqlmodel.sql.sqltypes.AutoString(), nullable=True))
-        op.add_column('learningcontent', sa.Column('goal', sqlmodel.sql.sqltypes.AutoString(), nullable=True))
-        op.add_column('learningcontent', sa.Column('subtopic_id', sqlmodel.sql.sqltypes.AutoString(), nullable=True))
-        op.create_index(op.f('ix_learningcontent_share_token'), 'learningcontent', ['share_token'], unique=False)
-        op.create_index(op.f('ix_learningcontent_subtopic_id'), 'learningcontent', ['subtopic_id'], unique=False)
+    def create_index_safe(index_name, table_name, columns, unique=False):
+        try:
+            op.create_index(index_name, table_name, columns, unique=unique)
+        except Exception:
+            # Index already exists or other error, skip
+            pass
+    
+    # Add columns safely
+    add_column_safe('learningcontent', sa.Column('is_saved', sa.Boolean(), nullable=False, server_default='false'))
+    add_column_safe('learningcontent', sa.Column('is_public', sa.Boolean(), nullable=False, server_default='false'))
+    add_column_safe('learningcontent', sa.Column('share_token', sqlmodel.sql.sqltypes.AutoString(), nullable=True))
+    add_column_safe('learningcontent', sa.Column('created_at', sa.DateTime(), nullable=False, server_default=sa.func.now()))
+    add_column_safe('learningcontent', sa.Column('updated_at', sa.DateTime(), nullable=False, server_default=sa.func.now()))
+    add_column_safe('learningcontent', sa.Column('subject', sqlmodel.sql.sqltypes.AutoString(), nullable=True))
+    add_column_safe('learningcontent', sa.Column('goal', sqlmodel.sql.sqltypes.AutoString(), nullable=True))
+    add_column_safe('learningcontent', sa.Column('subtopic_id', sqlmodel.sql.sqltypes.AutoString(), nullable=True))
+    
+    # Add indexes safely
+    create_index_safe(op.f('ix_learningcontent_share_token'), 'learningcontent', ['share_token'], unique=False)
+    create_index_safe(op.f('ix_learningcontent_subtopic_id'), 'learningcontent', ['subtopic_id'], unique=False)
     # ### end Alembic commands ###
 
 
