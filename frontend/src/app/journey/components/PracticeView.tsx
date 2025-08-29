@@ -325,7 +325,7 @@ const PracticeView: React.FC<PracticeViewProps> = ({ roadmapData, progressData }
           </div>
 
           {/* Available Subtopics */}
-          <div className="space-y-2 max-h-64 overflow-y-auto">
+          <div className="space-y-2 max-h-96 overflow-y-auto">
             {filteredSubtopics.map((subtopic, index) => {
               const isSelected = practiceSession.selectedSubtopics.find(s => s.id === subtopic.id);
               
@@ -391,7 +391,7 @@ const PracticeView: React.FC<PracticeViewProps> = ({ roadmapData, progressData }
               Selected Subtopics ({practiceSession.selectedSubtopics.length})
             </h4>
             
-            <div className="space-y-2 max-h-32 overflow-y-auto">
+            <div className="space-y-2 max-h-48 overflow-y-auto">
               {practiceSession.selectedSubtopics.map((subtopic) => (
                 <div
                   key={subtopic.id}
