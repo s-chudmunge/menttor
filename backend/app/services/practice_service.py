@@ -211,19 +211,33 @@ async def submit_practice_answer(
             detail=f"Question {answer_data.question_id} does not belong to session {session_id}"
         )
     
-    # Evaluate answer using AI
-    from services.ai_service import evaluate_answer_with_ai
-    
-    evaluation = await evaluate_answer_with_ai(
-        question=question.question_data.get("question", ""),
-        question_type=question.question_type,
-        correct_answer=question.question_data.get("correct_answer", ""),
-        user_answer=answer_data.user_answer,
-        context=f"Subtopic: {question.subtopic_id}",
-        code_snippet=question.question_data.get("code_snippet")
-    )
-    
-    is_correct = evaluation.is_correct
+    # Evaluate answer - use fast fallback to prevent timeouts
+    try:
+        # Try AI evaluation with short timeout
+        import asyncio
+        from services.ai_service import evaluate_answer_with_ai
+        
+        evaluation_task = evaluate_answer_with_ai(
+            question=question.question_data.get("question", ""),
+            question_type=question.question_type,
+            correct_answer=question.question_data.get("correct_answer", ""),
+            user_answer=answer_data.user_answer,
+            context=f"Subtopic: {question.subtopic_id}",
+            code_snippet=question.question_data.get("code_snippet")
+        )
+        
+        # Wait max 5 seconds for AI evaluation
+        evaluation = await asyncio.wait_for(evaluation_task, timeout=5.0)
+        is_correct = evaluation.is_correct
+        
+    except (asyncio.TimeoutError, Exception) as e:
+        logger.warning(f"AI evaluation failed or timed out, using fallback: {e}")
+        # Fast fallback evaluation
+        is_correct = _evaluate_answer(
+            user_answer=answer_data.user_answer,
+            correct_answer=question.question_data.get("correct_answer", ""),
+            question_type=question.question_type
+        )
     
     # Save answer with AI evaluation feedback
     practice_answer = PracticeAnswer(
@@ -239,7 +253,7 @@ async def submit_practice_answer(
     db.commit()
     db.refresh(practice_answer)
     
-    return practice_answer, evaluation
+    return practice_answer
 
 def _evaluate_answer(user_answer: str, correct_answer: str, question_type: str) -> bool:
     """Evaluate if the user's answer is correct based on question type"""

@@ -397,18 +397,16 @@ async def submit_answer(
                 detail="Practice session not found"
             )
         
-        result, evaluation = await submit_practice_answer(
+        result = await submit_practice_answer(
             db=db,
             session_id=session.id,
             user_id=current_user.id,
             answer_data=answer_data
         )
+        
         return {
             "success": True, 
-            "is_correct": result.is_correct,
-            "feedback": evaluation.feedback,
-            "explanation": evaluation.explanation,
-            "score": evaluation.score
+            "is_correct": result.is_correct
         }
         
     except HTTPException:
