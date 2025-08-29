@@ -1153,6 +1153,7 @@ class AnswerEvaluationRequest(BaseModel):
     user_answer: str
     context: Optional[str] = None
     code_snippet: Optional[str] = None
+    model: str = "vertexai:gemini-2.5-flash-lite"
 
 class AnswerEvaluationResponse(BaseModel):
     """Response model for AI answer evaluation"""
@@ -1167,7 +1168,8 @@ async def evaluate_answer_with_ai(
     correct_answer: str,
     user_answer: str,
     context: Optional[str] = None,
-    code_snippet: Optional[str] = None
+    code_snippet: Optional[str] = None,
+    model: str = "vertexai:gemini-2.5-flash-lite"
 ) -> AnswerEvaluationResponse:
     """Evaluate a practice answer using AI for intelligent assessment"""
     
@@ -1177,7 +1179,8 @@ async def evaluate_answer_with_ai(
         correct_answer=correct_answer,
         user_answer=user_answer,
         context=context,
-        code_snippet=code_snippet
+        code_snippet=code_snippet,
+        model=model
     )
     
     try:

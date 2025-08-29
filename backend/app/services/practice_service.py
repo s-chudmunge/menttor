@@ -251,7 +251,7 @@ async def submit_practice_answer(
     
     db.add(practice_answer)
     db.commit()
-    db.refresh(practice_answer)
+    # Remove refresh to avoid session binding issues
     
     return practice_answer
 

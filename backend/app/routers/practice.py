@@ -162,13 +162,47 @@ async def create_practice_session_stream(
                         # Save and stream the single question
                         for ai_question in ai_questions:
                             # Save to database
+                            # Clean code snippet from any HTML formatting
+                            clean_code_snippet = None
+                            if ai_question.code_snippet:
+                                import re
+                                import html
+                                
+                                # Convert to string and decode HTML entities
+                                code_str = str(ai_question.code_snippet)
+                                
+                                # Remove all HTML tags completely
+                                clean_code = re.sub(r'<[^>]*>', '', code_str)
+                                
+                                # Decode HTML entities
+                                clean_code = html.unescape(clean_code)
+                                
+                                # Remove any leftover styling artifacts
+                                clean_code = re.sub(r'\d+\"[^"]*\"', '', clean_code)
+                                clean_code = re.sub(r'class="[^"]*"', '', clean_code)
+                                clean_code = re.sub(r'style="[^"]*"', '', clean_code)
+                                
+                                # Restore proper line breaks
+                                clean_code = clean_code.replace('\\n', '\n')
+                                
+                                # Clean up extra whitespace but preserve indentation
+                                lines = clean_code.split('\n')
+                                cleaned_lines = []
+                                for line in lines:
+                                    # Keep leading whitespace but clean trailing
+                                    cleaned_line = line.rstrip()
+                                    if cleaned_line.strip():  # Only keep non-empty lines
+                                        cleaned_lines.append(cleaned_line)
+                                
+                                clean_code_snippet = '\n'.join(cleaned_lines) if cleaned_lines else None
+                            
                             question_data = {
                                 "question": ai_question.question,
                                 "options": ai_question.options,
                                 "correct_answer": "A",
                                 "explanation": "Explanation will be added during answer evaluation",
                                 "hint": ai_question.hint if session_data.hints_enabled and ai_question.hint else None,
-                                "code_snippet": ai_question.code_snippet
+                                "code_snippet": clean_code_snippet
                             }
                             
                             practice_question = PracticeQuestion(
