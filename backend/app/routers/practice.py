@@ -1,8 +1,11 @@
 import uuid
 import logging
+import asyncio
+import json
 from datetime import datetime, timedelta
-from typing import List, Optional
+from typing import List, Optional, AsyncGenerator
 from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi.responses import StreamingResponse
 from sqlmodel import Session, select
 from database.session import get_db
 from core.auth import get_current_user
@@ -66,6 +69,181 @@ async def create_practice_session_endpoint(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Failed to create practice session: {str(e)}"
         )
+
+@router.post("/sessions/stream")
+async def create_practice_session_stream(
+    session_data: PracticeSessionCreate,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    """Create practice session and stream questions as they're generated"""
+    
+    async def generate_stream() -> AsyncGenerator[str, None]:
+        try:
+            # Import here to avoid circular imports
+            from services.practice_service import create_practice_session
+            from services.ai_service import generate_practice_questions_ai
+            from sql_models import PracticeSession, PracticeQuestion, Roadmap
+            
+            # Create the session first
+            session = await create_practice_session(
+                db=db,
+                user_id=current_user.id,
+                session_data=session_data
+            )
+            
+            # Send session creation event
+            session_event = {
+                "type": "session_created",
+                "data": {
+                    "session_id": session.id,
+                    "session_token": session.session_token,
+                    "time_limit": session_data.time_limit,
+                    "hints_enabled": session_data.hints_enabled
+                }
+            }
+            yield f"data: {json.dumps(session_event)}\n\n"
+            
+            # Get roadmap data
+            roadmap = db.get(Roadmap, session_data.roadmap_id)
+            if not roadmap:
+                error_event = {"type": "error", "data": {"message": "Roadmap not found"}}
+                yield f"data: {json.dumps(error_event)}\n\n"
+                return
+            
+            # Extract subtopic details
+            from services.practice_service import extract_subtopic_details, distribute_questions
+            subtopic_details = extract_subtopic_details(roadmap, session_data.subtopic_ids)
+            questions_per_type = distribute_questions(session_data.question_types, session_data.question_count)
+            
+            order_index = 0
+            total_generated = 0
+            
+            # Generate questions by type, streaming each as it's ready
+            for question_type in session_data.question_types:
+                type_count = questions_per_type[question_type]
+                
+                # Generate fewer questions per batch for faster streaming
+                batch_size = min(3, type_count)  # Generate 3 questions at a time
+                remaining = type_count
+                
+                for subtopic_id in session_data.subtopic_ids:
+                    if remaining <= 0:
+                        break
+                        
+                    questions_for_this_subtopic = min(batch_size, remaining, type_count // len(session_data.subtopic_ids) + 1)
+                    
+                    if questions_for_this_subtopic <= 0:
+                        continue
+                    
+                    try:
+                        # Generate questions in smaller batches
+                        ai_questions = await generate_practice_questions_ai(
+                            question_type=question_type,
+                            subtopic_id=subtopic_id,
+                            subtopic_details=subtopic_details[subtopic_id],
+                            count=questions_for_this_subtopic,
+                            subject=session_data.subject,
+                            goal=session_data.goal,
+                            hints_enabled=session_data.hints_enabled,
+                            model="vertexai:gemini-2.0-flash-lite"
+                        )
+                        
+                        # Save and stream each question immediately
+                        for ai_question in ai_questions:
+                            # Save to database
+                            question_data = {
+                                "question": ai_question.question,
+                                "options": ai_question.options,
+                                "correct_answer": "A",
+                                "explanation": "Explanation will be added during answer evaluation",
+                                "hint": ai_question.hint if session_data.hints_enabled and ai_question.hint else None,
+                                "code_snippet": ai_question.code_snippet
+                            }
+                            
+                            practice_question = PracticeQuestion(
+                                session_id=session.id,
+                                subtopic_id=subtopic_id,
+                                question_type=question_type,
+                                question_data=question_data,
+                                difficulty=ai_question.difficulty,
+                                order_index=order_index,
+                                model_used="vertexai:gemini-2.0-flash-lite",
+                                generation_prompt=f"Generated {question_type} question for {subtopic_id}"
+                            )
+                            
+                            db.add(practice_question)
+                            db.commit()
+                            db.refresh(practice_question)
+                            
+                            # Stream question immediately
+                            question_response = PracticeQuestionResponse(
+                                id=practice_question.id,
+                                question_type=ai_question.question_type,
+                                question=ai_question.question,
+                                options=ai_question.options,
+                                hint=ai_question.hint,
+                                code_snippet=ai_question.code_snippet,
+                                difficulty=ai_question.difficulty,
+                                subtopic_id=ai_question.subtopic_id,
+                                order_index=order_index
+                            )
+                            
+                            question_event = {
+                                "type": "question_ready",
+                                "data": question_response.dict()
+                            }
+                            yield f"data: {json.dumps(question_event)}\n\n"
+                            
+                            order_index += 1
+                            total_generated += 1
+                            remaining -= 1
+                            
+                            # Send progress update
+                            progress_event = {
+                                "type": "progress",
+                                "data": {
+                                    "generated": total_generated,
+                                    "total": session_data.question_count,
+                                    "percentage": int((total_generated / session_data.question_count) * 100)
+                                }
+                            }
+                            yield f"data: {json.dumps(progress_event)}\n\n"
+                            
+                            # Small delay to prevent overwhelming
+                            await asyncio.sleep(0.1)
+                            
+                    except Exception as e:
+                        logger.error(f"Error generating {question_type} questions: {e}")
+                        error_event = {
+                            "type": "error",
+                            "data": {"message": f"Failed to generate some {question_type} questions"}
+                        }
+                        yield f"data: {json.dumps(error_event)}\n\n"
+            
+            # Send completion event
+            completion_event = {
+                "type": "complete",
+                "data": {
+                    "total_questions": total_generated,
+                    "session_token": session.session_token
+                }
+            }
+            yield f"data: {json.dumps(completion_event)}\n\n"
+            
+        except Exception as e:
+            logger.error(f"Error in streaming session creation: {e}")
+            error_event = {
+                "type": "error", 
+                "data": {"message": f"Failed to create practice session: {str(e)}"}
+            }
+            yield f"data: {json.dumps(error_event)}\n\n"
+    
+    return StreamingResponse(
+        generate_stream(),
+        media_type="text/plain",
+        headers={"Cache-Control": "no-cache", "Connection": "keep-alive"}
+    )
 
 @router.get("/sessions/{session_token}")
 async def get_practice_session(

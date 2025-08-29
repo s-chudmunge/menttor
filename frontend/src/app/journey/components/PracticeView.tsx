@@ -183,7 +183,7 @@ const PracticeView: React.FC<PracticeViewProps> = ({ roadmapData, progressData }
     
     setIsCreatingSession(true);
     try {
-      // Create practice session via API
+      // Create practice session via streaming API for faster experience
       const sessionData = {
         subtopic_ids: practiceSession.selectedSubtopics.map(s => s.id),
         question_count: practiceSession.questionCount,
@@ -197,10 +197,63 @@ const PracticeView: React.FC<PracticeViewProps> = ({ roadmapData, progressData }
         goal: roadmapData.goal || roadmapData.description || 'Practice Questions'
       };
 
-      const response = await api.post('/practice/sessions', sessionData);
-      
-      // Navigate to practice session with session token
-      router.push(`/practice-session?session_token=${response.data.session_token}`);
+      // Use fetch for streaming instead of axios
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://menttor-backend.onrender.com'}/practice/sessions/stream`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+        body: JSON.stringify(sessionData)
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const reader = response.body?.getReader();
+      if (!reader) {
+        throw new Error('No response body reader available');
+      }
+
+      const decoder = new TextDecoder();
+      let sessionToken = '';
+      let questionsReady = 0;
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        const chunk = decoder.decode(value);
+        const lines = chunk.split('\n');
+
+        for (const line of lines) {
+          if (line.startsWith('data: ')) {
+            try {
+              const data = JSON.parse(line.slice(6));
+              
+              if (data.type === 'session_created') {
+                sessionToken = data.data.session_token;
+                // Navigate immediately when session is created
+                router.push(`/practice-session?session_token=${sessionToken}&streaming=true`);
+              } else if (data.type === 'question_ready') {
+                questionsReady++;
+                // Questions will be loaded by the practice session page
+              } else if (data.type === 'progress') {
+                // Progress updates are handled by the practice session page
+                console.log(`Progress: ${data.data.percentage}% (${data.data.generated}/${data.data.total})`);
+              } else if (data.type === 'error') {
+                console.error('Streaming error:', data.data.message);
+              } else if (data.type === 'complete') {
+                console.log(`Session complete: ${data.data.total_questions} questions generated`);
+                break;
+              }
+            } catch (e) {
+              console.error('Error parsing streaming data:', e);
+            }
+          }
+        }
+      }
       
     } catch (error: any) {
       console.error('Error creating practice session:', error);
