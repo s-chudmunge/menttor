@@ -17,7 +17,8 @@ import {
   Settings,
   Trash2,
   GripVertical,
-  Timer
+  Timer,
+  Loader2
 } from 'lucide-react';
 import { RoadmapData } from '../../../lib/api';
 import { formatSubtopicTitle, formatTitle } from '../utils/textFormatting';
@@ -108,6 +109,7 @@ const PracticeView: React.FC<PracticeViewProps> = ({ roadmapData, progressData }
   });
 
   const [searchTerm, setSearchTerm] = useState('');
+  const [isCreatingSession, setIsCreatingSession] = useState(false);
 
   // Extract all available subtopics from roadmap
   const availableSubtopics = useMemo(() => {
@@ -177,6 +179,9 @@ const PracticeView: React.FC<PracticeViewProps> = ({ roadmapData, progressData }
   };
 
   const handleStartPractice = async () => {
+    if (isCreatingSession) return; // Prevent double-clicks
+    
+    setIsCreatingSession(true);
     try {
       // Create practice session via API
       const sessionData = {
@@ -201,11 +206,12 @@ const PracticeView: React.FC<PracticeViewProps> = ({ roadmapData, progressData }
       console.error('Error creating practice session:', error);
       const errorMessage = error?.response?.data?.detail || error.message || 'Failed to create practice session';
       alert(`${errorMessage}. Please check your connection and try again.`);
+      setIsCreatingSession(false); // Reset loading state only on error
     }
   };
 
   const selectedTypeCount = Object.values(practiceSession.questionTypes).filter(Boolean).length;
-  const canStartPractice = practiceSession.selectedSubtopics.length > 0 && selectedTypeCount > 0;
+  const canStartPractice = practiceSession.selectedSubtopics.length > 0 && selectedTypeCount > 0 && !isCreatingSession;
 
   return (
     <div className="space-y-6">
@@ -469,21 +475,41 @@ const PracticeView: React.FC<PracticeViewProps> = ({ roadmapData, progressData }
             {/* Start Button */}
             <button
               onClick={handleStartPractice}
-              disabled={!canStartPractice}
+              disabled={!canStartPractice || isCreatingSession}
               className={`w-full py-3 px-6 rounded-xl font-semibold transition-all duration-200 flex items-center justify-center space-x-2 ${
-                canStartPractice
+                canStartPractice && !isCreatingSession
                   ? 'bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white shadow-lg hover:shadow-xl'
                   : 'bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 cursor-not-allowed'
               }`}
             >
-              <Play className="w-5 h-5" />
-              <span>Start Practice Session</span>
+              {isCreatingSession ? (
+                <>
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                  <span>Generating Questions...</span>
+                </>
+              ) : (
+                <>
+                  <Play className="w-5 h-5" />
+                  <span>Start Practice Session</span>
+                </>
+              )}
             </button>
 
-            {!canStartPractice && (
+            {!canStartPractice && !isCreatingSession && (
               <p className="text-sm text-gray-500 dark:text-gray-400 text-center mt-2">
                 Select at least one subtopic and question type to start
               </p>
+            )}
+            
+            {isCreatingSession && (
+              <div className="text-center mt-3">
+                <p className="text-sm text-indigo-600 dark:text-indigo-400 font-medium">
+                  Please wait while we generate your practice questions...
+                </p>
+                <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                  This may take 10-30 seconds depending on question complexity
+                </p>
+              </div>
             )}
           </div>
         </motion.div>
