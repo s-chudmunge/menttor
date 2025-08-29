@@ -185,7 +185,7 @@ async def create_practice_session_stream(
                                 hint=ai_question.hint,
                                 code_snippet=ai_question.code_snippet,
                                 difficulty=ai_question.difficulty,
-                                subtopic_id=ai_question.subtopic_id,
+                                subtopic_id=subtopic_id,
                                 order_index=order_index
                             )
                             
@@ -279,11 +279,17 @@ async def get_practice_session(
         # Convert to response format
         question_responses = []
         for q in questions:
+            # Extract data from JSONB question_data field
+            question_data = q.question_data
             question_responses.append(PracticeQuestionResponse(
                 id=q.id,
                 question_type=q.question_type,
-                question_data=q.question_data,
+                question=question_data.get('question', ''),
+                options=question_data.get('options', []),
+                hint=question_data.get('hint'),
+                code_snippet=question_data.get('code_snippet'),
                 difficulty=q.difficulty,
+                subtopic_id=q.subtopic_id,
                 order_index=q.order_index
             ))
         
