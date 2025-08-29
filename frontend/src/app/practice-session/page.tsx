@@ -21,6 +21,10 @@ import ProtectedRoute from '../components/ProtectedRoute';
 import { useAuth } from '@/app/context/AuthContext';
 import { api } from '@/lib/api';
 import CodeBlock from '../../../components/learning/CodeBlock';
+import ReactMarkdown from 'react-markdown';
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
+import 'katex/dist/katex.min.css';
 
 interface PracticeConfig {
   subtopicIds: string[];
@@ -85,11 +89,19 @@ const PracticeSessionContent = () => {
   useEffect(() => {
     const token = searchParams?.get('session_token');
     const configParam = searchParams?.get('config');
+    const streaming = searchParams?.get('streaming') === 'true';
     
     if (token) {
       // Use real API with session token
       setSessionToken(token);
-      fetchSessionData(token);
+      
+      if (streaming) {
+        // If streaming=true, poll until all questions are generated
+        pollForQuestions(token);
+      } else {
+        // Regular fetch for existing sessions
+        fetchSessionData(token);
+      }
     } else if (configParam) {
       // Fallback to mock data for testing
       try {
@@ -106,43 +118,91 @@ const PracticeSessionContent = () => {
     }
   }, [searchParams, router]);
 
+  const pollForQuestions = async (token: string) => {
+    const maxAttempts = 30; // Poll for up to 30 seconds
+    let attempts = 0;
+    
+    const poll = async () => {
+      try {
+        attempts++;
+        console.log(`Polling attempt ${attempts}/${maxAttempts} for questions...`);
+        
+        const response = await api.get(`/practice/sessions/${token}`);
+        const sessionData = response.data;
+        
+        console.log(`Attempt ${attempts}: Found ${sessionData.questions?.length || 0} questions`);
+        
+        // Check if we have the expected number of questions
+        if (sessionData.questions && sessionData.questions.length >= sessionData.question_count) {
+          console.log(`✅ All ${sessionData.questions.length} questions ready, starting session`);
+          await processSessionData(sessionData);
+          return;
+        }
+        
+        // If we haven't reached max attempts, try again
+        if (attempts < maxAttempts) {
+          setTimeout(poll, 1000); // Poll every second
+        } else {
+          console.log(`⚠️ Timeout after ${maxAttempts} attempts, using ${sessionData.questions?.length || 0} questions`);
+          await processSessionData(sessionData);
+        }
+      } catch (error) {
+        console.error(`Polling attempt ${attempts} failed:`, error);
+        if (attempts < maxAttempts) {
+          setTimeout(poll, 1000);
+        } else {
+          alert('Failed to load practice session. Please try again.');
+          router.push('/journey');
+        }
+      }
+    };
+    
+    poll();
+  };
+
+  const processSessionData = async (sessionData: any) => {
+    // Set up config from session data
+    setConfig({
+      subtopicIds: sessionData.subtopic_ids || [],
+      questionCount: sessionData.question_count,
+      questionTypes: sessionData.question_types || [],
+      timeLimit: sessionData.time_limit,
+      hintsEnabled: sessionData.hints_enabled,
+      roadmapId: sessionData.roadmap_id,
+      subject: sessionData.subject,
+      goal: sessionData.goal
+    });
+
+    setTimeRemaining(sessionData.time_limit * 60);
+    
+    // Convert API questions to frontend format
+    console.log(`Received ${sessionData.questions?.length || 0} questions from backend:`, sessionData.questions);
+    
+    const convertedQuestions = sessionData.questions.map((q: any, index: number) => ({
+      id: q.id.toString(),
+      type: q.question_type,
+      question: q.question,
+      options: q.options || [],
+      correctAnswer: q.options?.[0] || 'Sample answer', // Will be validated on backend
+      explanation: 'Explanation will be provided after submission',
+      hint: q.hint,
+      subtopicId: q.subtopic_id,
+      difficulty: q.difficulty,
+      codeSnippet: q.code_snippet
+    }));
+
+    console.log(`Converted ${convertedQuestions.length} questions for frontend:`, convertedQuestions);
+    setQuestions(convertedQuestions);
+    setIsLoading(false);
+  };
+
   const fetchSessionData = async (token: string) => {
     try {
       setIsLoading(true);
       const response = await api.get(`/practice/sessions/${token}`);
-      
       const sessionData = response.data;
       
-      // Set up config from session data
-      setConfig({
-        subtopicIds: sessionData.subtopic_ids || [],
-        questionCount: sessionData.question_count,
-        questionTypes: sessionData.question_types || [],
-        timeLimit: sessionData.time_limit,
-        hintsEnabled: sessionData.hints_enabled,
-        roadmapId: sessionData.roadmap_id,
-        subject: sessionData.subject,
-        goal: sessionData.goal
-      });
-
-      setTimeRemaining(sessionData.time_limit * 60);
-      
-      // Convert API questions to frontend format
-      const convertedQuestions = sessionData.questions.map((q: any, index: number) => ({
-        id: q.id.toString(),
-        type: q.question_type,
-        question: q.question,
-        options: q.options || [],
-        correctAnswer: q.options?.[0] || 'Sample answer', // Will be validated on backend
-        explanation: 'Explanation will be provided after submission',
-        hint: q.hint,
-        subtopicId: q.subtopic_id,
-        difficulty: q.difficulty,
-        codeSnippet: q.code_snippet
-      }));
-
-      setQuestions(convertedQuestions);
-      setIsLoading(false);
+      await processSessionData(sessionData);
       
     } catch (error) {
       console.error('Error fetching session data:', error);
@@ -574,9 +634,51 @@ const PracticeSessionContent = () => {
 
               {/* Question */}
               <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-200/50 dark:border-gray-700/50 p-8">
-                <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-6">
-                  {currentQuestion.question}
-                </h2>
+                <div className="mb-6">
+                  <ReactMarkdown
+                    className="text-xl font-bold text-gray-900 dark:text-white prose prose-lg dark:prose-invert max-w-none"
+                    remarkPlugins={[remarkMath]}
+                    rehypePlugins={[rehypeKatex]}
+                    components={{
+                      code: ({ node, className, children, ...props }: any) => {
+                        const match = /language-(\w+)/.exec(className || '');
+                        const language = match ? match[1] : '';
+                        const inline = props.inline;
+                        
+                        if (!inline && children) {
+                          return (
+                            <CodeBlock language={language}>
+                              {String(children).replace(/\n$/, '')}
+                            </CodeBlock>
+                          );
+                        }
+                        
+                        // Inline code
+                        return (
+                          <code className="bg-gray-100 text-gray-800 px-1 sm:px-1.5 py-0.5 rounded text-xs sm:text-sm font-mono" {...props}>
+                            {children}
+                          </code>
+                        );
+                      },
+                      pre: ({ children }) => <>{children}</>, // Remove default pre wrapper
+                      // Handle math blocks
+                      div: ({ className, children, ...props }) => {
+                        if (className === 'math math-display') {
+                          return <div className="math-display my-3 sm:my-4 text-center overflow-x-auto" {...props}>{children}</div>;
+                        }
+                        return <div className={className} {...props}>{children}</div>;
+                      },
+                      span: ({ className, children, ...props }) => {
+                        if (className === 'math math-inline') {
+                          return <span className="math-inline" {...props}>{children}</span>;
+                        }
+                        return <span className={className} {...props}>{children}</span>;
+                      },
+                    }}
+                  >
+                    {currentQuestion.question}
+                  </ReactMarkdown>
+                </div>
 
                 {/* Code Snippet */}
                 {currentQuestion.codeSnippet && (
@@ -607,7 +709,23 @@ const PracticeSessionContent = () => {
                           onChange={(e) => setCurrentAnswer(e.target.value)}
                           className="mr-3"
                         />
-                        <span className="text-gray-900 dark:text-white">{option}</span>
+                        <div className="text-gray-900 dark:text-white flex-1">
+                          <ReactMarkdown
+                            className="prose dark:prose-invert max-w-none"
+                            remarkPlugins={[remarkMath]}
+                            rehypePlugins={[rehypeKatex]}
+                            components={{
+                              p: ({ children }) => <span>{children}</span>, // Inline for options
+                              code: ({ children, ...props }) => (
+                                <code className="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 px-1 py-0.5 rounded text-sm font-mono" {...props}>
+                                  {children}
+                                </code>
+                              ),
+                            }}
+                          >
+                            {option}
+                          </ReactMarkdown>
+                        </div>
                       </label>
                     ))}
                   </div>
@@ -636,7 +754,21 @@ const PracticeSessionContent = () => {
                         <Lightbulb className="w-4 h-4 text-yellow-600" />
                         <span className="font-medium text-yellow-800 dark:text-yellow-200">Hint:</span>
                       </div>
-                      <p className="text-yellow-700 dark:text-yellow-300">{currentQuestion.hint}</p>
+                      <ReactMarkdown
+                        className="text-yellow-700 dark:text-yellow-300 prose dark:prose-invert max-w-none"
+                        remarkPlugins={[remarkMath]}
+                        rehypePlugins={[rehypeKatex]}
+                        components={{
+                          p: ({ children }) => <p className="text-yellow-700 dark:text-yellow-300">{children}</p>,
+                          code: ({ children, ...props }) => (
+                            <code className="bg-yellow-100 dark:bg-yellow-800 text-yellow-800 dark:text-yellow-200 px-1 py-0.5 rounded text-sm font-mono" {...props}>
+                              {children}
+                            </code>
+                          ),
+                        }}
+                      >
+                        {currentQuestion.hint}
+                      </ReactMarkdown>
                     </motion.div>
                   )}
                 </AnimatePresence>
