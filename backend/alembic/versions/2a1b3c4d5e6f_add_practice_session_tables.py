@@ -1,6 +1,6 @@
 """Add practice session tables for custom practice/exam mode
 
-Revision ID: add_practice_session_tables
+Revision ID: 2a1b3c4d5e6f
 Revises: 1e85813d6de6
 Create Date: 2025-08-28 12:00:00.000000
 
@@ -11,7 +11,7 @@ import sqlalchemy as sa
 from sqlalchemy.dialects import postgresql
 
 # revision identifiers, used by Alembic.
-revision: str = 'add_practice_session_tables'
+revision: str = '2a1b3c4d5e6f'
 down_revision: Union[str, Sequence[str], None] = '1e85813d6de6'
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None

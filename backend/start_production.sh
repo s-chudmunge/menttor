@@ -40,6 +40,10 @@ except Exception as e:
     "
 fi
 
+# Ensure practice tables exist (temporary fix for practice migration)
+echo "🔧 Ensuring practice tables exist..."
+python run_practice_migration.py
+
 echo "✅ Database ready for production"
 
 # Start FastAPI in production mode
