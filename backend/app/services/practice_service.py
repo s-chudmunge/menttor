@@ -211,17 +211,21 @@ async def submit_practice_answer(
             detail=f"Question {answer_data.question_id} does not belong to session {session_id}"
         )
     
-    # Evaluate answer
-    correct_answer = question.question_data.get("correct_answer", "").strip().lower()
-    user_answer = answer_data.user_answer.strip().lower()
+    # Evaluate answer using AI
+    from services.ai_service import evaluate_answer_with_ai
     
-    is_correct = evaluate_answer(
-        user_answer=user_answer,
-        correct_answer=correct_answer,
-        question_type=question.question_type
+    evaluation = await evaluate_answer_with_ai(
+        question=question.question_data.get("question", ""),
+        question_type=question.question_type,
+        correct_answer=question.question_data.get("correct_answer", ""),
+        user_answer=answer_data.user_answer,
+        context=f"Subtopic: {question.subtopic_id}",
+        code_snippet=question.question_data.get("code_snippet")
     )
     
-    # Save answer
+    is_correct = evaluation.is_correct
+    
+    # Save answer with AI evaluation feedback
     practice_answer = PracticeAnswer(
         session_id=session_id,
         question_id=answer_data.question_id,
@@ -235,7 +239,54 @@ async def submit_practice_answer(
     db.commit()
     db.refresh(practice_answer)
     
-    return practice_answer
+    return practice_answer, evaluation
+
+def _evaluate_answer(user_answer: str, correct_answer: str, question_type: str) -> bool:
+    """Evaluate if the user's answer is correct based on question type"""
+    
+    if question_type == 'mcq':
+        # For MCQ, exact match after normalizing
+        return user_answer.strip().lower() == correct_answer.strip().lower()
+    
+    elif question_type == 'numerical':
+        # For numerical, try to parse as float and compare with tolerance
+        try:
+            user_num = float(user_answer.strip())
+            correct_num = float(correct_answer.strip())
+            # Allow 1% tolerance for floating point precision
+            tolerance = abs(correct_num * 0.01) if correct_num != 0 else 0.01
+            return abs(user_num - correct_num) <= tolerance
+        except (ValueError, TypeError):
+            # Fallback to string comparison if parsing fails
+            return user_answer.strip().lower() == correct_answer.strip().lower()
+    
+    elif question_type in ['codeCompletion', 'debugging']:
+        # For code questions, check if key elements are present
+        user_clean = user_answer.strip().replace(' ', '').replace('\n', '').replace('\t', '')
+        correct_clean = correct_answer.strip().replace(' ', '').replace('\n', '').replace('\t', '')
+        
+        # More flexible matching for code - check if the key answer is contained
+        if correct_clean in user_clean or user_clean in correct_clean:
+            return True
+            
+        # Also check for common variations
+        return user_answer.strip().lower() == correct_answer.strip().lower()
+    
+    elif question_type == 'caseStudy':
+        # For case studies, more flexible matching - check key terms
+        user_words = set(user_answer.strip().lower().split())
+        correct_words = set(correct_answer.strip().lower().split())
+        
+        # If 70% of the correct answer words are present, consider it correct
+        if len(correct_words) > 0:
+            overlap = len(user_words.intersection(correct_words))
+            return (overlap / len(correct_words)) >= 0.7
+        
+        return user_answer.strip().lower() == correct_answer.strip().lower()
+    
+    else:
+        # Default: exact match
+        return user_answer.strip().lower() == correct_answer.strip().lower()
 
 async def get_practice_results(
     db: Session,

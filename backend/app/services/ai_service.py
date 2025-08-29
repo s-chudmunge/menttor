@@ -1144,3 +1144,61 @@ def _generate_fallback_questions(
             ))
     
     return fallback_questions
+
+class AnswerEvaluationRequest(BaseModel):
+    """Request model for AI answer evaluation"""
+    question: str
+    question_type: str  # mcq, numerical, caseStudy, codeCompletion, debugging
+    correct_answer: str
+    user_answer: str
+    context: Optional[str] = None
+    code_snippet: Optional[str] = None
+
+class AnswerEvaluationResponse(BaseModel):
+    """Response model for AI answer evaluation"""
+    is_correct: bool
+    feedback: str
+    score: float  # 0.0 to 1.0
+    explanation: str
+
+async def evaluate_answer_with_ai(
+    question: str,
+    question_type: str,
+    correct_answer: str,
+    user_answer: str,
+    context: Optional[str] = None,
+    code_snippet: Optional[str] = None
+) -> AnswerEvaluationResponse:
+    """Evaluate a practice answer using AI for intelligent assessment"""
+    
+    request = AnswerEvaluationRequest(
+        question=question,
+        question_type=question_type,
+        correct_answer=correct_answer,
+        user_answer=user_answer,
+        context=context,
+        code_snippet=code_snippet
+    )
+    
+    try:
+        # Use AI to evaluate the answer
+        result = await ai_executor.execute(
+            task_type="answer_evaluation",
+            request_data=request,
+            response_schema=AnswerEvaluationResponse,
+            is_json=True
+        )
+        
+        return result["response"]
+        
+    except Exception as e:
+        logger.error(f"AI answer evaluation failed: {e}")
+        
+        # Fallback to simple evaluation if AI fails
+        simple_correct = user_answer.strip().lower() == correct_answer.strip().lower()
+        return AnswerEvaluationResponse(
+            is_correct=simple_correct,
+            feedback="Answer evaluated using simple matching due to AI unavailability",
+            score=1.0 if simple_correct else 0.0,
+            explanation="Basic string comparison was used for evaluation"
+        )
