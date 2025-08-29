@@ -27,4 +27,4 @@ COPY start_fast_production.sh ./start_fast_production.sh
 RUN chmod +x ./start.sh ./start_production.sh ./start_fast_production.sh
 
 # Use fast production startup for quick deployments
-CMD ["./start_fast_production.sh"]
+CMD ["./start_production.sh"]
