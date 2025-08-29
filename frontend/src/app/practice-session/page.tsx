@@ -567,7 +567,7 @@ const PracticeSessionContent = () => {
             className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-2xl border border-gray-200/50 dark:border-gray-700/50 p-6 sm:p-8 max-w-2xl w-full mx-4 text-center"
           >
             <CheckCircle className="w-12 h-12 sm:w-16 sm:h-16 text-green-600 mx-auto mb-4" />
-            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-2"
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-2">
               Session Complete!
             </h1>
             <p className="text-gray-600 dark:text-gray-400 mb-8">
@@ -779,7 +779,7 @@ const PracticeSessionContent = () => {
                           value={currentAnswer}
                           onChange={(e) => setCurrentAnswer(e.target.value)}
                           placeholder="0"
-                          className="flex-1 p-4 text-lg font-mono border-2 border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+                          className="flex-1 p-4 text-lg sm:text-xl font-mono border-2 border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all min-h-[56px]"
                         />
                         <div className="text-sm text-gray-500 dark:text-gray-400 min-w-0">
                           units/format
@@ -813,8 +813,8 @@ const PracticeSessionContent = () => {
                         value={currentAnswer}
                         onChange={(e) => setCurrentAnswer(e.target.value)}
                         placeholder="Provide your analysis of the case and recommend the best approach..."
-                        className="w-full p-4 border-2 border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all resize-none"
-                        rows={5}
+                        className="w-full p-4 border-2 border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all resize-none text-base"
+                        rows={4}
                       />
                       <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
                         💡 Consider multiple factors and explain your reasoning

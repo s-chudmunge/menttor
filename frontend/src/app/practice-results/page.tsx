@@ -168,11 +168,11 @@ const PracticeResultsPage = () => {
     
     return {
       finalScore: results.final_score ?? results.score ?? 0,
-      correctAnswers: results.correct_answers ?? results.correctAnswers ?? 0,
-      totalQuestions: results.total_questions ?? results.totalQuestions ?? 0,
-      totalTime: results.total_time ?? results.totalTime ?? 0,
-      hintsUsed: results.hints_used ?? results.answers?.filter((a: any) => a.hintUsed).length ?? 0,
-      questionResults: results.question_results ?? results.answers ?? [],
+      correctAnswers: results.correct_answers ?? (results as any).correctAnswers ?? 0,
+      totalQuestions: results.total_questions ?? (results as any).totalQuestions ?? 0,
+      totalTime: results.total_time ?? (results as any).totalTime ?? 0,
+      hintsUsed: results.hints_used ?? (results as any).answers?.filter((a: any) => a.hintUsed).length ?? 0,
+      questionResults: results.question_results ?? (results as any).answers ?? [],
       strengths: results.strengths ?? [],
       weaknesses: results.weaknesses ?? [],
       performanceByType: results.performance_by_type ?? {},
