@@ -119,37 +119,42 @@ async def create_practice_session_stream(
             order_index = 0
             total_generated = 0
             
-            # Generate questions by type, streaming each as it's ready
+            # Create a balanced distribution of questions across types and subtopics
+            question_distribution = []
             for question_type in session_data.question_types:
                 type_count = questions_per_type[question_type]
+                for i in range(type_count):
+                    if total_generated < session_data.question_count:
+                        subtopic_id = session_data.subtopic_ids[i % len(session_data.subtopic_ids)]
+                        question_distribution.append((question_type, subtopic_id))
+                        total_generated += 1
+            
+            # Reset total_generated for actual generation
+            total_generated = 0
+            
+            # Generate questions in batches of 3 for better streaming
+            batch_size = 3
+            for i in range(0, len(question_distribution), batch_size):
+                batch = question_distribution[i:i + batch_size]
                 
-                # Generate fewer questions per batch for faster streaming
-                batch_size = min(3, type_count)  # Generate 3 questions at a time
-                remaining = type_count
-                
-                for subtopic_id in session_data.subtopic_ids:
-                    if remaining <= 0:
+                for question_type, subtopic_id in batch:
+                    if total_generated >= session_data.question_count:
                         break
-                        
-                    questions_for_this_subtopic = min(batch_size, remaining, type_count // len(session_data.subtopic_ids) + 1)
-                    
-                    if questions_for_this_subtopic <= 0:
-                        continue
                     
                     try:
-                        # Generate questions in smaller batches
+                        # Generate single question for better control
                         ai_questions = await generate_practice_questions_ai(
                             question_type=question_type,
                             subtopic_id=subtopic_id,
                             subtopic_details=subtopic_details[subtopic_id],
-                            count=questions_for_this_subtopic,
+                            count=1,  # Generate one question at a time
                             subject=session_data.subject,
                             goal=session_data.goal,
                             hints_enabled=session_data.hints_enabled,
                             model="vertexai:gemini-2.0-flash-lite"
                         )
                         
-                        # Save and stream each question immediately
+                        # Save and stream the single question
                         for ai_question in ai_questions:
                             # Save to database
                             question_data = {
@@ -213,6 +218,10 @@ async def create_practice_session_stream(
                             # Small delay to prevent overwhelming
                             await asyncio.sleep(0.1)
                             
+                            # Check if we've generated enough questions
+                            if total_generated >= session_data.question_count:
+                                break
+                            
                     except Exception as e:
                         logger.error(f"Error generating {question_type} questions: {e}")
                         error_event = {
@@ -220,6 +229,10 @@ async def create_practice_session_stream(
                             "data": {"message": f"Failed to generate some {question_type} questions"}
                         }
                         yield f"data: {json.dumps(error_event)}\n\n"
+                
+                # Break out of outer loop if we've generated enough
+                if total_generated >= session_data.question_count:
+                    break
             
             # Send completion event
             completion_event = {
@@ -310,23 +323,41 @@ async def get_practice_session(
             detail=f"Failed to fetch practice session: {str(e)}"
         )
 
-@router.post("/sessions/{session_id}/answers")
+@router.post("/sessions/{session_token}/answers")
 async def submit_answer(
-    session_id: int,
+    session_token: str,
     answer_data: PracticeAnswerCreate,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
     """Submit an answer for a practice question"""
     try:
+        from sql_models import PracticeSession
+        
+        # Find session by token
+        session = db.exec(
+            select(PracticeSession).where(
+                PracticeSession.session_token == session_token,
+                PracticeSession.user_id == current_user.id
+            )
+        ).first()
+        
+        if not session:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Practice session not found"
+            )
+        
         result = await submit_practice_answer(
             db=db,
-            session_id=session_id,
+            session_id=session.id,
             user_id=current_user.id,
             answer_data=answer_data
         )
         return {"success": True, "is_correct": result.is_correct}
         
+    except HTTPException:
+        raise
     except Exception as e:
         logger.error(f"Error submitting answer: {e}")
         raise HTTPException(

@@ -20,6 +20,7 @@ import {
 import ProtectedRoute from '../components/ProtectedRoute';
 import { useAuth } from '@/app/context/AuthContext';
 import { api } from '@/lib/api';
+import CodeBlock from '../../../components/learning/CodeBlock';
 
 interface PracticeConfig {
   subtopicIds: string[];
@@ -579,10 +580,10 @@ const PracticeSessionContent = () => {
 
                 {/* Code Snippet */}
                 {currentQuestion.codeSnippet && (
-                  <div className="mb-6 p-4 bg-gray-900 dark:bg-gray-950 rounded-lg overflow-x-auto">
-                    <pre className="text-green-400 text-sm">
-                      <code>{currentQuestion.codeSnippet}</code>
-                    </pre>
+                  <div className="mb-6">
+                    <CodeBlock language="python">
+                      {currentQuestion.codeSnippet}
+                    </CodeBlock>
                   </div>
                 )}
 

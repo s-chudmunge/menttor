@@ -174,16 +174,42 @@ async def submit_practice_answer(
     answer_data: PracticeAnswerCreate
 ) -> PracticeAnswer:
     """Submit and evaluate a practice answer"""
+    from fastapi import HTTPException, status
+    import logging
+    
+    logger = logging.getLogger(__name__)
     
     # Verify session belongs to user
     session = db.get(PracticeSession, session_id)
-    if not session or session.user_id != user_id:
-        raise ValueError("Invalid session")
+    if not session:
+        logger.error(f"Session {session_id} not found")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Practice session {session_id} not found"
+        )
+    
+    if session.user_id != user_id:
+        logger.error(f"Session {session_id} belongs to user {session.user_id}, but request from user {user_id}")
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Access denied to this practice session"
+        )
     
     # Get question details
     question = db.get(PracticeQuestion, answer_data.question_id)
-    if not question or question.session_id != session_id:
-        raise ValueError("Invalid question")
+    if not question:
+        logger.error(f"Question {answer_data.question_id} not found")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Question {answer_data.question_id} not found"
+        )
+    
+    if question.session_id != session_id:
+        logger.error(f"Question {answer_data.question_id} belongs to session {question.session_id}, but request for session {session_id}")
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Question {answer_data.question_id} does not belong to session {session_id}"
+        )
     
     # Evaluate answer
     correct_answer = question.question_data.get("correct_answer", "").strip().lower()
