@@ -286,7 +286,7 @@ async def get_practice_results(
     session_id: int,
     user_id: int
 ) -> PracticeResultsResponse:
-    """Get detailed results for a completed practice session"""
+    """Get detailed results for a completed practice session with AI evaluation"""
     
     # Verify session
     session = db.get(PracticeSession, session_id)
@@ -324,23 +324,33 @@ async def get_practice_results(
     db.add(session)
     db.commit()
     
-    # Build detailed results
+    # Build detailed results with AI feedback
     question_results = []
     for question in questions:
         answer = next((a for a in answers if a.question_id == question.id), None)
         if answer:
+            # Generate AI feedback for this question
+            ai_feedback = await generate_ai_feedback_for_answer(
+                question=question.question_data.get("question", ""),
+                user_answer=answer.user_answer,
+                question_type=question.question_type,
+                is_correct=answer.is_correct,
+                code_snippet=question.question_data.get("code_snippet"),
+                subject=session.subject
+            )
+            
             question_results.append(PracticeAnswerResult(
                 question_id=question.id,
                 user_answer=answer.user_answer,
                 correct_answer=question.question_data.get("correct_answer", ""),
                 is_correct=answer.is_correct,
-                explanation=question.question_data.get("explanation", ""),
+                explanation=ai_feedback,
                 time_spent=answer.time_spent,
                 hint_used=answer.hint_used
             ))
     
-    # Analyze performance
-    performance_analysis = analyze_practice_performance(questions, answers, session)
+    # Analyze performance with AI insights
+    performance_analysis = await analyze_practice_performance_with_ai(questions, answers, session)
     
     return PracticeResultsResponse(
         session_id=session_id,
@@ -356,6 +366,155 @@ async def get_practice_results(
         performance_by_difficulty=performance_analysis["by_difficulty"],
         completed_at=session.completed_at or datetime.utcnow()
     )
+
+async def generate_ai_feedback_for_answer(
+    question: str,
+    user_answer: str,
+    question_type: str,
+    is_correct: bool,
+    code_snippet: Optional[str] = None,
+    subject: str = "General"
+) -> str:
+    """Generate AI-powered feedback for a practice answer"""
+    try:
+        from services.ai_service import AIExecutor
+        
+        feedback_prompt = f"""
+Provide concise feedback for this practice question answer:
+
+Subject: {subject}
+Question Type: {question_type}
+Question: {question}
+{f"Code Snippet: {code_snippet}" if code_snippet else ""}
+User's Answer: {user_answer}
+Result: {"Correct" if is_correct else "Incorrect"}
+
+Generate a brief 2-3 sentence feedback that:
+1. Explains why the answer is correct/incorrect
+2. Provides a specific improvement tip if incorrect
+3. Reinforces key concepts if correct
+
+Be encouraging and educational. Focus on learning, not just evaluation.
+"""
+
+        # Use Vertex AI directly like other services
+        if AIExecutor._vertex_ai_model:
+            generation_config = {
+                "temperature": 0.7,
+                "max_output_tokens": 200,
+                "top_k": 40,
+            }
+            response = AIExecutor._vertex_ai_model.generate_content(
+                feedback_prompt,
+                generation_config=generation_config,
+            )
+            return response.text.strip()
+        else:
+            logger.warning("Vertex AI model not initialized for feedback generation")
+            raise Exception("Vertex AI not available")
+        
+    except Exception as e:
+        logger.error(f"AI feedback generation failed: {e}")
+        # Fallback feedback
+        if is_correct:
+            return "Great job! Your answer demonstrates good understanding of the concept."
+        else:
+            return "Review the key concepts for this topic and try again to improve your understanding."
+
+async def analyze_practice_performance_with_ai(
+    questions: List[PracticeQuestion], 
+    answers: List[PracticeAnswer], 
+    session: PracticeSession
+) -> Dict[str, Any]:
+    """Enhanced performance analysis with AI insights"""
+    
+    # Get basic analysis first
+    basic_analysis = analyze_practice_performance(questions, answers, session)
+    
+    try:
+        # Prepare data for AI analysis
+        performance_data = []
+        for question in questions:
+            answer = next((a for a in answers if a.question_id == question.id), None)
+            if answer:
+                performance_data.append({
+                    "question_type": question.question_type,
+                    "difficulty": question.difficulty,
+                    "is_correct": answer.is_correct,
+                    "time_spent": answer.time_spent,
+                    "hint_used": answer.hint_used
+                })
+        
+        # Generate AI insights for strengths and weaknesses
+        from services.ai_service import ai_executor
+        
+        analysis_prompt = f"""
+Analyze this practice session performance for {session.subject}:
+
+Session Data:
+- Total Questions: {len(questions)}
+- Correct Answers: {len([a for a in answers if a.is_correct])}
+- Time Spent: {session.total_time_spent or 0} seconds
+- Hints Used: {len([a for a in answers if a.hint_used])}
+
+Performance by Question:
+{json.dumps(performance_data, indent=2)}
+
+Provide 2-3 key strengths and 2-3 areas for improvement. Be specific and actionable.
+Focus on learning patterns, not just scores.
+
+Return as JSON:
+{{
+  "ai_strengths": ["strength1", "strength2"],
+  "ai_weaknesses": ["weakness1", "weakness2"],
+  "overall_feedback": "brief encouraging summary"
+}}
+"""
+
+        from services.ai_service import AIExecutor
+        
+        # Use Vertex AI directly
+        if AIExecutor._vertex_ai_model:
+            generation_config = {
+                "temperature": 0.7,
+                "max_output_tokens": 300,
+                "top_k": 40,
+            }
+            response = AIExecutor._vertex_ai_model.generate_content(
+                analysis_prompt,
+                generation_config=generation_config,
+            )
+            ai_result = response.text
+        else:
+            logger.warning("Vertex AI model not initialized for performance analysis")
+            raise Exception("Vertex AI not available")
+        
+        try:
+            ai_insights = json.loads(ai_result)
+            
+            # Add AI insights to strengths/weaknesses
+            for insight in ai_insights.get("ai_strengths", [])[:2]:
+                basic_analysis["strengths"].append(PracticeStrength(
+                    category="AI Insight",
+                    score=85,
+                    description=insight
+                ))
+            
+            for insight in ai_insights.get("ai_weaknesses", [])[:2]:
+                basic_analysis["weaknesses"].append(PracticeWeakness(
+                    category="AI Insight", 
+                    score=45,
+                    description=insight,
+                    improvement_suggestion="Focus on targeted practice in this area"
+                ))
+                
+        except json.JSONDecodeError:
+            logger.warning("Failed to parse AI analysis JSON")
+            
+    except Exception as e:
+        logger.error(f"AI performance analysis failed: {e}")
+    
+    return basic_analysis
 
 def extract_subtopic_details(roadmap: Roadmap, subtopic_ids: List[str]) -> Dict[str, Dict[str, Any]]:
     """Extract subtopic details from roadmap structure"""

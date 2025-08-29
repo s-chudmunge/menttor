@@ -336,6 +336,25 @@ const PracticeSessionContent = () => {
 
   const currentQuestion = questions[currentQuestionIndex];
   
+  // Safety check to prevent crashes
+  if (!currentQuestion || !currentQuestion.type) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-white via-blue-50 to-blue-100 dark:from-gray-900 dark:via-blue-900 dark:to-gray-800 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-pulse">
+            <Brain className="w-12 h-12 text-indigo-600 mx-auto mb-4" />
+          </div>
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+            Loading Question...
+          </h2>
+          <p className="text-gray-600 dark:text-gray-400">
+            Please wait while we prepare your question.
+          </p>
+        </div>
+      </div>
+    );
+  }
+  
   const handleAnswerSubmit = async () => {
     if (!currentQuestion || currentAnswer.trim() === '') return;
 
@@ -683,9 +702,14 @@ const PracticeSessionContent = () => {
                 {/* Code Snippet */}
                 {currentQuestion.codeSnippet && (
                   <div className="mb-6">
-                    <CodeBlock language="python">
-                      {currentQuestion.codeSnippet}
-                    </CodeBlock>
+                    <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-3">
+                      {currentQuestion.type === 'codeCompletion' ? 'Code to Complete:' : 'Code to Debug:'}
+                    </h3>
+                    <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-600">
+                      <pre className="font-mono text-sm text-gray-800 dark:text-gray-200 whitespace-pre-wrap overflow-x-auto">
+                        {currentQuestion.codeSnippet}
+                      </pre>
+                    </div>
                   </div>
                 )}
 
@@ -731,13 +755,39 @@ const PracticeSessionContent = () => {
                   </div>
                 ) : (
                   <div className="mb-6">
-                    <textarea
-                      value={currentAnswer}
-                      onChange={(e) => setCurrentAnswer(e.target.value)}
-                      placeholder="Type your answer here..."
-                      className="w-full p-4 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                      rows={currentQuestion.type === 'debugging' || currentQuestion.type === 'caseStudy' ? 4 : 2}
-                    />
+                    {(currentQuestion.type === 'codeCompletion' || currentQuestion.type === 'debugging') ? (
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                          {currentQuestion.type === 'codeCompletion' ? 'Your Answer (complete the missing parts):' : 'Your Answer (identify and fix the error):'}
+                        </label>
+                        <textarea
+                          value={currentAnswer}
+                          onChange={(e) => setCurrentAnswer(e.target.value)}
+                          placeholder={
+                            currentQuestion.type === 'codeCompletion' 
+                              ? "Write only the code that goes in the blank (_____)" 
+                              : "Describe what's wrong and how to fix it"
+                          }
+                          className="w-full p-4 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                          rows={currentQuestion.type === 'codeCompletion' ? 3 : 4}
+                        />
+                        <div className="mt-2 text-xs text-gray-500 dark:text-gray-400">
+                          {currentQuestion.type === 'codeCompletion' ? 
+                            '💡 Write just the missing code, not the entire function' : 
+                            '💡 Explain the error and provide the corrected line(s)'
+                          }
+                        </div>
+                      </div>
+                    ) : (
+                      // Regular textarea for other question types
+                      <textarea
+                        value={currentAnswer}
+                        onChange={(e) => setCurrentAnswer(e.target.value)}
+                        placeholder="Type your answer here..."
+                        className="w-full p-4 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                        rows={currentQuestion.type === 'caseStudy' ? 4 : 2}
+                      />
+                    )}
                   </div>
                 )}
 

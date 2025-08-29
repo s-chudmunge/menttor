@@ -282,158 +282,115 @@ const PracticeResultsPage = () => {
             </p>
           </motion.div>
 
-          {/* Score Overview */}
+          {/* Simplified Score Overview */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className={`rounded-2xl border p-8 mb-8 text-center ${getScoreBg(results.score)}`}
+            className="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 p-6 mb-6"
           >
-            <div className="flex items-center justify-center mb-4">
-              {results.score >= 80 ? (
-                <CheckCircle className="w-12 h-12 text-green-600" />
-              ) : results.score >= 60 ? (
-                <AlertCircle className="w-12 h-12 text-yellow-600" />
-              ) : (
-                <XCircle className="w-12 h-12 text-red-600" />
-              )}
-            </div>
-            
-            <h2 className="text-6xl font-bold mb-2 text-gray-900 dark:text-white">
-              {results.score}%
-            </h2>
-            
-            <p className="text-xl font-medium text-gray-700 dark:text-gray-300 mb-4">
-              {results.correctAnswers} out of {results.totalQuestions} questions correct
-            </p>
-            
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
-              <div className="text-center">
-                <Clock className="w-6 h-6 mx-auto mb-2 text-indigo-600" />
-                <p className="text-sm text-gray-600 dark:text-gray-400">Total Time</p>
-                <p className="font-bold text-gray-900 dark:text-white">{formatTime(results.totalTime)}</p>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-4">
+                <div className={`w-16 h-16 rounded-full flex items-center justify-center ${
+                  results.score >= 80 ? 'bg-green-100 dark:bg-green-900' : 
+                  results.score >= 60 ? 'bg-yellow-100 dark:bg-yellow-900' : 
+                  'bg-red-100 dark:bg-red-900'
+                }`}>
+                  {results.score >= 80 ? (
+                    <CheckCircle className="w-8 h-8 text-green-600" />
+                  ) : results.score >= 60 ? (
+                    <AlertCircle className="w-8 h-8 text-yellow-600" />
+                  ) : (
+                    <XCircle className="w-8 h-8 text-red-600" />
+                  )}
+                </div>
+                
+                <div>
+                  <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
+                    {results.score}%
+                  </h2>
+                  <p className="text-gray-600 dark:text-gray-400">
+                    {results.correctAnswers}/{results.totalQuestions} correct • {formatTime(results.totalTime)}
+                  </p>
+                </div>
               </div>
               
-              <div className="text-center">
-                <Target className="w-6 h-6 mx-auto mb-2 text-green-600" />
-                <p className="text-sm text-gray-600 dark:text-gray-400">Accuracy</p>
-                <p className="font-bold text-gray-900 dark:text-white">{results.score}%</p>
-              </div>
-              
-              <div className="text-center">
-                <Brain className="w-6 h-6 mx-auto mb-2 text-purple-600" />
-                <p className="text-sm text-gray-600 dark:text-gray-400">Avg. Time/Question</p>
-                <p className="font-bold text-gray-900 dark:text-white">
-                  {formatTime(Math.round(results.totalTime / results.totalQuestions))}
-                </p>
-              </div>
-              
-              <div className="text-center">
-                <Lightbulb className="w-6 h-6 mx-auto mb-2 text-yellow-600" />
-                <p className="text-sm text-gray-600 dark:text-gray-400">Hints Used</p>
-                <p className="font-bold text-gray-900 dark:text-white">
-                  {performanceMetrics?.hintsUsed || 0}
-                </p>
+              <div className="text-right">
+                <div className="text-sm text-gray-500 dark:text-gray-400 mb-1">Performance</div>
+                <div className={`text-2xl font-bold ${getScoreColor(results.score)}`}>
+                  {results.score >= 80 ? 'Excellent' : results.score >= 60 ? 'Good' : 'Needs Work'}
+                </div>
               </div>
             </div>
           </motion.div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-            {/* Strengths */}
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.2 }}
-              className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-200/50 dark:border-gray-700/50 p-6"
-            >
-              <div className="flex items-center mb-6">
-                <TrendingUp className="w-6 h-6 text-green-600 mr-3" />
-                <h3 className="text-xl font-bold text-gray-900 dark:text-white">
-                  Strengths ({analysis.strengths.length})
-                </h3>
-              </div>
-              
-              <div className="space-y-4">
-                {analysis.strengths.length > 0 ? (
-                  analysis.strengths.map((strength, index) => (
-                    <motion.div
-                      key={index}
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.3 + index * 0.1 }}
-                      className="p-4 bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-700 rounded-lg"
-                    >
-                      <div className="flex justify-between items-center mb-2">
-                        <h4 className="font-semibold text-green-800 dark:text-green-200">
+          {/* AI Insights */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 p-6 mb-6"
+          >
+            <div className="flex items-center mb-4">
+              <Brain className="w-6 h-6 text-purple-600 mr-3" />
+              <h3 className="text-xl font-bold text-gray-900 dark:text-white">AI Performance Analysis</h3>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Strengths */}
+              <div>
+                <div className="flex items-center mb-3">
+                  <TrendingUp className="w-4 h-4 text-green-600 mr-2" />
+                  <h4 className="font-semibold text-gray-900 dark:text-white">What You Did Well</h4>
+                </div>
+                <div className="space-y-2">
+                  {analysis.strengths.length > 0 ? (
+                    analysis.strengths.slice(0, 3).map((strength, index) => (
+                      <div key={index} className="p-3 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-700 rounded-lg">
+                        <p className="text-sm text-green-800 dark:text-green-200 font-medium">
                           {strength.category}
-                        </h4>
-                        <span className="text-sm font-bold text-green-600 dark:text-green-400">
-                          {Math.round(strength.score)}%
-                        </span>
+                        </p>
+                        <p className="text-xs text-green-700 dark:text-green-300 mt-1">
+                          {strength.description}
+                        </p>
                       </div>
-                      <p className="text-sm text-green-700 dark:text-green-300">
-                        {strength.description}
-                      </p>
-                    </motion.div>
-                  ))
-                ) : (
-                  <div className="text-center py-8 text-gray-500 dark:text-gray-400">
-                    <CheckCircle className="w-8 h-8 mx-auto mb-2 opacity-50" />
-                    <p>Keep practicing to identify your strengths!</p>
-                  </div>
-                )}
-              </div>
-            </motion.div>
-
-            {/* Weaknesses */}
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.3 }}
-              className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-200/50 dark:border-gray-700/50 p-6"
-            >
-              <div className="flex items-center mb-6">
-                <TrendingDown className="w-6 h-6 text-red-600 mr-3" />
-                <h3 className="text-xl font-bold text-gray-900 dark:text-white">
-                  Areas for Improvement ({analysis.weaknesses.length})
-                </h3>
+                    ))
+                  ) : (
+                    <div className="text-center py-4 text-gray-500 dark:text-gray-400">
+                      <p className="text-sm">Continue practicing to build strengths</p>
+                    </div>
+                  )}
+                </div>
               </div>
               
-              <div className="space-y-4">
-                {analysis.weaknesses.length > 0 ? (
-                  analysis.weaknesses.map((weakness, index) => (
-                    <motion.div
-                      key={index}
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.4 + index * 0.1 }}
-                      className="p-4 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-700 rounded-lg"
-                    >
-                      <div className="flex justify-between items-center mb-2">
-                        <h4 className="font-semibold text-red-800 dark:text-red-200">
+              {/* Areas to Improve */}
+              <div>
+                <div className="flex items-center mb-3">
+                  <Target className="w-4 h-4 text-blue-600 mr-2" />
+                  <h4 className="font-semibold text-gray-900 dark:text-white">Focus Areas</h4>
+                </div>
+                <div className="space-y-2">
+                  {analysis.weaknesses.length > 0 ? (
+                    analysis.weaknesses.slice(0, 3).map((weakness, index) => (
+                      <div key={index} className="p-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-lg">
+                        <p className="text-sm text-blue-800 dark:text-blue-200 font-medium">
                           {weakness.category}
-                        </h4>
-                        <span className="text-sm font-bold text-red-600 dark:text-red-400">
-                          {Math.round(weakness.score)}%
-                        </span>
+                        </p>
+                        <p className="text-xs text-blue-700 dark:text-blue-300 mt-1">
+                          {weakness.improvement}
+                        </p>
                       </div>
-                      <p className="text-sm text-red-700 dark:text-red-300 mb-2">
-                        {weakness.description}
-                      </p>
-                      <p className="text-xs text-red-600 dark:text-red-400 font-medium">
-                        💡 {weakness.improvement}
-                      </p>
-                    </motion.div>
-                  ))
-                ) : (
-                  <div className="text-center py-8 text-gray-500 dark:text-gray-400">
-                    <Trophy className="w-8 h-8 mx-auto mb-2 opacity-50" />
-                    <p>Great job! No major areas for improvement identified.</p>
-                  </div>
-                )}
+                    ))
+                  ) : (
+                    <div className="text-center py-4 text-gray-500 dark:text-gray-400">
+                      <Trophy className="w-6 h-6 mx-auto mb-1 opacity-50" />
+                      <p className="text-sm">Great performance overall!</p>
+                    </div>
+                  )}
+                </div>
               </div>
-            </motion.div>
-          </div>
+            </div>
+          </motion.div>
 
           {/* Performance by Type */}
           {performanceMetrics && (
@@ -488,36 +445,95 @@ const PracticeResultsPage = () => {
             </motion.div>
           )}
 
-          {/* Action Buttons */}
+          {/* Question-by-Question Review with AI Feedback */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 }}
-            className="flex flex-wrap gap-4 justify-center"
+            className="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 p-6 mb-8"
+          >
+            <div className="flex items-center mb-6">
+              <BarChart3 className="w-6 h-6 text-indigo-600 mr-3" />
+              <h3 className="text-xl font-bold text-gray-900 dark:text-white">Question Review</h3>
+            </div>
+            
+            <div className="space-y-4">
+              {results.answers.map((answer, index) => {
+                const question = results.questions[index];
+                return (
+                  <div 
+                    key={answer.questionId}
+                    className={`p-4 rounded-lg border ${
+                      answer.isCorrect 
+                        ? 'bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-700' 
+                        : 'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-700'
+                    }`}
+                  >
+                    <div className="flex items-start justify-between mb-2">
+                      <div className="flex items-center">
+                        {answer.isCorrect ? (
+                          <CheckCircle className="w-5 h-5 text-green-600 mr-2" />
+                        ) : (
+                          <XCircle className="w-5 h-5 text-red-600 mr-2" />
+                        )}
+                        <span className="font-medium text-gray-900 dark:text-white">
+                          Question {index + 1}
+                        </span>
+                      </div>
+                      <div className="text-right text-sm text-gray-500 dark:text-gray-400">
+                        {formatTime(answer.timeSpent)}
+                        {answer.hintUsed && <span className="ml-2">💡</span>}
+                      </div>
+                    </div>
+                    
+                    <p className="text-sm text-gray-700 dark:text-gray-300 mb-2">
+                      <strong>Your answer:</strong> {answer.answer}
+                    </p>
+                    
+                    {!answer.isCorrect && (
+                      <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
+                        <strong>Expected:</strong> {question.correctAnswer}
+                      </p>
+                    )}
+                    
+                    <div className={`text-sm p-2 rounded ${
+                      answer.isCorrect 
+                        ? 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200'
+                        : 'bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200'
+                    }`}>
+                      <strong>AI Feedback:</strong> {question.explanation}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </motion.div>
+
+          {/* Simple Action Buttons */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6 }}
+            className="flex gap-4 justify-center"
           >
             <Link
               href="/journey"
-              className="flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl"
+              className="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg transition-colors flex items-center space-x-2"
             >
-              <Home className="w-5 h-5" />
-              <span>Back to Journey</span>
+              <Home className="w-4 h-4" />
+              <span>Continue Learning</span>
             </Link>
             
             <button
               onClick={() => {
-                // Create a new practice session with similar config
-                const newConfig = {
-                  ...results.config,
-                  questionCount: Math.min(results.config.questionCount + 5, 150)
-                };
                 const params = new URLSearchParams();
-                params.append('config', JSON.stringify(newConfig));
-                window.open(`/practice-session?${params.toString()}`, '_blank');
+                params.append('config', JSON.stringify(results.config));
+                router.push(`/practice-session?${params.toString()}`);
               }}
-              className="flex items-center space-x-2 px-6 py-3 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 font-semibold rounded-lg transition-all duration-200"
+              className="px-6 py-3 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 font-medium rounded-lg transition-colors flex items-center space-x-2"
             >
-              <RefreshCw className="w-5 h-5" />
-              <span>Practice Again</span>
+              <RefreshCw className="w-4 h-4" />
+              <span>Try Again</span>
             </button>
           </motion.div>
         </div>

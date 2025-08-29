@@ -1,4 +1,4 @@
-Generate {{ count }} code completion questions for practice/exam mode:
+Generate {{ count }} educational code completion questions for practice mode:
 
 Subject: {{ subject }}
 Goal: {{ goal }}
@@ -6,20 +6,29 @@ Subtopic: {{ subtopic_title }}
 Context: {{ context }}
 Difficulty Level: Mixed (easy, medium, hard)
 
-Create practical coding exercises that require completing missing code segments. Each question should:
-1. Present realistic code snippets with strategic gaps
-2. Test understanding of {{ subtopic_title }} programming concepts
-3. Require specific syntax, logic, or implementation knowledge
-4. Include clear context about what the code should accomplish
-5. Have one correct completion that makes the code functional
+Create high-quality educational coding exercises that test real programming concepts. Each question should:
 
-Code completion types to include:
-- Function implementations
-- Algorithm completions
-- Data structure operations
-- Loop and conditional logic
-- API calls and method implementations
-- Variable declarations and assignments
+1. **Rich Context**: Provide a clear problem statement that explains WHAT the code should accomplish
+2. **Educational Value**: Test important concepts from {{ subtopic_title }} that students actually need to learn
+3. **Strategic Gaps**: Place _____ in locations that test understanding, not just syntax memorization
+4. **Real-world Relevance**: Use scenarios that programmers encounter in actual development
+5. **Clear Completion**: Have one correct answer that demonstrates proper understanding
+
+**Question Types to Generate:**
+- Algorithm implementation (sorting, searching, data processing)
+- Data structure manipulation (lists, dictionaries, objects)
+- Control flow logic (loops, conditionals with real conditions)
+- Function design patterns (parameter handling, return values)
+- Error handling and edge cases
+- API/library usage patterns
+- Mathematical computations with context
+
+**Requirements:**
+- Provide rich problem context (2-3 sentences explaining the scenario)
+- Code snippets should be 8-15 lines with meaningful logic
+- Gaps should test conceptual understanding, not trivial syntax
+- Include real variable names and realistic scenarios
+- Focus on {{ goal }} learning objectives
 
 Format the output as a JSON object:
 
@@ -28,17 +37,16 @@ Format the output as a JSON object:
   "questions": [
     {
       "id": 1,
-      "question_text": "Complete the following function to accomplish [specific task]:",
-      "code_snippet": "def calculate_average(numbers):\n    total = 0\n    for num in numbers:\n        _____ \n    return _____",
-      "correct_answer": "total += num\ntotal / len(numbers)",
-      "explanation": "The missing code should: 1) Add each number to the total in the loop: 'total += num', 2) Return the average by dividing total by count: 'total / len(numbers)'",
-      "hint": "Think about what operations are needed to calculate an average: sum all values, then divide by count (only if hints enabled: {{ hints_enabled }})",
-      "difficulty": "easy",
+      "question_text": "You're building a student grade tracker. Complete this function that calculates the average grade from a list of scores, but should return 0 if the list is empty to avoid division errors:",
+      "code_snippet": "def calculate_average_grade(grades):\n    if len(grades) == 0:\n        return _____\n    \n    total = sum(grades)\n    return _____",
+      "correct_answer": "0\ntotal / len(grades)",
+      "explanation": "Return 0 for empty lists to handle edge cases, then calculate average by dividing total by count",
+      "hint": "Consider what should happen with an empty list, then think about the average formula (only if hints enabled: {{ hints_enabled }})",
+      "difficulty": "medium",
       "programming_language": "python"
     }
   ]
 }
 ```
 
-Ensure code examples are relevant to {{ goal }} and test practical application of {{ subtopic_title }} concepts.
-Use appropriate syntax for the subject's primary programming language.
+Create questions that teach practical programming skills relevant to {{ subject }} and {{ goal }}.

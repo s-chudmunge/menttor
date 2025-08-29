@@ -452,22 +452,40 @@ async def submit_answer(
             detail=f"Failed to submit answer: {str(e)}"
         )
 
-@router.post("/sessions/{session_id}/complete")
+@router.post("/sessions/{session_token}/complete")
 async def complete_session(
-    session_id: int,
+    session_token: str,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
     """Mark practice session as complete and return results"""
     try:
+        from sql_models import PracticeSession
+        
+        # Find session by token
+        session = db.exec(
+            select(PracticeSession).where(
+                PracticeSession.session_token == session_token,
+                PracticeSession.user_id == current_user.id
+            )
+        ).first()
+        
+        if not session:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Practice session not found"
+            )
+        
         results = await get_practice_results(
             db=db,
-            session_id=session_id,
+            session_id=session.id,
             user_id=current_user.id
         )
         
         return results
         
+    except HTTPException:
+        raise
     except Exception as e:
         logger.error(f"Error completing session: {e}")
         raise HTTPException(
