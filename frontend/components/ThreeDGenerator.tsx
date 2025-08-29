@@ -49,7 +49,7 @@ const ThreeDGeneratorModal: React.FC<ThreeDGeneratorModalProps> = ({
     setIsGenerating(true);
     
     // Open visualization page in new tab
-    const visualizeUrl = `/visualize?description=${encodeURIComponent(description.trim())}&model=${selectedModel}`;
+    const visualizeUrl = `/visualize?d=${encodeURIComponent(description.trim())}&m=${selectedModel}`;
     window.open(visualizeUrl, '_blank', 'noopener,noreferrer');
     
     // Reset form and close modal after a short delay

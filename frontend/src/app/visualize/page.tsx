@@ -6,11 +6,12 @@ import { useAuth } from '../context/AuthContext';
 import { useAIState } from '@/store/aiState';
 import { ArrowLeft, RefreshCw, Download, AlertTriangle, Maximize, Minimize } from 'lucide-react';
 import { api } from '../../lib/api';
+import Logo from '@rootComponents/Logo';
 
 function VisualizationPageContent() {
     const searchParams = useSearchParams();
-    const description = searchParams.get('description');
-    const model = searchParams.get('model') || 'gemini-2.5-flash-lite';
+    const description = searchParams.get('d') || searchParams.get('description');
+    const model = searchParams.get('m') || searchParams.get('model') || 'gemini-2.5-flash-lite';
     
     const [htmlContent, setHtmlContent] = useState('');
     const [isLoading, setIsLoading] = useState(true);
@@ -168,7 +169,7 @@ function VisualizationPageContent() {
             {!isFullscreen && (
                 <div className="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700 p-4">
                     <div className="flex items-center justify-between max-w-7xl mx-auto">
-                        <div className="flex items-center gap-4">
+                        <div className="flex items-center gap-4 flex-1">
                             <button
                                 onClick={() => window.history.back()}
                                 className="flex items-center gap-2 px-3 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors"
@@ -176,13 +177,14 @@ function VisualizationPageContent() {
                                 <ArrowLeft className="w-4 h-4" />
                                 Back
                             </button>
-                            <div className="h-6 w-px bg-gray-300 dark:bg-gray-600"></div>
-                            <h1 className="text-lg font-semibold text-gray-800 dark:text-gray-200">
-                                3D Visualization
-                            </h1>
                         </div>
                         
-                        <div className="flex items-center gap-2">
+                        {/* Center Logo */}
+                        <div className="flex-1 flex justify-center">
+                            <Logo />
+                        </div>
+                        
+                        <div className="flex items-center gap-2 flex-1 justify-end">
                             <button
                                 onClick={handleDownload}
                                 className="flex items-center gap-2 px-3 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
