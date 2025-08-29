@@ -1,7 +1,7 @@
 """Add curated roadmaps system for public catalog
 
 Revision ID: 1e85813d6de6
-Revises: fe0dfa06994f
+Revises: 5686bef7003e
 Create Date: 2025-08-22 19:35:51.214521
 
 """
@@ -12,7 +12,7 @@ from sqlalchemy.dialects import postgresql
 
 # revision identifiers, used by Alembic.
 revision: str = '1e85813d6de6'
-down_revision: Union[str, Sequence[str], None] = 'fe0dfa06994f'
+down_revision: Union[str, Sequence[str], None] = '5686bef7003e'
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
 
