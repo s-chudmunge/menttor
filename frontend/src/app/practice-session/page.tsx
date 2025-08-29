@@ -505,11 +505,11 @@ const PracticeSessionContent = () => {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-2xl shadow-2xl border border-gray-200/50 dark:border-gray-700/50 p-8 max-w-2xl w-full mx-4"
+            className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-2xl border border-gray-200/50 dark:border-gray-700/50 p-6 sm:p-8 max-w-2xl w-full mx-4"
           >
             <div className="text-center mb-6">
-              <PenTool className="w-16 h-16 text-indigo-600 mx-auto mb-4" />
-              <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+              <PenTool className="w-12 h-12 sm:w-16 sm:h-16 text-indigo-600 mx-auto mb-4" />
+              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-2">
                 Practice Session Ready
               </h1>
               <p className="text-gray-600 dark:text-gray-400">
@@ -546,7 +546,7 @@ const PracticeSessionContent = () => {
                 setSessionStarted(true);
                 setQuestionStartTime(Date.now());
               }}
-              className="w-full py-4 px-6 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-bold rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl flex items-center justify-center space-x-2"
+              className="w-full py-4 px-6 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-bold rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl flex items-center justify-center space-x-2 min-h-[56px] text-base sm:text-lg"
             >
               <Timer className="w-5 h-5" />
               <span>Start Practice Session</span>
@@ -564,10 +564,10 @@ const PracticeSessionContent = () => {
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-2xl shadow-2xl border border-gray-200/50 dark:border-gray-700/50 p-8 max-w-2xl w-full mx-4 text-center"
+            className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-2xl border border-gray-200/50 dark:border-gray-700/50 p-6 sm:p-8 max-w-2xl w-full mx-4 text-center"
           >
-            <CheckCircle className="w-16 h-16 text-green-600 mx-auto mb-4" />
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+            <CheckCircle className="w-12 h-12 sm:w-16 sm:h-16 text-green-600 mx-auto mb-4" />
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-2"
               Session Complete!
             </h1>
             <p className="text-gray-600 dark:text-gray-400 mb-8">
@@ -576,7 +576,7 @@ const PracticeSessionContent = () => {
             
             <button
               onClick={handleFinishSession}
-              className="w-full py-4 px-6 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-bold rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl"
+              className="w-full py-4 px-6 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-bold rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl min-h-[56px] text-base sm:text-lg"
             >
               View Results & Analysis
             </button>
@@ -591,21 +591,21 @@ const PracticeSessionContent = () => {
       <div className="min-h-screen bg-gradient-to-br from-white via-blue-50 to-blue-100 dark:from-gray-900 dark:via-blue-900 dark:to-gray-800">
         {/* Header */}
         <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-b border-gray-200 dark:border-gray-700 sticky top-0 z-10">
-          <div className="max-w-6xl mx-auto px-4 py-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-4">
-                <h1 className="text-xl font-bold text-gray-900 dark:text-white">
+          <div className="max-w-6xl mx-auto px-4 py-3 sm:py-4">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-3 sm:space-y-0">
+              <div className="flex items-center justify-between sm:justify-start sm:space-x-4">
+                <h1 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white">
                   Practice Session
                 </h1>
-                <span className="px-3 py-1 bg-indigo-100 dark:bg-indigo-900/30 text-indigo-800 dark:text-indigo-200 rounded-full text-sm font-medium">
-                  Question {currentQuestionIndex + 1} of {questions.length}
+                <span className="px-2 sm:px-3 py-1 bg-indigo-100 dark:bg-indigo-900/30 text-indigo-800 dark:text-indigo-200 rounded-full text-xs sm:text-sm font-medium">
+                  {currentQuestionIndex + 1}/{questions.length}
                 </span>
               </div>
               
-              <div className="flex items-center space-x-4">
+              <div className="flex items-center justify-between sm:justify-end sm:space-x-4">
                 <div className="flex items-center space-x-2 text-gray-600 dark:text-gray-300">
                   <Clock className="w-4 h-4" />
-                  <span className={`font-mono font-bold ${
+                  <span className={`font-mono font-bold text-sm sm:text-base ${
                     timeRemaining < 300 ? 'text-red-600 dark:text-red-400' : ''
                   }`}>
                     {formatTime(timeRemaining)}
@@ -614,17 +614,17 @@ const PracticeSessionContent = () => {
                 
                 <button
                   onClick={() => setSessionCompleted(true)}
-                  className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-medium transition-colors flex items-center space-x-2"
+                  className="px-3 sm:px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-medium transition-colors flex items-center space-x-1 sm:space-x-2 min-w-0"
                 >
                   <Flag className="w-4 h-4" />
-                  <span>Finish</span>
+                  <span className="hidden sm:inline">Finish</span>
                 </button>
               </div>
             </div>
           </div>
         </div>
 
-        <div className="max-w-4xl mx-auto px-4 py-8">
+        <div className="max-w-4xl mx-auto px-4 py-4 sm:py-8">
           {currentQuestion && (
             <motion.div
               key={currentQuestion.id}
@@ -634,8 +634,8 @@ const PracticeSessionContent = () => {
               className="space-y-6"
             >
               {/* Question Type Badge */}
-              <div className="flex items-center justify-between">
-                <span className="px-3 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-200 rounded-full text-sm font-medium">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-3 sm:space-y-0">
+                <span className="px-3 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-200 rounded-full text-sm font-medium self-start">
                   {QUESTION_TYPE_LABELS[currentQuestion.type]}
                 </span>
                 
@@ -643,7 +643,7 @@ const PracticeSessionContent = () => {
                   <button
                     onClick={handleShowHint}
                     disabled={showHint}
-                    className="flex items-center space-x-2 px-4 py-2 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-200 rounded-lg hover:bg-yellow-200 dark:hover:bg-yellow-900/50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="flex items-center justify-center space-x-2 px-4 py-2 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-200 rounded-lg hover:bg-yellow-200 dark:hover:bg-yellow-900/50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed w-full sm:w-auto"
                   >
                     <Lightbulb className="w-4 h-4" />
                     <span>{showHint ? 'Hint Shown' : 'Show Hint'}</span>
@@ -652,10 +652,10 @@ const PracticeSessionContent = () => {
               </div>
 
               {/* Question */}
-              <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-200/50 dark:border-gray-700/50 p-8">
-                <div className="mb-6">
+              <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-xl border border-gray-200/50 dark:border-gray-700/50 p-4 sm:p-6 lg:p-8">
+                <div className="mb-4 sm:mb-6">
                   <ReactMarkdown
-                    className="text-xl font-bold text-gray-900 dark:text-white prose prose-lg dark:prose-invert max-w-none"
+                    className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white prose prose-lg dark:prose-invert max-w-none"
                     remarkPlugins={[remarkMath]}
                     rehypePlugins={[rehypeKatex]}
                     components={{
@@ -713,81 +713,218 @@ const PracticeSessionContent = () => {
                   </div>
                 )}
 
-                {/* Answer Input */}
+                {/* Answer Input - Question Type Specific */}
                 {currentQuestion.type === 'mcq' && currentQuestion.options ? (
                   <div className="space-y-3">
-                    {currentQuestion.options.map((option, index) => (
-                      <label
-                        key={index}
-                        className={`flex items-center p-4 border rounded-lg cursor-pointer transition-colors ${
-                          currentAnswer === option
-                            ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-900/30'
-                            : 'border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700'
-                        }`}
-                      >
-                        <input
-                          type="radio"
-                          name="answer"
-                          value={option}
-                          checked={currentAnswer === option}
-                          onChange={(e) => setCurrentAnswer(e.target.value)}
-                          className="mr-3"
-                        />
-                        <div className="text-gray-900 dark:text-white flex-1">
-                          <ReactMarkdown
-                            className="prose dark:prose-invert max-w-none"
-                            remarkPlugins={[remarkMath]}
-                            rehypePlugins={[rehypeKatex]}
-                            components={{
-                              p: ({ children }) => <span>{children}</span>, // Inline for options
-                              code: ({ children, ...props }) => (
-                                <code className="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 px-1 py-0.5 rounded text-sm font-mono" {...props}>
-                                  {children}
-                                </code>
-                              ),
-                            }}
-                          >
-                            {option}
-                          </ReactMarkdown>
-                        </div>
-                      </label>
-                    ))}
+                    {['A', 'B', 'C', 'D'].map((letter, index) => {
+                      const option = currentQuestion.options?.[index];
+                      if (!option) return null;
+                      
+                      return (
+                        <motion.div
+                          key={letter}
+                          whileHover={{ scale: 1.01 }}
+                          whileTap={{ scale: 0.99 }}
+                          className={`group cursor-pointer transition-all duration-200 ${
+                            currentAnswer === option
+                              ? 'transform translate-x-1'
+                              : ''
+                          }`}
+                          onClick={() => setCurrentAnswer(option)}
+                        >
+                          <div className={`flex items-center p-4 rounded-xl border-2 transition-all ${
+                            currentAnswer === option
+                              ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-900/30 shadow-md'
+                              : 'border-gray-200 dark:border-gray-600 hover:border-gray-300 dark:hover:border-gray-500 hover:bg-gray-50 dark:hover:bg-gray-700/50'
+                          }`}>
+                            <div className={`w-8 h-8 rounded-full border-2 flex items-center justify-center mr-4 transition-colors ${
+                              currentAnswer === option
+                                ? 'border-indigo-500 bg-indigo-500 text-white'
+                                : 'border-gray-300 dark:border-gray-500 text-gray-400 dark:text-gray-500 group-hover:border-gray-400 dark:group-hover:border-gray-400'
+                            }`}>
+                              <span className="font-semibold text-sm">{letter}</span>
+                            </div>
+                            <div className="flex-1 text-gray-900 dark:text-white">
+                              <ReactMarkdown
+                                className="prose dark:prose-invert max-w-none [&>p]:mb-0"
+                                remarkPlugins={[remarkMath]}
+                                rehypePlugins={[rehypeKatex]}
+                                components={{
+                                  p: ({ children }) => <div>{children}</div>,
+                                  code: ({ children, ...props }) => (
+                                    <code className="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 px-1.5 py-0.5 rounded text-sm font-mono" {...props}>
+                                      {children}
+                                    </code>
+                                  ),
+                                }}
+                              >
+                                {option}
+                              </ReactMarkdown>
+                            </div>
+                          </div>
+                        </motion.div>
+                      );
+                    })}
                   </div>
-                ) : (
-                  <div className="mb-6">
-                    {(currentQuestion.type === 'codeCompletion' || currentQuestion.type === 'debugging') ? (
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                          {currentQuestion.type === 'codeCompletion' ? 'Your Answer (complete the missing parts):' : 'Your Answer (identify and fix the error):'}
-                        </label>
-                        <textarea
+                ) : currentQuestion.type === 'numerical' ? (
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+                        Enter your numerical answer:
+                      </label>
+                      <div className="flex items-center space-x-3">
+                        <input
+                          type="number"
+                          step="any"
                           value={currentAnswer}
                           onChange={(e) => setCurrentAnswer(e.target.value)}
-                          placeholder={
-                            currentQuestion.type === 'codeCompletion' 
-                              ? "Write only the code that goes in the blank (_____)" 
-                              : "Describe what's wrong and how to fix it"
-                          }
-                          className="w-full p-4 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                          rows={currentQuestion.type === 'codeCompletion' ? 3 : 4}
+                          placeholder="0"
+                          className="flex-1 p-4 text-lg font-mono border-2 border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
                         />
-                        <div className="mt-2 text-xs text-gray-500 dark:text-gray-400">
-                          {currentQuestion.type === 'codeCompletion' ? 
-                            '💡 Write just the missing code, not the entire function' : 
-                            '💡 Explain the error and provide the corrected line(s)'
-                          }
+                        <div className="text-sm text-gray-500 dark:text-gray-400 min-w-0">
+                          units/format
                         </div>
                       </div>
-                    ) : (
-                      // Regular textarea for other question types
+                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
+                        💡 Enter your numerical answer. Use decimals if needed (e.g., 23.45)
+                      </p>
+                    </div>
+                  </div>
+                ) : currentQuestion.type === 'caseStudy' ? (
+                  <div className="space-y-4">
+                    <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-4 border border-gray-200 dark:border-gray-600">
+                      <div className="flex items-center justify-between mb-3">
+                        <h3 className="font-medium text-gray-700 dark:text-gray-300">Case Analysis</h3>
+                        <div className="text-xs text-gray-500 dark:text-gray-400">Think critically</div>
+                      </div>
+                      <ReactMarkdown
+                        className="prose prose-sm dark:prose-invert max-w-none mb-4"
+                        remarkPlugins={[remarkMath]}
+                        rehypePlugins={[rehypeKatex]}
+                      >
+                        {currentQuestion.question}
+                      </ReactMarkdown>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+                        Your analysis and recommendation:
+                      </label>
                       <textarea
                         value={currentAnswer}
                         onChange={(e) => setCurrentAnswer(e.target.value)}
-                        placeholder="Type your answer here..."
-                        className="w-full p-4 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                        rows={currentQuestion.type === 'caseStudy' ? 4 : 2}
+                        placeholder="Provide your analysis of the case and recommend the best approach..."
+                        className="w-full p-4 border-2 border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all resize-none"
+                        rows={5}
                       />
-                    )}
+                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
+                        💡 Consider multiple factors and explain your reasoning
+                      </p>
+                    </div>
+                  </div>
+                ) : currentQuestion.type === 'codeCompletion' ? (
+                  <div className="space-y-4">
+                    <div className="bg-gray-900 rounded-xl p-3 sm:p-4 border border-gray-700 overflow-x-auto">
+                      <div className="flex items-center justify-between mb-3">
+                        <h3 className="text-sm font-medium text-gray-300">Code to Complete</h3>
+                        <div className="text-xs text-gray-500">Fill in the blanks</div>
+                      </div>
+                      <pre className="text-sm text-gray-100 font-mono overflow-x-auto whitespace-pre-wrap">
+                        {currentQuestion.codeSnippet?.split('_____').map((part, index, parts) => (
+                          <React.Fragment key={index}>
+                            {part}
+                            {index < parts.length - 1 && (
+                              <span className="bg-yellow-200 text-yellow-800 px-2 py-1 rounded font-bold">
+                                [BLANK_{index + 1}]
+                              </span>
+                            )}
+                          </React.Fragment>
+                        ))}
+                      </pre>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+                        Complete the missing code:
+                      </label>
+                      <textarea
+                        value={currentAnswer}
+                        onChange={(e) => setCurrentAnswer(e.target.value)}
+                        placeholder="Write the code that should replace the blanks..."
+                        className="w-full p-4 font-mono text-sm border-2 border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all resize-none"
+                        rows={3}
+                      />
+                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
+                        💡 Write only the missing parts, separated by commas if multiple blanks
+                      </p>
+                    </div>
+                  </div>
+                ) : currentQuestion.type === 'debugging' ? (
+                  <div className="space-y-4">
+                    <div className="bg-gray-900 rounded-xl p-3 sm:p-4 border border-gray-700 overflow-x-auto">
+                      <div className="flex items-center justify-between mb-3">
+                        <h3 className="text-sm font-medium text-gray-300">Code with Error</h3>
+                        <div className="text-xs text-red-400">Find the bug</div>
+                      </div>
+                      <pre className="text-sm font-mono overflow-x-auto whitespace-pre-wrap">
+                        {currentQuestion.codeSnippet?.split('\n').map((line, lineIndex) => (
+                          <div key={lineIndex} className="flex">
+                            <span className="text-gray-500 mr-4 select-none min-w-[2rem] text-right">
+                              {lineIndex + 1}
+                            </span>
+                            <span className="text-gray-100 flex-1">
+                              {line}
+                            </span>
+                          </div>
+                        ))}
+                      </pre>
+                    </div>
+                    <div className="space-y-4 sm:grid sm:grid-cols-1 md:grid-cols-2 sm:gap-4 sm:space-y-0">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                          Error Description:
+                        </label>
+                        <textarea
+                          value={currentAnswer.split('|')[0] || ''}
+                          onChange={(e) => {
+                            const parts = currentAnswer.split('|');
+                            setCurrentAnswer(`${e.target.value}|${parts[1] || ''}`);
+                          }}
+                          placeholder="What's wrong with the code?"
+                          className="w-full p-3 border-2 border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all resize-none"
+                          rows={3}
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                          Corrected Code:
+                        </label>
+                        <textarea
+                          value={currentAnswer.split('|')[1] || ''}
+                          onChange={(e) => {
+                            const parts = currentAnswer.split('|');
+                            setCurrentAnswer(`${parts[0] || ''}|${e.target.value}`);
+                          }}
+                          placeholder="How should it be fixed?"
+                          className="w-full p-3 font-mono text-sm border-2 border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all resize-none"
+                          rows={3}
+                        />
+                      </div>
+                    </div>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">
+                      💡 Describe what's wrong and provide the correct code
+                    </p>
+                  </div>
+                ) : (
+                  <div className="space-y-3">
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                      Your answer:
+                    </label>
+                    <textarea
+                      value={currentAnswer}
+                      onChange={(e) => setCurrentAnswer(e.target.value)}
+                      placeholder="Type your answer here..."
+                      className="w-full p-4 border-2 border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all resize-none"
+                      rows={4}
+                    />
                   </div>
                 )}
 
@@ -824,11 +961,11 @@ const PracticeSessionContent = () => {
                 </AnimatePresence>
 
                 {/* Navigation */}
-                <div className="flex justify-between items-center">
+                <div className="flex flex-col sm:flex-row justify-between items-stretch sm:items-center space-y-3 sm:space-y-0 pt-4">
                   <button
                     onClick={() => handleNavigateQuestion('prev')}
                     disabled={currentQuestionIndex === 0}
-                    className="flex items-center space-x-2 px-6 py-3 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="flex items-center justify-center space-x-2 px-4 sm:px-6 py-3 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed order-2 sm:order-1"
                   >
                     <ChevronLeft className="w-4 h-4" />
                     <span>Previous</span>
@@ -837,7 +974,7 @@ const PracticeSessionContent = () => {
                   <button
                     onClick={handleAnswerSubmit}
                     disabled={currentAnswer.trim() === ''}
-                    className="px-8 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="px-6 sm:px-8 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed order-1 sm:order-2"
                   >
                     {currentQuestionIndex === questions.length - 1 ? 'Finish' : 'Next Question'}
                   </button>

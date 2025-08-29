@@ -23,36 +23,40 @@ import {
 import ProtectedRoute from '../components/ProtectedRoute';
 
 interface PracticeResults {
-  score: number;
-  correctAnswers: number;
-  totalQuestions: number;
-  totalTime: number;
-  answers: Array<{
-    questionId: string;
-    answer: string;
-    isCorrect: boolean;
-    timeSpent: number;
-    hintUsed: boolean;
+  session_id?: number;
+  final_score: number;
+  correct_answers: number;
+  total_questions: number;
+  total_time: number;
+  hints_used: number;
+  strengths: Array<{
+    category: string;
+    score: number;
+    description: string;
   }>;
-  questions: Array<{
-    id: string;
-    type: string;
-    question: string;
-    correctAnswer: string;
+  weaknesses: Array<{
+    category: string;
+    score: number;
+    description: string;
+    improvement_suggestion: string;
+  }>;
+  question_results: Array<{
+    question_id: number;
+    user_answer: string;
+    correct_answer: string;
+    is_correct: boolean;
     explanation: string;
-    subtopicId: string;
-    difficulty: string;
+    time_spent: number;
+    hint_used: boolean;
   }>;
-  config: {
-    subtopicIds: string[];
-    questionCount: number;
-    questionTypes: string[];
-    timeLimit: number;
-    hintsEnabled: boolean;
-    roadmapId: number;
-    subject: string;
-    goal: string;
-  };
+  performance_by_type: Record<string, { correct: number; total: number; percentage: number }>;
+  performance_by_difficulty: Record<string, { correct: number; total: number; percentage: number }>;
+  completed_at: string;
+  // Legacy fields for backward compatibility
+  score?: number;
+  answers?: any[];
+  questions?: any[];
+  config?: any;
 }
 
 interface Strength {
@@ -89,143 +93,56 @@ const PracticeResultsPage = () => {
     }
   }, [router]);
 
-  // Calculate performance metrics
+  // Calculate performance metrics (use backend data when available)
   const performanceMetrics = useMemo(() => {
     if (!results) return null;
 
-    const averageTimePerQuestion = results.totalTime / results.totalQuestions;
-    const hintsUsed = results.answers.filter(a => a.hintUsed).length;
-    const accuracy = (results.correctAnswers / results.totalQuestions) * 100;
-    
-    // Performance by question type
-    const typePerformance: Record<string, { correct: number; total: number }> = {};
-    results.answers.forEach((answer, index) => {
-      const question = results.questions[index];
-      const type = question.type;
-      
-      if (!typePerformance[type]) {
-        typePerformance[type] = { correct: 0, total: 0 };
-      }
-      
-      typePerformance[type].total++;
-      if (answer.isCorrect) {
-        typePerformance[type].correct++;
-      }
-    });
+    // Use backend performance data if available, otherwise fallback to local calculation
+    if (results.performance_by_type && results.performance_by_difficulty) {
+      return {
+        accuracy: results.final_score,
+        averageTimePerQuestion: results.total_time / results.total_questions,
+        hintsUsed: results.hints_used,
+        typePerformance: results.performance_by_type,
+        difficultyPerformance: results.performance_by_difficulty
+      };
+    }
 
-    // Performance by difficulty
-    const difficultyPerformance: Record<string, { correct: number; total: number }> = {};
-    results.answers.forEach((answer, index) => {
-      const question = results.questions[index];
-      const difficulty = question.difficulty;
-      
-      if (!difficultyPerformance[difficulty]) {
-        difficultyPerformance[difficulty] = { correct: 0, total: 0 };
-      }
-      
-      difficultyPerformance[difficulty].total++;
-      if (answer.isCorrect) {
-        difficultyPerformance[difficulty].correct++;
-      }
-    });
+    // Legacy fallback for old data format
+    const totalQuestions = results.total_questions || results.questions?.length || 0;
+    const correctAnswers = results.correct_answers || results.answers?.filter((a: any) => a.isCorrect).length || 0;
+    const totalTime = results.total_time || 0;
+    const hintsUsed = results.hints_used || results.answers?.filter((a: any) => a.hintUsed).length || 0;
+    const accuracy = totalQuestions > 0 ? (correctAnswers / totalQuestions) * 100 : 0;
+    const averageTimePerQuestion = totalQuestions > 0 ? totalTime / totalQuestions : 0;
 
     return {
       accuracy,
       averageTimePerQuestion,
       hintsUsed,
-      typePerformance,
-      difficultyPerformance
+      typePerformance: {},
+      difficultyPerformance: {}
     };
   }, [results]);
 
-  // Identify strengths and weaknesses
+  // Use backend analysis when available, fallback to local calculation
   const analysis = useMemo(() => {
-    if (!results || !performanceMetrics) return { strengths: [], weaknesses: [] };
+    if (!results) return { strengths: [], weaknesses: [] };
 
-    const strengths: Strength[] = [];
-    const weaknesses: Weakness[] = [];
-
-    // Analyze by question type
-    Object.entries(performanceMetrics.typePerformance).forEach(([type, performance]) => {
-      const score = (performance.correct / performance.total) * 100;
-      const typeLabels: Record<string, string> = {
-        mcq: 'Multiple Choice Questions',
-        numerical: 'Numerical Problem Solving',
-        caseStudy: 'Case Study Analysis',
-        codeCompletion: 'Code Completion',
-        debugging: 'Debugging Skills'
+    // Use backend AI analysis if available
+    if (results.strengths && results.weaknesses) {
+      return {
+        strengths: results.strengths,
+        weaknesses: results.weaknesses.map(w => ({
+          ...w,
+          improvement: w.improvement_suggestion
+        }))
       };
-      
-      if (score >= 80) {
-        strengths.push({
-          category: typeLabels[type] || type,
-          score,
-          description: `Strong performance in ${typeLabels[type]?.toLowerCase() || type} with ${performance.correct}/${performance.total} correct`
-        });
-      } else if (score < 60) {
-        weaknesses.push({
-          category: typeLabels[type] || type,
-          score,
-          description: `Room for improvement in ${typeLabels[type]?.toLowerCase() || type}`,
-          improvement: `Focus on practicing ${typeLabels[type]?.toLowerCase() || type} more frequently`
-        });
-      }
-    });
-
-    // Analyze by difficulty
-    Object.entries(performanceMetrics.difficultyPerformance).forEach(([difficulty, performance]) => {
-      const score = (performance.correct / performance.total) * 100;
-      
-      if (difficulty === 'hard' && score >= 70) {
-        strengths.push({
-          category: 'Advanced Problem Solving',
-          score,
-          description: `Excellent performance on challenging questions with ${performance.correct}/${performance.total} correct`
-        });
-      } else if (difficulty === 'easy' && score < 80) {
-        weaknesses.push({
-          category: 'Fundamental Concepts',
-          score,
-          description: 'Struggling with basic concepts',
-          improvement: 'Review fundamental materials and practice basic problems'
-        });
-      }
-    });
-
-    // Time management analysis
-    if (performanceMetrics.averageTimePerQuestion < (results.config.timeLimit * 60) / (results.totalQuestions * 2)) {
-      strengths.push({
-        category: 'Time Management',
-        score: 90,
-        description: 'Efficient time usage - completing questions quickly while maintaining accuracy'
-      });
-    } else if (performanceMetrics.averageTimePerQuestion > (results.config.timeLimit * 60) / results.totalQuestions) {
-      weaknesses.push({
-        category: 'Time Management',
-        score: 40,
-        description: 'Taking too much time per question',
-        improvement: 'Practice timed exercises to improve speed while maintaining accuracy'
-      });
     }
 
-    // Hint usage analysis
-    if (performanceMetrics.hintsUsed === 0 && performanceMetrics.accuracy > 80) {
-      strengths.push({
-        category: 'Independent Problem Solving',
-        score: 95,
-        description: 'Solved problems independently without needing hints'
-      });
-    } else if (performanceMetrics.hintsUsed > results.totalQuestions * 0.5) {
-      weaknesses.push({
-        category: 'Confidence & Knowledge',
-        score: 50,
-        description: 'Heavy reliance on hints',
-        improvement: 'Build confidence by reviewing concepts before practicing'
-      });
-    }
-
-    return { strengths, weaknesses };
-  }, [results, performanceMetrics]);
+    // Legacy fallback for old data format
+    return { strengths: [], weaknesses: [] };
+  }, [results]);
 
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
@@ -244,6 +161,24 @@ const PracticeResultsPage = () => {
     if (score >= 60) return 'bg-yellow-100 dark:bg-yellow-900/30 border-yellow-200 dark:border-yellow-700';
     return 'bg-red-100 dark:bg-red-900/30 border-red-200 dark:border-red-700';
   };
+
+  // Normalize results data to handle both backend and legacy formats
+  const normalizedResults = useMemo(() => {
+    if (!results) return null;
+    
+    return {
+      finalScore: results.final_score ?? results.score ?? 0,
+      correctAnswers: results.correct_answers ?? results.correctAnswers ?? 0,
+      totalQuestions: results.total_questions ?? results.totalQuestions ?? 0,
+      totalTime: results.total_time ?? results.totalTime ?? 0,
+      hintsUsed: results.hints_used ?? results.answers?.filter((a: any) => a.hintUsed).length ?? 0,
+      questionResults: results.question_results ?? results.answers ?? [],
+      strengths: results.strengths ?? [],
+      weaknesses: results.weaknesses ?? [],
+      performanceByType: results.performance_by_type ?? {},
+      performanceByDifficulty: results.performance_by_difficulty ?? {}
+    };
+  }, [results]);
 
   if (isLoading || !results) {
     return (
@@ -287,38 +222,38 @@ const PracticeResultsPage = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 p-6 mb-6"
+            className="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 p-4 sm:p-6 mb-4 sm:mb-6"
           >
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-4">
-                <div className={`w-16 h-16 rounded-full flex items-center justify-center ${
-                  results.score >= 80 ? 'bg-green-100 dark:bg-green-900' : 
-                  results.score >= 60 ? 'bg-yellow-100 dark:bg-yellow-900' : 
+                <div className={`w-12 h-12 sm:w-16 sm:h-16 rounded-full flex items-center justify-center ${
+                  (normalizedResults?.finalScore || 0) >= 80 ? 'bg-green-100 dark:bg-green-900' : 
+                  (normalizedResults?.finalScore || 0) >= 60 ? 'bg-yellow-100 dark:bg-yellow-900' : 
                   'bg-red-100 dark:bg-red-900'
                 }`}>
-                  {results.score >= 80 ? (
-                    <CheckCircle className="w-8 h-8 text-green-600" />
-                  ) : results.score >= 60 ? (
-                    <AlertCircle className="w-8 h-8 text-yellow-600" />
+                  {(normalizedResults?.finalScore || 0) >= 80 ? (
+                    <CheckCircle className="w-6 h-6 sm:w-8 sm:h-8 text-green-600" />
+                  ) : (normalizedResults?.finalScore || 0) >= 60 ? (
+                    <AlertCircle className="w-6 h-6 sm:w-8 sm:h-8 text-yellow-600" />
                   ) : (
-                    <XCircle className="w-8 h-8 text-red-600" />
+                    <XCircle className="w-6 h-6 sm:w-8 sm:h-8 text-red-600" />
                   )}
                 </div>
                 
                 <div>
-                  <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
-                    {results.score}%
+                  <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">
+                    {Math.round(normalizedResults?.finalScore || 0)}%
                   </h2>
                   <p className="text-gray-600 dark:text-gray-400">
-                    {results.correctAnswers}/{results.totalQuestions} correct • {formatTime(results.totalTime)}
+                    {normalizedResults?.correctAnswers}/{normalizedResults?.totalQuestions} correct • {formatTime(normalizedResults?.totalTime || 0)}
                   </p>
                 </div>
               </div>
               
               <div className="text-right">
                 <div className="text-sm text-gray-500 dark:text-gray-400 mb-1">Performance</div>
-                <div className={`text-2xl font-bold ${getScoreColor(results.score)}`}>
-                  {results.score >= 80 ? 'Excellent' : results.score >= 60 ? 'Good' : 'Needs Work'}
+                <div className={`text-xl sm:text-2xl font-bold ${getScoreColor(normalizedResults?.finalScore || 0)}`}>
+                  {(normalizedResults?.finalScore || 0) >= 80 ? 'Excellent' : (normalizedResults?.finalScore || 0) >= 60 ? 'Good' : 'Needs Work'}
                 </div>
               </div>
             </div>
@@ -329,14 +264,14 @@ const PracticeResultsPage = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 p-6 mb-6"
+            className="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 p-4 sm:p-6 mb-4 sm:mb-6"
           >
             <div className="flex items-center mb-4">
               <Brain className="w-6 h-6 text-purple-600 mr-3" />
               <h3 className="text-xl font-bold text-gray-900 dark:text-white">AI Performance Analysis</h3>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
               {/* Strengths */}
               <div>
                 <div className="flex items-center mb-3">
@@ -393,21 +328,21 @@ const PracticeResultsPage = () => {
           </motion.div>
 
           {/* Performance by Type */}
-          {performanceMetrics && (
+          {normalizedResults && Object.keys(normalizedResults.performanceByType).length > 0 && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
-              className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-200/50 dark:border-gray-700/50 p-6 mb-8"
+              className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-xl border border-gray-200/50 dark:border-gray-700/50 p-4 sm:p-6 mb-6 sm:mb-8"
             >
               <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-6 flex items-center">
                 <BarChart3 className="w-6 h-6 text-indigo-600 mr-3" />
                 Performance by Question Type
               </h3>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {Object.entries(performanceMetrics.typePerformance).map(([type, performance]) => {
-                  const score = (performance.correct / performance.total) * 100;
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+                {Object.entries(normalizedResults?.performanceByType || {}).map(([type, performance]) => {
+                  const score = performance.percentage || ((performance.correct / performance.total) * 100);
                   const typeLabels: Record<string, string> = {
                     mcq: 'Multiple Choice',
                     numerical: 'Numerical',
@@ -419,16 +354,16 @@ const PracticeResultsPage = () => {
                   return (
                     <div
                       key={type}
-                      className="p-4 border border-gray-200 dark:border-gray-600 rounded-lg"
+                      className="p-3 sm:p-4 border border-gray-200 dark:border-gray-600 rounded-lg"
                     >
-                      <h4 className="font-semibold text-gray-900 dark:text-white mb-2">
+                      <h4 className="font-semibold text-gray-900 dark:text-white mb-2 text-sm sm:text-base">
                         {typeLabels[type] || type}
                       </h4>
                       <div className="flex justify-between items-center mb-2">
-                        <span className="text-sm text-gray-600 dark:text-gray-400">
+                        <span className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
                           {performance.correct}/{performance.total} correct
                         </span>
-                        <span className={`font-bold ${getScoreColor(score)}`}>
+                        <span className={`font-bold text-sm sm:text-base ${getScoreColor(score)}`}>
                           {Math.round(score)}%
                         </span>
                       </div>
@@ -450,7 +385,7 @@ const PracticeResultsPage = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 }}
-            className="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 p-6 mb-8"
+            className="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 p-4 sm:p-6 mb-6 sm:mb-8"
           >
             <div className="flex items-center mb-6">
               <BarChart3 className="w-6 h-6 text-indigo-600 mr-3" />
@@ -458,50 +393,66 @@ const PracticeResultsPage = () => {
             </div>
             
             <div className="space-y-4">
-              {results.answers.map((answer, index) => {
-                const question = results.questions[index];
+              {(results.question_results || results.answers || []).map((questionResult: any, index: number) => {
+                // Handle both new backend format and legacy format
+                const isBackendFormat = 'question_id' in questionResult;
+                const answer = isBackendFormat ? questionResult : questionResult;
+                const question = isBackendFormat ? null : results.questions?.[index];
+                
                 return (
                   <div 
-                    key={answer.questionId}
-                    className={`p-4 rounded-lg border ${
-                      answer.isCorrect 
+                    key={isBackendFormat ? questionResult.question_id : questionResult.questionId || index}
+                    className={`p-3 sm:p-4 rounded-lg border ${
+                      (isBackendFormat ? questionResult.is_correct : questionResult.isCorrect)
                         ? 'bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-700' 
                         : 'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-700'
                     }`}
                   >
-                    <div className="flex items-start justify-between mb-2">
+                    <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-2 space-y-1 sm:space-y-0">
                       <div className="flex items-center">
-                        {answer.isCorrect ? (
-                          <CheckCircle className="w-5 h-5 text-green-600 mr-2" />
+                        {(isBackendFormat ? questionResult.is_correct : questionResult.isCorrect) ? (
+                          <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-green-600 mr-2" />
                         ) : (
-                          <XCircle className="w-5 h-5 text-red-600 mr-2" />
+                          <XCircle className="w-4 h-4 sm:w-5 sm:h-5 text-red-600 mr-2" />
                         )}
-                        <span className="font-medium text-gray-900 dark:text-white">
+                        <span className="font-medium text-gray-900 dark:text-white text-sm sm:text-base">
                           Question {index + 1}
                         </span>
                       </div>
-                      <div className="text-right text-sm text-gray-500 dark:text-gray-400">
-                        {formatTime(answer.timeSpent)}
-                        {answer.hintUsed && <span className="ml-2">💡</span>}
+                      <div className="flex items-center text-sm text-gray-500 dark:text-gray-400">
+                        <Clock className="w-3 h-3 mr-1 sm:hidden" />
+                        <span>{formatTime(isBackendFormat ? questionResult.time_spent : questionResult.timeSpent)}</span>
+                        {(isBackendFormat ? questionResult.hint_used : questionResult.hintUsed) && <span className="ml-2">💡</span>}
                       </div>
                     </div>
                     
-                    <p className="text-sm text-gray-700 dark:text-gray-300 mb-2">
-                      <strong>Your answer:</strong> {answer.answer}
-                    </p>
-                    
-                    {!answer.isCorrect && (
-                      <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
-                        <strong>Expected:</strong> {question.correctAnswer}
+                    <div className="space-y-2">
+                      <p className="text-sm text-gray-700 dark:text-gray-300">
+                        <strong>Your answer:</strong> 
+                        <span className="ml-1 break-words">
+                          {isBackendFormat ? questionResult.user_answer : questionResult.answer}
+                        </span>
                       </p>
-                    )}
-                    
-                    <div className={`text-sm p-2 rounded ${
-                      answer.isCorrect 
-                        ? 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200'
-                        : 'bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200'
-                    }`}>
-                      <strong>AI Feedback:</strong> {question.explanation}
+                      
+                      {!(isBackendFormat ? questionResult.is_correct : questionResult.isCorrect) && (
+                        <p className="text-sm text-gray-600 dark:text-gray-400">
+                          <strong>Expected:</strong> 
+                          <span className="ml-1 break-words">
+                            {isBackendFormat ? questionResult.correct_answer : question?.correctAnswer}
+                          </span>
+                        </p>
+                      )}
+                      
+                      <div className={`text-sm p-3 rounded-lg ${
+                        (isBackendFormat ? questionResult.is_correct : questionResult.isCorrect)
+                          ? 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200'
+                          : 'bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200'
+                      }`}>
+                        <strong>AI Feedback:</strong> 
+                        <span className="ml-1">
+                          {isBackendFormat ? questionResult.explanation : question?.explanation || 'Detailed feedback will be available in future sessions.'}
+                        </span>
+                      </div>
                     </div>
                   </div>
                 );
@@ -514,11 +465,11 @@ const PracticeResultsPage = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6 }}
-            className="flex gap-4 justify-center"
+            className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center"
           >
             <Link
               href="/journey"
-              className="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg transition-colors flex items-center space-x-2"
+              className="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg transition-colors flex items-center justify-center space-x-2 min-h-[48px] w-full sm:w-auto"
             >
               <Home className="w-4 h-4" />
               <span>Continue Learning</span>
@@ -526,11 +477,22 @@ const PracticeResultsPage = () => {
             
             <button
               onClick={() => {
+                // Use legacy config if available, otherwise create basic config
+                const config = results.config || {
+                  subtopicIds: ['general'],
+                  questionCount: results.total_questions || 20,
+                  questionTypes: ['mcq'],
+                  timeLimit: 30,
+                  hintsEnabled: true,
+                  roadmapId: 1,
+                  subject: 'General',
+                  goal: 'Practice'
+                };
                 const params = new URLSearchParams();
-                params.append('config', JSON.stringify(results.config));
+                params.append('config', JSON.stringify(config));
                 router.push(`/practice-session?${params.toString()}`);
               }}
-              className="px-6 py-3 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 font-medium rounded-lg transition-colors flex items-center space-x-2"
+              className="px-6 py-3 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 font-medium rounded-lg transition-colors flex items-center justify-center space-x-2 min-h-[48px] w-full sm:w-auto"
             >
               <RefreshCw className="w-4 h-4" />
               <span>Try Again</span>
