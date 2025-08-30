@@ -17,27 +17,50 @@ import SessionTracker from "../components/SessionTracker";
 
 export const metadata: Metadata = {
   title: {
-    default: 'Menttor - Smart Learning Platform',
-    template: '%s | Menttor'
+    default: 'Menttor - Smart Learning Platform | Free Courses & Personalized Education',
+    template: '%s | Menttor - Smart Learning Platform'
   },
-  description: 'Master new skills with smart personalized learning roadmaps. Free interactive courses, expert-curated content, and adaptive paths for programming, data science, web development, and more. Start learning today!',
+  description: 'Master diverse subjects with smart personalized learning roadmaps. 500+ free courses in programming, Python, JavaScript, React, web development, data science, machine learning, cybersecurity, business, science, language learning & more. Expert-curated content, interactive practice, and adaptive learning paths.',
   keywords: [
-    'free online learning',
-    'programming courses',
-    'web development training', 
-    'data science courses',
-    'machine learning tutorials',
-    'smart learning platform',
-    'personalized roadmaps',
-    'interactive coding',
+    'free online courses',
+    'personalized learning platform',
+    'smart learning roadmap',
+    'online education',
     'skill development',
     'career advancement',
-    'tech education',
-    'software engineering',
-    'python programming',
-    'javascript courses',
-    'react tutorials',
-    'node.js training'
+    'free programming courses',
+    'business training',
+    'language learning',
+    'science courses',
+    'professional development',
+    'learn new skills',
+    'online training',
+    'educational platform',
+    'course platform',
+    'learning path',
+    'skill building',
+    'career skills',
+    'professional training',
+    'web development bootcamp',
+    'data science training',
+    'machine learning course',
+    'programming tutorial',
+    'coding bootcamp',
+    'python programming course',
+    'javascript tutorial',
+    'react training',
+    'business skills',
+    'leadership training',
+    'communication skills',
+    'project management',
+    'digital marketing',
+    'finance courses',
+    'design courses',
+    'creative skills',
+    'study guide',
+    'exam preparation',
+    'certification training',
+    'continuing education'
   ],
   authors: [{ name: 'Menttor Labs' }],
   creator: 'Menttor Labs',
@@ -55,22 +78,22 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'en_US',
     url: 'https://menttor.live',
-    siteName: 'Menttor',
-    title: 'Menttor - Free Smart Learning Platform | Programming & Tech Courses',
-    description: 'Learn programming, web development, and data science with smart personalized roadmaps. Free interactive courses with quizzes, coding challenges, and career guidance.',
+    siteName: 'Menttor - Smart Learning Platform',
+    title: 'Free Online Courses & Smart Learning Platform | Master Any Subject',
+    description: 'Master diverse subjects with smart personalized learning roadmaps. 500+ free courses in programming, Python, JavaScript, React, web development, data science, machine learning, cybersecurity, business, science, language learning & more. Interactive practice with expert-curated content.',
     images: [
       {
         url: '/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'Menttor - Smart Learning Platform',
+        alt: 'Menttor Smart Learning Platform - Free Programming Courses & Tech Training',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Menttor - Free Programming & Tech Learning Platform',
-    description: 'Smart personalized learning roadmaps for web development, data science & more. Start your tech career today!',
+    title: 'Free Programming Courses & Smart Learning Platform | Menttor',
+    description: 'Learn coding with smart personalized roadmaps. Free courses in Python, JavaScript, React, data science & web development. Start your tech career today!',
     images: ['/og-image.png'],
     creator: '@menttorlabs',
     site: '@menttorlabs',
@@ -134,7 +157,7 @@ export default function RootLayout({
                 "@type": "ImageObject",
                 "url": "https://menttor.live/favicon.svg"
               },
-              "description": "Smart learning platform offering free personalized roadmaps for programming, web development, and data science",
+              "description": "Smart learning platform offering free personalized roadmaps across diverse subjects including programming, business, science, languages, and professional skills",
               "sameAs": [
                 "https://github.com/mountain-snatcher"
               ],
@@ -151,18 +174,23 @@ export default function RootLayout({
                 "itemListElement": [
                   {
                     "@type": "Course",
-                    "name": "Web Development",
-                    "description": "Learn HTML, CSS, JavaScript, React, and more"
+                    "name": "Programming & Web Development",
+                    "description": "Learn Python, JavaScript, React, and full-stack development"
                   },
                   {
                     "@type": "Course",
-                    "name": "Data Science", 
-                    "description": "Master Python, machine learning, and analytics"
+                    "name": "Business & Professional Skills", 
+                    "description": "Master leadership, project management, and business strategy"
                   },
                   {
                     "@type": "Course",
-                    "name": "Programming Fundamentals",
-                    "description": "Start your coding journey with core concepts"
+                    "name": "Science & Mathematics",
+                    "description": "Explore physics, chemistry, mathematics, and scientific methods"
+                  },
+                  {
+                    "@type": "Course",
+                    "name": "Language Learning",
+                    "description": "Master new languages with structured learning paths"
                   }
                 ]
               }

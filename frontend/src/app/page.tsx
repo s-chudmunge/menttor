@@ -511,14 +511,14 @@ const MenttorLabsMainPage = () => {
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-8 leading-tight text-gray-900 dark:text-white">
                 Master Any Subject with{' '}
                 <span className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent">
-                  Expert Curated
+                  Smart Learning
                 </span>{' '}
-                Learning Roadmaps
+                Roadmaps
               </h1>
               
               <p className="text-xl md:text-2xl text-gray-900 dark:text-gray-200 mb-10 leading-relaxed max-w-2xl font-medium">
-                Transform your ambitions into achievements with personalized roadmaps that adapt to your pace, 
-                style, and goals. Experience the future of education.
+                Master diverse subjects from programming to business with free personalized learning roadmaps. 
+                Transform your career with smart adaptive education that fits your pace and learning style.
               </p>
               
               <div className="flex flex-col sm:flex-row gap-6 mb-12">
@@ -712,10 +712,10 @@ const MenttorLabsMainPage = () => {
               <Target className="w-4 h-4 mr-2" />
               Roadmap Generator
             </div>
-            <h2 className="heading-secondary mb-6">Create Your Learning Journey</h2>
+            <h2 className="heading-secondary mb-6">Generate Your Free Learning Roadmap</h2>
             <p className="text-xl text-body max-w-3xl mx-auto">
-              Share your goals and let our intelligent system craft a personalized roadmap 
-              that transforms your ambitions into achievable milestones
+              Share your learning goals and let our smart education system create a personalized roadmap 
+              with step-by-step courses, practice exercises, and career guidance for any subject
             </p>
           </div>
 
@@ -733,7 +733,7 @@ const MenttorLabsMainPage = () => {
                       name="subject"
                       value={formData.subject}
                       onChange={handleInputChange}
-                      placeholder="e.g., Python Programming, Digital Marketing, Data Science"
+                      placeholder="e.g., Python Programming, Web Development, Data Science, JavaScript"
                       className="input-field pr-12"
                     />
                     <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400">
@@ -751,7 +751,7 @@ const MenttorLabsMainPage = () => {
                     name="goal"
                     value={formData.goal}
                     onChange={handleInputChange}
-                    placeholder="Be specific about what you want to achieve, your current level, and preferred learning style..."
+                    placeholder="e.g., 'Learn Python for data analysis', 'Become a full-stack developer', 'Master React for frontend development'..."
                     rows={4}
                     className="input-field resize-none"
                   />
@@ -836,7 +836,7 @@ const MenttorLabsMainPage = () => {
                       </div>
                       <h3 className="heading-tertiary mb-4">Intelligent Generation</h3>
                       <p className="text-body mb-6">
-                        Our smart system analyzes your goals and creates a structured, personalized learning path optimized for your success.
+                        Our smart learning technology analyzes your coding goals and creates a structured, personalized programming roadmap with courses, practice exercises, and career guidance.
                       </p>
                       
                       <div className="space-y-3">
@@ -963,13 +963,13 @@ const MenttorLabsMainPage = () => {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-4xl font-bold mb-6">Ready to Start Your Learning Journey?</h2>
           <p className="text-xl opacity-90 mb-10">
-            Join thousands of learners who are achieving their goals with personalized learning roadmaps.
+            Join 50,000+ learners who are achieving their goals with smart personalized learning roadmaps across diverse subjects.
           </p>
           <button 
             onClick={() => document.getElementById('generate').scrollIntoView({ behavior: 'smooth' })}
             className="bg-white text-blue-700 px-8 py-4 rounded-full font-bold text-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 flex items-center space-x-2 mx-auto"
           >
-            <span>Generate Your First Roadmap</span>
+            <span>Generate Your Free Learning Roadmap</span>
             <ArrowRight className="w-5 h-5" />
           </button>
         </div>
