@@ -130,7 +130,7 @@ const QuizResultsContent = () => {
 
     const correctAnswers = results.question_results.filter(qr => qr.is_correct).length;
     const totalQuestions = results.question_results.length;
-    const scorePercentage = Math.round((results.score || 0) * 100);
+    const scorePercentage = Math.round((correctAnswers / totalQuestions) * 100);
 
     return (
         <div className="min-h-screen bg-white dark:bg-gray-900">

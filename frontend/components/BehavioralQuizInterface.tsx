@@ -248,7 +248,7 @@ const BehavioralQuizInterface: React.FC<QuizInterfaceProps> = ({ quizParams }) =
         },
         onSuccess: async (response) => {
             const result = response.data;
-            const score = (result.score || 0) * 100;
+            const score = Math.round((result.score || 0) / (result.total_questions || 1) * 100);
             
             // Calculate final XP bonus
             const completionXP = Math.round(score * 0.5 + (violations.fullscreen + violations.visibility === 0 ? 20 : 0));
