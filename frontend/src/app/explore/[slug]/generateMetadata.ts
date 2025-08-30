@@ -99,12 +99,10 @@ export async function generateMetadata({ params }: { params: { slug: string } })
             alt: 'Menttor Smart Learning Platform',
           },
         ],
-        article: {
-          publishedTime: new Date().toISOString(),
-          modifiedTime: new Date().toISOString(),
-          section: categoryName,
-          tags: roadmap.tags,
-        },
+        publishedTime: new Date().toISOString(),
+        modifiedTime: new Date().toISOString(),
+        section: categoryName,
+        tags: roadmap.tags,
       },
       twitter: {
         card: 'summary_large_image',
