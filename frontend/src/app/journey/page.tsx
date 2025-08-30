@@ -391,7 +391,7 @@ const JourneyPage = () => {
       <ProtectedRoute>
         <div className="min-h-screen bg-gradient-to-br from-white via-blue-50 to-blue-100 dark:bg-zinc-950 transition-colors duration-300 flex items-center justify-center px-4">
           <div className="text-center max-w-md w-full">
-            <div className="w-20 h-20 lg:w-24 lg:h-24 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-6">
+            <div className="w-20 h-20 lg:w-24 lg:h-24 bg-gray-100 dark:bg-zinc-700 rounded-full flex items-center justify-center mx-auto mb-6">
               <Target className="w-10 h-10 lg:w-12 lg:h-12 text-gray-400 dark:text-gray-500" />
             </div>
             <h2 className="text-xl lg:text-2xl font-bold text-gray-900 dark:text-white mb-4">No Learning Journey Found</h2>
@@ -408,7 +408,7 @@ const JourneyPage = () => {
               </Link>
               <button
                 onClick={() => setIsOldRoadmapsModalOpen(true)}
-                className="inline-flex items-center justify-center w-full px-6 py-3 border border-gray-300 dark:border-gray-600 text-sm lg:text-base font-semibold rounded-lg text-gray-800 dark:text-gray-200 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors"
+                className="inline-flex items-center justify-center w-full px-6 py-3 border border-gray-300 dark:border-gray-600 text-sm lg:text-base font-semibold rounded-lg text-gray-800 dark:text-gray-200 bg-white dark:bg-zinc-700 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors"
               >
                 <BookOpen className="w-5 h-5 mr-2" />
                 Browse Previous Roadmaps
@@ -422,7 +422,7 @@ const JourneyPage = () => {
 
   return (
     <ProtectedRoute>
-      <div className="min-h-screen bg-gradient-to-br from-white via-blue-50 to-blue-100 dark:bg-black transition-colors duration-300">
+      <div className="min-h-screen bg-gradient-to-br from-white via-blue-50 to-blue-100 dark:bg-black dark:bg-none transition-colors duration-300">
         {/* Header */}
         <JourneyHeader 
           user={user}

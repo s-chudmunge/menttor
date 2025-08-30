@@ -244,5 +244,14 @@ body {
 }
 
 .dark {
-  background: #0a0a0a !important;
+  background: #000000 !important;
+}
+
+.dark * {
+  background-image: none !important;
+}
+
+.dark .bg-gradient-to-br {
+  background: #000000 !important;
+  background-image: none !important;
 }
