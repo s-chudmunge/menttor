@@ -4,9 +4,9 @@ import Link from 'next/link';
 const Logo = () => (
   <Link href="/" className="flex items-center space-x-3 hover:opacity-80 transition-opacity">
     <img 
-      src="/logo.svg" 
+      src="/logo_final.svg" 
       alt="Menttor Logo" 
-      className="h-42 w-auto"
+      className="h-8 w-auto"
     />
   </Link>
 );
