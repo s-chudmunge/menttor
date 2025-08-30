@@ -257,8 +257,3 @@ body {
   background: var(--journey-bg-color, #000000) !important;
 }
 
-.dark body.journey-page * {
-  --tw-gradient-from: transparent !important;
-  --tw-gradient-to: transparent !important;
-  --tw-gradient-via: transparent !important;
-}
