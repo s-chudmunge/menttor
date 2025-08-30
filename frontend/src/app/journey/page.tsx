@@ -72,33 +72,18 @@ const JourneyPage = () => {
   const router = useRouter();
   const queryClient = useQueryClient();
 
-  // Force dark background for journey page
+  // Force dark background for journey page - novel approach using CSS custom property
   useEffect(() => {
-    const updateBackground = () => {
-      const isDark = document.documentElement.classList.contains('dark');
-      if (isDark) {
-        document.body.style.background = '#000000';
-        document.documentElement.style.background = '#000000';
-      } else {
-        document.body.style.background = '';
-        document.documentElement.style.background = '';
-      }
-    };
-
-    updateBackground();
+    // Set a CSS custom property on the document root
+    document.documentElement.style.setProperty('--journey-bg-color', '#000000');
     
-    // Listen for theme changes
-    const observer = new MutationObserver(updateBackground);
-    observer.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ['class']
-    });
-
+    // Add a class to the body to identify this is the journey page
+    document.body.classList.add('journey-page');
+    
     return () => {
-      observer.disconnect();
-      // Restore default background when leaving page
-      document.body.style.background = '';
-      document.documentElement.style.background = '';
+      // Cleanup when leaving the page
+      document.documentElement.style.removeProperty('--journey-bg-color');
+      document.body.classList.remove('journey-page');
     };
   }, []);
 

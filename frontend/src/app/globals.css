@@ -248,7 +248,17 @@ body {
 }
 
 /* Journey page specific dark background override */
-.journey-page-dark {
-  background: #000000 !important;
+.dark body.journey-page {
+  background: var(--journey-bg-color, #000000) !important;
   background-image: none !important;
+}
+
+.dark html:has(body.journey-page) {
+  background: var(--journey-bg-color, #000000) !important;
+}
+
+.dark body.journey-page * {
+  --tw-gradient-from: transparent !important;
+  --tw-gradient-to: transparent !important;
+  --tw-gradient-via: transparent !important;
 }
