@@ -247,24 +247,4 @@ body {
   background: #0a0a0a !important;
 }
 
-/* Journey page specific dark background override */
-.dark body.journey-page {
-  background: var(--journey-bg-color, #000000) !important;
-  background-image: none !important;
-}
-
-.dark html:has(body.journey-page) {
-  background: var(--journey-bg-color, #000000) !important;
-}
-
-/* Journey page dark theme utility class */
-.journey-page-dark {
-  background-color: #000000 !important;
-}
-
-/* Ensure the entire viewport is dark for journey page */
-.dark .journey-page-bg {
-  background: #000000 !important;
-  background-image: none !important;
-}
 
