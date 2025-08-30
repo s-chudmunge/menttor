@@ -203,7 +203,7 @@ const DayView: React.FC<DayViewProps> = ({ roadmapData, progressData }) => {
         <button
           onClick={() => handleNavigation('prev')}
           disabled={currentWeekIndex === 0}
-          className="flex items-center justify-center w-10 h-10 rounded-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-gray-50 dark:hover:bg-gray-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-sm"
+          className="flex items-center justify-center w-10 h-10 rounded-full bg-white dark:bg-zinc-950 border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-gray-50 dark:hover:bg-gray-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-sm"
         >
           <ChevronLeft className="w-5 h-5" />
         </button>
@@ -220,7 +220,7 @@ const DayView: React.FC<DayViewProps> = ({ roadmapData, progressData }) => {
         <button
           onClick={() => handleNavigation('next')}
           disabled={currentWeekIndex >= totalPages - 1}
-          className="flex items-center justify-center w-10 h-10 rounded-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-gray-50 dark:hover:bg-gray-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-sm"
+          className="flex items-center justify-center w-10 h-10 rounded-full bg-white dark:bg-zinc-950 border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-gray-50 dark:hover:bg-gray-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-sm"
         >
           <ChevronRight className="w-5 h-5" />
         </button>
@@ -235,7 +235,7 @@ const DayView: React.FC<DayViewProps> = ({ roadmapData, progressData }) => {
           transition={{ delay: dayIndex * 0.1 }}
         >
             {/* Compact Day Header */}
-            <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-lg border border-gray-200/50 dark:border-gray-700/50 shadow-sm mb-3">
+            <div className="bg-white/80 dark:bg-zinc-950/80 backdrop-blur-sm rounded-lg border border-gray-200/50 dark:border-gray-700/50 shadow-sm mb-3">
               <div className="p-4">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-3">
@@ -280,7 +280,7 @@ const DayView: React.FC<DayViewProps> = ({ roadmapData, progressData }) => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.05 }}
-            className={`bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-lg border-l-3 border border-gray-200/50 dark:border-gray-700/50 shadow-sm hover:shadow-md transition-all duration-200 ${getPriorityColor(topic.priority)}`}
+            className={`bg-white/80 dark:bg-zinc-950/80 backdrop-blur-sm rounded-lg border-l-3 border border-gray-200/50 dark:border-gray-700/50 shadow-sm hover:shadow-md transition-all duration-200 ${getPriorityColor(topic.priority)}`}
           >
             <div className="p-4">
               <div className="flex items-start justify-between mb-3">
