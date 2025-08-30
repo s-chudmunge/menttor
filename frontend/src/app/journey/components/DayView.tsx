@@ -21,6 +21,7 @@ import {
 } from 'lucide-react';
 import { RoadmapData } from '../../../lib/api';
 import { formatSubtopicTitle, formatTitle } from '../utils/textFormatting';
+import ReportButton from './ReportButton';
 
 interface DayViewProps {
   roadmapData: RoadmapData;
@@ -354,6 +355,11 @@ const DayView: React.FC<DayViewProps> = ({ roadmapData, progressData }) => {
                     Quiz
                   </Link>
                 )}
+              </div>
+              
+              {/* Report Button */}
+              <div className="mt-2">
+                <ReportButton subTopicId={topic.id} subtopicTitle={topic.title} />
               </div>
             </div>
           </motion.div>
