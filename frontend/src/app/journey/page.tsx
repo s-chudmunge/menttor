@@ -72,6 +72,36 @@ const JourneyPage = () => {
   const router = useRouter();
   const queryClient = useQueryClient();
 
+  // Force dark background for journey page
+  useEffect(() => {
+    const updateBackground = () => {
+      const isDark = document.documentElement.classList.contains('dark');
+      if (isDark) {
+        document.body.style.background = '#000000';
+        document.documentElement.style.background = '#000000';
+      } else {
+        document.body.style.background = '';
+        document.documentElement.style.background = '';
+      }
+    };
+
+    updateBackground();
+    
+    // Listen for theme changes
+    const observer = new MutationObserver(updateBackground);
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class']
+    });
+
+    return () => {
+      observer.disconnect();
+      // Restore default background when leaving page
+      document.body.style.background = '';
+      document.documentElement.style.background = '';
+    };
+  }, []);
+
   // Data fetching
   const { data: userRoadmap, isLoading: isLoadingRoadmap } = useRoadmap(user?.uid);
   const { data: progressData, refetch: refetchProgress, isLoading: isLoadingProgress, error: progressError } = useProgress(
@@ -422,7 +452,7 @@ const JourneyPage = () => {
 
   return (
     <ProtectedRoute>
-      <div className="min-h-screen bg-gradient-to-br from-white via-blue-50 to-blue-100 dark:journey-page-dark transition-colors duration-300">
+      <div className="min-h-screen bg-gradient-to-br from-white via-blue-50 to-blue-100 dark:bg-black transition-colors duration-300">
         {/* Header */}
         <JourneyHeader 
           user={user}
