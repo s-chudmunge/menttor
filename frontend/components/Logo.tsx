@@ -6,7 +6,7 @@ const Logo = () => (
     <img 
       src="/logo.svg" 
       alt="Menttor Logo" 
-      className="h-50 w-auto"
+      className="h-42 w-auto"
     />
   </Link>
 );
