@@ -422,7 +422,7 @@ const JourneyPage = () => {
 
   return (
     <ProtectedRoute>
-      <div className="min-h-screen bg-gradient-to-br from-white via-blue-50 to-blue-100 dark:bg-zinc-950 transition-colors duration-300">
+      <div className="min-h-screen bg-gradient-to-br from-white via-blue-50 to-blue-100 dark:bg-black transition-colors duration-300">
         {/* Header */}
         <JourneyHeader 
           user={user}
