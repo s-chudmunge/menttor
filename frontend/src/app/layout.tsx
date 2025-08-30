@@ -217,7 +217,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`antialiased`}
+        className={`antialiased bg-white dark:bg-zinc-950`}
       >
         <ThemeProvider
           attribute="class"
