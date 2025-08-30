@@ -439,7 +439,7 @@ const JourneyPage = () => {
 
           {/* Enhanced Course Header */}
           <div className="mb-6 lg:mb-8">
-            <div className="bg-gradient-to-r from-white/90 via-blue-50/90 to-indigo-50/90 dark:from-gray-800/90 dark:via-blue-900/20 dark:to-indigo-900/20 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-200/50 dark:border-gray-700/50 p-6 lg:p-8 transition-all duration-300 hover:shadow-2xl">
+            <div className="bg-gradient-to-r from-white/90 via-blue-50/90 to-indigo-50/90 dark:from-zinc-950/90 dark:via-zinc-950/90 dark:to-zinc-950/90 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-200/50 dark:border-gray-700/50 p-6 lg:p-8 transition-all duration-300 hover:shadow-2xl">
               <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between space-y-6 lg:space-y-0">
                 <div className="flex-1">
                   <div className="mb-4">
@@ -452,7 +452,7 @@ const JourneyPage = () => {
                   </div>
                   
                   <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
-                    <div className="flex items-center space-x-3 bg-white/50 dark:bg-gray-800/50 rounded-lg p-3">
+                    <div className="flex items-center space-x-3 bg-white/50 dark:bg-zinc-950/50 rounded-lg p-3">
                       <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-lg flex items-center justify-center">
                         <Clock className="w-4 h-4 text-white" />
                       </div>
@@ -462,7 +462,7 @@ const JourneyPage = () => {
                       </div>
                     </div>
                     
-                    <div className="flex items-center space-x-3 bg-white/50 dark:bg-gray-800/50 rounded-lg p-3">
+                    <div className="flex items-center space-x-3 bg-white/50 dark:bg-zinc-950/50 rounded-lg p-3">
                       <div className="w-8 h-8 bg-gradient-to-r from-green-500 to-emerald-500 rounded-lg flex items-center justify-center">
                         <Target className="w-4 h-4 text-white" />
                       </div>
@@ -472,7 +472,7 @@ const JourneyPage = () => {
                       </div>
                     </div>
                     
-                    <div className="flex items-center space-x-3 bg-white/50 dark:bg-gray-800/50 rounded-lg p-3">
+                    <div className="flex items-center space-x-3 bg-white/50 dark:bg-zinc-950/50 rounded-lg p-3">
                       <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
                         <Trophy className="w-4 h-4 text-white" />
                       </div>
@@ -482,7 +482,7 @@ const JourneyPage = () => {
                       </div>
                     </div>
                     
-                    <div className="flex items-center space-x-3 bg-white/50 dark:bg-gray-800/50 rounded-lg p-3">
+                    <div className="flex items-center space-x-3 bg-white/50 dark:bg-zinc-950/50 rounded-lg p-3">
                       <div className="w-8 h-8 bg-gradient-to-r from-orange-500 to-red-500 rounded-lg flex items-center justify-center">
                         <BarChart3 className="w-4 h-4 text-white" />
                       </div>
@@ -527,7 +527,7 @@ const JourneyPage = () => {
 
           {/* Enhanced View Controls */}
           <div className="mb-8">
-            <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-1.5 border border-gray-200/50 dark:border-gray-700/50 shadow-lg inline-flex">
+            <div className="bg-white/80 dark:bg-zinc-950/80 backdrop-blur-sm rounded-2xl p-1.5 border border-gray-200/50 dark:border-gray-700/50 shadow-lg inline-flex">
               <button
                 onClick={() => setCurrentView('day')}
                 className={`flex items-center space-x-2 px-6 py-3 rounded-xl font-semibold transition-all duration-200 ${
