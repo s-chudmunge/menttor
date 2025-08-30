@@ -14,11 +14,12 @@ def get_recommended_reviews(
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
+    user_id = current_user.id
 
     today = date.today()
     due_for_review = db.exec(
         select(SpacedRepetition).where(
-            SpacedRepetition.user_id == current_user.id,
+            SpacedRepetition.user_id == user_id,
             SpacedRepetition.next_review_date <= today
         )
     ).all()

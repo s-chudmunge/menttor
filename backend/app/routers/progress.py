@@ -43,20 +43,23 @@ async def mark_subtopic_as_completed(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
+    # Store user ID to avoid session binding issues
+    user_id = current_user.id
+    
     # This endpoint will now primarily ensure a progress record exists and update its status
     # based on the new logic. It's a generic "update progress" endpoint.
-    roadmap = db.exec(select(Roadmap).where(Roadmap.user_id == current_user.id)).first()
+    roadmap = db.exec(select(Roadmap).where(Roadmap.user_id == user_id)).first()
     if not roadmap:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Roadmap not found")
 
     progress = db.exec(
         select(UserProgress)
-        .where(UserProgress.user_id == current_user.id, UserProgress.sub_topic_id == sub_topic_id)
+        .where(UserProgress.user_id == user_id, UserProgress.sub_topic_id == sub_topic_id)
     ).first()
 
     if not progress:
         progress = UserProgress(
-            user_id=current_user.id,
+            user_id=user_id,
             sub_topic_id=sub_topic_id,
             roadmap_id=roadmap.id,
             # Default values for learn_completed, quiz_completed, time_spent_learning will apply
@@ -79,19 +82,20 @@ def mark_learn_completed_helper(
     db: Session,
     current_user: User
 ) -> UserProgress:
+    user_id = current_user.id
     progress = db.exec(
         select(UserProgress)
-        .where(UserProgress.user_id == current_user.id, UserProgress.sub_topic_id == sub_topic_id)
+        .where(UserProgress.user_id == user_id, UserProgress.sub_topic_id == sub_topic_id)
     ).first()
 
     if not progress:
         # If no progress record exists, create one
-        roadmap = db.exec(select(Roadmap).where(Roadmap.user_id == current_user.id)).first()
+        roadmap = db.exec(select(Roadmap).where(Roadmap.user_id == user_id)).first()
         if not roadmap:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Roadmap not found for user")
         
         progress = UserProgress(
-            user_id=current_user.id,
+            user_id=user_id,
             sub_topic_id=sub_topic_id,
             roadmap_id=roadmap.id,
         )
@@ -123,19 +127,20 @@ def track_learning_time_helper(
     db: Session,
     current_user: User
 ) -> UserProgress:
+    user_id = current_user.id
     progress = db.exec(
         select(UserProgress)
-        .where(UserProgress.user_id == current_user.id, UserProgress.sub_topic_id == sub_topic_id)
+        .where(UserProgress.user_id == user_id, UserProgress.sub_topic_id == sub_topic_id)
     ).first()
 
     if not progress:
         # If no progress record exists, create one
-        roadmap = db.exec(select(Roadmap).where(Roadmap.user_id == current_user.id)).first()
+        roadmap = db.exec(select(Roadmap).where(Roadmap.user_id == user_id)).first()
         if not roadmap:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Roadmap not found for user")
         
         progress = UserProgress(
-            user_id=current_user.id,
+            user_id=user_id,
             sub_topic_id=sub_topic_id,
             roadmap_id=roadmap.id,
             time_spent_learning=time_spent
@@ -168,7 +173,8 @@ async def get_time_summary(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
-    query = select(func.sum(UserProgress.time_spent_learning)).where(UserProgress.user_id == current_user.id)
+    user_id = current_user.id
+    query = select(func.sum(UserProgress.time_spent_learning)).where(UserProgress.user_id == user_id)
     
     if period == "today":
         start_of_day = datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0)
@@ -189,13 +195,14 @@ async def get_next_recommended_subtopic(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
-    roadmap = db.exec(select(Roadmap).where(Roadmap.id == roadmap_id, Roadmap.user_id == current_user.id)).first()
+    user_id = current_user.id
+    roadmap = db.exec(select(Roadmap).where(Roadmap.id == roadmap_id, Roadmap.user_id == user_id)).first()
     if not roadmap:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Roadmap not found for user")
 
     user_progress_records = db.exec(
         select(UserProgress)
-        .where(UserProgress.user_id == current_user.id, UserProgress.roadmap_id == roadmap_id)
+        .where(UserProgress.user_id == user_id, UserProgress.roadmap_id == roadmap_id)
     ).all()
 
     completed_subtopics = {p.sub_topic_id for p in user_progress_records if p.status == "completed"}
@@ -224,12 +231,13 @@ async def get_progress_for_roadmap(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
+    user_id = current_user.id
     progress_list = db.exec(
         select(UserProgress)
-        .where(UserProgress.user_id == current_user.id, UserProgress.roadmap_id == roadmap_id)
+        .where(UserProgress.user_id == user_id, UserProgress.roadmap_id == roadmap_id)
     ).all()
     
-    logger.info(f"DEBUG: Progress fetch for roadmap {roadmap_id}, user {current_user.id}")
+    logger.info(f"DEBUG: Progress fetch for roadmap {roadmap_id}, user {user_id}")
     logger.info(f"DEBUG: Found {len(progress_list)} progress records")
     for progress in progress_list:
         logger.info(f"DEBUG: Progress - sub_topic_id: {progress.sub_topic_id}, status: {progress.status}, quiz_completed: {progress.quiz_completed}, score: {progress.quiz_best_score}")

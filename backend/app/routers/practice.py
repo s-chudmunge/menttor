@@ -37,10 +37,13 @@ async def create_practice_session_endpoint(
 ):
     """Create a new practice session with generated questions"""
     try:
+        # Store user ID to avoid session binding issues
+        user_id = current_user.id
+        
         # Create practice session
         session = await create_practice_session(
             db=db,
-            user_id=current_user.id,
+            user_id=user_id,
             session_data=session_data
         )
         
@@ -85,10 +88,13 @@ async def create_practice_session_stream(
             from services.ai_service import generate_practice_questions_ai
             from sql_models import PracticeSession, PracticeQuestion, Roadmap
             
+            # Store user ID to avoid session binding issues
+            user_id = current_user.id
+            
             # Create the session first
             session = await create_practice_session(
                 db=db,
-                user_id=current_user.id,
+                user_id=user_id,
                 session_data=session_data
             )
             
@@ -345,11 +351,14 @@ async def get_practice_session(
     try:
         from sql_models import PracticeSession, PracticeQuestion
         
+        # Store user ID to avoid session binding issues
+        user_id = current_user.id
+        
         # Find session by token
         session = db.exec(
             select(PracticeSession).where(
                 PracticeSession.session_token == session_token,
-                PracticeSession.user_id == current_user.id
+                PracticeSession.user_id == user_id
             )
         ).first()
         
@@ -417,11 +426,14 @@ async def submit_answer(
     try:
         from sql_models import PracticeSession
         
+        # Store user ID to avoid session binding issues
+        user_id = current_user.id
+        
         # Find session by token
         session = db.exec(
             select(PracticeSession).where(
                 PracticeSession.session_token == session_token,
-                PracticeSession.user_id == current_user.id
+                PracticeSession.user_id == user_id
             )
         ).first()
         
@@ -443,7 +455,7 @@ async def submit_answer(
         result = await submit_practice_answer(
             db=db,
             session_id=session.id,
-            user_id=current_user.id,
+            user_id=user_id,
             answer_data=answer_data
         )
         
@@ -471,11 +483,14 @@ async def complete_session(
     try:
         from sql_models import PracticeSession
         
+        # Store user ID to avoid session binding issues
+        user_id = current_user.id
+        
         # Find session by token
         session = db.exec(
             select(PracticeSession).where(
                 PracticeSession.session_token == session_token,
-                PracticeSession.user_id == current_user.id
+                PracticeSession.user_id == user_id
             )
         ).first()
         
@@ -492,7 +507,7 @@ async def complete_session(
         results = await get_practice_results(
             db=db,
             session_id=session.id,
-            user_id=current_user.id
+            user_id=user_id
         )
         
         return results
@@ -514,10 +529,13 @@ async def get_session_results(
 ):
     """Get detailed results for a completed practice session"""
     try:
+        # Store user ID to avoid session binding issues
+        user_id = current_user.id
+        
         results = await get_practice_results(
             db=db,
             session_id=session_id,
-            user_id=current_user.id
+            user_id=user_id
         )
         return results
         
@@ -536,9 +554,12 @@ async def get_practice_history(
 ):
     """Get user's practice session history"""
     try:
+        # Store user ID to avoid session binding issues
+        user_id = current_user.id
+        
         history = await get_user_practice_history(
             db=db,
-            user_id=current_user.id,
+            user_id=user_id,
             limit=limit
         )
         return history
@@ -558,10 +579,13 @@ async def get_practice_analytics(
 ):
     """Get practice analytics for a specific roadmap"""
     try:
+        # Store user ID to avoid session binding issues
+        user_id = current_user.id
+        
         # Calculate practice statistics for the roadmap
         analytics = await get_practice_analytics_for_roadmap(
             db=db,
-            user_id=current_user.id,
+            user_id=user_id,
             roadmap_id=roadmap_id
         )
         return analytics

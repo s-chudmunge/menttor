@@ -23,6 +23,7 @@ async def submit_quiz(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
+    user_id = current_user.id
     if not submission.answers:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
@@ -31,7 +32,7 @@ async def submit_quiz(
 
     active_session = db.exec(
         select(QuizSession).where(
-            QuizSession.user_id == current_user.id,
+            QuizSession.user_id == user_id,
             QuizSession.session_token == submission.session_token
         )
     ).first()
@@ -97,7 +98,7 @@ async def submit_quiz(
     logger.info(f"DEBUG: Quiz submission - final sub_topic_id used: {sub_topic_id}")
 
     quiz_attempt = QuizAttempt(
-        user_id=current_user.id,
+        user_id=user_id,
         quiz_id=quiz.id,
         score=final_score,
         total_questions=len(quiz.questions),
@@ -111,7 +112,7 @@ async def submit_quiz(
     # Try to get the most recent roadmap (likely the active one) rather than just the first
     roadmap = db.exec(
         select(Roadmap)
-        .where(Roadmap.user_id == current_user.id)
+        .where(Roadmap.user_id == user_id)
         .order_by(Roadmap.id.desc())  # Get most recent roadmap by ID
     ).first()
     roadmap_id = roadmap.id if roadmap else None
@@ -121,7 +122,7 @@ async def submit_quiz(
     if roadmap_id:
         progress = db.exec(
             select(UserProgress)
-            .where(UserProgress.user_id == current_user.id, UserProgress.sub_topic_id == sub_topic_id)
+            .where(UserProgress.user_id == user_id, UserProgress.sub_topic_id == sub_topic_id)
         ).first()
 
         if progress:
@@ -137,7 +138,7 @@ async def submit_quiz(
         else:
             logger.info(f"DEBUG: Creating new progress for sub_topic_id: {sub_topic_id}")
             progress = UserProgress(
-                user_id=current_user.id,
+                user_id=user_id,
                 sub_topic_id=sub_topic_id,
                 roadmap_id=roadmap_id,
                 quiz_completed=True,
@@ -152,7 +153,7 @@ async def submit_quiz(
     behavioral_service = BehavioralService(db)
     score_percentage = (final_score / len(quiz.questions)) * 100 if quiz.questions else 0
     xp_result = behavioral_service.award_xp(
-        current_user.id, 
+        user_id, 
         "quiz_completion", 
         {
             "score": score_percentage,
@@ -167,7 +168,7 @@ async def submit_quiz(
 
         spaced_repetition_entry = db.exec(
             select(SpacedRepetition).where(
-                SpacedRepetition.user_id == current_user.id,
+                SpacedRepetition.user_id == user_id,
                 SpacedRepetition.question_id == result.question_id
             )
         ).first()
@@ -197,7 +198,7 @@ async def submit_quiz(
             )
             
             new_spaced_repetition_entry = SpacedRepetition(
-                user_id=current_user.id,
+                user_id=user_id,
                 quiz_id=quiz.id,
                 question_id=result.question_id,
                 sub_topic_id=quiz_attempt.sub_topic_id,
@@ -209,7 +210,7 @@ async def submit_quiz(
             db.add(new_spaced_repetition_entry)
     
     quiz_activity_log = QuizActivityLog(
-        user_id=current_user.id,
+        user_id=user_id,
         quiz_id=quiz.id,
         quiz_attempt_id=quiz_attempt.id,
         fullscreen_violations=submission.violations.get('fullscreen', 0),
@@ -229,6 +230,6 @@ async def submit_quiz(
         question_results=question_results
     )
 
-    await manager.broadcast_to_user(current_user.id, json.dumps({"event": "quizCompleted", "sub_topic_id": quiz_attempt.sub_topic_id, "payload": quiz_result_response.model_dump()}))
+    await manager.broadcast_to_user(user_id, json.dumps({"event": "quizCompleted", "sub_topic_id": quiz_attempt.sub_topic_id, "payload": quiz_result_response.model_dump()}))
 
     return quiz_result_response

@@ -19,6 +19,7 @@ async def generate_quiz(
     current_user: User = Depends(get_current_user),
 ):
     """Generates a quiz using AI based on the provided parameters."""
+    user_id = current_user.id
     
     logger.info(f"DEBUG: Quiz generation request - sub_topic_id: {request.sub_topic_id}, sub_topic_title: {request.sub_topic_title}")
 
@@ -36,7 +37,7 @@ async def generate_quiz(
         logger.info(f"DEBUG: Found existing quiz, creating session with sub_topic_id: {request.sub_topic_id}")
         session_token = str(uuid.uuid4())
         quiz_session = QuizSession(
-            user_id=current_user.id,
+            user_id=user_id,
             quiz_id=existing_quiz.id,
             sub_topic_title=request.sub_topic_title,
             sub_topic_id=request.sub_topic_id,  # FIX: Also store subtopic_id for existing quizzes
@@ -80,7 +81,7 @@ async def generate_quiz(
         logger.info(f"DEBUG: Creating new quiz session with sub_topic_id: {request.sub_topic_id}")
         session_token = str(uuid.uuid4())
         quiz_session = QuizSession(
-            user_id=current_user.id,
+            user_id=user_id,
             quiz_id=new_quiz.id,  # Link to the newly created quiz
             sub_topic_title=request.sub_topic_title,
             sub_topic_id=request.sub_topic_id,  # Store the actual subtopic ID from roadmap
@@ -117,6 +118,7 @@ def get_quiz(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
+    user_id = current_user.id
     quiz = db.get(Quiz, quiz_id)
     if not quiz:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Quiz not found")
