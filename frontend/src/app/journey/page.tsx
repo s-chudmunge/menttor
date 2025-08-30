@@ -365,7 +365,7 @@ const JourneyPage = () => {
   // Enhanced loading state
   if (loading || isLoadingRoadmap) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-white via-blue-50 to-blue-100 dark:bg-zinc-950 transition-colors duration-300 flex items-center justify-center px-4">
+      <div className="min-h-screen bg-gradient-to-br from-white via-blue-50 to-blue-100 dark:journey-page-dark transition-colors duration-300 flex items-center justify-center px-4">
         <div className="text-center">
           <div className="relative mb-8">
             <div className="w-20 h-20 border-4 border-blue-200 dark:border-blue-800 rounded-full animate-pulse"></div>
@@ -389,7 +389,7 @@ const JourneyPage = () => {
   if (!roadmapData) {
     return (
       <ProtectedRoute>
-        <div className="min-h-screen bg-gradient-to-br from-white via-blue-50 to-blue-100 dark:bg-zinc-950 transition-colors duration-300 flex items-center justify-center px-4">
+        <div className="min-h-screen bg-gradient-to-br from-white via-blue-50 to-blue-100 dark:journey-page-dark transition-colors duration-300 flex items-center justify-center px-4">
           <div className="text-center max-w-md w-full">
             <div className="w-20 h-20 lg:w-24 lg:h-24 bg-gray-100 dark:bg-zinc-700 rounded-full flex items-center justify-center mx-auto mb-6">
               <Target className="w-10 h-10 lg:w-12 lg:h-12 text-gray-400 dark:text-gray-500" />
@@ -422,7 +422,7 @@ const JourneyPage = () => {
 
   return (
     <ProtectedRoute>
-      <div className="min-h-screen bg-gradient-to-br from-white via-blue-50 to-blue-100 dark:bg-black dark:bg-none transition-colors duration-300">
+      <div className="min-h-screen bg-gradient-to-br from-white via-blue-50 to-blue-100 dark:journey-page-dark transition-colors duration-300">
         {/* Header */}
         <JourneyHeader 
           user={user}
@@ -452,7 +452,7 @@ const JourneyPage = () => {
                   </div>
                   
                   <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
-                    <div className="flex items-center space-x-3 bg-white/50 dark:bg-zinc-950/50 rounded-lg p-3">
+                    <div className="flex items-center space-x-3 bg-white/50 dark:journey-page-dark/50 rounded-lg p-3">
                       <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-lg flex items-center justify-center">
                         <Clock className="w-4 h-4 text-white" />
                       </div>
@@ -462,7 +462,7 @@ const JourneyPage = () => {
                       </div>
                     </div>
                     
-                    <div className="flex items-center space-x-3 bg-white/50 dark:bg-zinc-950/50 rounded-lg p-3">
+                    <div className="flex items-center space-x-3 bg-white/50 dark:journey-page-dark/50 rounded-lg p-3">
                       <div className="w-8 h-8 bg-gradient-to-r from-green-500 to-emerald-500 rounded-lg flex items-center justify-center">
                         <Target className="w-4 h-4 text-white" />
                       </div>
@@ -472,7 +472,7 @@ const JourneyPage = () => {
                       </div>
                     </div>
                     
-                    <div className="flex items-center space-x-3 bg-white/50 dark:bg-zinc-950/50 rounded-lg p-3">
+                    <div className="flex items-center space-x-3 bg-white/50 dark:journey-page-dark/50 rounded-lg p-3">
                       <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
                         <Trophy className="w-4 h-4 text-white" />
                       </div>
@@ -482,7 +482,7 @@ const JourneyPage = () => {
                       </div>
                     </div>
                     
-                    <div className="flex items-center space-x-3 bg-white/50 dark:bg-zinc-950/50 rounded-lg p-3">
+                    <div className="flex items-center space-x-3 bg-white/50 dark:journey-page-dark/50 rounded-lg p-3">
                       <div className="w-8 h-8 bg-gradient-to-r from-orange-500 to-red-500 rounded-lg flex items-center justify-center">
                         <BarChart3 className="w-4 h-4 text-white" />
                       </div>
@@ -527,7 +527,7 @@ const JourneyPage = () => {
 
           {/* Enhanced View Controls */}
           <div className="mb-8">
-            <div className="bg-white/80 dark:bg-zinc-950/80 backdrop-blur-sm rounded-2xl p-1.5 border border-gray-200/50 dark:border-gray-700/50 shadow-lg inline-flex">
+            <div className="bg-white/80 dark:journey-page-dark/80 backdrop-blur-sm rounded-2xl p-1.5 border border-gray-200/50 dark:border-gray-700/50 shadow-lg inline-flex">
               <button
                 onClick={() => setCurrentView('day')}
                 className={`flex items-center space-x-2 px-6 py-3 rounded-xl font-semibold transition-all duration-200 ${

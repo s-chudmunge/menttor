@@ -244,14 +244,11 @@ body {
 }
 
 .dark {
-  background: #000000 !important;
+  background: #0a0a0a !important;
 }
 
-.dark * {
-  background-image: none !important;
-}
-
-.dark .bg-gradient-to-br {
+/* Journey page specific dark background override */
+.journey-page-dark {
   background: #000000 !important;
   background-image: none !important;
 }
