@@ -365,7 +365,7 @@ const JourneyPage = () => {
   // Enhanced loading state
   if (loading || isLoadingRoadmap) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-white via-blue-50 to-blue-100 dark:bg-slate-900 transition-colors duration-300 flex items-center justify-center px-4">
+      <div className="min-h-screen bg-gradient-to-br from-white via-blue-50 to-blue-100 dark:bg-zinc-900 transition-colors duration-300 flex items-center justify-center px-4">
         <div className="text-center">
           <div className="relative mb-8">
             <div className="w-20 h-20 border-4 border-blue-200 dark:border-blue-800 rounded-full animate-pulse"></div>
@@ -389,7 +389,7 @@ const JourneyPage = () => {
   if (!roadmapData) {
     return (
       <ProtectedRoute>
-        <div className="min-h-screen bg-gradient-to-br from-white via-blue-50 to-blue-100 dark:bg-slate-900 transition-colors duration-300 flex items-center justify-center px-4">
+        <div className="min-h-screen bg-gradient-to-br from-white via-blue-50 to-blue-100 dark:bg-zinc-900 transition-colors duration-300 flex items-center justify-center px-4">
           <div className="text-center max-w-md w-full">
             <div className="w-20 h-20 lg:w-24 lg:h-24 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-6">
               <Target className="w-10 h-10 lg:w-12 lg:h-12 text-gray-400 dark:text-gray-500" />
@@ -422,7 +422,7 @@ const JourneyPage = () => {
 
   return (
     <ProtectedRoute>
-      <div className="min-h-screen bg-gradient-to-br from-white via-blue-50 to-blue-100 dark:bg-slate-900 transition-colors duration-300">
+      <div className="min-h-screen bg-gradient-to-br from-white via-blue-50 to-blue-100 dark:bg-zinc-900 transition-colors duration-300">
         {/* Header */}
         <JourneyHeader 
           user={user}
