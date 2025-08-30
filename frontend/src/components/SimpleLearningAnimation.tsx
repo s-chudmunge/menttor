@@ -95,8 +95,8 @@ export default function SimpleLearningAnimation() {
           <circle cx="140" cy="260" r="15" fill="white"/>
           <path d="M115 290 C115 278, 125 272, 140 272 C155 272, 165 278, 165 290" 
                 fill="white" stroke="none"/>
-          <text x="140" y="330" textAnchor="middle" fill="white" fontSize="16" fontWeight="600">User</text>
-          <text x="140" y="350" textAnchor="middle" fill="rgba(255,255,255,0.7)" fontSize="12">Learner</text>
+          <text x="140" y="330" textAnchor="middle" className="fill-gray-900 dark:fill-white" fontSize="16" fontWeight="600">User</text>
+          <text x="140" y="350" textAnchor="middle" className="fill-gray-700 dark:fill-gray-300" fontSize="12">Learner</text>
         </g>
 
         {/* Central Menttor Platform Box */}
@@ -114,53 +114,53 @@ export default function SimpleLearningAnimation() {
               d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09V17h2V9L12 3zm6.82 6L12 12.72 5.18 9 12 5.28 18.82 9zM17 15.99l-5 2.73-5-2.73v-3.72L12 15l5-2.73v3.72z"
             />
           </svg>
-          <text x="460" y="160" fill="white" fontSize="20" fontWeight="600">Menttor</text>
+          <text x="460" y="160" className="fill-gray-900 dark:fill-white" fontSize="20" fontWeight="600">Menttor</text>
           
           {/* Feature Grid - 3x3 Layout */}
           {/* Row 1 */}
           <rect x="320" y="190" width="110" height="55" rx="12" fill="url(#featureCard)" stroke="url(#featureBorder)" strokeWidth="0.5"/>
-          <text x="375" y="208" textAnchor="middle" fill="white" fontSize="11" fontWeight="600">Personal Feedback</text>
-          <text x="375" y="222" textAnchor="middle" fill="white" fontSize="11" fontWeight="600">and Adaptive</text>
-          <text x="375" y="236" textAnchor="middle" fill="white" fontSize="11" fontWeight="600">Algorithms</text>
+          <text x="375" y="208" textAnchor="middle" className="fill-gray-900 dark:fill-white" fontSize="11" fontWeight="600">Personal Feedback</text>
+          <text x="375" y="222" textAnchor="middle" className="fill-gray-900 dark:fill-white" fontSize="11" fontWeight="600">and Adaptive</text>
+          <text x="375" y="236" textAnchor="middle" className="fill-gray-900 dark:fill-white" fontSize="11" fontWeight="600">Algorithms</text>
           
           <rect x="445" y="190" width="110" height="55" rx="12" fill="url(#featureCard)" stroke="url(#featureBorder)" strokeWidth="0.5"/>
-          <text x="500" y="212" textAnchor="middle" fill="white" fontSize="13" fontWeight="600">Elo Ratings</text>
-          <text x="500" y="228" textAnchor="middle" fill="rgba(255,255,255,0.7)" fontSize="11">Skill Assessment</text>
+          <text x="500" y="212" textAnchor="middle" className="fill-gray-900 dark:fill-white" fontSize="13" fontWeight="600">Elo Ratings</text>
+          <text x="500" y="228" textAnchor="middle" className="fill-gray-700 dark:fill-gray-300" fontSize="11">Skill Assessment</text>
           
           <rect x="570" y="190" width="110" height="55" rx="12" fill="url(#featureCard)" stroke="url(#featureBorder)" strokeWidth="0.5"/>
-          <text x="625" y="212" textAnchor="middle" fill="white" fontSize="13" fontWeight="600">Quest Map</text>
-          <text x="625" y="228" textAnchor="middle" fill="rgba(255,255,255,0.7)" fontSize="11">Learning Path</text>
+          <text x="625" y="212" textAnchor="middle" className="fill-gray-900 dark:fill-white" fontSize="13" fontWeight="600">Quest Map</text>
+          <text x="625" y="228" textAnchor="middle" className="fill-gray-700 dark:fill-gray-300" fontSize="11">Learning Path</text>
           
           {/* Row 2 */}
           <rect x="320" y="260" width="110" height="55" rx="12" fill="url(#featureCard)" stroke="url(#featureBorder)" strokeWidth="0.5"/>
-          <text x="375" y="282" textAnchor="middle" fill="white" fontSize="13" fontWeight="600">Guardrails</text>
-          <text x="375" y="298" textAnchor="middle" fill="rgba(255,255,255,0.7)" fontSize="11">Safety First</text>
+          <text x="375" y="282" textAnchor="middle" className="fill-gray-900 dark:fill-white" fontSize="13" fontWeight="600">Guardrails</text>
+          <text x="375" y="298" textAnchor="middle" className="fill-gray-700 dark:fill-gray-300" fontSize="11">Safety First</text>
           
           <rect x="445" y="260" width="110" height="55" rx="12" fill="url(#featureCard)" stroke="url(#featureBorder)" strokeWidth="0.5"/>
-          <text x="500" y="282" textAnchor="middle" fill="white" fontSize="13" fontWeight="600">XP System</text>
-          <text x="500" y="298" textAnchor="middle" fill="rgba(255,255,255,0.7)" fontSize="11">Gamification</text>
+          <text x="500" y="282" textAnchor="middle" className="fill-gray-900 dark:fill-white" fontSize="13" fontWeight="600">XP System</text>
+          <text x="500" y="298" textAnchor="middle" className="fill-gray-700 dark:fill-gray-300" fontSize="11">Gamification</text>
           
           <rect x="570" y="260" width="110" height="55" rx="12" fill="url(#featureCard)" stroke="url(#featureBorder)" strokeWidth="0.5"/>
-          <text x="625" y="282" textAnchor="middle" fill="white" fontSize="13" fontWeight="600">Model Access</text>
-          <text x="625" y="298" textAnchor="middle" fill="rgba(255,255,255,0.7)" fontSize="11">AI Integration</text>
+          <text x="625" y="282" textAnchor="middle" className="fill-gray-900 dark:fill-white" fontSize="13" fontWeight="600">Model Access</text>
+          <text x="625" y="298" textAnchor="middle" className="fill-gray-700 dark:fill-gray-300" fontSize="11">AI Integration</text>
           
           {/* Row 3 */}
           <rect x="320" y="330" width="110" height="55" rx="12" fill="url(#featureCard)" stroke="url(#featureBorder)" strokeWidth="0.5"/>
-          <text x="375" y="352" textAnchor="middle" fill="white" fontSize="13" fontWeight="600">Budgets</text>
-          <text x="375" y="368" textAnchor="middle" fill="rgba(255,255,255,0.7)" fontSize="11">Cost Control</text>
+          <text x="375" y="352" textAnchor="middle" className="fill-gray-900 dark:fill-white" fontSize="13" fontWeight="600">Budgets</text>
+          <text x="375" y="368" textAnchor="middle" className="fill-gray-700 dark:fill-gray-300" fontSize="11">Cost Control</text>
           
           <rect x="445" y="330" width="110" height="55" rx="12" fill="url(#featureCard)" stroke="url(#featureBorder)" strokeWidth="0.5"/>
-          <text x="500" y="352" textAnchor="middle" fill="white" fontSize="13" fontWeight="600">Focus Mode</text>
-          <text x="500" y="368" textAnchor="middle" fill="rgba(255,255,255,0.7)" fontSize="11">Deep Learning</text>
+          <text x="500" y="352" textAnchor="middle" className="fill-gray-900 dark:fill-white" fontSize="13" fontWeight="600">Focus Mode</text>
+          <text x="500" y="368" textAnchor="middle" className="fill-gray-700 dark:fill-gray-300" fontSize="11">Deep Learning</text>
           
           <rect x="570" y="330" width="110" height="55" rx="12" fill="url(#featureCard)" stroke="url(#featureBorder)" strokeWidth="0.5"/>
-          <text x="625" y="352" textAnchor="middle" fill="white" fontSize="13" fontWeight="600">Observability</text>
-          <text x="625" y="368" textAnchor="middle" fill="rgba(255,255,255,0.7)" fontSize="11">Analytics</text>
+          <text x="625" y="352" textAnchor="middle" className="fill-gray-900 dark:fill-white" fontSize="13" fontWeight="600">Observability</text>
+          <text x="625" y="368" textAnchor="middle" className="fill-gray-700 dark:fill-gray-300" fontSize="11">Analytics</text>
           
           {/* Bottom Feature - Full Width */}
           <rect x="320" y="400" width="360" height="60" rx="12" fill="url(#premiumFeature)" stroke="url(#cardBorder)" strokeWidth="1"/>
-          <text x="500" y="425" textAnchor="middle" fill="white" fontSize="15" fontWeight="600">Learning the Way you want to</text>
-          <text x="500" y="445" textAnchor="middle" fill="rgba(255,255,255,0.8)" fontSize="12">Personalized Learning Experience</text>
+          <text x="500" y="425" textAnchor="middle" className="fill-gray-900 dark:fill-white" fontSize="15" fontWeight="600">Learning the Way you want to</text>
+          <text x="500" y="445" textAnchor="middle" className="fill-gray-700 dark:fill-gray-300" fontSize="12">Personalized Learning Experience</text>
         </g>
 
         {/* Learning Outcomes (Right) */}
@@ -171,9 +171,9 @@ export default function SimpleLearningAnimation() {
                 className="animate-pulse" style={{ animationDelay: '0.5s', animationDuration: '3s' }}/>
           <circle cx="775" cy="170" r="15" fill="url(#iconBackground)"/>
           <text x="775" y="175" textAnchor="middle" fill="white" fontSize="14" fontWeight="bold">🎯</text>
-          <text x="800" y="170" fill="white" fontSize="13" fontWeight="600">Build Real World Skills</text>
-          <text x="800" y="188" fill="rgba(255,255,255,0.8)" fontSize="11">From Best Curated Roadmaps</text>
-          <text x="800" y="205" fill="rgba(255,255,255,0.6)" fontSize="10">Expert-designed learning paths</text>
+          <text x="800" y="170" className="fill-gray-900 dark:fill-white" fontSize="13" fontWeight="600">Build Real World Skills</text>
+          <text x="800" y="188" className="fill-gray-700 dark:fill-gray-300" fontSize="11">From Best Curated Roadmaps</text>
+          <text x="800" y="205" className="fill-gray-600 dark:fill-gray-400" fontSize="10">Expert-designed learning paths</text>
           
           {/* Build Projects */}
           <rect x="750" y="250" width="190" height="90" rx="16" fill="url(#glassCard)" 
@@ -181,9 +181,9 @@ export default function SimpleLearningAnimation() {
                 className="animate-pulse" style={{ animationDelay: '1s', animationDuration: '3s' }}/>
           <circle cx="775" cy="280" r="15" fill="url(#iconBackground)"/>
           <text x="775" y="285" textAnchor="middle" fill="white" fontSize="14" fontWeight="bold">🚀</text>
-          <text x="800" y="280" fill="white" fontSize="13" fontWeight="600">Build Projects</text>
-          <text x="800" y="298" fill="rgba(255,255,255,0.8)" fontSize="11">Hands-on Experience</text>
-          <text x="800" y="315" fill="rgba(255,255,255,0.6)" fontSize="10">Real-world applications</text>
+          <text x="800" y="280" className="fill-gray-900 dark:fill-white" fontSize="13" fontWeight="600">Build Projects</text>
+          <text x="800" y="298" className="fill-gray-700 dark:fill-gray-300" fontSize="11">Hands-on Experience</text>
+          <text x="800" y="315" className="fill-gray-600 dark:fill-gray-400" fontSize="10">Real-world applications</text>
           
           {/* Industry Ready */}
           <rect x="750" y="360" width="190" height="90" rx="16" fill="url(#glassCard)" 
@@ -191,9 +191,9 @@ export default function SimpleLearningAnimation() {
                 className="animate-pulse" style={{ animationDelay: '1.5s', animationDuration: '3s' }}/>
           <circle cx="775" cy="390" r="15" fill="url(#iconBackground)"/>
           <text x="775" y="395" textAnchor="middle" fill="white" fontSize="14" fontWeight="bold">💼</text>
-          <text x="800" y="390" fill="white" fontSize="13" fontWeight="600">Industry Ready</text>
-          <text x="800" y="408" fill="rgba(255,255,255,0.8)" fontSize="11">Professional Skills</text>
-          <text x="800" y="425" fill="rgba(255,255,255,0.6)" fontSize="10">Career-focused training</text>
+          <text x="800" y="390" className="fill-gray-900 dark:fill-white" fontSize="13" fontWeight="600">Industry Ready</text>
+          <text x="800" y="408" className="fill-gray-700 dark:fill-gray-300" fontSize="11">Professional Skills</text>
+          <text x="800" y="425" className="fill-gray-600 dark:fill-gray-400" fontSize="10">Career-focused training</text>
         </g>
 
 
