@@ -21,6 +21,8 @@ import ProtectedRoute from '../components/ProtectedRoute';
 import { useAuth } from '@/app/context/AuthContext';
 import { api } from '@/lib/api';
 import CodeBlock from '../../../components/learning/CodeBlock';
+import CodeCompletionQuestion from '../../../components/practice/CodeCompletionQuestion';
+import DebuggingQuestion from '../../../components/practice/DebuggingQuestion';
 import ReactMarkdown from 'react-markdown';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
@@ -840,97 +842,19 @@ const PracticeSessionContent = () => {
                     </div>
                   </div>
                 ) : currentQuestion.type === 'codeCompletion' ? (
-                  <div className="space-y-4">
-                    <div className="bg-gray-900 rounded-xl p-3 sm:p-4 border border-gray-700 overflow-x-auto">
-                      <div className="flex items-center justify-between mb-3">
-                        <h3 className="text-sm font-medium text-gray-300">Code to Complete</h3>
-                        <div className="text-xs text-gray-500">Fill in the blanks</div>
-                      </div>
-                      <pre className="text-sm text-gray-100 font-mono overflow-x-auto whitespace-pre-wrap">
-                        {currentQuestion.codeSnippet?.split('_____').map((part, index, parts) => (
-                          <React.Fragment key={index}>
-                            {part}
-                            {index < parts.length - 1 && (
-                              <span className="bg-yellow-200 text-yellow-800 px-2 py-1 rounded font-bold">
-                                [BLANK_{index + 1}]
-                              </span>
-                            )}
-                          </React.Fragment>
-                        ))}
-                      </pre>
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
-                        Complete the missing code:
-                      </label>
-                      <textarea
-                        value={currentAnswer}
-                        onChange={(e) => setCurrentAnswer(e.target.value)}
-                        placeholder="Write the code that should replace the blanks..."
-                        className="w-full p-4 font-mono text-sm border-2 border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all resize-none"
-                        rows={3}
-                      />
-                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
-                        💡 Write only the missing parts, separated by commas if multiple blanks
-                      </p>
-                    </div>
-                  </div>
+                  <CodeCompletionQuestion
+                    question={currentQuestion.question}
+                    codeSnippet={currentQuestion.codeSnippet || ''}
+                    onAnswerChange={setCurrentAnswer}
+                    currentAnswer={currentAnswer}
+                  />
                 ) : currentQuestion.type === 'debugging' ? (
-                  <div className="space-y-4">
-                    <div className="bg-gray-900 rounded-xl p-3 sm:p-4 border border-gray-700 overflow-x-auto">
-                      <div className="flex items-center justify-between mb-3">
-                        <h3 className="text-sm font-medium text-gray-300">Code with Error</h3>
-                        <div className="text-xs text-red-400">Find the bug</div>
-                      </div>
-                      <pre className="text-sm font-mono overflow-x-auto whitespace-pre-wrap">
-                        {currentQuestion.codeSnippet?.split('\n').map((line, lineIndex) => (
-                          <div key={lineIndex} className="flex">
-                            <span className="text-gray-500 mr-4 select-none min-w-[2rem] text-right">
-                              {lineIndex + 1}
-                            </span>
-                            <span className="text-gray-100 flex-1">
-                              {line}
-                            </span>
-                          </div>
-                        ))}
-                      </pre>
-                    </div>
-                    <div className="space-y-4 sm:grid sm:grid-cols-1 md:grid-cols-2 sm:gap-4 sm:space-y-0">
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                          Error Description:
-                        </label>
-                        <textarea
-                          value={currentAnswer.split('|')[0] || ''}
-                          onChange={(e) => {
-                            const parts = currentAnswer.split('|');
-                            setCurrentAnswer(`${e.target.value}|${parts[1] || ''}`);
-                          }}
-                          placeholder="What's wrong with the code?"
-                          className="w-full p-3 border-2 border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all resize-none"
-                          rows={3}
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                          Corrected Code:
-                        </label>
-                        <textarea
-                          value={currentAnswer.split('|')[1] || ''}
-                          onChange={(e) => {
-                            const parts = currentAnswer.split('|');
-                            setCurrentAnswer(`${parts[0] || ''}|${e.target.value}`);
-                          }}
-                          placeholder="How should it be fixed?"
-                          className="w-full p-3 font-mono text-sm border-2 border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all resize-none"
-                          rows={3}
-                        />
-                      </div>
-                    </div>
-                    <p className="text-xs text-gray-500 dark:text-gray-400">
-                      💡 Describe what's wrong and provide the correct code
-                    </p>
-                  </div>
+                  <DebuggingQuestion
+                    question={currentQuestion.question}
+                    codeSnippet={currentQuestion.codeSnippet || ''}
+                    onAnswerChange={setCurrentAnswer}
+                    currentAnswer={currentAnswer}
+                  />
                 ) : (
                   <div className="space-y-3">
                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">

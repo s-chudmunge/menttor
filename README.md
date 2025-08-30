@@ -4,7 +4,7 @@ A modern educational platform that creates personalized learning journeys using 
 
 ## 🚀 Live Application
 
-- **Frontend**: [https://menttor.vercel.app](https://menttor.vercel.app)
+- **Frontend**: [https://menttor.vercel.app](https://menttor.live)
 - **Backend API**: [https://menttor-backend.onrender.com](https://menttor-backend.onrender.com)
 
 ## ✨ Key Features

@@ -1,4 +1,4 @@
-Generate {{ count }} debugging/error identification questions for practice/exam mode:
+Generate {{ count }} debugging questions optimized for interactive code editor with live execution feedback:
 
 Subject: {{ subject }}
 Goal: {{ goal }}
@@ -6,19 +6,33 @@ Subtopic: {{ subtopic_title }}
 Context: {{ context }}
 Difficulty Level: Mixed (easy, medium, hard)
 
-Create realistic debugging scenarios with common errors related to {{ subtopic_title }}. Each question should:
-1. Present code or statements with subtle but important errors
-2. Require identifying what's wrong and why
-3. Test understanding of common pitfalls and best practices
-4. Include both syntax errors and logical errors
-5. Provide clear explanation of the issue and correction
+Create realistic debugging scenarios designed for an IDE-like environment where students can:
+- View buggy code in Monaco Editor with syntax highlighting
+- Edit the code directly to fix errors
+- Run the code to see compilation/execution results
+- Get immediate feedback on their fixes
 
-Error types to include:
-- Syntax errors (missing punctuation, incorrect keywords)
-- Logical errors (wrong operators, incorrect conditions)
-- Runtime errors (null references, array bounds)
-- Design errors (inefficient algorithms, poor practices)
-- Conceptual errors (misapplied principles)
+Each question should present complete, runnable code with intentional bugs that students must find and fix:
+
+1. **Executable Buggy Code**: Provide working code structure with specific errors that prevent proper execution
+2. **Realistic Scenarios**: Use real-world programming contexts relevant to {{ subtopic_title }}
+3. **Testable Errors**: Include bugs that can be detected through code execution and testing
+4. **Educational Value**: Focus on errors that teach important programming concepts
+5. **Live Feedback**: Design code that provides clear success/failure feedback when run
+
+**Enhanced Error Types for Interactive Debugging:**
+- Syntax errors that prevent compilation (missing punctuation, incorrect operators)
+- Logic errors that produce wrong outputs (incorrect conditions, off-by-one errors)
+- Runtime errors (null references, array bounds, type mismatches)
+- Algorithm errors (incorrect sorting logic, wrong mathematical operations)
+- Best practice violations (inefficient code, security issues)
+
+**Code Structure Requirements:**
+- Include complete, contextual code (functions with test cases)
+- Add console output statements to verify correct behavior
+- Ensure code is 15-25 lines for optimal editor viewing
+- Include realistic variable names and meaningful logic
+- Add test cases at the end to demonstrate expected vs actual behavior
 
 Format the output as a JSON object:
 
@@ -27,13 +41,14 @@ Format the output as a JSON object:
   "questions": [
     {
       "id": 1,
-      "question_text": "Identify the error in the following code/statement and explain what's wrong:",
-      "code_snippet": "for i in range(10):\n    if i = 5:\n        print('Found five!')",
-      "correct_answer": "The condition 'i = 5' uses assignment (=) instead of comparison (==). It should be 'if i == 5:'",
-      "explanation": "The error is using a single equals sign (=) for assignment instead of double equals (==) for comparison. In the if statement, 'i = 5' assigns the value 5 to i rather than checking if i equals 5. This will cause a syntax error in most languages or unexpected behavior.",
-      "hint": "Look carefully at the conditional statement - is it checking equality or doing something else? (only if hints enabled: {{ hints_enabled }})",
-      "difficulty": "easy",
-      "error_type": "syntax_error"
+      "question_text": "This function is supposed to find the maximum number in a list and return its index, but it contains bugs. Run the code to see the error, then fix it:",
+      "code_snippet": "def find_max_index(numbers):\n    \"\"\"Find the index of the maximum number in a list\"\"\"\n    if len(numbers) == 0:\n        return -1\n    \n    max_value = numbers[0]\n    max_index = 0\n    \n    for i in range(len(numbers)):\n        if numbers[i] > max_value:\n            max_value = numbers[i]\n            # Bug: wrong assignment here\n            max_index = i + 1\n    \n    return max_index\n\n# Test the function:\ntest_list = [3, 7, 2, 9, 1, 8]\nresult = find_max_index(test_list)\nprint(f\"Max value {max(test_list)} should be at index {test_list.index(max(test_list))}\")\nprint(f\"Function returned index: {result}\")\nprint(f\"Value at returned index: {test_list[result] if result < len(test_list) else 'INDEX OUT OF BOUNDS'}\")",
+      "correct_answer": "Change 'max_index = i + 1' to 'max_index = i' on line 12. The bug is adding 1 to the index, causing off-by-one error.",
+      "explanation": "The error is in line 12 where 'max_index = i + 1' should be 'max_index = i'. Arrays are zero-indexed, so when we find the maximum at position i, we should store i, not i+1. This off-by-one error causes the function to return an incorrect index.",
+      "hint": "Check the line where max_index is updated. Remember that array indices start at 0, not 1 (only if hints enabled: {{ hints_enabled }})",
+      "difficulty": "medium",
+      "error_type": "logic_error",
+      "programming_language": "python"
     }
   ]
 }

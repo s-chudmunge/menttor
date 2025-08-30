@@ -253,17 +253,54 @@ def _evaluate_answer(user_answer: str, correct_answer: str, question_type: str) 
             # Fallback to string comparison if parsing fails
             return user_answer.strip().lower() == correct_answer.strip().lower()
     
-    elif question_type in ['codeCompletion', 'debugging']:
-        # For code questions, check if key elements are present
-        user_clean = user_answer.strip().replace(' ', '').replace('\n', '').replace('\t', '')
-        correct_clean = correct_answer.strip().replace(' ', '').replace('\n', '').replace('\t', '')
+    elif question_type == 'codeCompletion':
+        # For code completion in the new editor format
+        # The user_answer now contains the entire modified code from the editor
+        # We need to check if the key completion elements are present
         
-        # More flexible matching for code - check if the key answer is contained
-        if correct_clean in user_clean or user_clean in correct_clean:
-            return True
+        user_code = user_answer.strip()
+        correct_parts = correct_answer.strip().split('\n')
+        
+        # Check if all required code parts are present in the user's code
+        for part in correct_parts:
+            part_clean = part.strip()
+            if not part_clean:
+                continue
+                
+            # Normalize code for comparison (remove extra spaces, case insensitive for keywords)
+            user_normalized = ' '.join(user_code.lower().split())
+            part_normalized = ' '.join(part_clean.lower().split())
             
-        # Also check for common variations
-        return user_answer.strip().lower() == correct_answer.strip().lower()
+            # Check if the essential code logic is present
+            if part_normalized not in user_normalized:
+                # Try more flexible matching for common code patterns
+                if not _check_code_equivalence(user_code, part_clean):
+                    return False
+        
+        return True
+    
+    elif question_type == 'debugging':
+        # For debugging questions in the new editor format
+        # The user_answer contains the entire fixed code
+        # We need to verify that the specific bug has been fixed
+        
+        user_code = user_answer.strip()
+        
+        # Check for common debugging fixes based on the correct_answer description
+        if 'assignment' in correct_answer.lower() and 'comparison' in correct_answer.lower():
+            # Check if assignment operator was changed to comparison
+            return '==' in user_code or '===' in user_code
+        
+        if 'index' in correct_answer.lower() and 'off-by-one' in correct_answer.lower():
+            # Check if off-by-one error was fixed (no +1 or -1 in index assignments)
+            return 'i + 1' not in user_code or '+1' not in user_code.replace(' ', '')
+        
+        if 'initialization' in correct_answer.lower() or 'result = 0' in correct_answer.lower():
+            # Check if wrong initialization was fixed
+            return 'result = 1' in user_code or 'result=1' in user_code.replace(' ', '')
+        
+        # Fallback: check if the description keywords match the fix
+        return _check_debugging_fix(user_code, correct_answer)
     
     elif question_type == 'caseStudy':
         # For case studies, more flexible matching - check key terms
@@ -280,6 +317,57 @@ def _evaluate_answer(user_answer: str, correct_answer: str, question_type: str) 
     else:
         # Default: exact match
         return user_answer.strip().lower() == correct_answer.strip().lower()
+
+def _check_code_equivalence(user_code: str, expected_part: str) -> bool:
+    """Check if user code contains equivalent logic to expected part"""
+    user_normalized = user_code.lower().replace(' ', '').replace('\t', '').replace('\n', '')
+    expected_normalized = expected_part.lower().replace(' ', '').replace('\t', '').replace('\n', '')
+    
+    # Check for common equivalent patterns
+    equivalences = [
+        ('return0', 'return0'),
+        ('returntotal/len(', 'returntotal/len('),
+        ('a+b', 'a+b'),
+        ('sum(', 'sum('),
+        ('len(', 'len('),
+        ('range(', 'range('),
+    ]
+    
+    for user_pattern, expected_pattern in equivalences:
+        if expected_pattern in expected_normalized and user_pattern in user_normalized:
+            return True
+    
+    # Fallback: partial match
+    return expected_normalized in user_normalized
+
+def _check_debugging_fix(user_code: str, correct_answer: str) -> bool:
+    """Check if debugging fix described in correct_answer is present in user_code"""
+    user_lower = user_code.lower()
+    answer_lower = correct_answer.lower()
+    
+    # Common debugging patterns to check
+    if 'change' in answer_lower and 'to' in answer_lower:
+        # Extract what should be changed to what
+        import re
+        change_pattern = r"change\s+['\"]([^'\"]+)['\"]?\s+to\s+['\"]([^'\"]+)['\"]?"
+        match = re.search(change_pattern, answer_lower)
+        if match:
+            old_code, new_code = match.groups()
+            # Check if old code is removed and new code is present
+            return old_code.strip() not in user_lower and new_code.strip() in user_lower
+    
+    # Check for specific fix keywords
+    fix_indicators = [
+        ('===', '=='),  # Comparison operators
+        ('result = 1', 'initialization'),  # Correct initialization
+        ('max_index = i', 'off-by-one'),  # Index fixes
+    ]
+    
+    for pattern, description in fix_indicators:
+        if description in answer_lower and pattern in user_code:
+            return True
+    
+    return False
 
 async def get_practice_results(
     db: Session,
