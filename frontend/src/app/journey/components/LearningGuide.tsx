@@ -41,7 +41,7 @@ const LearningGuide: React.FC<LearningGuideProps> = ({ className = '' }) => {
   ];
 
   return (
-    <div className={`bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl border border-gray-200/50 dark:border-gray-700/50 shadow-sm p-6 transition-all duration-300 ${className}`}>
+    <div className={`bg-white/80 dark:bg-zinc-950/80 backdrop-blur-sm rounded-2xl border border-gray-200/50 dark:border-gray-700/50 shadow-sm p-6 transition-all duration-300 ${className}`}>
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center space-x-3">
@@ -77,7 +77,7 @@ const LearningGuide: React.FC<LearningGuideProps> = ({ className = '' }) => {
           const IconComponent = section.icon;
           
           return (
-            <div key={section.id} className="bg-white/60 dark:bg-gray-700/60 backdrop-blur-sm rounded-xl p-4 border border-gray-200/30 dark:border-gray-600/30 hover:shadow-md transition-all duration-200">
+            <div key={section.id} className="bg-white/60 dark:bg-zinc-950/60 backdrop-blur-sm rounded-xl p-4 border border-gray-200/30 dark:border-gray-600/30 hover:shadow-md transition-all duration-200">
               <div className="flex items-start space-x-3">
                 <div className={`w-10 h-10 ${section.iconColor} rounded-lg flex items-center justify-center flex-shrink-0`}>
                   <IconComponent className="w-5 h-5 text-white" />
