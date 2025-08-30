@@ -223,9 +223,9 @@ const InteractiveRoadmap: React.FC<InteractiveRoadmapProps> = ({ roadmapData, pr
   const completedModules = modules.filter(module => calculateModuleProgress(module) === 100).length;
 
   return (
-    <div className="relative w-full bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl rounded-2xl border border-gray-200/50 dark:border-gray-700/50 shadow-xl overflow-hidden">
+    <div className="relative w-full bg-white/95 dark:bg-zinc-950/95 backdrop-blur-xl rounded-2xl border border-gray-200/50 dark:border-gray-700/50 shadow-xl overflow-hidden">
       {/* Simplified Header */}
-      <div className="border-b border-gray-200 dark:border-gray-700 p-4 md:p-6 bg-white dark:bg-gray-800">
+      <div className="border-b border-gray-200 dark:border-gray-700 p-4 md:p-6 bg-white dark:bg-zinc-950">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div className="flex items-center space-x-3">
             <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
@@ -243,7 +243,7 @@ const InteractiveRoadmap: React.FC<InteractiveRoadmapProps> = ({ roadmapData, pr
               <span className="text-sm font-semibold text-gray-900 dark:text-white">
                 {completedModules} / {totalModules} modules
               </span>
-              <div className="w-24 h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden mt-1">
+              <div className="w-24 h-2 bg-gray-200 dark:bg-zinc-700 rounded-full overflow-hidden mt-1">
                 <div 
                   className="h-full bg-blue-600 rounded-full transition-all duration-500"
                   style={{ width: `${totalModules === 0 ? 0 : (completedModules / totalModules) * 100}%` }}
@@ -338,12 +338,12 @@ const InteractiveRoadmap: React.FC<InteractiveRoadmapProps> = ({ roadmapData, pr
                     width: '160px',
                   }}
                 >
-                  <div className="bg-white dark:bg-gray-800 px-3 py-2 rounded-lg shadow-md border">
+                  <div className="bg-white dark:bg-zinc-950 px-3 py-2 rounded-lg shadow-md border">
                     <div className="text-xs font-semibold text-gray-900 dark:text-white leading-tight">
                       {node.title}
                     </div>
                     {node.progress > 0 && (
-                      <div className="mt-1 w-full h-1 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                      <div className="mt-1 w-full h-1 bg-gray-200 dark:bg-zinc-700 rounded-full overflow-hidden">
                         <div 
                           className="h-full bg-blue-500 rounded-full transition-all duration-300"
                           style={{ width: `${node.progress}%` }}
@@ -399,7 +399,7 @@ const InteractiveRoadmap: React.FC<InteractiveRoadmapProps> = ({ roadmapData, pr
 
       {/* Simplified Node Details Panel */}
       {selectedNode && (
-        <div className="absolute top-4 right-4 w-72 md:w-80 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-lg p-4 z-20 max-h-80 overflow-y-auto">
+        <div className="absolute top-4 right-4 w-72 md:w-80 bg-white dark:bg-zinc-950 rounded-xl border border-gray-200 dark:border-gray-700 shadow-lg p-4 z-20 max-h-80 overflow-y-auto">
           {/* Panel Header */}
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center space-x-2">
@@ -430,7 +430,7 @@ const InteractiveRoadmap: React.FC<InteractiveRoadmapProps> = ({ roadmapData, pr
                   {Math.round(selectedNode.progress)}%
                 </span>
               </div>
-              <div className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+              <div className="w-full h-2 bg-gray-200 dark:bg-zinc-700 rounded-full overflow-hidden">
                 <div 
                   className="h-full bg-blue-500 rounded-full transition-all duration-500"
                   style={{ width: `${selectedNode.progress}%` }}
@@ -449,7 +449,7 @@ const InteractiveRoadmap: React.FC<InteractiveRoadmapProps> = ({ roadmapData, pr
                 {selectedNode.subtopics.slice(0, 5).map((subtopic, index) => (
                   <div 
                     key={subtopic.id}
-                    className="p-3 bg-gray-50 dark:bg-gray-700 rounded-lg border"
+                    className="p-3 bg-gray-50 dark:bg-zinc-700 rounded-lg border"
                   >
                     <div className="flex items-center justify-between mb-2">
                       <h5 className="font-medium text-gray-900 dark:text-white text-xs truncate pr-2">
@@ -536,7 +536,7 @@ const InteractiveRoadmap: React.FC<InteractiveRoadmapProps> = ({ roadmapData, pr
       {/* Simplified Hover Tooltip */}
       {hoveredNode && !selectedNode && (
         <div 
-          className="absolute bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white px-3 py-2 rounded-lg shadow-lg text-sm z-30 pointer-events-none"
+          className="absolute bg-white dark:bg-zinc-950 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white px-3 py-2 rounded-lg shadow-lg text-sm z-30 pointer-events-none"
           style={{
             left: Math.min((roadmapNodes.find(n => n.id === hoveredNode)?.position.x || 0) + 80, roadmapWidth - 150),
             top: (roadmapNodes.find(n => n.id === hoveredNode)?.position.y || 0) - 50,

@@ -99,7 +99,7 @@ const BehavioralIndicator: React.FC<BehavioralIndicatorProps> = ({
 
         {/* Nudge Popup */}
         {currentNudge && (
-          <div className="absolute bottom-16 right-0 w-80 bg-white dark:bg-gray-800 rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-700 p-4 transform transition-all duration-300">
+          <div className="absolute bottom-16 right-0 w-80 bg-white dark:bg-zinc-800 rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-700 p-4 transform transition-all duration-300">
             <div className="flex items-start justify-between mb-2">
               <div className="flex items-center space-x-2">
                 <Zap className="w-5 h-5 text-yellow-500" />
@@ -120,7 +120,7 @@ const BehavioralIndicator: React.FC<BehavioralIndicatorProps> = ({
 
         {/* Stats Panel */}
         {isOpen && (
-          <div className="absolute bottom-16 right-0 w-96 bg-white/95 dark:bg-gray-800/95 backdrop-blur-lg rounded-2xl shadow-2xl border border-white/30 dark:border-gray-700/50 p-6 transform transition-all duration-300">
+          <div className="absolute bottom-16 right-0 w-96 bg-white/95 dark:bg-zinc-800/95 backdrop-blur-lg rounded-2xl shadow-2xl border border-white/30 dark:border-gray-700/50 p-6 transform transition-all duration-300">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-bold text-gray-900 dark:text-white flex items-center space-x-2">
                 <Brain className="w-5 h-5 text-indigo-600" />

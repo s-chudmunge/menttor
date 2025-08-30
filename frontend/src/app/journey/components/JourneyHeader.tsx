@@ -69,7 +69,7 @@ const JourneyHeader: React.FC<JourneyHeaderProps> = ({
 
   return (
     <>
-      <header className="bg-white/95 dark:bg-gray-900/95 backdrop-blur-lg border-b border-gray-200/50 dark:border-gray-700/50 sticky top-0 z-50 shadow-lg">
+      <header className="bg-white/95 dark:bg-zinc-950/95 backdrop-blur-lg border-b border-gray-200/50 dark:border-gray-700/50 sticky top-0 z-50 shadow-lg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-18 lg:h-20">
             {/* Logo */}
@@ -152,7 +152,7 @@ const JourneyHeader: React.FC<JourneyHeaderProps> = ({
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
         <div className="lg:hidden fixed inset-0 z-40 bg-black/50" onClick={() => setIsMobileMenuOpen(false)}>
-          <div className="absolute right-0 top-20 bottom-0 w-80 bg-white dark:bg-gray-800 shadow-2xl" onClick={(e) => e.stopPropagation()}>
+          <div className="absolute right-0 top-20 bottom-0 w-80 bg-white dark:bg-zinc-950 shadow-2xl" onClick={(e) => e.stopPropagation()}>
             <div className="p-6">
               <div className="space-y-2">
                 {navigationItems.map((item) => {

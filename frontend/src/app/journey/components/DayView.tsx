@@ -183,7 +183,7 @@ const DayView: React.FC<DayViewProps> = ({ roadmapData, progressData }) => {
       case 'low':
         return 'border-l-green-500 bg-green-50 dark:bg-green-900/20';
       default:
-        return 'border-l-gray-500 bg-gray-50 dark:bg-gray-900/20';
+        return 'border-l-gray-500 bg-gray-50 dark:bg-zinc-900/20';
     }
   };
 
@@ -261,7 +261,7 @@ const DayView: React.FC<DayViewProps> = ({ roadmapData, progressData }) => {
                 </div>
 
                 {/* Compact Progress Bar */}
-                <div className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden mt-3">
+                <div className="w-full h-2 bg-gray-200 dark:bg-zinc-700 rounded-full overflow-hidden mt-3">
                   <motion.div 
                     className="h-full bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full"
                     initial={{ width: 0 }}

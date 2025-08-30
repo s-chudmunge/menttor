@@ -81,7 +81,7 @@ const ModuleView: React.FC<ModuleViewProps> = ({
         <button
           onClick={() => onModuleNavigation('prev')}
           disabled={currentModuleIndex === 0}
-          className="flex items-center justify-center w-12 h-12 rounded-full bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-white dark:hover:bg-gray-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl"
+          className="flex items-center justify-center w-12 h-12 rounded-full bg-white/80 dark:bg-zinc-950/80 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-white dark:hover:bg-gray-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl"
         >
           <ChevronLeft className="w-5 h-5" />
         </button>
@@ -103,7 +103,7 @@ const ModuleView: React.FC<ModuleViewProps> = ({
         <button
           onClick={() => onModuleNavigation('next')}
           disabled={currentModuleIndex >= modules.length - 1}
-          className="flex items-center justify-center w-12 h-12 rounded-full bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-white dark:hover:bg-gray-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl"
+          className="flex items-center justify-center w-12 h-12 rounded-full bg-white/80 dark:bg-zinc-950/80 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-white dark:hover:bg-gray-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl"
         >
           <ChevronRight className="w-5 h-5" />
         </button>
@@ -115,7 +115,7 @@ const ModuleView: React.FC<ModuleViewProps> = ({
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1 }}
-        className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-200/50 dark:border-gray-800/50 overflow-hidden"
+        className="bg-white/80 dark:bg-zinc-950/80 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-200/50 dark:border-gray-800/50 overflow-hidden"
       >
         <div className="p-4 sm:p-6">
           <div className="space-y-4 sm:space-y-6">
@@ -128,7 +128,7 @@ const ModuleView: React.FC<ModuleViewProps> = ({
                 className="group relative"
               >
                 {/* Topic Container */}
-                <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-xl transition-all duration-300">
+                <div className="bg-white dark:bg-zinc-950 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-xl transition-all duration-300">
                   {/* Topic Header */}
                   <div className="p-3 sm:p-4 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/30 dark:to-indigo-900/30 border-b border-gray-200 dark:border-gray-700">
                     <div className="flex items-center space-x-3">
@@ -175,7 +175,7 @@ const ModuleView: React.FC<ModuleViewProps> = ({
                                     <Clock className="w-2.5 h-2.5 text-white" />
                                   </div>
                                 ) : (
-                                  <div className="w-5 h-5 bg-gray-200 dark:bg-gray-600 rounded-full flex items-center justify-center">
+                                  <div className="w-5 h-5 bg-gray-200 dark:bg-zinc-600 rounded-full flex items-center justify-center">
                                     <div className="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
                                   </div>
                                 )}
@@ -289,11 +289,11 @@ const ModuleView: React.FC<ModuleViewProps> = ({
         transition={{ delay: 0.3 }}
         className="text-center"
       >
-        <div className="inline-flex items-center space-x-2 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-full px-6 py-3 border border-gray-200/50 dark:border-gray-700/50 shadow-lg">
+        <div className="inline-flex items-center space-x-2 bg-white/80 dark:bg-zinc-950/80 backdrop-blur-sm rounded-full px-6 py-3 border border-gray-200/50 dark:border-gray-700/50 shadow-lg">
           <span className="text-sm text-gray-800 dark:text-gray-200 font-medium">
             Module {currentModuleIndex + 1} of {modules.length}
           </span>
-          <div className="w-24 h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+          <div className="w-24 h-2 bg-gray-200 dark:bg-zinc-700 rounded-full overflow-hidden">
             <div 
               className="h-full bg-gradient-to-r from-indigo-600 to-purple-600 transition-all duration-500"
               style={{

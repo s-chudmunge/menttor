@@ -102,14 +102,14 @@ const FeatureTooltip: React.FC<FeatureTooltipProps> = ({ type, isAvailable, clas
         onMouseEnter={() => setShowTooltip(true)}
         onMouseLeave={() => setShowTooltip(false)}
         onClick={() => setShowTooltip(!showTooltip)}
-        className="group p-1.5 rounded-full bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 transition-colors duration-200"
+        className="group p-1.5 rounded-full bg-gray-100 hover:bg-gray-200 dark:bg-zinc-700 dark:hover:bg-gray-600 transition-colors duration-200"
       >
         <Info className="w-4 h-4 text-gray-500 group-hover:text-gray-700 dark:text-gray-400 dark:group-hover:text-gray-300" />
       </button>
 
       {showTooltip && (
         <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 z-50 animate-in fade-in slide-in-from-bottom-2 duration-200">
-          <div className={`bg-white dark:bg-gray-800 rounded-xl shadow-2xl border ${colorClasses.border} p-4 w-80 max-w-sm`}>
+          <div className={`bg-white dark:bg-zinc-800 rounded-xl shadow-2xl border ${colorClasses.border} p-4 w-80 max-w-sm`}>
             {/* Header */}
             <div className="flex items-center space-x-3 mb-3">
               <div className={`w-8 h-8 ${colorClasses.bg} rounded-lg flex items-center justify-center`}>
@@ -169,7 +169,7 @@ const FeatureTooltip: React.FC<FeatureTooltipProps> = ({ type, isAvailable, clas
 
             {/* Arrow pointer */}
             <div className="absolute top-full left-1/2 transform -translate-x-1/2">
-              <div className={`w-3 h-3 bg-white dark:bg-gray-800 border-r border-b ${colorClasses.border} transform rotate-45`}></div>
+              <div className={`w-3 h-3 bg-white dark:bg-zinc-800 border-r border-b ${colorClasses.border} transform rotate-45`}></div>
             </div>
           </div>
         </div>
