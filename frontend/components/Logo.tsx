@@ -6,7 +6,8 @@ const Logo = () => (
     <img 
       src="/logo.svg" 
       alt="Menttor Logo" 
-      className="h-42 w-auto"
+      className="h-42 w-auto mix-blend-darken"
+      style={{ filter: 'drop-shadow(0 0 0 transparent)' }}
     />
   </Link>
 );
