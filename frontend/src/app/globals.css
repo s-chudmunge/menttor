@@ -185,7 +185,7 @@
   --warning-color-dark: #fbbf24;
   --error-color-dark: #f87171;
 
-  --bg-primary-dark: #18181b;
+  --bg-primary-dark: #0a0a0a;
   --bg-secondary-dark: #2d3748;
   --bg-tertiary-dark: #4a5568;
   --bg-dark-dark: #000000;
@@ -236,5 +236,13 @@ body {
 }
 
 .dark body {
-  background: #0a0a0a;
+  background: #0a0a0a !important;
+}
+
+.dark html {
+  background: #0a0a0a !important;
+}
+
+.dark {
+  background: #0a0a0a !important;
 }
