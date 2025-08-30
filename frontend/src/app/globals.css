@@ -257,3 +257,14 @@ body {
   background: var(--journey-bg-color, #000000) !important;
 }
 
+/* Journey page dark theme utility class */
+.journey-page-dark {
+  background-color: #000000 !important;
+}
+
+/* Ensure the entire viewport is dark for journey page */
+.dark .journey-page-bg {
+  background: #000000 !important;
+  background-image: none !important;
+}
+
