@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { Home, BookOpen, Target, BarChart3 } from 'lucide-react'
-import Logo from './Logo'
+import Logo from '@rootComponents/Logo'
 import ProfileDropdown from './ProfileDropdown'
 
 export default function PreviewHeader() {
