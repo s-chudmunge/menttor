@@ -386,26 +386,47 @@ const MenttorLabsMainPage = () => {
       <div className="min-h-screen bg-gradient-to-br from-white via-blue-50 to-blue-100 dark:from-gray-900 dark:via-blue-900 dark:to-gray-800 transition-colors duration-300">
 
       {/* Navigation */}
-      <nav className="bg-white/95 dark:bg-black backdrop-blur-sm border-b border-gray-100 dark:border-gray-800 sticky top-0 z-50 transition-all duration-300">
-        <div className="max-w-6xl mx-auto pr-4 sm:pr-6 lg:pr-8">
+      <nav className="bg-white/95 dark:bg-black backdrop-blur-lg border-b border-gray-200/50 dark:border-gray-700/50 sticky top-0 z-50 shadow-lg">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-14">
-            <Logo />
+            {/* Logo */}
+            <div className="flex items-center space-x-3">
+              <Logo />
+            </div>
             
             {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center space-x-1">
-              <Link href="/" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white px-3 py-2 text-sm font-medium transition-colors duration-200">Home</Link>
-              <Link href="/explore" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white px-3 py-2 text-sm font-medium transition-colors duration-200">Explore</Link>
-              <a href="#generate" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white px-3 py-2 text-sm font-medium transition-colors duration-200">Generate</a>
+            <nav className="hidden lg:flex items-center space-x-1">
+              <Link 
+                href="/" 
+                className="flex items-center space-x-2 px-3 py-2 rounded-md font-medium transition-all duration-200 bg-purple-600 text-white"
+              >
+                <span className="text-sm">Home</span>
+              </Link>
+              <Link 
+                href="/explore" 
+                className="flex items-center space-x-2 px-3 py-2 rounded-md font-medium transition-all duration-200 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800"
+              >
+                <BookOpen className="w-4 h-4" />
+                <span className="text-sm">Explore</span>
+              </Link>
+              <Link 
+                href="/journey" 
+                className="flex items-center space-x-2 px-3 py-2 rounded-md font-medium transition-all duration-200 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800"
+              >
+                <Target className="w-4 h-4" />
+                <span className="text-sm">Journey</span>
+              </Link>
               <button 
                 onClick={() => setShowOldRoadmaps(true)}
-                className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white px-3 py-2 text-sm font-medium transition-colors duration-200"
+                className="flex items-center space-x-2 px-3 py-2 rounded-md font-medium transition-all duration-200 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800"
               >
-                Roadmaps
+                <History className="w-4 h-4" />
+                <span className="text-sm">Roadmaps</span>
               </button>
-            </div>
+            </nav>
 
-            {/* Profile/Auth - Separate from navigation */}
-            <div className="flex items-center">
+            {/* Profile */}
+            <div className="flex items-center space-x-3">
               {!loading && user ? (
                 <ProfileDropdown />
               ) : (
@@ -416,15 +437,15 @@ const MenttorLabsMainPage = () => {
                   Sign In
                 </button>
               )}
+              
+              {/* Mobile Menu Button */}
+              <button
+                onClick={() => setShowMobileMenu(!showMobileMenu)}
+                className="lg:hidden ml-2 p-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
+              >
+                {showMobileMenu ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              </button>
             </div>
-
-            {/* Mobile Menu Button */}
-            <button 
-              className="md:hidden"
-              onClick={() => setShowMobileMenu(!showMobileMenu)}
-            >
-              {showMobileMenu ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </button>
           </div>
         </div>
 
