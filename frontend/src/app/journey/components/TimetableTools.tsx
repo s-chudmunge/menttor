@@ -12,6 +12,7 @@ interface TimetableToolsProps {
 const TimetableTools: React.FC<TimetableToolsProps> = ({ roadmapData, className = "" }) => {
   const [isGenerating, setIsGenerating] = useState(false);
   const [lastAction, setLastAction] = useState<'pdf' | 'calendar' | 'google' | null>(null);
+  const [studyTime, setStudyTime] = useState('09:00');
 
   const timetableGenerator = new TimetableGenerator();
 
@@ -24,7 +25,7 @@ const TimetableTools: React.FC<TimetableToolsProps> = ({ roadmapData, className 
     try {
       // Small delay to show loading state
       await new Promise(resolve => setTimeout(resolve, 500));
-      await timetableGenerator.generatePDF(roadmapData);
+      await timetableGenerator.generatePDF(roadmapData, studyTime);
       
       // Show success for 2 seconds
       setTimeout(() => {
@@ -46,7 +47,7 @@ const TimetableTools: React.FC<TimetableToolsProps> = ({ roadmapData, className 
     
     try {
       await new Promise(resolve => setTimeout(resolve, 300));
-      timetableGenerator.downloadCalendar(roadmapData);
+      timetableGenerator.downloadCalendar(roadmapData, studyTime);
       
       setTimeout(() => {
         setLastAction(null);
@@ -63,7 +64,7 @@ const TimetableTools: React.FC<TimetableToolsProps> = ({ roadmapData, className 
     if (!roadmapData) return;
     
     setLastAction('google');
-    timetableGenerator.addToGoogleCalendar(roadmapData);
+    timetableGenerator.addToGoogleCalendar(roadmapData, studyTime);
     
     setTimeout(() => {
       setLastAction(null);
@@ -80,6 +81,19 @@ const TimetableTools: React.FC<TimetableToolsProps> = ({ roadmapData, className 
         <h3 className="text-sm font-semibold text-gray-900 dark:text-white">
           Get Your Learning Schedule
         </h3>
+      </div>
+
+      {/* Study Time Selection */}
+      <div className="bg-purple-50 dark:bg-purple-900 border border-purple-200 dark:border-purple-700 rounded p-2">
+        <label className="block text-xs font-medium text-purple-800 dark:text-purple-200 mb-1">
+          Preferred Study Time
+        </label>
+        <input
+          type="time"
+          value={studyTime}
+          onChange={(e) => setStudyTime(e.target.value)}
+          className="w-full px-2 py-1 text-sm bg-white dark:bg-purple-800 border border-purple-200 dark:border-purple-600 rounded focus:outline-none focus:ring-1 focus:ring-purple-500"
+        />
       </div>
 
       <div className="space-y-1">

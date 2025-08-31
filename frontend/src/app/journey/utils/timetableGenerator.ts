@@ -200,7 +200,7 @@ export class TimetableGenerator {
     return 60; // Default to 1 hour
   }
 
-  private generateSchedule(roadmapData: RoadmapData | null | undefined) {
+  private generateSchedule(roadmapData: RoadmapData | null | undefined, studyTime: string = '09:00') {
     const schedule: Array<{
       title: string;
       description: string;
@@ -221,7 +221,10 @@ export class TimetableGenerator {
       (roadmapData.time_unit || '').includes('hour') ? 60 : 60
     );
 
+    // Parse study time and set it for today
+    const [hours, minutes] = studyTime.split(':').map(Number);
     let currentDate = new Date();
+    currentDate.setHours(hours, minutes, 0, 0);
     let cumulativeMinutes = 0;
 
     // Handle different roadmap data structures
@@ -289,7 +292,9 @@ export class TimetableGenerator {
           
           // Move to next study session
           if (cumulativeMinutes >= dailyStudyMinutes) {
-            currentDate = addDays(currentDate, Math.floor(cumulativeMinutes / dailyStudyMinutes));
+            const daysToAdd = Math.floor(cumulativeMinutes / dailyStudyMinutes);
+            currentDate = addDays(currentDate, daysToAdd);
+            currentDate.setHours(hours, minutes, 0, 0); // Reset to study time
             cumulativeMinutes = cumulativeMinutes % dailyStudyMinutes;
           }
         });
@@ -297,13 +302,14 @@ export class TimetableGenerator {
       
       // Add buffer between modules
       currentDate = addDays(currentDate, 1);
+      currentDate.setHours(hours, minutes, 0, 0); // Reset to study time
       cumulativeMinutes = 0;
     });
 
     return schedule;
   }
 
-  public async generatePDF(roadmapData: RoadmapData | null | undefined): Promise<void> {
+  public async generatePDF(roadmapData: RoadmapData | null | undefined, studyTime: string = '09:00'): Promise<void> {
     try {
       if (!roadmapData) {
         throw new Error('No roadmap data provided');
@@ -347,7 +353,7 @@ export class TimetableGenerator {
     yPosition += 10;
     
     // Generate schedule
-    const schedule = this.generateSchedule(roadmapData);
+    const schedule = this.generateSchedule(roadmapData, studyTime);
     
     doc.setFontSize(9);
     
@@ -484,14 +490,14 @@ export class TimetableGenerator {
     }
   }
 
-  public generateCalendarEvents(roadmapData: RoadmapData | null | undefined): string {
+  public generateCalendarEvents(roadmapData: RoadmapData | null | undefined, studyTime: string = '09:00'): string {
     try {
       if (!roadmapData) {
         console.error('No roadmap data provided for calendar generation');
         return '';
       }
 
-      const schedule = this.generateSchedule(roadmapData);
+      const schedule = this.generateSchedule(roadmapData, studyTime);
       const events: EventAttributes[] = [];
 
     schedule.forEach((item, index) => {
@@ -542,9 +548,9 @@ export class TimetableGenerator {
     }
   }
 
-  public downloadCalendar(roadmapData: RoadmapData | null | undefined): void {
+  public downloadCalendar(roadmapData: RoadmapData | null | undefined, studyTime: string = '09:00'): void {
     try {
-      const icsContent = this.generateCalendarEvents(roadmapData);
+      const icsContent = this.generateCalendarEvents(roadmapData, studyTime);
       if (!icsContent) {
         throw new Error('Failed to generate calendar content');
       }
@@ -563,35 +569,23 @@ export class TimetableGenerator {
     }
   }
 
-  public addToGoogleCalendar(roadmapData: RoadmapData | null | undefined): void {
+  public addToGoogleCalendar(roadmapData: RoadmapData | null | undefined, studyTime: string = '09:00'): void {
     try {
       if (!roadmapData) {
         throw new Error('No roadmap data provided');
       }
 
-      const schedule = this.generateSchedule(roadmapData);
-      const firstEvent = schedule.find(item => item.type === 'subtopic');
+      // Generate the calendar file and trigger download instead of opening individual events
+      // Since Google Calendar doesn't support bulk import via URL, we'll download the .ics file
+      // which users can then import into Google Calendar
+      this.downloadCalendar(roadmapData, studyTime);
       
-      if (!firstEvent) {
-        console.warn('No study sessions found to add to calendar');
-        return;
-      }
-
-      const startDate = firstEvent.startDate;
-      const endDate = new Date(startDate.getTime() + firstEvent.duration * 60000);
+      // Optionally, show a message or open Google Calendar import page
+      setTimeout(() => {
+        const importUrl = 'https://calendar.google.com/calendar/u/0/r/settings/addcalendar';
+        window.open(importUrl, '_blank');
+      }, 1000);
       
-      const googleCalendarUrl = new URL('https://calendar.google.com/calendar/render');
-      googleCalendarUrl.searchParams.set('action', 'TEMPLATE');
-      googleCalendarUrl.searchParams.set('text', `Study Session: ${roadmapData.title || 'Learning Roadmap'}`);
-      googleCalendarUrl.searchParams.set('dates', 
-        `${startDate.toISOString().replace(/[-:]/g, '').split('.')[0]}Z/${endDate.toISOString().replace(/[-:]/g, '').split('.')[0]}Z`
-      );
-      googleCalendarUrl.searchParams.set('details', 
-        `Learning roadmap: ${roadmapData.description || 'No description'}\n\nCrafted by Menttor.live - Your Smart Learning Companion`
-      );
-      googleCalendarUrl.searchParams.set('location', 'Your Study Space');
-      
-      window.open(googleCalendarUrl.toString(), '_blank');
     } catch (error) {
       console.error('Error adding to Google Calendar:', error);
       throw error;
