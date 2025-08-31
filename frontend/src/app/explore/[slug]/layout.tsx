@@ -154,7 +154,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
           '@type': 'Organization',
           name: 'Menttor Labs',
           url: baseUrl,
-          logo: `${baseUrl}/logo.png`
+          logo: `${baseUrl}/favicon_io (2)/android-chrome-512x512.png`
         },
         educationalLevel: roadmap.difficulty,
         about: roadmap.category.replace('-', ' '),

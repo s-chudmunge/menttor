@@ -158,7 +158,9 @@ export default function RootLayout({
               "url": "https://menttor.live",
               "logo": {
                 "@type": "ImageObject",
-                "url": "https://menttor.live/favicon_io (2)/favicon.ico"
+                "url": "https://menttor.live/favicon_io (2)/android-chrome-512x512.png",
+                "width": 512,
+                "height": 512
               },
               "description": "Smart learning platform offering free personalized roadmaps across diverse subjects including programming, business, science, languages, and professional skills",
               "sameAs": [
