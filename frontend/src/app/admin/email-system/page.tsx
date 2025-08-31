@@ -12,6 +12,7 @@ export default function AdminEmailSystem() {
   const [recipientEmail, setRecipientEmail] = useState('')
   const [emailSubject, setEmailSubject] = useState('Test Email from Menttor')
   const [emailMessage, setEmailMessage] = useState('This is a test email sent from the Menttor admin panel.')
+  const [emailTemplate, setEmailTemplate] = useState('custom')
   const [sending, setSending] = useState(false)
   const [sendResult, setSendResult] = useState<string>('')
 
@@ -26,12 +27,43 @@ export default function AdminEmailSystem() {
     }
   }
 
+  const getWelcomeTemplate = () => {
+    return `Welcome to Menttor! 🚀
+
+Hi there!
+
+Welcome to Menttor - your smart learning companion! We're excited to have you join our community of learners.
+
+**🗺️ Explore 500+ Curated Roadmaps**
+Visit our Explore page to discover expertly crafted learning paths across programming, business, science, and more. Each roadmap is designed to take you from beginner to expert.
+
+**🎯 Your Personalized Journey**
+• Interactive roadmap visualization with progress tracking
+• Practice exercises tailored to your learning style  
+• Quick tools: Flashcards, Mind Maps, Timetables, PDF exports
+• Performance analytics to track your growth
+
+**✨ Key Features You'll Love**
+• Smart content adaptation based on your progress
+• Behavioral learning insights and milestone rewards
+• Mobile-optimized learning experience
+• 95% learner success rate with our structured approach
+
+Ready to start your learning journey? Head to menttor.live and dive in!
+
+Best regards,
+Sankalp from Menttor
+menttor.live`;
+  }
+
   const handleSendEmail = async (e: React.FormEvent) => {
     e.preventDefault()
     setSending(true)
     setSendResult('')
 
     try {
+      const finalMessage = emailTemplate === 'welcome' ? getWelcomeTemplate() : emailMessage;
+      
       const response = await fetch('/api/send-email', {
         method: 'POST',
         headers: {
@@ -40,7 +72,7 @@ export default function AdminEmailSystem() {
         body: JSON.stringify({
           to: recipientEmail,
           subject: emailSubject,
-          message: emailMessage,
+          message: finalMessage,
         }),
       })
 
@@ -48,8 +80,9 @@ export default function AdminEmailSystem() {
 
       if (response.ok) {
         setSendResult(`✅ Email sent successfully! Email ID: ${data.emailId}`)
-        setRecipientEmail('')
-        setEmailMessage('This is a test email sent from the Menttor admin panel.')
+        if (emailTemplate === 'welcome') {
+          setRecipientEmail('')
+        }
       } else {
         setSendResult(`❌ Error: ${data.error}`)
       }
@@ -153,6 +186,30 @@ export default function AdminEmailSystem() {
 
             <div className="mt-8">
               <form onSubmit={handleSendEmail} className="space-y-6">
+                <div>
+                  <label htmlFor="template" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                    Email Template
+                  </label>
+                  <select
+                    id="template"
+                    className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm px-3 py-2"
+                    value={emailTemplate}
+                    onChange={(e) => {
+                      setEmailTemplate(e.target.value)
+                      if (e.target.value === 'welcome') {
+                        setEmailSubject('Welcome to Menttor - Start Your Learning Journey!')
+                        setEmailMessage(getWelcomeTemplate())
+                      } else {
+                        setEmailSubject('Test Email from Menttor')
+                        setEmailMessage('This is a test email sent from the Menttor admin panel.')
+                      }
+                    }}
+                  >
+                    <option value="custom">Custom Message</option>
+                    <option value="welcome">Welcome Email Template</option>
+                  </select>
+                </div>
+
                 <div>
                   <label htmlFor="recipient" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                     Recipient Email

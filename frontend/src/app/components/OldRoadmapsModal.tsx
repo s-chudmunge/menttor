@@ -89,63 +89,51 @@ export default function OldRoadmapsModal({ isOpen, onClose, onLoadRoadmap }: Old
                 exit={{ opacity: 0 }}
             >
                 <motion.div 
-                    className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden"
-                    initial={{ scale: 0.9, opacity: 0 }}
+                    className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 shadow-lg w-full max-w-3xl max-h-[85vh] overflow-hidden"
+                    initial={{ scale: 0.95, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
-                    exit={{ scale: 0.9, opacity: 0 }}
-                    transition={{ type: "spring", damping: 20, stiffness: 300 }}
+                    exit={{ scale: 0.95, opacity: 0 }}
                 >
                     {/* Header */}
-                    <div className="bg-gradient-to-r from-indigo-600 to-purple-600 p-6 text-white">
+                    <div className="border-b border-gray-200 dark:border-gray-700 px-4 py-3">
                         <div className="flex items-center justify-between">
-                            <div>
-                                <h2 className="text-2xl font-bold mb-2">Your Learning Roadmaps</h2>
-                                <p className="text-indigo-100">Manage and access your previous roadmaps</p>
-                            </div>
+                            <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Your Roadmaps</h2>
                             <button 
                                 onClick={onClose}
-                                className="p-2 hover:bg-white/20 rounded-lg transition-colors"
+                                className="p-1.5 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors"
                             >
-                                <X className="w-6 h-6" />
+                                <X className="w-5 h-5 text-gray-500 dark:text-gray-400" />
                             </button>
                         </div>
                     </div>
 
                     {/* Content */}
-                    <div className="p-6">
+                    <div className="p-4">
                         {isLoading && (
-                            <motion.div 
-                                className="flex flex-col items-center justify-center min-h-[200px]"
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                            >
-                                <div className="w-12 h-12 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin mb-4"></div>
-                                <p className="text-gray-600 dark:text-gray-400">Loading your roadmaps...</p>
-                            </motion.div>
+                            <div className="flex items-center justify-center py-8">
+                                <div className="w-6 h-6 border-2 border-gray-300 border-t-gray-600 rounded-full animate-spin mr-3"></div>
+                                <p className="text-gray-600 dark:text-gray-400">Loading roadmaps...</p>
+                            </div>
                         )}
 
                         {error && (
-                            <motion.div 
-                                className="text-center py-8"
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                            >
-                                <AlertTriangle className="w-12 h-12 text-red-500 mx-auto mb-4" />
-                                <p className="text-red-600 dark:text-red-400">Error loading roadmaps: {error.message}</p>
-                            </motion.div>
+                            <div className="text-center py-8">
+                                <AlertTriangle className="w-8 h-8 text-red-500 mx-auto mb-2" />
+                                <p className="text-red-600 dark:text-red-400 text-sm">Error loading roadmaps: {error.message}</p>
+                            </div>
                         )}
 
                         {roadmaps && roadmaps.length > 0 ? (
-                            <div className="space-y-4">
+                            <div className="space-y-3">
                                 {/* Selection Controls */}
-                                <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                                    <div className="flex items-center space-x-4">
-                                        <span className="text-sm text-gray-600 dark:text-gray-400">
+                                <div className="flex items-center justify-between px-3 py-2 bg-gray-50 dark:bg-gray-700 rounded border">
+                                    <div className="flex items-center space-x-3">
+                                        <span className="text-xs text-gray-600 dark:text-gray-400">
                                             {selectedRoadmaps.size} of {roadmaps.length} selected
                                         </span>
                                         <button
                                             onClick={selectAll}
-                                            className="text-xs text-indigo-600 dark:text-indigo-400 hover:underline"
+                                            className="text-xs text-blue-600 dark:text-blue-400 hover:underline"
                                         >
                                             Select All
                                         </button>
@@ -160,72 +148,51 @@ export default function OldRoadmapsModal({ isOpen, onClose, onLoadRoadmap }: Old
                                     {selectedRoadmaps.size > 0 && (
                                         <button
                                             onClick={() => setShowDeleteConfirm(true)}
-                                            className="flex items-center space-x-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors"
+                                            className="flex items-center space-x-1 px-3 py-1 bg-red-600 hover:bg-red-700 text-white rounded text-xs transition-colors"
                                         >
-                                            <Trash2 className="w-4 h-4" />
-                                            <span>Delete Selected</span>
+                                            <Trash2 className="w-3 h-3" />
+                                            <span>Delete</span>
                                         </button>
                                     )}
                                 </div>
 
-                                {/* Roadmaps Grid */}
-                                <div className="grid gap-4 max-h-[400px] overflow-y-auto pr-2">
+                                {/* Roadmaps List */}
+                                <div className="space-y-2 max-h-[350px] overflow-y-auto">
                                     {roadmaps.map((roadmap, index) => (
-                                        <motion.div
+                                        <div
                                             key={roadmap.id}
-                                            initial={{ opacity: 0, y: 20 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            transition={{ delay: index * 0.05 }}
-                                            className={`relative p-4 bg-gradient-to-r from-white to-gray-50 dark:from-gray-800 dark:to-gray-700 rounded-xl border-2 transition-all hover:shadow-lg ${
+                                            className={`relative p-3 bg-white dark:bg-gray-800 rounded border transition-all ${
                                                 selectedRoadmaps.has(roadmap.id) 
-                                                    ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-900/20' 
-                                                    : 'border-gray-200 dark:border-gray-600 hover:border-indigo-300'
+                                                    ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/10' 
+                                                    : 'border-gray-200 dark:border-gray-600 hover:border-blue-300'
                                             }`}
                                         >
                                             {/* Selection Checkbox */}
                                             <button
                                                 onClick={() => toggleSelection(roadmap.id)}
-                                                className="absolute top-4 left-4 p-1"
+                                                className="absolute top-3 left-3"
                                             >
                                                 {selectedRoadmaps.has(roadmap.id) ? (
-                                                    <CheckSquare className="w-5 h-5 text-indigo-600" />
+                                                    <CheckSquare className="w-4 h-4 text-blue-600" />
                                                 ) : (
-                                                    <Square className="w-5 h-5 text-gray-400 hover:text-indigo-600" />
+                                                    <Square className="w-4 h-4 text-gray-400 hover:text-blue-600" />
                                                 )}
                                             </button>
 
-                                            <div className="flex items-start justify-between pl-10">
-                                                <div className="flex-1">
-                                                    <div className="flex items-center space-x-2 mb-2">
-                                                        <BookOpen className="w-5 h-5 text-indigo-600" />
-                                                        <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                                                            {roadmap.title || roadmap.subject}
-                                                        </h3>
-                                                    </div>
+                                            <div className="flex items-center justify-between pl-8">
+                                                <div className="flex-1 min-w-0">
+                                                    <h3 className="text-sm font-medium text-gray-900 dark:text-white truncate">
+                                                        {roadmap.title || roadmap.subject}
+                                                    </h3>
                                                     
-                                                    {roadmap.description && (
-                                                        <p className="text-sm text-gray-600 dark:text-gray-400 mb-3 line-clamp-2">
-                                                            {roadmap.description}
-                                                        </p>
-                                                    )}
-
-                                                    <div className="flex items-center space-x-4 text-xs text-gray-500 dark:text-gray-400">
+                                                    <div className="flex items-center space-x-3 mt-1 text-xs text-gray-500 dark:text-gray-400">
                                                         {roadmap.time_value && roadmap.time_unit && (
-                                                            <div className="flex items-center space-x-1">
+                                                            <span className="flex items-center space-x-1">
                                                                 <Clock className="w-3 h-3" />
                                                                 <span>{roadmap.time_value} {roadmap.time_unit}</span>
-                                                            </div>
+                                                            </span>
                                                         )}
-                                                        {roadmap.model && (
-                                                            <div className="flex items-center space-x-1">
-                                                                <Target className="w-3 h-3" />
-                                                                <span>{roadmap.model}</span>
-                                                            </div>
-                                                        )}
-                                                        <div className="flex items-center space-x-1">
-                                                            <BookOpen className="w-3 h-3" />
-                                                            <span>ID: {roadmap.id}</span>
-                                                        </div>
+                                                        <span>ID: {roadmap.id}</span>
                                                     </div>
                                                 </div>
 
@@ -234,37 +201,32 @@ export default function OldRoadmapsModal({ isOpen, onClose, onLoadRoadmap }: Old
                                                         onLoadRoadmap(roadmap);
                                                         onClose();
                                                     }}
-                                                    className="flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white rounded-lg transition-all duration-200 shadow-md hover:shadow-lg"
+                                                    className="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-xs rounded transition-colors"
                                                 >
-                                                    <Zap className="w-4 h-4" />
-                                                    <span>Load</span>
+                                                    Load
                                                 </button>
                                             </div>
-                                        </motion.div>
+                                        </div>
                                     ))}
                                 </div>
                             </div>
                         ) : (
                             !isLoading && !error && (
-                                <motion.div 
-                                    className="text-center py-12"
-                                    initial={{ opacity: 0, y: 20 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                >
-                                    <BookOpen className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-                                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">No roadmaps yet</h3>
-                                    <p className="text-gray-600 dark:text-gray-400">Create your first roadmap to see it here!</p>
-                                </motion.div>
+                                <div className="text-center py-8">
+                                    <BookOpen className="w-12 h-12 text-gray-400 mx-auto mb-3" />
+                                    <h3 className="text-sm font-medium text-gray-900 dark:text-white mb-1">No roadmaps yet</h3>
+                                    <p className="text-xs text-gray-600 dark:text-gray-400">Create your first roadmap to see it here!</p>
+                                </div>
                             )
                         )}
                     </div>
 
                     {/* Footer */}
-                    <div className="border-t border-gray-200 dark:border-gray-700 p-6 bg-gray-50 dark:bg-gray-800">
+                    <div className="border-t border-gray-200 dark:border-gray-700 px-4 py-3">
                         <div className="flex justify-end">
                             <button
                                 onClick={onClose}
-                                className="px-6 py-2 bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-500 text-gray-800 dark:text-gray-200 rounded-lg transition-colors"
+                                className="px-4 py-1.5 bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 dark:hover:bg-gray-500 text-gray-700 dark:text-gray-200 rounded text-sm transition-colors"
                             >
                                 Close
                             </button>
@@ -281,39 +243,34 @@ export default function OldRoadmapsModal({ isOpen, onClose, onLoadRoadmap }: Old
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
                         >
-                            <motion.div
-                                className="bg-white dark:bg-gray-800 rounded-xl p-6 m-4 max-w-md w-full"
-                                initial={{ scale: 0.9, opacity: 0 }}
-                                animate={{ scale: 1, opacity: 1 }}
-                                exit={{ scale: 0.9, opacity: 0 }}
-                            >
-                                <div className="flex items-center space-x-3 mb-4">
-                                    <AlertTriangle className="w-6 h-6 text-red-500" />
-                                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                            <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 m-4 max-w-sm w-full">
+                                <div className="flex items-center space-x-2 mb-3">
+                                    <AlertTriangle className="w-5 h-5 text-red-500" />
+                                    <h3 className="text-sm font-semibold text-gray-900 dark:text-white">
                                         Confirm Deletion
                                     </h3>
                                 </div>
                                 
-                                <p className="text-gray-600 dark:text-gray-400 mb-6">
-                                    Are you sure you want to delete {selectedRoadmaps.size} roadmap{selectedRoadmaps.size > 1 ? 's' : ''}? This action cannot be undone.
+                                <p className="text-xs text-gray-600 dark:text-gray-400 mb-4">
+                                    Delete {selectedRoadmaps.size} roadmap{selectedRoadmaps.size > 1 ? 's' : ''}? This cannot be undone.
                                 </p>
                                 
-                                <div className="flex space-x-3">
+                                <div className="flex space-x-2">
                                     <button
                                         onClick={() => setShowDeleteConfirm(false)}
-                                        className="flex-1 px-4 py-2 bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-500 text-gray-800 dark:text-gray-200 rounded-lg transition-colors"
+                                        className="flex-1 px-3 py-1.5 bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 dark:hover:bg-gray-500 text-gray-700 dark:text-gray-200 rounded text-xs transition-colors"
                                     >
                                         Cancel
                                     </button>
                                     <button
                                         onClick={handleDelete}
                                         disabled={isDeleting}
-                                        className="flex-1 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                                        className="flex-1 px-3 py-1.5 bg-red-600 hover:bg-red-700 text-white rounded text-xs transition-colors disabled:opacity-50"
                                     >
                                         {isDeleting ? 'Deleting...' : 'Delete'}
                                     </button>
                                 </div>
-                            </motion.div>
+                            </div>
                         </motion.div>
                     )}
                 </AnimatePresence>
