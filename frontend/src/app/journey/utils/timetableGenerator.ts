@@ -39,22 +39,32 @@ export class TimetableGenerator {
   private async addMentorBranding(doc: jsPDF, pageWidth: number) {
     // Add watermark with logo
     try {
-      const watermarkResponse = await fetch('/logo_higres.png');
+      const watermarkResponse = await fetch('/logo_higres-min.png');
+      console.log('Watermark fetch status:', watermarkResponse.status);
+      
       if (watermarkResponse.ok) {
         const watermarkBlob = await watermarkResponse.blob();
+        console.log('Watermark blob size:', watermarkBlob.size);
         const watermarkDataUrl = await this.blobToDataURL(watermarkBlob);
         
         // Create image to get natural dimensions
         const watermarkImg = new Image();
         watermarkImg.src = watermarkDataUrl;
         
-        await new Promise((resolve) => {
-          watermarkImg.onload = resolve;
+        await new Promise((resolve, reject) => {
+          watermarkImg.onload = () => {
+            console.log('Watermark image loaded successfully');
+            resolve(null);
+          };
+          watermarkImg.onerror = (err) => {
+            console.error('Failed to load watermark image:', err);
+            reject(err);
+          };
         });
         
-        // Calculate watermark dimensions (larger for watermark)
-        const maxWatermarkWidth = 80;
-        const maxWatermarkHeight = 60;
+        // Calculate watermark dimensions (larger and more visible)
+        const maxWatermarkWidth = 120;
+        const maxWatermarkHeight = 90;
         const watermarkAspectRatio = watermarkImg.width / watermarkImg.height;
         
         let watermarkWidth = maxWatermarkWidth;
@@ -65,26 +75,26 @@ export class TimetableGenerator {
           watermarkWidth = maxWatermarkHeight * watermarkAspectRatio;
         }
         
-        // Add semi-transparent watermark in center (no rotation)
+        // Add semi-transparent watermark in center
         doc.saveGraphicsState();
-        doc.setGState({ opacity: 0.1 });
+        doc.setGState({ opacity: 0.15 }); // Slightly more visible
         
         doc.addImage(
           watermarkDataUrl, 
           'PNG', 
           (pageWidth - watermarkWidth) / 2, 
-          130, 
+          120, 
           watermarkWidth, 
           watermarkHeight
         );
         
         doc.restoreGraphicsState();
+        console.log('Watermark added successfully');
       } else {
-        // Skip watermark if logo not available
-        console.warn('logo_higres.png not found, skipping watermark');
+        console.warn('logo_higres-min.png not found, response status:', watermarkResponse.status);
       }
     } catch (error) {
-      console.warn('Could not load watermark logo, skipping watermark:', error);
+      console.error('Could not load watermark logo:', error);
       // Skip watermark if logo loading fails
     }
     
@@ -93,7 +103,7 @@ export class TimetableGenerator {
     
     // Add logo to header if available
     try {
-      const logoResponse = await fetch('/logo_higres.png');
+      const logoResponse = await fetch('/logo_higres-min.png');
       if (logoResponse.ok) {
         const logoBlob = await logoResponse.blob();
         const logoDataUrl = await this.blobToDataURL(logoBlob);
@@ -106,9 +116,9 @@ export class TimetableGenerator {
           img.onload = resolve;
         });
         
-        // Calculate dimensions to maintain aspect ratio
-        const maxWidth = 20;
-        const maxHeight = 16;
+        // Calculate dimensions to maintain aspect ratio (increased size)
+        const maxWidth = 35;
+        const maxHeight = 28;
         const aspectRatio = img.width / img.height;
         
         let logoWidth = maxWidth;
