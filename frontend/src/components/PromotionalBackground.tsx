@@ -117,7 +117,7 @@ export default function PromotionalBackground({ className = "", children }: Prom
           className="absolute inset-0 bg-cover bg-center bg-no-repeat sm:hidden"
           style={{ 
             backgroundImage: `url(${currentImageSrc})`,
-            filter: currentTheme === 'light' ? 'brightness(0.7) blur(1px)' : 'brightness(0.3) blur(1px)',
+            filter: currentTheme === 'light' ? 'brightness(0.7)' : 'brightness(0.3)',
             backgroundPosition: 'center center',
             backgroundSize: 'cover'
           }}
@@ -129,7 +129,7 @@ export default function PromotionalBackground({ className = "", children }: Prom
           alt={`Promotional background featuring tech cat mascot - Image ${currentImageIndex + 1}`}
           className="hidden sm:block w-full h-full object-cover object-center min-h-full min-w-full"
           style={{ 
-            filter: currentTheme === 'light' ? 'brightness(0.7) blur(1px)' : 'brightness(0.3) blur(1px)',
+            filter: currentTheme === 'light' ? 'brightness(0.7)' : 'brightness(0.3)',
             transform: 'scale(1.02)' // Minimal zoom to avoid edge artifacts
           }}
           onError={(e) => {
