@@ -71,13 +71,13 @@ const JourneyHeader: React.FC<JourneyHeaderProps> = ({
     <>
       <header className="bg-white/95 dark:bg-black backdrop-blur-lg border-b border-gray-200/50 dark:border-gray-700/50 sticky top-0 z-50 shadow-lg">
         <div className="max-w-7xl mx-auto pr-4 sm:pr-6 lg:pr-8">
-          <div className="flex justify-between items-center h-18 lg:h-20">
+          <div className="flex justify-between items-center h-14">
             {/* Logo and Progress Indicator */}
             <div className="flex items-center space-x-3">
               <Logo />
               {/* Progress Refresh Indicator */}
               {isRefreshing && (
-                <div className="flex items-center space-x-2 px-3 py-1.5 bg-blue-500/10 text-blue-400 border border-blue-500/20 rounded-lg">
+                <div className="flex items-center space-x-2 px-3 py-1.5 bg-blue-500/10 text-blue-400 border border-blue-500/20 rounded-md">
                   <RefreshCw className="w-3 h-3 animate-spin" />
                   <span className="text-xs font-medium hidden sm:inline">Syncing progress...</span>
                 </div>
@@ -92,10 +92,10 @@ const JourneyHeader: React.FC<JourneyHeaderProps> = ({
                   <Link 
                     key={item.href}
                     href={item.href} 
-                    className={`flex items-center space-x-2 px-4 py-2.5 rounded-lg font-medium transition-all duration-200 ${
+                    className={`flex items-center space-x-2 px-3 py-2 rounded-md font-medium transition-all duration-200 ${
                       item.active 
-                        ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg transform scale-105' 
-                        : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/10'
+                        ? 'bg-purple-600 text-white' 
+                        : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800'
                     }`}
                   >
                     <Icon className="w-4 h-4" />
@@ -108,14 +108,14 @@ const JourneyHeader: React.FC<JourneyHeaderProps> = ({
               <div className="flex items-center space-x-1 ml-4 pl-4 border-l border-gray-600">
                 <Link
                   href="/performance-analysis"
-                  className="flex items-center space-x-2 px-3 py-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/10 rounded-lg transition-all duration-200 text-sm font-medium"
+                  className="flex items-center space-x-2 px-3 py-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md transition-all duration-200 text-sm font-medium"
                 >
                   <TrendingUp className="w-4 h-4" />
                   <span className="hidden xl:block">Analytics</span>
                 </Link>
                 <button 
                   onClick={onOldRoadmapsClick}
-                  className="flex items-center space-x-2 px-3 py-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/10 rounded-lg transition-all duration-200 text-sm font-medium"
+                  className="flex items-center space-x-2 px-3 py-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md transition-all duration-200 text-sm font-medium"
                 >
                   <Eye className="w-4 h-4" />
                   <span className="hidden xl:block">Archives</span>
@@ -123,7 +123,7 @@ const JourneyHeader: React.FC<JourneyHeaderProps> = ({
                 {onOldLearnPagesClick && (
                   <button 
                     onClick={onOldLearnPagesClick}
-                    className="flex items-center space-x-2 px-3 py-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/10 rounded-lg transition-all duration-200 text-sm font-medium"
+                    className="flex items-center space-x-2 px-3 py-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md transition-all duration-200 text-sm font-medium"
                   >
                     <BookOpen className="w-4 h-4" />
                     <span className="hidden xl:block">Pages</span>
@@ -140,7 +140,7 @@ const JourneyHeader: React.FC<JourneyHeaderProps> = ({
               {/* Mobile Menu Button */}
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="lg:hidden flex items-center justify-center w-10 h-10 text-gray-700 dark:text-white hover:bg-gray-200 dark:hover:bg-white/10 rounded-lg transition-colors"
+                className="lg:hidden flex items-center justify-center w-10 h-10 text-gray-700 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-800 rounded-md transition-colors"
               >
                 {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
               </button>
@@ -162,10 +162,10 @@ const JourneyHeader: React.FC<JourneyHeaderProps> = ({
                       key={item.href}
                       href={item.href}
                       onClick={() => setIsMobileMenuOpen(false)}
-                      className={`flex items-center space-x-3 px-4 py-3 rounded-lg font-medium transition-all duration-200 ${
+                      className={`flex items-center space-x-3 px-4 py-3 rounded-md font-medium transition-all duration-200 ${
                         item.active 
-                          ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg' 
-                          : 'text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-900/20'
+                          ? 'bg-purple-600 text-white' 
+                          : 'text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800'
                       }`}
                     >
                       <Icon className="w-5 h-5" />
@@ -180,7 +180,7 @@ const JourneyHeader: React.FC<JourneyHeaderProps> = ({
                 <Link
                   href="/performance-analysis"
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="flex items-center space-x-3 px-4 py-3 w-full text-left text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-900/20 rounded-lg transition-all duration-200"
+                  className="flex items-center space-x-3 px-4 py-3 w-full text-left text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md transition-all duration-200"
                 >
                   <TrendingUp className="w-5 h-5" />
                   <span>Performance Analytics</span>
@@ -190,7 +190,7 @@ const JourneyHeader: React.FC<JourneyHeaderProps> = ({
                     onOldRoadmapsClick();
                     setIsMobileMenuOpen(false);
                   }}
-                  className="flex items-center space-x-3 px-4 py-3 w-full text-left text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-900/20 rounded-lg transition-all duration-200"
+                  className="flex items-center space-x-3 px-4 py-3 w-full text-left text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md transition-all duration-200"
                 >
                   <Eye className="w-5 h-5" />
                   <span>Browse Archives</span>
@@ -201,7 +201,7 @@ const JourneyHeader: React.FC<JourneyHeaderProps> = ({
                       onOldLearnPagesClick();
                       setIsMobileMenuOpen(false);
                     }}
-                    className="flex items-center space-x-3 px-4 py-3 w-full text-left text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-900/20 rounded-lg transition-all duration-200"
+                    className="flex items-center space-x-3 px-4 py-3 w-full text-left text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md transition-all duration-200"
                   >
                     <BookOpen className="w-5 h-5" />
                     <span>Old Learn Pages</span>
@@ -211,15 +211,15 @@ const JourneyHeader: React.FC<JourneyHeaderProps> = ({
 
               {/* Mobile Progress Summary (Clean) */}
               <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-600">
-                <div className="bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-900/20 dark:to-purple-900/20 p-4 rounded-lg border border-indigo-100 dark:border-indigo-800">
+                <div className="bg-gray-50 dark:bg-gray-900 p-4 rounded-md border border-gray-200 dark:border-gray-700">
                   <div className="flex items-center space-x-2 mb-2">
-                    <Trophy className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
-                    <span className="font-semibold text-indigo-700 dark:text-indigo-300">Progress</span>
+                    <Trophy className="w-5 h-5 text-gray-600 dark:text-gray-400" />
+                    <span className="font-semibold text-gray-700 dark:text-gray-300">Progress</span>
                   </div>
-                  <div className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">
+                  <div className="text-2xl font-bold text-gray-600 dark:text-gray-400">
                     {overallProgress}%
                   </div>
-                  <div className="text-sm text-indigo-600 dark:text-indigo-400">{completedTopics}/{totalTopics} topics completed</div>
+                  <div className="text-sm text-gray-600 dark:text-gray-400">{completedTopics}/{totalTopics} topics completed</div>
                 </div>
               </div>
             </div>

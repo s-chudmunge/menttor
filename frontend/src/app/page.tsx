@@ -402,30 +402,13 @@ const MenttorLabsMainPage = () => {
               >
                 Roadmaps
               </button>
-              <div className="ml-6 pl-6 border-l border-gray-200 dark:border-gray-700 flex items-center space-x-3">
-                {/* Theme Toggle */}
-                <button
-                  onClick={() => {
-                    const newTheme = theme === 'dark' ? 'light' : 'dark';
-                    analytics.themeChanged(theme || 'system', newTheme);
-                    setTheme(newTheme);
-                  }}
-                  className="p-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-all duration-200"
-                  title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
-                >
-                  {theme === 'dark' ? (
-                    <Sun className="w-5 h-5" />
-                  ) : (
-                    <Moon className="w-5 h-5" />
-                  )}
-                </button>
-                
+              <div className="flex items-center">
                 {!loading && user ? (
                   <ProfileDropdown />
                 ) : (
                   <button
                     onClick={() => router.push('/auth/signin')}
-                    className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-200 shadow-sm hover:shadow-md"
+                    className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-200"
                   >
                     Sign In
                   </button>
