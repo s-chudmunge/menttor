@@ -15,6 +15,7 @@ export default function AdminEmailSystem() {
   const [emailTemplate, setEmailTemplate] = useState('custom')
   const [sending, setSending] = useState(false)
   const [sendResult, setSendResult] = useState<string>('')
+  const [showPreview, setShowPreview] = useState(false)
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -28,32 +29,31 @@ export default function AdminEmailSystem() {
   }
 
   const getWelcomeTemplate = () => {
-    return `Welcome to Menttor! 🚀
+    return `Welcome to Menttor!
 
 Hi there!
 
 Welcome to Menttor - your smart learning companion! We're excited to have you join our community of learners.
 
-**🗺️ Explore 500+ Curated Roadmaps**
-Visit our Explore page to discover expertly crafted learning paths across programming, business, science, and more. Each roadmap is designed to take you from beginner to expert.
+🗺️ Explore 500+ Curated Roadmaps
+Visit our Explore page to discover expertly crafted learning paths across programming, business, science, and more.
 
-**🎯 Your Personalized Journey**
+🎯 Your Personalized Journey
 • Interactive roadmap visualization with progress tracking
 • Practice exercises tailored to your learning style  
 • Quick tools: Flashcards, Mind Maps, Timetables, PDF exports
 • Performance analytics to track your growth
 
-**✨ Key Features You'll Love**
+✨ Key Features You'll Love
 • Smart content adaptation based on your progress
 • Behavioral learning insights and milestone rewards
 • Mobile-optimized learning experience
 • 95% learner success rate with our structured approach
 
-Ready to start your learning journey? Head to menttor.live and dive in!
+Ready to start your learning journey? Visit menttor.live and dive in!
 
 Best regards,
-Sankalp from Menttor
-menttor.live`;
+Sankalp from Menttor`;
   }
 
   const handleSendEmail = async (e: React.FormEvent) => {
@@ -61,9 +61,7 @@ menttor.live`;
     setSending(true)
     setSendResult('')
 
-    try {
-      const finalMessage = emailTemplate === 'welcome' ? getWelcomeTemplate() : emailMessage;
-      
+    try {      
       const response = await fetch('/api/send-email', {
         method: 'POST',
         headers: {
@@ -72,7 +70,8 @@ menttor.live`;
         body: JSON.stringify({
           to: recipientEmail,
           subject: emailSubject,
-          message: finalMessage,
+          message: emailTemplate === 'custom' ? emailMessage : undefined,
+          template: emailTemplate,
         }),
       })
 
@@ -254,19 +253,84 @@ menttor.live`;
                   />
                 </div>
 
-                <div>
+                <div className="flex space-x-3">
+                  <Button
+                    type="button"
+                    onClick={() => setShowPreview(!showPreview)}
+                    className="flex-1 py-2 px-4 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600 rounded-md transition-colors"
+                  >
+                    {showPreview ? 'Hide Preview' : 'Preview Email'}
+                  </Button>
                   <Button
                     type="submit"
                     disabled={sending}
-                    className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white ${
+                    className={`flex-1 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white ${
                       sending 
                         ? 'bg-gray-400 cursor-not-allowed' 
                         : 'bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
                     }`}
                   >
-                    {sending ? 'Sending...' : 'Send Test Email'}
+                    {sending ? 'Sending...' : 'Send Email'}
                   </Button>
                 </div>
+
+                {showPreview && (
+                  <div className="mt-4 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg border">
+                    <h4 className="text-sm font-medium text-gray-900 dark:text-white mb-3">Email Preview</h4>
+                    <div className="bg-white dark:bg-gray-900 rounded border p-4 max-h-80 overflow-y-auto">
+                      {emailTemplate === 'welcome' ? (
+                        <div className="space-y-4">
+                          <div className="text-center border-b pb-4">
+                            <div className="w-32 h-10 bg-gray-200 dark:bg-gray-700 rounded mx-auto mb-3 flex items-center justify-center text-xs text-gray-600">
+                              [Menttor Logo]
+                            </div>
+                            <h2 className="text-xl font-bold text-gray-900 dark:text-white">Welcome to Menttor!</h2>
+                            <p className="text-gray-600 dark:text-gray-400">Your smart learning companion</p>
+                          </div>
+                          <div className="space-y-3 text-sm">
+                            <p>Hi there!</p>
+                            <p>We're excited to have you join our community of learners.</p>
+                            <div className="grid grid-cols-2 gap-4 my-4">
+                              <div className="p-3 bg-gray-50 dark:bg-gray-800 rounded">
+                                <h4 className="font-semibold text-blue-600">🗺️ 500+ Curated Roadmaps</h4>
+                                <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">Expertly crafted learning paths</p>
+                                <span className="text-xs text-blue-600 underline">→ Explore Roadmaps</span>
+                              </div>
+                              <div className="p-3 bg-gray-50 dark:bg-gray-800 rounded">
+                                <h4 className="font-semibold text-blue-600">🎯 Your Learning Journey</h4>
+                                <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">Interactive visualization & practice</p>
+                                <span className="text-xs text-blue-600 underline">→ Start Journey</span>
+                              </div>
+                            </div>
+                            <p className="font-medium">✨ Tools You'll Love</p>
+                            <ul className="text-xs space-y-1 text-gray-600 dark:text-gray-400 ml-4">
+                              <li>• Flashcards & Mind Maps for active learning</li>
+                              <li>• Smart Timetables & PDF exports</li>
+                              <li>• Practice sessions tailored to your progress</li>
+                              <li>• Behavioral insights & milestone rewards</li>
+                              <li>• 95% learner success rate</li>
+                            </ul>
+                            <div className="text-center mt-4">
+                              <span className="inline-block bg-blue-600 text-white px-4 py-2 rounded text-sm">Start Learning Now</span>
+                            </div>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="space-y-4">
+                          <div className="text-center border-b pb-4">
+                            <div className="w-32 h-10 bg-gray-200 dark:bg-gray-700 rounded mx-auto mb-3 flex items-center justify-center text-xs text-gray-600">
+                              [Menttor Logo]
+                            </div>
+                            <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Message from Menttor</h2>
+                          </div>
+                          <div className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded border-l-4 border-blue-600">
+                            <p className="text-sm whitespace-pre-wrap text-gray-700 dark:text-gray-300">{emailMessage}</p>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
 
                 {sendResult && (
                   <div className={`mt-4 p-4 rounded-md ${

@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
+import { render } from '@react-email/render';
+import WelcomeEmail from '@/emails/welcome-template';
 
 export async function POST(request: NextRequest) {
   try {
@@ -12,32 +14,57 @@ export async function POST(request: NextRequest) {
 
     const resend = new Resend(process.env.RESEND_API_KEY);
 
-    const { to, subject, message } = await request.json();
+    const { to, subject, message, template } = await request.json();
 
-    if (!to || !subject || !message) {
+    if (!to || !subject) {
       return NextResponse.json(
-        { error: 'Missing required fields: to, subject, message' },
+        { error: 'Missing required fields: to, subject' },
         { status: 400 }
       );
+    }
+
+    let emailHtml: string;
+
+    if (template === 'welcome') {
+      // Use React Email template
+      emailHtml = await render(WelcomeEmail({ userName: 'there' }));
+    } else {
+      // Use custom message with simple styling
+      if (!message) {
+        return NextResponse.json(
+          { error: 'Message is required for custom emails' },
+          { status: 400 }
+        );
+      }
+      
+      emailHtml = `
+        <div style="font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Ubuntu,sans-serif; max-width: 600px; margin: 0 auto; background-color: #ffffff;">
+          <div style="padding: 32px 24px; background-color: #ffffff; text-align: center; border-bottom: 1px solid #e5e7eb;">
+            <img src="https://menttor.live/logo_higres.png" width="120" height="40" alt="Menttor Logo" style="margin-bottom: 16px;" />
+            <h2 style="color: #1f2937; font-size: 24px; font-weight: 600; margin: 0; line-height: 32px;">
+              Message from Menttor
+            </h2>
+          </div>
+          <div style="padding: 32px 24px;">
+            <div style="padding: 24px; background-color: #f9fafb; border-radius: 8px; border-left: 4px solid #3b82f6;">
+              ${message.replace(/\n/g, '<br>')}
+            </div>
+          </div>
+          <div style="padding: 24px; border-top: 1px solid #e5e7eb; background-color: #f9fafb;">
+            <p style="color: #6b7280; font-size: 12px; margin: 0; text-align: center;">
+              This email was sent from the Menttor Admin Panel<br />
+              <a href="https://menttor.live" style="color: #3b82f6; text-decoration: none;">menttor.live</a>
+            </p>
+          </div>
+        </div>
+      `;
     }
 
     const { data, error } = await resend.emails.send({
       from: 'Sankalp from Menttor <sankalp@menttor.live>',
       to: [to],
       subject: subject,
-      html: `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-          <h2 style="color: #333; border-bottom: 2px solid #007bff; padding-bottom: 10px;">
-            Message from Menttor Admin
-          </h2>
-          <div style="padding: 20px; background-color: #f8f9fa; border-radius: 5px; margin: 20px 0;">
-            ${message.replace(/\n/g, '<br>')}
-          </div>
-          <footer style="color: #666; font-size: 12px; margin-top: 30px; border-top: 1px solid #ddd; padding-top: 10px;">
-            This email was sent from the Menttor Admin Panel at menttor.live
-          </footer>
-        </div>
-      `,
+      html: emailHtml,
     });
 
     if (error) {
