@@ -73,7 +73,7 @@ const TimetableTools: React.FC<TimetableToolsProps> = ({ roadmapData, className 
   return (
     <div className={`space-y-2 ${className}`}>
       <div className="text-center">
-        <div className="inline-flex items-center px-2 py-1 rounded bg-blue-100 dark:bg-blue-800 text-blue-800 dark:text-blue-200 text-xs font-medium mb-1">
+        <div className="inline-flex items-center px-2 py-1 rounded bg-purple-100 dark:bg-purple-800 text-purple-800 dark:text-purple-200 text-xs font-medium mb-1">
           <Clock className="w-3 h-3 mr-1" />
           Study Timetable
         </div>
@@ -87,10 +87,10 @@ const TimetableTools: React.FC<TimetableToolsProps> = ({ roadmapData, className 
         <button
           onClick={handleDownloadPDF}
           disabled={isGenerating}
-          className="w-full flex items-center justify-between p-2 bg-red-100 dark:bg-red-800 border border-red-200 dark:border-red-700 rounded hover:bg-red-200 dark:hover:bg-red-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full flex items-center justify-between p-2 bg-purple-100 dark:bg-purple-800 border border-purple-200 dark:border-purple-700 rounded hover:bg-purple-200 dark:hover:bg-purple-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <div className="flex items-center space-x-2">
-            <div className="w-6 h-6 bg-red-600 dark:bg-red-500 rounded flex items-center justify-center">
+            <div className="w-6 h-6 bg-purple-600 dark:bg-purple-500 rounded flex items-center justify-center">
               {lastAction === 'pdf' && !isGenerating ? (
                 <CheckCircle className="w-3 h-3 text-white" />
               ) : (
@@ -105,7 +105,7 @@ const TimetableTools: React.FC<TimetableToolsProps> = ({ roadmapData, className 
           </div>
           <div className="flex items-center">
             {isGenerating && lastAction === 'pdf' ? (
-              <div className="w-3 h-3 border-2 border-red-600 border-t-transparent rounded-full animate-spin" />
+              <div className="w-3 h-3 border-2 border-purple-600 border-t-transparent rounded-full animate-spin" />
             ) : (
               <Download className="w-3 h-3 text-gray-500" />
             )}
@@ -116,10 +116,10 @@ const TimetableTools: React.FC<TimetableToolsProps> = ({ roadmapData, className 
         <button
           onClick={handleDownloadCalendar}
           disabled={isGenerating}
-          className="w-full flex items-center justify-between p-2 bg-green-100 dark:bg-green-800 border border-green-200 dark:border-green-700 rounded hover:bg-green-200 dark:hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full flex items-center justify-between p-2 bg-purple-100 dark:bg-purple-800 border border-purple-200 dark:border-purple-700 rounded hover:bg-purple-200 dark:hover:bg-purple-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <div className="flex items-center space-x-2">
-            <div className="w-6 h-6 bg-green-600 dark:bg-green-500 rounded flex items-center justify-center">
+            <div className="w-6 h-6 bg-purple-600 dark:bg-purple-500 rounded flex items-center justify-center">
               {lastAction === 'calendar' && !isGenerating ? (
                 <CheckCircle className="w-3 h-3 text-white" />
               ) : (
@@ -134,7 +134,7 @@ const TimetableTools: React.FC<TimetableToolsProps> = ({ roadmapData, className 
           </div>
           <div className="flex items-center">
             {isGenerating && lastAction === 'calendar' ? (
-              <div className="w-3 h-3 border-2 border-green-600 border-t-transparent rounded-full animate-spin" />
+              <div className="w-3 h-3 border-2 border-purple-600 border-t-transparent rounded-full animate-spin" />
             ) : (
               <Download className="w-3 h-3 text-gray-500" />
             )}
@@ -145,10 +145,10 @@ const TimetableTools: React.FC<TimetableToolsProps> = ({ roadmapData, className 
         <button
           onClick={handleAddToGoogleCalendar}
           disabled={isGenerating}
-          className="w-full flex items-center justify-between p-2 bg-blue-100 dark:bg-blue-800 border border-blue-200 dark:border-blue-700 rounded hover:bg-blue-200 dark:hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full flex items-center justify-between p-2 bg-purple-100 dark:bg-purple-800 border border-purple-200 dark:border-purple-700 rounded hover:bg-purple-200 dark:hover:bg-purple-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <div className="flex items-center space-x-2">
-            <div className="w-6 h-6 bg-blue-600 dark:bg-blue-500 rounded flex items-center justify-center">
+            <div className="w-6 h-6 bg-purple-600 dark:bg-purple-500 rounded flex items-center justify-center">
               {lastAction === 'google' ? (
                 <CheckCircle className="w-3 h-3 text-white" />
               ) : (
@@ -167,13 +167,13 @@ const TimetableTools: React.FC<TimetableToolsProps> = ({ roadmapData, className 
         </button>
       </div>
 
-      <div className="bg-yellow-100 dark:bg-yellow-800 border border-yellow-200 dark:border-yellow-700 rounded p-2">
+      <div className="bg-purple-50 dark:bg-purple-900 border border-purple-200 dark:border-purple-700 rounded p-2">
         <div className="flex items-start space-x-2">
-          <div className="w-3 h-3 bg-yellow-600 dark:bg-yellow-500 rounded-full flex items-center justify-center mt-0.5">
+          <div className="w-3 h-3 bg-purple-600 dark:bg-purple-500 rounded-full flex items-center justify-center mt-0.5">
             <span className="text-xs font-bold text-white">!</span>
           </div>
           <div className="flex-1">
-            <p className="text-xs text-yellow-800 dark:text-yellow-200 font-medium">
+            <p className="text-xs text-purple-800 dark:text-purple-200 font-medium">
               Assumes 2 hours daily. Adjust based on your pace.
             </p>
           </div>

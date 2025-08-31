@@ -183,10 +183,10 @@ const LearnAboutSomethingCard: React.FC<LearnAboutSomethingCardProps> = ({ onCli
   return (
     <div 
       onClick={onClick}
-      className={`cursor-pointer bg-green-100 dark:bg-green-800 rounded p-3 border border-green-200 dark:border-green-700 hover:bg-green-200 dark:hover:bg-green-700 transition-colors ${className}`}
+      className={`cursor-pointer bg-purple-100 dark:bg-purple-800 rounded p-3 border border-purple-200 dark:border-purple-700 hover:bg-purple-200 dark:hover:bg-purple-700 transition-colors ${className}`}
     >
       <div className="flex items-center space-x-3">
-        <div className="w-8 h-8 bg-green-600 dark:bg-green-500 rounded flex items-center justify-center">
+        <div className="w-8 h-8 bg-purple-600 dark:bg-purple-500 rounded flex items-center justify-center">
           <BookOpen className="w-4 h-4 text-white" />
         </div>
         <div className="flex-1">
@@ -194,7 +194,7 @@ const LearnAboutSomethingCard: React.FC<LearnAboutSomethingCardProps> = ({ onCli
             Learn About Something
           </h3>
         </div>
-        <ArrowRight className="w-4 h-4 text-green-600 dark:text-green-400" />
+        <ArrowRight className="w-4 h-4 text-purple-600 dark:text-purple-400" />
       </div>
     </div>
   );
