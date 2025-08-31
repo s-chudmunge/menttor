@@ -22,7 +22,7 @@ from sqlmodel import Session
 
 from database.session import create_db_and_tables, get_db
 from sql_models import User, Roadmap, SpacedRepetition, QuizAttempt
-from routers import auth, ml_insights, quiz, quiz_results, quiz_review, roadmaps, learn, spaced_repetition, models, quiz_submission, visualize, progress, behavioral, image_generation, activity, curated_roadmaps, monitoring, video_generation, promotional_images, static_data, practice
+from routers import auth, ml_insights, quiz, quiz_results, quiz_review, roadmaps, learn, spaced_repetition, models, quiz_submission, visualize, progress, behavioral, image_generation, activity, curated_roadmaps, monitoring, video_generation, promotional_images, static_data, practice, admin
 
 # Configure logging with behavioral nudge filter
 class BehavioralNudgeFilter(logging.Filter):
@@ -122,6 +122,7 @@ app.include_router(curated_roadmaps.router)
 app.include_router(static_data.router)
 app.include_router(monitoring.router)
 app.include_router(practice.router)
+app.include_router(admin.router)
 
 # Temporary migration endpoint
 from migration_endpoint import migration_router

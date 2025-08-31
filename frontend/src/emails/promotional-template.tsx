@@ -32,7 +32,7 @@ export default function PromotionalEmail({ recipientName = "there" }: Promotiona
               style={{ margin: '0 auto 16px' }}
             />
             <Heading style={heading}>Accelerate Your Learning Journey</Heading>
-            <Text style={subtitle}>Join 10,000+ learners mastering new skills with AI-powered roadmaps</Text>
+            <Text style={subtitle}>Join 10,000+ learners mastering new skills with expert-curated roadmaps</Text>
           </Section>
 
           {/* Main Message */}
@@ -40,7 +40,7 @@ export default function PromotionalEmail({ recipientName = "there" }: Promotiona
             <Text style={text}>Hi {recipientName}!</Text>
             <Text style={text}>
               Are you struggling to create effective learning paths for complex topics? 
-              <strong> Menttor solves this with AI-curated roadmaps</strong> that adapt to your pace and style.
+              <strong> Menttor solves this with expert-curated roadmaps</strong> that adapt to your pace and style.
             </Text>
           </Section>
 
@@ -48,7 +48,7 @@ export default function PromotionalEmail({ recipientName = "there" }: Promotiona
           <Section style={section}>
             <Text style={benefitsTitle}>Why 10,000+ learners choose Menttor:</Text>
             <Text style={bulletText}>⚡ <strong>500+ Expert Roadmaps</strong> - Programming, Business, Science, and more</Text>
-            <Text style={bulletText}>🎯 <strong>Personalized Learning</strong> - AI tracks your progress and adapts content</Text>
+            <Text style={bulletText}>🎯 <strong>Personalized Learning</strong> - Smart learning system tracks your progress and adapts content</Text>
             <Text style={bulletText}>🧠 <strong>Smart Study Tools</strong> - Flashcards, Practice Tests, Mind Maps</Text>
             <Text style={bulletText}>📈 <strong>95% Success Rate</strong> - Proven learning methodology</Text>
             <Text style={bulletText}>⏱️ <strong>Save 60% Time</strong> - Skip the research, start learning immediately</Text>

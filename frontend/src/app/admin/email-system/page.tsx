@@ -50,7 +50,8 @@ export default function AdminEmailSystem() {
       })
       if (search) params.append('search', search)
       
-      const response = await fetch(`/api/admin/users?${params}`)
+      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000'
+      const response = await fetch(`${backendUrl}/admin/users?${params}`)
       const data = await response.json()
       
       if (response.ok) {
@@ -62,6 +63,7 @@ export default function AdminEmailSystem() {
       }
     } catch (error) {
       console.error('Error fetching users:', error)
+      setSendResult(`❌ Failed to fetch Firebase users: ${error}`)
     } finally {
       setLoadingUsers(false)
     }
@@ -178,7 +180,7 @@ export default function AdminEmailSystem() {
   }
 
   const getPromotionalTemplate = () => {
-    return `Transform Your Learning with AI-Powered Roadmaps
+    return `Transform Your Learning with Expert-Curated Roadmaps
 
 Hi there!
 
@@ -187,7 +189,7 @@ Are you spending hours researching what to learn and in what order?
 Menttor eliminates the guesswork with 500+ expertly curated learning roadmaps that guide you from beginner to expert.
 
 ✨ What makes Menttor different:
-• AI-powered personalization that adapts to your learning style
+• Smart learning system that adapts to your learning style
 • Interactive progress tracking and smart study tools
 • 95% success rate with structured learning paths
 • Save 60% of your time with pre-planned curricula
@@ -391,7 +393,7 @@ menttor.live`;
                         setEmailSubject('Welcome to Menttor - Start Your Learning Journey!')
                         setEmailMessage('')
                       } else if (e.target.value === 'promotional') {
-                        setEmailSubject('Transform Your Learning with AI-Powered Roadmaps')
+                        setEmailSubject('Transform Your Learning with Expert-Curated Roadmaps')
                         setEmailMessage(getPromotionalTemplate())
                       } else {
                         setEmailSubject('Test Email from Menttor')
