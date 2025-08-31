@@ -1138,9 +1138,11 @@ const ExplorePage = () => {
                           {/* Left: Title and Description */}
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center gap-2 mb-1">
-                              <h4 className="text-base font-semibold text-gray-900 dark:text-white line-clamp-1 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                                {roadmap.title}
-                              </h4>
+                              <Link href={`/explore/${roadmap.slug || roadmap.id}`}>
+                                <h4 className="text-base font-semibold text-gray-900 dark:text-white line-clamp-1 hover:text-blue-600 dark:hover:text-blue-400 transition-colors cursor-pointer">
+                                  {roadmap.title}
+                                </h4>
+                              </Link>
                               {roadmap.is_featured && <Award className="w-3 h-3 text-yellow-500 flex-shrink-0" />}
                               {roadmap.is_verified && <CheckCircle className="w-3 h-3 text-green-500 flex-shrink-0" />}
                               <span className={`px-2 py-0.5 text-xs font-medium rounded-full flex-shrink-0 ${difficultyColors[roadmap.difficulty]}`}>
@@ -1172,13 +1174,13 @@ const ExplorePage = () => {
                           
                           {/* Right: Actions */}
                           <div className="flex items-center space-x-2 flex-shrink-0">
-                            <button
-                              onClick={() => handleViewRoadmap(roadmap)}
-                              className="px-3 py-2 border border-gray-200 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700/50 text-sm font-medium transition-colors"
+                            <Link
+                              href={`/explore/${roadmap.slug || roadmap.id}`}
+                              className="inline-flex items-center justify-center px-3 py-2 border border-gray-200 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700/50 text-sm font-medium transition-colors"
                               title="Preview Roadmap"
                             >
                               <Eye className="w-4 h-4" />
-                            </button>
+                            </Link>
                             <button
                               onClick={() => handleAdoptRoadmap(roadmap.id, roadmap.title)}
                               className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 text-sm font-medium transition-colors"
@@ -1257,9 +1259,11 @@ const ExplorePage = () => {
                     </div>
 
                     {/* Content */}
-                    <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3 line-clamp-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                      {roadmap.title}
-                    </h3>
+                    <Link href={`/explore/${roadmap.slug || roadmap.id}`}>
+                      <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3 line-clamp-2 hover:text-blue-600 dark:hover:text-blue-400 transition-colors cursor-pointer">
+                        {roadmap.title}
+                      </h3>
+                    </Link>
                     <p className="text-gray-600 dark:text-gray-400 text-sm mb-4 line-clamp-3 leading-relaxed">
                       {roadmap.description}
                     </p>
@@ -1305,13 +1309,13 @@ const ExplorePage = () => {
                     {/* Actions */}
                     <div className="flex items-center space-x-3">
                       <div className="flex space-x-3 flex-1">
-                        <button
-                          onClick={() => handleViewRoadmap(roadmap)}
+                        <Link
+                          href={`/explore/${roadmap.slug || roadmap.id}`}
                           className="flex-1 flex items-center justify-center px-4 py-3 border-2 border-gray-200 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-xl hover:border-gray-300 dark:hover:border-gray-500 hover:bg-gray-50 dark:hover:bg-gray-700/50 text-sm font-semibold transition-all duration-200"
                         >
                           <Play className="w-4 h-4 mr-2" />
                           Preview
-                        </button>
+                        </Link>
                         <button
                           onClick={() => handleAdoptRoadmap(roadmap.id, roadmap.title)}
                           className="flex-1 flex items-center justify-center px-4 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-xl hover:from-blue-700 hover:to-blue-800 text-sm font-semibold transition-all duration-200 shadow-sm hover:shadow-md"
@@ -1331,9 +1335,11 @@ const ExplorePage = () => {
                     
                     <div className="flex-1 min-w-0">
                       <div className="flex items-start justify-between mb-2">
-                        <h3 className="text-xl font-bold text-gray-900 dark:text-white line-clamp-1 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                          {roadmap.title}
-                        </h3>
+                        <Link href={`/explore/${roadmap.slug || roadmap.id}`}>
+                          <h3 className="text-xl font-bold text-gray-900 dark:text-white line-clamp-1 hover:text-blue-600 dark:hover:text-blue-400 transition-colors cursor-pointer">
+                            {roadmap.title}
+                          </h3>
+                        </Link>
                         <div className="flex items-center space-x-2 ml-4">
                           {roadmap.is_featured && <Award className="w-4 h-4 text-yellow-500" />}
                           {roadmap.is_verified && <CheckCircle className="w-4 h-4 text-green-500" />}
@@ -1368,12 +1374,12 @@ const ExplorePage = () => {
                         </div>
                         
                         <div className="flex space-x-2">
-                          <button
-                            onClick={() => handleViewRoadmap(roadmap)}
-                            className="px-3 py-2 border border-gray-200 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700/50 text-sm font-medium transition-colors"
+                          <Link
+                            href={`/explore/${roadmap.slug || roadmap.id}`}
+                            className="inline-flex items-center justify-center px-3 py-2 border border-gray-200 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700/50 text-sm font-medium transition-colors"
                           >
                             <Play className="w-4 h-4" />
-                          </button>
+                          </Link>
                           <button
                             onClick={() => handleAdoptRoadmap(roadmap.id, roadmap.title)}
                             className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 text-sm font-medium transition-colors"

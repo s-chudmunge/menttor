@@ -72,5 +72,6 @@ Allow: /explore
 Allow: /explore/
 Allow: /explore/*
 
-# Sitemap location
+# Sitemap locations
 Sitemap: https://menttor.live/sitemap.xml
+Sitemap: https://menttor.live/sitemap-dynamic.xml

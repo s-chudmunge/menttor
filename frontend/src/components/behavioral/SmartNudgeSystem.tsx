@@ -214,27 +214,27 @@ const SmartNudgeSystem: React.FC = () => {
     },
     */
     
-    // Consistency Encouragement
-    {
-      id: 'consistency_milestone',
-      type: 'celebration',
-      priority: 'high',
-      frequency: 'once',
-      pages: ['/journey', '/results'],
-      conditions: (stats) => {
-        const streak = stats?.streak_stats?.current_streak || 0;
-        return [7, 14, 30, 60, 100].includes(streak); // Milestone streaks
-      },
-      content: {
-        title: 'Consistency Master! 🎉',
-        message: '{streak} days of consistent learning! You\'re building incredible learning habits.',
-        action: 'View Progress'
-      },
-      icon: <Award className="w-5 h-5 text-gold-500" />,
-      color: 'from-yellow-400 via-orange-500 to-red-500',
-      dismissible: true,
-      autoHide: 10
-    }
+    // Consistency Encouragement - DISABLED
+    // {
+    //   id: 'consistency_milestone',
+    //   type: 'celebration',
+    //   priority: 'high',
+    //   frequency: 'once',
+    //   pages: ['/journey', '/results'],
+    //   conditions: (stats) => {
+    //     const streak = stats?.streak_stats?.current_streak || 0;
+    //     return [7, 14, 30, 60, 100].includes(streak); // Milestone streaks
+    //   },
+    //   content: {
+    //     title: 'Consistency Master! 🎉',
+    //     message: '{streak} days of consistent learning! You\'re building incredible learning habits.',
+    //     action: 'View Progress'
+    //   },
+    //   icon: <Award className="w-5 h-5 text-gold-500" />,
+    //   color: 'from-yellow-400 via-orange-500 to-red-500',
+    //   dismissible: true,
+    //   autoHide: 10
+    // }
   ];
 
   // Context for nudge evaluation

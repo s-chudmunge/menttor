@@ -94,12 +94,21 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Try to fetch real roadmaps for dynamic sitemap
   try {
     const backendUrl = process.env.BACKEND_URL || 'https://menttor-backend.onrender.com'
+    console.log('Fetching roadmaps from:', backendUrl)
+    
     const response = await fetch(`${backendUrl}/curated-roadmaps/?per_page=500`, {
-      next: { revalidate: 3600 } // Cache for 1 hour
+      next: { revalidate: 3600 }, // Cache for 1 hour
+      headers: {
+        'Accept': 'application/json',
+        'User-Agent': 'NextJS-Sitemap-Generator'
+      }
     })
+    
+    console.log('Sitemap fetch response status:', response.status)
     
     if (response.ok) {
       const roadmaps = await response.json()
+      console.log(`Found ${roadmaps.length} roadmaps for sitemap`)
       
       const dynamicRoadmapRoutes: MetadataRoute.Sitemap = roadmaps.map((roadmap: any) => ({
         url: `${baseUrl}/explore/${roadmap.slug || roadmap.id}`,
@@ -108,6 +117,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         priority: roadmap.is_featured ? 0.8 : 0.6,
       }))
 
+      console.log('Generated', dynamicRoadmapRoutes.length, 'dynamic roadmap routes')
+
       return [
         ...staticPages,
         ...popularRoadmaps,
@@ -115,6 +126,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         ...difficultyPages,
         ...dynamicRoadmapRoutes,
       ]
+    } else {
+      console.error('Failed to fetch roadmaps, status:', response.status, await response.text())
     }
   } catch (error) {
     console.error('Error fetching dynamic roadmaps for sitemap:', error)

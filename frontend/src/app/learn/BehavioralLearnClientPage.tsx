@@ -219,14 +219,14 @@ const BehavioralLearnClientPage: React.FC<BehavioralLearnClientPageProps> = ({
       });
     }
 
-    // Show phase transition feedback
-    showNotification({
-      type: 'session',
-      title: `${sessionPhase.charAt(0).toUpperCase() + sessionPhase.slice(1)} Complete!`,
-      message: `+${phaseXP[sessionPhase]} XP • Moving to ${nextPhase.replace('_', ' ')} phase`,
-      duration: 3000,
-      priority: 'medium'
-    });
+    // Show phase transition feedback - DISABLED
+    // showNotification({
+    //   type: 'session',
+    //   title: `${sessionPhase.charAt(0).toUpperCase() + sessionPhase.slice(1)} Complete!`,
+    //   message: `+${phaseXP[sessionPhase]} XP • Moving to ${nextPhase.replace('_', ' ')} phase`,
+    //   duration: 3000,
+    //   priority: 'medium'
+    // });
 
     setTimeout(() => {
       setSessionPhase(nextPhase);
@@ -280,13 +280,13 @@ const BehavioralLearnClientPage: React.FC<BehavioralLearnClientPageProps> = ({
         focus_mode: focusMode
       });
       
-      showNotification({
-        type: 'xp',
-        title: 'Microgoal Achieved! 🎯',
-        message: '+15 XP for focused learning',
-        duration: 2000,
-        priority: 'medium'
-      });
+      // showNotification({
+      //   type: 'xp',
+      //   title: 'Microgoal Achieved! 🎯',
+      //   message: '+15 XP for focused learning',
+      //   duration: 2000,
+      //   priority: 'medium'
+      // });
       
       // Generate next microgoal if still in focus phase
       if (sessionPhase === 'focus') {

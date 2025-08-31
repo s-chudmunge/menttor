@@ -161,15 +161,15 @@ export const BehavioralProvider: React.FC<BehavioralProviderProps> = ({
       // Clear XP pop after animation duration
       setTimeout(() => setShowXPPop(false), 2000);
       
-      // Show XP gain notification
-      showNotification({
-        type: 'xp',
-        title: `+${lastAward.xp_earned} XP`,
-        message: `Level ${lastAward.current_level} • ${lastAward.xp_to_next_level} XP to next level`,
-        duration: 5000,
-        priority: 'medium',
-        data: lastAward
-      });
+      // Show XP gain notification - DISABLED
+      // showNotification({
+      //   type: 'xp',
+      //   title: `+${lastAward.xp_earned} XP`,
+      //   message: `Level ${lastAward.current_level} • ${lastAward.xp_to_next_level} XP to next level`,
+      //   duration: 5000,
+      //   priority: 'medium',
+      //   data: lastAward
+      // });
 
       // Handle level up
       if (lastAward.level_up_occurred) {
@@ -204,22 +204,22 @@ export const BehavioralProvider: React.FC<BehavioralProviderProps> = ({
     }
   }, [currentSession]);
 
-  // Handle reward events
-  useEffect(() => {
-    if (recentRewards.length > 0) {
-      const latestReward = recentRewards[0];
-      if (latestReward && !latestReward.engaged) {
-        showNotification({
-          type: 'reward',
-          title: 'Celebration!',
-          message: latestReward.content.title || latestReward.content.content || 'Great work!',
-          duration: 4000,
-          priority: 'medium',
-          data: latestReward
-        });
-      }
-    }
-  }, [recentRewards, showNotification]);
+  // Handle reward events - DISABLED
+  // useEffect(() => {
+  //   if (recentRewards.length > 0) {
+  //     const latestReward = recentRewards[0];
+  //     if (latestReward && !latestReward.engaged) {
+  //       showNotification({
+  //         type: 'reward',
+  //         title: 'Celebration!',
+  //         message: latestReward.content.title || latestReward.content.content || 'Great work!',
+  //         duration: 4000,
+  //         priority: 'medium',
+  //         data: latestReward
+  //       });
+  //     }
+  //   }
+  // }, [recentRewards, showNotification]);
 
   const value: BehavioralContextValue = {
     // Notification system
