@@ -43,7 +43,7 @@ export async function GET(request: NextRequest) {
       throw new Error(`API returned ${response.status}`)
     }
   } catch (error) {
-    console.error('❌ API fetch failed, using static fallback:', error.message)
+    console.error('❌ API fetch failed, using static fallback:', error instanceof Error ? error.message : String(error))
     // Use static fallback
     roadmaps = knownRoadmaps.map(slug => ({ slug, is_featured: true }))
   }
