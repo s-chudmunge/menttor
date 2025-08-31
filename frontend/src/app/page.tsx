@@ -402,18 +402,20 @@ const MenttorLabsMainPage = () => {
               >
                 Roadmaps
               </button>
-              <div className="flex items-center">
-                {!loading && user ? (
-                  <ProfileDropdown />
-                ) : (
-                  <button
-                    onClick={() => router.push('/auth/signin')}
-                    className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-200"
-                  >
-                    Sign In
-                  </button>
-                )}
-              </div>
+            </div>
+
+            {/* Profile/Auth - Separate from navigation */}
+            <div className="flex items-center">
+              {!loading && user ? (
+                <ProfileDropdown />
+              ) : (
+                <button
+                  onClick={() => router.push('/auth/signin')}
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-200"
+                >
+                  Sign In
+                </button>
+              )}
             </div>
 
             {/* Mobile Menu Button */}

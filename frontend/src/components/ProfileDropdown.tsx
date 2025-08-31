@@ -103,7 +103,7 @@ export default function ProfileDropdown({ className = '', variant = 'light' }: P
   };
 
   return (
-    <div className={`relative absolute right-0 ${className}`} ref={dropdownRef}>
+    <div className={`relative ${className}`} ref={dropdownRef}>
       {/* Profile Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
