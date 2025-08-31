@@ -126,7 +126,7 @@ export default function ProfileDropdown({ className = '', variant = 'light' }: P
 
       {/* Dropdown Menu */}
       {isOpen && (
-        <div className={`absolute left-0 mt-1 w-56 rounded-lg shadow-xl py-1 z-50 animate-in fade-in-0 zoom-in-95 slide-in-from-top-2 duration-200 ${
+        <div className={`absolute right-0 mt-1 w-56 rounded-lg shadow-xl py-1 z-50 animate-in fade-in-0 zoom-in-95 slide-in-from-top-2 duration-200 ${
           variant === 'dark' 
             ? 'bg-black border border-gray-800' 
             : 'bg-white dark:bg-black border border-gray-200 dark:border-gray-800'

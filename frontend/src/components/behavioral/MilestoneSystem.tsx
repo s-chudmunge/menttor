@@ -241,18 +241,17 @@ const MilestoneSystem: React.FC = () => {
       >
         <motion.button
           onClick={() => setShowMilestonePanel(!showMilestonePanel)}
-          className="group relative bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white rounded-2xl p-4 shadow-xl hover:shadow-2xl transition-all duration-300 backdrop-blur-sm border border-white/20"
-          whileHover={{ scale: 1.05, y: -2 }}
-          whileTap={{ scale: 0.95 }}
+          className="group relative bg-blue-600 dark:bg-blue-700 text-white rounded-lg p-2 shadow-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors duration-200"
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
         >
           <div className="relative">
             <Trophy className="w-6 h-6 text-white group-hover:text-yellow-300 transition-colors" />
             
-            {/* Active milestone indicator with glow */}
+            {/* Active milestone indicator */}
             {milestones.filter(m => !m.isCompleted).length > 0 && (
-              <div className="absolute -top-2 -right-2">
-                <div className="w-4 h-4 bg-yellow-400 rounded-full animate-pulse shadow-lg" />
-                <div className="absolute inset-0 w-4 h-4 bg-yellow-400/50 rounded-full animate-ping" />
+              <div className="absolute -top-1 -right-1">
+                <div className="w-3 h-3 bg-yellow-400 dark:bg-yellow-500 rounded-full shadow-sm" />
               </div>
             )}
             

@@ -25,9 +25,9 @@ const RecommendedReviews: React.FC<RecommendedReviewsProps> = ({ recommendedRevi
 
   const getUrgencyColor = (reviewDate: string) => {
     const days = getDaysSinceReview(reviewDate);
-    if (days > 0) return 'border-red-200 bg-red-50'; // Overdue
-    if (days === 0) return 'border-orange-200 bg-orange-50'; // Due today
-    return 'border-blue-200 bg-blue-50'; // Due soon
+    if (days > 0) return 'border-red-200 bg-red-50 dark:border-red-800 dark:bg-red-950'; // Overdue
+    if (days === 0) return 'border-orange-200 bg-orange-50 dark:border-orange-800 dark:bg-orange-950'; // Due today
+    return 'border-blue-200 bg-blue-50 dark:border-blue-800 dark:bg-blue-950'; // Due soon
   };
 
   const getUrgencyText = (reviewDate: string) => {
@@ -39,18 +39,18 @@ const RecommendedReviews: React.FC<RecommendedReviewsProps> = ({ recommendedRevi
 
   return (
     <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <div className="bg-white/70 backdrop-blur-sm rounded-3xl p-8 border border-gray-200/50 shadow-lg">
+      <div className="bg-white dark:bg-black rounded-3xl p-8 border border-gray-200 dark:border-gray-800 shadow-lg">
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-bold text-gray-900 flex items-center space-x-3">
-            <RotateCcw className="w-6 h-6 text-indigo-600" />
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white flex items-center space-x-3">
+            <RotateCcw className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
             <span>Spaced Repetition Reviews</span>
           </h2>
-          <div className="text-sm text-gray-600 bg-gray-100 px-3 py-1 rounded-full">
+          <div className="text-sm text-gray-600 dark:text-gray-400 bg-gray-100 dark:bg-gray-800 px-3 py-1 rounded-full">
             {recommendedReviews.length} topics to review
           </div>
         </div>
         
-        <div className="mb-4 text-sm text-gray-600">
+        <div className="mb-4 text-sm text-gray-600 dark:text-gray-400">
           <p>Review these topics to strengthen your long-term retention and prevent forgetting.</p>
         </div>
 
@@ -58,18 +58,18 @@ const RecommendedReviews: React.FC<RecommendedReviewsProps> = ({ recommendedRevi
           {recommendedReviews.map((review, index) => (
             <div key={index} className={`rounded-xl p-5 border-2 hover:shadow-md transition-all ${getUrgencyColor(review.next_review_date)}`}>
               <div className="flex items-start justify-between mb-3">
-                <h3 className="font-semibold text-gray-900 mb-1 flex-1">{review.sub_topic_title}</h3>
-                <div className="text-xs font-medium text-gray-500 ml-2">
+                <h3 className="font-semibold text-gray-900 dark:text-white mb-1 flex-1">{review.sub_topic_title}</h3>
+                <div className="text-xs font-medium text-gray-500 dark:text-gray-400 ml-2">
                   <Clock className="w-3 h-3 inline mr-1" />
                   {getUrgencyText(review.next_review_date)}
                 </div>
               </div>
               
-              <div className="text-xs text-gray-600 mb-3">
+              <div className="text-xs text-gray-600 dark:text-gray-400 mb-3">
                 <span className="font-medium">{review.module_title}</span> • {review.topic_title}
               </div>
               
-              <div className="text-xs text-gray-500 mb-4">
+              <div className="text-xs text-gray-500 dark:text-gray-400 mb-4">
                 Subject: {review.subject}
               </div>
 
@@ -95,7 +95,7 @@ const RecommendedReviews: React.FC<RecommendedReviewsProps> = ({ recommendedRevi
         </div>
         
         <div className="mt-6 text-center">
-          <div className="text-xs text-gray-500">
+          <div className="text-xs text-gray-500 dark:text-gray-400">
             Based on spaced repetition algorithm for optimal learning retention
           </div>
         </div>
