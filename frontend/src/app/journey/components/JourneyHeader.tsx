@@ -70,11 +70,10 @@ const JourneyHeader: React.FC<JourneyHeaderProps> = ({
   return (
     <>
       <header className="bg-white/95 dark:bg-black backdrop-blur-lg border-b border-gray-200/50 dark:border-gray-700/50 sticky top-0 z-50 shadow-lg">
-        <div className="max-w-7xl mx-auto pl-2 pr-4 sm:pl-3 sm:pr-6 lg:pl-4 lg:pr-8">
+        <div className="max-w-7xl mx-auto pr-4 sm:pr-6 lg:pr-8">
           <div className="flex justify-between items-center h-18 lg:h-20">
             {/* Logo */}
-            <div className="flex items-center">
-              <Logo />
+            <Logo />
               {/* Progress Refresh Indicator */}
               {isRefreshing && (
                 <div className="flex items-center space-x-2 px-3 py-1.5 bg-blue-500/10 text-blue-400 border border-blue-500/20 rounded-lg">
