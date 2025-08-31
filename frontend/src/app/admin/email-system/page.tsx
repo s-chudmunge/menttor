@@ -281,10 +281,12 @@ Sankalp from Menttor`;
                       {emailTemplate === 'welcome' ? (
                         <div className="space-y-4">
                           <div className="text-center border-b pb-4">
-                            <div className="w-32 h-10 bg-gray-200 dark:bg-gray-700 rounded mx-auto mb-3 flex items-center justify-center text-xs text-gray-600">
-                              [Menttor Logo]
+                            <div className="flex items-center justify-center gap-3 mb-3">
+                              <h2 className="text-xl font-bold text-gray-900 dark:text-white">Welcome to</h2>
+                              <div className="w-28 h-8 bg-gray-200 dark:bg-gray-700 rounded flex items-center justify-center text-xs text-gray-600">
+                                [Logo]
+                              </div>
                             </div>
-                            <h2 className="text-xl font-bold text-gray-900 dark:text-white">Welcome to Menttor!</h2>
                             <p className="text-gray-600 dark:text-gray-400">Your smart learning companion</p>
                           </div>
                           <div className="space-y-3 text-sm">

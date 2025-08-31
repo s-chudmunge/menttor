@@ -40,7 +40,7 @@ export async function POST(request: NextRequest) {
       emailHtml = `
         <div style="font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Ubuntu,sans-serif; max-width: 600px; margin: 0 auto; background-color: #ffffff;">
           <div style="padding: 32px 24px; background-color: #ffffff; text-align: center; border-bottom: 1px solid #e5e7eb;">
-            <img src="https://menttor.live/logo_higres.png" width="120" height="40" alt="Menttor Logo" style="margin-bottom: 16px;" />
+            <img src="https://menttor.live/logo_higres-min.png" width="140" height="auto" alt="Menttor Logo" style="margin-bottom: 16px;" />
             <h2 style="color: #1f2937; font-size: 24px; font-weight: 600; margin: 0; line-height: 32px;">
               Message from Menttor
             </h2>

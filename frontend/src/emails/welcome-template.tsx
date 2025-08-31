@@ -28,14 +28,16 @@ export default function WelcomeEmail({ userName = "there" }: WelcomeEmailProps) 
           <Section style={header}>
             <Row>
               <Column>
-                <Img
-                  src="https://menttor.live/logo_higres.png"
-                  width="120"
-                  height="40"
-                  alt="Menttor Logo"
-                  style={logo}
-                />
-                <Heading style={h1}>Welcome to Menttor!</Heading>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px', marginBottom: '16px' }}>
+                  <Text style={welcomeText}>Welcome to</Text>
+                  <Img
+                    src="https://menttor.live/logo_higres-min.png"
+                    width="140"
+                    height="auto"
+                    alt="Menttor Logo"
+                    style={logoInline}
+                  />
+                </div>
                 <Text style={subtitle}>Your smart learning companion</Text>
               </Column>
             </Row>
@@ -128,16 +130,17 @@ const header = {
   textAlign: 'center' as const,
 };
 
-const logo = {
-  margin: '0 auto 20px',
-};
-
-const h1 = {
+const welcomeText = {
   color: '#1f2937',
   fontSize: '28px',
   fontWeight: 'bold',
-  margin: '0 0 8px',
+  margin: '0',
   lineHeight: '32px',
+};
+
+const logoInline = {
+  display: 'inline-block',
+  verticalAlign: 'middle',
 };
 
 const subtitle = {
