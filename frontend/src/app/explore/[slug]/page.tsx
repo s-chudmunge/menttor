@@ -28,6 +28,8 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import RoadmapShareButton from '../../../../components/RoadmapShareButton';
+import PreviewHeader from '../../../components/PreviewHeader';
+import PreviewFooter from '../../../components/PreviewFooter';
 
 interface RoadmapModule {
   title: string;
@@ -219,29 +221,29 @@ const RoadmapPreviewPage = () => {
   };
 
   const categoryColors: { [key: string]: string } = {
-    'web-development': 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300',
-    'data-science': 'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300',
-    'cloud-computing': 'bg-sky-100 text-sky-800 dark:bg-sky-900/30 dark:text-sky-300',
-    'computer-science': 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-300',
-    'mobile-development': 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300',
-    'devops': 'bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-300',
-    'artificial-intelligence': 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300',
-    'cybersecurity': 'bg-indigo-100 text-indigo-800 dark:bg-indigo-900/30 dark:text-indigo-300',
-    'blockchain': 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300',
-    'game-development': 'bg-pink-100 text-pink-800 dark:bg-pink-900/30 dark:text-pink-300',
-    'database': 'bg-teal-100 text-teal-800 dark:bg-teal-900/30 dark:text-teal-300',
-    'system-design': 'bg-violet-100 text-violet-800 dark:bg-violet-900/30 dark:text-violet-300',
-    'competitive-programming': 'bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-300',
-    'design': 'bg-rose-100 text-rose-800 dark:bg-rose-900/30 dark:text-rose-300',
-    'programming-languages': 'bg-lime-100 text-lime-800 dark:bg-lime-900/30 dark:text-lime-300',
-    'data-engineering': 'bg-cyan-100 text-cyan-800 dark:bg-cyan-900/30 dark:text-cyan-300',
-    'product-management': 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300'
+    'web-development': 'bg-blue-100 text-blue-800 dark:bg-blue-600 dark:text-white',
+    'data-science': 'bg-purple-100 text-purple-800 dark:bg-purple-600 dark:text-white',
+    'cloud-computing': 'bg-sky-100 text-sky-800 dark:bg-sky-600 dark:text-white',
+    'computer-science': 'bg-gray-100 text-gray-800 dark:bg-gray-600 dark:text-white',
+    'mobile-development': 'bg-green-100 text-green-800 dark:bg-green-600 dark:text-white',
+    'devops': 'bg-orange-100 text-orange-800 dark:bg-orange-600 dark:text-white',
+    'artificial-intelligence': 'bg-red-100 text-red-800 dark:bg-red-600 dark:text-white',
+    'cybersecurity': 'bg-indigo-100 text-indigo-800 dark:bg-indigo-600 dark:text-white',
+    'blockchain': 'bg-yellow-100 text-yellow-800 dark:bg-yellow-600 dark:text-white',
+    'game-development': 'bg-pink-100 text-pink-800 dark:bg-pink-600 dark:text-white',
+    'database': 'bg-teal-100 text-teal-800 dark:bg-teal-600 dark:text-white',
+    'system-design': 'bg-violet-100 text-violet-800 dark:bg-violet-600 dark:text-white',
+    'competitive-programming': 'bg-amber-100 text-amber-800 dark:bg-amber-600 dark:text-white',
+    'design': 'bg-rose-100 text-rose-800 dark:bg-rose-600 dark:text-white',
+    'programming-languages': 'bg-lime-100 text-lime-800 dark:bg-lime-600 dark:text-white',
+    'data-engineering': 'bg-cyan-100 text-cyan-800 dark:bg-cyan-600 dark:text-white',
+    'product-management': 'bg-emerald-100 text-emerald-800 dark:bg-emerald-600 dark:text-white'
   };
 
   const difficultyColors: { [key: string]: string } = {
-    beginner: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
-    intermediate: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200',
-    advanced: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
+    beginner: 'bg-green-100 text-green-800 dark:bg-green-600 dark:text-white',
+    intermediate: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-600 dark:text-white',
+    advanced: 'bg-red-100 text-red-800 dark:bg-red-600 dark:text-white'
   };
 
   useEffect(() => {
@@ -351,16 +353,16 @@ const RoadmapPreviewPage = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50/20 dark:from-gray-900 dark:to-blue-950/20">
+      <div className="min-h-screen bg-gray-50 dark:bg-black">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="animate-pulse">
-            <div className="h-8 bg-gray-200 dark:bg-gray-700 rounded mb-8 w-1/3"></div>
-            <div className="bg-white/80 dark:bg-gray-800/80 rounded-2xl p-8 mb-8">
-              <div className="h-12 bg-gray-200 dark:bg-gray-700 rounded mb-4"></div>
-              <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded mb-6 w-2/3"></div>
+            <div className="h-8 bg-gray-200 dark:bg-gray-600 rounded mb-8 w-1/3"></div>
+            <div className="bg-white dark:bg-gray-900 rounded-2xl p-8 mb-8">
+              <div className="h-12 bg-gray-200 dark:bg-gray-600 rounded mb-4"></div>
+              <div className="h-6 bg-gray-200 dark:bg-gray-600 rounded mb-6 w-2/3"></div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 {[...Array(4)].map((_, i) => (
-                  <div key={i} className="h-20 bg-gray-200 dark:bg-gray-700 rounded"></div>
+                  <div key={i} className="h-20 bg-gray-200 dark:bg-gray-600 rounded"></div>
                 ))}
               </div>
             </div>
@@ -372,13 +374,13 @@ const RoadmapPreviewPage = () => {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50/20 dark:from-gray-900 dark:to-blue-950/20 flex items-center justify-center">
+      <div className="min-h-screen bg-gray-50 dark:bg-black flex items-center justify-center">
         <div className="text-center max-w-md mx-auto p-6">
-          <div className="w-16 h-16 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
-            <AlertCircle className="w-8 h-8 text-red-600 dark:text-red-400" />
+          <div className="w-16 h-16 bg-red-100 dark:bg-red-600 rounded-full flex items-center justify-center mx-auto mb-4">
+            <AlertCircle className="w-8 h-8 text-red-600 dark:text-white" />
           </div>
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Roadmap Not Found</h2>
-          <p className="text-gray-600 dark:text-gray-400 mb-6">{error}</p>
+          <h2 className="text-2xl font-bold text-black dark:text-white mb-2">Roadmap Not Found</h2>
+          <p className="text-gray-600 dark:text-gray-300 mb-6">{error}</p>
           <button 
             onClick={() => router.push('/explore')}
             className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
@@ -392,6 +394,12 @@ const RoadmapPreviewPage = () => {
   }
 
   if (!roadmap) return null;
+
+  const relatedRoadmaps = [
+    { slug: `${roadmap?.category}-fundamentals`, title: `${roadmap?.category.replace('-', ' ')} Fundamentals`, category: roadmap?.category || '' },
+    { slug: `advanced-${roadmap?.category}`, title: `Advanced ${roadmap?.category.replace('-', ' ')}`, category: roadmap?.category || '' },
+    { slug: `${roadmap?.category}-projects`, title: `${roadmap?.category.replace('-', ' ')} Projects`, category: roadmap?.category || '' }
+  ].filter(r => r.slug !== (roadmap?.slug || roadmap?.id?.toString()))
 
   return (
     <>
@@ -413,7 +421,8 @@ const RoadmapPreviewPage = () => {
         </>
       )}
       
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50/20 dark:from-gray-900 dark:to-blue-950/20">
+      <PreviewHeader />
+      <div className="min-h-screen bg-gray-50 dark:bg-black">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Breadcrumb Navigation */}
         <nav className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400 mb-8" aria-label="Breadcrumb">
@@ -533,8 +542,8 @@ const RoadmapPreviewPage = () => {
                       {moduleIndex + 1}
                     </div>
                     <div className="flex-1">
-                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">{module.title}</h3>
-                      <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">{module.description}</p>
+                      <h3 className="text-lg font-semibold text-black dark:text-white mb-2">{module.title}</h3>
+                      <p className="text-gray-600 dark:text-gray-200 text-sm leading-relaxed">{module.description}</p>
                     </div>
                   </div>
                   
@@ -542,18 +551,18 @@ const RoadmapPreviewPage = () => {
                     {module.topics.map((topic, topicIndex) => (
                       <div key={topicIndex} className="border border-gray-200 dark:border-gray-600 rounded-lg p-4">
                         <div className="flex items-start justify-between mb-2">
-                          <h4 className="font-medium text-gray-900 dark:text-white">{topic.title}</h4>
-                          <span className="text-xs text-gray-500 dark:text-gray-400">
+                          <h4 className="font-medium text-black dark:text-white">{topic.title}</h4>
+                          <span className="text-xs text-gray-500 dark:text-gray-300">
                             {topic.subtopics.length} lessons
                           </span>
                         </div>
-                        <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">{topic.description}</p>
+                        <p className="text-sm text-gray-600 dark:text-gray-200 mb-3">{topic.description}</p>
                         
                         {topic.subtopics.length > 0 && (
                           <div className="space-y-2">
                             {topic.subtopics.slice(0, 3).map((subtopic, subtopicIndex) => (
-                              <div key={subtopicIndex} className="flex items-center justify-between py-2 px-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
-                                <span className="text-sm text-gray-700 dark:text-gray-300">{subtopic.title}</span>
+                              <div key={subtopicIndex} className="flex items-center justify-between py-2 px-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                                <span className="text-sm text-gray-700 dark:text-gray-200">{subtopic.title}</span>
                                 <div className="flex items-center space-x-1">
                                   {subtopic.learn && <BookOpen className="w-3 h-3 text-blue-500" />}
                                   {subtopic.quiz && <Badge className="w-3 h-3 text-green-500" />}
@@ -562,7 +571,7 @@ const RoadmapPreviewPage = () => {
                               </div>
                             ))}
                             {topic.subtopics.length > 3 && (
-                              <div className="text-xs text-gray-500 dark:text-gray-400 text-center py-2">
+                              <div className="text-xs text-gray-500 dark:text-gray-300 text-center py-2">
                                 +{topic.subtopics.length - 3} more lessons
                               </div>
                             )}
@@ -580,11 +589,11 @@ const RoadmapPreviewPage = () => {
           <div className="space-y-6">
             {/* Prerequisites */}
             {roadmap.prerequisites?.length > 0 && (
-              <div className="bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Prerequisites</h3>
+              <div className="bg-white dark:bg-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
+                <h3 className="text-lg font-semibold text-black dark:text-white mb-4">Prerequisites</h3>
                 <ul className="space-y-2">
                   {roadmap.prerequisites.map((prereq, index) => (
-                    <li key={index} className="flex items-center text-sm text-gray-600 dark:text-gray-400">
+                    <li key={index} className="flex items-center text-sm text-gray-600 dark:text-gray-200">
                       <CheckCircle className="w-4 h-4 text-green-500 mr-2 flex-shrink-0" />
                       {prereq}
                     </li>
@@ -595,11 +604,11 @@ const RoadmapPreviewPage = () => {
 
             {/* Learning Outcomes */}
             {roadmap.learning_outcomes?.length > 0 && (
-              <div className="bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">What You'll Learn</h3>
+              <div className="bg-white dark:bg-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
+                <h3 className="text-lg font-semibold text-black dark:text-white mb-4">What You'll Learn</h3>
                 <ul className="space-y-2">
                   {roadmap.learning_outcomes.map((outcome, index) => (
-                    <li key={index} className="flex items-center text-sm text-gray-600 dark:text-gray-400">
+                    <li key={index} className="flex items-center text-sm text-gray-600 dark:text-gray-200">
                       <Target className="w-4 h-4 text-blue-500 mr-2 flex-shrink-0" />
                       {outcome}
                     </li>
@@ -610,13 +619,13 @@ const RoadmapPreviewPage = () => {
 
             {/* Technologies */}
             {roadmap.tags?.length > 0 && (
-              <div className="bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Technologies & Skills</h3>
+              <div className="bg-white dark:bg-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
+                <h3 className="text-lg font-semibold text-black dark:text-white mb-4">Technologies & Skills</h3>
                 <div className="flex flex-wrap gap-2">
                   {roadmap.tags.map((tag, index) => (
                     <span
                       key={index}
-                      className="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-sm rounded-lg font-medium"
+                      className="px-3 py-1 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 text-sm rounded-lg font-medium"
                     >
                       {tag}
                     </span>
@@ -627,32 +636,32 @@ const RoadmapPreviewPage = () => {
 
             {/* Target Audience */}
             {roadmap.target_audience && (
-              <div className="bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Perfect For</h3>
-                <p className="text-gray-600 dark:text-gray-400">{roadmap.target_audience}</p>
+              <div className="bg-white dark:bg-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
+                <h3 className="text-lg font-semibold text-black dark:text-white mb-4">Perfect For</h3>
+                <p className="text-gray-600 dark:text-gray-200">{roadmap.target_audience}</p>
               </div>
             )}
           </div>
         </div>
 
         {/* Related Roadmaps Section for Internal Linking */}
-        <div className="mt-12 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-8 border border-gray-200/50 dark:border-gray-700/50">
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+        <div className="mt-12 bg-white dark:bg-gray-900 rounded-2xl p-8 border border-gray-200 dark:border-gray-700">
+          <h2 className="text-2xl font-bold text-black dark:text-white mb-6">
             Explore More {roadmap.category.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())} Roadmaps
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {/* Dynamic Links Based on Category and Difficulty */}
             <Link 
               href={`/explore?category=${roadmap.category}`}
-              className="group p-4 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-xl hover:from-blue-100 hover:to-indigo-100 dark:hover:from-blue-900/30 dark:hover:to-indigo-900/30 transition-all"
+              className="group p-4 bg-blue-50 dark:bg-blue-800 rounded-xl hover:bg-blue-100 dark:hover:bg-blue-700 transition-all border border-blue-200 dark:border-blue-600"
             >
               <div className="flex items-center space-x-3">
-                <BookOpen className="w-5 h-5 text-blue-600" />
+                <BookOpen className="w-5 h-5 text-blue-600 dark:text-blue-300" />
                 <div>
-                  <h3 className="font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400">
+                  <h3 className="font-semibold text-black dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-200">
                     All {roadmap.category.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())} Courses
                   </h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                  <p className="text-sm text-gray-600 dark:text-gray-200">
                     Browse {roadmap.category.replace('-', ' ')} learning paths
                   </p>
                 </div>
@@ -661,15 +670,15 @@ const RoadmapPreviewPage = () => {
 
             <Link 
               href={`/explore?difficulty=${roadmap.difficulty}`}
-              className="group p-4 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-xl hover:from-green-100 hover:to-emerald-100 dark:hover:from-green-900/30 dark:hover:to-emerald-900/30 transition-all"
+              className="group p-4 bg-green-50 dark:bg-green-800 rounded-xl hover:bg-green-100 dark:hover:bg-green-700 transition-all border border-green-200 dark:border-green-600"
             >
               <div className="flex items-center space-x-3">
-                <Target className="w-5 h-5 text-green-600" />
+                <Target className="w-5 h-5 text-green-600 dark:text-green-300" />
                 <div>
-                  <h3 className="font-semibold text-gray-900 dark:text-white group-hover:text-green-600 dark:group-hover:text-green-400">
+                  <h3 className="font-semibold text-black dark:text-white group-hover:text-green-600 dark:group-hover:text-green-200">
                     {roadmap.difficulty.charAt(0).toUpperCase() + roadmap.difficulty.slice(1)} Level Courses
                   </h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                  <p className="text-sm text-gray-600 dark:text-gray-200">
                     Perfect for your skill level
                   </p>
                 </div>
@@ -678,15 +687,15 @@ const RoadmapPreviewPage = () => {
 
             <Link 
               href={`/explore`}
-              className="group p-4 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl hover:from-purple-100 hover:to-pink-100 dark:hover:from-purple-900/30 dark:hover:to-pink-900/30 transition-all"
+              className="group p-4 bg-purple-50 dark:bg-purple-800 rounded-xl hover:bg-purple-100 dark:hover:bg-purple-700 transition-all border border-purple-200 dark:border-purple-600"
             >
               <div className="flex items-center space-x-3">
-                <TrendingUp className="w-5 h-5 text-purple-600" />
+                <TrendingUp className="w-5 h-5 text-purple-600 dark:text-purple-300" />
                 <div>
-                  <h3 className="font-semibold text-gray-900 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-400">
+                  <h3 className="font-semibold text-black dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-200">
                     Featured Roadmaps
                   </h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                  <p className="text-sm text-gray-600 dark:text-gray-200">
                     Most popular learning paths
                   </p>
                 </div>
@@ -697,13 +706,13 @@ const RoadmapPreviewPage = () => {
           {/* Skill-based internal links */}
           {roadmap.tags.length > 0 && (
             <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Learn Related Skills:</h3>
+              <h3 className="text-lg font-semibold text-black dark:text-white mb-4">Learn Related Skills:</h3>
               <div className="flex flex-wrap gap-2">
                 {roadmap.tags.slice(0, 6).map((tag, index) => (
                   <Link
                     key={index}
                     href={`/explore?q=${encodeURIComponent(tag)}`}
-                    className="px-3 py-2 bg-gray-100 dark:bg-gray-700/50 hover:bg-blue-100 dark:hover:bg-blue-900/30 text-gray-700 dark:text-gray-300 hover:text-blue-700 dark:hover:text-blue-300 text-sm rounded-lg font-medium transition-colors"
+                    className="px-3 py-2 bg-gray-100 dark:bg-gray-800 hover:bg-blue-100 dark:hover:bg-blue-800 text-gray-700 dark:text-gray-200 hover:text-blue-700 dark:hover:text-blue-200 text-sm rounded-lg font-medium transition-colors"
                   >
                     {tag} courses
                   </Link>
@@ -714,6 +723,7 @@ const RoadmapPreviewPage = () => {
         </div>
       </div>
       </div>
+      <PreviewFooter relatedRoadmaps={relatedRoadmaps} />
     </>
   );
 };

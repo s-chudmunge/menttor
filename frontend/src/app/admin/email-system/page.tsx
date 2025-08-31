@@ -58,6 +58,7 @@ export default function AdminEmailSystem() {
         setPagination(data.pagination)
       } else {
         console.error('Failed to fetch users:', data.error)
+        setSendResult(`❌ Failed to fetch Firebase users: ${data.error}`)
       }
     } catch (error) {
       console.error('Error fetching users:', error)
@@ -77,18 +78,37 @@ export default function AdminEmailSystem() {
   }
 
   const toggleUserSelection = (email: string) => {
-    setSelectedUsers(prev => 
-      prev.includes(email) 
+    setSelectedUsers(prev => {
+      const newSelection = prev.includes(email) 
         ? prev.filter(e => e !== email)
         : [...prev, email]
-    )
+      
+      // Update recipient email field or bulk emails field
+      if (newSelection.length === 1) {
+        setRecipientEmail(newSelection[0])
+        setBulkEmails('')
+      } else if (newSelection.length > 1) {
+        setRecipientEmail('')
+        setBulkEmails(newSelection.join('\n'))
+      } else {
+        setRecipientEmail('')
+        setBulkEmails('')
+      }
+      
+      return newSelection
+    })
   }
 
   const selectAllUsers = () => {
+    const allEmails = users.map(u => u.email).filter(Boolean)
     if (selectedUsers.length === users.length) {
       setSelectedUsers([])
+      setRecipientEmail('')
+      setBulkEmails('')
     } else {
-      setSelectedUsers(users.map(u => u.email).filter(Boolean))
+      setSelectedUsers(allEmails)
+      setRecipientEmail('')
+      setBulkEmails(allEmails.join('\n'))
     }
   }
 
@@ -190,29 +210,60 @@ menttor.live`;
     setSending(true)
     setSendResult('')
 
-    try {      
-      const response = await fetch('/api/send-email', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          to: recipientEmail,
-          subject: emailSubject,
-          message: emailTemplate === 'custom' ? emailMessage : undefined,
-          template: emailTemplate,
-        }),
-      })
-
-      const data = await response.json()
-
-      if (response.ok) {
-        setSendResult(`✅ Email sent successfully! Email ID: ${data.emailId}`)
-        if (emailTemplate === 'welcome') {
-          setRecipientEmail('')
+    try {
+      const bulkEmailList = getBulkEmailList()
+      
+      // If we have bulk emails, send to all
+      if (bulkEmailList.length > 0) {
+        const results = []
+        
+        for (const email of bulkEmailList) {
+          try {
+            const response = await fetch('/api/send-email', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                to: email,
+                subject: emailSubject,
+                message: emailTemplate === 'custom' ? emailMessage : undefined,
+                template: emailTemplate,
+              }),
+            })
+            
+            const data = await response.json()
+            results.push({ email, success: response.ok, data })
+          } catch (error) {
+            results.push({ email, success: false, error })
+          }
         }
+        
+        const successful = results.filter(r => r.success).length
+        setSendResult(`✅ Sent ${successful}/${bulkEmailList.length} emails successfully`)
+        setBulkEmails('')
+        setSelectedUsers([])
       } else {
-        setSendResult(`❌ Error: ${data.error}`)
+        // Single email send
+        const response = await fetch('/api/send-email', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            to: recipientEmail,
+            subject: emailSubject,
+            message: emailTemplate === 'custom' ? emailMessage : undefined,
+            template: emailTemplate,
+          }),
+        })
+
+        const data = await response.json()
+
+        if (response.ok) {
+          setSendResult(`✅ Email sent successfully! Email ID: ${data.emailId}`)
+          setRecipientEmail('')
+        } else {
+          setSendResult(`❌ Error: ${data.error}`)
+        }
       }
     } catch (error) {
       setSendResult(`❌ Network error: ${error}`)
@@ -300,9 +351,21 @@ menttor.live`;
                 </h1>
                 <p className="mt-2 text-sm text-gray-700 dark:text-gray-300">
                   Send test emails using Resend from sankalp@menttor.live
+                  {pagination && (
+                    <span className="ml-2 text-blue-600 dark:text-blue-400">
+                      • {pagination.totalUsers} Firebase users loaded
+                    </span>
+                  )}
                 </p>
               </div>
-              <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
+              <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none space-x-3">
+                <Button
+                  onClick={() => fetchUsers()}
+                  disabled={loadingUsers}
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md"
+                >
+                  {loadingUsers ? 'Loading...' : 'Refresh Users'}
+                </Button>
                 <Button
                   onClick={() => setIsAuthenticated(false)}
                   className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-md"
@@ -407,9 +470,13 @@ menttor.live`;
                   <Button
                     type="button"
                     onClick={() => setShowUserList(!showUserList)}
-                    className="py-2 px-4 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600 rounded-md transition-colors"
+                    className={`py-2 px-4 border rounded-md transition-colors ${
+                      showUserList 
+                        ? 'bg-blue-600 text-white border-blue-600 hover:bg-blue-700' 
+                        : 'border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600'
+                    }`}
                   >
-                    Users ({selectedUsers.length})
+                    Firebase Users ({users.length > 0 ? `${selectedUsers.length}/${users.length}` : '0'})
                   </Button>
                   <Button
                     type="button"
@@ -429,22 +496,6 @@ menttor.live`;
                   >
                     {sending ? 'Sending...' : 'Send Email'}
                   </Button>
-                  {(selectedUsers.length > 0 || getBulkEmailList().length > 0) && (
-                    <Button
-                      type="button"
-                      onClick={() => {
-                        if (getBulkEmailList().length > 0) {
-                          sendToBulkList()
-                        } else {
-                          sendBulkEmails()
-                        }
-                      }}
-                      disabled={bulkSending}
-                      className="py-2 px-4 bg-green-600 hover:bg-green-700 text-white rounded-md"
-                    >
-                      {bulkSending ? 'Sending...' : `Send to ${getBulkEmailList().length || selectedUsers.length}`}
-                    </Button>
-                  )}
                 </div>
 
                 {showPreview && (
