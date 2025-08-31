@@ -782,6 +782,362 @@ TRENDING_ROADMAPS_CONFIG = [
     },
 
     # ==============================================================================
+    # TRENDING PROGRAMMING LANGUAGES FOR 2024-2025
+    # ==============================================================================
+    
+    {
+        "title": "Python Mastery for Data Science and AI Development",
+        "category": "programming-languages",
+        "subcategory": "python",
+        "difficulty": "beginner",
+        "target_audience": "Beginners and developers wanting to master Python for AI and data science",
+        "estimated_hours": 120,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.7,
+        "prerequisites": ["Basic programming concepts", "High school mathematics"],
+        "learning_outcomes": [
+            "Master Python syntax and advanced programming concepts",
+            "Build data analysis pipelines with pandas and NumPy",
+            "Create machine learning models with scikit-learn and TensorFlow",
+            "Develop web applications with Django and FastAPI",
+            "Write clean, Pythonic code following industry best practices"
+        ],
+        "tags": ["python", "programming", "data-science", "ai", "web-development", "fundamentals"],
+        "request": {
+            "subject": "Complete Python Programming Mastery",
+            "goal": "I want to master Python programming from fundamentals to advanced applications. Cover syntax, OOP, functional programming, data structures, libraries for data science and AI, web development, testing, and deployment. Build a strong foundation for any Python career path.",
+            "time_value": 10,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "TypeScript Full-Stack Development",
+        "category": "programming-languages",
+        "subcategory": "typescript",
+        "difficulty": "intermediate",
+        "target_audience": "JavaScript developers transitioning to type-safe development",
+        "estimated_hours": 100,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.5,
+        "prerequisites": ["JavaScript fundamentals", "ES6+ features", "Basic web development"],
+        "learning_outcomes": [
+            "Master TypeScript syntax and advanced type system",
+            "Build type-safe React applications with TypeScript",
+            "Develop backend APIs with Node.js and TypeScript",
+            "Implement advanced patterns like generics and decorators",
+            "Set up comprehensive TypeScript tooling and workflows"
+        ],
+        "tags": ["typescript", "javascript", "type-safety", "fullstack", "react", "nodejs"],
+        "request": {
+            "subject": "TypeScript Full-Stack Development",
+            "goal": "I want to master TypeScript for full-stack development. Teach me TypeScript fundamentals, advanced types, React with TypeScript, Node.js backend development, tooling configuration, and best practices. Focus on building scalable, type-safe applications.",
+            "time_value": 8,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Swift iOS Development and App Store Success",
+        "category": "programming-languages",
+        "subcategory": "swift",
+        "difficulty": "beginner",
+        "target_audience": "Developers wanting to build iOS applications and publish to App Store",
+        "estimated_hours": 110,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.3,
+        "prerequisites": ["Basic programming concepts", "Object-oriented programming"],
+        "learning_outcomes": [
+            "Master Swift programming language and iOS development",
+            "Build beautiful iOS apps with SwiftUI and UIKit",
+            "Implement Core Data for data persistence",
+            "Integrate device features and third-party APIs",
+            "Deploy apps to App Store and handle app lifecycle"
+        ],
+        "tags": ["swift", "ios", "mobile", "swiftui", "app-store", "xcode"],
+        "request": {
+            "subject": "Swift iOS Development",
+            "goal": "I want to master Swift and iOS development. Teach me Swift programming, SwiftUI, UIKit, Core Data, networking, device integration, testing, and App Store deployment. Focus on building professional iOS applications from concept to publication.",
+            "time_value": 9,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Kotlin Android Development and Play Store Publishing",
+        "category": "programming-languages",
+        "subcategory": "kotlin",
+        "difficulty": "beginner",
+        "target_audience": "Developers building Android applications with modern Kotlin",
+        "estimated_hours": 115,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.2,
+        "prerequisites": ["Basic programming concepts", "Object-oriented programming"],
+        "learning_outcomes": [
+            "Master Kotlin programming and Android development fundamentals",
+            "Build modern Android apps with Jetpack Compose",
+            "Implement MVVM architecture and dependency injection",
+            "Work with Android APIs and third-party libraries",
+            "Publish apps to Google Play Store successfully"
+        ],
+        "tags": ["kotlin", "android", "mobile", "jetpack-compose", "mvvm", "play-store"],
+        "request": {
+            "subject": "Kotlin Android Development",
+            "goal": "I want to master Kotlin for Android development. Teach me Kotlin programming, Jetpack Compose, MVVM architecture, Room database, networking, testing, and Play Store deployment. Focus on modern Android development practices and creating professional apps.",
+            "time_value": 9,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "C++ Modern Systems Programming and Performance",
+        "category": "programming-languages",
+        "subcategory": "cpp",
+        "difficulty": "intermediate",
+        "target_audience": "Developers building high-performance systems and game engines",
+        "estimated_hours": 130,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.4,
+        "prerequisites": ["Programming fundamentals", "Basic understanding of computer architecture"],
+        "learning_outcomes": [
+            "Master modern C++17/20 features and best practices",
+            "Build high-performance applications and game engines",
+            "Understand memory management and optimization techniques",
+            "Implement concurrent and parallel programming patterns",
+            "Develop system-level software and embedded applications"
+        ],
+        "tags": ["cpp", "systems-programming", "performance", "game-development", "embedded"],
+        "request": {
+            "subject": "Modern C++ Systems Programming",
+            "goal": "I want to master modern C++ for systems programming and high-performance applications. Teach me C++17/20 features, memory management, concurrency, STL, design patterns, debugging, and performance optimization. Focus on building robust, efficient systems.",
+            "time_value": 10,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Java Enterprise Development and Spring Boot",
+        "category": "programming-languages",
+        "subcategory": "java",
+        "difficulty": "intermediate",
+        "target_audience": "Developers building enterprise applications and microservices",
+        "estimated_hours": 120,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.3,
+        "prerequisites": ["Object-oriented programming", "Basic web concepts", "Database fundamentals"],
+        "learning_outcomes": [
+            "Master Java programming and JVM ecosystem",
+            "Build enterprise applications with Spring Boot",
+            "Implement microservices architecture and patterns",
+            "Work with databases using JPA and Hibernate",
+            "Deploy Java applications to cloud platforms"
+        ],
+        "tags": ["java", "spring-boot", "enterprise", "microservices", "jvm", "backend"],
+        "request": {
+            "subject": "Java Enterprise Development",
+            "goal": "I want to master Java for enterprise application development. Teach me Java fundamentals, Spring Framework, Spring Boot, microservices, database integration, security, testing, and cloud deployment. Focus on building scalable enterprise systems.",
+            "time_value": 10,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "C# .NET Development and Azure Integration",
+        "category": "programming-languages",
+        "subcategory": "csharp",
+        "difficulty": "intermediate",
+        "target_audience": "Developers building .NET applications and Microsoft ecosystem solutions",
+        "estimated_hours": 110,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.2,
+        "prerequisites": ["Object-oriented programming", "Basic web development", "Database concepts"],
+        "learning_outcomes": [
+            "Master C# programming and .NET ecosystem",
+            "Build web applications with ASP.NET Core",
+            "Develop desktop applications with WPF or WinUI",
+            "Implement cloud solutions with Azure services",
+            "Create robust enterprise applications with Entity Framework"
+        ],
+        "tags": ["csharp", "dotnet", "aspnet-core", "azure", "enterprise", "microsoft"],
+        "request": {
+            "subject": "C# .NET Development",
+            "goal": "I want to master C# and .NET development. Teach me C# programming, ASP.NET Core, Entity Framework, Azure cloud services, desktop development, testing, and deployment. Focus on building professional applications in the Microsoft ecosystem.",
+            "time_value": 9,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Julia Scientific Computing and Data Analysis",
+        "category": "programming-languages",
+        "subcategory": "julia",
+        "difficulty": "intermediate",
+        "target_audience": "Scientists, researchers, and engineers needing high-performance computing",
+        "estimated_hours": 90,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.0,
+        "prerequisites": ["Programming fundamentals", "Linear algebra", "Statistics basics"],
+        "learning_outcomes": [
+            "Master Julia syntax and performance optimization",
+            "Build scientific computing applications and simulations",
+            "Implement parallel and distributed computing solutions",
+            "Create data analysis workflows and visualizations",
+            "Develop packages for the Julia ecosystem"
+        ],
+        "tags": ["julia", "scientific-computing", "high-performance", "data-analysis", "research"],
+        "request": {
+            "subject": "Julia Scientific Computing",
+            "goal": "I want to master Julia for scientific computing and high-performance numerical analysis. Teach me Julia programming, package development, parallel computing, scientific libraries, data visualization, and performance optimization. Focus on research and scientific applications.",
+            "time_value": 7,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Zig Systems Programming and Performance Computing",
+        "category": "programming-languages",
+        "subcategory": "zig",
+        "difficulty": "intermediate",
+        "target_audience": "Systems programmers interested in next-generation systems languages",
+        "estimated_hours": 100,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 8.9,
+        "prerequisites": ["C programming experience", "Systems programming concepts", "Memory management understanding"],
+        "learning_outcomes": [
+            "Master Zig syntax and compile-time programming",
+            "Build high-performance systems applications",
+            "Understand Zig's approach to memory safety without garbage collection",
+            "Create efficient cross-platform applications",
+            "Contribute to the growing Zig ecosystem"
+        ],
+        "tags": ["zig", "systems-programming", "performance", "memory-safety", "cross-platform"],
+        "request": {
+            "subject": "Zig Systems Programming",
+            "goal": "I want to master Zig for systems programming. Teach me Zig syntax, compile-time programming, memory management, cross-compilation, performance optimization, and building system tools. Focus on practical systems programming and understanding Zig's unique approach to safety and performance.",
+            "time_value": 8,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Mojo Programming for AI and High-Performance Computing",
+        "category": "programming-languages",
+        "subcategory": "mojo",
+        "difficulty": "intermediate",
+        "target_audience": "AI researchers and developers needing Python compatibility with C++ performance",
+        "estimated_hours": 95,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 8.9,
+        "prerequisites": ["Python programming", "AI/ML concepts", "Performance optimization basics"],
+        "learning_outcomes": [
+            "Master Mojo syntax and performance features",
+            "Build high-performance AI applications with Python compatibility",
+            "Optimize machine learning workloads for speed",
+            "Understand Mojo's approach to parallelization and vectorization",
+            "Integrate Mojo with existing Python AI/ML workflows"
+        ],
+        "tags": ["mojo", "ai", "machine-learning", "performance", "python-compatible", "hpc"],
+        "request": {
+            "subject": "Mojo Programming for AI",
+            "goal": "I want to learn Mojo programming for high-performance AI development. Teach me Mojo syntax, performance optimization, AI model development, parallelization, and integration with Python ecosystems. Focus on building fast AI applications with Mojo's unique capabilities.",
+            "time_value": 7,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Elixir Functional Programming and Distributed Systems",
+        "category": "programming-languages",
+        "subcategory": "elixir",
+        "difficulty": "intermediate",
+        "target_audience": "Developers building fault-tolerant and concurrent systems",
+        "estimated_hours": 100,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.1,
+        "prerequisites": ["Programming fundamentals", "Functional programming concepts", "Distributed systems basics"],
+        "learning_outcomes": [
+            "Master Elixir syntax and functional programming paradigms",
+            "Build fault-tolerant applications with OTP (Open Telecom Platform)",
+            "Implement real-time web applications with Phoenix",
+            "Handle massive concurrency with Actor model",
+            "Deploy distributed Elixir systems at scale"
+        ],
+        "tags": ["elixir", "functional-programming", "distributed-systems", "phoenix", "concurrency", "fault-tolerance"],
+        "request": {
+            "subject": "Elixir Functional Programming",
+            "goal": "I want to master Elixir for building fault-tolerant, concurrent systems. Teach me functional programming in Elixir, OTP design principles, Phoenix web framework, LiveView, distributed systems patterns, and deployment strategies. Focus on building resilient applications.",
+            "time_value": 8,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "R Programming for Statistical Analysis and Data Science",
+        "category": "programming-languages",
+        "subcategory": "r",
+        "difficulty": "beginner",
+        "target_audience": "Statisticians, researchers, and data analysts focusing on statistical computing",
+        "estimated_hours": 100,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.0,
+        "prerequisites": ["Statistics fundamentals", "Basic programming concepts", "Mathematics background"],
+        "learning_outcomes": [
+            "Master R programming and statistical computing",
+            "Perform advanced statistical analysis and modeling",
+            "Create professional data visualizations with ggplot2",
+            "Build reproducible research workflows with R Markdown",
+            "Develop R packages and contribute to CRAN"
+        ],
+        "tags": ["r", "statistics", "data-analysis", "visualization", "research", "ggplot2"],
+        "request": {
+            "subject": "R Programming for Statistical Analysis",
+            "goal": "I want to master R for statistical analysis and data science. Teach me R programming, statistical methods, data manipulation with dplyr, visualization with ggplot2, R Markdown, package development, and reproducible research. Focus on statistical rigor and research applications.",
+            "time_value": 8,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "MATLAB Programming for Engineering and Scientific Research",
+        "category": "programming-languages",
+        "subcategory": "matlab",
+        "difficulty": "beginner",
+        "target_audience": "Engineers, scientists, and researchers in technical fields",
+        "estimated_hours": 100,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.1,
+        "prerequisites": ["Engineering mathematics", "Linear algebra", "Basic programming concepts"],
+        "learning_outcomes": [
+            "Master MATLAB programming and computational methods",
+            "Perform advanced mathematical modeling and simulation",
+            "Create professional technical visualizations and plots",
+            "Build engineering applications with Simulink",
+            "Integrate MATLAB with other engineering tools and workflows"
+        ],
+        "tags": ["matlab", "engineering", "scientific-computing", "simulation", "modeling", "research"],
+        "request": {
+            "subject": "MATLAB Engineering and Scientific Programming",
+            "goal": "I want to master MATLAB for engineering and scientific applications. Teach me MATLAB programming, mathematical modeling, simulation, data analysis, visualization, Simulink, and integration with engineering workflows. Focus on solving real engineering and research problems.",
+            "time_value": 8,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # ==============================================================================
     # MBA & BUSINESS SKILLS - COMPREHENSIVE COLLECTION
     # ==============================================================================
 
