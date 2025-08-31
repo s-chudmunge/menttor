@@ -1,0 +1,47 @@
+<svg viewBox="0 0 400 80" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="textGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#B794F6;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#9F7AEA;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#805AD5;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- M -->
+  <text x="20" y="55" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="48" font-weight="700" fill="url(#textGradient)">M</text>
+  
+  <!-- Cat replacing 'e' -->
+  <g transform="translate(70, 20)">
+    <!-- Cat body -->
+    <ellipse cx="20" cy="25" rx="16" ry="18" fill="url(#textGradient)"/>
+    <!-- Cat head -->
+    <ellipse cx="20" cy="12" rx="12" ry="10" fill="url(#textGradient)"/>
+    <!-- Cat ears -->
+    <polygon points="12,8 8,2 16,2" fill="url(#textGradient)"/>
+    <polygon points="28,8 24,2 32,2" fill="url(#textGradient)"/>
+    <!-- Inner ears -->
+    <polygon points="12,6 10,4 14,4" fill="#F7FAFC" opacity="0.8"/>
+    <polygon points="28,6 26,4 30,4" fill="#F7FAFC" opacity="0.8"/>
+    <!-- Eyes -->
+    <circle cx="16" cy="11" r="2" fill="#2D3748"/>
+    <circle cx="24" cy="11" r="2" fill="#2D3748"/>
+    <!-- Eye highlights -->
+    <circle cx="16.5" cy="10.5" r="0.8" fill="#F7FAFC"/>
+    <circle cx="24.5" cy="10.5" r="0.8" fill="#F7FAFC"/>
+    <!-- Nose -->
+    <polygon points="20,14 18,16 22,16" fill="#E53E3E"/>
+    <!-- Mouth -->
+    <path d="M20,16 Q17,18 14,16" stroke="#2D3748" stroke-width="1" fill="none" stroke-linecap="round"/>
+    <path d="M20,16 Q23,18 26,16" stroke="#2D3748" stroke-width="1" fill="none" stroke-linecap="round"/>
+    <!-- Whiskers -->
+    <line x1="8" y1="12" x2="2" y2="10" stroke="#2D3748" stroke-width="1" stroke-linecap="round"/>
+    <line x1="8" y1="14" x2="2" y2="14" stroke="#2D3748" stroke-width="1" stroke-linecap="round"/>
+    <line x1="32" y1="12" x2="38" y2="10" stroke="#2D3748" stroke-width="1" stroke-linecap="round"/>
+    <line x1="32" y1="14" x2="38" y2="14" stroke="#2D3748" stroke-width="1" stroke-linecap="round"/>
+    <!-- Tail -->
+    <path d="M5,30 Q2,20 8,15" stroke="url(#textGradient)" stroke-width="4" fill="none" stroke-linecap="round"/>
+  </g>
+  
+  <!-- nttor -->
+  <text x="115" y="55" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="48" font-weight="700" fill="url(#textGradient)">nttor</text>
+</svg>
