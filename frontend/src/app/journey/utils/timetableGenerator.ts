@@ -39,7 +39,7 @@ export class TimetableGenerator {
   private async addMentorBranding(doc: jsPDF, pageWidth: number) {
     // Add watermark with logo
     try {
-      const watermarkResponse = await fetch('/Menttor.png');
+      const watermarkResponse = await fetch('/logo_higres.png');
       if (watermarkResponse.ok) {
         const watermarkBlob = await watermarkResponse.blob();
         const watermarkDataUrl = await this.blobToDataURL(watermarkBlob);
@@ -81,7 +81,7 @@ export class TimetableGenerator {
         doc.restoreGraphicsState();
       } else {
         // Skip watermark if logo not available
-        console.warn('Menttor.png not found, skipping watermark');
+        console.warn('logo_higres.png not found, skipping watermark');
       }
     } catch (error) {
       console.warn('Could not load watermark logo, skipping watermark:', error);
@@ -93,7 +93,7 @@ export class TimetableGenerator {
     
     // Add logo to header if available
     try {
-      const logoResponse = await fetch('/Menttor.png');
+      const logoResponse = await fetch('/logo_higres.png');
       if (logoResponse.ok) {
         const logoBlob = await logoResponse.blob();
         const logoDataUrl = await this.blobToDataURL(logoBlob);
