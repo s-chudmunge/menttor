@@ -13,6 +13,7 @@ class PromoVideoRequest(BaseModel):
     concept: Optional[str] = Field(default="Menttor Smart Learning Platform", description="The concept/brand to showcase")
     duration_seconds: Optional[int] = Field(default=12, ge=5, le=30, description="Video duration in seconds")
     quality: Optional[str] = Field(default="high", pattern="^(high|medium|low)$", description="Video quality level")
+    theme: Optional[str] = Field(default="dark", pattern="^(light|dark)$", description="Theme style (light or dark)")
 
 class CustomVideoRequest(BaseModel):
     prompt: str = Field(..., description="Custom video generation prompt", min_length=10, max_length=1000)
@@ -51,7 +52,8 @@ async def create_promotional_video(request: PromoVideoRequest):
         result = await generate_promotional_video(
             concept=request.concept,
             duration_seconds=request.duration_seconds,
-            quality=request.quality
+            quality=request.quality,
+            theme=request.theme
         )
         
         if result:

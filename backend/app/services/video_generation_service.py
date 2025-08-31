@@ -125,6 +125,49 @@ OUTPUT REQUIREMENTS:
 
         return prompt
     
+    def _create_light_theme_prompt(self) -> str:
+        """Create a light theme promotional image prompt."""
+        
+        prompt = """Create a bright, light-themed promotional image for Menttor learning platform:
+
+HERO CHARACTER:
+- A friendly cat mascot wearing modern AR goggles with soft pastel-colored lenses
+- Light colored hoodie (white or cream) with subtle tech accents
+- Cheerful, approachable demeanor
+- Acts as a gentle guide/mentor figure
+
+SCENE COMPOSITION:
+- Cat positioned prominently in center, in a welcoming teaching pose
+- Background shows bright, airy learning environment with soft natural lighting
+- Menttor logo prominently displayed with "Smart Learning" tagline
+- Light, floating educational elements and knowledge bubbles
+- Bright daylight setting with soft shadows and warm natural light
+
+VISUAL STYLE:
+- Cinematic 16:9 aspect ratio
+- Bright, high-key lighting with soft shadows
+- Clean, minimalist aesthetic with lots of white space
+- Soft pastel color palette (light blues, soft purples, warm whites)
+- Natural lighting with bright, airy feel
+- Gentle particle effects for tech elements
+
+BRANDING:
+- Menttor logo (graduation cap icon with light purple-to-blue gradient)
+- "Smart Learning" tagline integration
+- Clean, modern educational aesthetic
+- Bright, trustworthy, innovative feel
+- Light theme optimized for daytime use
+
+OUTPUT REQUIREMENTS:
+- High-resolution promotional image
+- 1920x1080 resolution in 16:9 aspect ratio
+- Professional marketing quality
+- Bright, light theme suitable for light mode interfaces
+- Web-optimized for landing pages, social media, and promotional materials
+- Soft, inviting colors with excellent readability"""
+
+        return prompt
+    
     def _add_menttor_branding(self, image_bytes: bytes) -> bytes:
         """Add Menttor logo and branding to the generated image."""
         try:
@@ -218,7 +261,8 @@ OUTPUT REQUIREMENTS:
         self,
         concept: str = "Menttor Smart Learning Platform",
         duration_seconds: int = 12,
-        quality: str = "high"
+        quality: str = "high",
+        theme: str = "dark"
     ) -> Optional[Dict[str, Any]]:
         """Generate a professional promotional video using Vertex AI Veo 3."""
         
@@ -227,10 +271,13 @@ OUTPUT REQUIREMENTS:
             return None
         
         try:
-            # Create the promotional prompt optimized for high-quality images
-            image_prompt = self._create_brand_focused_prompt()
+            # Create the promotional prompt based on theme
+            if theme == "light":
+                image_prompt = self._create_light_theme_prompt()
+            else:
+                image_prompt = self._create_brand_focused_prompt()
             
-            logger.info(f"Generating promotional content with Vertex AI...")
+            logger.info(f"Generating promotional content with Vertex AI ({theme} theme)...")
             logger.info(f"Prompt: {image_prompt}")
             
             # Generate high-quality promotional image using Vertex AI
@@ -265,6 +312,7 @@ OUTPUT REQUIREMENTS:
                     "concept": concept,
                     "duration": duration_seconds,
                     "quality": quality,
+                    "theme": theme,
                     "type": "promotional_image",  # Updated to reflect it's an image
                     "mime_type": "image/png"
                 }
@@ -355,7 +403,8 @@ video_generator = VideoGenerationService()
 async def generate_promotional_video(
     concept: str = "Menttor Learning Platform",
     duration_seconds: int = 12,
-    quality: str = "high"
+    quality: str = "high",
+    theme: str = "dark"
 ) -> Optional[Dict[str, Any]]:
     """Public interface for generating promotional videos."""
     
@@ -363,7 +412,8 @@ async def generate_promotional_video(
         return await generator.generate_promotional_video(
             concept=concept,
             duration_seconds=duration_seconds,
-            quality=quality
+            quality=quality,
+            theme=theme
         )
 
 async def generate_custom_video(

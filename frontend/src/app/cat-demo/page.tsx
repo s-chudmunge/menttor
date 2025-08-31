@@ -23,7 +23,7 @@ export default function LearningAnimationDemoPage() {
   const [showAnimation, setShowAnimation] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const generateVideo = async () => {
+  const generateVideo = async (theme: string = "dark") => {
     setLoading(true);
     setError(null);
     
@@ -36,7 +36,8 @@ export default function LearningAnimationDemoPage() {
         body: JSON.stringify({
           concept: "Menttor Smart Learning Platform",
           duration_seconds: 12,
-          quality: "high"
+          quality: "high",
+          theme: theme
         }),
       });
 
@@ -82,23 +83,41 @@ export default function LearningAnimationDemoPage() {
             </div>
           )}
           
-          {/* Generate Video Button */}
+          {/* Generate Video Buttons */}
           {!videoData && (
-            <div className="mt-8">
+            <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
               <button 
-                onClick={generateVideo}
+                onClick={() => generateVideo("dark")}
                 disabled={loading}
                 className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 disabled:from-gray-400 disabled:to-gray-500 text-white font-semibold py-4 px-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 disabled:transform-none disabled:hover:scale-100"
               >
                 {loading ? (
                   <div className="flex items-center space-x-2">
                     <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
-                    <span>Generating Video with Veo 3...</span>
+                    <span>Generating with Veo 3...</span>
                   </div>
                 ) : (
                   <div className="flex items-center space-x-2">
-                    <span>🎬</span>
-                    <span>Generate Promotional Video</span>
+                    <span>🌙</span>
+                    <span>Generate Dark Theme</span>
+                  </div>
+                )}
+              </button>
+              
+              <button 
+                onClick={() => generateVideo("light")}
+                disabled={loading}
+                className="bg-gradient-to-r from-orange-400 to-yellow-500 hover:from-orange-500 hover:to-yellow-600 disabled:from-gray-400 disabled:to-gray-500 text-white font-semibold py-4 px-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 disabled:transform-none disabled:hover:scale-100"
+              >
+                {loading ? (
+                  <div className="flex items-center space-x-2">
+                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                    <span>Generating with Veo 3...</span>
+                  </div>
+                ) : (
+                  <div className="flex items-center space-x-2">
+                    <span>☀️</span>
+                    <span>Generate Light Theme</span>
                   </div>
                 )}
               </button>
@@ -140,7 +159,7 @@ export default function LearningAnimationDemoPage() {
                     autoPlay
                     loop
                     className="w-full h-auto rounded-xl shadow-lg"
-                    style={{ aspectRatio: '9/16' }}
+                    style={{ aspectRatio: '16/9' }}
                   >
                     Your browser does not support the video tag.
                   </video>
@@ -149,7 +168,7 @@ export default function LearningAnimationDemoPage() {
                     src={videoData.url}
                     alt="Generated promotional content featuring Menttor's tech cat mascot"
                     className="w-full h-auto rounded-xl shadow-lg"
-                    style={{ aspectRatio: '9/16' }}
+                    style={{ aspectRatio: '16/9' }}
                   />
                 )}
               </div>
@@ -179,7 +198,7 @@ export default function LearningAnimationDemoPage() {
                   }}
                   className="bg-slate-600 hover:bg-slate-700 text-white font-medium py-2 px-6 rounded-lg transition-colors duration-300"
                 >
-                  Generate New Video
+                  Generate New Image
                 </button>
                 <button 
                   onClick={() => window.open(videoData.url, '_blank')}
