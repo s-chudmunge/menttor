@@ -1,6 +1,8 @@
 import React from 'react';
 import Link from 'next/link';
 
+// Logo component with updated branding
+
 const Logo = () => (
   <Link href="/" className="flex items-center space-x-3 hover:opacity-80 transition-opacity">
     <img 
