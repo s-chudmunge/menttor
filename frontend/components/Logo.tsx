@@ -4,11 +4,11 @@ import Link from 'next/link';
 // Logo component with updated branding
 
 const Logo = () => (
-  <Link href="/" className="flex items-center space-x-3 hover:opacity-80 transition-opacity">
+  <Link href="/" className="hover:opacity-80 transition-opacity">
     <img 
-      src="/logo_final_nobg.svg" 
-      alt="Menttor Logo" 
-      className="h-12 w-auto"
+      src="/favicon_io (2)/android-chrome-192x192.png" 
+      alt="Menttor" 
+      className="h-10 w-10"
     />
   </Link>
 );
