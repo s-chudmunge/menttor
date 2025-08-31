@@ -27,19 +27,14 @@ export async function GET() {
   let allUrls = [...staticUrls];
 
   try {
-    // Fetch roadmaps from backend with shorter timeout and better error handling
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 second timeout
-    
+    // Fetch roadmaps from backend with short timeout for faster builds
     const response = await fetch('https://menttor-backend.onrender.com/curated-roadmaps/?per_page=100', {
       headers: {
         'Cache-Control': 'no-cache',
         'Accept': 'application/json',
       },
-      signal: controller.signal,
+      signal: AbortSignal.timeout(2000), // 2 second timeout for faster builds
     });
-
-    clearTimeout(timeoutId);
 
     if (response.ok && response.status === 200) {
       const roadmaps: CuratedRoadmap[] = await response.json();

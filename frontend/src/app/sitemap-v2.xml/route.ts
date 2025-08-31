@@ -28,7 +28,7 @@ export async function GET() {
       headers: {
         'Cache-Control': 'no-cache',
       },
-      signal: AbortSignal.timeout(10000),
+      signal: AbortSignal.timeout(2000), // Reduce timeout to 2 seconds for faster builds
     });
 
     if (response.ok) {
