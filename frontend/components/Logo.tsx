@@ -8,7 +8,7 @@ const Logo = () => (
     <img 
       src="/logo_final_nobg.svg" 
       alt="Menttor Logo" 
-      className="h-42 w-auto"
+      className="h-12 w-auto"
     />
   </Link>
 );

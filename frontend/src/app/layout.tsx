@@ -110,9 +110,9 @@ export const metadata: Metadata = {
     },
   },
   icons: {
-    icon: '/png_nobackground.png',
-    shortcut: '/png_nobackground.png',
-    apple: '/png_nobackground.png',
+    icon: [{ url: '/favicon_io (2)/favicon-16x16.png', sizes: '16x16', type: 'image/png' }, { url: '/favicon_io (2)/favicon-32x32.png', sizes: '32x32', type: 'image/png' }],
+    shortcut: '/favicon_io (2)/favicon.ico',
+    apple: '/favicon_io (2)/apple-touch-icon.png',
   },
   manifest: '/manifest.json',
   verification: {
@@ -128,7 +128,10 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <link rel="icon" href="/png_nobackground.png" type="image/png" />
+        <link rel="icon" href="/favicon_io (2)/favicon.ico" type="image/x-icon" />
+        <link rel="icon" href="/favicon_io (2)/favicon-16x16.png" sizes="16x16" type="image/png" />
+        <link rel="icon" href="/favicon_io (2)/favicon-32x32.png" sizes="32x32" type="image/png" />
+        <link rel="apple-touch-icon" href="/favicon_io (2)/apple-touch-icon.png" />
         <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap" rel="stylesheet" />
         
         {/* Security Headers */}
@@ -155,7 +158,7 @@ export default function RootLayout({
               "url": "https://menttor.live",
               "logo": {
                 "@type": "ImageObject",
-                "url": "https://menttor.live/png_nobackground.png"
+                "url": "https://menttor.live/favicon_io (2)/favicon.ico"
               },
               "description": "Smart learning platform offering free personalized roadmaps across diverse subjects including programming, business, science, languages, and professional skills",
               "sameAs": [

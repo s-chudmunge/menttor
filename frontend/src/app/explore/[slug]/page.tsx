@@ -86,7 +86,7 @@ const generateRoadmapStructuredData = (roadmap: CuratedRoadmapDetail) => {
       "url": baseUrl,
       "logo": {
         "@type": "ImageObject",
-        "url": `${baseUrl}/png_nobackground.png`
+        "url": `${baseUrl}/favicon_io (2)/favicon.ico`
       }
     },
     "url": `${baseUrl}/explore/${roadmap.slug || roadmap.id}`,
