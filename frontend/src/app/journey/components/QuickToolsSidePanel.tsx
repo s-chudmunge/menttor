@@ -1,9 +1,7 @@
 'use client';
 
 import React from 'react';
-import { ChevronLeft, ChevronRight, Sparkles } from 'lucide-react';
-import { ThreeDGeneratorCard } from '../../../../components/ThreeDGenerator';
-import { LearnAboutSomethingCard } from '../../../../components/LearnAboutSomething';
+import { ChevronLeft, ChevronRight, Sparkles, Box, BookOpen } from 'lucide-react';
 import TimetableTools from './TimetableTools';
 
 interface QuickToolsSidePanelProps {
@@ -62,21 +60,32 @@ const QuickToolsSidePanel: React.FC<QuickToolsSidePanelProps> = ({
 
         {/* Content */}
         <div className="flex-1 overflow-y-auto">
-          <div className="p-3 space-y-2">
+          <div className="p-0">
             {/* Timetable Tools */}
-            {roadmapData && (
-              <TimetableTools roadmapData={roadmapData} />
-            )}
+            <div className="p-4 border-b border-gray-200 dark:border-gray-700">
+              {roadmapData && (
+                <TimetableTools roadmapData={roadmapData} />
+              )}
+            </div>
             
-            {/* AI Tools - All together */}
-            <ThreeDGeneratorCard 
-              onClick={onShow3DGenerator}
-              className="w-full"
-            />
-            <LearnAboutSomethingCard 
-              onClick={onShowLearnAboutSomething}
-              className="w-full"
-            />
+            {/* AI Tools Menu */}
+            <div className="py-2">
+              <button
+                onClick={onShow3DGenerator}
+                className="w-full flex items-center px-4 py-3 text-left text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+              >
+                <Box className="w-5 h-5 mr-3 text-gray-500 dark:text-gray-400" />
+                <span className="text-sm font-medium">3D Visualization</span>
+              </button>
+              
+              <button
+                onClick={onShowLearnAboutSomething}
+                className="w-full flex items-center px-4 py-3 text-left text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+              >
+                <BookOpen className="w-5 h-5 mr-3 text-gray-500 dark:text-gray-400" />
+                <span className="text-sm font-medium">Learn About Something</span>
+              </button>
+            </div>
           </div>
         </div>
 
