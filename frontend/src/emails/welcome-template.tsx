@@ -24,73 +24,40 @@ export default function WelcomeEmail({ userName = "there" }: WelcomeEmailProps) 
       <Head />
       <Body style={main}>
         <Container style={container}>
-          {/* Header with Logo */}
+          {/* Header */}
           <Section style={header}>
-            <Row>
-              <Column>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px', marginBottom: '16px' }}>
-                  <Text style={welcomeText}>Welcome to</Text>
-                  <Img
-                    src="https://menttor.live/logo_higres-min.png"
-                    width="140"
-                    height="auto"
-                    alt="Menttor Logo"
-                    style={logoInline}
-                  />
-                </div>
-                <Text style={subtitle}>Your smart learning companion</Text>
-              </Column>
-            </Row>
+            <Img
+              src="https://menttor.live/logo_higres-min.png"
+              width="120"
+              height="auto"
+              alt="Menttor Logo"
+              style={{ margin: '0 auto 20px' }}
+            />
+            <Heading style={heading}>Welcome to Menttor!</Heading>
+            <Text style={subtitle}>Your smart learning companion</Text>
           </Section>
 
-          {/* Welcome Message */}
+          {/* Main Message */}
           <Section style={section}>
+            <Text style={text}>Hi {userName}!</Text>
             <Text style={text}>
-              Hi {userName}!
-            </Text>
-            <Text style={text}>
-              We're excited to have you join our community of learners. Menttor is designed to accelerate your learning with personalized roadmaps and smart tools.
+              We're excited to have you join our community of learners. Get started with personalized roadmaps and smart learning tools.
             </Text>
           </Section>
 
-          {/* Features Grid */}
+          {/* Simple Features */}
           <Section style={section}>
-            <Row>
-              <Column style={featureColumn}>
-                <Text style={featureTitle}>🗺️ 500+ Curated Roadmaps</Text>
-                <Text style={featureText}>
-                  Expertly crafted learning paths across programming, business, science, and more.
-                </Text>
-                <Button style={buttonSecondary} href="https://menttor.live/explore">
-                  Explore Roadmaps
-                </Button>
-              </Column>
-              <Column style={featureColumn}>
-                <Text style={featureTitle}>🎯 Your Learning Journey</Text>
-                <Text style={featureText}>
-                  Interactive visualization, practice exercises, and performance analytics.
-                </Text>
-                <Button style={buttonSecondary} href="https://menttor.live/journey">
-                  Start Journey
-                </Button>
-              </Column>
-            </Row>
-          </Section>
-
-          {/* Key Features */}
-          <Section style={section}>
-            <Text style={featureTitle}>✨ Tools You'll Love</Text>
-            <Text style={bulletText}>• Flashcards & Mind Maps for active learning</Text>
-            <Text style={bulletText}>• Smart Timetables & PDF exports</Text>
-            <Text style={bulletText}>• Practice sessions tailored to your progress</Text>
-            <Text style={bulletText}>• Behavioral insights & milestone rewards</Text>
-            <Text style={bulletText}>• 95% learner success rate</Text>
+            <Text style={featureTitle}>What's waiting for you:</Text>
+            <Text style={bulletText}>🗺️ 500+ expertly curated learning roadmaps</Text>
+            <Text style={bulletText}>🎯 Interactive progress tracking and analytics</Text>
+            <Text style={bulletText}>🧠 Practice exercises and smart study tools</Text>
+            <Text style={bulletText}>📈 95% learner success rate</Text>
           </Section>
 
           {/* CTA */}
           <Section style={section}>
             <Button style={buttonPrimary} href="https://menttor.live/dashboard">
-              Start Learning Now
+              Start Your Learning Journey
             </Button>
           </Section>
 
@@ -99,7 +66,7 @@ export default function WelcomeEmail({ userName = "there" }: WelcomeEmailProps) 
           {/* Footer */}
           <Section style={footer}>
             <Text style={footerText}>
-              Best regards,<br />
+              Happy learning!<br />
               Sankalp from Menttor<br />
               <Link href="https://menttor.live" style={link}>menttor.live</Link>
             </Text>
@@ -130,17 +97,12 @@ const header = {
   textAlign: 'center' as const,
 };
 
-const welcomeText = {
+const heading = {
   color: '#1f2937',
   fontSize: '28px',
   fontWeight: 'bold',
-  margin: '0',
+  margin: '0 0 8px',
   lineHeight: '32px',
-};
-
-const logoInline = {
-  display: 'inline-block',
-  verticalAlign: 'middle',
 };
 
 const subtitle = {
@@ -160,25 +122,12 @@ const text = {
   margin: '0 0 16px',
 };
 
-const featureColumn = {
-  width: '50%',
-  padding: '0 12px',
-  verticalAlign: 'top' as const,
-};
-
 const featureTitle = {
   color: '#1f2937',
   fontSize: '18px',
   fontWeight: '600',
-  margin: '0 0 8px',
+  margin: '0 0 12px',
   lineHeight: '24px',
-};
-
-const featureText = {
-  color: '#6b7280',
-  fontSize: '14px',
-  lineHeight: '20px',
-  margin: '0 0 16px',
 };
 
 const bulletText = {
@@ -201,18 +150,6 @@ const buttonPrimary = {
   margin: '16px 0',
 };
 
-const buttonSecondary = {
-  backgroundColor: '#f3f4f6',
-  borderRadius: '6px',
-  color: '#374151',
-  fontSize: '14px',
-  fontWeight: '500',
-  textDecoration: 'none',
-  textAlign: 'center' as const,
-  display: 'inline-block',
-  padding: '8px 16px',
-  border: '1px solid #d1d5db',
-};
 
 const hr = {
   borderColor: '#e5e7eb',

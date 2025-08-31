@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
 import { render } from '@react-email/render';
 import WelcomeEmail from '@/emails/welcome-template';
+import PromotionalEmail from '@/emails/promotional-template';
 
 export async function POST(request: NextRequest) {
   try {
@@ -26,8 +27,11 @@ export async function POST(request: NextRequest) {
     let emailHtml: string;
 
     if (template === 'welcome') {
-      // Use React Email template
+      // Use React Email welcome template
       emailHtml = await render(WelcomeEmail({ userName: 'there' }));
+    } else if (template === 'promotional') {
+      // Use React Email promotional template
+      emailHtml = await render(PromotionalEmail({ recipientName: 'there' }));
     } else {
       // Use custom message with simple styling
       if (!message) {

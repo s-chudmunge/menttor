@@ -14,6 +14,8 @@ A modern educational platform that creates personalized learning journeys using 
 - Interactive journey visualization with progress tracking
 - Structured modules, topics, and subtopics
 
+/home/sankalp/menttorlabs/Production/20250823_211935.jpg
+
 ### 📚 Adaptive Learning Content
 - AI-generated content tailored to each subtopic
 - Interactive learning modules with explanations
