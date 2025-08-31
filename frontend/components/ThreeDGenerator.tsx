@@ -184,21 +184,18 @@ const ThreeDGeneratorCard: React.FC<ThreeDGeneratorCardProps> = ({ onClick, clas
   return (
     <div 
       onClick={onClick}
-      className={`group cursor-pointer bg-gradient-to-br from-purple-50 to-indigo-50 dark:from-purple-900/20 dark:to-indigo-900/20 rounded-2xl p-6 border border-purple-200/30 dark:border-purple-700/30 hover:border-purple-300 dark:hover:border-purple-600 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 ${className}`}
+      className={`cursor-pointer bg-purple-100 dark:bg-purple-800 rounded p-3 border border-purple-200 dark:border-purple-700 hover:bg-purple-200 dark:hover:bg-purple-700 transition-colors ${className}`}
     >
-      <div className="flex items-center space-x-4">
-        <div className="w-12 h-12 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
-          <Box className="w-6 h-6 text-white" />
+      <div className="flex items-center space-x-3">
+        <div className="w-8 h-8 bg-purple-600 dark:bg-purple-500 rounded flex items-center justify-center">
+          <Box className="w-4 h-4 text-white" />
         </div>
         <div className="flex-1">
-          <h3 className="font-semibold text-gray-900 dark:text-white mb-1 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
-            Create 3D Visualization
+          <h3 className="text-sm font-medium text-gray-900 dark:text-white">
+            3D Visualization
           </h3>
-          <p className="text-sm text-gray-600 dark:text-gray-400">
-            Generate interactive 3D models from text descriptions
-          </p>
         </div>
-        <ArrowRight className="w-5 h-5 text-purple-600 dark:text-purple-400 group-hover:translate-x-1 transition-transform" />
+        <ArrowRight className="w-4 h-4 text-purple-600 dark:text-purple-400" />
       </div>
     </div>
   );

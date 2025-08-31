@@ -183,21 +183,18 @@ const LearnAboutSomethingCard: React.FC<LearnAboutSomethingCardProps> = ({ onCli
   return (
     <div 
       onClick={onClick}
-      className={`group cursor-pointer bg-gradient-to-br from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-2xl p-6 border border-green-200/30 dark:border-green-700/30 hover:border-green-300 dark:hover:border-green-600 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 ${className}`}
+      className={`cursor-pointer bg-green-100 dark:bg-green-800 rounded p-3 border border-green-200 dark:border-green-700 hover:bg-green-200 dark:hover:bg-green-700 transition-colors ${className}`}
     >
-      <div className="flex items-center space-x-4">
-        <div className="w-12 h-12 bg-gradient-to-r from-green-600 to-blue-600 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
-          <BookOpen className="w-6 h-6 text-white" />
+      <div className="flex items-center space-x-3">
+        <div className="w-8 h-8 bg-green-600 dark:bg-green-500 rounded flex items-center justify-center">
+          <BookOpen className="w-4 h-4 text-white" />
         </div>
         <div className="flex-1">
-          <h3 className="font-semibold text-gray-900 dark:text-white mb-1 group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors">
+          <h3 className="text-sm font-medium text-gray-900 dark:text-white">
             Learn About Something
           </h3>
-          <p className="text-sm text-gray-600 dark:text-gray-400">
-            Enter any topic and get personalized smart learning content
-          </p>
         </div>
-        <ArrowRight className="w-5 h-5 text-green-600 dark:text-green-400 group-hover:translate-x-1 transition-transform" />
+        <ArrowRight className="w-4 h-4 text-green-600 dark:text-green-400" />
       </div>
     </div>
   );
