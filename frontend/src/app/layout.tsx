@@ -110,9 +110,9 @@ export const metadata: Metadata = {
     },
   },
   icons: {
-    icon: '/favicon.svg',
-    shortcut: '/favicon.svg',
-    apple: '/favicon.svg',
+    icon: '/png_nobackground.png',
+    shortcut: '/png_nobackground.png',
+    apple: '/png_nobackground.png',
   },
   manifest: '/manifest.json',
   verification: {
@@ -128,7 +128,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+        <link rel="icon" href="/png_nobackground.png" type="image/png" />
         <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap" rel="stylesheet" />
         
         {/* Security Headers */}
@@ -155,7 +155,7 @@ export default function RootLayout({
               "url": "https://menttor.live",
               "logo": {
                 "@type": "ImageObject",
-                "url": "https://menttor.live/favicon.svg"
+                "url": "https://menttor.live/png_nobackground.png"
               },
               "description": "Smart learning platform offering free personalized roadmaps across diverse subjects including programming, business, science, languages, and professional skills",
               "sameAs": [
