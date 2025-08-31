@@ -386,7 +386,7 @@ const MenttorLabsMainPage = () => {
       <div className="min-h-screen bg-gradient-to-br from-white via-blue-50 to-blue-100 dark:from-gray-900 dark:via-blue-900 dark:to-gray-800 transition-colors duration-300">
 
       {/* Navigation */}
-      <nav className="bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm border-b border-gray-100 dark:border-gray-800 sticky top-0 z-50 transition-all duration-300">
+      <nav className="bg-white/95 dark:bg-black backdrop-blur-sm border-b border-gray-100 dark:border-gray-800 sticky top-0 z-50 transition-all duration-300">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-14">
             <div className="flex items-center">

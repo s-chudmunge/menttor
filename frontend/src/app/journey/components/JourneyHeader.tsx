@@ -69,7 +69,7 @@ const JourneyHeader: React.FC<JourneyHeaderProps> = ({
 
   return (
     <>
-      <header className="bg-white/95 dark:bg-zinc-950/95 backdrop-blur-lg border-b border-gray-200/50 dark:border-gray-700/50 sticky top-0 z-50 shadow-lg">
+      <header className="bg-white/95 dark:bg-black backdrop-blur-lg border-b border-gray-200/50 dark:border-gray-700/50 sticky top-0 z-50 shadow-lg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-18 lg:h-20">
             {/* Logo */}
