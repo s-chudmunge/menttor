@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { useTheme } from 'next-themes';
 
 interface PromotionalBackgroundProps {
   className?: string;
@@ -36,17 +35,15 @@ const LIGHT_BACKGROUND_IMAGES = [
   '/bg-images/cat-bg-light-8.png',
   '/bg-images/cat-bg-light-9.png',
   '/bg-images/cat-bg-light-10.png',
-  '/bg-images/cat-bg-light-11.png',
 ];
 
 export default function PromotionalBackground({ className = "", children }: PromotionalBackgroundProps) {
-  const { theme, resolvedTheme } = useTheme();
+  const [currentTheme, setCurrentTheme] = useState<'light' | 'dark'>('dark');
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [loading, setLoading] = useState(true);
 
   const getCurrentImage = () => {
     // Get the appropriate image array based on theme
-    const currentTheme = resolvedTheme || theme;
     const imageArray = currentTheme === 'light' ? LIGHT_BACKGROUND_IMAGES : DARK_BACKGROUND_IMAGES;
     
     // Rotate image based on day of year and hour for consistent but changing display
@@ -58,10 +55,17 @@ export default function PromotionalBackground({ className = "", children }: Prom
   };
 
   useEffect(() => {
+    // Detect browser theme preference
+    const detectTheme = () => {
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      return prefersDark ? 'dark' : 'light';
+    };
+
     // Set initial image when theme changes
     const updateImage = () => {
-      const currentTheme = resolvedTheme || theme;
-      const imageArray = currentTheme === 'light' ? LIGHT_BACKGROUND_IMAGES : DARK_BACKGROUND_IMAGES;
+      const detectedTheme = detectTheme();
+      setCurrentTheme(detectedTheme);
+      const imageArray = detectedTheme === 'light' ? LIGHT_BACKGROUND_IMAGES : DARK_BACKGROUND_IMAGES;
       const currentImage = getCurrentImage();
       const newIndex = imageArray.indexOf(currentImage);
       setCurrentImageIndex(newIndex >= 0 ? newIndex : 0);
@@ -70,11 +74,22 @@ export default function PromotionalBackground({ className = "", children }: Prom
     updateImage();
     setLoading(false);
     
+    // Listen for theme changes
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    const handleThemeChange = () => {
+      updateImage();
+    };
+    
+    mediaQuery.addEventListener('change', handleThemeChange);
+    
     // Update image every 3 hours
     const interval = setInterval(updateImage, 3 * 60 * 60 * 1000);
     
-    return () => clearInterval(interval);
-  }, [theme, resolvedTheme]);
+    return () => {
+      mediaQuery.removeEventListener('change', handleThemeChange);
+      clearInterval(interval);
+    };
+  }, []);
 
   if (loading) {
     return (
@@ -90,7 +105,6 @@ export default function PromotionalBackground({ className = "", children }: Prom
     );
   }
 
-  const currentTheme = resolvedTheme || theme;
   const imageArray = currentTheme === 'light' ? LIGHT_BACKGROUND_IMAGES : DARK_BACKGROUND_IMAGES;
   const currentImageSrc = imageArray[currentImageIndex];
 

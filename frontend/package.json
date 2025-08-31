@@ -38,6 +38,7 @@
     "rehype-katex": "^7.0.1",
     "rehype-raw": "^7.0.0",
     "remark-math": "^6.0.0",
+    "resend": "^6.0.2",
     "zustand": "^4.5.4"
   },
   "devDependencies": {
