@@ -514,7 +514,7 @@ const ExplorePage = () => {
           <p className="text-gray-600 dark:text-gray-400 mb-6">{error}</p>
           <button 
             onClick={fetchRoadmaps}
-            className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+            className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
           >
             <RefreshCw className="w-4 h-4 mr-2" />
             Try Again
@@ -545,15 +545,15 @@ const ExplorePage = () => {
       
       <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50/20 dark:from-gray-900 dark:to-blue-950/20">
       {/* Navigation Bar */}
-      <header className="bg-white/95 dark:bg-gray-900/95 backdrop-blur-lg border-b border-gray-200/50 dark:border-gray-700/50 sticky top-0 z-50 shadow-lg">
+      <header className="bg-white/95 dark:bg-black backdrop-blur-lg border-b border-gray-200/50 dark:border-gray-700/50 sticky top-0 z-50 shadow-lg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-18 lg:h-20">
+          <div className="flex justify-between items-center h-14">
             {/* Logo and Hamburger */}
             <div className="flex items-center space-x-3">
               {/* Hamburger Menu for Filters */}
               <button
                 onClick={() => setShowFilters(!showFilters)}
-                className="lg:hidden flex items-center justify-center w-10 h-10 text-gray-700 dark:text-white hover:bg-gray-200 dark:hover:bg-white/10 rounded-lg transition-colors"
+                className="lg:hidden flex items-center justify-center w-10 h-10 text-gray-700 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-800 rounded-md transition-colors"
               >
                 <Menu className="w-5 h-5" />
               </button>
@@ -569,10 +569,10 @@ const ExplorePage = () => {
                   <Link 
                     key={item.href}
                     href={item.href} 
-                    className={`flex items-center space-x-2 px-4 py-2.5 rounded-lg font-medium transition-all duration-200 ${
+                    className={`flex items-center space-x-2 px-3 py-2 rounded-md font-medium transition-all duration-200 ${
                       item.active 
-                        ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg transform scale-105' 
-                        : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/10'
+                        ? 'bg-purple-600 text-white ' 
+                        : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800'
                     }`}
                   >
                     <Icon className="w-4 h-4" />
@@ -592,14 +592,14 @@ const ExplorePage = () => {
                   placeholder="Search roadmaps..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-64 pl-10 pr-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg bg-white/90 dark:bg-gray-800/80 backdrop-blur-sm text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm text-sm"
+                  className="w-64 pl-10 pr-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-md bg-white/90 dark:bg-gray-800/80 backdrop-blur-sm text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm text-sm"
                 />
               </div>
               
               {/* Filter Toggle for Desktop */}
               <button
                 onClick={() => setShowFilters(!showFilters)}
-                className="hidden lg:flex items-center px-3 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg bg-white/90 dark:bg-gray-800/80 backdrop-blur-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700/80 transition-colors shadow-sm"
+                className="hidden lg:flex items-center px-3 py-2.5 border border-gray-300 dark:border-gray-600 rounded-md bg-white/90 dark:bg-gray-800/80 backdrop-blur-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700/80 transition-colors shadow-sm"
               >
                 <SlidersHorizontal className="w-4 h-4 mr-2" />
                 Filters
@@ -616,7 +616,7 @@ const ExplorePage = () => {
               {/* Mobile Menu Button */}
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="lg:hidden flex items-center justify-center w-10 h-10 text-gray-700 dark:text-white hover:bg-gray-200 dark:hover:bg-white/10 rounded-lg transition-colors"
+                className="lg:hidden flex items-center justify-center w-10 h-10 text-gray-700 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-800 rounded-md transition-colors"
               >
                 {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
               </button>
@@ -638,10 +638,10 @@ const ExplorePage = () => {
                       key={item.href}
                       href={item.href}
                       onClick={() => setIsMobileMenuOpen(false)}
-                      className={`flex items-center space-x-3 px-4 py-3 rounded-lg font-medium transition-all duration-200 ${
+                      className={`flex items-center space-x-3 px-4 py-3 rounded-md font-medium transition-all duration-200 ${
                         item.active 
-                          ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg' 
-                          : 'text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-900/20'
+                          ? 'bg-purple-600 text-white shadow-lg' 
+                          : 'text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800'
                       }`}
                     >
                       <Icon className="w-5 h-5" />
@@ -660,7 +660,7 @@ const ExplorePage = () => {
                     placeholder="Search roadmaps..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full pl-10 pr-4 py-3 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full pl-10 pr-4 py-3 border border-gray-200 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
                 </div>
               </div>
@@ -713,7 +713,7 @@ const ExplorePage = () => {
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Filters</h3>
                 <button
                   onClick={() => setShowFilters(false)}
-                  className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+                  className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors"
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -725,7 +725,7 @@ const ExplorePage = () => {
                     clearAllFilters();
                     setShowFilters(false);
                   }}
-                  className="w-full mb-4 px-4 py-2 bg-red-100 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-lg hover:bg-red-200 dark:hover:bg-red-900/40 transition-colors font-medium"
+                  className="w-full mb-4 px-4 py-2 bg-red-100 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-md hover:bg-red-200 dark:hover:bg-red-900/40 transition-colors font-medium"
                 >
                   Clear All Filters ({activeFiltersCount})
                 </button>
@@ -740,7 +740,7 @@ const ExplorePage = () => {
                   <select
                     value={selectedCategory}
                     onChange={(e) => setSelectedCategory(e.target.value)}
-                    className="w-full p-3 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full p-3 border border-gray-200 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   >
                     <option value="">All Categories</option>
                     {Object.keys(categories).map(category => (
@@ -759,7 +759,7 @@ const ExplorePage = () => {
                   <select
                     value={selectedDifficulty}
                     onChange={(e) => setSelectedDifficulty(e.target.value)}
-                    className="w-full p-3 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full p-3 border border-gray-200 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   >
                     <option value="">All Levels</option>
                     <option value="beginner">🌱 Beginner</option>
@@ -776,7 +776,7 @@ const ExplorePage = () => {
                   <select
                     value={sortBy}
                     onChange={(e) => setSortBy(e.target.value)}
-                    className="w-full p-3 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full p-3 border border-gray-200 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   >
                     <option value="popularity">📈 Most Popular</option>
                     <option value="rating">⭐ Highest Rated</option>
@@ -836,7 +836,7 @@ const ExplorePage = () => {
                   <select
                     value={selectedCategory}
                     onChange={(e) => setSelectedCategory(e.target.value)}
-                    className="w-full p-3 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full p-3 border border-gray-200 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   >
                     <option value="">All Categories</option>
                     {Object.keys(categories).map(category => (
@@ -855,7 +855,7 @@ const ExplorePage = () => {
                   <select
                     value={selectedDifficulty}
                     onChange={(e) => setSelectedDifficulty(e.target.value)}
-                    className="w-full p-3 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full p-3 border border-gray-200 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   >
                     <option value="">All Levels</option>
                     <option value="beginner">🌱 Beginner</option>
@@ -872,7 +872,7 @@ const ExplorePage = () => {
                   <select
                     value={sortBy}
                     onChange={(e) => setSortBy(e.target.value)}
-                    className="w-full p-3 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full p-3 border border-gray-200 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   >
                     <option value="popularity">📈 Most Popular</option>
                     <option value="rating">⭐ Highest Rated</option>
@@ -923,7 +923,7 @@ const ExplorePage = () => {
           {/* View Mode Toggle */}
           <div className="flex items-center gap-4">
             <span className="text-sm font-medium text-gray-700 dark:text-gray-300">View:</span>
-            <div className="flex items-center border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 p-1">
+            <div className="flex items-center border border-gray-200 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 p-1">
               <button
                 onClick={() => setViewMode('grouped')}
                 className={`flex items-center px-3 py-2 rounded-md text-sm font-medium transition-colors ${
@@ -1000,7 +1000,7 @@ const ExplorePage = () => {
                   </>
                 ) : (
                   <>
-                    <div className="w-16 h-16 bg-gray-200 dark:bg-gray-700 rounded-lg"></div>
+                    <div className="w-16 h-16 bg-gray-200 dark:bg-gray-700 rounded-md"></div>
                     <div className="flex-1">
                       <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded mb-2"></div>
                       <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded mb-2 w-3/4"></div>
@@ -1051,7 +1051,7 @@ const ExplorePage = () => {
             {activeFiltersCount > 0 && (
               <button
                 onClick={clearAllFilters}
-                className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
               >
                 Clear All Filters
               </button>
@@ -1075,7 +1075,7 @@ const ExplorePage = () => {
                           block: 'start' 
                         });
                       }}
-                      className="flex items-center space-x-2 p-3 bg-gray-50 dark:bg-gray-700/50 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors text-left group"
+                      className="flex items-center space-x-2 p-3 bg-gray-50 dark:bg-gray-700/50 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-md transition-colors text-left group"
                     >
                       <div className={`p-1.5 rounded-md ${categoryColors[category] || 'bg-gray-100 text-gray-600'}`}>
                         <span className="text-sm">{categoryIcons[category] || '📚'}</span>
@@ -1123,7 +1123,7 @@ const ExplorePage = () => {
                       </span>
                       <button
                         onClick={() => toggleGroup(category)}
-                        className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700/50 rounded-lg transition-colors"
+                        className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700/50 rounded-md transition-colors"
                       >
                         <ChevronDown className={`w-5 h-5 text-gray-500 transition-transform ${isExpanded ? 'rotate-180' : ''}`} />
                       </button>
@@ -1133,7 +1133,7 @@ const ExplorePage = () => {
                   {/* Compact Roadmaps List */}
                   <div className="space-y-3">
                     {displayedRoadmaps.map((roadmap, index) => (
-                      <div key={roadmap.id} className="group bg-white/60 dark:bg-gray-700/60 backdrop-blur-sm rounded-lg p-4 shadow-sm hover:shadow-md transition-all duration-200 border border-gray-200/30 dark:border-gray-600/30 hover:border-blue-200 dark:hover:border-blue-700/50">
+                      <div key={roadmap.id} className="group bg-white/60 dark:bg-gray-700/60 backdrop-blur-sm rounded-md p-4 shadow-sm hover:shadow-md transition-all duration-200 border border-gray-200/30 dark:border-gray-600/30 hover:border-blue-200 dark:hover:border-blue-700/50">
                         <div className="flex items-center gap-4">
                           {/* Left: Title and Description */}
                           <div className="flex-1 min-w-0">
@@ -1235,7 +1235,7 @@ const ExplorePage = () => {
                     {/* Header */}
                     <div className="flex items-start justify-between mb-4">
                       <div className="flex items-center space-x-3">
-                        <div className={`p-2 rounded-lg ${categoryColors[roadmap.category] || 'bg-gray-100 text-gray-600'}`}>
+                        <div className={`p-2 rounded-md ${categoryColors[roadmap.category] || 'bg-gray-100 text-gray-600'}`}>
                           <span className="text-lg">{categoryIcons[roadmap.category] || '📚'}</span>
                         </div>
                         <div className="flex items-center space-x-1">
@@ -1291,12 +1291,12 @@ const ExplorePage = () => {
                     {/* Tags */}
                     <div className="flex flex-wrap gap-2 mb-6">
                       {roadmap.tags.slice(0, 3).map((tag, index) => (
-                        <span key={index} className="px-2 py-1 bg-gray-100 dark:bg-gray-700/50 text-gray-600 dark:text-gray-300 text-xs rounded-lg font-medium">
+                        <span key={index} className="px-2 py-1 bg-gray-100 dark:bg-gray-700/50 text-gray-600 dark:text-gray-300 text-xs rounded-md font-medium">
                           {tag}
                         </span>
                       ))}
                       {roadmap.tags.length > 3 && (
-                        <span className="px-2 py-1 bg-gray-100 dark:bg-gray-700/50 text-gray-600 dark:text-gray-300 text-xs rounded-lg font-medium">
+                        <span className="px-2 py-1 bg-gray-100 dark:bg-gray-700/50 text-gray-600 dark:text-gray-300 text-xs rounded-md font-medium">
                           +{roadmap.tags.length - 3}
                         </span>
                       )}
@@ -1370,13 +1370,13 @@ const ExplorePage = () => {
                         <div className="flex space-x-2">
                           <button
                             onClick={() => handleViewRoadmap(roadmap)}
-                            className="px-3 py-2 border border-gray-200 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700/50 text-sm font-medium transition-colors"
+                            className="px-3 py-2 border border-gray-200 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700/50 text-sm font-medium transition-colors"
                           >
                             <Play className="w-4 h-4" />
                           </button>
                           <button
                             onClick={() => handleAdoptRoadmap(roadmap.id, roadmap.title)}
-                            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm font-medium transition-colors"
+                            className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 text-sm font-medium transition-colors"
                           >
                             <Target className="w-4 h-4" />
                           </button>
