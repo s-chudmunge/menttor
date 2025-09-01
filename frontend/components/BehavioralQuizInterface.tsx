@@ -326,8 +326,27 @@ const BehavioralQuizInterface: React.FC<QuizInterfaceProps> = ({ quizParams }) =
         return ((currentQuestionIndex + 1) / questions.length) * 100;
     };
 
+    // Function to clean up malformed LaTeX in quiz text
+    const cleanLatexText = (text: string): string => {
+        if (!text) return '';
+        
+        return text
+            // Fix malformed angle brackets (angle -> \rangle)
+            .replace(/\|([^|>]+)\s+angle/g, '|$1\\rangle')
+            // Fix malformed beta character (␈eta -> \beta)
+            .replace(/␈eta/g, '\\beta')
+            // Fix malformed alpha
+            .replace(/\|α\|/g, '|\\alpha|')
+            // Ensure proper LaTeX delimiters for inline math
+            .replace(/\$([^$]+)\$/g, '$$$1$$')
+            // Fix spacing issues
+            .replace(/\s+/g, ' ')
+            .trim();
+    };
+
     // Component to render math-enabled text
     const MathText: React.FC<{ children: string; className?: string }> = ({ children, className = '' }) => {
+        const cleanedText = cleanLatexText(children);
         return (
             <div className={className}>
                 <ReactMarkdown
@@ -349,7 +368,7 @@ const BehavioralQuizInterface: React.FC<QuizInterfaceProps> = ({ quizParams }) =
                         p: ({ children }) => <span>{children}</span>, // Inline paragraphs for quiz context
                     }}
                 >
-                    {children}
+                    {cleanedText}
                 </ReactMarkdown>
             </div>
         );
