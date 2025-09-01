@@ -48,6 +48,7 @@ import { LearnAboutSomethingCard, LearnAboutSomethingModal } from '../../compone
 import PromotionalBackground from '../components/PromotionalBackground';
 import SimpleLearningAnimation from '../components/SimpleLearningAnimation';
 import MainPageSidePanel from './components/MainPageSidePanel';
+import LearnBar from './components/LearnBar';
 
 const MenttorLabsMainPage = () => {
   const router = useRouter();
@@ -509,91 +510,8 @@ const MenttorLabsMainPage = () => {
             )}
       </nav>
 
-      {/* Hero Section */}
-      <PromotionalBackground className="pt-20 pb-32 overflow-hidden min-h-screen">
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
-          <div className="grid lg:grid-cols-2 gap-16 items-center min-h-[calc(100vh-10rem)]">
-            {/* Left Column - Main Content */}
-            <div className="text-left lg:text-left">
-              <div className="mb-8">
-                <div className="inline-flex items-center px-4 py-2 rounded-full bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border border-blue-200/50 dark:border-blue-700/50 text-blue-700 dark:text-blue-300 text-sm font-medium mb-6 shadow-sm">
-                  <Sparkles className="w-4 h-4 mr-2" />
-                  Smart Learning Platform
-                </div>
-              </div>
-              
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-8 leading-tight text-gray-900 dark:text-white">
-                Master Any Subject with{' '}
-                <span className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent">
-                  Smart Learning
-                </span>{' '}
-                Roadmaps
-              </h1>
-              
-              <p className="text-xl md:text-2xl text-gray-900 dark:text-gray-200 mb-10 leading-relaxed max-w-2xl font-medium">
-                Master diverse subjects from programming to business with free personalized learning roadmaps. 
-                Transform your career with smart adaptive education that fits your pace and learning style.
-              </p>
-              
-              <div className="flex flex-col sm:flex-row gap-6 mb-12">
-                <button 
-                  onClick={() => document.getElementById('generate').scrollIntoView({ behavior: 'smooth' })}
-                  className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white text-lg px-10 py-4 rounded-full font-semibold shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 group"
-                >
-                  <span>Start Your Journey</span>
-                  <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
-                </button>
-                <button 
-                  onClick={() => router.push('/explore')}
-                  className="bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/20 text-white text-lg px-8 py-4 rounded-full font-semibold transition-all duration-300 hover:shadow-xl group"
-                >
-                  <BookOpen className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
-                  <span>Explore Roadmaps</span>
-                </button>
-              </div>
-            </div>
-
-            {/* Right Column - CTA or Additional Info */}
-            <div className="flex justify-center lg:justify-end">
-              <div className="w-full max-w-lg">
-                {/* Additional CTA or testimonial could go here */}
-              </div>
-            </div>
-          </div>
-
-          {/* Enhanced Stats - More Spacious Layout */}
-          <div className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-8 lg:gap-12">
-            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 text-center border border-white/20 shadow-xl hover:bg-white/20 transition-all duration-300 group">
-              <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300">
-                <Users className="w-8 h-8 text-white" />
-              </div>
-              <div className="text-4xl md:text-5xl font-bold text-white mb-3 drop-shadow-sm">50K+</div>
-              <div className="text-base font-semibold text-blue-100">Active Learners</div>
-            </div>
-            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 text-center border border-white/20 shadow-xl hover:bg-white/20 transition-all duration-300 group">
-              <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300">
-                <Target className="w-8 h-8 text-white" />
-              </div>
-              <div className="text-4xl md:text-5xl font-bold text-white mb-3 drop-shadow-sm">1M+</div>
-              <div className="text-base font-semibold text-purple-100">Learning Paths</div>
-            </div>
-            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 text-center border border-white/20 shadow-xl hover:bg-white/20 transition-all duration-300 group">
-              <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300">
-                <TrendingUp className="w-8 h-8 text-white" />
-              </div>
-              <div className="text-4xl md:text-5xl font-bold text-white mb-3 drop-shadow-sm">95%</div>
-              <div className="text-base font-semibold text-green-100">Success Rate</div>
-            </div>
-            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 text-center border border-white/20 shadow-xl hover:bg-white/20 transition-all duration-300 group">
-              <div className="w-16 h-16 bg-gradient-to-r from-orange-500 to-red-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300">
-                <Sparkles className="w-8 h-8 text-white" />
-              </div>
-              <div className="text-4xl md:text-5xl font-bold text-white mb-3 drop-shadow-sm">500+</div>
-              <div className="text-base font-semibold text-orange-100">Topics Available</div>
-            </div>
-          </div>
-        </div>
-      </PromotionalBackground>
+      {/* Learn Bar Section */}
+      <LearnBar />
 
       {/* Features Section */}
       <section className="py-32 bg-gradient-to-b from-white to-gray-50/50 dark:from-gray-900 dark:to-gray-800/50 transition-colors duration-300">
@@ -911,6 +829,42 @@ const MenttorLabsMainPage = () => {
               </div>
             </div>
           )}
+        </div>
+      </section>
+
+      {/* Stats Section */}
+      <section className="py-16 bg-gray-50 dark:bg-gray-800 transition-colors duration-300">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div className="bg-white dark:bg-gray-700 rounded-xl p-6 text-center border border-gray-200 dark:border-gray-600 shadow-sm hover:shadow-md transition-all duration-300">
+              <div className="w-12 h-12 bg-blue-600 rounded-xl flex items-center justify-center mx-auto mb-4">
+                <Users className="w-6 h-6 text-white" />
+              </div>
+              <div className="text-3xl font-bold text-gray-900 dark:text-white mb-2">50K+</div>
+              <div className="text-sm font-medium text-gray-600 dark:text-gray-400">Active Learners</div>
+            </div>
+            <div className="bg-white dark:bg-gray-700 rounded-xl p-6 text-center border border-gray-200 dark:border-gray-600 shadow-sm hover:shadow-md transition-all duration-300">
+              <div className="w-12 h-12 bg-purple-600 rounded-xl flex items-center justify-center mx-auto mb-4">
+                <Target className="w-6 h-6 text-white" />
+              </div>
+              <div className="text-3xl font-bold text-gray-900 dark:text-white mb-2">1M+</div>
+              <div className="text-sm font-medium text-gray-600 dark:text-gray-400">Learning Paths</div>
+            </div>
+            <div className="bg-white dark:bg-gray-700 rounded-xl p-6 text-center border border-gray-200 dark:border-gray-600 shadow-sm hover:shadow-md transition-all duration-300">
+              <div className="w-12 h-12 bg-green-600 rounded-xl flex items-center justify-center mx-auto mb-4">
+                <TrendingUp className="w-6 h-6 text-white" />
+              </div>
+              <div className="text-3xl font-bold text-gray-900 dark:text-white mb-2">95%</div>
+              <div className="text-sm font-medium text-gray-600 dark:text-gray-400">Success Rate</div>
+            </div>
+            <div className="bg-white dark:bg-gray-700 rounded-xl p-6 text-center border border-gray-200 dark:border-gray-600 shadow-sm hover:shadow-md transition-all duration-300">
+              <div className="w-12 h-12 bg-orange-600 rounded-xl flex items-center justify-center mx-auto mb-4">
+                <Sparkles className="w-6 h-6 text-white" />
+              </div>
+              <div className="text-3xl font-bold text-gray-900 dark:text-white mb-2">500+</div>
+              <div className="text-sm font-medium text-gray-600 dark:text-gray-400">Topics Available</div>
+            </div>
+          </div>
         </div>
       </section>
 
