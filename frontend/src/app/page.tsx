@@ -40,7 +40,10 @@ import {
   Users,
   TrendingUp,
   Sun,
-  Moon
+  Moon,
+  BarChart3,
+  Award,
+  Box
 } from 'lucide-react';
 import ProfileDropdown from '../components/ProfileDropdown';
 import { ThreeDGeneratorCard, ThreeDGeneratorModal } from '../../components/ThreeDGenerator';
