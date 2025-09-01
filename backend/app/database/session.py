@@ -29,9 +29,9 @@ def create_database_engine():
     return create_engine(
         settings.get_database_url(),
         echo=settings.DATABASE_ECHO,
-        # Conservative pool settings to prevent connection exhaustion
-        pool_size=5,  # Reduced from 20 - Cloud SQL has connection limits
-        max_overflow=10,  # Reduced from 30 - max total 15 connections
+        # Optimized pool settings for production load
+        pool_size=15,  # Increased to handle concurrent requests
+        max_overflow=20,  # Increased overflow for peak load - max total 35 connections
         pool_recycle=1800,  # 30 minutes - more aggressive recycling
         pool_pre_ping=True,  # Verify connections before use
         pool_timeout=20,  # Reduced timeout to fail faster
@@ -63,12 +63,18 @@ def get_db() -> Generator[Session, None, None]:
     session = Session(engine)
     try:
         yield session
+        # Commit any pending transactions if no exception occurred
+        session.commit()
     except Exception as e:
         logger.error(f"Database session error: {e}")
         session.rollback()
         raise
     finally:
-        session.close()
+        # Ensure session is always closed to return connection to pool
+        try:
+            session.close()
+        except Exception as e:
+            logger.error(f"Error closing database session: {e}")
 
 # Connection pool monitoring
 def get_pool_status():
