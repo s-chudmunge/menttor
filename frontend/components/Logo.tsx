@@ -28,7 +28,7 @@ const Logo = () => {
         <img 
           src="/favicon_io_light/android-chrome-192x192.png"
           alt="Menttor" 
-          className="h-8 w-8"
+          className="h-10 w-10"
         />
       </Link>
     );
@@ -41,7 +41,7 @@ const Logo = () => {
       <img 
         src={`/${themeFolder}/android-chrome-192x192.png`}
         alt="Menttor" 
-        className="h-8 w-8"
+        className="h-10 w-10"
       />
     </Link>
   );
