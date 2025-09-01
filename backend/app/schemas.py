@@ -45,6 +45,7 @@ class QuizGenerateRequest(SQLModel):
     module_title: str
     topic_title: str
     num_questions: int = 5 # Default to 5 questions
+    learn_content_context: Optional[str] = None  # Learn content for contextual quiz generation
 
 class QuizResponse(BaseModel):
     id: int

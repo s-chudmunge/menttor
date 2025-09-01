@@ -6,6 +6,14 @@ Sub-topic: {{ sub_topic_title }}
 Goal: {{ goal }}
 Number of questions: {{ num_questions }}
 
+{% if learn_content_context %}
+IMPORTANT: This quiz should test understanding of the specific concepts the user just learned. Here is the learning content they studied:
+
+{{ learn_content_context }}
+
+Focus your questions on testing comprehension of the key concepts, definitions, and applications from this content. Make sure questions directly relate to what was taught in the learning material.
+{% endif %}
+
 Each question should have a question text, at least 4 options (A, B, C, D, etc.), and a single correct answer ID (matching one of the option IDs). Provide a brief explanation for the correct answer.
 
 Format the output as a JSON object with a single key "questions", which is an array of question objects. Each question object should have the following structure:

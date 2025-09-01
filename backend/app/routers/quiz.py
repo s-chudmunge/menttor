@@ -6,7 +6,7 @@ from database.session import get_db
 from schemas import QuizGenerateRequest, QuizAIResponse, QuizResponse, QuestionBase
 from services.ai_service import generate_quiz_content
 from core.auth import get_current_user
-from sql_models import User, QuizSession, Quiz, Question
+from sql_models import User, QuizSession, Quiz, Question, UserProgress
 
 logger = logging.getLogger(__name__)
 
@@ -22,6 +22,21 @@ async def generate_quiz(
     user_id = current_user.id
     
     logger.info(f"DEBUG: Quiz generation request - sub_topic_id: {request.sub_topic_id}, sub_topic_title: {request.sub_topic_title}")
+    
+    # Check if user has completed learning for this subtopic
+    if request.sub_topic_id:
+        user_progress = db.exec(
+            select(UserProgress).where(
+                UserProgress.user_id == user_id,
+                UserProgress.sub_topic_id == request.sub_topic_id
+            )
+        ).first()
+        
+        if not user_progress or not user_progress.learn_completed:
+            raise HTTPException(
+                status_code=status.HTTP_423_LOCKED,
+                detail="Please complete the learning content for this topic before taking the quiz."
+            )
 
     existing_quiz = db.exec(
         select(Quiz).where(
