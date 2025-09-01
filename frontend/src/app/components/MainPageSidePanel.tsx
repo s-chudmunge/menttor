@@ -17,15 +17,11 @@ interface CuratedRoadmap {
 }
 
 interface MainPageSidePanelProps {
-  isOpen: boolean;
-  onToggle: () => void;
   onShow3DGenerator: () => void;
   onShowLearnAboutSomething: () => void;
 }
 
 const MainPageSidePanel: React.FC<MainPageSidePanelProps> = ({
-  isOpen,
-  onToggle,
   onShow3DGenerator,
   onShowLearnAboutSomething
 }) => {
@@ -33,15 +29,13 @@ const MainPageSidePanel: React.FC<MainPageSidePanelProps> = ({
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (isOpen && roadmaps.length === 0) {
-      fetchRoadmaps();
-    }
-  }, [isOpen]);
+    fetchRoadmaps();
+  }, []);
 
   const fetchRoadmaps = async () => {
     try {
       setLoading(true);
-      const response = await fetch(`${BACKEND_URL}/curated-roadmaps/?per_page=50`);
+      const response = await fetch(`${BACKEND_URL}/curated-roadmaps/?per_page=100`);
       if (response.ok) {
         const data = await response.json();
         setRoadmaps(data);
@@ -60,28 +54,12 @@ const MainPageSidePanel: React.FC<MainPageSidePanelProps> = ({
   };
 
   return (
-    <>
-      {/* Backdrop for mobile */}
-      {isOpen && (
-        <div 
-          className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
-          onClick={onToggle}
-        />
-      )}
-      
-      {/* Side Panel */}
-      <div className={`
-        fixed top-14 left-0 h-[calc(100vh-3.5rem)] bg-white dark:bg-black
-        border-r border-gray-200 dark:border-gray-700 z-40
-        transition-transform duration-300 ease-in-out
-        ${isOpen ? 'translate-x-0' : '-translate-x-full'}
-        w-80 flex flex-col
-      `}>
+    <div className="fixed top-14 left-0 h-[calc(100vh-3.5rem)] bg-white dark:bg-black border-r border-gray-200 dark:border-gray-700 w-80 flex flex-col z-30">
         {/* Header */}
-        <div className="p-4 border-b border-gray-200 dark:border-gray-700 flex-shrink-0">
-          <div className="flex items-center space-x-2">
-            <div className="w-6 h-6 bg-purple-600 dark:bg-purple-500 rounded flex items-center justify-center">
-              <Sparkles className="w-3 h-3 text-white" />
+        <div className="p-2 border-b border-gray-200 dark:border-gray-700 flex-shrink-0">
+          <div className="flex items-center justify-center">
+            <div className="w-5 h-5 bg-purple-600 dark:bg-purple-500 rounded flex items-center justify-center">
+              <Sparkles className="w-2.5 h-2.5 text-white" />
             </div>
           </div>
         </div>
@@ -89,77 +67,71 @@ const MainPageSidePanel: React.FC<MainPageSidePanelProps> = ({
         {/* Content */}
         <div className="flex-1 overflow-y-auto">
           {/* AI Tools */}
-          <div className="p-4 border-b border-gray-200 dark:border-gray-700">
-            <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">AI Tools</h3>
-            <div className="space-y-2">
+          <div className="p-2 border-b border-gray-200 dark:border-gray-700">
+            <h3 className="text-xs font-medium text-gray-700 dark:text-gray-300 mb-2 px-1">AI Tools</h3>
+            <div className="space-y-1">
               <button
                 onClick={onShow3DGenerator}
-                className="w-full flex items-center px-3 py-2 text-left text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors rounded"
+                className="w-full flex items-center px-2 py-1.5 text-left text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors rounded"
               >
-                <Box className="w-4 h-4 mr-3 text-gray-500 dark:text-gray-400" />
-                <span className="text-sm font-medium">3D Visualization</span>
+                <Box className="w-3.5 h-3.5 mr-2 text-gray-500 dark:text-gray-400" />
+                <span className="text-xs font-medium">3D Visualization</span>
               </button>
               
               <button
                 onClick={onShowLearnAboutSomething}
-                className="w-full flex items-center px-3 py-2 text-left text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors rounded"
+                className="w-full flex items-center px-2 py-1.5 text-left text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors rounded"
               >
-                <BookOpen className="w-4 h-4 mr-3 text-gray-500 dark:text-gray-400" />
-                <span className="text-sm font-medium">Learn About Something</span>
+                <BookOpen className="w-3.5 h-3.5 mr-2 text-gray-500 dark:text-gray-400" />
+                <span className="text-xs font-medium">Learn Something</span>
               </button>
             </div>
           </div>
 
           {/* Curated Roadmaps */}
-          <div className="p-4">
-            <div className="flex items-center justify-between mb-3">
-              <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300">Popular Roadmaps</h3>
+          <div className="p-2">
+            <div className="flex items-center justify-between mb-2">
+              <h3 className="text-xs font-medium text-gray-700 dark:text-gray-300 px-1">All Roadmaps</h3>
               <Link 
                 href="/explore" 
-                className="text-xs text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 flex items-center"
+                className="text-xs text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 flex items-center px-1"
               >
-                View All
-                <ExternalLink className="w-3 h-3 ml-1" />
+                Explore
+                <ExternalLink className="w-2.5 h-2.5 ml-1" />
               </Link>
             </div>
             
             {loading ? (
-              <div className="space-y-2">
-                {[...Array(5)].map((_, i) => (
+              <div className="space-y-1">
+                {[...Array(8)].map((_, i) => (
                   <div key={i} className="animate-pulse">
-                    <div className="h-12 bg-gray-200 dark:bg-gray-700 rounded"></div>
+                    <div className="h-8 bg-gray-200 dark:bg-gray-700 rounded"></div>
                   </div>
                 ))}
               </div>
             ) : (
-              <div className="space-y-1 overflow-y-auto">
-                {roadmaps.slice(0, 20).map((roadmap) => (
+              <div className="space-y-0.5 overflow-y-auto">
+                {roadmaps.map((roadmap) => (
                   <div key={roadmap.id} className="group">
-                    <div className="flex items-center justify-between p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded transition-colors">
-                      <div className="flex-1 min-w-0">
-                        <Link href={`/explore/${roadmap.slug || roadmap.id}`}>
-                          <div className="flex items-center space-x-2">
-                            <div className={`w-2 h-2 rounded-full ${difficultyColors[roadmap.difficulty] || 'bg-gray-400'}`}></div>
-                            <h4 className="text-sm font-medium text-gray-900 dark:text-white truncate hover:text-blue-600 dark:hover:text-blue-400 cursor-pointer">
+                    <Link href={`/explore/${roadmap.slug || roadmap.id}`}>
+                      <div className="flex items-center justify-between p-1.5 hover:bg-gray-100 dark:hover:bg-gray-800 rounded transition-colors cursor-pointer">
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center space-x-1.5">
+                            <div className={`w-1.5 h-1.5 rounded-full ${difficultyColors[roadmap.difficulty] || 'bg-gray-400'}`}></div>
+                            <h4 className="text-xs font-medium text-gray-900 dark:text-white truncate hover:text-blue-600 dark:hover:text-blue-400">
                               {roadmap.title}
                             </h4>
+                            {roadmap.is_featured && <span className="text-yellow-500 text-xs">★</span>}
                           </div>
-                        </Link>
-                        <div className="flex items-center mt-1 text-xs text-gray-500 dark:text-gray-400">
-                          <span>{roadmap.adoption_count} learners</span>
-                          {roadmap.is_featured && <span className="ml-2 text-yellow-500">★</span>}
+                          <div className="text-xs text-gray-500 dark:text-gray-400 ml-3 truncate">
+                            {roadmap.adoption_count} learners
+                          </div>
+                        </div>
+                        <div className="flex items-center opacity-0 group-hover:opacity-100 transition-opacity">
+                          <Eye className="w-2.5 h-2.5 text-gray-400" />
                         </div>
                       </div>
-                      <div className="flex items-center space-x-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <Link
-                          href={`/explore/${roadmap.slug || roadmap.id}`}
-                          className="p-1 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
-                          title="Preview"
-                        >
-                          <Eye className="w-3 h-3" />
-                        </Link>
-                      </div>
-                    </div>
+                    </Link>
                   </div>
                 ))}
               </div>
@@ -168,13 +140,12 @@ const MainPageSidePanel: React.FC<MainPageSidePanelProps> = ({
         </div>
 
         {/* Footer */}
-        <div className="p-3 border-t border-gray-200 dark:border-gray-700 flex-shrink-0">
+        <div className="p-1 border-t border-gray-200 dark:border-gray-700 flex-shrink-0">
           <p className="text-xs text-gray-500 dark:text-gray-400 text-center">
-            Fast access to tools & roadmaps
+            {roadmaps.length} roadmaps
           </p>
         </div>
-      </div>
-    </>
+    </div>
   );
 };
 

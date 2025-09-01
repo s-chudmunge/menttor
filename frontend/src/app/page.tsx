@@ -77,7 +77,6 @@ const MenttorLabsMainPage = () => {
   const [learnModel, setLearnModel] = useState('vertexai:gemini-2.5-flash-lite');
   const [learnModelName, setLearnModelName] = useState('Loading models...');
   const [showLearnModelModal, setShowLearnModelModal] = useState(false);
-  const [isSidePanelOpen, setIsSidePanelOpen] = useState(true);
 
   // Define GenerateRoadmapRequest interface here or import if already defined
   interface GenerateRoadmapRequest {
@@ -386,22 +385,14 @@ const MenttorLabsMainPage = () => {
 
   return (
     <OnboardingWrapper>
-      <div className="min-h-screen bg-gradient-to-br from-white via-blue-50 to-blue-100 dark:from-gray-900 dark:via-blue-900 dark:to-gray-800 transition-colors duration-300">
+      <div className="min-h-screen bg-white dark:bg-black transition-colors duration-300">
 
       {/* Navigation */}
       <nav className="bg-white/95 dark:bg-black backdrop-blur-lg border-b border-gray-200/50 dark:border-gray-700/50 sticky top-0 z-50 shadow-lg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-14">
-            {/* Logo and Side Panel Toggle */}
-            <div className="flex items-center space-x-3">
-              {/* Side Panel Toggle */}
-              <button
-                onClick={() => setIsSidePanelOpen(!isSidePanelOpen)}
-                className="p-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
-                title="Quick Tools"
-              >
-                <Menu className="w-5 h-5" />
-              </button>
+            {/* Logo */}
+            <div className="flex items-center space-x-3 ml-80">
               <Logo />
             </div>
             
@@ -510,11 +501,13 @@ const MenttorLabsMainPage = () => {
             )}
       </nav>
 
-      {/* Learn Bar Section */}
-      <LearnBar />
+      {/* Main Content Area */}
+      <div className="ml-80">
+        {/* Learn Bar Section */}
+        <LearnBar />
 
-      {/* Features Section */}
-      <section className="py-32 bg-gradient-to-b from-white to-gray-50/50 dark:from-gray-900 dark:to-gray-800/50 transition-colors duration-300">
+        {/* Features Section */}
+        <section className="py-32 bg-gray-50 dark:bg-gray-800 transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-20">
             <div className="inline-flex items-center px-4 py-2 rounded-full bg-indigo-50/80 dark:bg-indigo-900/30 border border-indigo-200/50 dark:border-indigo-700/50 text-indigo-700 dark:text-indigo-300 text-sm font-medium mb-6">
@@ -609,8 +602,8 @@ const MenttorLabsMainPage = () => {
         </div>
       </section>
 
-      {/* How It Works - Interactive Flow */}
-      <section className="py-20 bg-white dark:bg-gray-900 transition-colors duration-300">
+        {/* How It Works - Interactive Flow */}
+        <section className="py-20 bg-white dark:bg-gray-900 transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <div className="inline-flex items-center px-4 py-2 rounded-full bg-blue-50/80 dark:bg-blue-900/30 border border-blue-200/50 dark:border-blue-700/50 text-blue-700 dark:text-blue-300 text-sm font-medium mb-6">
@@ -632,8 +625,8 @@ const MenttorLabsMainPage = () => {
         </div>
       </section>
 
-      {/* Roadmap Generation Form */}
-      <section id="generate" className="py-32 bg-gradient-to-br from-gray-50 via-white to-blue-50/30 dark:from-gray-900 dark:via-gray-800 dark:to-blue-900/20 transition-colors duration-300 relative overflow-hidden">
+        {/* Roadmap Generation Form */}
+        <section id="generate" className="py-32 bg-gray-50 dark:bg-gray-800 transition-colors duration-300">
         {/* Background decorations */}
         <div className="absolute top-0 right-0 w-96 h-96 bg-blue-400/5 rounded-full filter blur-3xl"></div>
         <div className="absolute bottom-0 left-0 w-96 h-96 bg-indigo-400/5 rounded-full filter blur-3xl"></div>
@@ -832,8 +825,8 @@ const MenttorLabsMainPage = () => {
         </div>
       </section>
 
-      {/* Stats Section */}
-      <section className="py-16 bg-gray-50 dark:bg-gray-800 transition-colors duration-300">
+        {/* Stats Section */}
+        <section className="py-16 bg-gray-50 dark:bg-gray-800 transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             <div className="bg-white dark:bg-gray-700 rounded-xl p-6 text-center border border-gray-200 dark:border-gray-600 shadow-sm hover:shadow-md transition-all duration-300">
@@ -868,8 +861,8 @@ const MenttorLabsMainPage = () => {
         </div>
       </section>
 
-      {/* Quick Tools Section */}
-      <section className="py-16 bg-white dark:bg-gray-900 transition-colors duration-300">
+        {/* Quick Tools Section */}
+        <section className="py-16 bg-white dark:bg-gray-900 transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <div className="inline-flex items-center px-4 py-2 rounded-full bg-purple-50/80 dark:bg-purple-900/30 border border-purple-200/50 dark:border-purple-700/50 text-purple-700 dark:text-purple-300 text-sm font-medium mb-6">
@@ -899,8 +892,8 @@ const MenttorLabsMainPage = () => {
         </div>
       </section>
 
-      {/* Testimonials Section */}
-      <section className="py-24 bg-gray-50 dark:bg-gray-800 transition-colors duration-300">
+        {/* Testimonials Section */}
+        <section className="py-24 bg-white dark:bg-gray-900 transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">What Our Users Say</h2>
@@ -926,8 +919,8 @@ const MenttorLabsMainPage = () => {
         </div>
       </section>
 
-      {/* Call to Action Section */}
-      <section className="py-24 bg-gradient-to-r from-blue-600 to-blue-700 text-white">
+        {/* Call to Action Section */}
+        <section className="py-24 bg-blue-600 text-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-4xl font-bold mb-6">Ready to Start Your Learning Journey?</h2>
           <p className="text-xl opacity-90 mb-10">
@@ -943,8 +936,8 @@ const MenttorLabsMainPage = () => {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="bg-gray-900 dark:bg-gray-950 text-white py-16 transition-colors duration-300">
+        {/* Footer */}
+        <footer className="bg-gray-900 dark:bg-gray-950 text-white py-16 transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
             {/* Company Info */}
@@ -1087,10 +1080,10 @@ const MenttorLabsMainPage = () => {
         />
       )}
 
-      {/* Main Page Side Panel */}
+      </div>
+
+      {/* Main Page Side Panel - Always Visible */}
       <MainPageSidePanel
-        isOpen={isSidePanelOpen}
-        onToggle={() => setIsSidePanelOpen(!isSidePanelOpen)}
         onShow3DGenerator={() => setShow3DGenerator(true)}
         onShowLearnAboutSomething={() => setShowLearnAboutSomething(true)}
       />
