@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { Sparkles, Box, BookOpen, ExternalLink, Eye, Play } from 'lucide-react';
+import React, { useState, useEffect, useMemo } from 'react';
+import { Sparkles, Box, BookOpen, ExternalLink, Eye, Play, Search } from 'lucide-react';
 import Link from 'next/link';
 import { BACKEND_URL } from '../../config/config';
 
@@ -27,6 +27,7 @@ const MainPageSidePanel: React.FC<MainPageSidePanelProps> = ({
 }) => {
   const [roadmaps, setRoadmaps] = useState<CuratedRoadmap[]>([]);
   const [loading, setLoading] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
     fetchRoadmaps();
@@ -52,6 +53,17 @@ const MainPageSidePanel: React.FC<MainPageSidePanelProps> = ({
     intermediate: 'bg-yellow-500',
     advanced: 'bg-red-500'
   };
+
+  const filteredRoadmaps = useMemo(() => {
+    if (!searchQuery.trim()) return roadmaps;
+    
+    const query = searchQuery.toLowerCase();
+    return roadmaps.filter(roadmap => 
+      roadmap.title.toLowerCase().includes(query) ||
+      roadmap.description.toLowerCase().includes(query) ||
+      roadmap.category.toLowerCase().includes(query)
+    );
+  }, [roadmaps, searchQuery]);
 
   return (
     <div className="fixed top-14 left-0 h-[calc(100vh-3.5rem)] bg-white dark:bg-black border-r border-gray-200 dark:border-gray-700 w-80 flex flex-col z-30">
@@ -96,6 +108,18 @@ const MainPageSidePanel: React.FC<MainPageSidePanelProps> = ({
               </Link>
             </div>
             
+            {/* Search Bar */}
+            <div className="relative mb-2">
+              <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400 w-3 h-3" />
+              <input
+                type="text"
+                placeholder="Search roadmaps..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full pl-7 pr-2 py-1.5 text-xs border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 focus:ring-1 focus:ring-blue-500 focus:border-transparent"
+              />
+            </div>
+            
             {loading ? (
               <div className="space-y-1">
                 {[...Array(8)].map((_, i) => (
@@ -106,7 +130,7 @@ const MainPageSidePanel: React.FC<MainPageSidePanelProps> = ({
               </div>
             ) : (
               <div className="space-y-0.5 overflow-y-auto">
-                {roadmaps.map((roadmap) => (
+                {filteredRoadmaps.map((roadmap) => (
                   <div key={roadmap.id} className="group">
                     <Link href={`/explore/${roadmap.slug || roadmap.id}`}>
                       <div className="flex items-center justify-between p-1.5 hover:bg-gray-100 dark:hover:bg-gray-800 rounded transition-colors cursor-pointer">
@@ -137,7 +161,7 @@ const MainPageSidePanel: React.FC<MainPageSidePanelProps> = ({
         {/* Footer */}
         <div className="p-1 border-t border-gray-200 dark:border-gray-700 flex-shrink-0">
           <p className="text-xs text-gray-500 dark:text-gray-400 text-center">
-            {roadmaps.length} roadmaps
+            {filteredRoadmaps.length} roadmaps
           </p>
         </div>
     </div>

@@ -111,9 +111,9 @@ export const metadata: Metadata = {
     },
   },
   icons: {
-    icon: [{ url: '/favicon_io_dark/favicon-16x16.png', sizes: '16x16', type: 'image/png' }, { url: '/favicon_io_dark/favicon-32x32.png', sizes: '32x32', type: 'image/png' }],
-    shortcut: '/favicon_io_dark/favicon.ico',
-    apple: '/favicon_io_dark/apple-touch-icon.png',
+    icon: [{ url: '/favicon_io_light/favicon-16x16.png', sizes: '16x16', type: 'image/png' }, { url: '/favicon_io_light/favicon-32x32.png', sizes: '32x32', type: 'image/png' }],
+    shortcut: '/favicon_io_light/favicon.ico',
+    apple: '/favicon_io_light/apple-touch-icon.png',
   },
   manifest: '/manifest.json',
   verification: {
@@ -129,10 +129,10 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <link rel="icon" href="/favicon_io_dark/favicon.ico" type="image/x-icon" />
-        <link rel="icon" href="/favicon_io_dark/favicon-16x16.png" sizes="16x16" type="image/png" />
-        <link rel="icon" href="/favicon_io_dark/favicon-32x32.png" sizes="32x32" type="image/png" />
-        <link rel="apple-touch-icon" href="/favicon_io_dark/apple-touch-icon.png" />
+        <link rel="icon" href="/favicon_io_light/favicon.ico" type="image/x-icon" />
+        <link rel="icon" href="/favicon_io_light/favicon-16x16.png" sizes="16x16" type="image/png" />
+        <link rel="icon" href="/favicon_io_light/favicon-32x32.png" sizes="32x32" type="image/png" />
+        <link rel="apple-touch-icon" href="/favicon_io_light/apple-touch-icon.png" />
         <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap" rel="stylesheet" />
         
         {/* Security Headers */}
