@@ -135,12 +135,10 @@ const MainPageSidePanel: React.FC<MainPageSidePanelProps> = ({
                     <Link href={`/explore/${roadmap.slug || roadmap.id}`}>
                       <div className="flex items-center justify-between p-1.5 hover:bg-gray-100 dark:hover:bg-gray-800 rounded transition-colors cursor-pointer">
                         <div className="flex-1 min-w-0">
-                          <div className="flex items-center space-x-1.5">
-                            <div className={`w-1.5 h-1.5 rounded-full ${difficultyColors[roadmap.difficulty] || 'bg-gray-400'}`}></div>
+                          <div className="flex items-center">
                             <h4 className="text-xs font-medium text-gray-900 dark:text-white truncate hover:text-blue-600 dark:hover:text-blue-400">
                               {roadmap.title}
                             </h4>
-                            {roadmap.is_featured && <span className="text-yellow-500 text-xs">★</span>}
                           </div>
                           <div className="text-xs text-gray-500 dark:text-gray-400 ml-3 truncate">
                             {roadmap.adoption_count} learners
