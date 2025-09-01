@@ -391,9 +391,15 @@ const MenttorLabsMainPage = () => {
       <nav className="bg-white/95 dark:bg-black backdrop-blur-lg border-b border-gray-200/50 dark:border-gray-700/50 sticky top-0 z-50 shadow-lg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-14">
-            {/* Logo */}
-            <div className="flex items-center space-x-3">
+            {/* Logo and Dashboard Link */}
+            <div className="flex items-center space-x-6">
               <Logo />
+              <Link 
+                href="/dashboard" 
+                className="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
+              >
+                Dashboard
+              </Link>
             </div>
             
             {/* Desktop Navigation */}
