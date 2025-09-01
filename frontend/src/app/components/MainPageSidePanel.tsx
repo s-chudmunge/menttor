@@ -56,19 +56,14 @@ const MainPageSidePanel: React.FC<MainPageSidePanelProps> = ({
   return (
     <div className="fixed top-14 left-0 h-[calc(100vh-3.5rem)] bg-white dark:bg-black border-r border-gray-200 dark:border-gray-700 w-80 flex flex-col z-30">
         {/* Header */}
-        <div className="p-2 border-b border-gray-200 dark:border-gray-700 flex-shrink-0">
-          <div className="flex items-center justify-center">
-            <div className="w-5 h-5 bg-purple-600 dark:bg-purple-500 rounded flex items-center justify-center">
-              <Sparkles className="w-2.5 h-2.5 text-white" />
-            </div>
-          </div>
+        <div className="p-1 border-b border-gray-200 dark:border-gray-700 flex-shrink-0">
         </div>
 
         {/* Content */}
         <div className="flex-1 overflow-y-auto">
           {/* AI Tools */}
           <div className="p-2 border-b border-gray-200 dark:border-gray-700">
-            <h3 className="text-xs font-medium text-gray-700 dark:text-gray-300 mb-2 px-1">AI Tools</h3>
+            <h3 className="text-xs font-medium text-gray-700 dark:text-gray-300 mb-2 px-1">Tools</h3>
             <div className="space-y-1">
               <button
                 onClick={onShow3DGenerator}
