@@ -18,7 +18,7 @@ export function useFavicon() {
   }, []);
 
   useEffect(() => {
-    const themeFolder = isDark ? 'favicon_io_dark' : 'favicon_io_light';
+    const themeFolder = isDark ? 'favicon_io_light' : 'favicon_io_dark';
     
     const updateFavicon = (selector: string, href: string) => {
       const link = document.querySelector(selector) as HTMLLinkElement;

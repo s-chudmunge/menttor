@@ -34,7 +34,7 @@ const Logo = () => {
     );
   }
 
-  const themeFolder = isDark ? 'favicon_io_dark' : 'favicon_io_light';
+  const themeFolder = isDark ? 'favicon_io_light' : 'favicon_io_dark';
 
   return (
     <Link href="/" className="hover:opacity-80 transition-opacity ml-4">
