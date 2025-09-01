@@ -58,11 +58,14 @@ async def get_current_user(request: Request, db: Session = Depends(get_db)) -> U
     # Test bypass for development/testing
     if settings.ENABLE_AUTH_BYPASS and token == "test_token":
         logger.info("Auth: Using test bypass mode")
-        # Check cache first for test user
+        # Check cache first for test user ID
         cache_key = "test_user:test@example.com"
-        cached_user = query_cache.get(cache_key)
-        if cached_user:
-            return cached_user
+        cached_user_id = query_cache.get(cache_key)
+        if cached_user_id:
+            # Re-fetch test user from current session
+            test_user = db.exec(select(User).where(User.id == cached_user_id)).first()
+            if test_user:
+                return test_user
             
         # Return a test user or create one if needed
         test_user = db.exec(select(User).where(User.email == "test@example.com")).first()
@@ -78,8 +81,8 @@ async def get_current_user(request: Request, db: Session = Depends(get_db)) -> U
             db.commit()
             db.refresh(test_user)
         
-        # Cache test user for 10 minutes
-        query_cache.set(cache_key, test_user, ttl=600)
+        # Cache test user ID for 10 minutes
+        query_cache.set(cache_key, test_user.id, ttl=600)
         return test_user
 
     try:
@@ -92,12 +95,15 @@ async def get_current_user(request: Request, db: Session = Depends(get_db)) -> U
         logger.error(f"Auth: Firebase ID token verification failed: {e}")
         raise credentials_exception
 
-    # Check user cache first
+    # Check user cache first (cache user ID only, not the object)
     user_cache_key = f"user:uid:{uid}"
-    cached_user = query_cache.get(user_cache_key)
-    if cached_user:
-        logger.debug(f"Auth: Using cached user for UID: {uid}")
-        return cached_user
+    cached_user_id = query_cache.get(user_cache_key)
+    if cached_user_id:
+        logger.debug(f"Auth: Using cached user ID for UID: {uid}")
+        # Re-fetch user from current session to ensure it's bound
+        user = db.exec(select(User).where(User.id == cached_user_id)).first()
+        if user:
+            return user
 
     # Rate limit check
     allowed, reason = db_monitor.check_rate_limit(uid)
@@ -152,8 +158,8 @@ async def get_current_user(request: Request, db: Session = Depends(get_db)) -> U
             detail="Internal server error: User ID could not be determined.",
         )
 
-    # Cache the user for future requests (5 minutes TTL)
-    query_cache.set(user_cache_key, user, ttl=300)
+    # Cache the user ID for future requests (5 minutes TTL)
+    query_cache.set(user_cache_key, user.id, ttl=300)
     
     logger.info(f"Auth: Successfully authenticated user: {user.email}, ID: {user.id}")
     return user

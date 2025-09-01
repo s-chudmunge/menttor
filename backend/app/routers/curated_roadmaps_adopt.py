@@ -18,11 +18,8 @@ async def adopt_curated_roadmap(
 ):
     """Adopt a curated roadmap - creates a personal copy for the user"""
     
-    # Get user_id from the detached instance and re-fetch the user in this session
+    # current_user is now properly bound to the session
     user_id = current_user.id
-    user = db.exec(select(User).where(User.id == user_id)).first()
-    if not user:
-        raise HTTPException(status_code=404, detail="User not found")
     
     # Find the curated roadmap
     curated_roadmap = db.exec(
