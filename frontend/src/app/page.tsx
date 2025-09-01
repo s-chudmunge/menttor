@@ -76,7 +76,7 @@ const MenttorLabsMainPage = () => {
   const [learnModel, setLearnModel] = useState('vertexai:gemini-2.5-flash-lite');
   const [learnModelName, setLearnModelName] = useState('Loading models...');
   const [showLearnModelModal, setShowLearnModelModal] = useState(false);
-  const [isSidePanelOpen, setIsSidePanelOpen] = useState(false);
+  const [isSidePanelOpen, setIsSidePanelOpen] = useState(true);
 
   // Define GenerateRoadmapRequest interface here or import if already defined
   interface GenerateRoadmapRequest {
@@ -391,8 +391,16 @@ const MenttorLabsMainPage = () => {
       <nav className="bg-white/95 dark:bg-black backdrop-blur-lg border-b border-gray-200/50 dark:border-gray-700/50 sticky top-0 z-50 shadow-lg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-14">
-            {/* Logo */}
+            {/* Logo and Side Panel Toggle */}
             <div className="flex items-center space-x-3">
+              {/* Side Panel Toggle */}
+              <button
+                onClick={() => setIsSidePanelOpen(!isSidePanelOpen)}
+                className="p-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
+                title="Quick Tools"
+              >
+                <Menu className="w-5 h-5" />
+              </button>
               <Logo />
             </div>
             
@@ -440,15 +448,6 @@ const MenttorLabsMainPage = () => {
                 </button>
               )}
               
-              {/* Side Panel Toggle */}
-              <button
-                onClick={() => setIsSidePanelOpen(!isSidePanelOpen)}
-                className="p-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
-                title="Quick Tools"
-              >
-                <Menu className="w-5 h-5" />
-              </button>
-
               {/* Mobile Menu Button */}
               <button
                 onClick={() => setShowMobileMenu(!showMobileMenu)}

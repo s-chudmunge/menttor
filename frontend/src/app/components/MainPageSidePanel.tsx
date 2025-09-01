@@ -71,10 +71,10 @@ const MainPageSidePanel: React.FC<MainPageSidePanelProps> = ({
       
       {/* Side Panel */}
       <div className={`
-        fixed top-14 right-0 h-[calc(100vh-3.5rem)] bg-white dark:bg-black
-        border-l border-gray-200 dark:border-gray-700 z-40
+        fixed top-14 left-0 h-[calc(100vh-3.5rem)] bg-white dark:bg-black
+        border-r border-gray-200 dark:border-gray-700 z-40
         transition-transform duration-300 ease-in-out
-        ${isOpen ? 'translate-x-0' : 'translate-x-full'}
+        ${isOpen ? 'translate-x-0' : '-translate-x-full'}
         w-80 flex flex-col
       `}>
         {/* Header */}
@@ -83,9 +83,6 @@ const MainPageSidePanel: React.FC<MainPageSidePanelProps> = ({
             <div className="w-6 h-6 bg-purple-600 dark:bg-purple-500 rounded flex items-center justify-center">
               <Sparkles className="w-3 h-3 text-white" />
             </div>
-            <h2 className="text-base font-semibold text-gray-900 dark:text-white">
-              Quick Tools
-            </h2>
           </div>
         </div>
 
@@ -135,7 +132,7 @@ const MainPageSidePanel: React.FC<MainPageSidePanelProps> = ({
                 ))}
               </div>
             ) : (
-              <div className="space-y-1 max-h-96 overflow-y-auto">
+              <div className="space-y-1 overflow-y-auto">
                 {roadmaps.slice(0, 20).map((roadmap) => (
                   <div key={roadmap.id} className="group">
                     <div className="flex items-center justify-between p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded transition-colors">
