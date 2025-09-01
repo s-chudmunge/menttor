@@ -19,11 +19,15 @@ interface CuratedRoadmap {
 interface MainPageSidePanelProps {
   onShow3DGenerator: () => void;
   onShowLearnAboutSomething: () => void;
+  isOpen?: boolean;
+  onToggle?: () => void;
 }
 
 const MainPageSidePanel: React.FC<MainPageSidePanelProps> = ({
   onShow3DGenerator,
-  onShowLearnAboutSomething
+  onShowLearnAboutSomething,
+  isOpen = true,
+  onToggle
 }) => {
   const [roadmaps, setRoadmaps] = useState<CuratedRoadmap[]>([]);
   const [loading, setLoading] = useState(false);
@@ -66,7 +70,23 @@ const MainPageSidePanel: React.FC<MainPageSidePanelProps> = ({
   }, [roadmaps, searchQuery]);
 
   return (
-    <div className="fixed top-14 left-0 h-[calc(100vh-3.5rem)] bg-white dark:bg-black border-r border-gray-200 dark:border-gray-700 w-80 flex flex-col z-30">
+    <>
+      {/* Backdrop for mobile */}
+      {isOpen && (
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-50 z-20 lg:hidden"
+          onClick={onToggle}
+        />
+      )}
+      
+      {/* Side Panel */}
+      <div className={`
+        fixed top-14 left-0 h-[calc(100vh-3.5rem)] bg-white dark:bg-black 
+        border-r border-gray-200 dark:border-gray-700 w-80 flex flex-col z-30
+        transition-transform duration-300 ease-in-out
+        lg:translate-x-0
+        ${isOpen ? 'translate-x-0' : '-translate-x-full'}
+      `}>
         {/* Header */}
         <div className="p-1 border-b border-gray-200 dark:border-gray-700 flex-shrink-0">
         </div>
@@ -162,7 +182,8 @@ const MainPageSidePanel: React.FC<MainPageSidePanelProps> = ({
             {filteredRoadmaps.length} roadmaps
           </p>
         </div>
-    </div>
+      </div>
+    </>
   );
 };
 

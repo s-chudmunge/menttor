@@ -70,6 +70,7 @@ const MenttorLabsMainPage = () => {
   const [showModelModal, setShowModelModal] = useState(false);
   const [showOldRoadmaps, setShowOldRoadmaps] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
+  const [isSidePanelOpen, setIsSidePanelOpen] = useState(false);
   const [showOldLearnPages, setShowOldLearnPages] = useState(false);
   const [activeFeature, setActiveFeature] = useState(0);
   const [show3DGenerator, setShow3DGenerator] = useState(false);
@@ -449,6 +450,14 @@ const MenttorLabsMainPage = () => {
                 </button>
               )}
               
+              {/* Mobile Side Panel Toggle */}
+              <button
+                onClick={() => setIsSidePanelOpen(!isSidePanelOpen)}
+                className="lg:hidden p-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
+              >
+                <BookOpen className="w-5 h-5" />
+              </button>
+              
               {/* Mobile Menu Button */}
               <button
                 onClick={() => setShowMobileMenu(!showMobileMenu)}
@@ -511,7 +520,7 @@ const MenttorLabsMainPage = () => {
       </nav>
 
       {/* Main Content Area */}
-      <div className="ml-80">
+      <div className="lg:ml-80">
         {/* Learn Bar Section */}
         <LearnBar />
 
@@ -1025,10 +1034,12 @@ const MenttorLabsMainPage = () => {
 
       </div>
 
-      {/* Main Page Side Panel - Always Visible */}
+      {/* Main Page Side Panel */}
       <MainPageSidePanel
         onShow3DGenerator={() => setShow3DGenerator(true)}
         onShowLearnAboutSomething={() => setShowLearnAboutSomething(true)}
+        isOpen={isSidePanelOpen}
+        onToggle={() => setIsSidePanelOpen(!isSidePanelOpen)}
       />
       
     </div>
