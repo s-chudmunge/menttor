@@ -3,6 +3,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Trophy, Star, Target, Award, Crown, Gem, Shield, Medal, Zap, TrendingUp, X } from 'lucide-react';
+import { usePathname } from 'next/navigation';
 import { useBehavioralContext } from '../../app/context/BehavioralContext';
 import { useBehavioralStats } from '../../hooks/useBehavioral';
 
@@ -31,11 +32,15 @@ interface Achievement {
 }
 
 const MilestoneSystem: React.FC = () => {
+  const pathname = usePathname();
   const { behavioralStats, showNotification } = useBehavioralContext();
   const [milestones, setMilestones] = useState<Milestone[]>([]);
   const [achievements, setAchievements] = useState<Achievement[]>([]);
   const [showMilestonePanel, setShowMilestonePanel] = useState(false);
   const [newAchievements, setNewAchievements] = useState<Achievement[]>([]);
+  
+  // Only show on dashboard page
+  const isDashboardPage = pathname === '/dashboard';
 
   // Generate dynamic milestones based on user progress
   const generateMilestones = useCallback((): Milestone[] => {
@@ -232,7 +237,8 @@ const MilestoneSystem: React.FC = () => {
 
   return (
     <>
-      {/* Professional Milestone Progress Indicator */}
+      {/* Professional Milestone Progress Indicator - Only show on dashboard */}
+      {isDashboardPage && (
       <motion.div
         className="fixed top-20 left-4 z-40"
         initial={{ opacity: 0, x: -50 }}
@@ -268,6 +274,7 @@ const MilestoneSystem: React.FC = () => {
           </div>
         </motion.button>
       </motion.div>
+      )}
 
       {/* Enhanced Milestone Panel */}
       <AnimatePresence>
