@@ -47,13 +47,13 @@ const LearnBar: React.FC = () => {
   const isFormValid = topic.trim().length >= 3;
 
   return (
-    <div className="bg-white dark:bg-black py-24">
+    <div className="bg-white dark:bg-black py-12">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <h1 className="text-5xl font-bold text-gray-900 dark:text-white mb-6">
+        <div className="text-center mb-8">
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
             What do you want to learn?
           </h1>
-          <p className="text-2xl text-gray-600 dark:text-gray-400">
+          <p className="text-lg text-gray-600 dark:text-gray-400">
             Enter any topic and get instant personalized learning content
           </p>
         </div>
@@ -68,7 +68,7 @@ const LearnBar: React.FC = () => {
               value={topic}
               onChange={(e) => setTopic(e.target.value)}
               placeholder="e.g., Machine Learning, Python Programming, Quantum Physics, Photography..."
-              className="w-full pl-16 pr-6 py-6 text-xl border border-gray-200 dark:border-gray-700 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 transition-colors"
+              className="w-full pl-12 pr-4 py-4 text-lg border border-gray-200 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 transition-colors"
               maxLength={100}
               disabled={loading || isGenerating}
             />
