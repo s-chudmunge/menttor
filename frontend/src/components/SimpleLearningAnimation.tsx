@@ -107,13 +107,8 @@ export default function SimpleLearningAnimation() {
           
           {/* Platform Header with Logo */}
           <circle cx="430" cy="155" r="20" fill="url(#iconBackground)"/>
-          {/* Menttor Logo SVG */}
-          <svg x="418" y="143" width="24" height="24" viewBox="0 0 24 24">
-            <path 
-              fill="white" 
-              d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09V17h2V9L12 3zm6.82 6L12 12.72 5.18 9 12 5.28 18.82 9zM17 15.99l-5 2.73-5-2.73v-3.72L12 15l5-2.73v3.72z"
-            />
-          </svg>
+          {/* Menttor Logo */}
+          <image x="418" y="143" width="24" height="24" href="/favicon_io_light/android-chrome-192x192.png"/>
           <text x="460" y="160" className="fill-gray-900 dark:fill-white" fontSize="20" fontWeight="600">Menttor</text>
           
           {/* Feature Grid - 3x3 Layout */}
