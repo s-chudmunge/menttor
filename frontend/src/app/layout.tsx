@@ -14,6 +14,7 @@ import { Analytics } from "@vercel/analytics/next";
 import Script from 'next/script';
 import PageTracker from "../components/PageTracker";
 import SessionTracker from "../components/SessionTracker";
+import FaviconUpdater from "../components/FaviconUpdater";
 
 export const metadata: Metadata = {
   title: {
@@ -229,6 +230,7 @@ export default function RootLayout({
           defaultTheme="system"
           enableSystem
         >
+          <FaviconUpdater />
           <AuthProvider>
             <QueryClientProviderWrapper>
               <BehavioralProvider>
