@@ -72,7 +72,7 @@ const MainPageSidePanel: React.FC<MainPageSidePanelProps> = ({
         </div>
 
         {/* Content */}
-        <div className="flex-1 overflow-y-auto">
+        <div className="flex-1 overflow-y-auto scrollbar-hide">
           {/* AI Tools */}
           <div className="p-2 border-b border-gray-200 dark:border-gray-700">
             <h3 className="text-xs font-medium text-gray-700 dark:text-gray-300 mb-2 px-1">Tools</h3>
@@ -129,7 +129,7 @@ const MainPageSidePanel: React.FC<MainPageSidePanelProps> = ({
                 ))}
               </div>
             ) : (
-              <div className="space-y-0.5 overflow-y-auto">
+              <div className="space-y-0.5 overflow-y-auto scrollbar-hide">
                 {filteredRoadmaps.map((roadmap) => (
                   <div key={roadmap.id} className="group">
                     <Link href={`/explore/${roadmap.slug || roadmap.id}`}>
