@@ -512,101 +512,63 @@ const MenttorLabsMainPage = () => {
         {/* Learn Bar Section */}
         <LearnBar />
 
-        {/* Features Section */}
-        <section className="py-16 bg-white dark:bg-black transition-colors duration-300">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-20">
-            <div className="inline-flex items-center px-4 py-2 rounded-full bg-indigo-50/80 dark:bg-indigo-900/30 border border-indigo-200/50 dark:border-indigo-700/50 text-indigo-700 dark:text-indigo-300 text-sm font-medium mb-6">
-              <Zap className="w-4 h-4 mr-2" />
-              Powerful Features
-            </div>
-            <h2 className="heading-secondary mb-6">Why Choose Menttor?</h2>
-            <p className="text-xl text-body max-w-3xl mx-auto">
-              Experience the future of personalized learning with our intelligent technology 
-              and cutting-edge educational methodologies
-            </p>
-          </div>
-          
-          <div className="grid lg:grid-cols-2 gap-16 items-start">
-            <div className="space-y-6">
-              {features.map((feature, index) => (
-                <div 
-                  key={index}
-                  className={`group cursor-pointer transition-all duration-500 ${ 
-                    activeFeature === index 
-                      ? 'scale-105' 
-                      : 'hover:scale-102'
-                  }`}
-                  onClick={() => setActiveFeature(index)}
-                >
-                  <div className={`card-elevated p-8 ${ 
-                    activeFeature === index 
-                      ? 'bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/30 dark:to-indigo-900/30 border-blue-200 dark:border-blue-600' 
-                      : 'hover:border-gray-300 dark:hover:border-gray-600'
-                  }`}>
-                    <div className="flex items-start space-x-6">
-                      <div className={`p-4 rounded-2xl transition-all duration-300 ${ 
-                        activeFeature === index 
-                          ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg' 
-                          : 'bg-gray-100 dark:bg-gray-800 text-blue-600 dark:text-blue-400 group-hover:bg-blue-50 dark:group-hover:bg-blue-900/20'
-                      }`}>
-                        {feature.icon}
-                      </div>
-                      <div className="flex-1">
-                        <h3 className="heading-tertiary mb-3">{feature.title}</h3>
-                        <p className="text-body">{feature.description}</p>
-                        {activeFeature === index && (
-                          <div className="mt-4 flex items-center text-blue-600 dark:text-blue-400 font-medium">
-                            <CheckCircle className="w-4 h-4 mr-2" />
-                            <span>Active Feature</span>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
+        {/* Why Choose Menttor Section */}
+        <section className="py-8 bg-white dark:bg-black transition-colors duration-300">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-6">
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Why Choose Menttor?</h2>
             </div>
             
-            <div className="relative lg:sticky lg:top-8">
-              <div className="relative">
-                {/* Background decoration */}
-                <div className="absolute -inset-4 bg-gradient-to-r from-blue-600/20 to-purple-600/20 rounded-3xl blur-xl"></div>
-                
-                {/* Main feature showcase */}
-                <div className="relative card-elevated p-8 bg-gradient-to-br from-white to-blue-50/50 dark:from-gray-900 dark:to-blue-900/10 border-0">
-                  <div className="text-center mb-8">
-                    <div className="w-20 h-20 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-xl">
-                      {features[activeFeature].icon}
-                    </div>
-                    <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-                      {features[activeFeature].title}
-                    </h3>
-                    <p className="text-body text-lg mb-6">
-                      {features[activeFeature].description}
-                    </p>
+            <div className="grid md:grid-cols-2 gap-6 text-sm">
+              <div className="space-y-3">
+                <div className="flex items-start space-x-3">
+                  <Brain className="w-4 h-4 text-blue-600 mt-0.5 flex-shrink-0" />
+                  <div>
+                    <h3 className="font-semibold text-gray-900 dark:text-white mb-1">AI-Powered Learning</h3>
+                    <p className="text-gray-600 dark:text-gray-400">Personalized content adapted to your learning style</p>
                   </div>
-                  
-                  <div className="space-y-4">
-                    <div className="flex items-center space-x-3 p-4 bg-white/60 dark:bg-gray-800/60 rounded-xl">
-                      <CheckCircle className="w-5 h-5 text-green-500" />
-                      <span className="font-medium text-gray-700 dark:text-gray-300">Enterprise Ready</span>
-                    </div>
-                    <div className="flex items-center space-x-3 p-4 bg-white/60 dark:bg-gray-800/60 rounded-xl">
-                      <CheckCircle className="w-5 h-5 text-green-500" />
-                      <span className="font-medium text-gray-700 dark:text-gray-300">24/7 Support</span>
-                    </div>
-                    <div className="flex items-center space-x-3 p-4 bg-white/60 dark:bg-gray-800/60 rounded-xl">
-                      <CheckCircle className="w-5 h-5 text-green-500" />
-                      <span className="font-medium text-gray-700 dark:text-gray-300">Proven Results</span>
-                    </div>
+                </div>
+                <div className="flex items-start space-x-3">
+                  <Target className="w-4 h-4 text-purple-600 mt-0.5 flex-shrink-0" />
+                  <div>
+                    <h3 className="font-semibold text-gray-900 dark:text-white mb-1">Smart Roadmaps</h3>
+                    <p className="text-gray-600 dark:text-gray-400">Structured learning paths with clear milestones</p>
+                  </div>
+                </div>
+                <div className="flex items-start space-x-3">
+                  <Zap className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
+                  <div>
+                    <h3 className="font-semibold text-gray-900 dark:text-white mb-1">Instant Access</h3>
+                    <p className="text-gray-600 dark:text-gray-400">Start learning immediately with no setup required</p>
+                  </div>
+                </div>
+              </div>
+              <div className="space-y-3">
+                <div className="flex items-start space-x-3">
+                  <BarChart3 className="w-4 h-4 text-orange-600 mt-0.5 flex-shrink-0" />
+                  <div>
+                    <h3 className="font-semibold text-gray-900 dark:text-white mb-1">Progress Tracking</h3>
+                    <p className="text-gray-600 dark:text-gray-400">Monitor your learning journey with detailed analytics</p>
+                  </div>
+                </div>
+                <div className="flex items-start space-x-3">
+                  <Users className="w-4 h-4 text-red-600 mt-0.5 flex-shrink-0" />
+                  <div>
+                    <h3 className="font-semibold text-gray-900 dark:text-white mb-1">Community Driven</h3>
+                    <p className="text-gray-600 dark:text-gray-400">Learn with thousands of active learners</p>
+                  </div>
+                </div>
+                <div className="flex items-start space-x-3">
+                  <Award className="w-4 h-4 text-yellow-600 mt-0.5 flex-shrink-0" />
+                  <div>
+                    <h3 className="font-semibold text-gray-900 dark:text-white mb-1">Expert Verified</h3>
+                    <p className="text-gray-600 dark:text-gray-400">Content reviewed by industry professionals</p>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
         {/* How It Works - Interactive Flow */}
         <section className="py-12 bg-white dark:bg-black transition-colors duration-300">
@@ -632,25 +594,16 @@ const MenttorLabsMainPage = () => {
       </section>
 
         {/* Roadmap Generation Form */}
-        <section id="generate" className="py-16 bg-white dark:bg-black transition-colors duration-300">
-        {/* Background decorations */}
-        <div className="absolute top-0 right-0 w-96 h-96 bg-blue-400/5 rounded-full filter blur-3xl"></div>
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-indigo-400/5 rounded-full filter blur-3xl"></div>
-        
-        <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <div className="inline-flex items-center px-4 py-2 rounded-full bg-blue-50/80 dark:bg-blue-900/30 border border-blue-200/50 dark:border-blue-700/50 text-blue-700 dark:text-blue-300 text-sm font-medium mb-6">
-              <Target className="w-4 h-4 mr-2" />
-              Roadmap Generator
-            </div>
-            <h2 className="heading-secondary mb-6">Generate Your Free Learning Roadmap</h2>
-            <p className="text-xl text-body max-w-3xl mx-auto">
-              Share your learning goals and let our smart education system create a personalized roadmap 
-              with step-by-step courses, practice exercises, and career guidance for any subject
+        <section id="generate" className="py-12 bg-white dark:bg-black transition-colors duration-300">
+        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-8">
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">Generate Learning Roadmap</h2>
+            <p className="text-sm text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+              Create a personalized roadmap with courses and guidance for any subject
             </p>
           </div>
 
-          <div className="card-elevated p-10 md:p-12 bg-gradient-to-br from-white to-gray-50/50 dark:from-gray-900 dark:to-gray-800/50 border-0 shadow-2xl">
+          <div className="bg-white dark:bg-black border border-gray-200 dark:border-gray-700 rounded-lg p-6">
             <div className="grid md:grid-cols-2 gap-8">
               <div className="space-y-6">
                 <div>
@@ -868,35 +821,31 @@ const MenttorLabsMainPage = () => {
       </section>
 
         {/* Quick Tools Section */}
-        <section className="py-12 bg-white dark:bg-black transition-colors duration-300">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <div className="inline-flex items-center px-4 py-2 rounded-full bg-purple-50/80 dark:bg-purple-900/30 border border-purple-200/50 dark:border-purple-700/50 text-purple-700 dark:text-purple-300 text-sm font-medium mb-6">
-              <Sparkles className="w-4 h-4 mr-2" />
-              Quick Tools
+        <section className="py-8 bg-white dark:bg-black transition-colors duration-300">
+          <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-6">
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">More Tools</h2>
             </div>
-            <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-              More Ways to Learn
-            </h2>
-            <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-              Explore additional tools to enhance your learning experience
-            </p>
-          </div>
-          
-          <div className="max-w-4xl mx-auto">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <ThreeDGeneratorCard 
+            
+            <div className="flex justify-center gap-4">
+              <button
                 onClick={() => setShow3DGenerator(true)}
-                className="w-full"
-              />
-              <LearnAboutSomethingCard 
+                className="flex items-center px-4 py-2 bg-white dark:bg-black border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+              >
+                <Box className="w-4 h-4 mr-2 text-gray-600 dark:text-gray-400" />
+                <span className="text-sm font-medium text-gray-900 dark:text-white">3D Visualization</span>
+              </button>
+              
+              <button
                 onClick={() => setShowLearnAboutSomething(true)}
-                className="w-full"
-              />
+                className="flex items-center px-4 py-2 bg-white dark:bg-black border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+              >
+                <BookOpen className="w-4 h-4 mr-2 text-gray-600 dark:text-gray-400" />
+                <span className="text-sm font-medium text-gray-900 dark:text-white">Learn About Something</span>
+              </button>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
         {/* Testimonials Section */}
         <section className="py-12 bg-white dark:bg-black transition-colors duration-300">

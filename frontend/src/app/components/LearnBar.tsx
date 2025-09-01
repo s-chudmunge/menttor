@@ -68,33 +68,10 @@ const LearnBar: React.FC = () => {
               value={topic}
               onChange={(e) => setTopic(e.target.value)}
               placeholder="e.g., Machine Learning, Python Programming, Quantum Physics, Photography..."
-              className="w-full pl-16 pr-40 py-6 text-xl border border-gray-200 dark:border-gray-700 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 transition-colors"
+              className="w-full pl-16 pr-6 py-6 text-xl border border-gray-200 dark:border-gray-700 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 transition-colors"
               maxLength={100}
               disabled={loading || isGenerating}
             />
-            <button
-              type="submit"
-              disabled={!isFormValid || loading || isGenerating}
-              className="absolute right-3 top-1/2 transform -translate-y-1/2 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-white px-8 py-3 rounded-xl font-medium transition-all duration-200 flex items-center space-x-2"
-            >
-              {loading ? (
-                <>
-                  <Loader2 className="w-5 h-5 animate-spin" />
-                  <span>Loading...</span>
-                </>
-              ) : isGenerating ? (
-                <>
-                  <Loader2 className="w-5 h-5 animate-spin" />
-                  <span>Learning...</span>
-                </>
-              ) : (
-                <>
-                  <Sparkles className="w-5 h-5" />
-                  <span>Learn</span>
-                  <ArrowRight className="w-5 h-5" />
-                </>
-              )}
-            </button>
           </div>
           
           {showSignInMessage && (
