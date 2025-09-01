@@ -707,7 +707,7 @@ const MenttorLabsMainPage = () => {
                     <div className="text-center">
                       <div className="relative mb-6">
                         <div className="w-20 h-20 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl flex items-center justify-center mx-auto shadow-xl">
-                          <Sparkles className="w-10 h-10 text-white" />
+                          <img src="/favicon_io_light/android-chrome-192x192.png" alt="Menttor" className="w-12 h-12" />
                         </div>
                         <div className="absolute -top-2 -right-2 w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
                           <Zap className="w-3 h-3 text-white" />
