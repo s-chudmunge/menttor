@@ -19,6 +19,18 @@ const QuizPage = () => {
   };
 
   const storedRoadmap = getStoredRoadmapData();
+  
+  // Get cached learn content for contextual quiz generation
+  const getCachedLearnContent = () => {
+    try {
+      const cachedContent = sessionStorage.getItem('learn_content_context');
+      return cachedContent ? JSON.parse(cachedContent) : null;
+    } catch {
+      return null;
+    }
+  };
+
+  const learnContentContext = getCachedLearnContent();
 
   // Construct comprehensive quiz parameters with fallbacks
   const quizParams = {
@@ -34,6 +46,7 @@ const QuizPage = () => {
     session_token: rawParams.session_token,
     time_limit: rawParams.time_limit ? parseInt(rawParams.time_limit) : undefined,
     roadmap_id: rawParams.roadmap_id ? parseInt(rawParams.roadmap_id) : storedRoadmap?.id,
+    learn_content_context: learnContentContext,
   };
 
   console.log('Quiz page - Raw params:', rawParams);

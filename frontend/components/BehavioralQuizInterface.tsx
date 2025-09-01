@@ -8,7 +8,6 @@ import { useAIState } from '@/store/aiState';
 import { useRouter } from 'next/navigation';
 import { useQuizIntegrity } from '../src/hooks/useQuizIntegrity';
 import { useEloSystem, useFocusMode } from '../src/hooks/useBehavioral';
-import WarningModal from './WarningModal';
 import { api } from '@/lib/api';
 import { AxiosError } from 'axios';
 import { formatQuizQuestion } from '../src/app/journey/utils/textFormatting';
@@ -17,9 +16,12 @@ import ReactMarkdown from 'react-markdown';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 import 'katex/dist/katex.min.css';
+import Link from 'next/link';
+import Logo from './Logo';
+import ProfileDropdown from '../src/components/ProfileDropdown';
 import { 
-  Clock, Target, Brain, Zap, Star, CheckCircle, XCircle, 
-  Timer, Focus, AlertTriangle, Trophy, Award
+  Clock, Brain, CheckCircle, XCircle, 
+  AlertTriangle, Home, BookOpen, Target, BarChart3
 } from 'lucide-react';
 
 interface Question {
@@ -44,18 +46,13 @@ interface QuizInterfaceProps {
         session_token?: string;
         time_limit?: number;
         roadmap_id?: number;
+        learn_content_context?: any;
     };
 }
 
 const BehavioralQuizInterface: React.FC<QuizInterfaceProps> = ({ quizParams }) => {
     const { user, loading } = useAuth();
-    const { 
-        awardXPForActivity, 
-        updateUserStreak, 
-        triggerReward,
-        showNotification,
-        transitionSession 
-    } = useBehavioralContext();
+    const { } = useBehavioralContext();
     const router = useRouter();
     
     // State
@@ -70,13 +67,10 @@ const BehavioralQuizInterface: React.FC<QuizInterfaceProps> = ({ quizParams }) =
     const [error, setError] = useState<string | null>(null);
     const [sessionToken, setSessionToken] = useState<string | null>(null);
     const [quizStarted, setQuizStarted] = useState(false);
-    const [showXPPop, setShowXPPop] = useState(false);
-    const [currentXPGain, setCurrentXPGain] = useState(0);
     
     // Behavioral state
     const [confidenceLevel, setConfidenceLevel] = useState<number>(3);
     const [responseStartTime, setResponseStartTime] = useState<Date | null>(null);
-    const [streakCount, setStreakCount] = useState(0);
     const [difficulty, setDifficulty] = useState<'adaptive' | 'fixed'>('adaptive');
 
     const queryClient = useQueryClient();
@@ -87,35 +81,13 @@ const BehavioralQuizInterface: React.FC<QuizInterfaceProps> = ({ quizParams }) =
     const QUIZ_STATE_KEY = `quizState-${quizParams.subtopic_id}`;
 
     // Quiz integrity
-    const [violations, setViolations] = useState({ fullscreen: 0, visibility: 0 });
-    const [isWarningModalOpen, setIsWarningModalOpen] = useState(false);
-    const [warning, setWarning] = useState({ title: '', message: '' });
 
     // Create a ref to store the exitFullscreen function
     const exitFullscreenRef = useRef<(() => Promise<void>) | null>(null);
 
     const handleViolation = useCallback((type: 'fullscreen' | 'visibility') => {
-        setViolations(prev => {
-            const newCount = prev[type] + 1;
-            if (newCount >= 2) {
-                // Exit fullscreen before auto-submit
-                if (exitFullscreenRef.current) {
-                    exitFullscreenRef.current().then(() => handleSubmit(true));
-                } else {
-                    handleSubmit(true);
-                }
-            } else {
-                setWarning({
-                    title: `Focus Breach Warning`,
-                    message: `This affects your learning flow. Stay focused to maximize your XP gains! (${2 - newCount} warning${2 - newCount > 1 ? 's' : ''} remaining)`,
-                });
-                setIsWarningModalOpen(true);
-                
-                // Focus violation recorded but no nudge notification
-            }
-            return { ...prev, [type]: newCount };
-        });
-    }, [showNotification]);
+        // Simplified - no violation tracking
+    }, []);
 
     const { requestFullscreen, exitFullscreen, fullscreenError } = useQuizIntegrity({ onViolation: handleViolation });
     
@@ -126,67 +98,22 @@ const BehavioralQuizInterface: React.FC<QuizInterfaceProps> = ({ quizParams }) =
 
     // Start quiz with session transition
     const startQuiz = useCallback(async () => {
-        try {
-            setQuizStarted(true);
-            setResponseStartTime(new Date());
-            
-            // Enable focus mode automatically
-            if (!focusMode) {
-                toggleFocus(true, selectedTimeOption);
-            }
-            
-            await requestFullscreen();
-        } catch (error) {
-            console.error('Error starting quiz:', error);
-            showNotification({
-                type: 'session',
-                title: 'Quiz Start Failed',
-                message: 'Unable to start quiz. Please try again.',
-                duration: 5000,
-                priority: 'high'
-            });
-        }
-    }, [focusMode, toggleFocus, selectedTimeOption, requestFullscreen, showNotification]);
+        setQuizStarted(true);
+        setResponseStartTime(new Date());
+    }, []);
 
     // Handle answer selection with immediate feedback
     const handleAnswerSelect = useCallback(async (questionId: number, answerId: string | number, isCorrect?: boolean) => {
         setSelectedAnswers(prev => ({ ...prev, [questionId]: answerId }));
         
-        const responseTime = responseStartTime ? 
-            (new Date().getTime() - responseStartTime.getTime()) / 1000 : 0;
-        
         const question = questions.find(q => q.id === questionId);
         
         if (isCorrect !== undefined && question) {
-            // Immediate XP and Elo feedback
-            const xpGain = isCorrect ? (responseTime < 10 ? 15 : 10) : 5; // Quick answers get bonus
-            setCurrentXPGain(xpGain);
-            setShowXPPop(true);
-            
             // Update Elo for each concept tag
             if (question.concept_tags) {
                 question.concept_tags.forEach(concept => {
                     updateElo({ concept, outcome: isCorrect ? 1 : 0, difficulty: question.difficulty_level || 1200 });
                 });
-            }
-            
-            // Award XP with context
-            await awardXPForActivity('quiz_question', {
-                correct: isCorrect,
-                response_time: responseTime,
-                confidence_level: confidenceLevel,
-                question_id: questionId,
-                subtopic_id: quizParams.subtopic_id
-            });
-            
-            // Update streak and trigger rewards
-            if (isCorrect) {
-                setStreakCount(prev => prev + 1);
-                if (streakCount >= 2) {
-                    triggerReward('quiz_streak', { streak: streakCount + 1 });
-                }
-            } else {
-                setStreakCount(0);
             }
             
             // Store feedback
@@ -195,17 +122,6 @@ const BehavioralQuizInterface: React.FC<QuizInterfaceProps> = ({ quizParams }) =
                 [questionId]: { correct: isCorrect }
             }));
             
-            // Show XP feedback for correct answers only
-            if (isCorrect) {
-                showNotification({
-                    type: 'xp',
-                    title: `+${xpGain} XP`,
-                    message: `Great answer! ${responseTime < 5 ? 'Lightning fast! ⚡' : ''}`,
-                    duration: 2000,
-                    priority: 'low',
-                    data: { xpGain, responseTime, isCorrect }
-                });
-            }
         }
         
         // Reset response timer for next question
@@ -213,25 +129,13 @@ const BehavioralQuizInterface: React.FC<QuizInterfaceProps> = ({ quizParams }) =
     }, [
         responseStartTime, 
         questions, 
-        confidenceLevel, 
-        streakCount, 
-        awardXPForActivity, 
-        updateElo, 
-        triggerReward, 
-        showNotification, 
-        quizParams.subtopic_id
+        updateElo
     ]);
 
     // Enhanced quiz submission with full behavioral integration
     const mutation = useMutation({
         mutationFn: async (isAutoSubmit: boolean) => {
-            // Transition to CHECKPOINT state
-            await transitionSession('CHECKPOINT', { 
-                activity: 'quiz_completion',
-                score: Object.values(answerFeedback).filter(f => f.correct).length,
-                total_questions: questions.length,
-                violations: violations
-            });
+            // Quiz completion tracking
             
             return api.post('/quizzes/submit', {
                 session_token: sessionToken,
@@ -242,7 +146,7 @@ const BehavioralQuizInterface: React.FC<QuizInterfaceProps> = ({ quizParams }) =
                         (new Date().getTime() - responseStartTime.getTime()) / 1000 : null,
                     confidence_level: confidenceLevel
                 })),
-                violations: violations,
+                violations: { fullscreen: 0, visibility: 0 },
                 final_action: isAutoSubmit ? 'auto-submit' : 'manual-submit',
             });
         },
@@ -250,48 +154,10 @@ const BehavioralQuizInterface: React.FC<QuizInterfaceProps> = ({ quizParams }) =
             const result = response.data;
             const score = Math.round((result.score || 0) / (result.total_questions || 1) * 100);
             
-            // Calculate final XP bonus
-            const completionXP = Math.round(score * 0.5 + (violations.fullscreen + violations.visibility === 0 ? 20 : 0));
+            // Simple completion tracking
+            console.log('Quiz completed with score:', score);
             
-            // Award completion XP
-            await awardXPForActivity('quiz_completion', {
-                score: score,
-                perfect_focus: violations.fullscreen + violations.visibility === 0,
-                streak_count: streakCount,
-                completion_time: selectedTimeOption * 60 - timeLeft
-            });
             
-            // Update user streak
-            await updateUserStreak();
-            
-            // Transition to REWARD state
-            await transitionSession('REWARD', { 
-                quiz_completed: true,
-                final_score: score,
-                xp_earned: completionXP
-            });
-            
-            // Major celebration for high scores
-            if (score >= 80) {
-                showNotification({
-                    type: 'milestone',
-                    title: 'Outstanding Performance! 🏆',
-                    message: `${score}% score - You've mastered this topic!`,
-                    duration: 6000,
-                    priority: 'high',
-                    data: { score, completionXP }
-                });
-                
-                triggerReward('high_score', { score, subtopic: quizParams.subtopic });
-            }
-            
-            // Disable focus mode and exit fullscreen
-            if (focusMode) {
-                toggleFocus(false);
-            }
-            
-            // Exit fullscreen mode
-            await exitFullscreen();
             
             // Invalidate queries and navigate
             await queryClient.invalidateQueries({ queryKey: ['sessionSummary'] });
@@ -325,6 +191,23 @@ const BehavioralQuizInterface: React.FC<QuizInterfaceProps> = ({ quizParams }) =
             const userElo = eloRatings[quizParams.subject] || 1200;
             const adaptiveDifficulty = Math.max(800, Math.min(1600, userElo));
             
+            // Convert learn content to text context if available
+            let learnContentText = null;
+            if (quizParams.learn_content_context?.content) {
+                try {
+                    learnContentText = quizParams.learn_content_context.content
+                        .map((block: any) => {
+                            if (block.type === 'paragraph') return block.data.text;
+                            if (block.type === 'heading') return block.data.text;
+                            return '';
+                        })
+                        .filter((text: string) => text.trim())
+                        .join('\n\n');
+                } catch (e) {
+                    console.log('Could not parse learn content context:', e);
+                }
+            }
+
             const requestPayload = {
                 sub_topic_title: quizParams.subtopic || "Learning Topic",
                 sub_topic_id: quizParams.subtopic_id,
@@ -336,10 +219,11 @@ const BehavioralQuizInterface: React.FC<QuizInterfaceProps> = ({ quizParams }) =
                 module_title: quizParams.module_title || "Learning Module",
                 topic_title: quizParams.topic_title || "Topic",
                 num_questions: 5,
+                learn_content_context: learnContentText,
                 // Behavioral enhancements
                 difficulty_target: difficulty === 'adaptive' ? adaptiveDifficulty : 1200,
                 user_elo: userElo,
-                focus_mode: focusMode,
+                focus_mode: false,
                 previous_performance: Object.keys(eloRatings).length > 0 ? 'experienced' : 'new_learner'
             };
             
@@ -393,7 +277,7 @@ const BehavioralQuizInterface: React.FC<QuizInterfaceProps> = ({ quizParams }) =
         }, 1000);
 
         return () => clearInterval(timer);
-    }, [quizStarted, timeLeft, handleSubmit, showNotification]);
+    }, [quizStarted, timeLeft, handleSubmit]);
 
     // Initialize quiz
     useEffect(() => {
@@ -404,7 +288,6 @@ const BehavioralQuizInterface: React.FC<QuizInterfaceProps> = ({ quizParams }) =
             setCurrentQuestionIndex(parsedState.currentQuestionIndex);
             setSelectedAnswers(parsedState.selectedAnswers);
             setTimeLeft(parsedState.timeLeft);
-            setViolations(parsedState.violations);
             setQuizStarted(parsedState.quizStarted);
             setSessionToken(parsedState.sessionToken);
             setIsLoading(false);
@@ -421,12 +304,11 @@ const BehavioralQuizInterface: React.FC<QuizInterfaceProps> = ({ quizParams }) =
                 currentQuestionIndex,
                 selectedAnswers,
                 timeLeft,
-                violations,
                 quizStarted,
                 sessionToken
             }));
         }
-    }, [questions, currentQuestionIndex, selectedAnswers, timeLeft, violations, quizStarted, sessionToken]);
+    }, [questions, currentQuestionIndex, selectedAnswers, timeLeft, quizStarted, sessionToken]);
 
     const formatTime = (seconds: number) => {
         const mins = Math.floor(seconds / 60);
@@ -476,7 +358,7 @@ const BehavioralQuizInterface: React.FC<QuizInterfaceProps> = ({ quizParams }) =
     // Loading state with behavioral elements
     if (isLoading) {
         return (
-            <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex items-center justify-center">
+            <div className="min-h-screen bg-white dark:bg-black flex items-center justify-center">
                 <div className="text-center">
                     <div className="relative">
                         <motion.div
@@ -500,14 +382,14 @@ const BehavioralQuizInterface: React.FC<QuizInterfaceProps> = ({ quizParams }) =
     // Error state
     if (error) {
         return (
-            <div className="min-h-screen bg-gradient-to-br from-red-50 to-pink-50 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center">
-                <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 max-w-md text-center">
-                    <AlertTriangle className="w-16 h-16 text-red-500 mx-auto mb-4" />
-                    <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-2">Quiz Generation Failed</h2>
-                    <p className="text-gray-600 dark:text-gray-400 mb-4">{error}</p>
+            <div className="min-h-screen bg-white dark:bg-black flex items-center justify-center">
+                <div className="bg-white dark:bg-black border border-gray-200 dark:border-gray-800 p-6 max-w-md text-center">
+                    <AlertTriangle className="w-8 h-8 text-red-500 mx-auto mb-3" />
+                    <h2 className="text-lg font-medium text-gray-900 dark:text-white mb-2">Quiz Generation Failed</h2>
+                    <p className="text-gray-600 dark:text-gray-400 mb-4 text-sm">{error}</p>
                     <button 
                         onClick={() => window.location.reload()}
-                        className="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-lg transition-colors"
+                        className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 text-sm"
                     >
                         Try Again
                     </button>
@@ -519,62 +401,95 @@ const BehavioralQuizInterface: React.FC<QuizInterfaceProps> = ({ quizParams }) =
     const currentQuestion = questions[currentQuestionIndex];
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
-            {/* Enhanced Header with Behavioral Elements */}
-            <div className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-lg border-b border-gray-200/50 dark:border-gray-700/50 sticky top-0 z-40">
-                <div className="max-w-4xl mx-auto px-4 py-4">
+        <div className="min-h-screen bg-white dark:bg-black">
+            {/* Navigation Header */}
+            <div className="bg-white dark:bg-black border-b border-gray-200 dark:border-gray-800 sticky top-0 z-40">
+                <div className="max-w-7xl mx-auto px-4">
+                    <div className="flex justify-between items-center h-16">
+                        {/* Logo */}
+                        <div className="flex items-center">
+                            <Logo />
+                        </div>
+                        
+                        {/* Navigation */}
+                        <nav className="hidden lg:flex items-center space-x-1">
+                            <Link 
+                                href="/" 
+                                className="flex items-center space-x-2 px-3 py-2 font-medium transition-colors text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
+                            >
+                                <Home className="w-4 h-4" />
+                                <span className="text-sm">Home</span>
+                            </Link>
+                            <Link 
+                                href="/explore" 
+                                className="flex items-center space-x-2 px-3 py-2 font-medium transition-colors text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
+                            >
+                                <BookOpen className="w-4 h-4" />
+                                <span className="text-sm">Explore</span>
+                            </Link>
+                            <Link 
+                                href="/journey" 
+                                className="flex items-center space-x-2 px-3 py-2 font-medium transition-colors text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
+                            >
+                                <Target className="w-4 h-4" />
+                                <span className="text-sm">Journey</span>
+                            </Link>
+                            <Link 
+                                href="/performance-analysis" 
+                                className="flex items-center space-x-2 px-3 py-2 font-medium transition-colors text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
+                            >
+                                <BarChart3 className="w-4 h-4" />
+                                <span className="text-sm">Performance</span>
+                            </Link>
+                        </nav>
+
+                        {/* Profile */}
+                        <ProfileDropdown />
+                    </div>
+                </div>
+            </div>
+            
+            {/* Quiz Context Header */}
+            <div className="bg-white dark:bg-black border-b border-gray-200 dark:border-gray-800">
+                <div className="max-w-4xl mx-auto px-4 py-3">
                     <div className="flex items-center justify-between">
-                        <div className="flex items-center space-x-4">
-                            <div className="flex items-center space-x-2">
-                                <Brain className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
-                                <div>
-                                    <h1 className="font-bold text-gray-800 dark:text-gray-200">
-                                        {quizParams.subtopic}
-                                    </h1>
-                                    <p className="text-sm text-gray-600 dark:text-gray-400">
-                                        Adaptive Learning Quiz
-                                    </p>
-                                </div>
+                        <div className="flex items-center space-x-3">
+                            <Brain className="w-5 h-5 text-blue-600" />
+                            <div>
+                                <h1 className="font-medium text-gray-900 dark:text-white text-lg">
+                                    {quizParams.subtopic}
+                                </h1>
+                                <p className="text-sm text-gray-600 dark:text-gray-400">
+                                    Quiz
+                                </p>
                             </div>
                         </div>
                         
-                        <div className="flex items-center space-x-4">
-                            {/* Streak Counter */}
-                            {streakCount > 0 && (
-                                <div className="flex items-center space-x-1 bg-orange-100 dark:bg-orange-900/30 px-3 py-1 rounded-full">
-                                    <Zap className="w-4 h-4 text-orange-600 dark:text-orange-400" />
-                                    <span className="text-sm font-semibold text-orange-700 dark:text-orange-300">
-                                        {streakCount} streak
-                                    </span>
-                                </div>
-                            )}
-                            
+                        <div className="flex items-center space-x-3">
                             {/* Timer */}
                             <div className="flex items-center space-x-2">
-                                <Clock className={`w-5 h-5 ${getTimeColor(timeLeft)}`} />
-                                <span className={`font-mono text-lg font-bold ${getTimeColor(timeLeft)}`}>
+                                <Clock className={`w-4 h-4 ${getTimeColor(timeLeft)}`} />
+                                <span className={`font-mono font-medium ${getTimeColor(timeLeft)}`}>
                                     {formatTime(timeLeft)}
                                 </span>
                             </div>
                         </div>
                     </div>
                     
-                    {/* Progress Bar with Behavioral Enhancement */}
-                    <div className="mt-4">
+                    {/* Progress Bar */}
+                    <div className="mt-3">
                         <div className="flex items-center justify-between mb-2">
                             <span className="text-sm text-gray-600 dark:text-gray-400">
                                 Question {currentQuestionIndex + 1} of {questions.length}
                             </span>
-                            <span className="text-sm text-indigo-600 dark:text-indigo-400 font-medium">
-                                {Math.round(getProgressPercentage())}% Complete
+                            <span className="text-sm text-blue-600 dark:text-blue-400 font-medium">
+                                {Math.round(getProgressPercentage())}%
                             </span>
                         </div>
-                        <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 overflow-hidden">
-                            <motion.div
-                                className="bg-gradient-to-r from-indigo-500 to-purple-600 h-full rounded-full"
-                                initial={{ width: 0 }}
-                                animate={{ width: `${getProgressPercentage()}%` }}
-                                transition={{ duration: 0.5, ease: "easeOut" }}
+                        <div className="w-full bg-gray-200 dark:bg-gray-800 h-1">
+                            <div
+                                className="bg-blue-600 h-full transition-all duration-300"
+                                style={{ width: `${getProgressPercentage()}%` }}
                             />
                         </div>
                     </div>
@@ -584,89 +499,41 @@ const BehavioralQuizInterface: React.FC<QuizInterfaceProps> = ({ quizParams }) =
             {/* Quiz Content */}
             <div className="max-w-4xl mx-auto px-4 py-8">
                 {!quizStarted ? (
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 text-center"
-                    >
+                    <div className="bg-white dark:bg-black border border-gray-200 dark:border-gray-800 p-6 text-center max-w-2xl">
                         <div className="mb-6">
-                            <Target className="w-16 h-16 text-indigo-600 mx-auto mb-4" />
-                            <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-2">
-                                Ready for Your Adaptive Quiz?
+                            <Brain className="w-8 h-8 text-blue-600 mx-auto mb-3" />
+                            <h2 className="text-xl font-medium text-gray-900 dark:text-white mb-2">
+                                Ready for Quiz?
                             </h2>
-                            <p className="text-gray-600 dark:text-gray-400 max-w-md mx-auto">
-                                This quiz adapts to your learning level and rewards focused performance. 
-                                Stay in focus mode for maximum XP!
+                            <p className="text-gray-600 dark:text-gray-400 text-sm">
+                                Test your understanding of the concepts you just learned.
                             </p>
                         </div>
                         
-                        <div className="grid md:grid-cols-3 gap-4 mb-8 text-sm">
-                            <div className="bg-indigo-50 dark:bg-indigo-900/30 rounded-lg p-4">
-                                <Timer className="w-6 h-6 text-indigo-600 dark:text-indigo-400 mx-auto mb-2" />
-                                <p className="font-semibold text-indigo-700 dark:text-indigo-300">
-                                    {selectedTimeOption} Minutes
-                                </p>
-                                <p className="text-indigo-600 dark:text-indigo-400">Time Limit</p>
-                            </div>
-                            <div className="bg-purple-50 dark:bg-purple-900/30 rounded-lg p-4">
-                                <Star className="w-6 h-6 text-purple-600 dark:text-purple-400 mx-auto mb-2" />
-                                <p className="font-semibold text-purple-700 dark:text-purple-300">
-                                    XP Rewards
-                                </p>
-                                <p className="text-purple-600 dark:text-purple-400">Performance Based</p>
-                            </div>
-                            <div className="bg-green-50 dark:bg-green-900/30 rounded-lg p-4">
-                                <Focus className="w-6 h-6 text-green-600 dark:text-green-400 mx-auto mb-2" />
-                                <p className="font-semibold text-green-700 dark:text-green-300">
-                                    Focus Mode
-                                </p>
-                                <p className="text-green-600 dark:text-green-400">Auto-Enabled</p>
+                        <div className="mb-6">
+                            <div className="bg-gray-50 dark:bg-gray-900 p-3 text-center">
+                                <div className="flex items-center justify-center space-x-4 text-sm text-gray-600 dark:text-gray-400">
+                                    <span>Time: {selectedTimeOption} minutes</span>
+                                    <span>•</span>
+                                    <span>{questions.length} questions</span>
+                                </div>
                             </div>
                         </div>
 
                         <button
                             onClick={startQuiz}
-                            className="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white px-8 py-3 rounded-xl font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105"
+                            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 font-medium"
                         >
-                            Start Adaptive Quiz
+                            Start Quiz
                         </button>
-                    </motion.div>
+                    </div>
                 ) : (
-                    <AnimatePresence mode="wait">
-                        <motion.div
-                            key={currentQuestionIndex}
-                            initial={{ opacity: 0, x: 20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            exit={{ opacity: 0, x: -20 }}
-                            transition={{ duration: 0.3 }}
-                            className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8"
-                        >
+                    <div className="bg-white dark:bg-black border border-gray-200 dark:border-gray-800 p-6">
                             <div className="mb-6">
                                 <div className="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-4">
                                     <MathText>{currentQuestion.question_text}</MathText>
                                 </div>
                                 
-                                {/* Confidence Level Selector */}
-                                <div className="mb-4 p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
-                                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
-                                        How confident are you about this answer?
-                                    </p>
-                                    <div className="flex space-x-2">
-                                        {[1, 2, 3, 4, 5].map(level => (
-                                            <button
-                                                key={level}
-                                                onClick={() => setConfidenceLevel(level)}
-                                                className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${
-                                                    confidenceLevel === level
-                                                        ? 'bg-indigo-600 text-white'
-                                                        : 'bg-gray-200 dark:bg-gray-600 text-gray-600 dark:text-gray-400 hover:bg-gray-300 dark:hover:bg-gray-500'
-                                                }`}
-                                            >
-                                                {level === 1 ? 'Guess' : level === 2 ? 'Unsure' : level === 3 ? 'Likely' : level === 4 ? 'Sure' : 'Certain'}
-                                            </button>
-                                        ))}
-                                    </div>
-                                </div>
                             </div>
 
                             <div className="space-y-3">
@@ -676,19 +543,17 @@ const BehavioralQuizInterface: React.FC<QuizInterfaceProps> = ({ quizParams }) =
                                     const showFeedback = feedback && selectedAnswers[currentQuestion.id] === option.id;
                                     
                                     return (
-                                        <motion.button
+                                        <button
                                             key={option.id}
                                             onClick={() => handleAnswerSelect(currentQuestion.id, option.id)}
-                                            whileHover={{ scale: 1.02 }}
-                                            whileTap={{ scale: 0.98 }}
-                                            className={`w-full p-4 text-left rounded-xl border transition-all duration-200 ${
+                                            className={`w-full p-3 text-left border transition-colors ${
                                                 isSelected
                                                     ? showFeedback
                                                         ? feedback.correct
-                                                            ? 'bg-green-50 dark:bg-green-900/20 border-green-300 dark:border-green-700'
-                                                            : 'bg-red-50 dark:bg-red-900/20 border-red-300 dark:border-red-700'
-                                                        : 'bg-indigo-50 dark:bg-indigo-900/20 border-indigo-300 dark:border-indigo-700'
-                                                    : 'bg-gray-50 dark:bg-gray-700/50 border-gray-200 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700'
+                                                            ? 'bg-green-50 dark:bg-green-950 border-green-200 dark:border-green-800'
+                                                            : 'bg-red-50 dark:bg-red-950 border-red-200 dark:border-red-800'
+                                                        : 'bg-blue-50 dark:bg-blue-950 border-blue-200 dark:border-blue-800'
+                                                    : 'bg-white dark:bg-black border-gray-200 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-900'
                                             }`}
                                         >
                                             <div className="flex items-center justify-between">
@@ -704,51 +569,42 @@ const BehavioralQuizInterface: React.FC<QuizInterfaceProps> = ({ quizParams }) =
                                                     </div>
                                                 )}
                                             </div>
-                                        </motion.button>
+                                        </button>
                                     );
                                 })}
                             </div>
 
-                            <div className="flex justify-between items-center mt-8">
+                            <div className="flex justify-between items-center mt-6">
                                 <button
                                     onClick={() => setCurrentQuestionIndex(prev => Math.max(0, prev - 1))}
                                     disabled={currentQuestionIndex === 0}
-                                    className="px-4 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                                    className="px-4 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white disabled:opacity-50 disabled:cursor-not-allowed text-sm"
                                 >
                                     Previous
                                 </button>
 
                                 {currentQuestionIndex === questions.length - 1 ? (
-                                    <motion.button
+                                    <button
                                         onClick={() => handleSubmit(false)}
                                         disabled={isSubmitting}
-                                        whileHover={{ scale: 1.05 }}
-                                        whileTap={{ scale: 0.95 }}
-                                        className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white px-6 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-200 disabled:opacity-50"
+                                        className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 font-medium disabled:opacity-50 text-sm"
                                     >
                                         {isSubmitting ? 'Submitting...' : 'Complete Quiz'}
-                                    </motion.button>
+                                    </button>
                                 ) : (
                                     <button
                                         onClick={() => setCurrentQuestionIndex(prev => Math.min(questions.length - 1, prev + 1))}
-                                        className="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white px-6 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-200"
+                                        className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 font-medium text-sm"
                                     >
-                                        Next Question
+                                        Next
                                     </button>
                                 )}
                             </div>
-                        </motion.div>
-                    </AnimatePresence>
+                        </div>
                 )}
             </div>
 
             {/* Warning Modal */}
-            <WarningModal
-                isOpen={isWarningModalOpen}
-                onClose={() => setIsWarningModalOpen(false)}
-                title={warning.title}
-                message={warning.message}
-            />
         </div>
     );
 };

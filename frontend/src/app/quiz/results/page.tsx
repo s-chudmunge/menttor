@@ -14,9 +14,16 @@ import {
     XCircle, 
     Home,
     ChevronDown,
-    ChevronUp
+    ChevronUp,
+    BookOpen,
+    Target,
+    BarChart3,
+    Brain
 } from 'lucide-react';
 import { api } from '@/lib/api';
+import Logo from '../../../../components/Logo';
+import ProfileDropdown from '../../../components/ProfileDropdown';
+import Link from 'next/link';
 
 // Component to render math-enabled text
 const MathText: React.FC<{ children: string; className?: string }> = ({ children, className = '' }) => {
@@ -84,7 +91,7 @@ const QuizResultsContent = () => {
 
     if (isLoading) {
         return (
-            <div className="min-h-screen bg-white dark:bg-gray-900 flex items-center justify-center">
+            <div className="min-h-screen bg-white dark:bg-black flex items-center justify-center">
                 <div className="text-center">
                     <div className="w-8 h-8 border-2 border-blue-200 border-t-blue-600 rounded-full animate-spin mx-auto mb-4"></div>
                     <p className="text-gray-600 dark:text-gray-400">Loading results...</p>
@@ -95,7 +102,7 @@ const QuizResultsContent = () => {
 
     if (error) {
         return (
-            <div className="min-h-screen bg-white dark:bg-gray-900 flex items-center justify-center">
+            <div className="min-h-screen bg-white dark:bg-black flex items-center justify-center">
                 <div className="text-center max-w-md mx-auto p-6">
                     <XCircle className="w-12 h-12 text-red-500 mx-auto mb-4" />
                     <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Failed to Load Results</h2>
@@ -113,7 +120,7 @@ const QuizResultsContent = () => {
 
     if (!results) {
         return (
-            <div className="min-h-screen bg-white dark:bg-gray-900 flex items-center justify-center">
+            <div className="min-h-screen bg-white dark:bg-black flex items-center justify-center">
                 <div className="text-center max-w-md mx-auto p-6">
                     <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">No Results Found</h2>
                     <p className="text-gray-600 dark:text-gray-400 mb-4">We couldn't find results for this quiz.</p>
@@ -133,14 +140,61 @@ const QuizResultsContent = () => {
     const scorePercentage = Math.round((correctAnswers / totalQuestions) * 100);
 
     return (
-        <div className="min-h-screen bg-white dark:bg-gray-900">
+        <div className="min-h-screen bg-white dark:bg-black">
+            {/* Navigation Header */}
+            <div className="bg-white dark:bg-black border-b border-gray-200 dark:border-gray-800">
+                <div className="max-w-7xl mx-auto px-4">
+                    <div className="flex justify-between items-center h-16">
+                        {/* Logo */}
+                        <div className="flex items-center">
+                            <Logo />
+                        </div>
+                        
+                        {/* Navigation */}
+                        <nav className="hidden lg:flex items-center space-x-1">
+                            <Link 
+                                href="/" 
+                                className="flex items-center space-x-2 px-3 py-2 font-medium transition-colors text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
+                            >
+                                <Home className="w-4 h-4" />
+                                <span className="text-sm">Home</span>
+                            </Link>
+                            <Link 
+                                href="/explore" 
+                                className="flex items-center space-x-2 px-3 py-2 font-medium transition-colors text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
+                            >
+                                <BookOpen className="w-4 h-4" />
+                                <span className="text-sm">Explore</span>
+                            </Link>
+                            <Link 
+                                href="/journey" 
+                                className="flex items-center space-x-2 px-3 py-2 font-medium transition-colors text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
+                            >
+                                <Target className="w-4 h-4" />
+                                <span className="text-sm">Journey</span>
+                            </Link>
+                            <Link 
+                                href="/performance-analysis" 
+                                className="flex items-center space-x-2 px-3 py-2 font-medium transition-colors text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
+                            >
+                                <BarChart3 className="w-4 h-4" />
+                                <span className="text-sm">Performance</span>
+                            </Link>
+                        </nav>
+
+                        {/* Profile */}
+                        <ProfileDropdown />
+                    </div>
+                </div>
+            </div>
+            
             <div className="max-w-2xl mx-auto px-4 py-12">
                 {/* Main Score Display */}
                 <div className="text-center mb-8">
-                    <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-blue-600 text-white text-2xl font-bold mb-4">
+                    <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-600 text-white text-xl font-bold mb-3">
                         {scorePercentage}%
                     </div>
-                    <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+                    <h1 className="text-xl font-medium text-gray-900 dark:text-white mb-2">
                         {scorePercentage >= 70 ? 'Well Done!' : 'Keep Learning!'}
                     </h1>
                     <p className="text-gray-600 dark:text-gray-400">
@@ -148,25 +202,36 @@ const QuizResultsContent = () => {
                     </p>
                 </div>
 
-                {/* Primary Action */}
-                <div className="mb-8">
+                {/* Primary Actions */}
+                <div className="mb-8 space-y-3">
                     <button
                         onClick={() => {
                             sessionStorage.setItem('returning-from-quiz', 'true');
                             router.push('/journey');
                         }}
-                        className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-lg font-medium transition-colors flex items-center justify-center gap-2"
+                        className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 font-medium transition-colors flex items-center justify-center gap-2"
                     >
-                        <Home className="w-5 h-5" />
-                        Continue Learning
+                        <Target className="w-4 h-4" />
+                        Continue Journey
                     </button>
+                    
+                    {/* Review Learn Content Button */}
+                    {(searchParams.get('subtopic_id') && searchParams.get('subtopic')) && (
+                        <Link
+                            href={`/learn?subtopic=${encodeURIComponent(searchParams.get('subtopic') || '')}&subtopic_id=${searchParams.get('subtopic_id')}&roadmap_id=${searchParams.get('roadmap_id') || '1'}`}
+                            className="w-full border border-blue-600 text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-950 py-2 px-4 font-medium transition-colors flex items-center justify-center gap-2"
+                        >
+                            <BookOpen className="w-4 h-4" />
+                            Review Learn Content
+                        </Link>
+                    )}
                 </div>
 
                 {/* Question Details Toggle */}
                 <div className="border-t border-gray-200 dark:border-gray-700 pt-6">
                     <button
                         onClick={() => setShowDetails(!showDetails)}
-                        className="w-full flex items-center justify-between p-4 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg transition-colors"
+                        className="w-full flex items-center justify-between p-3 hover:bg-gray-50 dark:hover:bg-gray-900 transition-colors"
                     >
                         <span className="font-medium text-gray-900 dark:text-white">
                             Review Questions
@@ -252,7 +317,7 @@ const QuizResultsContent = () => {
 const QuizResultsPage = () => {
     return (
         <Suspense fallback={
-            <div className="min-h-screen bg-white dark:bg-gray-900 flex items-center justify-center">
+            <div className="min-h-screen bg-white dark:bg-black flex items-center justify-center">
                 <div className="text-center">
                     <div className="w-8 h-8 border-2 border-blue-200 border-t-blue-600 rounded-full animate-spin mx-auto mb-4"></div>
                     <p className="text-gray-600 dark:text-gray-400">Loading results...</p>

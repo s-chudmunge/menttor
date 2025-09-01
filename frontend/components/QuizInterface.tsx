@@ -17,6 +17,7 @@ interface QuizInterfaceProps {
         session_token?: string;
         time_limit?: number;
         roadmap_id?: number;
+        learn_content_context?: any;
     };
 }
 
