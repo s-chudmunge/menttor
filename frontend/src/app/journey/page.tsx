@@ -66,7 +66,7 @@ const JourneyPage = () => {
   const [learnModelName, setLearnModelName] = useState('Gemini 2.5 Flash Lite');
   const [showLearnModelModal, setShowLearnModelModal] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
-  const [isQuickToolsPanelOpen, setIsQuickToolsPanelOpen] = useState(false);
+  const [isQuickToolsPanelOpen, setIsQuickToolsPanelOpen] = useState(true);
 
   const { user, loading } = useAuth();
   const router = useRouter();
@@ -434,11 +434,67 @@ const JourneyPage = () => {
           onOldLearnPagesClick={() => setIsOldLearnPagesModalOpen(true)}
           roadmapId={roadmapData?.id}
           isRefreshing={isRefreshing}
+          isQuickToolsPanelOpen={isQuickToolsPanelOpen}
+          onToggleQuickToolsPanel={() => setIsQuickToolsPanelOpen(!isQuickToolsPanelOpen)}
         />
 
-        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 lg:py-8">
+        <main className={`max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 lg:py-8 transition-all duration-300 ${isQuickToolsPanelOpen ? 'lg:ml-72' : 'lg:ml-0'}`}>
 
-          {/* Enhanced Course Header */}
+          {/* Compact View Controls */}
+          <div className="mb-4">
+            <div className="bg-white dark:bg-gray-800 rounded-lg p-1 border border-gray-200 dark:border-gray-700 inline-flex shadow-sm">
+              <button
+                onClick={() => setCurrentView('day')}
+                className={`flex items-center space-x-2 px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
+                  currentView === 'day' 
+                    ? 'bg-blue-600 text-white shadow-sm' 
+                    : 'text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700'
+                }`}
+              >
+                <Calendar className="w-4 h-4" />
+                <span className="hidden sm:inline">Day View</span>
+                <span className="sm:hidden">Day</span>
+              </button>
+              <button
+                onClick={() => setCurrentView('visual')}
+                className={`flex items-center space-x-2 px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
+                  currentView === 'visual' 
+                    ? 'bg-blue-600 text-white shadow-sm' 
+                    : 'text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700'
+                }`}
+              >
+                <Target className="w-4 h-4" />
+                <span className="hidden sm:inline">Visual Overview</span>
+                <span className="sm:hidden">Visual</span>
+              </button>
+              <button
+                onClick={() => setCurrentView('modules')}
+                className={`flex items-center space-x-2 px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
+                  currentView === 'modules' 
+                    ? 'bg-blue-600 text-white shadow-sm' 
+                    : 'text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700'
+                }`}
+              >
+                <List className="w-4 h-4" />
+                <span className="hidden sm:inline">Module View</span>
+                <span className="sm:hidden">Modules</span>
+              </button>
+              <button
+                onClick={() => setCurrentView('practice')}
+                className={`flex items-center space-x-2 px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
+                  currentView === 'practice' 
+                    ? 'bg-blue-600 text-white shadow-sm' 
+                    : 'text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700'
+                }`}
+              >
+                <PenTool className="w-4 h-4" />
+                <span className="hidden sm:inline">Practice</span>
+                <span className="sm:hidden">Practice</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Enhanced Course Header */
           <div className="mb-6 lg:mb-8">
             <div className="bg-gradient-to-r from-white/90 via-blue-50/90 to-indigo-50/90 dark:from-zinc-950/90 dark:via-zinc-950/90 dark:to-zinc-950/90 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-200/50 dark:border-gray-700/50 p-6 lg:p-8 transition-all duration-300 hover:shadow-2xl">
               <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between space-y-6 lg:space-y-0">
@@ -526,59 +582,6 @@ const JourneyPage = () => {
           </div>
 
 
-          {/* Enhanced View Controls */}
-          <div className="mb-8">
-            <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-1.5 border border-gray-200/50 dark:border-gray-700/50 shadow-lg inline-flex">
-              <button
-                onClick={() => setCurrentView('day')}
-                className={`flex items-center space-x-2 px-6 py-3 rounded-xl font-semibold transition-all duration-200 ${
-                  currentView === 'day' 
-                    ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg scale-105' 
-                    : 'text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-700/50'
-                }`}
-              >
-                <Calendar className="w-4 h-4" />
-                <span className="hidden sm:inline">Day View</span>
-                <span className="sm:hidden">Day</span>
-              </button>
-              <button
-                onClick={() => setCurrentView('visual')}
-                className={`flex items-center space-x-2 px-6 py-3 rounded-xl font-semibold transition-all duration-200 ${
-                  currentView === 'visual' 
-                    ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg scale-105' 
-                    : 'text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-700/50'
-                }`}
-              >
-                <Target className="w-4 h-4" />
-                <span className="hidden sm:inline">Visual Overview</span>
-                <span className="sm:hidden">Visual</span>
-              </button>
-              <button
-                onClick={() => setCurrentView('modules')}
-                className={`flex items-center space-x-2 px-6 py-3 rounded-xl font-semibold transition-all duration-200 ${
-                  currentView === 'modules' 
-                    ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg scale-105' 
-                    : 'text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-700/50'
-                }`}
-              >
-                <List className="w-4 h-4" />
-                <span className="hidden sm:inline">Module View</span>
-                <span className="sm:hidden">Modules</span>
-              </button>
-              <button
-                onClick={() => setCurrentView('practice')}
-                className={`flex items-center space-x-2 px-6 py-3 rounded-xl font-semibold transition-all duration-200 ${
-                  currentView === 'practice' 
-                    ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg scale-105' 
-                    : 'text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-700/50'
-                }`}
-              >
-                <PenTool className="w-4 h-4" />
-                <span className="hidden sm:inline">Practice</span>
-                <span className="sm:hidden">Practice</span>
-              </button>
-            </div>
-          </div>
 
           {/* Content Area */}
           {currentView === 'visual' ? (

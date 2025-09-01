@@ -24,6 +24,8 @@ interface JourneyHeaderProps {
   timeSummaryWeek?: TimeSummaryResponse;
   roadmapId?: number;
   isRefreshing?: boolean;
+  isQuickToolsPanelOpen?: boolean;
+  onToggleQuickToolsPanel?: () => void;
 }
 
 const JourneyHeader: React.FC<JourneyHeaderProps> = ({ 
@@ -36,7 +38,9 @@ const JourneyHeader: React.FC<JourneyHeaderProps> = ({
   timeSummaryToday,
   timeSummaryWeek,
   roadmapId,
-  isRefreshing = false
+  isRefreshing = false,
+  isQuickToolsPanelOpen = false,
+  onToggleQuickToolsPanel
 }) => {
   const router = useRouter();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -72,8 +76,17 @@ const JourneyHeader: React.FC<JourneyHeaderProps> = ({
       <header className="bg-white/95 dark:bg-black backdrop-blur-lg border-b border-gray-200/50 dark:border-gray-700/50 sticky top-0 z-50 shadow-lg">
         <div className="max-w-7xl mx-auto pr-4 sm:pr-6 lg:pr-8">
           <div className="flex justify-between items-center h-14">
-            {/* Logo and Progress Indicator */}
+            {/* Logo and Quick Tools Toggle */}
             <div className="flex items-center space-x-3">
+              {onToggleQuickToolsPanel && (
+                <button
+                  onClick={onToggleQuickToolsPanel}
+                  className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                  aria-label={isQuickToolsPanelOpen ? "Close tools panel" : "Open tools panel"}
+                >
+                  <Menu className="w-5 h-5 text-gray-600 dark:text-gray-400" />
+                </button>
+              )}
               <Logo />
               {/* Progress Refresh Indicator */}
               {isRefreshing && (
