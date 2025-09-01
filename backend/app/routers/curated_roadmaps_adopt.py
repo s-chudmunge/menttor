@@ -18,6 +18,9 @@ async def adopt_curated_roadmap(
 ):
     """Adopt a curated roadmap - creates a personal copy for the user"""
     
+    # Store user_id to avoid detached instance issues
+    user_id = current_user.id
+    
     # Find the curated roadmap
     curated_roadmap = db.exec(
         select(CuratedRoadmap).where(CuratedRoadmap.id == roadmap_id)
@@ -30,7 +33,7 @@ async def adopt_curated_roadmap(
     existing_adoption = db.exec(
         select(UserCuratedRoadmap).where(
             and_(
-                UserCuratedRoadmap.user_id == current_user.id,
+                UserCuratedRoadmap.user_id == user_id,
                 UserCuratedRoadmap.curated_roadmap_id == roadmap_id
             )
         )
@@ -48,7 +51,7 @@ async def adopt_curated_roadmap(
         
         # Create personal roadmap
         personal_roadmap = Roadmap(
-            user_id=current_user.id,
+            user_id=user_id,
             subject=curated_roadmap.title,
             goal=curated_roadmap.description,
             time_value=curated_roadmap.estimated_hours or 40,
@@ -71,7 +74,7 @@ async def adopt_curated_roadmap(
         
         # Create adoption record
         adoption = UserCuratedRoadmap(
-            user_id=current_user.id,
+            user_id=user_id,
             curated_roadmap_id=roadmap_id,
             personal_roadmap_id=personal_roadmap.id
         )
@@ -84,7 +87,7 @@ async def adopt_curated_roadmap(
         db.commit()
         db.refresh(adoption)
         
-        logger.info(f"✅ User {current_user.id} adopted curated roadmap '{curated_roadmap.title}' (ID: {roadmap_id})")
+        logger.info(f"✅ User {user_id} adopted curated roadmap '{curated_roadmap.title}' (ID: {roadmap_id})")
         
         return CuratedRoadmapAdoptResponse(
             success=True,
@@ -95,7 +98,7 @@ async def adopt_curated_roadmap(
         
     except Exception as e:
         db.rollback()
-        logger.error(f"❌ Failed to adopt roadmap {roadmap_id} for user {current_user.id}: {str(e)}")
+        logger.error(f"❌ Failed to adopt roadmap {roadmap_id} for user {user_id}: {str(e)}")
         raise HTTPException(
             status_code=500,
             detail=f"Failed to adopt roadmap: {str(e)}"
