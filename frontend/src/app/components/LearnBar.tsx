@@ -17,6 +17,7 @@ const LearnBar: React.FC = () => {
   const { user, loading } = useAuth();
   const [topic, setTopic] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
+  const [showSignInMessage, setShowSignInMessage] = useState(false);
 
   const handleLearn = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -24,7 +25,8 @@ const LearnBar: React.FC = () => {
     if (!topic.trim()) return;
     
     if (!user) {
-      router.push('/auth/signin');
+      setShowSignInMessage(true);
+      setTimeout(() => setShowSignInMessage(false), 3000);
       return;
     }
 
@@ -85,8 +87,6 @@ const LearnBar: React.FC = () => {
                   <Loader2 className="w-5 h-5 animate-spin" />
                   <span>Learning...</span>
                 </>
-              ) : !user ? (
-                <span>Sign in first!</span>
               ) : (
                 <>
                   <Sparkles className="w-5 h-5" />
@@ -96,6 +96,14 @@ const LearnBar: React.FC = () => {
               )}
             </button>
           </div>
+          
+          {showSignInMessage && (
+            <div className="mt-4 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-700 rounded-lg text-center">
+              <p className="text-sm text-red-700 dark:text-red-300 font-medium">
+                Sign in first!
+              </p>
+            </div>
+          )}
         </form>
       </div>
     </div>
