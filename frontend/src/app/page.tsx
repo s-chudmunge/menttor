@@ -117,26 +117,6 @@ const MenttorLabsMainPage = () => {
     }
   ];
 
-  const testimonials = [
-    {
-      name: "Sarah Chen",
-      role: "Software Developer",
-      content: "Menttor helped me transition from marketing to coding in just 3 months!",
-      rating: 5
-    },
-    {
-      name: "Marcus Johnson",
-      role: "Data Scientist",
-      content: "The personalized roadmaps are incredibly detailed and practical.",
-      rating: 5
-    },
-    {
-      name: "Elena Rodriguez",
-      role: "UX Designer",
-      content: "Perfect for structured learning. I finally mastered machine learning!",
-      rating: 5
-    }
-  ];
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -862,32 +842,6 @@ const MenttorLabsMainPage = () => {
           </div>
         </section>
 
-        {/* Testimonials Section */}
-        <section className="py-12 bg-white dark:bg-black transition-colors duration-300">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">What Our Users Say</h2>
-            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-              Hear from learners who transformed their journey with MenttorLabs
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {testimonials.map((testimonial, index) => (
-              <div key={index} className="bg-white dark:bg-gray-700 rounded-2xl p-8 shadow-lg border border-gray-200 dark:border-gray-600 transition-colors duration-300">
-                <div className="flex items-center mb-4">
-                  {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
-                  ))}
-                </div>
-                <p className="text-gray-700 dark:text-gray-200 text-lg mb-6 italic">"{testimonial.content}"</p>
-                <div className="font-semibold text-gray-900 dark:text-white">{testimonial.name}</div>
-                <div className="text-gray-500 text-sm">{testimonial.role}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
 
         {/* Footer */}
