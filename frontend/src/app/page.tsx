@@ -43,7 +43,10 @@ import {
   Moon,
   BarChart3,
   Award,
-  Box
+  Box,
+  Github,
+  Twitter,
+  Instagram
 } from 'lucide-react';
 import ProfileDropdown from '../components/ProfileDropdown';
 import { ThreeDGeneratorCard, ThreeDGeneratorModal } from '../../components/ThreeDGenerator';
@@ -898,11 +901,14 @@ const MenttorLabsMainPage = () => {
                 Transforming education through intelligent, personalized learning experiences that adapt to every learner's unique journey.
               </p>
               <div className="flex space-x-4 mt-8">
-                <a href="#" className="text-gray-400 hover:text-blue-400 transition-colors duration-200">
-                  <Globe className="w-5 h-5" />
+                <a href="https://x.com/menttorlive" target="_blank" rel="noopener noreferrer">
+                  <img src="/x-social-media-logo-icon.svg" alt="Twitter/X" className="w-6 h-6" />
                 </a>
-                <a href="#" className="text-gray-400 hover:text-blue-400 transition-colors duration-200">
-                  <Users className="w-5 h-5" />
+                <a href="https://www.instagram.com/menttorlive/" target="_blank" rel="noopener noreferrer">
+                  <img src="/ig-instagram-icon.svg" alt="Instagram" className="w-6 h-6" />
+                </a>
+                <a href="https://github.com/mountain-snatcher" target="_blank" rel="noopener noreferrer">
+                  <img src="/github.svg" alt="GitHub" className="w-6 h-6" />
                 </a>
               </div>
             </div>
