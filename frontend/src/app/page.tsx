@@ -47,6 +47,7 @@ import { ThreeDGeneratorCard, ThreeDGeneratorModal } from '../../components/Thre
 import { LearnAboutSomethingCard, LearnAboutSomethingModal } from '../../components/LearnAboutSomething';
 import PromotionalBackground from '../components/PromotionalBackground';
 import SimpleLearningAnimation from '../components/SimpleLearningAnimation';
+import MainPageSidePanel from './components/MainPageSidePanel';
 
 const MenttorLabsMainPage = () => {
   const router = useRouter();
@@ -75,6 +76,7 @@ const MenttorLabsMainPage = () => {
   const [learnModel, setLearnModel] = useState('vertexai:gemini-2.5-flash-lite');
   const [learnModelName, setLearnModelName] = useState('Loading models...');
   const [showLearnModelModal, setShowLearnModelModal] = useState(false);
+  const [isSidePanelOpen, setIsSidePanelOpen] = useState(false);
 
   // Define GenerateRoadmapRequest interface here or import if already defined
   interface GenerateRoadmapRequest {
@@ -438,6 +440,15 @@ const MenttorLabsMainPage = () => {
                 </button>
               )}
               
+              {/* Side Panel Toggle */}
+              <button
+                onClick={() => setIsSidePanelOpen(!isSidePanelOpen)}
+                className="p-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
+                title="Quick Tools"
+              >
+                <Menu className="w-5 h-5" />
+              </button>
+
               {/* Mobile Menu Button */}
               <button
                 onClick={() => setShowMobileMenu(!showMobileMenu)}
@@ -1122,6 +1133,14 @@ const MenttorLabsMainPage = () => {
           currentModelId={learnModel.includes(':') ? learnModel : `vertexai:${learnModel}`}
         />
       )}
+
+      {/* Main Page Side Panel */}
+      <MainPageSidePanel
+        isOpen={isSidePanelOpen}
+        onToggle={() => setIsSidePanelOpen(!isSidePanelOpen)}
+        onShow3DGenerator={() => setShow3DGenerator(true)}
+        onShowLearnAboutSomething={() => setShowLearnAboutSomething(true)}
+      />
       
     </div>
     </OnboardingWrapper>

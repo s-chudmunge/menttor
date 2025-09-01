@@ -580,7 +580,7 @@ const JourneyPage = () => {
               </div>
             </div>
           </div>
-
+        }
 
 
           {/* Content Area */}
