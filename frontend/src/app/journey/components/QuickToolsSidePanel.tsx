@@ -38,12 +38,12 @@ const QuickToolsSidePanel: React.FC<QuickToolsSidePanelProps> = ({
         w-64 lg:w-72 flex flex-col
       `}>
         {/* Header */}
-        <div className="p-3 border-b border-gray-200 dark:border-gray-700 flex-shrink-0">
-          <div className="flex items-center space-x-2">
-            <div className="w-6 h-6 bg-purple-600 dark:bg-purple-500 rounded flex items-center justify-center">
-              <Sparkles className="w-3 h-3 text-white" />
+        <div className="p-2 border-b border-gray-200 dark:border-gray-700 flex-shrink-0">
+          <div className="flex items-center space-x-1.5">
+            <div className="w-5 h-5 bg-purple-600 dark:bg-purple-500 rounded flex items-center justify-center">
+              <Sparkles className="w-2.5 h-2.5 text-white" />
             </div>
-            <h2 className="text-base font-semibold text-gray-900 dark:text-white">
+            <h2 className="text-sm font-semibold text-gray-900 dark:text-white">
               Quick Tools
             </h2>
           </div>
@@ -51,28 +51,28 @@ const QuickToolsSidePanel: React.FC<QuickToolsSidePanelProps> = ({
 
         {/* Content */}
         <div className="flex-1 overflow-y-auto">
-          <div className="px-4 py-2">
+          <div className="px-2 py-1">
             {/* Timetable Tools */}
             {roadmapData && (
               <TimetableTools roadmapData={roadmapData} />
             )}
             
             {/* AI Tools Menu */}
-            <div className="pt-2 border-t border-gray-200 dark:border-gray-700">
+            <div className="pt-1 border-t border-gray-200 dark:border-gray-700">
               <button
                 onClick={onShow3DGenerator}
-                className="w-full flex items-center px-0 py-3 text-left text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                className="w-full flex items-center px-2 py-2 text-left text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors rounded"
               >
-                <Box className="w-5 h-5 mr-3 text-gray-500 dark:text-gray-400" />
-                <span className="text-sm font-medium">3D Visualization</span>
+                <Box className="w-3.5 h-3.5 mr-2 text-gray-500 dark:text-gray-400" />
+                <span className="text-xs font-medium">3D Visualization</span>
               </button>
               
               <button
                 onClick={onShowLearnAboutSomething}
-                className="w-full flex items-center px-0 py-3 text-left text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                className="w-full flex items-center px-2 py-2 text-left text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors rounded"
               >
-                <BookOpen className="w-5 h-5 mr-3 text-gray-500 dark:text-gray-400" />
-                <span className="text-sm font-medium">Learn About Something</span>
+                <BookOpen className="w-3.5 h-3.5 mr-2 text-gray-500 dark:text-gray-400" />
+                <span className="text-xs font-medium">Learn About Something</span>
               </button>
             </div>
           </div>

@@ -442,52 +442,52 @@ const JourneyPage = () => {
 
           {/* Compact View Controls */}
           <div className="mb-4">
-            <div className="bg-white dark:bg-gray-800 rounded p-0.5 border border-gray-200 dark:border-gray-700 inline-flex shadow-sm">
+            <div className="bg-white dark:bg-gray-800 rounded-lg p-1 border border-gray-200 dark:border-gray-700 inline-flex shadow-sm">
               <button
                 onClick={() => setCurrentView('day')}
-                className={`flex items-center space-x-1.5 px-2 py-1.5 rounded text-xs font-medium transition-all duration-200 ${
+                className={`flex items-center space-x-2 px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
                   currentView === 'day' 
                     ? 'bg-blue-600 text-white shadow-sm' 
                     : 'text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700'
                 }`}
               >
-                <Calendar className="w-3 h-3" />
+                <Calendar className="w-4 h-4" />
                 <span className="hidden sm:inline">Day View</span>
                 <span className="sm:hidden">Day</span>
               </button>
               <button
                 onClick={() => setCurrentView('visual')}
-                className={`flex items-center space-x-1.5 px-2 py-1.5 rounded text-xs font-medium transition-all duration-200 ${
+                className={`flex items-center space-x-2 px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
                   currentView === 'visual' 
                     ? 'bg-blue-600 text-white shadow-sm' 
                     : 'text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700'
                 }`}
               >
-                <Target className="w-3 h-3" />
+                <Target className="w-4 h-4" />
                 <span className="hidden sm:inline">Visual Overview</span>
                 <span className="sm:hidden">Visual</span>
               </button>
               <button
                 onClick={() => setCurrentView('modules')}
-                className={`flex items-center space-x-1.5 px-2 py-1.5 rounded text-xs font-medium transition-all duration-200 ${
+                className={`flex items-center space-x-2 px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
                   currentView === 'modules' 
                     ? 'bg-blue-600 text-white shadow-sm' 
                     : 'text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700'
                 }`}
               >
-                <List className="w-3 h-3" />
+                <List className="w-4 h-4" />
                 <span className="hidden sm:inline">Module View</span>
                 <span className="sm:hidden">Modules</span>
               </button>
               <button
                 onClick={() => setCurrentView('practice')}
-                className={`flex items-center space-x-1.5 px-2 py-1.5 rounded text-xs font-medium transition-all duration-200 ${
+                className={`flex items-center space-x-2 px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
                   currentView === 'practice' 
                     ? 'bg-blue-600 text-white shadow-sm' 
                     : 'text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700'
                 }`}
               >
-                <PenTool className="w-3 h-3" />
+                <PenTool className="w-4 h-4" />
                 <span className="hidden sm:inline">Practice</span>
                 <span className="sm:hidden">Practice</span>
               </button>
@@ -499,11 +499,11 @@ const JourneyPage = () => {
             <div className="bg-white/90 dark:bg-zinc-950/90 backdrop-blur-sm rounded-xl shadow-lg border border-gray-200/50 dark:border-gray-700/50 p-4 transition-all duration-300 hover:shadow-xl">
               <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between space-y-4 lg:space-y-0">
                 <div className="flex-1">
-                  <div className="mb-2">
-                    <h1 className="text-sm lg:text-base font-bold text-gray-900 dark:text-white mb-2 leading-tight">
+                  <div className="mb-3">
+                    <h1 className="text-xl lg:text-2xl font-bold text-gray-900 dark:text-white mb-2 leading-tight">
                       {roadmapData.title || roadmapData.subject}
                     </h1>
-                    <p className="text-gray-700 dark:text-gray-200 text-xs mb-2 leading-relaxed">
+                    <p className="text-gray-700 dark:text-gray-200 text-sm lg:text-base mb-3 leading-relaxed">
                       {roadmapData.description || roadmapData.goal}
                     </p>
                   </div>
@@ -552,8 +552,8 @@ const JourneyPage = () => {
                 </div>
                 
                 {/* Enhanced Progress Circle */}
-                <div className="relative w-12 h-12 lg:w-14 lg:h-14 self-center lg:self-start">
-                  <svg className="w-12 h-12 lg:w-14 lg:h-14 transform -rotate-90" viewBox="0 0 100 100">
+                <div className="relative w-16 h-16 lg:w-20 lg:h-20 self-center lg:self-start">
+                  <svg className="w-16 h-16 lg:w-20 lg:h-20 transform -rotate-90" viewBox="0 0 100 100">
                     <circle cx="50" cy="50" r="40" stroke="#e5e7eb" strokeWidth="3" fill="none" className="dark:stroke-gray-600" />
                     <circle 
                       cx="50" cy="50" r="40" 
@@ -573,7 +573,7 @@ const JourneyPage = () => {
                     </defs>
                   </svg>
                   <div className="absolute inset-0 flex flex-col items-center justify-center">
-                    <span className="text-xs font-bold text-gray-900 dark:text-white">{progressMetrics.overallProgress}%</span>
+                    <span className="text-sm lg:text-base font-bold text-gray-900 dark:text-white">{progressMetrics.overallProgress}%</span>
                     <span className="text-xs text-gray-500 dark:text-gray-400 font-medium">Complete</span>
                   </div>
                 </div>
