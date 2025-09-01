@@ -495,70 +495,70 @@ const JourneyPage = () => {
           </div>
 
           {/* Enhanced Course Header */
-          <div className="mb-6 lg:mb-8">
-            <div className="bg-gradient-to-r from-white/90 via-blue-50/90 to-indigo-50/90 dark:from-zinc-950/90 dark:via-zinc-950/90 dark:to-zinc-950/90 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-200/50 dark:border-gray-700/50 p-6 lg:p-8 transition-all duration-300 hover:shadow-2xl">
-              <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between space-y-6 lg:space-y-0">
+          <div className="mb-4">
+            <div className="bg-white/90 dark:bg-zinc-950/90 backdrop-blur-sm rounded-xl shadow-lg border border-gray-200/50 dark:border-gray-700/50 p-4 transition-all duration-300 hover:shadow-xl">
+              <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between space-y-4 lg:space-y-0">
                 <div className="flex-1">
-                  <div className="mb-4">
-                    <h1 className="text-2xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-3 leading-tight">
+                  <div className="mb-3">
+                    <h1 className="text-xl lg:text-2xl font-bold text-gray-900 dark:text-white mb-2 leading-tight">
                       {roadmapData.title || roadmapData.subject}
                     </h1>
-                    <p className="text-gray-700 dark:text-gray-200 text-base lg:text-xl mb-4 font-medium leading-relaxed">
+                    <p className="text-gray-700 dark:text-gray-200 text-sm lg:text-base mb-3 leading-relaxed">
                       {roadmapData.description || roadmapData.goal}
                     </p>
                   </div>
                   
-                  <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
-                    <div className="flex items-center space-x-3 bg-white/50 dark:bg-gray-800/50 rounded-lg p-3">
-                      <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-lg flex items-center justify-center">
-                        <Clock className="w-4 h-4 text-white" />
+                  <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+                    <div className="flex items-center space-x-2 bg-white/50 dark:bg-gray-800/50 rounded-md p-2">
+                      <div className="w-6 h-6 bg-blue-500 rounded-md flex items-center justify-center">
+                        <Clock className="w-3 h-3 text-white" />
                       </div>
                       <div>
                         <p className="text-xs text-gray-500 dark:text-gray-400 font-medium">Duration</p>
-                        <p className="text-sm font-bold text-gray-900 dark:text-white">{roadmapData.time_value} {roadmapData.time_unit}</p>
+                        <p className="text-xs font-bold text-gray-900 dark:text-white">{roadmapData.time_value} {roadmapData.time_unit}</p>
                       </div>
                     </div>
                     
-                    <div className="flex items-center space-x-3 bg-white/50 dark:bg-gray-800/50 rounded-lg p-3">
-                      <div className="w-8 h-8 bg-gradient-to-r from-green-500 to-emerald-500 rounded-lg flex items-center justify-center">
-                        <Target className="w-4 h-4 text-white" />
+                    <div className="flex items-center space-x-2 bg-white/50 dark:bg-gray-800/50 rounded-md p-2">
+                      <div className="w-6 h-6 bg-green-500 rounded-md flex items-center justify-center">
+                        <Target className="w-3 h-3 text-white" />
                       </div>
                       <div>
                         <p className="text-xs text-gray-500 dark:text-gray-400 font-medium">Modules</p>
-                        <p className="text-sm font-bold text-gray-900 dark:text-white">{(roadmapData.roadmap_plan?.modules || roadmapData.roadmap_plan || []).length}</p>
+                        <p className="text-xs font-bold text-gray-900 dark:text-white">{(roadmapData.roadmap_plan?.modules || roadmapData.roadmap_plan || []).length}</p>
                       </div>
                     </div>
                     
-                    <div className="flex items-center space-x-3 bg-white/50 dark:bg-gray-800/50 rounded-lg p-3">
-                      <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
-                        <Trophy className="w-4 h-4 text-white" />
+                    <div className="flex items-center space-x-2 bg-white/50 dark:bg-gray-800/50 rounded-md p-2">
+                      <div className="w-6 h-6 bg-purple-500 rounded-md flex items-center justify-center">
+                        <Trophy className="w-3 h-3 text-white" />
                       </div>
                       <div>
                         <p className="text-xs text-gray-500 dark:text-gray-400 font-medium">Completed</p>
-                        <p className="text-sm font-bold text-gray-900 dark:text-white">{progressMetrics.completedSubtopics}/{progressMetrics.totalSubtopics}</p>
+                        <p className="text-xs font-bold text-gray-900 dark:text-white">{progressMetrics.completedSubtopics}/{progressMetrics.totalSubtopics}</p>
                       </div>
                     </div>
                     
-                    <div className="flex items-center space-x-3 bg-white/50 dark:bg-gray-800/50 rounded-lg p-3">
-                      <div className="w-8 h-8 bg-gradient-to-r from-orange-500 to-red-500 rounded-lg flex items-center justify-center">
-                        <BarChart3 className="w-4 h-4 text-white" />
+                    <div className="flex items-center space-x-2 bg-white/50 dark:bg-gray-800/50 rounded-md p-2">
+                      <div className="w-6 h-6 bg-orange-500 rounded-md flex items-center justify-center">
+                        <BarChart3 className="w-3 h-3 text-white" />
                       </div>
                       <div>
                         <p className="text-xs text-gray-500 dark:text-gray-400 font-medium">Progress</p>
-                        <p className="text-sm font-bold text-gray-900 dark:text-white">{progressMetrics.overallProgress}%</p>
+                        <p className="text-xs font-bold text-gray-900 dark:text-white">{progressMetrics.overallProgress}%</p>
                       </div>
                     </div>
                   </div>
                 </div>
                 
                 {/* Enhanced Progress Circle */}
-                <div className="relative w-24 h-24 lg:w-32 lg:h-32 self-center lg:self-start">
-                  <svg className="w-24 h-24 lg:w-32 lg:h-32 transform -rotate-90" viewBox="0 0 100 100">
-                    <circle cx="50" cy="50" r="40" stroke="#e5e7eb" strokeWidth="4" fill="none" className="dark:stroke-gray-600" />
+                <div className="relative w-16 h-16 lg:w-20 lg:h-20 self-center lg:self-start">
+                  <svg className="w-16 h-16 lg:w-20 lg:h-20 transform -rotate-90" viewBox="0 0 100 100">
+                    <circle cx="50" cy="50" r="40" stroke="#e5e7eb" strokeWidth="3" fill="none" className="dark:stroke-gray-600" />
                     <circle 
                       cx="50" cy="50" r="40" 
-                      stroke="url(#progressGradient)" 
-                      strokeWidth="6" 
+                      stroke="#4F46E5" 
+                      strokeWidth="4" 
                       fill="none"
                       strokeDasharray={`${progressMetrics.overallProgress * 2.51} 251`}
                       strokeLinecap="round"
@@ -573,7 +573,7 @@ const JourneyPage = () => {
                     </defs>
                   </svg>
                   <div className="absolute inset-0 flex flex-col items-center justify-center">
-                    <span className="text-xl lg:text-2xl font-bold text-gray-900 dark:text-white">{progressMetrics.overallProgress}%</span>
+                    <span className="text-sm lg:text-base font-bold text-gray-900 dark:text-white">{progressMetrics.overallProgress}%</span>
                     <span className="text-xs text-gray-500 dark:text-gray-400 font-medium">Complete</span>
                   </div>
                 </div>
