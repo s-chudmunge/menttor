@@ -522,7 +522,7 @@ const BehavioralLearnClientPage: React.FC<BehavioralLearnClientPageProps> = ({
           <div className="flex justify-between items-center h-18 lg:h-20">
             {/* Logo */}
             <div className="flex items-center space-x-3">
-              <Logo />
+              <Logo variant="dark" />
             </div>
             
             {/* Desktop Navigation */}

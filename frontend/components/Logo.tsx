@@ -5,22 +5,31 @@ import Link from 'next/link';
 
 // Logo component with updated branding
 
-const Logo = () => {
+interface LogoProps {
+  variant?: 'light' | 'dark' | 'auto';
+}
+
+const Logo = ({ variant = 'auto' }: LogoProps) => {
   const [isDark, setIsDark] = useState(false);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    setIsDark(mediaQuery.matches);
+    
+    if (variant === 'auto') {
+      const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+      setIsDark(mediaQuery.matches);
 
-    const handleChange = (e: MediaQueryListEvent) => {
-      setIsDark(e.matches);
-    };
+      const handleChange = (e: MediaQueryListEvent) => {
+        setIsDark(e.matches);
+      };
 
-    mediaQuery.addEventListener('change', handleChange);
-    return () => mediaQuery.removeEventListener('change', handleChange);
-  }, []);
+      mediaQuery.addEventListener('change', handleChange);
+      return () => mediaQuery.removeEventListener('change', handleChange);
+    } else {
+      setIsDark(variant === 'light');
+    }
+  }, [variant]);
 
   if (!mounted) {
     return (
