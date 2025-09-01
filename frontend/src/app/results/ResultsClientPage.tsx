@@ -72,6 +72,7 @@ export default function ResultsClientPage({
 
             <footer className="bg-white shadow-md py-6 text-center text-gray-600 text-sm mt-12">
                 <p>&copy; 2024 MenttorLabs. All rights reserved.</p>
+                <p className="mt-2">Built with ❤️ for learners</p>
             </footer>
         </>
     );

@@ -75,6 +75,7 @@ export default function PreviewFooter({ relatedRoadmaps = [] }: PreviewFooterPro
         <div className="border-t border-gray-200 dark:border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center">
           <div className="text-sm text-gray-600 dark:text-gray-400 mb-4 md:mb-0">
             © 2024 Menttor Labs. All rights reserved.
+            <br />Built with ❤️ for learners
           </div>
           <div className="flex items-center space-x-6 text-sm">
             <Link href="/privacy" className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400">Privacy</Link>

@@ -939,6 +939,7 @@ const MenttorLabsMainPage = () => {
           <div className="mt-12 pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center">
             <div className="text-gray-400 text-sm">
               &copy; {new Date().getFullYear()} MenttorLabs. All rights reserved.
+              <br />Built with ❤️ for learners
             </div>
             <div className="flex items-center space-x-6 mt-4 md:mt-0">
               <a href="/sitemap" className="text-gray-400 hover:text-white text-sm transition-colors duration-200">Sitemap</a>
