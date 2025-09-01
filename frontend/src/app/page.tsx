@@ -877,22 +877,6 @@ const MenttorLabsMainPage = () => {
         </div>
       </section>
 
-        {/* Call to Action Section */}
-        <section className="py-12 bg-blue-600 text-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl font-bold mb-6">Ready to Start Your Learning Journey?</h2>
-          <p className="text-xl opacity-90 mb-10">
-            Join 50,000+ learners who are achieving their goals with smart personalized learning roadmaps across diverse subjects.
-          </p>
-          <button 
-            onClick={() => document.getElementById('generate').scrollIntoView({ behavior: 'smooth' })}
-            className="bg-white text-blue-700 px-8 py-4 rounded-full font-bold text-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 flex items-center space-x-2 mx-auto"
-          >
-            <span>Generate Your Free Learning Roadmap</span>
-            <ArrowRight className="w-5 h-5" />
-          </button>
-        </div>
-      </section>
 
         {/* Footer */}
         <footer className="bg-gray-900 dark:bg-black text-white py-12 transition-colors duration-300">
