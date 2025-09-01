@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlmodel import Session, select
 from database.session import get_db
 from schemas import RoadmapCreateRequest, RoadmapResponse, RoadmapUpdate
-from sql_models import Roadmap, User, UserCuratedRoadmap, UserProgress, LearningSession, MilestoneProgress, DependencyMap
+from sql_models import Roadmap, User, UserCuratedRoadmap, UserProgress, LearningSession, MilestoneProgress, DependencyMap, PracticeSession, PracticeQuestion, PracticeAnswer
 from services.ai_service import generate_roadmap_content
 from typing import List, Optional
 from .optional_auth import get_optional_current_user
@@ -125,6 +125,30 @@ def delete_roadmap(roadmap_id: int, db: Session = Depends(get_db), current_user:
         ).all()
         for dependency in dependency_maps:
             db.delete(dependency)
+        
+        # 6. Delete Practice-related records for this roadmap
+        practice_sessions = db.exec(
+            select(PracticeSession).where(PracticeSession.roadmap_id == roadmap_id)
+        ).all()
+        
+        # For each practice session, delete related questions and answers first
+        for session in practice_sessions:
+            # Delete practice answers for this session
+            practice_answers = db.exec(
+                select(PracticeAnswer).where(PracticeAnswer.session_id == session.id)
+            ).all()
+            for answer in practice_answers:
+                db.delete(answer)
+            
+            # Delete practice questions for this session  
+            practice_questions = db.exec(
+                select(PracticeQuestion).where(PracticeQuestion.session_id == session.id)
+            ).all()
+            for question in practice_questions:
+                db.delete(question)
+            
+            # Now delete the practice session
+            db.delete(session)
         
         # Now we can safely delete the roadmap
         db.delete(roadmap)
