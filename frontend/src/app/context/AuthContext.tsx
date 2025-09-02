@@ -23,9 +23,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setUser(firebaseUser);
       if (firebaseUser) {
         try {
-          // Fetch the user's database ID using their Firebase UID
-          const response = await api.get(`/auth/me`);
-          setDbId(response.data.id);
+          // Wait a moment for the token to be available
+          await new Promise(resolve => setTimeout(resolve, 100));
+          // Ensure the user has a valid token before making the API call
+          const token = await firebaseUser.getIdToken(true); // force refresh
+          if (token) {
+            // Fetch the user's database ID using their Firebase UID
+            const response = await api.get(`/auth/me`);
+            setDbId(response.data.id);
+          } else {
+            console.error("No Firebase token available");
+            setDbId(null);
+          }
         } catch (error) {
           console.error("Error fetching user's database ID:", error);
           setDbId(null); // Ensure dbId is null on error
