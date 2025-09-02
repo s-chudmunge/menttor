@@ -274,4 +274,4 @@ logger.info("FastAPI application started.")
 # Privacy policy deployment trigger - updated frontend privacy page
 # Fixed Redis URL scheme and removed deprecated reward engagement endpoint
 # Updated CI/CD workflow to use Artifact Registry with proper permissions
-# Testing CI/CD pipeline with updated GitHub Actions auth flow
+# Testing CI/CD pipeline with clean service account JSON key
