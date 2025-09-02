@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException, status, Query, Form
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from sqlmodel import Session, select, desc, func, and_, or_
 from database.session import get_db
+from database.redis_client import get_redis_client
 from schemas import (
     CuratedRoadmapResponse, CuratedRoadmapListResponse, 
     CuratedRoadmapAdoptRequest, CuratedRoadmapAdoptResponse, 
@@ -15,6 +16,8 @@ from typing import List, Optional, Dict
 import secrets
 import logging
 import re
+import json
+import hashlib
 from datetime import datetime
 
 router = APIRouter(prefix="/curated-roadmaps", tags=["curated-roadmaps"])
@@ -45,6 +48,31 @@ def verify_admin(credentials: HTTPBasicCredentials = Depends(security)):
             headers={"WWW-Authenticate": "Basic"},
         )
     return credentials.username
+
+def generate_cache_key(endpoint: str, **params) -> str:
+    """Generate cache key for roadmap data"""
+    cache_data = {"endpoint": endpoint, "params": sorted(params.items())}
+    cache_string = json.dumps(cache_data, default=str)
+    return f"roadmaps:{hashlib.md5(cache_string.encode()).hexdigest()}"
+
+async def get_cached_response(cache_key: str) -> Optional[Dict]:
+    """Get cached response from Redis"""
+    try:
+        with get_redis_client() as redis_client:
+            cached_data = redis_client.get(cache_key)
+            if cached_data:
+                return json.loads(cached_data)
+    except Exception as e:
+        logger.warning(f"Redis cache read failed: {e}")
+    return None
+
+async def set_cached_response(cache_key: str, data: Dict, ttl: int = 1800) -> None:
+    """Set cached response in Redis with TTL (default 30 minutes)"""
+    try:
+        with get_redis_client() as redis_client:
+            redis_client.setex(cache_key, ttl, json.dumps(data, default=str))
+    except Exception as e:
+        logger.warning(f"Redis cache write failed: {e}")
 
 # ==============================================================================
 # TRENDING ROADMAPS CONFIGURATION
@@ -2273,7 +2301,7 @@ def get_curated_roadmap_categories(db: Session = Depends(get_db)):
     return {"categories": categories}
 
 @router.get("/", response_model=List[CuratedRoadmapListResponse])
-def browse_curated_roadmaps(
+async def browse_curated_roadmaps(
     page: int = Query(1, ge=1, description="Page number"),
     per_page: int = Query(12, ge=1, le=100, description="Items per page"),
     category: Optional[str] = Query(None, description="Filter by category"),
@@ -2285,6 +2313,23 @@ def browse_curated_roadmaps(
     current_user: Optional[User] = Depends(get_optional_current_user)
 ):
     """Browse curated roadmaps - public endpoint"""
+    
+    # Generate cache key for this request
+    cache_key = generate_cache_key(
+        "browse", 
+        page=page, 
+        per_page=per_page, 
+        category=category,
+        subcategory=subcategory, 
+        difficulty=difficulty, 
+        featured_only=featured_only, 
+        search=search
+    )
+    
+    # Try to get from cache first
+    cached_response = await get_cached_response(cache_key)
+    if cached_response:
+        return cached_response
     
     query = select(CuratedRoadmap)
     
@@ -2317,7 +2362,7 @@ def browse_curated_roadmaps(
     
     roadmaps = db.exec(query).all()
     
-    return [
+    response_data = [
         CuratedRoadmapListResponse(
             id=roadmap.id,
             title=roadmap.title,
@@ -2336,14 +2381,36 @@ def browse_curated_roadmaps(
             slug=roadmap.slug
         ) for roadmap in roadmaps
     ]
+    
+    # Cache the response (30 minutes TTL)
+    await set_cached_response(cache_key, response_data, ttl=1800)
+    
+    return response_data
 
 @router.get("/slug/{slug}", response_model=CuratedRoadmapResponse)
-def get_curated_roadmap_by_slug(
+async def get_curated_roadmap_by_slug(
     slug: str,
     db: Session = Depends(get_db),
     current_user: Optional[User] = Depends(get_optional_current_user)
 ):
     """Get detailed curated roadmap by slug - public endpoint"""
+    
+    # Generate cache key for this roadmap detail
+    cache_key = generate_cache_key("detail", slug=slug)
+    
+    # Try to get from cache first (excluding view count for caching)
+    cached_response = await get_cached_response(cache_key)
+    if cached_response:
+        # Still increment view count for analytics but return cached data
+        try:
+            roadmap = db.exec(select(CuratedRoadmap).where(CuratedRoadmap.slug == slug)).first()
+            if roadmap:
+                roadmap.view_count += 1
+                db.add(roadmap)
+                db.commit()
+        except Exception as e:
+            logger.warning(f"Failed to increment view count: {e}")
+        return cached_response
     
     roadmap = db.exec(select(CuratedRoadmap).where(CuratedRoadmap.slug == slug)).first()
     
@@ -2356,7 +2423,7 @@ def get_curated_roadmap_by_slug(
     db.commit()
     db.refresh(roadmap)
     
-    return CuratedRoadmapResponse(
+    response_data = CuratedRoadmapResponse(
         id=roadmap.id,
         title=roadmap.title,
         description=roadmap.description,
@@ -2378,6 +2445,11 @@ def get_curated_roadmap_by_slug(
         created_at=roadmap.created_at,
         updated_at=roadmap.updated_at
     )
+    
+    # Cache the response (1 hour TTL for detailed content)
+    await set_cached_response(cache_key, response_data, ttl=3600)
+    
+    return response_data
 
 # Include the adopt functionality
 from .curated_roadmaps_adopt import router as adopt_router
