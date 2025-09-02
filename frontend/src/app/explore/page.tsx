@@ -4,6 +4,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useAuth } from '../context/AuthContext';
+import { useCuratedRoadmaps } from '../../hooks/useCuratedRoadmaps';
 import { BACKEND_URL } from '../../config/config';
 import { 
   BookOpen, 
@@ -104,10 +105,9 @@ const ExplorePage = () => {
   const router = useRouter();
   const { user } = useAuth();
   
-  const [roadmaps, setRoadmaps] = useState<CuratedRoadmap[]>([]);
+  const { data: roadmaps = [], isLoading: loading, error: queryError } = useCuratedRoadmaps(100);
   const [categories, setCategories] = useState<Categories>({});
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const error = queryError?.message || null;
   
   // Filters
   const [searchQuery, setSearchQuery] = useState('');
@@ -376,7 +376,6 @@ const ExplorePage = () => {
   }, [activeFilters]);
 
   useEffect(() => {
-    fetchRoadmaps();
     fetchCategories();
   }, []);
 
@@ -393,54 +392,14 @@ const ExplorePage = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const fetchRoadmaps = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      
-      const response = await fetch(`${BACKEND_URL}/curated-roadmaps/?per_page=100`);
-      
-      if (!response.ok) {
-        throw new Error('Failed to fetch roadmaps');
-      }
-      
-      const data = await response.json();
-      
-      // If no roadmaps, show generation state
-      if (data.length === 0) {
-        setIsGenerating(true);
-        // Poll for roadmaps every 10 seconds
-        const pollInterval = setInterval(async () => {
-          try {
-            const pollResponse = await fetch(`${BACKEND_URL}/curated-roadmaps/?per_page=100`);
-            if (pollResponse.ok) {
-              const pollData = await pollResponse.json();
-              if (pollData.length > 0) {
-                setRoadmaps(pollData);
-                setIsGenerating(false);
-                clearInterval(pollInterval);
-              }
-            }
-          } catch (error) {
-            console.error('Polling error:', error);
-          }
-        }, 10000);
-
-        // Clear interval after 5 minutes
-        setTimeout(() => clearInterval(pollInterval), 300000);
-      } else {
-        setRoadmaps(data);
-        setIsGenerating(false);
-        console.info(`Loaded ${data.length} roadmaps from database`);
-      }
-      
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred');
+  // Handle generation state when no roadmaps are available
+  useEffect(() => {
+    if (!loading && roadmaps.length === 0 && !error) {
+      setIsGenerating(true);
+    } else if (roadmaps.length > 0) {
       setIsGenerating(false);
-    } finally {
-      setLoading(false);
     }
-  };
+  }, [loading, roadmaps.length, error]);
 
   const fetchCategories = async () => {
     try {
@@ -513,7 +472,7 @@ const ExplorePage = () => {
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Unable to Load Roadmaps</h2>
           <p className="text-gray-600 dark:text-gray-400 mb-6">{error}</p>
           <button 
-            onClick={fetchRoadmaps}
+            onClick={() => window.location.reload()}
             className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
           >
             <RefreshCw className="w-4 h-4 mr-2" />

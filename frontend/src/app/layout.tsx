@@ -15,6 +15,7 @@ import Script from 'next/script';
 import PageTracker from "../components/PageTracker";
 import SessionTracker from "../components/SessionTracker";
 import FaviconUpdater from "../components/FaviconUpdater";
+import "../services/backendWarmer";
 
 export const metadata: Metadata = {
   title: {

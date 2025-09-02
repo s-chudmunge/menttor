@@ -1,9 +1,9 @@
 'use client';
 
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Sparkles, Box, BookOpen, ExternalLink, Eye, Play, Search } from 'lucide-react';
 import Link from 'next/link';
-import { BACKEND_URL } from '../../config/config';
+import { useCuratedRoadmaps } from '../../hooks/useCuratedRoadmaps';
 
 interface CuratedRoadmap {
   id: number;
@@ -29,28 +29,8 @@ const MainPageSidePanel: React.FC<MainPageSidePanelProps> = ({
   isOpen = true,
   onToggle
 }) => {
-  const [roadmaps, setRoadmaps] = useState<CuratedRoadmap[]>([]);
-  const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-
-  useEffect(() => {
-    fetchRoadmaps();
-  }, []);
-
-  const fetchRoadmaps = async () => {
-    try {
-      setLoading(true);
-      const response = await fetch(`${BACKEND_URL}/curated-roadmaps/?per_page=100`);
-      if (response.ok) {
-        const data = await response.json();
-        setRoadmaps(data);
-      }
-    } catch (error) {
-      console.error('Failed to fetch roadmaps:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const { data: roadmaps = [], isLoading: loading, isFetching } = useCuratedRoadmaps(100);
 
   const difficultyColors: { [key: string]: string } = {
     beginner: 'bg-green-500',
@@ -68,6 +48,9 @@ const MainPageSidePanel: React.FC<MainPageSidePanelProps> = ({
       roadmap.category.toLowerCase().includes(query)
     );
   }, [roadmaps, searchQuery]);
+
+  // Show stale data immediately while fetching fresh data
+  const showLoading = loading && roadmaps.length === 0;
 
   return (
     <>
@@ -140,7 +123,7 @@ const MainPageSidePanel: React.FC<MainPageSidePanelProps> = ({
               />
             </div>
             
-            {loading ? (
+            {showLoading ? (
               <div className="space-y-1">
                 {[...Array(8)].map((_, i) => (
                   <div key={i} className="animate-pulse">
