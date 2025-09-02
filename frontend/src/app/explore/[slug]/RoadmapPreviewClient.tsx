@@ -110,8 +110,8 @@ const generateRoadmapStructuredData = (roadmap: CuratedRoadmapDetail) => {
       "audienceType": roadmap.target_audience || "Developers and tech professionals"
     },
     "timeRequired": roadmap.estimated_hours ? `PT${roadmap.estimated_hours}H` : undefined,
-    "numberOfLessons": roadmap.roadmap_plan?.reduce((acc: number, module) => 
-      acc + module.topics.reduce((topicAcc: number, topic) => topicAcc + topic.subtopics.length, 0), 0
+    "numberOfLessons": roadmap.roadmap_plan?.reduce((acc: number, module: RoadmapModule) => 
+      acc + module.topics.reduce((topicAcc: number, topic: RoadmapTopic) => topicAcc + topic.subtopics.length, 0), 0
     ) || 0,
     "aggregateRating": roadmap.average_rating > 0 ? {
       "@type": "AggregateRating",
@@ -178,7 +178,7 @@ const generateBreadcrumbStructuredData = (roadmap: CuratedRoadmapDetail) => {
       {
         "@type": "ListItem",
         "position": 3,
-        "name": roadmap.category.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase()),
+        "name": roadmap.category.replace('-', ' ').replace(/\b\w/g, (l: string) => l.toUpperCase()),
         "item": `${baseUrl}/explore?category=${encodeURIComponent(roadmap.category)}`
       },
       {
@@ -315,11 +315,11 @@ const RoadmapPreviewClient: React.FC<RoadmapPreviewClientProps> = ({ slug: roadm
     return num.toString();
   };
 
-  const totalSubtopics = roadmap?.roadmap_plan?.reduce((acc: number, module) => 
-    acc + module.topics.reduce((topicAcc: number, topic) => topicAcc + topic.subtopics.length, 0), 0
+  const totalSubtopics = roadmap?.roadmap_plan?.reduce((acc: number, module: RoadmapModule) => 
+    acc + module.topics.reduce((topicAcc: number, topic: RoadmapTopic) => topicAcc + topic.subtopics.length, 0), 0
   ) || 0;
 
-  const totalTopics = roadmap?.roadmap_plan?.reduce((acc: number, module) => acc + module.topics.length, 0) || 0;
+  const totalTopics = roadmap?.roadmap_plan?.reduce((acc: number, module: RoadmapModule) => acc + module.topics.length, 0) || 0;
 
   if (loading) {
     return (
@@ -408,7 +408,7 @@ const RoadmapPreviewClient: React.FC<RoadmapPreviewClientProps> = ({ slug: roadm
             href={`/explore?category=${encodeURIComponent(roadmap.category)}`} 
             className="hover:text-gray-900 dark:hover:text-white transition-colors"
           >
-            {roadmap.category.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())}
+            {roadmap.category.replace('-', ' ').replace(/\b\w/g, (l: string) => l.toUpperCase())}
           </Link>
           <ChevronRight className="w-4 h-4" />
           <span className="text-gray-900 dark:text-white font-medium truncate">
@@ -431,7 +431,7 @@ const RoadmapPreviewClient: React.FC<RoadmapPreviewClientProps> = ({ slug: roadm
           <div className="flex flex-wrap items-center gap-2 mb-4">
             <span className={`inline-flex items-center px-3 py-1 rounded-md text-sm font-medium ${categoryColors[roadmap.category] || 'bg-gray-100 text-gray-600'}`}>
               <span className="mr-2">{categoryIcons[roadmap.category] || '📚'}</span>
-              {roadmap.category.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())}
+              {roadmap.category.replace('-', ' ').replace(/\b\w/g, (l: string) => l.toUpperCase())}
             </span>
             {roadmap.is_featured && (
               <span className="inline-flex items-center px-3 py-1 bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300 rounded-md text-sm font-medium">
@@ -505,7 +505,7 @@ const RoadmapPreviewClient: React.FC<RoadmapPreviewClientProps> = ({ slug: roadm
             <div className="bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
               <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-6">Course Content</h2>
               
-              {roadmap.roadmap_plan?.map((module, moduleIndex) => (
+              {roadmap.roadmap_plan?.map((module: RoadmapModule, moduleIndex: number) => (
                 <div key={moduleIndex} className="mb-6 last:mb-0">
                   <div className="flex items-start mb-4">
                     <div className="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-lg flex items-center justify-center text-sm font-semibold mr-4">
@@ -562,7 +562,7 @@ const RoadmapPreviewClient: React.FC<RoadmapPreviewClientProps> = ({ slug: roadm
               <div className="bg-white dark:bg-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
                 <h3 className="text-lg font-semibold text-black dark:text-white mb-4">Prerequisites</h3>
                 <ul className="space-y-2">
-                  {roadmap.prerequisites.map((prereq, index) => (
+                  {roadmap.prerequisites.map((prereq: string, index: number) => (
                     <li key={index} className="flex items-center text-sm text-gray-600 dark:text-gray-200">
                       <CheckCircle className="w-4 h-4 text-green-500 mr-2 flex-shrink-0" />
                       {prereq}
@@ -577,7 +577,7 @@ const RoadmapPreviewClient: React.FC<RoadmapPreviewClientProps> = ({ slug: roadm
               <div className="bg-white dark:bg-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
                 <h3 className="text-lg font-semibold text-black dark:text-white mb-4">What You'll Learn</h3>
                 <ul className="space-y-2">
-                  {roadmap.learning_outcomes.map((outcome, index) => (
+                  {roadmap.learning_outcomes.map((outcome: string, index: number) => (
                     <li key={index} className="flex items-center text-sm text-gray-600 dark:text-gray-200">
                       <Target className="w-4 h-4 text-blue-500 mr-2 flex-shrink-0" />
                       {outcome}
@@ -592,7 +592,7 @@ const RoadmapPreviewClient: React.FC<RoadmapPreviewClientProps> = ({ slug: roadm
               <div className="bg-white dark:bg-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
                 <h3 className="text-lg font-semibold text-black dark:text-white mb-4">Technologies & Skills</h3>
                 <div className="flex flex-wrap gap-2">
-                  {roadmap.tags.map((tag, index) => (
+                  {roadmap.tags.map((tag: string, index: number) => (
                     <span
                       key={index}
                       className="px-3 py-1 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 text-sm rounded-lg font-medium"
@@ -617,7 +617,7 @@ const RoadmapPreviewClient: React.FC<RoadmapPreviewClientProps> = ({ slug: roadm
         {/* Related Roadmaps Section for Internal Linking */}
         <div className="mt-12 bg-white dark:bg-gray-900 rounded-2xl p-8 border border-gray-200 dark:border-gray-700">
           <h2 className="text-2xl font-bold text-black dark:text-white mb-6">
-            Explore More {roadmap.category.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())} Roadmaps
+            Explore More {roadmap.category.replace('-', ' ').replace(/\b\w/g, (l: string) => l.toUpperCase())} Roadmaps
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {/* Dynamic Links Based on Category and Difficulty */}
@@ -629,7 +629,7 @@ const RoadmapPreviewClient: React.FC<RoadmapPreviewClientProps> = ({ slug: roadm
                 <BookOpen className="w-5 h-5 text-blue-600 dark:text-blue-300" />
                 <div>
                   <h3 className="font-semibold text-black dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-200">
-                    All {roadmap.category.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())} Courses
+                    All {roadmap.category.replace('-', ' ').replace(/\b\w/g, (l: string) => l.toUpperCase())} Courses
                   </h3>
                   <p className="text-sm text-gray-600 dark:text-gray-200">
                     Browse {roadmap.category.replace('-', ' ')} learning paths
