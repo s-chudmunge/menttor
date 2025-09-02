@@ -26,24 +26,17 @@ jobs:
       with:
         python-version: '3.10'
 
-    - name: Install dependencies
+    - name: Install basic dependencies for syntax check
       run: |
         cd backend
-        pip install -r requirements.txt
+        pip install fastapi sqlmodel pydantic pydantic-settings python-dotenv
 
-    - name: Run tests
+    - name: Basic syntax check
       run: |
         cd backend
-        # Add your test commands here when you have tests
-        # python -m pytest tests/
-        echo "✅ Tests would run here"
-
-    - name: Lint code
-      run: |
-        cd backend
-        # Add linting commands here
-        # python -m flake8 app/
-        echo "✅ Linting would run here"
+        python -m py_compile app/main.py
+        python -c "from app.sql_models import *; print('✅ Models import successfully')"
+        echo "✅ Basic syntax validation passed"
 
   deploy:
     needs: test
