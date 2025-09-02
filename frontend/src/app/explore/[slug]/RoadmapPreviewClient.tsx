@@ -110,8 +110,8 @@ const generateRoadmapStructuredData = (roadmap: CuratedRoadmapDetail) => {
       "audienceType": roadmap.target_audience || "Developers and tech professionals"
     },
     "timeRequired": roadmap.estimated_hours ? `PT${roadmap.estimated_hours}H` : undefined,
-    "numberOfLessons": roadmap.roadmap_plan?.reduce((acc, module) => 
-      acc + module.topics.reduce((topicAcc, topic) => topicAcc + topic.subtopics.length, 0), 0
+    "numberOfLessons": roadmap.roadmap_plan?.reduce((acc: number, module) => 
+      acc + module.topics.reduce((topicAcc: number, topic) => topicAcc + topic.subtopics.length, 0), 0
     ) || 0,
     "aggregateRating": roadmap.average_rating > 0 ? {
       "@type": "AggregateRating",
@@ -315,11 +315,11 @@ const RoadmapPreviewClient: React.FC<RoadmapPreviewClientProps> = ({ slug: roadm
     return num.toString();
   };
 
-  const totalSubtopics = roadmap?.roadmap_plan?.reduce((acc, module) => 
-    acc + module.topics.reduce((topicAcc, topic) => topicAcc + topic.subtopics.length, 0), 0
+  const totalSubtopics = roadmap?.roadmap_plan?.reduce((acc: number, module) => 
+    acc + module.topics.reduce((topicAcc: number, topic) => topicAcc + topic.subtopics.length, 0), 0
   ) || 0;
 
-  const totalTopics = roadmap?.roadmap_plan?.reduce((acc, module) => acc + module.topics.length, 0) || 0;
+  const totalTopics = roadmap?.roadmap_plan?.reduce((acc: number, module) => acc + module.topics.length, 0) || 0;
 
   if (loading) {
     return (
