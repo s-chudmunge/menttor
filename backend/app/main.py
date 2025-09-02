@@ -272,3 +272,4 @@ def get_crud_db(db: Session):
 
 logger.info("FastAPI application started.")
 # Privacy policy deployment trigger - updated frontend privacy page
+# Fixed Redis URL scheme and removed deprecated reward engagement endpoint

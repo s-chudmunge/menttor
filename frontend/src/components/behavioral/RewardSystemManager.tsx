@@ -15,7 +15,7 @@ interface ActiveReward {
 
 const RewardSystemManager: React.FC = () => {
   const { pendingRewards, behavioralStats } = useBehavioralContext();
-  const { recentRewards, engageWithReward } = useRewards();
+  const { recentRewards } = useRewards();
   const [activeRewards, setActiveRewards] = useState<ActiveReward[]>([]);
   
   // Monitor behavioral events for rewards
@@ -86,12 +86,9 @@ const RewardSystemManager: React.FC = () => {
           content: latestReward.content,
           timestamp: new Date(latestReward.created_at)
         }]);
-        
-        // Mark as engaged
-        engageWithReward(latestReward.id, true);
       }
     }
-  }, [recentRewards, engageWithReward]);
+  }, [recentRewards]);
 
   const handleRewardComplete = (rewardId: string) => {
     setActiveRewards(prev => prev.filter(reward => reward.id !== rewardId));

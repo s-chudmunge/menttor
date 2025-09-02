@@ -167,14 +167,6 @@ class BehavioralAPI {
     return response.data;
   }
 
-  async engageWithReward(rewardId: number, engaged: boolean, engagementTime?: number): Promise<{ status: string }> {
-    const response = await api.post('/behavioral/rewards/engage', {
-      reward_id: rewardId,
-      engaged,
-      engagement_time_seconds: engagementTime
-    });
-    return response.data;
-  }
 
   // NUDGING
   async recordNudgeInteraction(nudgeType: string, interaction: 'dismissed' | 'engaged' | 'ignored'): Promise<{ nudge_type: string; interaction: string; new_intensity: number }> {

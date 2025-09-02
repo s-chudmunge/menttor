@@ -253,18 +253,8 @@ export const useRewards = () => {
     }
   });
 
-  const engageWithReward = useMutation({
-    mutationFn: ({ rewardId, engaged, engagementTime }: { rewardId: number; engaged: boolean; engagementTime?: number }) =>
-      behavioralAPI.engageWithReward(rewardId, engaged, engagementTime),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['recent-rewards'] });
-    }
-  });
-
   return {
-    recentRewards: recentRewards || [],
-    engageWithReward: engageWithReward.mutate,
-    isEngaging: engageWithReward.isPending
+    recentRewards: recentRewards || []
   };
 };
 
