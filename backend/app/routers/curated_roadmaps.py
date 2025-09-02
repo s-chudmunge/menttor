@@ -66,11 +66,18 @@ async def get_cached_response(cache_key: str) -> Optional[Dict]:
         logger.warning(f"Redis cache read failed: {e}")
     return None
 
-async def set_cached_response(cache_key: str, data: Dict, ttl: int = 1800) -> None:
+async def set_cached_response(cache_key: str, data, ttl: int = 1800) -> None:
     """Set cached response in Redis with TTL (default 30 minutes)"""
     try:
         with get_redis_client() as redis_client:
-            redis_client.setex(cache_key, ttl, json.dumps(data, default=str))
+            # Convert Pydantic models to dict to avoid serialization issues
+            if hasattr(data, 'model_dump'):
+                serializable_data = data.model_dump()
+            elif isinstance(data, list) and data and hasattr(data[0], 'model_dump'):
+                serializable_data = [item.model_dump() for item in data]
+            else:
+                serializable_data = data
+            redis_client.setex(cache_key, ttl, json.dumps(serializable_data, default=str))
     except Exception as e:
         logger.warning(f"Redis cache write failed: {e}")
 
