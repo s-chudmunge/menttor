@@ -24,7 +24,7 @@ export async function GET() {
 
   try {
     // Fetch roadmaps from backend
-    const response = await fetch('https://menttor-backend.onrender.com/curated-roadmaps/?per_page=50', {
+    const response = await fetch('https://menttor-backend-144050828172.asia-south1.run.app/curated-roadmaps/?per_page=50', {
       headers: {
         'Cache-Control': 'no-cache',
       },

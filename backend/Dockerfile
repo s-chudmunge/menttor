@@ -1,9 +1,10 @@
-# Production Dockerfile for Render deployment
+# Production Dockerfile for Cloud Run deployment
 FROM python:3.10-slim
 
 WORKDIR /app
 
 ENV PYTHONPATH=/app
+ENV PORT=8080
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
