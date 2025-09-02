@@ -271,3 +271,4 @@ def get_crud_db(db: Session):
 
 
 logger.info("FastAPI application started.")
+# Privacy policy deployment trigger - updated frontend privacy page
