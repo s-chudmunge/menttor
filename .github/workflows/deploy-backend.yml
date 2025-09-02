@@ -34,8 +34,9 @@ jobs:
     - name: Basic syntax check
       run: |
         cd backend
+        export PYTHONPATH=$PWD/app
         python -m py_compile app/main.py
-        python -c "from app.sql_models import *; print('✅ Models import successfully')"
+        python -c "import sys; sys.path.append('app'); from sql_models import *; print('✅ Models import successfully')"
         echo "✅ Basic syntax validation passed"
 
   deploy:
