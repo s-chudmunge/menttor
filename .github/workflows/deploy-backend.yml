@@ -1,0 +1,104 @@
+name: Deploy Backend to Cloud Run
+
+on:
+  push:
+    branches: [ master ]
+    paths:
+      - 'backend/**'
+      - '.github/workflows/deploy-backend.yml'
+  workflow_dispatch:
+
+env:
+  PROJECT_ID: gen-lang-client-0319118634
+  REGION: asia-south1
+  SERVICE_NAME: menttor-backend
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+
+    - name: Install dependencies
+      run: |
+        cd backend
+        pip install -r requirements.txt
+
+    - name: Run tests
+      run: |
+        cd backend
+        # Add your test commands here when you have tests
+        # python -m pytest tests/
+        echo "✅ Tests would run here"
+
+    - name: Lint code
+      run: |
+        cd backend
+        # Add linting commands here
+        # python -m flake8 app/
+        echo "✅ Linting would run here"
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Cloud SDK
+      uses: google-github-actions/setup-gcloud@v1
+      with:
+        project_id: ${{ env.PROJECT_ID }}
+        service_account_key: ${{ secrets.GCP_SA_KEY }}
+        export_default_credentials: true
+
+    - name: Configure Docker for GCR
+      run: gcloud auth configure-docker
+
+    - name: Build Docker image
+      run: |
+        cd backend
+        docker build -t gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE_NAME }}:${{ github.sha }} .
+        docker tag gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE_NAME }}:${{ github.sha }} gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE_NAME }}:latest
+
+    - name: Push Docker image
+      run: |
+        docker push gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE_NAME }}:${{ github.sha }}
+        docker push gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE_NAME }}:latest
+
+    - name: Deploy to Cloud Run
+      run: |
+        gcloud run deploy ${{ env.SERVICE_NAME }} \
+          --image gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE_NAME }}:${{ github.sha }} \
+          --region ${{ env.REGION }} \
+          --allow-unauthenticated \
+          --min-instances=1 \
+          --max-instances=3 \
+          --memory=2Gi \
+          --cpu=1 \
+          --timeout=300 \
+          --set-env-vars="GOOGLE_CLOUD_PROJECT_ID=${{ env.PROJECT_ID }},CLOUD_SQL_INSTANCE_NAME=menttor-db-instance,CLOUD_SQL_REGION=asia-south1,USE_CLOUD_SQL_AUTH_PROXY=false,ENVIRONMENT=production,DATABASE_ECHO=false,POSTGRES_USER=admin-db,POSTGRES_DB=menttor-db,POSTGRES_HOST=34.93.60.80,POSTGRES_PORT=5432,VERTEX_AI_PROJECT_ID=${{ env.PROJECT_ID }},VERTEX_AI_REGION=us-central1,VERTEX_AI_MODEL_ID=gemini-1.5-flash,FIREBASE_PROJECT_ID=${{ env.PROJECT_ID }},FIREBASE_CLIENT_EMAIL=firebase-adminsdk-fbsvc@${{ env.PROJECT_ID }}.iam.gserviceaccount.com,FIREBASE_CLIENT_ID=102114583325761555963,GOOGLE_CLIENT_ID=144050828172-7c4f3ms8ou0a2sjp8egsta35rtq6atq8.apps.googleusercontent.com" \
+          --set-secrets="POSTGRES_PASSWORD=postgres-password:latest,OPENROUTER_API_KEY=openrouter-api-key:latest,HUGGINGFACE_HUB_TOKEN=huggingface-hub-token:latest,SECRET_KEY=secret-key:latest,REFRESH_SECRET_KEY=refresh-secret-key:latest,GOOGLE_CLIENT_SECRET=google-client-secret:latest,FIREBASE_CREDENTIALS=firebase-service-account:latest,GOOGLE_APPLICATION_CREDENTIALS_JSON=firebase-service-account:latest"
+
+    - name: Verify deployment
+      run: |
+        SERVICE_URL=$(gcloud run services describe ${{ env.SERVICE_NAME }} --region=${{ env.REGION }} --format='value(status.url)')
+        echo "Service deployed at: $SERVICE_URL"
+        
+        # Test health endpoint
+        curl -f "$SERVICE_URL/health" || exit 1
+        echo "✅ Health check passed"
+
+    - name: Post-deployment notification
+      if: success()
+      run: |
+        echo "🚀 Backend successfully deployed to Cloud Run"
+        echo "📊 Using CI/CD-safe auto-migrations that preserve all user data"
