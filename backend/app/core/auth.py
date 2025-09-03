@@ -10,8 +10,32 @@ from .config import settings
 from database.session import get_db
 
 import logging
+import json
+import firebase_admin
+from firebase_admin import credentials, auth
 
 logger = logging.getLogger(__name__)
+
+# Initialize Firebase Admin SDK
+# Check if Firebase app is already initialized to avoid re-initialization errors
+if not firebase_admin._apps:
+    try:
+        firebase_creds = settings.FIREBASE_CREDENTIALS
+        
+        # Check if it's a file path or JSON content
+        if firebase_creds.startswith('{') and firebase_creds.endswith('}'):
+            # It's JSON content - parse it and create credentials
+            cred_dict = json.loads(firebase_creds)
+            cred = credentials.Certificate(cred_dict)
+        else:
+            # It's a file path - use it directly
+            cred = credentials.Certificate(firebase_creds)
+            
+        firebase_admin.initialize_app(cred)
+        logger.info("Firebase Admin SDK initialized successfully.")
+    except Exception as e:
+        logger.error(f"Failed to initialize Firebase Admin SDK: {e}")
+        # Depending on your application's needs, you might want to exit or raise an error here
 
 async def get_current_user(request: Request, db: Session = Depends(get_db)) -> User:
     from database.cache import query_cache, cache_user_query
@@ -20,80 +44,106 @@ async def get_current_user(request: Request, db: Session = Depends(get_db)) -> U
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Could not validate credentials",
+        headers={"WWW-Authenticate": "Bearer"},
     )
 
-    # Google IAP provides user identity in headers
-    iap_user_email = request.headers.get("X-Goog-Authenticated-User-Email")
-    iap_user_id = request.headers.get("X-Goog-Authenticated-User-ID")
-    
-    if not iap_user_email:
-        logger.warning("Auth: No IAP user email found in headers")
+    # Get token from Authorization header
+    auth_header = request.headers.get("Authorization")
+    if not auth_header or not auth_header.startswith("Bearer "):
+        logger.warning("Auth: No Bearer token found in Authorization header.")
         raise credentials_exception
 
-    # Clean the email (IAP prefixes with "accounts.google.com:")
-    email = iap_user_email.replace("accounts.google.com:", "")
-    uid = iap_user_id.replace("accounts.google.com:", "") if iap_user_id else email
+    token = auth_header.split(" ")[1]
     
-    logger.debug(f"Auth: IAP authenticated user: {email}")
 
-    # Check user cache first
-    user_cache_key = f"user:email:{email}"
+    try:
+        # Verify Firebase ID token (this is cached by Firebase SDK)
+        decoded_token = auth.verify_id_token(token)
+        uid = decoded_token['uid']
+        email = decoded_token.get('email')
+        logger.debug(f"Auth: Decoded Firebase ID token for UID: {uid}")
+    except Exception as e:
+        logger.error(f"Auth: Firebase ID token verification failed: {e}")
+        raise credentials_exception
+
+    # Check user cache first (cache user ID only, not the object)
+    user_cache_key = f"user:uid:{uid}"
     cached_user_id = query_cache.get(user_cache_key)
     if cached_user_id:
-        logger.debug(f"Auth: Using cached user ID for email: {email}")
+        logger.debug(f"Auth: Using cached user ID for UID: {uid}")
+        # Re-fetch user from current session to ensure it's bound
         user = db.exec(select(User).where(User.id == cached_user_id)).first()
         if user:
             return user
 
-    # Rate limit check using email as identifier
-    allowed, reason = db_monitor.check_rate_limit(email)
+    # Rate limit check
+    allowed, reason = db_monitor.check_rate_limit(uid)
     if not allowed:
-        logger.warning(f"Auth rate limit exceeded for user {email}: {reason}")
+        logger.warning(f"Auth rate limit exceeded for user {uid}: {reason}")
         raise HTTPException(
             status_code=status.HTTP_429_TOO_MANY_REQUESTS,
             detail="Too many requests. Please try again later."
         )
 
-    # Fetch user from database by email
+    # Fetch user from database
     @monitor_query("select", "user")
-    def fetch_user_by_email(user_email: str) -> Optional[User]:
-        return db.exec(select(User).where(User.email == user_email)).first()
+    def fetch_user_by_uid(firebase_uid: str) -> Optional[User]:
+        return db.exec(select(User).where(User.firebase_uid == firebase_uid)).first()
     
-    user = fetch_user_by_email(email)
+    user = fetch_user_by_uid(uid)
     if user is None:
-        # Create new user with IAP email
-        logger.info(f"Auth: Creating new user for IAP email: {email}")
+        # If user doesn't exist in your DB, create them (optional, depending on your flow)
+        # Or raise an error if all users must pre-exist in your DB
+        logger.warning(f"Auth: User with Firebase UID {uid} not found in database. Attempting to create.")
         try:
+            # Handle phone authentication where email might be None
+            user_email = email if email else f"{uid}@phone.auth"  # Generate placeholder email for phone auth
+            # For phone auth users, mark profile as incomplete so they complete onboarding
+            profile_completed = bool(email)  # Only complete if we have a real email
             new_user = User(
-                firebase_uid=uid,  # Use IAP user ID as firebase_uid for compatibility
-                email=email, 
+                firebase_uid=uid, 
+                email=user_email, 
                 is_active=True, 
                 hashed_password=None, 
                 is_admin=False,
-                display_name=email.split('@')[0],  # Use email prefix as display name
-                profile_completed=True,
-                onboarding_completed=False  # They still need to complete onboarding
+                display_name=decoded_token.get('name'),
+                profile_completed=profile_completed,
+                onboarding_completed=profile_completed
             )
             db.add(new_user)
             db.commit()
             db.refresh(new_user)
             user = new_user
-            logger.info(f"Auth: New IAP user created: {email}, ID: {user.id}")
+            logger.info(f"Auth: New user created in DB with UID: {uid}, Email: {user_email}")
         except Exception as e:
-            logger.error(f"Auth: Failed to create new user: {e}")
+            logger.error(f"Auth: Failed to create new user in DB: {e}")
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 detail="Failed to create user in database",
             )
 
+    if user.id is None:
+        logger.error(f"Auth: Critical error: User object returned with None ID after authentication/creation for Firebase UID: {uid}. This indicates a database or ORM issue.")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Internal server error: User ID could not be determined.",
+        )
+
     # Cache the user ID for future requests (5 minutes TTL)
     query_cache.set(user_cache_key, user.id, ttl=300)
     
-    logger.info(f"Auth: Successfully authenticated IAP user: {user.email}, ID: {user.id}")
+    logger.info(f"Auth: Successfully authenticated user: {user.email}, ID: {user.id}")
     return user
 
 async def get_current_user_from_websocket(token: str, db: Session) -> Optional[User]:
-    # For IAP, WebSocket auth is handled differently
-    # You'll need to implement WebSocket auth through IAP or disable WebSocket features
-    logger.warning("WebSocket auth not implemented with IAP - returning None")
-    return None
+    if not token:
+        return None
+    try:
+        decoded_token = auth.verify_id_token(token)
+        uid = decoded_token['uid']
+        email = decoded_token.get('email')
+    except Exception:
+        return None
+    
+    user = db.exec(select(User).where(User.firebase_uid == uid)).first()
+    return user
