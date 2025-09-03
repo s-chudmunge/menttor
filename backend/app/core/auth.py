@@ -32,10 +32,10 @@ if not firebase_admin._apps:
             cred = credentials.Certificate(firebase_creds)
             
         firebase_admin.initialize_app(cred)
-        logger.info("Firebase Admin SDK initialized successfully.")
+        logger.info("✅ Firebase Admin SDK initialized successfully.")
     except Exception as e:
-        logger.error(f"Failed to initialize Firebase Admin SDK: {e}")
-        # Depending on your application's needs, you might want to exit or raise an error here
+        logger.error(f"❌ Failed to initialize Firebase Admin SDK: {e}")
+        logger.warning("⚠️ App will continue without Firebase auth")
 
 async def get_current_user(request: Request, db: Session = Depends(get_db)) -> User:
     from database.cache import query_cache, cache_user_query
