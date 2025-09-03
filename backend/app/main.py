@@ -279,3 +279,4 @@ logger.info("FastAPI application started.")
 # Another deploy trigger
 # Deploy with fixed permissions
 # Deploy with corrected database password
+# Deploy with password without newline
