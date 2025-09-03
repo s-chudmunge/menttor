@@ -21,21 +21,32 @@ logger = logging.getLogger(__name__)
 if not firebase_admin._apps:
     try:
         firebase_creds = settings.FIREBASE_CREDENTIALS
+        logger.info(f"Firebase credentials type: {type(firebase_creds)}, length: {len(firebase_creds) if firebase_creds else 0}")
+        
+        if not firebase_creds:
+            logger.error("FIREBASE_CREDENTIALS environment variable is not set")
+            raise ValueError("FIREBASE_CREDENTIALS environment variable is required")
         
         # Check if it's a file path or JSON content
         if firebase_creds.startswith('{') and firebase_creds.endswith('}'):
             # It's JSON content - parse it and create credentials
+            logger.info("Using Firebase credentials from JSON content")
             cred_dict = json.loads(firebase_creds)
             cred = credentials.Certificate(cred_dict)
         else:
             # It's a file path - use it directly
+            logger.info(f"Using Firebase credentials from file path: {firebase_creds}")
             cred = credentials.Certificate(firebase_creds)
             
         firebase_admin.initialize_app(cred)
-        logger.info("Firebase Admin SDK initialized successfully.")
+        logger.info("✅ Firebase Admin SDK initialized successfully.")
     except Exception as e:
-        logger.error(f"Failed to initialize Firebase Admin SDK: {e}")
-        # Depending on your application's needs, you might want to exit or raise an error here
+        logger.error(f"❌ Failed to initialize Firebase Admin SDK: {e}")
+        logger.error(f"Firebase credentials available: {bool(firebase_creds)}")
+        # Log more details for debugging
+        if firebase_creds:
+            logger.error(f"Credentials start with: {firebase_creds[:50]}...")
+        raise e
 
 async def get_current_user(request: Request, db: Session = Depends(get_db)) -> User:
     from database.cache import query_cache, cache_user_query
