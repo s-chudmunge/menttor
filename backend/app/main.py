@@ -277,3 +277,4 @@ logger.info("FastAPI application started.")
 # Testing CI/CD pipeline with clean service account JSON key
 # Deploy trigger comment
 # Another deploy trigger
+# Deploy with fixed permissions
