@@ -57,4 +57,7 @@ echo "✅ Database ready for production"
 
 # Start FastAPI in production mode
 echo "🌟 Starting FastAPI application..."
+# Use PORT environment variable from Cloud Run (defaults to 8080 for local testing)
+export PORT=${PORT:-8080}
+echo "📡 Starting server on port $PORT"
 exec python -m uvicorn main:app --host 0.0.0.0 --port $PORT

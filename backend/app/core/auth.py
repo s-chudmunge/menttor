@@ -22,20 +22,27 @@ if not firebase_admin._apps:
     try:
         firebase_creds = settings.FIREBASE_CREDENTIALS
         
-        # Check if it's a file path or JSON content
-        if firebase_creds.startswith('{') and firebase_creds.endswith('}'):
-            # It's JSON content - parse it and create credentials
+        if not firebase_creds:
+            logger.error("❌ FIREBASE_CREDENTIALS environment variable is not set")
+            raise ValueError("FIREBASE_CREDENTIALS is required")
+        
+        # Parse JSON string from environment variable
+        try:
             cred_dict = json.loads(firebase_creds)
             cred = credentials.Certificate(cred_dict)
-        else:
-            # It's a file path - use it directly
-            cred = credentials.Certificate(firebase_creds)
+            firebase_admin.initialize_app(cred)
+            logger.info("✅ Firebase Admin SDK initialized successfully from JSON credentials.")
+        except json.JSONDecodeError as e:
+            logger.error(f"❌ Failed to parse FIREBASE_CREDENTIALS JSON: {e}")
+            raise ValueError(f"Invalid JSON in FIREBASE_CREDENTIALS: {e}")
+        except Exception as e:
+            logger.error(f"❌ Failed to create Firebase credentials: {e}")
+            raise
             
-        firebase_admin.initialize_app(cred)
-        logger.info("✅ Firebase Admin SDK initialized successfully.")
     except Exception as e:
         logger.error(f"❌ Failed to initialize Firebase Admin SDK: {e}")
-        logger.warning("⚠️ App will continue without Firebase auth")
+        # For Cloud Run, we need Firebase to work - don't continue without it
+        raise RuntimeError(f"Firebase initialization is required for authentication: {e}")
 
 async def get_current_user(request: Request, db: Session = Depends(get_db)) -> User:
     from database.cache import query_cache, cache_user_query

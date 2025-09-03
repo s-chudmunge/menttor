@@ -20,12 +20,11 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY app/ ./
 COPY alembic.ini ./
 COPY alembic/ ./alembic/
-COPY start.sh ./start.sh
 COPY start_production.sh ./start_production.sh
 COPY start_fast_production.sh ./start_fast_production.sh
 
 # Make start scripts executable
-RUN chmod +x ./start.sh ./start_production.sh ./start_fast_production.sh
+RUN chmod +x ./start_production.sh ./start_fast_production.sh
 
 # Use fast production startup for quick deployments
 CMD ["./start_production.sh"]
