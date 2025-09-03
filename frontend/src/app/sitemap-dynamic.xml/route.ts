@@ -4,18 +4,28 @@ export async function GET(request: NextRequest) {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://menttor.live'
   const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'https://menttor-backend-144050828172.asia-south1.run.app'
   
-  // Static fallback roadmaps that we know exist
+  // Updated fallback roadmaps based on actual API data
   const knownRoadmaps = [
     'deep-learning-research-and-large-language-models',
-    'advanced-mathematical-physics-and-theoretical-research', 
+    'advanced-mathematical-physics-and-theoretical-research',
+    'python-mastery-for-data-science-and-ai-development',
+    'generative-ai-and-large-language-models',
     'climate-science-and-earth-system-modeling',
     'python-data-science-and-machine-learning',
-    'generative-ai-and-large-language-models',
-    'system-design-for-large-scale-applications',
     'entrepreneurship-and-startup-strategy',
+    'computational-biology-and-bioinformatics-research',
+    'system-design-for-large-scale-applications',
     'financial-analysis-and-investment-strategy',
+    'typescript-full-stack-development',
     'complete-react-development-with-typescript',
-    'computational-biology-and-bioinformatics-research'
+    'quantum-computing-research-and-algorithm-development',
+    'c-modern-systems-programming-and-performance',
+    'digital-marketing-strategy-and-analytics',
+    'advanced-neuroscience-research-and-computational-modeling',
+    'mlops-and-model-deployment-at-scale',
+    'jee-physics-mastery-mechanics-and-electromagnetism',
+    'strategic-management-and-business-planning',
+    'gate-computer-science-algorithms-and-data-structures'
   ]
   
   let roadmaps = []
@@ -25,7 +35,7 @@ export async function GET(request: NextRequest) {
     const controller = new AbortController()
     const timeoutId = setTimeout(() => controller.abort(), 5000) // 5 second timeout
     
-    const response = await fetch(`${backendUrl}/curated-roadmaps/?per_page=500`, {
+    const response = await fetch(`${backendUrl}/curated-roadmaps/?per_page=100`, {
       headers: {
         'Accept': 'application/json',
         'User-Agent': 'NextJS-Sitemap-Generator'

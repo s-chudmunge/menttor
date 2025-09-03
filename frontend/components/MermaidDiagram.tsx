@@ -234,10 +234,14 @@ const MermaidDiagram: React.FC<MermaidDiagramProps> = ({ chart, id }) => {
         />
         <style jsx global>{`
           .mermaid-container svg {
-            max-width: 100% !important;
+            max-width: 800px !important;
+            max-height: 600px !important;
+            width: 100% !important;
             height: auto !important;
             display: block !important;
             margin: 0 auto !important;
+            transform: scale(0.8) !important;
+            transform-origin: center !important;
           }
           .mermaid-container g[class*="node"] rect,
           .mermaid-container g[class*="node"] circle,

@@ -33,14 +33,14 @@ export async function GET() {
         'Cache-Control': 'no-cache',
         'Accept': 'application/json',
       },
-      signal: AbortSignal.timeout(2000), // 2 second timeout for faster builds
+      signal: AbortSignal.timeout(5000), // Increased timeout to ensure we get all roadmaps
     });
 
     if (response.ok && response.status === 200) {
       const roadmaps: CuratedRoadmap[] = await response.json();
       
       if (Array.isArray(roadmaps) && roadmaps.length > 0) {
-        // Add roadmap URLs
+        // Add roadmap preview URLs (these are the actual pages that exist)
         const roadmapUrls = roadmaps.map((roadmap) => ({
           url: `${baseUrl}/explore/${roadmap.slug || roadmap.id}`,
           priority: roadmap.is_featured ? '0.8' : '0.7',
