@@ -28,8 +28,10 @@ export function useFavicon() {
     };
 
     updateFavicon('link[rel="icon"][type="image/x-icon"]', `/${themeFolder}/favicon.ico`);
-    updateFavicon('link[rel="icon"][sizes="16x16"]', `/${themeFolder}/favicon-16x16.png`);
+    updateFavicon('link[rel="icon"][sizes="512x512"]', `/${themeFolder}/android-chrome-512x512.png`);
+    updateFavicon('link[rel="icon"][sizes="192x192"]', `/${themeFolder}/android-chrome-192x192.png`);
     updateFavicon('link[rel="icon"][sizes="32x32"]', `/${themeFolder}/favicon-32x32.png`);
+    updateFavicon('link[rel="icon"][sizes="16x16"]', `/${themeFolder}/favicon-16x16.png`);
     updateFavicon('link[rel="apple-touch-icon"]', `/${themeFolder}/apple-touch-icon.png`);
   }, [isDark]);
 }

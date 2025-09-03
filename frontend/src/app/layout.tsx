@@ -112,7 +112,12 @@ export const metadata: Metadata = {
     },
   },
   icons: {
-    icon: [{ url: '/favicon_io_light/favicon-16x16.png', sizes: '16x16', type: 'image/png' }, { url: '/favicon_io_light/favicon-32x32.png', sizes: '32x32', type: 'image/png' }],
+    icon: [
+      { url: '/favicon_io_light/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+      { url: '/favicon_io_light/android-chrome-192x192.png', sizes: '192x192', type: 'image/png' },
+      { url: '/favicon_io_light/android-chrome-512x512.png', sizes: '512x512', type: 'image/png' },
+      { url: '/favicon_io_light/favicon-16x16.png', sizes: '16x16', type: 'image/png' }
+    ],
     shortcut: '/favicon_io_light/favicon.ico',
     apple: '/favicon_io_light/apple-touch-icon.png',
   },
@@ -130,9 +135,12 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        <link rel="shortcut icon" href="/favicon_io_light/favicon.ico" type="image/x-icon" />
         <link rel="icon" href="/favicon_io_light/favicon.ico" type="image/x-icon" />
-        <link rel="icon" href="/favicon_io_light/favicon-16x16.png" sizes="16x16" type="image/png" />
+        <link rel="icon" href="/favicon_io_light/android-chrome-512x512.png" sizes="512x512" type="image/png" />
+        <link rel="icon" href="/favicon_io_light/android-chrome-192x192.png" sizes="192x192" type="image/png" />
         <link rel="icon" href="/favicon_io_light/favicon-32x32.png" sizes="32x32" type="image/png" />
+        <link rel="icon" href="/favicon_io_light/favicon-16x16.png" sizes="16x16" type="image/png" />
         <link rel="apple-touch-icon" href="/favicon_io_light/apple-touch-icon.png" />
         <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap" rel="stylesheet" />
         
@@ -160,7 +168,7 @@ export default function RootLayout({
               "url": "https://menttor.live",
               "logo": {
                 "@type": "ImageObject",
-                "url": "https://menttor.live/favicon_io_dark/android-chrome-512x512.png",
+                "url": "https://menttor.live/favicon_io_light/android-chrome-512x512.png",
                 "width": 512,
                 "height": 512
               },
