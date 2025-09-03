@@ -55,35 +55,6 @@ async def get_current_user(request: Request, db: Session = Depends(get_db)) -> U
 
     token = auth_header.split(" ")[1]
     
-    # Test bypass for development/testing
-    if settings.ENABLE_AUTH_BYPASS and token == "test_token":
-        logger.info("Auth: Using test bypass mode")
-        # Check cache first for test user ID
-        cache_key = "test_user:test@example.com"
-        cached_user_id = query_cache.get(cache_key)
-        if cached_user_id:
-            # Re-fetch test user from current session
-            test_user = db.exec(select(User).where(User.id == cached_user_id)).first()
-            if test_user:
-                return test_user
-            
-        # Return a test user or create one if needed
-        test_user = db.exec(select(User).where(User.email == "test@example.com")).first()
-        if not test_user:
-            test_user = User(
-                firebase_uid="test_uid",
-                email="test@example.com",
-                is_active=True,
-                hashed_password="",
-                is_admin=False
-            )
-            db.add(test_user)
-            db.commit()
-            db.refresh(test_user)
-        
-        # Cache test user ID for 10 minutes
-        query_cache.set(cache_key, test_user.id, ttl=600)
-        return test_user
 
     try:
         # Verify Firebase ID token (this is cached by Firebase SDK)
