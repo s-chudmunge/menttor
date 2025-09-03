@@ -153,8 +153,8 @@ const MenttorLabsMainPage = () => {
             } else {
               // Final fallback if no models at all
               console.warn('No models available, using hardcoded Vertex AI model');
-              setFormData(prev => ({ ...prev, model: 'vertexai:gemini-1.5-flash-001' }));
-              setSelectedModelName('Google Gemini (gemini-1.5-flash-001)');
+              setFormData(prev => ({ ...prev, model: 'vertexai:gemini-2.5-flash-lite' }));
+              setSelectedModelName('Google Gemini (gemini-2.5-flash-lite)');
             }
           }
         } else {
@@ -164,8 +164,8 @@ const MenttorLabsMainPage = () => {
         console.error('Error fetching models:', error);
         // Set a hardcoded Vertex AI model as final fallback
         console.log('Using fallback Vertex AI model');
-        setFormData(prev => ({ ...prev, model: 'vertexai:gemini-1.5-flash-001' }));
-        setSelectedModelName('Google Gemini (gemini-1.5-flash-001)');
+        setFormData(prev => ({ ...prev, model: 'vertexai:gemini-2.5-flash-lite' }));
+        setSelectedModelName('Google Gemini (gemini-2.5-flash-lite)');
       }
     };
 
