@@ -82,7 +82,7 @@ jobs:
           --memory=2Gi \
           --cpu=1 \
           --timeout=300 \
-          --set-env-vars="GOOGLE_CLOUD_PROJECT_ID=${{ env.PROJECT_ID }},CLOUD_SQL_INSTANCE_NAME=menttor-db-instance,CLOUD_SQL_REGION=asia-south1,USE_CLOUD_SQL_AUTH_PROXY=false,ENVIRONMENT=production,DATABASE_ECHO=false,POSTGRES_USER=admin-db,POSTGRES_DB=menttor-db,POSTGRES_HOST=34.93.60.80,POSTGRES_PORT=5432,VERTEX_AI_PROJECT_ID=${{ env.PROJECT_ID }},VERTEX_AI_REGION=us-central1,VERTEX_AI_MODEL_ID=gemini-1.5-flash" \
+          --set-env-vars="GOOGLE_CLOUD_PROJECT_ID=${{ env.PROJECT_ID }},CLOUD_SQL_INSTANCE_NAME=menttor-db-instance,CLOUD_SQL_REGION=asia-south1,USE_CLOUD_SQL_AUTH_PROXY=false,ENVIRONMENT=production,DATABASE_ECHO=false,POSTGRES_USER=admin-db,POSTGRES_DB=menttor-db,POSTGRES_HOST=34.93.60.80,POSTGRES_PORT=5432,VERTEX_AI_PROJECT_ID=${{ env.PROJECT_ID }},VERTEX_AI_REGION=us-central1,VERTEX_AI_MODEL_ID=gemini-1.5-flash,FIREBASE_PROJECT_ID=${{ env.PROJECT_ID }},FIREBASE_CLIENT_EMAIL=firebase-adminsdk-fbsvc@gen-lang-client-0319118634.iam.gserviceaccount.com,FIREBASE_CLIENT_ID=102114583325761555963,GOOGLE_CLIENT_ID=144050828172-7c4f3ms8ou0a2sjp8egsta35rtq6atq8.apps.googleusercontent.com,GOOGLE_CLIENT_SECRET=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" \
           --set-secrets="POSTGRES_PASSWORD=postgres-password:latest,OPENROUTER_API_KEY=openrouter-api-key:latest,HUGGINGFACE_HUB_TOKEN=huggingface-hub-token:latest,SECRET_KEY=secret-key:latest,REFRESH_SECRET_KEY=refresh-secret-key:latest,FIREBASE_CREDENTIALS=firebase-service-account:latest"
 
     - name: Verify deployment

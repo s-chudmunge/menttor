@@ -280,3 +280,4 @@ logger.info("FastAPI application started.")
 # Deploy with fixed permissions
 # Deploy with corrected database password
 # Deploy with password without newline
+# Deploy trigger - Fixed authentication and environment variables for Cloud Run
