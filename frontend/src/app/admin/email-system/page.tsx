@@ -393,7 +393,7 @@ menttor.live`;
                         setEmailSubject('Welcome to Menttor - Start Your Learning Journey!')
                         setEmailMessage('')
                       } else if (e.target.value === 'promotional') {
-                        setEmailSubject('Transform Your Learning with Expert-Curated Roadmaps')
+                        setEmailSubject('Your learning resources are ready')
                         setEmailMessage(getPromotionalTemplate())
                       } else {
                         setEmailSubject('Test Email from Menttor')

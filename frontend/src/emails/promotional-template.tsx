@@ -31,33 +31,32 @@ export default function PromotionalEmail({ recipientName = "there" }: Promotiona
               alt="Menttor Logo"
               style={{ margin: '0 auto 16px' }}
             />
-            <Heading style={heading}>Accelerate Your Learning Journey</Heading>
-            <Text style={subtitle}>Join 10,000+ learners mastering new skills with expert-curated roadmaps</Text>
+            <Heading style={heading}>Your Learning Resources Are Ready</Heading>
+            <Text style={subtitle}>Personalized roadmaps to help you learn more effectively</Text>
           </Section>
 
           {/* Main Message */}
           <Section style={section}>
             <Text style={text}>Hi {recipientName}!</Text>
             <Text style={text}>
-              Are you struggling to create effective learning paths for complex topics? 
-              <strong> Menttor solves this with expert-curated roadmaps</strong> that adapt to your pace and style.
+              I wanted to share something that might help with your learning goals. 
+              Menttor provides structured roadmaps that can guide you through complex topics step by step.
             </Text>
           </Section>
 
           {/* Key Benefits */}
           <Section style={section}>
-            <Text style={benefitsTitle}>Why 10,000+ learners choose Menttor:</Text>
-            <Text style={bulletText}>⚡ <strong>500+ Expert Roadmaps</strong> - Programming, Business, Science, and more</Text>
-            <Text style={bulletText}>🎯 <strong>Personalized Learning</strong> - Smart learning system tracks your progress and adapts content</Text>
-            <Text style={bulletText}>🧠 <strong>Smart Study Tools</strong> - Flashcards, Practice Tests, Mind Maps</Text>
-            <Text style={bulletText}>📈 <strong>95% Success Rate</strong> - Proven learning methodology</Text>
-            <Text style={bulletText}>⏱️ <strong>Save 60% Time</strong> - Skip the research, start learning immediately</Text>
+            <Text style={benefitsTitle}>What you'll find helpful:</Text>
+            <Text style={bulletText}>• <strong>Curated Learning Paths</strong> - Structured roadmaps for programming, business, and science topics</Text>
+            <Text style={bulletText}>• <strong>Progress Tracking</strong> - See where you are in your learning journey</Text>
+            <Text style={bulletText}>• <strong>Study Tools</strong> - Flashcards and practice sessions to reinforce learning</Text>
+            <Text style={bulletText}>• <strong>Focus on Learning</strong> - Spend time studying, not planning what to study next</Text>
           </Section>
 
           {/* Social Proof */}
           <Section style={proofSection}>
             <Text style={proofText}>
-              "Menttor helped me land my dream job in just 3 months. The roadmaps are incredibly detailed and the progress tracking kept me motivated." 
+              "The roadmaps helped me stay organized and focused on what to learn next. Really useful for breaking down complex topics." 
               <br /><em>- Sarah, Software Engineer</em>
             </Text>
           </Section>
@@ -65,10 +64,10 @@ export default function PromotionalEmail({ recipientName = "there" }: Promotiona
           {/* CTA */}
           <Section style={ctaSection}>
             <Button style={buttonPrimary} href="https://menttor.live/explore">
-              Start Learning for Free
+              Explore Learning Paths
             </Button>
             <Text style={ctaSubtext}>
-              No credit card required • 7-day free trial • Cancel anytime
+              Free to browse and get started
             </Text>
           </Section>
 
@@ -77,7 +76,7 @@ export default function PromotionalEmail({ recipientName = "there" }: Promotiona
           {/* Footer */}
           <Section style={footer}>
             <Text style={footerText}>
-              Ready to transform your learning?<br />
+              Hope this helps with your learning journey.<br />
               Sankalp, Founder of Menttor<br />
               <Link href="https://menttor.live" style={link}>menttor.live</Link>
             </Text>
