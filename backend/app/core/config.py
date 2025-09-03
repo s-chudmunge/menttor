@@ -45,7 +45,7 @@ class Settings(BaseSettings):
     DEFAULT_LEARNING_CONTENT_MODEL: str = "gemini-2.5-flash-lite"
     DEFAULT_VISUALIZATION_MODEL: str = "gemini-2.5-flash-lite"
 
-    FIREBASE_CREDENTIALS: str
+    FIREBASE_CREDENTIALS: Optional[str] = None
     
     CORS_ALLOWED_ORIGINS: str = "http://localhost:3000,http://localhost:3001,http://127.0.0.1:3000,http://127.0.0.1:3001,https://menttor.live,https://www.menttor.live,https://menttor.vercel.app"
     
