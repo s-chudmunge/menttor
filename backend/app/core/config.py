@@ -16,7 +16,7 @@ class Settings(BaseSettings):
     POSTGRES_USER: str = ""
     POSTGRES_PASSWORD: str = ""
     POSTGRES_DB: str = ""
-    REDIS_URL: str = "redis://localhost:6379/0"
+    REDIS_URL: str = "rediss://default:AfDaAAIncDEwNzhmZDg0ZDI5OTQ0YmNjODNkMmM0MDM2MzdhMzI3YXAxNjE2NTg@caring-goose-61658.upstash.io:6379"
     ENVIRONMENT: str = "development"
     SECRET_KEY: str
     
