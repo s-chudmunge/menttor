@@ -2,7 +2,7 @@ import axios from 'axios';
 import { auth } from './firebase/client';
 
 // Base API URL
-const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000';
+const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'https://menttor-backend-oiugfpd7aa-el.a.run.app';
 
 export const api = axios.create({
     baseURL: BACKEND_URL,
