@@ -38,7 +38,7 @@ class Settings(BaseSettings):
     VERTEX_AI_MODEL_ID: Optional[str] = "gemini-2.5-flash-lite"
     
     # Default AI Models for different use cases - centralized configuration
-    # Using gemini-2.5-flash-lite: stable and cost-effective ($0.1/1M input, $0.4/1M output)
+    # Using gemini-2.5-flash-lite: Latest GA model optimized for cost-efficiency ($0.10/1M input, $0.40/1M output)
     DEFAULT_ROADMAP_MODEL: str = "gemini-2.5-flash-lite"
     DEFAULT_QUIZ_MODEL: str = "gemini-2.5-flash-lite"
     DEFAULT_FEEDBACK_MODEL: str = "gemini-2.5-flash-lite"
