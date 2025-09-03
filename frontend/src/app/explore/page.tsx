@@ -633,7 +633,7 @@ const ExplorePage = () => {
           <div className="text-center mb-8">
             <div className="inline-flex items-center px-4 py-2 rounded-full bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-900/40 dark:to-purple-900/40 text-blue-700 dark:text-blue-300 text-sm font-medium mb-6">
               <Sparkles className="w-4 h-4 mr-2" />
-              Expert-Curated Learning Paths
+              Expert-Curated Learning Paths 
             </div>
             <h1 className="text-5xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 dark:from-white dark:to-gray-200 bg-clip-text text-transparent mb-6">
               Free Courses & Learning Roadmaps
