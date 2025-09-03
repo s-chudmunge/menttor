@@ -18,6 +18,7 @@ logger = logging.getLogger(__name__)
 
 # Initialize Firebase Admin SDK
 # Check if Firebase app is already initialized to avoid re-initialization errors
+firebase_initialized = False
 if not firebase_admin._apps:
     try:
         firebase_creds = settings.FIREBASE_CREDENTIALS
@@ -25,28 +26,29 @@ if not firebase_admin._apps:
         
         if not firebase_creds:
             logger.error("FIREBASE_CREDENTIALS environment variable is not set")
-            raise ValueError("FIREBASE_CREDENTIALS environment variable is required")
-        
-        # Check if it's a file path or JSON content
-        if firebase_creds.startswith('{') and firebase_creds.endswith('}'):
-            # It's JSON content - parse it and create credentials
-            logger.info("Using Firebase credentials from JSON content")
-            cred_dict = json.loads(firebase_creds)
-            cred = credentials.Certificate(cred_dict)
+            logger.warning("⚠️ Firebase authentication will be disabled")
         else:
-            # It's a file path - use it directly
-            logger.info(f"Using Firebase credentials from file path: {firebase_creds}")
-            cred = credentials.Certificate(firebase_creds)
-            
-        firebase_admin.initialize_app(cred)
-        logger.info("✅ Firebase Admin SDK initialized successfully.")
+            # Check if it's a file path or JSON content
+            if firebase_creds.startswith('{') and firebase_creds.endswith('}'):
+                # It's JSON content - parse it and create credentials
+                logger.info("Using Firebase credentials from JSON content")
+                cred_dict = json.loads(firebase_creds)
+                cred = credentials.Certificate(cred_dict)
+            else:
+                # It's a file path - use it directly
+                logger.info(f"Using Firebase credentials from file path: {firebase_creds}")
+                cred = credentials.Certificate(firebase_creds)
+                
+            firebase_admin.initialize_app(cred)
+            firebase_initialized = True
+            logger.info("✅ Firebase Admin SDK initialized successfully.")
     except Exception as e:
         logger.error(f"❌ Failed to initialize Firebase Admin SDK: {e}")
         logger.error(f"Firebase credentials available: {bool(firebase_creds)}")
         # Log more details for debugging
         if firebase_creds:
             logger.error(f"Credentials start with: {firebase_creds[:50]}...")
-        raise e
+        logger.warning("⚠️ Firebase authentication will be disabled - app will continue without auth")
 
 async def get_current_user(request: Request, db: Session = Depends(get_db)) -> User:
     from database.cache import query_cache, cache_user_query
@@ -68,6 +70,11 @@ async def get_current_user(request: Request, db: Session = Depends(get_db)) -> U
     
 
     try:
+        # Check if Firebase is initialized
+        if not firebase_initialized:
+            logger.error("Auth: Firebase not initialized - cannot verify tokens")
+            raise credentials_exception
+            
         # Verify Firebase ID token (this is cached by Firebase SDK)
         decoded_token = auth.verify_id_token(token)
         uid = decoded_token['uid']
@@ -150,6 +157,10 @@ async def get_current_user_from_websocket(token: str, db: Session) -> Optional[U
     if not token:
         return None
     try:
+        if not firebase_initialized:
+            logger.error("WebSocket Auth: Firebase not initialized - cannot verify tokens")
+            return None
+            
         decoded_token = auth.verify_id_token(token)
         uid = decoded_token['uid']
         email = decoded_token.get('email')
