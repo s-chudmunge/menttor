@@ -276,3 +276,4 @@ logger.info("FastAPI application started.")
 # Updated CI/CD workflow to use Artifact Registry with proper permissions
 # Testing CI/CD pipeline with clean service account JSON key
 # Deploy trigger comment
+# Another deploy trigger
