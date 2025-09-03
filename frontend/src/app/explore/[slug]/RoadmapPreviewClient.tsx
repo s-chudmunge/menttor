@@ -28,7 +28,7 @@ import {
   Home
 } from 'lucide-react';
 import Link from 'next/link';
-import RoadmapShareButton from '../../../../components/RoadmapShareButton';
+import SimpleShareButton from '../../../../components/SimpleShareButton';
 import PreviewHeader from '../../../components/PreviewHeader';
 import PreviewFooter from '../../../components/PreviewFooter';
 
@@ -490,8 +490,10 @@ const RoadmapPreviewClient: React.FC<RoadmapPreviewClientProps> = ({ slug: roadm
               )}
               {adopting ? 'Starting...' : user ? 'Start Learning' : 'Sign In to Start'}
             </button>
-            <RoadmapShareButton 
-              roadmap={roadmap} 
+            <SimpleShareButton
+              title={roadmap.title}
+              text={`Learn ${roadmap.title} - ${roadmap.difficulty} level ${roadmap.category.replace('-', ' ')} roadmap`}
+              url={`${window.location.origin}/explore/${roadmap.slug || roadmap.id}`}
               variant="button"
             />
           </div>
