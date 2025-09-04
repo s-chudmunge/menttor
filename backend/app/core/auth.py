@@ -13,6 +13,7 @@ import logging
 import json
 import firebase_admin
 from firebase_admin import credentials, auth
+from services.email_service import email_service
 
 logger = logging.getLogger(__name__)
 
@@ -122,6 +123,17 @@ async def get_current_user(request: Request, db: Session = Depends(get_db)) -> U
             db.refresh(new_user)
             user = new_user
             logger.info(f"Auth: New user created in DB with UID: {uid}, Email: {user_email}")
+            
+            # Send welcome email to new users (async, don't wait for it)
+            try:
+                # Only send welcome email if it's a real email (not phone auth)
+                if email and not user_email.endswith("@phone.auth"):
+                    # Use sync version to avoid async complications in auth flow
+                    email_service.send_welcome_email_sync(user_email, decoded_token.get('name'))
+                    logger.info(f"Welcome email queued for new user: {user_email}")
+            except Exception as e:
+                # Don't fail user creation if email fails
+                logger.warning(f"Failed to send welcome email to {user_email}: {e}")
         except Exception as e:
             logger.error(f"Auth: Failed to create new user in DB: {e}")
             raise HTTPException(

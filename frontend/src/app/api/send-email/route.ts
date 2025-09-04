@@ -15,7 +15,7 @@ export async function POST(request: NextRequest) {
 
     const resend = new Resend(process.env.RESEND_API_KEY);
 
-    const { to, subject, message, template } = await request.json();
+    const { to, subject, message, template, userName } = await request.json();
 
     if (!to || !subject) {
       return NextResponse.json(
@@ -28,7 +28,7 @@ export async function POST(request: NextRequest) {
 
     if (template === 'welcome') {
       // Use React Email welcome template
-      emailHtml = await render(WelcomeEmail({ userName: 'there' }));
+      emailHtml = await render(WelcomeEmail({ userName: userName || 'there' }));
     } else if (template === 'promotional') {
       // Use React Email promotional template
       emailHtml = await render(PromotionalEmail({ recipientName: 'there' }));
