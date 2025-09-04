@@ -33,7 +33,7 @@ export async function GET() {
         'Cache-Control': 'no-cache',
         'Accept': 'application/json',
       },
-      signal: AbortSignal.timeout(5000), // Increased timeout to ensure we get all roadmaps
+      signal: AbortSignal.timeout(10000), // Extended timeout for better roadmap discovery
     });
 
     if (response.ok && response.status === 200) {
@@ -43,16 +43,17 @@ export async function GET() {
         // Add roadmap preview URLs (these are the actual pages that exist)
         const roadmapUrls = roadmaps.map((roadmap) => ({
           url: `${baseUrl}/explore/${roadmap.slug || roadmap.id}`,
-          priority: roadmap.is_featured ? '0.8' : '0.7',
-          changefreq: 'weekly'
+          priority: roadmap.is_featured ? '0.9' : roadmap.is_verified ? '0.8' : '0.7',
+          changefreq: roadmap.is_featured ? 'daily' : 'weekly'
         }));
 
-        // Add category URLs
+        // Add category URLs with enhanced priority for popular categories
         const categories = [...new Set(roadmaps.map(r => r.category).filter(Boolean))];
+        const popularCategories = ['web-development', 'data-science', 'artificial-intelligence', 'cloud-computing'];
         const categoryUrls = categories.map((category) => ({
           url: `${baseUrl}/explore?category=${encodeURIComponent(category)}`,
-          priority: '0.6',
-          changefreq: 'weekly'
+          priority: popularCategories.includes(category) ? '0.7' : '0.6',
+          changefreq: popularCategories.includes(category) ? 'daily' : 'weekly'
         }));
 
         // Add difficulty URLs

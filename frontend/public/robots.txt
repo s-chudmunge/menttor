@@ -75,3 +75,7 @@ Allow: /explore/*
 # Sitemap locations
 Sitemap: https://menttor.live/sitemap.xml
 Sitemap: https://menttor.live/sitemap-dynamic.xml
+
+# Additional crawl guidance
+Request-rate: 1/10s
+Visit-time: 0300-0600
