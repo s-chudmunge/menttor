@@ -5,6 +5,7 @@ import os
 import tempfile
 
 # --- Setup Logging ---
+# Updated OpenRouter API key in Secret Manager - trigger deployment
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
