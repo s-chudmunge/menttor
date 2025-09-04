@@ -125,6 +125,7 @@ const MenttorLabsMainPage = () => {
     return () => clearInterval(interval);
   }, []);
 
+
   // Set default model to Vertex AI
   useEffect(() => {
     const fetchAndSetDefaultModel = async () => {

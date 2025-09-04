@@ -101,7 +101,7 @@ export default function SimpleLearningAnimation() {
 
         {/* Central Menttor Platform Box */}
         <g>
-          <rect x="300" y="120" width="400" height="360" rx="25" fill="url(#glassCard)" 
+          <rect x="300" y="120" width="400" height="430" rx="25" fill="url(#glassCard)" 
                 stroke="url(#cardBorder)" strokeWidth="1"
                 className="animate-pulse" style={{ animationDuration: '5s' }}/>
           
@@ -152,10 +152,23 @@ export default function SimpleLearningAnimation() {
           <text x="625" y="352" textAnchor="middle" className="fill-gray-900 dark:fill-white" fontSize="13" fontWeight="600">Observability</text>
           <text x="625" y="368" textAnchor="middle" className="fill-gray-700 dark:fill-gray-300" fontSize="11">Analytics</text>
           
+          {/* Row 4 - New Features */}
+          <rect x="320" y="400" width="110" height="55" rx="12" fill="url(#featureCard)" stroke="url(#featureBorder)" strokeWidth="0.5"/>
+          <text x="375" y="422" textAnchor="middle" className="fill-gray-900 dark:fill-white" fontSize="13" fontWeight="600">3D Visualization</text>
+          <text x="375" y="438" textAnchor="middle" className="fill-gray-700 dark:fill-gray-300" fontSize="11">Interactive Models</text>
+          
+          <rect x="445" y="400" width="110" height="55" rx="12" fill="url(#featureCard)" stroke="url(#featureBorder)" strokeWidth="0.5"/>
+          <text x="500" y="422" textAnchor="middle" className="fill-gray-900 dark:fill-white" fontSize="13" fontWeight="600">Practice Sessions</text>
+          <text x="500" y="438" textAnchor="middle" className="fill-gray-700 dark:fill-gray-300" fontSize="11">Custom Quizzes</text>
+          
+          <rect x="570" y="400" width="110" height="55" rx="12" fill="url(#featureCard)" stroke="url(#featureBorder)" strokeWidth="0.5"/>
+          <text x="625" y="422" textAnchor="middle" className="fill-gray-900 dark:fill-white" fontSize="13" fontWeight="600">PDF Timetables</text>
+          <text x="625" y="438" textAnchor="middle" className="fill-gray-700 dark:fill-gray-300" fontSize="11">Study Schedule</text>
+          
           {/* Bottom Feature - Full Width */}
-          <rect x="320" y="400" width="360" height="60" rx="12" fill="url(#premiumFeature)" stroke="url(#cardBorder)" strokeWidth="1"/>
-          <text x="500" y="425" textAnchor="middle" className="fill-gray-900 dark:fill-white" fontSize="15" fontWeight="600">Learning the Way you want to</text>
-          <text x="500" y="445" textAnchor="middle" className="fill-gray-700 dark:fill-gray-300" fontSize="12">Personalized Learning Experience</text>
+          <rect x="320" y="470" width="360" height="60" rx="12" fill="url(#premiumFeature)" stroke="url(#cardBorder)" strokeWidth="1"/>
+          <text x="500" y="495" textAnchor="middle" className="fill-gray-900 dark:fill-white" fontSize="15" fontWeight="600">Learning the Way you want to</text>
+          <text x="500" y="515" textAnchor="middle" className="fill-gray-700 dark:fill-gray-300" fontSize="12">Personalized Learning Experience</text>
         </g>
 
         {/* Learning Outcomes (Right) */}
@@ -192,21 +205,85 @@ export default function SimpleLearningAnimation() {
         </g>
 
 
-        {/* Solid Connecting Lines */}
+        {/* Straight Connection Lines with Electricity Flow */}
         <g>
-          {/* Solid connections */}
-          <g stroke="#8B5CF6" strokeWidth="3" fill="none" opacity="0.8" strokeLinecap="round">
+          <defs>
+            {/* Gradient for electricity effect */}
+            <linearGradient id="electricityGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="#8B5CF6" stopOpacity="0.2"/>
+              <stop offset="50%" stopColor="#A855F7" stopOpacity="1"/>
+              <stop offset="100%" stopColor="#8B5CF6" stopOpacity="0.2"/>
+              <animateTransform
+                attributeName="gradientTransform"
+                attributeType="XML"
+                type="translate"
+                values="-100,0;200,0;-100,0"
+                dur="2s"
+                repeatCount="indefinite"
+              />
+            </linearGradient>
+            
+            {/* Dashed stroke for electricity effect */}
+            <pattern id="electricityPattern" patternUnits="userSpaceOnUse" width="20" height="3">
+              <rect width="10" height="3" fill="#8B5CF6" opacity="0.8"/>
+              <rect x="10" width="10" height="3" fill="transparent"/>
+              <animateTransform
+                attributeName="patternTransform"
+                type="translate"
+                values="0,0;20,0;0,0"
+                dur="1s"
+                repeatCount="indefinite"
+              />
+            </pattern>
+          </defs>
+
+          {/* Base connection lines */}
+          <g stroke="#8B5CF6" strokeWidth="3" fill="none" strokeLinecap="round" opacity="0.3">
+            <path d="M 230 300 L 300 300" strokeWidth="4"/>
+            <path d="M 700 185 L 750 185" strokeWidth="3"/>
+            <path d="M 700 295 L 750 295" strokeWidth="3"/>
+            <path d="M 700 405 L 750 405" strokeWidth="3"/>
+          </g>
+
+          {/* Electricity flow animation */}
+          <g fill="none" strokeLinecap="round">
             {/* User to Platform - Main connection */}
-            <path d="M 230 300 Q 265 285 300 300" strokeWidth="4" opacity="0.9"/>
+            <path d="M 230 300 L 300 300" stroke="url(#electricityGradient)" strokeWidth="4" opacity="0.9"/>
             
             {/* Platform to Skills - Top connection */}
-            <path d="M 700 185 Q 720 175 750 185" strokeWidth="3" opacity="0.85"/>
+            <path d="M 700 185 L 750 185" stroke="url(#electricityGradient)" strokeWidth="3" opacity="0.85">
+              <animate attributeName="opacity" values="0.4;1;0.4" dur="1.5s" repeatCount="indefinite" begin="0.2s"/>
+            </path>
             
             {/* Platform to Projects - Middle connection */}
-            <path d="M 700 295 Q 720 285 750 295" strokeWidth="3" opacity="0.85"/>
+            <path d="M 700 295 L 750 295" stroke="url(#electricityGradient)" strokeWidth="3" opacity="0.85">
+              <animate attributeName="opacity" values="0.4;1;0.4" dur="1.5s" repeatCount="indefinite" begin="0.4s"/>
+            </path>
             
             {/* Platform to Industry - Bottom connection */}
-            <path d="M 700 405 Q 720 415 750 405" strokeWidth="3" opacity="0.85"/>
+            <path d="M 700 405 L 750 405" stroke="url(#electricityGradient)" strokeWidth="3" opacity="0.85">
+              <animate attributeName="opacity" values="0.4;1;0.4" dur="1.5s" repeatCount="indefinite" begin="0.6s"/>
+            </path>
+          </g>
+
+          {/* Moving particles for enhanced effect */}
+          <g fill="#A855F7">
+            <circle r="2" opacity="0.8">
+              <animateMotion dur="2s" repeatCount="indefinite" path="M 230 300 L 300 300"/>
+              <animate attributeName="opacity" values="0;1;0" dur="2s" repeatCount="indefinite"/>
+            </circle>
+            <circle r="1.5" opacity="0.6">
+              <animateMotion dur="2.5s" repeatCount="indefinite" path="M 700 185 L 750 185" begin="0.2s"/>
+              <animate attributeName="opacity" values="0;1;0" dur="2.5s" repeatCount="indefinite" begin="0.2s"/>
+            </circle>
+            <circle r="1.5" opacity="0.6">
+              <animateMotion dur="2.5s" repeatCount="indefinite" path="M 700 295 L 750 295" begin="0.4s"/>
+              <animate attributeName="opacity" values="0;1;0" dur="2.5s" repeatCount="indefinite" begin="0.4s"/>
+            </circle>
+            <circle r="1.5" opacity="0.6">
+              <animateMotion dur="2.5s" repeatCount="indefinite" path="M 700 405 L 750 405" begin="0.6s"/>
+              <animate attributeName="opacity" values="0;1;0" dur="2.5s" repeatCount="indefinite" begin="0.6s"/>
+            </circle>
           </g>
         </g>
       </svg>

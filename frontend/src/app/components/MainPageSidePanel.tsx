@@ -101,7 +101,9 @@ const MainPageSidePanel: React.FC<MainPageSidePanelProps> = ({
           {/* Curated Roadmaps */}
           <div className="p-2">
             <div className="flex items-center justify-between mb-2">
-              <h3 className="text-xs font-medium text-gray-700 dark:text-gray-300 px-1">All Roadmaps</h3>
+              <h3 className="text-xs font-medium text-gray-700 dark:text-gray-300 px-1">
+                All Roadmaps ({roadmaps.length})
+              </h3>
               <Link 
                 href="/explore" 
                 className="text-xs text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 flex items-center px-1"
@@ -162,7 +164,7 @@ const MainPageSidePanel: React.FC<MainPageSidePanelProps> = ({
         {/* Footer */}
         <div className="p-1 border-t border-gray-200 dark:border-gray-700 flex-shrink-0">
           <p className="text-xs text-gray-500 dark:text-gray-400 text-center">
-            {filteredRoadmaps.length} roadmaps
+            {searchQuery.trim() ? `${filteredRoadmaps.length} of ${roadmaps.length} roadmaps` : `${roadmaps.length} roadmaps available`}
           </p>
         </div>
       </div>
