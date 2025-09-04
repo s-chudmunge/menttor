@@ -2520,6 +2520,74 @@ def clear_all_curated_roadmaps(db: Session = Depends(get_db), admin: str = Depen
             detail=f"Failed to clear roadmaps: {str(e)}"
         )
 
+@router.delete("/admin/delete-selected")
+def delete_selected_curated_roadmaps(
+    request: dict,
+    db: Session = Depends(get_db), 
+    admin: str = Depends(verify_admin)
+):
+    """Delete selected curated roadmaps by their trending roadmap indexes"""
+    
+    indexes = request.get("indexes", [])
+    if not indexes:
+        raise HTTPException(status_code=400, detail="No indexes provided")
+    
+    if not isinstance(indexes, list):
+        raise HTTPException(status_code=400, detail="Indexes must be a list")
+    
+    # Validate indexes
+    for index in indexes:
+        if not isinstance(index, int) or index < 0 or index >= len(TRENDING_ROADMAPS_CONFIG):
+            raise HTTPException(
+                status_code=400,
+                detail=f"Invalid index {index}. Must be between 0 and {len(TRENDING_ROADMAPS_CONFIG) - 1}"
+            )
+    
+    try:
+        deleted_count = 0
+        deleted_titles = []
+        
+        # Get roadmaps by titles from the trending config
+        for index in indexes:
+            config = TRENDING_ROADMAPS_CONFIG[index]
+            title = config["title"]
+            
+            # Find the roadmap by title
+            roadmap = db.exec(select(CuratedRoadmap).where(CuratedRoadmap.title == title)).first()
+            
+            if roadmap:
+                # Delete associated user adoptions first
+                adoptions = db.exec(
+                    select(UserCuratedRoadmap).where(UserCuratedRoadmap.curated_roadmap_id == roadmap.id)
+                ).all()
+                
+                for adoption in adoptions:
+                    db.delete(adoption)
+                
+                # Delete the roadmap
+                db.delete(roadmap)
+                deleted_count += 1
+                deleted_titles.append(title)
+        
+        db.commit()
+        
+        logger.info(f"🗑️ Admin {admin} deleted {deleted_count} selected curated roadmaps: {', '.join(deleted_titles)}")
+        
+        return {
+            "success": True,
+            "message": f"Successfully deleted {deleted_count} curated roadmap(s)",
+            "deleted_count": deleted_count,
+            "deleted_titles": deleted_titles
+        }
+        
+    except Exception as e:
+        logger.error(f"❌ Failed to delete selected roadmaps: {str(e)}")
+        db.rollback()
+        raise HTTPException(
+            status_code=500,
+            detail=f"Failed to delete selected roadmaps: {str(e)}"
+        )
+
 @router.delete("/admin/delete/{roadmap_id}")
 def delete_single_curated_roadmap(
     roadmap_id: int, 
