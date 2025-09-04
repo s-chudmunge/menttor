@@ -2069,6 +2069,287 @@ TRENDING_ROADMAPS_CONFIG = [
             "time_unit": "weeks",
             "model": "vertexai:gemini-exp-1206"
         }
+    },
+    
+    # ADDITIONAL TECH ROADMAPS
+    {
+        "title": "GraphQL API Development and Federation",
+        "category": "backend-development",
+        "subcategory": "apis",
+        "difficulty": "intermediate",
+        "target_audience": "Backend developers wanting to master modern API development with GraphQL",
+        "estimated_hours": 80,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.2,
+        "prerequisites": ["REST API basics", "JavaScript/TypeScript", "Database fundamentals"],
+        "learning_outcomes": [
+            "Design and implement GraphQL schemas and resolvers",
+            "Build federated GraphQL architectures for microservices",
+            "Implement authentication and authorization in GraphQL",
+            "Optimize GraphQL performance with DataLoader and caching",
+            "Test GraphQL APIs comprehensively"
+        ],
+        "tags": ["graphql", "api", "backend", "microservices", "federation", "apollo"],
+        "request": {
+            "subject": "GraphQL API Development and Federation",
+            "goal": "I want to become proficient in building modern GraphQL APIs and implementing federated architectures. Teach me schema design, resolver implementation, performance optimization, security, testing, and how to build scalable GraphQL microservices using Apollo Federation.",
+            "time_value": 10,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    
+    {
+        "title": "Apache Spark and Big Data Processing",
+        "category": "data-engineering",
+        "subcategory": "big-data",
+        "difficulty": "advanced",
+        "target_audience": "Data engineers and scientists working with large-scale data processing",
+        "estimated_hours": 120,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.1,
+        "prerequisites": ["Python or Scala basics", "SQL knowledge", "Distributed systems concepts"],
+        "learning_outcomes": [
+            "Process large datasets with Apache Spark and PySpark",
+            "Implement ETL pipelines for batch and streaming data",
+            "Optimize Spark jobs for performance and cost efficiency",
+            "Work with Spark SQL, DataFrames, and RDDs",
+            "Deploy Spark applications on cloud platforms"
+        ],
+        "tags": ["spark", "pyspark", "big-data", "etl", "streaming", "scala"],
+        "request": {
+            "subject": "Apache Spark and Big Data Processing",
+            "goal": "I want to master Apache Spark for large-scale data processing. Teach me PySpark, Spark SQL, streaming analytics, performance optimization, cluster management, and how to build production-ready ETL pipelines for big data workloads.",
+            "time_value": 12,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    
+    {
+        "title": "Edge Computing and IoT Architecture",
+        "category": "infrastructure",
+        "subcategory": "edge-computing",
+        "difficulty": "advanced",
+        "target_audience": "Engineers building distributed edge computing and IoT solutions",
+        "estimated_hours": 100,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 8.9,
+        "prerequisites": ["Networking basics", "Cloud computing knowledge", "Programming in C++ or Python"],
+        "learning_outcomes": [
+            "Design edge computing architectures for IoT systems",
+            "Implement real-time data processing at the edge",
+            "Build secure IoT device communication protocols",
+            "Optimize for low-latency and bandwidth constraints",
+            "Deploy and manage edge computing infrastructure"
+        ],
+        "tags": ["edge-computing", "iot", "real-time", "distributed-systems", "networking"],
+        "request": {
+            "subject": "Edge Computing and IoT Architecture",
+            "goal": "I want to become an expert in edge computing and IoT architecture. Teach me about distributed edge systems, real-time data processing, IoT protocols, security, latency optimization, and how to build scalable edge computing solutions.",
+            "time_value": 10,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    
+    {
+        "title": "WebAssembly (WASM) Development",
+        "category": "web-development",
+        "subcategory": "performance",
+        "difficulty": "intermediate",
+        "target_audience": "Developers wanting to build high-performance web applications with WebAssembly",
+        "estimated_hours": 75,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 8.7,
+        "prerequisites": ["JavaScript fundamentals", "C/C++ or Rust basics", "Web development experience"],
+        "learning_outcomes": [
+            "Compile C/C++/Rust code to WebAssembly modules",
+            "Integrate WASM with JavaScript applications",
+            "Optimize performance-critical web applications",
+            "Build cross-platform applications with WASM",
+            "Debug and profile WebAssembly applications"
+        ],
+        "tags": ["webassembly", "wasm", "performance", "rust", "c++", "javascript"],
+        "request": {
+            "subject": "WebAssembly (WASM) Development",
+            "goal": "I want to master WebAssembly for building high-performance web applications. Teach me how to compile native code to WASM, integrate with JavaScript, optimize performance, build cross-platform apps, and leverage WASM for compute-intensive web applications.",
+            "time_value": 8,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    
+    {
+        "title": "Serverless Architecture with AWS Lambda",
+        "category": "cloud-computing",
+        "subcategory": "serverless",
+        "difficulty": "intermediate",
+        "target_audience": "Developers building scalable serverless applications on AWS",
+        "estimated_hours": 90,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.0,
+        "prerequisites": ["AWS basics", "JavaScript/Python", "API development experience"],
+        "learning_outcomes": [
+            "Build serverless applications with AWS Lambda",
+            "Design event-driven architectures using AWS services",
+            "Implement serverless APIs with API Gateway",
+            "Manage state with DynamoDB and S3",
+            "Monitor and debug serverless applications"
+        ],
+        "tags": ["aws", "lambda", "serverless", "api-gateway", "dynamodb", "event-driven"],
+        "request": {
+            "subject": "Serverless Architecture with AWS Lambda",
+            "goal": "I want to become proficient in building serverless applications on AWS. Teach me Lambda functions, API Gateway, DynamoDB, event-driven architectures, serverless patterns, cost optimization, monitoring, and how to build production-ready serverless systems.",
+            "time_value": 9,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    
+    {
+        "title": "Microservices with Service Mesh (Istio)",
+        "category": "infrastructure",
+        "subcategory": "microservices",
+        "difficulty": "advanced",
+        "target_audience": "DevOps engineers and architects building complex microservices systems",
+        "estimated_hours": 110,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 8.8,
+        "prerequisites": ["Kubernetes knowledge", "Microservices concepts", "Networking basics"],
+        "learning_outcomes": [
+            "Implement service mesh architecture with Istio",
+            "Manage microservices communication and security",
+            "Implement advanced traffic management and load balancing",
+            "Monitor and observe distributed systems",
+            "Handle service mesh operations and troubleshooting"
+        ],
+        "tags": ["istio", "service-mesh", "microservices", "kubernetes", "observability"],
+        "request": {
+            "subject": "Microservices with Service Mesh (Istio)",
+            "goal": "I want to master service mesh architecture using Istio. Teach me about service mesh patterns, traffic management, security policies, observability, distributed tracing, and how to operate complex microservices systems at scale.",
+            "time_value": 11,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    
+    {
+        "title": "Terraform Infrastructure as Code Mastery",
+        "category": "infrastructure",
+        "subcategory": "iac",
+        "difficulty": "intermediate",
+        "target_audience": "DevOps engineers and cloud architects managing infrastructure as code",
+        "estimated_hours": 85,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.1,
+        "prerequisites": ["Cloud platform basics", "Command line proficiency", "Infrastructure concepts"],
+        "learning_outcomes": [
+            "Design and implement Terraform modules and configurations",
+            "Manage multi-environment infrastructure deployments",
+            "Implement Terraform best practices and patterns",
+            "Handle state management and remote backends",
+            "Build CI/CD pipelines for infrastructure automation"
+        ],
+        "tags": ["terraform", "iac", "infrastructure", "devops", "automation", "cloud"],
+        "request": {
+            "subject": "Terraform Infrastructure as Code Mastery",
+            "goal": "I want to become an expert in Terraform for infrastructure as code. Teach me advanced Terraform patterns, module development, state management, workspace strategies, CI/CD integration, and how to manage complex multi-cloud infrastructure at scale.",
+            "time_value": 9,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    
+    {
+        "title": "Redis Caching and Data Structures",
+        "category": "database",
+        "subcategory": "caching",
+        "difficulty": "intermediate",
+        "target_audience": "Backend developers optimizing application performance with Redis",
+        "estimated_hours": 70,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 8.9,
+        "prerequisites": ["Database basics", "Backend development experience", "Basic networking"],
+        "learning_outcomes": [
+            "Implement advanced Redis data structures and patterns",
+            "Design efficient caching strategies for web applications",
+            "Build real-time features with Redis pub/sub",
+            "Optimize Redis performance and memory usage",
+            "Handle Redis clustering and high availability"
+        ],
+        "tags": ["redis", "caching", "performance", "data-structures", "real-time"],
+        "request": {
+            "subject": "Redis Caching and Data Structures",
+            "goal": "I want to master Redis for caching and real-time applications. Teach me advanced Redis data structures, caching patterns, pub/sub messaging, Lua scripting, performance optimization, clustering, and how to build high-performance applications with Redis.",
+            "time_value": 8,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    
+    {
+        "title": "Elasticsearch and Search Engineering",
+        "category": "backend-development",
+        "subcategory": "search",
+        "difficulty": "intermediate",
+        "target_audience": "Developers building advanced search and analytics applications",
+        "estimated_hours": 95,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 8.8,
+        "prerequisites": ["JSON and REST API knowledge", "Database concepts", "Basic programming skills"],
+        "learning_outcomes": [
+            "Design and implement Elasticsearch indices and mappings",
+            "Build advanced search queries and aggregations",
+            "Implement real-time analytics and monitoring",
+            "Optimize Elasticsearch performance and scaling",
+            "Build search applications with the Elastic Stack"
+        ],
+        "tags": ["elasticsearch", "search", "analytics", "elk-stack", "lucene"],
+        "request": {
+            "subject": "Elasticsearch and Search Engineering",
+            "goal": "I want to become proficient in Elasticsearch for search and analytics. Teach me index design, query DSL, aggregations, performance tuning, cluster management, and how to build powerful search applications using the Elastic Stack.",
+            "time_value": 10,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    
+    {
+        "title": "Protocol Buffers and gRPC Development",
+        "category": "backend-development",
+        "subcategory": "apis",
+        "difficulty": "intermediate",
+        "target_audience": "Backend developers building high-performance distributed systems",
+        "estimated_hours": 75,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 8.6,
+        "prerequisites": ["API development experience", "Basic networking", "Go, Java, or Python knowledge"],
+        "learning_outcomes": [
+            "Design efficient Protocol Buffer schemas",
+            "Build high-performance gRPC services",
+            "Implement streaming APIs and bidirectional communication",
+            "Handle gRPC authentication and security",
+            "Deploy and monitor gRPC services in production"
+        ],
+        "tags": ["grpc", "protobuf", "microservices", "performance", "streaming"],
+        "request": {
+            "subject": "Protocol Buffers and gRPC Development",
+            "goal": "I want to master gRPC and Protocol Buffers for high-performance APIs. Teach me schema design, service implementation, streaming patterns, load balancing, security, monitoring, and how to build efficient microservices with gRPC.",
+            "time_value": 8,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
     }
 ]
 
