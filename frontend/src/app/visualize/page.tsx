@@ -11,7 +11,7 @@ import Logo from '@rootComponents/Logo';
 function VisualizationPageContent() {
     const searchParams = useSearchParams();
     const description = searchParams.get('d') || searchParams.get('description');
-    const model = searchParams.get('m') || searchParams.get('model') || 'gemini-2.5-flash-lite';
+    const model = searchParams.get('m') || searchParams.get('model') || 'gemini-2.5-flash';
     
     const [htmlContent, setHtmlContent] = useState('');
     const [isLoading, setIsLoading] = useState(true);

@@ -77,11 +77,11 @@ const MenttorLabsMainPage = () => {
   const [showOldLearnPages, setShowOldLearnPages] = useState(false);
   const [activeFeature, setActiveFeature] = useState(0);
   const [show3DGenerator, setShow3DGenerator] = useState(false);
-  const [threeDModel, setThreeDModel] = useState('vertexai:gemini-2.5-flash-lite');
+  const [threeDModel, setThreeDModel] = useState('vertexai:gemini-2.5-flash');
   const [threeDModelName, setThreeDModelName] = useState('Loading models...');
   const [show3DModelModal, setShow3DModelModal] = useState(false);
   const [showLearnAboutSomething, setShowLearnAboutSomething] = useState(false);
-  const [learnModel, setLearnModel] = useState('vertexai:gemini-2.5-flash-lite');
+  const [learnModel, setLearnModel] = useState('vertexai:gemini-2.0-flash-lite');
   const [learnModelName, setLearnModelName] = useState('Loading models...');
   const [showLearnModelModal, setShowLearnModelModal] = useState(false);
 
@@ -154,8 +154,8 @@ const MenttorLabsMainPage = () => {
             } else {
               // Final fallback if no models at all
               console.warn('No models available, using hardcoded Vertex AI model');
-              setFormData(prev => ({ ...prev, model: 'vertexai:gemini-2.5-flash-lite' }));
-              setSelectedModelName('Google Gemini (gemini-2.5-flash-lite)');
+              setFormData(prev => ({ ...prev, model: 'vertexai:gemini-2.0-flash-lite' }));
+              setSelectedModelName('Google Gemini (gemini-2.0-flash-lite)');
             }
           }
         } else {
@@ -165,8 +165,8 @@ const MenttorLabsMainPage = () => {
         console.error('Error fetching models:', error);
         // Set a hardcoded Vertex AI model as final fallback
         console.log('Using fallback Vertex AI model');
-        setFormData(prev => ({ ...prev, model: 'vertexai:gemini-2.5-flash-lite' }));
-        setSelectedModelName('Google Gemini (gemini-2.5-flash-lite)');
+        setFormData(prev => ({ ...prev, model: 'vertexai:gemini-2.0-flash-lite' }));
+        setSelectedModelName('Google Gemini (gemini-2.0-flash-lite)');
       }
     };
 
@@ -200,15 +200,15 @@ const MenttorLabsMainPage = () => {
               setThreeDModelName(firstModel.name);
             } else {
               // Final fallback
-              setThreeDModel('gemini-2.5-flash-lite');
-              setThreeDModelName('Google Gemini (gemini-2.5-flash-lite)');
+              setThreeDModel('gemini-2.5-flash');
+              setThreeDModelName('Google Gemini (gemini-2.5-flash)');
             }
           }
         }
       } catch (error) {
         console.error('Error fetching 3D models:', error);
-        setThreeDModel('gemini-2.5-flash-lite');
-        setThreeDModelName('Google Gemini (gemini-2.5-flash-lite)');
+        setThreeDModel('gemini-2.5-flash');
+        setThreeDModelName('Google Gemini (gemini-2.5-flash)');
       }
     };
 

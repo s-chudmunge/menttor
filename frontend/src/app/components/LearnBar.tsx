@@ -33,7 +33,7 @@ const LearnBar: React.FC = () => {
     setIsGenerating(true);
     
     // Use default Vertex AI model and navigate to learn page
-    const defaultModel = 'vertexai:gemini-2.5-flash-lite';
+    const defaultModel = 'vertexai:gemini-2.0-flash-lite';
     const learnUrl = `/learn?subtopic=${encodeURIComponent(topic.trim())}&subject=${encodeURIComponent('Custom Learning')}&goal=${encodeURIComponent('Learn about: ' + topic.trim())}&model=${encodeURIComponent(defaultModel)}&custom=true`;
     router.push(learnUrl);
     

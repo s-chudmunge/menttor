@@ -40,7 +40,7 @@ const QuizPage = () => {
     goal: rawParams.goal || storedRoadmap?.goal || 'Learn new concepts and improve skills',
     time_value: rawParams.time_value || '10',
     time_unit: rawParams.time_unit || 'minutes', 
-    model: rawParams.model || storedRoadmap?.model || 'vertexai:gemini-2.5-flash-lite',
+    model: rawParams.model || storedRoadmap?.model || 'vertexai:gemini-2.0-flash-lite',
     module_title: rawParams.module_title || 'Learning Module',
     topic_title: rawParams.topic_title || 'Topic',
     session_token: rawParams.session_token,
