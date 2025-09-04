@@ -6,6 +6,7 @@ interface CuratedRoadmap {
   category: string;
   difficulty: string;
   is_featured: boolean;
+  is_verified: boolean;
   slug?: string;
 }
 
