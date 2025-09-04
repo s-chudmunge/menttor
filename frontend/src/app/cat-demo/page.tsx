@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import SimpleLearningAnimation from '../../components/CatLearningAnimation';
 import { BACKEND_URL } from '../../config/config';
 
 interface VideoData {
@@ -20,7 +19,6 @@ interface VideoData {
 export default function LearningAnimationDemoPage() {
   const [videoData, setVideoData] = useState<VideoData | null>(null);
   const [loading, setLoading] = useState(false);
-  const [showAnimation, setShowAnimation] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   const generateVideo = async (theme: string = "dark") => {
@@ -45,7 +43,6 @@ export default function LearningAnimationDemoPage() {
       
       if (data.success && data.url) {
         setVideoData(data);
-        setShowAnimation(false);
       } else {
         setError(data.error || 'Video generation failed');
       }
@@ -138,9 +135,7 @@ export default function LearningAnimationDemoPage() {
 
         {/* Main Content Area */}
         <div className="flex justify-center mb-12">
-          {showAnimation && !videoData ? (
-            <SimpleLearningAnimation />
-          ) : videoData?.url ? (
+          {videoData?.url ? (
             <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-xl border border-slate-200 dark:border-gray-700">
               <div className="text-center mb-4">
                 <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">
@@ -192,10 +187,7 @@ export default function LearningAnimationDemoPage() {
               {/* Action Buttons */}
               <div className="mt-6 flex flex-wrap gap-4 justify-center">
                 <button 
-                  onClick={() => {
-                    setVideoData(null);
-                    setShowAnimation(true);
-                  }}
+                  onClick={() => setVideoData(null)}
                   className="bg-slate-600 hover:bg-slate-700 text-white font-medium py-2 px-6 rounded-lg transition-colors duration-300"
                 >
                   Generate New Image

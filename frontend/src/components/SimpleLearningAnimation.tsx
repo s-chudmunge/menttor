@@ -192,46 +192,21 @@ export default function SimpleLearningAnimation() {
         </g>
 
 
-        {/* Enhanced Connecting Lines */}
+        {/* Solid Connecting Lines */}
         <g>
-          {/* Solid base connections */}
+          {/* Solid connections */}
           <g stroke="#8B5CF6" strokeWidth="3" fill="none" opacity="0.8" strokeLinecap="round">
             {/* User to Platform - Main connection */}
-            <path d="M 230 300 Q 265 285 300 300" strokeWidth="4" opacity="0.9">
-              <animate attributeName="stroke-dasharray" values="0,1000;20,980;0,1000" dur="3s" repeatCount="indefinite"/>
-            </path>
+            <path d="M 230 300 Q 265 285 300 300" strokeWidth="4" opacity="0.9"/>
             
             {/* Platform to Skills - Top connection */}
-            <path d="M 700 185 Q 720 175 750 185" strokeWidth="3" opacity="0.85">
-              <animate attributeName="stroke-dasharray" values="0,1000;15,985;0,1000" dur="4s" repeatCount="indefinite" begin="0.5s"/>
-            </path>
+            <path d="M 700 185 Q 720 175 750 185" strokeWidth="3" opacity="0.85"/>
             
             {/* Platform to Projects - Middle connection */}
-            <path d="M 700 295 Q 720 285 750 295" strokeWidth="3" opacity="0.85">
-              <animate attributeName="stroke-dasharray" values="0,1000;15,985;0,1000" dur="4s" repeatCount="indefinite" begin="1s"/>
-            </path>
+            <path d="M 700 295 Q 720 285 750 295" strokeWidth="3" opacity="0.85"/>
             
             {/* Platform to Industry - Bottom connection */}
-            <path d="M 700 405 Q 720 415 750 405" strokeWidth="3" opacity="0.85">
-              <animate attributeName="stroke-dasharray" values="0,1000;15,985;0,1000" dur="4s" repeatCount="indefinite" begin="1.5s"/>
-            </path>
-          </g>
-          
-          {/* Data flow indicators */}
-          <g>
-            {/* Moving dots along connections */}
-            <circle r="4" fill="#8B5CF6" opacity="0.9">
-              <animateMotion dur="3s" repeatCount="indefinite" path="M 230 300 Q 265 285 300 300"/>
-            </circle>
-            <circle r="3" fill="#A855F7" opacity="0.8">
-              <animateMotion dur="4s" repeatCount="indefinite" begin="0.5s" path="M 700 185 Q 720 175 750 185"/>
-            </circle>
-            <circle r="3" fill="#C084FC" opacity="0.8">
-              <animateMotion dur="4s" repeatCount="indefinite" begin="1s" path="M 700 295 Q 720 285 750 295"/>
-            </circle>
-            <circle r="3" fill="#DDD6FE" opacity="0.8">
-              <animateMotion dur="4s" repeatCount="indefinite" begin="1.5s" path="M 700 405 Q 720 415 750 405"/>
-            </circle>
+            <path d="M 700 405 Q 720 415 750 405" strokeWidth="3" opacity="0.85"/>
           </g>
         </g>
       </svg>

@@ -49,6 +49,8 @@ export default function AdminCuratedRoadmaps() {
     }
     return false
   })
+  const [selectedRoadmaps, setSelectedRoadmaps] = useState<Set<number>>(new Set())
+  const [deletingSelected, setDeletingSelected] = useState(false)
 
   // Toggle practice lock
   const togglePracticeLock = () => {
@@ -150,6 +152,67 @@ export default function AdminCuratedRoadmaps() {
     }
   }
 
+  // Toggle roadmap selection
+  const toggleRoadmapSelection = (index: number) => {
+    const newSelected = new Set(selectedRoadmaps)
+    if (newSelected.has(index)) {
+      newSelected.delete(index)
+    } else {
+      newSelected.add(index)
+    }
+    setSelectedRoadmaps(newSelected)
+  }
+
+  // Select all generated roadmaps
+  const selectAllGenerated = () => {
+    if (!adminStatus) return
+    const generatedIndexes = new Set(adminStatus.roadmaps.filter(r => r.generated).map(r => r.index))
+    setSelectedRoadmaps(generatedIndexes)
+  }
+
+  // Clear selection
+  const clearSelection = () => {
+    setSelectedRoadmaps(new Set())
+  }
+
+  // Delete selected roadmaps
+  const deleteSelectedRoadmaps = async () => {
+    if (selectedRoadmaps.size === 0) return
+
+    const selectedArray = Array.from(selectedRoadmaps)
+    if (!confirm(`⚠️ Are you sure you want to delete ${selectedArray.length} selected roadmap(s)? This cannot be undone!`)) {
+      return
+    }
+
+    setDeletingSelected(true)
+    setMessage('')
+
+    try {
+      const response = await fetch(`${BACKEND_URL}/curated-roadmaps/admin/delete-selected`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': createAuthHeader(),
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ indexes: selectedArray })
+      })
+
+      const result = await response.json()
+
+      if (response.ok) {
+        setMessage(`🗑️ Successfully deleted ${selectedArray.length} roadmap(s)`)
+        setSelectedRoadmaps(new Set())
+        await loadData() // Refresh status
+      } else {
+        setMessage(`❌ ${result.detail || 'Failed to delete selected roadmaps'}`)
+      }
+    } catch (error) {
+      setMessage('❌ Network error during deletion')
+    } finally {
+      setDeletingSelected(false)
+    }
+  }
+
   // Clear all roadmaps
   const clearAllRoadmaps = async () => {
     if (!confirm('⚠️ Are you sure you want to delete ALL curated roadmaps? This cannot be undone!')) {
@@ -171,6 +234,7 @@ export default function AdminCuratedRoadmaps() {
 
       if (response.ok) {
         setMessage(`🗑️ ${result.message}`)
+        setSelectedRoadmaps(new Set())
         await loadData() // Refresh status
       } else {
         setMessage(`❌ ${result.detail}`)
@@ -436,54 +500,98 @@ export default function AdminCuratedRoadmaps() {
         {/* Roadmaps List */}
         {trendingList && adminStatus && (
           <div className="bg-white rounded-lg shadow-sm p-6">
-            <h2 className="text-xl font-semibold text-gray-900 mb-6">Trending Roadmaps</h2>
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-xl font-semibold text-gray-900">Trending Roadmaps</h2>
+              <div className="flex gap-2">
+                <button
+                  onClick={selectAllGenerated}
+                  disabled={adminStatus.total_generated === 0}
+                  className="px-3 py-1 text-sm bg-blue-600 hover:bg-blue-700 text-white rounded-md transition duration-150 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  Select All Generated
+                </button>
+                <button
+                  onClick={clearSelection}
+                  disabled={selectedRoadmaps.size === 0}
+                  className="px-3 py-1 text-sm bg-gray-600 hover:bg-gray-700 text-white rounded-md transition duration-150 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  Clear Selection
+                </button>
+                <button
+                  onClick={deleteSelectedRoadmaps}
+                  disabled={selectedRoadmaps.size === 0 || deletingSelected}
+                  className="px-3 py-1 text-sm bg-red-600 hover:bg-red-700 text-white rounded-md transition duration-150 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {deletingSelected ? 'Deleting...' : `Delete Selected (${selectedRoadmaps.size})`}
+                </button>
+              </div>
+            </div>
             <div className="space-y-4">
               {trendingList.roadmaps.map((roadmap, index) => {
                 const isGenerated = adminStatus.roadmaps.find(r => r.index === index)?.generated || false
                 const isGenerating = generating === index
+                const isSelected = selectedRoadmaps.has(index)
 
                 return (
                   <div
                     key={index}
                     className={`border rounded-lg p-6 ${isGenerated 
-                      ? 'border-green-200 bg-green-50' 
+                      ? isSelected 
+                        ? 'border-red-300 bg-red-50' 
+                        : 'border-green-200 bg-green-50'
                       : 'border-gray-200 bg-white'
                     }`}
                   >
                     <div className="flex justify-between items-start">
-                      <div className="flex-1">
-                        <div className="flex items-center gap-3 mb-2">
-                          <span className="bg-gray-100 text-gray-800 px-2 py-1 rounded text-sm font-medium">
-                            #{index}
-                          </span>
-                          {isGenerated && (
-                            <span className="bg-green-100 text-green-800 px-2 py-1 rounded text-sm font-medium">
-                              ✅ Generated
-                            </span>
-                          )}
+                      <div className="flex items-start gap-4 flex-1">
+                        {isGenerated && (
+                          <div className="mt-1">
+                            <input
+                              type="checkbox"
+                              checked={isSelected}
+                              onChange={() => toggleRoadmapSelection(index)}
+                              className="w-4 h-4 text-red-600 bg-gray-100 border-gray-300 rounded focus:ring-red-500 focus:ring-2"
+                            />
+                          </div>
+                        )}
+                          <div className="flex-1">
+                            <div className="flex items-center gap-3 mb-2">
+                              <span className="bg-gray-100 text-gray-800 px-2 py-1 rounded text-sm font-medium">
+                                #{index}
+                              </span>
+                              {isGenerated && (
+                                <span className={`px-2 py-1 rounded text-sm font-medium ${
+                                  isSelected 
+                                    ? 'bg-red-100 text-red-800' 
+                                    : 'bg-green-100 text-green-800'
+                                }`}>
+                                  {isSelected ? '🗑️ Selected for deletion' : '✅ Generated'}
+                                </span>
+                              )}
+                            </div>
+                            
+                            <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                              {roadmap.title}
+                            </h3>
+                            
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-600">
+                              <div>
+                                <span className="font-medium">Category:</span> {roadmap.category}
+                                {roadmap.subcategory && ` › ${roadmap.subcategory}`}
+                              </div>
+                              <div>
+                                <span className="font-medium">Difficulty:</span> {roadmap.difficulty}
+                              </div>
+                              <div>
+                                <span className="font-medium">Estimated:</span> {roadmap.estimated_hours} hours
+                              </div>
+                            </div>
+                            
+                            <p className="text-gray-600 mt-2">
+                              <span className="font-medium">Target:</span> {roadmap.target_audience}
+                            </p>
+                          </div>
                         </div>
-                        
-                        <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                          {roadmap.title}
-                        </h3>
-                        
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-600">
-                          <div>
-                            <span className="font-medium">Category:</span> {roadmap.category}
-                            {roadmap.subcategory && ` › ${roadmap.subcategory}`}
-                          </div>
-                          <div>
-                            <span className="font-medium">Difficulty:</span> {roadmap.difficulty}
-                          </div>
-                          <div>
-                            <span className="font-medium">Estimated:</span> {roadmap.estimated_hours} hours
-                          </div>
-                        </div>
-                        
-                        <p className="text-gray-600 mt-2">
-                          <span className="font-medium">Target:</span> {roadmap.target_audience}
-                        </p>
-                      </div>
 
                       <div className="ml-4">
                         <Button
