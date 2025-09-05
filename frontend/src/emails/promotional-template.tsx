@@ -77,7 +77,7 @@ export default function PromotionalEmail({ recipientName = "there" }: Promotiona
           <Section style={footer}>
             <Text style={footerText}>
               Hope this helps with your learning journey.<br />
-              Sankalp, Founder of Menttor<br />
+              Founder of Menttor<br />
               <Link href="https://menttor.live" style={link}>menttor.live</Link>
             </Text>
           </Section>

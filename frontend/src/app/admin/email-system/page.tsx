@@ -199,7 +199,7 @@ Join 10,000+ learners who've accelerated their careers with Menttor.
 Ready to stop wondering and start mastering?
 
 Best regards,
-Sankalp from Menttor
+Menttor Team
 menttor.live`;
   }
 
@@ -352,7 +352,7 @@ menttor.live`;
                   Email System Administration
                 </h1>
                 <p className="mt-2 text-sm text-gray-700 dark:text-gray-300">
-                  Send test emails using Resend from sankalp@menttor.live
+                  Send test emails using Resend from admin-emails@menttor.live
                   {pagination && (
                     <span className="ml-2 text-blue-600 dark:text-blue-400">
                       • {pagination.totalUsers} Firebase users loaded
