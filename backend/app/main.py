@@ -34,8 +34,12 @@ from routers import auth, ml_insights, quiz, quiz_results, quiz_review, roadmaps
 try:
     from routers import learning_resources
     LEARNING_RESOURCES_AVAILABLE = True
+    print("✅ Learning resources router imported successfully")
 except ImportError as e:
-    print(f"Warning: Learning resources router not available: {e}")
+    print(f"⚠️  Warning: Learning resources router not available: {e}")
+    LEARNING_RESOURCES_AVAILABLE = False
+except Exception as e:
+    print(f"⚠️  Error importing learning resources router: {e}")
     LEARNING_RESOURCES_AVAILABLE = False
 
 # Configure logging with behavioral nudge filter

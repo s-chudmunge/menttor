@@ -127,13 +127,18 @@ async def get_roadmap_resources(
 ):
     """Get all learning resources for a specific roadmap"""
     try:
+        logger.info(f"Fetching learning resources for roadmap ID: {roadmap_id}")
+        
         # Verify roadmap exists
         roadmap = db.get(CuratedRoadmap, roadmap_id)
         if not roadmap:
+            logger.warning(f"Roadmap with ID {roadmap_id} not found in database")
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
                 detail="Curated roadmap not found"
             )
+        
+        logger.info(f"Found roadmap: {roadmap.title} (ID: {roadmap.id})")
         
         # Get all active resources for this roadmap
         resources = db.exec(
