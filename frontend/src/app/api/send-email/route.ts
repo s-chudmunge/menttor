@@ -65,7 +65,7 @@ export async function POST(request: NextRequest) {
     }
 
     const { data, error } = await resend.emails.send({
-      from: 'Menttor Team <admin-emails@menttor.live>',
+      from: 'Rachel from Menttor <rachel@menttor.live>',
       to: [to],
       subject: subject,
       html: emailHtml,
