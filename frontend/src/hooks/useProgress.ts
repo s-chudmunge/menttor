@@ -51,7 +51,8 @@ export const useProgress = (roadmapId: number | null) => {
     },
     retryDelay: 1000, // Wait 1 second between retries
     refetchOnWindowFocus: true, // Refetch when user returns to tab (e.g., after quiz)
+    refetchOnMount: true, // Always refetch when component mounts
     staleTime: 0, // Always consider data stale to ensure fresh fetches after completion
-    cacheTime: 30000, // Cache for 30 seconds
+    gcTime: 30000, // Cache for 30 seconds (updated from cacheTime)
   });
 };

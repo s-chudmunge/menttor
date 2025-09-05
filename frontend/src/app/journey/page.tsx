@@ -119,7 +119,7 @@ const JourneyPage = () => {
           
           // Force reload all relevant data
           console.log('🔄 Invalidating all queries...');
-          queryClient.invalidateQueries({ queryKey: ['progress'] });
+          queryClient.removeQueries({ queryKey: ['progress'] });
           queryClient.invalidateQueries({ queryKey: ['userProgress'] });
           queryClient.invalidateQueries({ queryKey: ['behavioral'] });
           queryClient.invalidateQueries({ queryKey: ['roadmap'] });
@@ -127,7 +127,7 @@ const JourneyPage = () => {
           // Specifically invalidate progress for this roadmap
           if (roadmapData?.id) {
             console.log('🔄 Invalidating progress queries for roadmap:', roadmapData.id);
-            queryClient.invalidateQueries({ 
+            queryClient.removeQueries({ 
               queryKey: ['progress', roadmapData.id],
               exact: false // Match all variants of progress queries for this roadmap
             });
@@ -135,6 +135,12 @@ const JourneyPage = () => {
             // Also explicitly refetch progress
             console.log('🔄 Explicitly refetching progress for roadmap:', roadmapData.id);
             refetchProgress();
+            
+            // Force a second refetch after a small delay to ensure fresh data
+            setTimeout(() => {
+              console.log('🔄 Second progress refetch for roadmap:', roadmapData.id);
+              refetchProgress();
+            }, 1000);
           }
         }
       }
@@ -164,11 +170,16 @@ const JourneyPage = () => {
       
       // Also invalidate specific progress queries
       if (roadmapData?.id) {
-        queryClient.invalidateQueries({ 
+        queryClient.removeQueries({ 
           queryKey: ['progress', roadmapData.id],
           exact: false
         });
         refetchProgress();
+        
+        // Force a second refetch after a small delay to ensure fresh data
+        setTimeout(() => {
+          refetchProgress();
+        }, 1000);
       }
     }
 

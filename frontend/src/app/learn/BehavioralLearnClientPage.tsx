@@ -162,6 +162,15 @@ const BehavioralLearnClientPage: React.FC<BehavioralLearnClientPageProps> = ({
           queryKey: ['progress', roadmapId],
           exact: false
         });
+        
+        // Also force a second refetch after a delay to ensure backend has processed the completion
+        setTimeout(() => {
+          console.log('🔄 Delayed progress refetch for fresh data');
+          queryClient.refetchQueries({
+            queryKey: ['progress', roadmapId],
+            exact: false
+          });
+        }, 1000);
       }
       
       // Set session storage flags for journey page reload
