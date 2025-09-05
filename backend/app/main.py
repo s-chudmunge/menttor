@@ -22,7 +22,21 @@ from sqlmodel import Session
 
 from database.session import create_db_and_tables, get_db
 from sql_models import User, Roadmap, SpacedRepetition, QuizAttempt
-from routers import auth, ml_insights, quiz, quiz_results, quiz_review, roadmaps, learn, spaced_repetition, models, quiz_submission, visualize, progress, behavioral, image_generation, activity, curated_roadmaps, monitoring, video_generation, promotional_images, static_data, practice, admin, health, learning_resources
+# Import new models conditionally
+try:
+    from sql_models import RoadmapResource
+    print("✅ RoadmapResource model imported")
+except ImportError as e:
+    print(f"⚠️  RoadmapResource model not available: {e}")
+from routers import auth, ml_insights, quiz, quiz_results, quiz_review, roadmaps, learn, spaced_repetition, models, quiz_submission, visualize, progress, behavioral, image_generation, activity, curated_roadmaps, monitoring, video_generation, promotional_images, static_data, practice, admin, health
+
+# Import learning_resources with error handling for deployment
+try:
+    from routers import learning_resources
+    LEARNING_RESOURCES_AVAILABLE = True
+except ImportError as e:
+    print(f"Warning: Learning resources router not available: {e}")
+    LEARNING_RESOURCES_AVAILABLE = False
 
 # Configure logging with behavioral nudge filter
 class BehavioralNudgeFilter(logging.Filter):
@@ -119,7 +133,11 @@ app.include_router(image_generation.router, prefix="/images")
 app.include_router(video_generation.router)
 app.include_router(promotional_images.router)
 app.include_router(curated_roadmaps.router)
-app.include_router(learning_resources.router, prefix="/learning-resources")
+if LEARNING_RESOURCES_AVAILABLE:
+    app.include_router(learning_resources.router, prefix="/learning-resources")
+    print("✅ Learning resources router registered")
+else:
+    print("⚠️  Learning resources router skipped due to import error")
 app.include_router(health.router)
 app.include_router(static_data.router)
 app.include_router(monitoring.router)
