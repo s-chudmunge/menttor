@@ -10,4 +10,4 @@ NEXT_PUBLIC_FIREBASE_APP_ID="1:144050828172:web:a1c07af92064a0b33c1ca9"
 NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID="G-1YCW8BNWQX"
 
 # Backend URL for production
-NEXT_PUBLIC_BACKEND_URL="https://menttor-backend.onrender.com"
+NEXT_PUBLIC_BACKEND_URL="https://menttor-backend-144050828172.asia-south1.run.app"
