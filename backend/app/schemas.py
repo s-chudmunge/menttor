@@ -553,6 +553,10 @@ class LearningResourceRequest(BaseModel):
     topic: str
     category: str
     max_resources: int = 15
+    model: str = "gemini-2.5-pro"
+    max_output_tokens: int = 3000
+    roadmap_title: Optional[str] = ""
+    roadmap_description: Optional[str] = ""
 
 class LearningResourceBase(BaseModel):
     """Individual learning resource"""

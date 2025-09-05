@@ -215,7 +215,7 @@ const BehavioralQuizInterface: React.FC<QuizInterfaceProps> = ({ quizParams }) =
                 goal: quizParams.goal || "Learn new concepts",
                 time_value: selectedTimeOption,
                 time_unit: "minutes",
-                model: quizParams.model || "vertexai:gemini-2.0-flash-lite",
+                model: quizParams.model || "vertexai:gemini-2.5-flash-lite",
                 module_title: quizParams.module_title || "Learning Module",
                 topic_title: quizParams.topic_title || "Topic",
                 num_questions: 5,

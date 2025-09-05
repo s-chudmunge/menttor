@@ -77,7 +77,7 @@ const JourneyPage = () => {
   const [threeDModelName, setThreeDModelName] = useState('Gemini 2.5 Flash');
   const [show3DModelModal, setShow3DModelModal] = useState(false);
   const [showLearnAboutSomething, setShowLearnAboutSomething] = useState(false);
-  const [learnModel, setLearnModel] = useState('vertexai:gemini-2.0-flash-lite');
+  const [learnModel, setLearnModel] = useState('vertexai:gemini-2.5-flash-lite');
   const [learnModelName, setLearnModelName] = useState('Gemini 2.0 Flash Lite');
   const [showLearnModelModal, setShowLearnModelModal] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);

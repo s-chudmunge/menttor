@@ -201,7 +201,7 @@ class AIExecutor:
     async def execute(
         self,
         task_type: str,
-        request_data: Union[QuizGenerateRequest, RoadmapCreateRequest, LearningContentRequest, GenerateFeedbackRequest],
+        request_data: Union[QuizGenerateRequest, RoadmapCreateRequest, LearningContentRequest, GenerateFeedbackRequest, LearningResourceRequest],
         response_schema: Type[T],
         is_json: bool = True
     ) -> Dict[str, Any]:
@@ -703,78 +703,33 @@ async def generate_performance_feedback(request: GenerateFeedbackRequest) -> Gen
 async def generate_learning_resources(request: LearningResourceRequest) -> GenerateResourcesResponse:
     """Generate external learning resources for a roadmap topic using AI."""
     try:
+        logger.info(f"Generating learning resources for topic: {request.topic}")
+        
         # Use dedicated learning resources model (Gemini 2.5 Pro for higher quality)
         model = settings.DEFAULT_LEARNING_RESOURCES_MODEL
         model_with_provider = f"vertexai:{model}" if ':' not in model else model
         
-        # Render the prompt template
-        template = prompt_env.get_template("learning_resources.j2")
-        prompt = template.render(
+        # Create a modified request with the correct model
+        learning_request = LearningResourceRequest(
+            roadmap_id=request.roadmap_id,
             topic=request.topic,
             category=request.category,
+            max_resources=request.max_resources,
+            model=model_with_provider,  # Ensure model is set
             roadmap_title=getattr(request, 'roadmap_title', ''),
-            roadmap_description=getattr(request, 'roadmap_description', '')
+            roadmap_description=getattr(request, 'roadmap_description', ''),
+            max_output_tokens=3000  # Set token limit for resources generation
         )
         
-        logger.info(f"Generating learning resources for topic: {request.topic}")
-        
-        # Make API call to generate resources
-        # Using higher token limit and optimized temperature for Gemini 2.5 Pro
-        response = await litellm.acompletion(
-            model=model_with_provider,
-            messages=[{"role": "user", "content": prompt}],
-            temperature=0.2,  # Lower for more consistent, accurate results
-            max_tokens=3000   # Higher limit to accommodate 15 detailed resources
+        # Use ai_executor for consistency with other AI services
+        result = await ai_executor.execute(
+            task_type="learning_resources",
+            request_data=learning_request,
+            response_schema=GenerateResourcesResponse,
+            is_json=True
         )
         
-        # Parse the response
-        content = response.choices[0].message.content.strip()
-        
-        # Extract JSON from response (handle code blocks)
-        if "```json" in content:
-            json_start = content.find("```json") + 7
-            json_end = content.find("```", json_start)
-            json_content = content[json_start:json_end].strip()
-        elif "```" in content:
-            json_start = content.find("```") + 3
-            json_end = content.find("```", json_start)
-            json_content = content[json_start:json_end].strip()
-        else:
-            json_content = content
-        
-        # Try to repair and parse JSON
-        try:
-            parsed_data = json.loads(json_content)
-        except json.JSONDecodeError:
-            # Try to repair JSON
-            repaired_json = repair_json(json_content)
-            parsed_data = json.loads(repaired_json)
-        
-        # Validate the structure and create resource objects
-        resources = []
-        if "resources" in parsed_data:
-            for resource_data in parsed_data["resources"][:request.max_resources]:
-                try:
-                    resource = LearningResourceBase(
-                        title=resource_data.get("title", "").strip(),
-                        url=resource_data.get("url", "").strip(),
-                        type=resource_data.get("type", "article").strip(),
-                        description=resource_data.get("description", "").strip()
-                    )
-                    if resource.title and resource.url and resource.description:
-                        resources.append(resource)
-                except Exception as e:
-                    logger.warning(f"Skipping invalid resource: {e}")
-                    continue
-        
-        logger.info(f"Successfully generated {len(resources)} learning resources using {model}")
-        
-        return GenerateResourcesResponse(
-            success=True,
-            resources=resources,
-            total_generated=len(resources),
-            error=None
-        )
+        return result["response"]
         
     except Exception as e:
         logger.error(f"Failed to generate learning resources: {str(e)}")
@@ -842,7 +797,7 @@ async def _fetch_vertex_ai_models() -> List[Dict[str, Any]]:
         # List of available Vertex AI models with their specifications
         vertex_models = [
             {
-                "id": "gemini-2.0-flash-lite",
+                "id": "gemini-2.5-flash-lite",
                 "name": "Google Gemini 2.0 Flash-Lite ⭐",
                 "description": "Fastest and cheapest model ($0.075/1M input, $0.30/1M output). Best for high-throughput tasks.",
                 "context_window": 1000000,  # 1M tokens
@@ -949,7 +904,7 @@ class PracticeQuestionRequest(BaseModel):
     goal: str
     count: int
     hints_enabled: bool = True
-    model: str = "vertexai:gemini-2.0-flash-lite"
+    model: str = "vertexai:gemini-2.5-flash-lite"
     max_output_tokens: int = 8192
 
 class PracticeQuestionAIResponse(BaseModel):
@@ -965,7 +920,7 @@ async def generate_practice_questions_ai(
     subject: str,
     goal: str,
     hints_enabled: bool = True,
-    model: str = "vertexai:gemini-2.0-flash-lite"
+    model: str = "vertexai:gemini-2.5-flash-lite"
 ) -> List[PracticeQuestionResponse]:
     """
     Generate practice questions using AI for different question types.

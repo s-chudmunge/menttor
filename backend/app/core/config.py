@@ -35,14 +35,14 @@ class Settings(BaseSettings):
     OPENAI_API_KEY: Optional[str] = None
     VERTEX_AI_PROJECT_ID: Optional[str] = None
     VERTEX_AI_REGION: Optional[str] = "us-central1"
-    VERTEX_AI_MODEL_ID: Optional[str] = "gemini-2.0-flash-lite"
+    VERTEX_AI_MODEL_ID: Optional[str] = "gemini-2.5-flash-lite"
     
     # Default AI Models for different use cases - centralized configuration
-    # Using gemini-2.0-flash-lite: Fastest and cheapest model ($0.075/1M input, $0.30/1M output)
-    DEFAULT_ROADMAP_MODEL: str = "gemini-2.0-flash-lite"
-    DEFAULT_QUIZ_MODEL: str = "gemini-2.0-flash-lite"
-    DEFAULT_FEEDBACK_MODEL: str = "gemini-2.0-flash-lite"
-    DEFAULT_LEARNING_CONTENT_MODEL: str = "gemini-2.0-flash-lite"
+    # Using gemini-2.5-flash-lite: Good balance of performance and cost
+    DEFAULT_ROADMAP_MODEL: str = "gemini-2.5-flash-lite"
+    DEFAULT_QUIZ_MODEL: str = "gemini-2.5-flash-lite"
+    DEFAULT_FEEDBACK_MODEL: str = "gemini-2.5-flash-lite"
+    DEFAULT_LEARNING_CONTENT_MODEL: str = "gemini-2.5-flash-lite"
     DEFAULT_VISUALIZATION_MODEL: str = "gemini-2.5-flash"
     
     # Learning Resources Model - using Gemini 2.5 Pro for higher quality resource generation

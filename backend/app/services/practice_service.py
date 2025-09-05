@@ -99,7 +99,7 @@ async def generate_practice_questions(
                     subject=subject,
                     goal=goal,
                     hints_enabled=session.hints_enabled,
-                    model="vertexai:gemini-2.0-flash-lite"  # Use your default Vertex AI model
+                    model="vertexai:gemini-2.5-flash-lite"  # Use your default Vertex AI model
                 )
                 
                 # Save questions to database
@@ -121,7 +121,7 @@ async def generate_practice_questions(
                         question_data=question_data,
                         difficulty=ai_question.difficulty,
                         order_index=order_index,
-                        model_used="vertexai:gemini-2.0-flash-lite",
+                        model_used="vertexai:gemini-2.5-flash-lite",
                         generation_prompt=f"Generated {question_type} question for {subtopic_id}"
                     )
                     
