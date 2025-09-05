@@ -56,7 +56,7 @@ export default function WelcomeEmail({ userName = "there" }: WelcomeEmailProps) 
 
           {/* CTA */}
           <Section style={section}>
-            <Button style={buttonPrimary} href="https://menttor.live/dashboard">
+            <Button style={buttonPrimary} href="https://menttor.live">
               Start Your Learning Journey
             </Button>
           </Section>

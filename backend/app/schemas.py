@@ -544,3 +544,46 @@ class PracticeHistoryResponse(BaseModel):
     total_sessions: int
     average_score: float
     total_questions_answered: int
+
+# Learning Resources Schemas
+
+class LearningResourceRequest(BaseModel):
+    """Request schema for generating learning resources"""
+    roadmap_id: int
+    topic: str
+    category: str
+    max_resources: int = 15
+
+class LearningResourceBase(BaseModel):
+    """Individual learning resource"""
+    title: str
+    url: str
+    type: str  # 'documentation', 'tutorial', 'video', 'blog', 'paper', 'wikipedia'
+    description: str
+
+class LearningResourceCreate(LearningResourceBase):
+    """Schema for creating a learning resource"""
+    curated_roadmap_id: int
+
+class LearningResourceResponse(LearningResourceBase):
+    """Response schema for a learning resource"""
+    id: int
+    curated_roadmap_id: int
+    is_active: bool
+    created_at: datetime
+
+class GenerateResourcesRequest(BaseModel):
+    """Request to generate resources for a roadmap"""
+    curated_roadmap_id: int
+
+class GenerateResourcesResponse(BaseModel):
+    """Response with generated learning resources"""
+    success: bool
+    resources: List[LearningResourceBase]
+    total_generated: int
+    error: Optional[str] = None
+
+class RoadmapResourcesResponse(BaseModel):
+    """Response with all resources for a roadmap"""
+    resources: List[LearningResourceResponse]
+    total_count: int

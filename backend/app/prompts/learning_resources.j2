@@ -1,0 +1,56 @@
+As an expert learning curator, generate 15 exceptional external learning resources for this roadmap topic:
+
+**Topic:** {{ topic }}
+**Category:** {{ category }}
+**Roadmap Title:** {{ roadmap_title }}
+**Roadmap Description:** {{ roadmap_description }}
+
+**Your Task:**
+Create a comprehensive collection of learning resources that covers different learning styles and skill levels. Each resource must be from a real, authoritative source and directly relevant to the topic.
+
+**Resource Categories to Include:**
+1. **Official Documentation** (2-3 resources) - Primary authoritative sources
+2. **Interactive Tutorials** (2-3 resources) - Hands-on learning experiences  
+3. **Educational Videos** (2-3 resources) - Visual learning content
+4. **In-depth Articles/Blogs** (2-3 resources) - Expert insights and explanations
+5. **Academic/Research Papers** (1-2 resources) - For advanced learners
+6. **Community Resources** (1-2 resources) - Forums, discussions, Q&A
+7. **Tools & Platforms** (1-2 resources) - Practical implementation resources
+8. **Reference Materials** (1-2 resources) - Quick lookup and comprehensive guides
+
+**Quality Standards:**
+- Use only well-known, established sources (MDN, official docs, reputable educational platforms)
+- Ensure URLs are real and commonly accessible
+- Vary difficulty levels from beginner to advanced
+- Include both free and premium resources when appropriate
+- Focus on resources that complement hands-on learning
+
+**Output Format:**
+For each resource provide:
+- **title**: Compelling, specific title
+- **url**: Real, working URL from authoritative source
+- **type**: documentation, tutorial, video, blog, paper, community, tool, wikipedia
+- **description**: Concise explanation of what learners will gain
+
+**Important:** Only include well-known, established sources like:
+- Official documentation (MDN, React docs, etc.)
+- Reputable educational platforms (Coursera, edX, Khan Academy)
+- Established tech blogs (Dev.to, Medium publications, company blogs)
+- Wikipedia for foundational knowledge
+- Academic sources (arXiv, Google Scholar)
+- Popular video platforms (YouTube channels by experts)
+- Community resources (Stack Overflow, Reddit)
+
+Return **exactly** this JSON format:
+```json
+{
+  "resources": [
+    {
+      "title": "Resource title",
+      "url": "https://example.com/resource",
+      "type": "documentation",
+      "description": "Brief description of what this resource provides"
+    }
+  ]
+}
+```

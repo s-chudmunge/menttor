@@ -535,3 +535,22 @@ class PromotionalImageBase(SQLModel):
 class PromotionalImage(PromotionalImageBase, table=True):
     """Database model for storing AI-generated promotional images"""
     id: Optional[int] = Field(default=None, primary_key=True)
+
+# Learning Resources System - External links for roadmaps
+
+class RoadmapResourceBase(SQLModel):
+    """External learning resources for curated roadmaps"""
+    curated_roadmap_id: int = Field(foreign_key="curatedroadmap.id", description="Associated curated roadmap")
+    title: str = Field(max_length=200, description="Resource title")
+    url: str = Field(max_length=500, description="Resource URL")
+    type: str = Field(max_length=50, description="Resource type: documentation, blog, video, paper, wikipedia, tutorial, etc.")
+    description: str = Field(max_length=500, description="Brief description of the resource")
+    
+    # Management fields
+    is_active: bool = Field(default=True, description="Whether resource is visible")
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+    last_validated: Optional[datetime] = Field(default=None, description="Last time URL was verified")
+
+class RoadmapResource(RoadmapResourceBase, table=True):
+    """Database model for roadmap learning resources"""
+    id: Optional[int] = Field(default=None, primary_key=True)

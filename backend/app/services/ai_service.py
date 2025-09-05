@@ -44,7 +44,8 @@ from schemas import (LearningContentRequest, QuizAIResponse, QuizGenerateRequest
                      RoadmapAIResponse, RoadmapCreateRequest, RoadmapPlan, LearningContentResponse,
                      LearningContentOutlineRequest, LearningContentOutlineResponse,
                      LearningContentChunkRequest, LearningContentChunkResponse, QuestionBase, ThreeDVisualizationRequest, ThreeDVisualizationResponse,
-                     GenerateFeedbackRequest, GenerateFeedbackResponse, PracticeQuestionResponse)
+                     GenerateFeedbackRequest, GenerateFeedbackResponse, PracticeQuestionResponse,
+                     LearningResourceRequest, LearningResourceBase, GenerateResourcesResponse)
 
 # Define a TypeVar for BaseModel subclasses
 T = TypeVar('T', bound=BaseModel)
@@ -698,6 +699,91 @@ async def generate_performance_feedback(request: GenerateFeedbackRequest) -> Gen
         is_json=False
     )
     return result["response"]
+
+async def generate_learning_resources(request: LearningResourceRequest) -> GenerateResourcesResponse:
+    """Generate external learning resources for a roadmap topic using AI."""
+    try:
+        # Use dedicated learning resources model (Gemini 2.5 Pro for higher quality)
+        model = settings.DEFAULT_LEARNING_RESOURCES_MODEL
+        model_with_provider = f"vertexai:{model}" if ':' not in model else model
+        
+        # Render the prompt template
+        template = prompt_env.get_template("learning_resources.j2")
+        prompt = template.render(
+            topic=request.topic,
+            category=request.category,
+            roadmap_title=getattr(request, 'roadmap_title', ''),
+            roadmap_description=getattr(request, 'roadmap_description', '')
+        )
+        
+        logger.info(f"Generating learning resources for topic: {request.topic}")
+        
+        # Make API call to generate resources
+        # Using higher token limit and optimized temperature for Gemini 2.5 Pro
+        response = await litellm.acompletion(
+            model=model_with_provider,
+            messages=[{"role": "user", "content": prompt}],
+            temperature=0.2,  # Lower for more consistent, accurate results
+            max_tokens=3000   # Higher limit to accommodate 15 detailed resources
+        )
+        
+        # Parse the response
+        content = response.choices[0].message.content.strip()
+        
+        # Extract JSON from response (handle code blocks)
+        if "```json" in content:
+            json_start = content.find("```json") + 7
+            json_end = content.find("```", json_start)
+            json_content = content[json_start:json_end].strip()
+        elif "```" in content:
+            json_start = content.find("```") + 3
+            json_end = content.find("```", json_start)
+            json_content = content[json_start:json_end].strip()
+        else:
+            json_content = content
+        
+        # Try to repair and parse JSON
+        try:
+            parsed_data = json.loads(json_content)
+        except json.JSONDecodeError:
+            # Try to repair JSON
+            repaired_json = repair_json(json_content)
+            parsed_data = json.loads(repaired_json)
+        
+        # Validate the structure and create resource objects
+        resources = []
+        if "resources" in parsed_data:
+            for resource_data in parsed_data["resources"][:request.max_resources]:
+                try:
+                    resource = LearningResourceBase(
+                        title=resource_data.get("title", "").strip(),
+                        url=resource_data.get("url", "").strip(),
+                        type=resource_data.get("type", "article").strip(),
+                        description=resource_data.get("description", "").strip()
+                    )
+                    if resource.title and resource.url and resource.description:
+                        resources.append(resource)
+                except Exception as e:
+                    logger.warning(f"Skipping invalid resource: {e}")
+                    continue
+        
+        logger.info(f"Successfully generated {len(resources)} learning resources using {model}")
+        
+        return GenerateResourcesResponse(
+            success=True,
+            resources=resources,
+            total_generated=len(resources),
+            error=None
+        )
+        
+    except Exception as e:
+        logger.error(f"Failed to generate learning resources: {str(e)}")
+        return GenerateResourcesResponse(
+            success=False,
+            resources=[],
+            total_generated=0,
+            error=str(e)
+        )
 
 async def _fetch_openrouter_models() -> List[Dict[str, Any]]:
     """Fetches models from OpenRouter API and filters for free ones."""

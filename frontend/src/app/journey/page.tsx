@@ -46,12 +46,27 @@ import {
   Brain,
   RefreshCw,
   Box,
-  PenTool
+  PenTool,
+  ExternalLink,
+  FileText,
+  Video,
+  GraduationCap,
+  Code,
+  Globe
 } from 'lucide-react';
+
+interface LearningResource {
+  id: number;
+  title: string;
+  url: string;
+  type: string;
+  description: string;
+}
 
 const JourneyPage = () => {
   const [currentView, setCurrentView] = useState<'day' | 'modules' | 'visual' | 'practice'>('day');
   const [currentModuleIndex, setCurrentModuleIndex] = useState(0);
+  const [learningResources, setLearningResources] = useState<LearningResource[]>([]);
   const [isOldRoadmapsModalOpen, setIsOldRoadmapsModalOpen] = useState(false);
   const [isOldLearnPagesModalOpen, setIsOldLearnPagesModalOpen] = useState(false);
   const [roadmapData, setRoadmapData] = useState<RoadmapData | null>(null);
@@ -232,6 +247,79 @@ const JourneyPage = () => {
       window.removeEventListener('focus', handleFocus);
     };
   }, [roadmapData?.id, refetchProgress]);
+
+  // Fetch learning resources when roadmap data changes
+  useEffect(() => {
+    const fetchLearningResources = async () => {
+      if (!roadmapData?.curated_roadmap_id) return;
+      
+      try {
+        const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000';
+        const response = await fetch(`${BACKEND_URL}/learning-resources/${roadmapData.curated_roadmap_id}`, {
+          headers: {
+            'Authorization': `Bearer ${await user.getIdToken()}`
+          }
+        });
+        if (response.ok) {
+          const data = await response.json();
+          setLearningResources(data.resources || []);
+        }
+      } catch (error) {
+        console.error('Failed to fetch learning resources:', error);
+      }
+    };
+
+    if (roadmapData?.curated_roadmap_id) {
+      fetchLearningResources();
+    }
+  }, [roadmapData?.curated_roadmap_id, user]);
+
+  // Helper functions for resource display
+  const getResourceIcon = (type: string) => {
+    switch (type.toLowerCase()) {
+      case 'documentation':
+        return <FileText className="w-4 h-4" />;
+      case 'video':
+        return <Video className="w-4 h-4" />;
+      case 'tutorial':
+        return <GraduationCap className="w-4 h-4" />;
+      case 'blog':
+        return <FileText className="w-4 h-4" />;
+      case 'course':
+        return <BookOpen className="w-4 h-4" />;
+      case 'paper':
+        return <FileText className="w-4 h-4" />;
+      case 'wikipedia':
+        return <Globe className="w-4 h-4" />;
+      case 'tool':
+        return <Code className="w-4 h-4" />;
+      default:
+        return <ExternalLink className="w-4 h-4" />;
+    }
+  };
+
+  const getResourceColor = (type: string) => {
+    switch (type.toLowerCase()) {
+      case 'documentation':
+        return 'text-blue-600 bg-blue-50';
+      case 'video':
+        return 'text-red-600 bg-red-50';
+      case 'tutorial':
+        return 'text-green-600 bg-green-50';
+      case 'blog':
+        return 'text-purple-600 bg-purple-50';
+      case 'course':
+        return 'text-orange-600 bg-orange-50';
+      case 'paper':
+        return 'text-gray-600 bg-gray-50';
+      case 'wikipedia':
+        return 'text-indigo-600 bg-indigo-50';
+      case 'tool':
+        return 'text-cyan-600 bg-cyan-50';
+      default:
+        return 'text-gray-600 bg-gray-50';
+    }
+  };
 
   // Polling mechanism for progress updates after learn completion
   useEffect(() => {
@@ -613,6 +701,61 @@ const JourneyPage = () => {
 
           {/* Recommended Reviews */}
           <RecommendedReviews recommendedReviews={recommendedReviews || []} />
+
+          {/* Learning Resources */}
+          {learningResources.length > 0 && (
+            <div className="mb-6 lg:mb-8">
+              <div className="bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700 shadow-sm">
+                <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4 flex items-center">
+                  <ExternalLink className="w-5 h-5 mr-3 text-blue-600" />
+                  Learning Resources
+                </h2>
+                <p className="text-gray-600 dark:text-gray-300 mb-6 text-sm">
+                  Curated external resources to enhance your learning journey.
+                </p>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {learningResources.slice(0, 9).map((resource) => (
+                    <a
+                      key={resource.id}
+                      href={resource.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group block p-4 bg-gray-50 dark:bg-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-all border border-gray-200 dark:border-gray-600"
+                    >
+                      <div className="flex items-start gap-3">
+                        <div className={`p-2 rounded-lg ${getResourceColor(resource.type)} group-hover:scale-105 transition-transform`}>
+                          {getResourceIcon(resource.type)}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <h3 className="font-medium text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors text-sm line-clamp-2 mb-2">
+                            {resource.title}
+                          </h3>
+                          <p className="text-xs text-gray-600 dark:text-gray-300 line-clamp-2 mb-2">
+                            {resource.description}
+                          </p>
+                          <div className="flex items-center justify-between">
+                            <span className="inline-block text-xs px-2 py-1 bg-white dark:bg-gray-600 text-gray-600 dark:text-gray-300 rounded">
+                              {resource.type}
+                            </span>
+                            <ExternalLink className="w-3 h-3 text-gray-400 group-hover:text-blue-500 transition-colors" />
+                          </div>
+                        </div>
+                      </div>
+                    </a>
+                  ))}
+                </div>
+                
+                {learningResources.length > 9 && (
+                  <div className="mt-4 text-center">
+                    <p className="text-xs text-gray-500 dark:text-gray-400">
+                      +{learningResources.length - 9} more resources available in the roadmap preview
+                    </p>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
         </main>
 
         {/* Old Roadmaps Modal */}

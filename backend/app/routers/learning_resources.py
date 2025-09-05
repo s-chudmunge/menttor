@@ -1,0 +1,239 @@
+"""
+Learning Resources Router
+Handles generation and management of external learning resources for curated roadmaps
+"""
+
+from typing import List
+from fastapi import APIRouter, Depends, HTTPException, status
+from sqlmodel import Session, select
+from datetime import datetime
+
+from database.deps import get_db
+from database.auth import get_current_admin_user
+from sql_models import RoadmapResource, CuratedRoadmap, User
+from schemas import (
+    GenerateResourcesRequest, GenerateResourcesResponse,
+    RoadmapResourcesResponse, LearningResourceResponse, LearningResourceCreate,
+    LearningResourceRequest
+)
+from services.ai_service import generate_learning_resources
+import logging
+
+logger = logging.getLogger(__name__)
+
+router = APIRouter()
+
+
+@router.post("/generate", response_model=GenerateResourcesResponse)
+async def generate_resources_for_roadmap(
+    request: GenerateResourcesRequest,
+    current_user: User = Depends(get_current_admin_user),
+    db: Session = Depends(get_db)
+):
+    """Generate learning resources for a curated roadmap using AI"""
+    try:
+        # Get the curated roadmap
+        roadmap = db.get(CuratedRoadmap, request.curated_roadmap_id)
+        if not roadmap:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Curated roadmap not found"
+            )
+        
+        # Create AI request
+        ai_request = LearningResourceRequest(
+            roadmap_id=roadmap.id,
+            topic=roadmap.title,
+            category=roadmap.category,
+            max_resources=15
+        )
+        
+        # Add roadmap context for better generation
+        ai_request.roadmap_title = roadmap.title
+        ai_request.roadmap_description = roadmap.description
+        
+        # Generate resources using AI
+        response = await generate_learning_resources(ai_request)
+        
+        if not response.success:
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail=f"Failed to generate resources: {response.error}"
+            )
+        
+        logger.info(f"Generated {len(response.resources)} resources for roadmap {roadmap.id}")
+        return response
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error generating resources: {str(e)}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Failed to generate learning resources"
+        )
+
+
+@router.post("/save", response_model=dict)
+async def save_generated_resources(
+    resources: List[LearningResourceCreate],
+    current_user: User = Depends(get_current_admin_user),
+    db: Session = Depends(get_db)
+):
+    """Save generated resources to the database"""
+    try:
+        saved_count = 0
+        
+        for resource_data in resources:
+            # Check if resource already exists (by URL)
+            existing = db.exec(
+                select(RoadmapResource).where(
+                    RoadmapResource.curated_roadmap_id == resource_data.curated_roadmap_id,
+                    RoadmapResource.url == resource_data.url
+                )
+            ).first()
+            
+            if not existing:
+                # Create new resource
+                resource = RoadmapResource(
+                    curated_roadmap_id=resource_data.curated_roadmap_id,
+                    title=resource_data.title,
+                    url=resource_data.url,
+                    type=resource_data.type,
+                    description=resource_data.description,
+                    is_active=True
+                )
+                db.add(resource)
+                saved_count += 1
+        
+        db.commit()
+        logger.info(f"Saved {saved_count} new learning resources")
+        
+        return {"success": True, "saved_count": saved_count}
+        
+    except Exception as e:
+        logger.error(f"Error saving resources: {str(e)}")
+        db.rollback()
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Failed to save learning resources"
+        )
+
+
+@router.get("/{roadmap_id}", response_model=RoadmapResourcesResponse)
+async def get_roadmap_resources(
+    roadmap_id: int,
+    db: Session = Depends(get_db)
+):
+    """Get all learning resources for a specific roadmap"""
+    try:
+        # Verify roadmap exists
+        roadmap = db.get(CuratedRoadmap, roadmap_id)
+        if not roadmap:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Curated roadmap not found"
+            )
+        
+        # Get all active resources for this roadmap
+        resources = db.exec(
+            select(RoadmapResource).where(
+                RoadmapResource.curated_roadmap_id == roadmap_id,
+                RoadmapResource.is_active == True
+            ).order_by(RoadmapResource.created_at)
+        ).all()
+        
+        resource_responses = [
+            LearningResourceResponse(
+                id=resource.id,
+                curated_roadmap_id=resource.curated_roadmap_id,
+                title=resource.title,
+                url=resource.url,
+                type=resource.type,
+                description=resource.description,
+                is_active=resource.is_active,
+                created_at=resource.created_at
+            )
+            for resource in resources
+        ]
+        
+        return RoadmapResourcesResponse(
+            resources=resource_responses,
+            total_count=len(resource_responses)
+        )
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error fetching resources: {str(e)}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Failed to fetch learning resources"
+        )
+
+
+@router.delete("/{resource_id}")
+async def delete_resource(
+    resource_id: int,
+    current_user: User = Depends(get_current_admin_user),
+    db: Session = Depends(get_db)
+):
+    """Delete a learning resource"""
+    try:
+        resource = db.get(RoadmapResource, resource_id)
+        if not resource:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Learning resource not found"
+            )
+        
+        db.delete(resource)
+        db.commit()
+        
+        return {"success": True, "message": "Resource deleted successfully"}
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error deleting resource: {str(e)}")
+        db.rollback()
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Failed to delete learning resource"
+        )
+
+
+@router.patch("/{resource_id}/toggle")
+async def toggle_resource_status(
+    resource_id: int,
+    current_user: User = Depends(get_current_admin_user),
+    db: Session = Depends(get_db)
+):
+    """Toggle a learning resource's active status"""
+    try:
+        resource = db.get(RoadmapResource, resource_id)
+        if not resource:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Learning resource not found"
+            )
+        
+        resource.is_active = not resource.is_active
+        db.add(resource)
+        db.commit()
+        
+        return {
+            "success": True, 
+            "is_active": resource.is_active,
+            "message": f"Resource {'activated' if resource.is_active else 'deactivated'}"
+        }
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error toggling resource status: {str(e)}")
+        db.rollback()
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Failed to update resource status"
+        )

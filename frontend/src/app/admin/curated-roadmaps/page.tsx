@@ -26,6 +26,20 @@ interface TrendingListResponse {
   roadmaps: Omit<RoadmapConfig, 'index' | 'generated'>[]
 }
 
+interface LearningResource {
+  title: string
+  url: string
+  type: string
+  description: string
+}
+
+interface GenerateResourcesResponse {
+  success: boolean
+  resources: LearningResource[]
+  total_generated: number
+  error?: string
+}
+
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'https://menttor-backend.onrender.com'
 
 export default function AdminCuratedRoadmaps() {
@@ -51,6 +65,9 @@ export default function AdminCuratedRoadmaps() {
   })
   const [selectedRoadmaps, setSelectedRoadmaps] = useState<Set<number>>(new Set())
   const [deletingSelected, setDeletingSelected] = useState(false)
+  const [generatingResources, setGeneratingResources] = useState<number | null>(null)
+  const [showResourcesModal, setShowResourcesModal] = useState<{ roadmapIndex: number, resources: LearningResource[] } | null>(null)
+  const [savingResources, setSavingResources] = useState(false)
 
   // Toggle practice lock
   const togglePracticeLock = () => {
@@ -210,6 +227,160 @@ export default function AdminCuratedRoadmaps() {
       setMessage('❌ Network error during deletion')
     } finally {
       setDeletingSelected(false)
+    }
+  }
+
+  // Generate learning resources for a roadmap
+  const generateLearningResources = async (index: number) => {
+    setGeneratingResources(index)
+    setMessage('')
+
+    try {
+      // First, we need to get the roadmap ID from the database
+      // Since we only have the index, we need to find the actual roadmap
+      const roadmapData = trendingList?.roadmaps[index]
+      if (!roadmapData) {
+        setMessage('❌ Roadmap data not found')
+        return
+      }
+
+      // Find the actual curated roadmap ID
+      const statusResponse = await fetch(`${BACKEND_URL}/curated-roadmaps/admin/status`, {
+        headers: {
+          'Authorization': createAuthHeader()
+        }
+      })
+
+      if (!statusResponse.ok) {
+        throw new Error('Failed to fetch roadmap status')
+      }
+
+      const statusData = await statusResponse.json()
+      const roadmapInfo = statusData.roadmaps.find((r: any) => r.index === index)
+      
+      if (!roadmapInfo || !roadmapInfo.generated) {
+        setMessage('❌ Roadmap must be generated first before adding resources')
+        return
+      }
+
+      // Get all roadmaps to find the actual ID
+      const allRoadmapsResponse = await fetch(`${BACKEND_URL}/curated-roadmaps`, {
+        headers: {
+          'Authorization': createAuthHeader()
+        }
+      })
+
+      if (!allRoadmapsResponse.ok) {
+        throw new Error('Failed to fetch roadmaps')
+      }
+
+      const allRoadmaps = await allRoadmapsResponse.json()
+      const actualRoadmap = allRoadmaps.find((r: any) => 
+        r.title === roadmapData.title && r.category === roadmapData.category
+      )
+
+      if (!actualRoadmap) {
+        setMessage('❌ Could not find generated roadmap in database')
+        return
+      }
+
+      // Generate learning resources
+      const response = await fetch(`${BACKEND_URL}/learning-resources/generate`, {
+        method: 'POST',
+        headers: {
+          'Authorization': createAuthHeader(),
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          curated_roadmap_id: actualRoadmap.id
+        })
+      })
+
+      const result = await response.json()
+
+      if (response.ok && result.success) {
+        setMessage(`✅ Generated ${result.total_generated} learning resources`)
+        setShowResourcesModal({
+          roadmapIndex: index,
+          resources: result.resources
+        })
+      } else {
+        setMessage(`❌ ${result.error || 'Failed to generate learning resources'}`)
+      }
+    } catch (error) {
+      console.error('Resource generation error:', error)
+      setMessage('❌ Network error during resource generation')
+    } finally {
+      setGeneratingResources(null)
+    }
+  }
+
+  // Save approved resources to database
+  const saveApprovedResources = async (roadmapIndex: number, resources: LearningResource[]) => {
+    setSavingResources(true)
+    setMessage('')
+
+    try {
+      // Find the actual roadmap
+      const roadmapData = trendingList?.roadmaps[roadmapIndex]
+      if (!roadmapData) {
+        setMessage('❌ Roadmap data not found')
+        return
+      }
+
+      // Get all roadmaps to find the actual ID
+      const allRoadmapsResponse = await fetch(`${BACKEND_URL}/curated-roadmaps`, {
+        headers: {
+          'Authorization': createAuthHeader()
+        }
+      })
+
+      if (!allRoadmapsResponse.ok) {
+        throw new Error('Failed to fetch roadmaps')
+      }
+
+      const allRoadmaps = await allRoadmapsResponse.json()
+      const actualRoadmap = allRoadmaps.find((r: any) => 
+        r.title === roadmapData.title && r.category === roadmapData.category
+      )
+
+      if (!actualRoadmap) {
+        setMessage('❌ Could not find generated roadmap in database')
+        return
+      }
+
+      // Prepare resources for saving
+      const resourcesToSave = resources.map(resource => ({
+        curated_roadmap_id: actualRoadmap.id,
+        title: resource.title,
+        url: resource.url,
+        type: resource.type,
+        description: resource.description
+      }))
+
+      // Save resources
+      const response = await fetch(`${BACKEND_URL}/learning-resources/save`, {
+        method: 'POST',
+        headers: {
+          'Authorization': createAuthHeader(),
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(resourcesToSave)
+      })
+
+      const result = await response.json()
+
+      if (response.ok) {
+        setMessage(`✅ Saved ${result.saved_count} learning resources`)
+        setShowResourcesModal(null)
+      } else {
+        setMessage(`❌ Failed to save resources: ${result.detail || 'Unknown error'}`)
+      }
+    } catch (error) {
+      console.error('Resource saving error:', error)
+      setMessage('❌ Network error during resource saving')
+    } finally {
+      setSavingResources(false)
     }
   }
 
@@ -593,7 +764,7 @@ export default function AdminCuratedRoadmaps() {
                           </div>
                         </div>
 
-                      <div className="ml-4">
+                      <div className="ml-4 flex gap-2">
                         <Button
                           onClick={() => generateRoadmap(index)}
                           disabled={isGenerated || isGenerating}
@@ -601,11 +772,73 @@ export default function AdminCuratedRoadmaps() {
                         >
                           {isGenerating ? 'Generating...' : isGenerated ? 'Already Generated' : 'Generate Roadmap'}
                         </Button>
+                        {isGenerated && (
+                          <Button
+                            onClick={() => generateLearningResources(index)}
+                            disabled={generatingResources === index}
+                            className="bg-purple-600 hover:bg-purple-700 text-white"
+                          >
+                            {generatingResources === index ? 'Generating...' : 'Generate Resources'}
+                          </Button>
+                        )}
                       </div>
                     </div>
                   </div>
                 )
               })}
+            </div>
+          </div>
+        )}
+
+        {/* Learning Resources Modal */}
+        {showResourcesModal && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+            <div className="bg-white rounded-lg p-6 max-w-4xl max-h-[80vh] overflow-y-auto">
+              <h2 className="text-xl font-bold mb-4">
+                Generated Learning Resources - Roadmap #{showResourcesModal.roadmapIndex}
+              </h2>
+              
+              <div className="space-y-3 mb-6">
+                {showResourcesModal.resources.map((resource, idx) => (
+                  <div key={idx} className="border rounded-lg p-4 bg-gray-50">
+                    <div className="flex items-start justify-between">
+                      <div className="flex-1">
+                        <h3 className="font-semibold text-gray-900">{resource.title}</h3>
+                        <p className="text-sm text-gray-600 mt-1">{resource.description}</p>
+                        <div className="flex items-center gap-4 mt-2 text-sm">
+                          <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded">
+                            {resource.type}
+                          </span>
+                          <a 
+                            href={resource.url} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="text-blue-600 hover:underline truncate"
+                          >
+                            {resource.url}
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              
+              <div className="flex justify-end gap-3">
+                <button
+                  onClick={() => setShowResourcesModal(null)}
+                  className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={() => saveApprovedResources(showResourcesModal.roadmapIndex, showResourcesModal.resources)}
+                  disabled={savingResources}
+                  className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 disabled:opacity-50"
+                >
+                  {savingResources ? 'Saving...' : `Save ${showResourcesModal.resources.length} Resources`}
+                </button>
+              </div>
             </div>
           </div>
         )}

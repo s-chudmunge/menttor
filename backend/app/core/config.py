@@ -44,6 +44,9 @@ class Settings(BaseSettings):
     DEFAULT_FEEDBACK_MODEL: str = "gemini-2.0-flash-lite"
     DEFAULT_LEARNING_CONTENT_MODEL: str = "gemini-2.0-flash-lite"
     DEFAULT_VISUALIZATION_MODEL: str = "gemini-2.5-flash"
+    
+    # Learning Resources Model - using Gemini 2.5 Pro for higher quality resource generation
+    DEFAULT_LEARNING_RESOURCES_MODEL: str = "gemini-2.5-pro"
 
     FIREBASE_CREDENTIALS: Optional[str] = None
     
