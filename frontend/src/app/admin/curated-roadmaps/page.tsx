@@ -50,7 +50,7 @@ export default function AdminCuratedRoadmaps() {
   const [loginError, setLoginError] = useState('')
   const [adminStatus, setAdminStatus] = useState<AdminStatus | null>(null)
   const [trendingList, setTrendingList] = useState<TrendingListResponse | null>(null)
-  const [loading, setLoading] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
   const [generating, setGenerating] = useState<number | null>(null)
   const [clearing, setClearing] = useState(false)
   const [message, setMessage] = useState('')
