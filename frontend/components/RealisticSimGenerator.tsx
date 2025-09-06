@@ -180,7 +180,7 @@ const RealisticSimGeneratorModal: React.FC<RealisticSimGeneratorModalProps> = ({
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
       <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl border border-gray-200 dark:border-gray-700 w-full max-w-4xl relative max-h-[90vh] overflow-hidden">
         {/* Header */}
-        <div className="relative p-6 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-violet-600 to-purple-600">
+        <div className="relative p-6 border-b border-gray-200 dark:border-gray-700 bg-black dark:bg-black">
           <button
             onClick={onClose}
             className="absolute top-4 right-4 text-white/80 hover:text-white transition-colors"
@@ -189,8 +189,8 @@ const RealisticSimGeneratorModal: React.FC<RealisticSimGeneratorModalProps> = ({
           </button>
           
           <div className="text-center text-white">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-white/20 rounded-2xl mb-4">
-              <Sparkles className="w-8 h-8" />
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-white/10 rounded-2xl mb-4">
+              <Atom className="w-8 h-8" />
             </div>
             <h2 className="text-2xl font-bold mb-2">
               Create Realistic 3D Simulation
@@ -214,7 +214,7 @@ const RealisticSimGeneratorModal: React.FC<RealisticSimGeneratorModalProps> = ({
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 placeholder="e.g., DNA double helix with realistic molecular dynamics, Newton's cradle with accurate physics, quantum wave function visualization..."
-                className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 resize-none transition-colors"
+                className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 resize-none transition-colors"
                 rows={3}
                 maxLength={500}
                 disabled={loading || isGenerating}
@@ -243,8 +243,8 @@ const RealisticSimGeneratorModal: React.FC<RealisticSimGeneratorModalProps> = ({
                     onClick={() => setSelectedCategory(selectedCategory === category.id ? '' : category.id)}
                     className={`p-4 rounded-xl border-2 transition-all duration-200 text-left ${
                       selectedCategory === category.id
-                        ? `border-violet-500 bg-gradient-to-r ${category.color} text-white shadow-lg scale-105`
-                        : 'border-gray-200 dark:border-gray-600 hover:border-violet-300 dark:hover:border-violet-500 bg-white dark:bg-gray-700'
+                        ? 'border-black bg-black text-white shadow-lg scale-105'
+                        : 'border-gray-200 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500 bg-white dark:bg-gray-700'
                     }`}
                   >
                     <div className="flex items-center space-x-3 mb-2">
@@ -269,7 +269,7 @@ const RealisticSimGeneratorModal: React.FC<RealisticSimGeneratorModalProps> = ({
             <button
               type="button"
               onClick={() => setShowAdvanced(!showAdvanced)}
-              className="flex items-center space-x-2 text-violet-600 dark:text-violet-400 hover:text-violet-700 dark:hover:text-violet-300 transition-colors"
+              className="flex items-center space-x-2 text-black dark:text-white hover:text-gray-700 dark:hover:text-gray-300 transition-colors"
             >
               <ChevronDown className={`w-4 h-4 transition-transform ${showAdvanced ? 'rotate-180' : ''}`} />
               <span className="text-sm font-medium">Advanced Settings</span>
@@ -287,7 +287,7 @@ const RealisticSimGeneratorModal: React.FC<RealisticSimGeneratorModalProps> = ({
                     <select
                       value={complexity}
                       onChange={(e) => setComplexity(e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-black bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                     >
                       {complexityLevels.map((level) => (
                         <option key={level.id} value={level.id}>
@@ -305,7 +305,7 @@ const RealisticSimGeneratorModal: React.FC<RealisticSimGeneratorModalProps> = ({
                     <select
                       value={realismLevel}
                       onChange={(e) => setRealismLevel(e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-black bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                     >
                       {realismLevels.map((level) => (
                         <option key={level.id} value={level.id}>
@@ -330,7 +330,7 @@ const RealisticSimGeneratorModal: React.FC<RealisticSimGeneratorModalProps> = ({
                     <button
                       type="button"
                       onClick={onModelSelect}
-                      className="text-violet-600 dark:text-violet-400 hover:text-violet-700 dark:hover:text-violet-300 text-sm font-medium transition-colors"
+                      className="text-black dark:text-white hover:text-gray-700 dark:hover:text-gray-300 text-sm font-medium transition-colors"
                     >
                       Change
                     </button>
@@ -343,7 +343,7 @@ const RealisticSimGeneratorModal: React.FC<RealisticSimGeneratorModalProps> = ({
             <button
               type="submit"
               disabled={!isFormValid || loading || isGenerating}
-              className="w-full bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed text-white py-4 px-6 rounded-xl font-medium transition-all duration-200 flex items-center justify-center space-x-3 group"
+              className="w-full bg-black hover:bg-gray-800 disabled:bg-gray-400 disabled:cursor-not-allowed text-white py-4 px-6 rounded-xl font-medium transition-all duration-200 flex items-center justify-center space-x-3 group"
             >
               {loading ? (
                 <>
@@ -362,7 +362,7 @@ const RealisticSimGeneratorModal: React.FC<RealisticSimGeneratorModalProps> = ({
                 </>
               ) : (
                 <>
-                  <Sparkles className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                  <Atom className="w-5 h-5 group-hover:scale-110 transition-transform" />
                   <span>Generate Realistic Simulation</span>
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </>
@@ -399,11 +399,11 @@ const RealisticSimGeneratorCard: React.FC<RealisticSimGeneratorCardProps> = ({ o
   return (
     <div 
       onClick={onClick}
-      className={`cursor-pointer bg-gradient-to-r from-violet-100 to-purple-100 dark:from-violet-900 dark:to-purple-900 rounded-xl p-4 border border-violet-200 dark:border-violet-700 hover:from-violet-200 hover:to-purple-200 dark:hover:from-violet-800 dark:hover:to-purple-800 transition-all duration-200 transform hover:scale-105 ${className}`}
+      className={`cursor-pointer bg-white dark:bg-black rounded-xl p-4 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-900 transition-all duration-200 transform hover:scale-105 ${className}`}
     >
       <div className="flex items-center space-x-4">
-        <div className="w-12 h-12 bg-gradient-to-r from-violet-600 to-purple-600 rounded-xl flex items-center justify-center">
-          <Sparkles className="w-6 h-6 text-white" />
+        <div className="w-12 h-12 bg-black dark:bg-white rounded-xl flex items-center justify-center">
+          <Atom className="w-6 h-6 text-white dark:text-black" />
         </div>
         <div className="flex-1">
           <h3 className="font-bold text-gray-900 dark:text-white">
@@ -413,7 +413,7 @@ const RealisticSimGeneratorCard: React.FC<RealisticSimGeneratorCardProps> = ({ o
             Advanced physics-based simulations
           </p>
         </div>
-        <ArrowRight className="w-5 h-5 text-violet-600 dark:text-violet-400" />
+        <ArrowRight className="w-5 h-5 text-black dark:text-white" />
       </div>
     </div>
   );
