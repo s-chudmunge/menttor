@@ -5,7 +5,7 @@ import os
 import tempfile
 
 # --- Setup Logging ---
-# Updated OpenRouter API key in Secret Manager - trigger deployment
+# Fixed OpenRouter API key trailing newline issue in Secret Manager - 2025-09-06
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
