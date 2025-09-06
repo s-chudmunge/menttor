@@ -26,9 +26,9 @@ logger = logging.getLogger(__name__)
 router = APIRouter()
 security = HTTPBasic()
 
-# Admin credentials from environment variables
-ADMIN_USERNAME = os.getenv("ADMIN_USERNAME", "admin")
-ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "changeme")
+# Admin credentials from Secret Manager
+from utils.secret_manager import get_admin_credentials
+ADMIN_USERNAME, ADMIN_PASSWORD = get_admin_credentials()
 
 def verify_admin(credentials: HTTPBasicCredentials = Depends(security)):
     """Verify admin credentials"""

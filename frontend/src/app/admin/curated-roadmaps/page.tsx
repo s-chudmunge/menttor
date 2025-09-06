@@ -2,6 +2,8 @@
 
 import React, { useState, useEffect } from 'react'
 import Button from '@/components/Button'
+import { useAuth } from '@/app/context/AuthContext'
+import { useRouter } from 'next/navigation'
 
 interface RoadmapConfig {
   index: number
@@ -43,9 +45,8 @@ interface GenerateResourcesResponse {
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'https://menttor-backend.onrender.com'
 
 export default function AdminCuratedRoadmaps() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false)
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
+  const { user, isAdmin, loading } = useAuth()
+  const router = useRouter()
   const [loginError, setLoginError] = useState('')
   const [adminStatus, setAdminStatus] = useState<AdminStatus | null>(null)
   const [trendingList, setTrendingList] = useState<TrendingListResponse | null>(null)
@@ -76,56 +77,36 @@ export default function AdminCuratedRoadmaps() {
     localStorage.setItem('practiceLocked', newLockState.toString())
   }
 
-  // Create basic auth header
-  const createAuthHeader = () => {
-    return 'Basic ' + btoa(`${username}:${password}`)
+  // Create Firebase auth header
+  const createAuthHeader = async () => {
+    if (!user) return ''
+    const token = await user.getIdToken()
+    return `Bearer ${token}`
   }
 
-  // Test authentication and load initial data
-  const handleLogin = async () => {
-    if (!username || !password) {
-      setLoginError('Please enter both username and password')
-      return
-    }
-
-    setLoading(true)
-    setLoginError('')
-
-    try {
-      const response = await fetch(`${BACKEND_URL}/curated-roadmaps/admin/status`, {
-        headers: {
-          'Authorization': createAuthHeader()
-        }
-      })
-
-      if (response.status === 401) {
-        setLoginError('Invalid credentials')
-        return
+  // Check authentication status and load data
+  useEffect(() => {
+    if (!loading) {
+      if (!user) {
+        router.push('/auth/signin')
+      } else if (!isAdmin) {
+        setLoginError('Admin privileges required. Please contact an administrator.')
+      } else {
+        loadData()
       }
-
-      if (!response.ok) {
-        setLoginError('Failed to connect to server')
-        return
-      }
-
-      setIsAuthenticated(true)
-      await loadData()
-    } catch (error) {
-      setLoginError('Network error')
-    } finally {
-      setLoading(false)
     }
-  }
+  }, [user, isAdmin, loading, router])
 
   // Load both status and trending list
   const loadData = async () => {
     try {
+      const authHeader = await createAuthHeader()
       const [statusResponse, trendingResponse] = await Promise.all([
         fetch(`${BACKEND_URL}/curated-roadmaps/admin/status`, {
-          headers: { 'Authorization': createAuthHeader() }
+          headers: { 'Authorization': authHeader }
         }),
         fetch(`${BACKEND_URL}/curated-roadmaps/admin/trending-list`, {
-          headers: { 'Authorization': createAuthHeader() }
+          headers: { 'Authorization': authHeader }
         })
       ])
 
@@ -147,10 +128,11 @@ export default function AdminCuratedRoadmaps() {
     setMessage('')
 
     try {
+      const authHeader = await createAuthHeader()
       const response = await fetch(`${BACKEND_URL}/curated-roadmaps/admin/generate/${index}`, {
         method: 'POST',
         headers: {
-          'Authorization': createAuthHeader()
+          'Authorization': authHeader
         }
       })
 
@@ -205,10 +187,11 @@ export default function AdminCuratedRoadmaps() {
     setMessage('')
 
     try {
+      const authHeader = await createAuthHeader()
       const response = await fetch(`${BACKEND_URL}/curated-roadmaps/admin/delete-selected`, {
         method: 'DELETE',
         headers: {
-          'Authorization': createAuthHeader(),
+          'Authorization': authHeader,
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({ indexes: selectedArray })
@@ -237,9 +220,10 @@ export default function AdminCuratedRoadmaps() {
 
     try {
       // Check if roadmap is generated first
+      const authHeader = await createAuthHeader()
       const statusResponse = await fetch(`${BACKEND_URL}/curated-roadmaps/admin/status`, {
         headers: {
-          'Authorization': createAuthHeader()
+          'Authorization': authHeader
         }
       })
 
@@ -259,7 +243,7 @@ export default function AdminCuratedRoadmaps() {
       const response = await fetch(`${BACKEND_URL}/learning-resources/generate-by-index/${index}`, {
         method: 'POST',
         headers: {
-          'Authorization': createAuthHeader(),
+          'Authorization': authHeader,
           'Content-Type': 'application/json'
         }
       })
@@ -299,10 +283,11 @@ export default function AdminCuratedRoadmaps() {
       }))
 
       // Use new simplified endpoint that takes index directly
+      const authHeader = await createAuthHeader()
       const response = await fetch(`${BACKEND_URL}/learning-resources/save-by-index/${roadmapIndex}`, {
         method: 'POST',
         headers: {
-          'Authorization': createAuthHeader(),
+          'Authorization': authHeader,
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(resourcesToSave)
@@ -334,10 +319,11 @@ export default function AdminCuratedRoadmaps() {
     setMessage('')
 
     try {
+      const authHeader = await createAuthHeader()
       const response = await fetch(`${BACKEND_URL}/curated-roadmaps/admin/clear-all`, {
         method: 'DELETE',
         headers: {
-          'Authorization': createAuthHeader()
+          'Authorization': authHeader
         }
       })
 
@@ -402,8 +388,9 @@ export default function AdminCuratedRoadmaps() {
     try {
       // Fetch all roadmaps and categories
       // First get the first page to see total count
+      const authHeader = await createAuthHeader()
       const firstPageResponse = await fetch(`${BACKEND_URL}/curated-roadmaps/?per_page=100&page=1`, {
-        headers: { 'Authorization': createAuthHeader() }
+        headers: { 'Authorization': authHeader }
       })
 
       if (!firstPageResponse.ok) {
@@ -418,7 +405,7 @@ export default function AdminCuratedRoadmaps() {
 
       // Fetch categories
       const categoriesResponse = await fetch(`${BACKEND_URL}/curated-roadmaps/categories/all`, {
-        headers: { 'Authorization': createAuthHeader() }
+        headers: { 'Authorization': authHeader }
       })
 
       if (!categoriesResponse.ok) {
@@ -458,54 +445,57 @@ export default function AdminCuratedRoadmaps() {
     }
   }
 
-  // Login form
-  if (!isAuthenticated) {
+  // Authentication check
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="text-lg">Loading...</div>
+        </div>
+      </div>
+    )
+  }
+
+  if (!user) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="max-w-md w-full space-y-8 p-8 bg-white rounded-lg shadow-md">
           <div>
             <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-              Admin Login
+              Admin Access Required
             </h2>
             <p className="mt-2 text-center text-sm text-gray-600">
-              Curated Roadmaps Management
+              Please sign in to access the admin panel
             </p>
           </div>
-          
-          <div className="space-y-6">
-            <div>
-              <label className="block text-sm font-medium text-gray-700">Username</label>
-              <input
-                type="text"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                placeholder="Admin username"
-              />
-            </div>
-            
-            <div>
-              <label className="block text-sm font-medium text-gray-700">Password</label>
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                placeholder="Admin password"
-                onKeyPress={(e) => e.key === 'Enter' && handleLogin()}
-              />
-            </div>
+          <div className="text-center">
+            <Button onClick={() => router.push('/auth/signin')}>
+              Sign In
+            </Button>
+          </div>
+        </div>
+      </div>
+    )
+  }
 
+  if (!isAdmin) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="max-w-md w-full space-y-8 p-8 bg-white rounded-lg shadow-md">
+          <div>
+            <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+              Access Denied
+            </h2>
+            <p className="mt-2 text-center text-sm text-gray-600">
+              Admin privileges required to access this page
+            </p>
             {loginError && (
-              <div className="text-red-600 text-sm text-center">{loginError}</div>
+              <div className="text-red-600 text-sm text-center mt-4">{loginError}</div>
             )}
-
-            <Button
-              onClick={handleLogin}
-              disabled={loading}
-              className="w-full"
-            >
-              {loading ? 'Authenticating...' : 'Login'}
+          </div>
+          <div className="text-center">
+            <Button onClick={() => router.push('/dashboard')}>
+              Go to Dashboard
             </Button>
           </div>
         </div>
@@ -557,10 +547,10 @@ export default function AdminCuratedRoadmaps() {
                 {practiceLocked ? '🔒 Unlock Practice' : '🔓 Lock Practice'}
               </button>
               <button
-                onClick={() => setIsAuthenticated(false)}
+                onClick={() => router.push('/dashboard')}
                 className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition duration-150 ease-in-out"
               >
-                Logout
+                Back to Dashboard
               </button>
             </div>
           </div>

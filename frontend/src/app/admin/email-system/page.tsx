@@ -2,12 +2,13 @@
 
 import React, { useState, useEffect } from 'react'
 import Button from '@/components/Button'
+import { useAuth } from '@/app/context/AuthContext'
+import { useRouter } from 'next/navigation'
 import { Search, Users, ChevronLeft, ChevronRight, Mail } from 'lucide-react'
 
 export default function AdminEmailSystem() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false)
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
+  const { user, isAdmin, loading } = useAuth()
+  const router = useRouter()
   const [loginError, setLoginError] = useState('')
   
   const [recipientEmail, setRecipientEmail] = useState('')
@@ -29,17 +30,18 @@ export default function AdminEmailSystem() {
   const [bulkSending, setBulkSending] = useState(false)
   const [bulkEmails, setBulkEmails] = useState('')
 
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setLoginError('')
-
-    if (username === 'mountain_snatcher' && password === 'tyson2012') {
-      setIsAuthenticated(true)
-      fetchUsers() // Load users when authenticated
-    } else {
-      setLoginError('Invalid credentials')
+  // Check authentication status and load data
+  useEffect(() => {
+    if (!loading) {
+      if (!user) {
+        router.push('/auth/signin')
+      } else if (!isAdmin) {
+        setLoginError('Admin privileges required. Please contact an administrator.')
+      } else {
+        fetchUsers()
+      }
     }
-  }
+  }, [user, isAdmin, loading, router])
 
   const fetchUsers = async (page = 1, search = '') => {
     setLoadingUsers(true)
@@ -274,67 +276,64 @@ menttor.live`;
     }
   }
 
-  if (!isAuthenticated) {
+  // Authentication check
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+        <div className="text-center">
+          <div className="text-lg text-gray-900 dark:text-white">Loading...</div>
+        </div>
+      </div>
+    )
+  }
+
+  if (!user) {
     return (
       <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-md mx-auto">
           <div className="bg-white dark:bg-gray-800 py-8 px-4 shadow rounded-lg sm:px-10">
             <div className="sm:mx-auto sm:w-full sm:max-w-md">
               <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900 dark:text-white">
-                Admin Login
+                Admin Access Required
               </h2>
               <p className="mt-2 text-center text-sm text-gray-600 dark:text-gray-400">
-                Email System Administration
+                Please sign in to access the email admin panel
               </p>
             </div>
+            <div className="mt-8 text-center">
+              <Button onClick={() => router.push('/auth/signin')}>
+                Sign In
+              </Button>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
 
-            <form className="mt-8 space-y-6" onSubmit={handleLogin}>
-              <div>
-                <label htmlFor="username" className="sr-only">
-                  Username
-                </label>
-                <input
-                  id="username"
-                  name="username"
-                  type="text"
-                  required
-                  className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-white bg-white dark:bg-gray-700 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                  placeholder="Username"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                />
-              </div>
-              <div>
-                <label htmlFor="password" className="sr-only">
-                  Password
-                </label>
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  required
-                  className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-white bg-white dark:bg-gray-700 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                  placeholder="Password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-              </div>
-
+  if (!isAdmin) {
+    return (
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-md mx-auto">
+          <div className="bg-white dark:bg-gray-800 py-8 px-4 shadow rounded-lg sm:px-10">
+            <div className="sm:mx-auto sm:w-full sm:max-w-md">
+              <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900 dark:text-white">
+                Access Denied
+              </h2>
+              <p className="mt-2 text-center text-sm text-gray-600 dark:text-gray-400">
+                Admin privileges required to access this page
+              </p>
               {loginError && (
-                <div className="text-red-600 dark:text-red-400 text-sm text-center">
+                <div className="text-red-600 dark:text-red-400 text-sm text-center mt-4">
                   {loginError}
                 </div>
               )}
-
-              <div>
-                <Button
-                  type="submit"
-                  className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                >
-                  Sign in
-                </Button>
-              </div>
-            </form>
+            </div>
+            <div className="mt-8 text-center">
+              <Button onClick={() => router.push('/dashboard')}>
+                Go to Dashboard
+              </Button>
+            </div>
           </div>
         </div>
       </div>
@@ -369,10 +368,10 @@ menttor.live`;
                   {loadingUsers ? 'Loading...' : 'Refresh Users'}
                 </Button>
                 <Button
-                  onClick={() => setIsAuthenticated(false)}
+                  onClick={() => router.push('/dashboard')}
                   className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-md"
                 >
-                  Logout
+                  Back to Dashboard
                 </Button>
               </div>
             </div>

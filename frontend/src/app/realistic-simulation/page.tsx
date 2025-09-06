@@ -74,7 +74,8 @@ function RealisticSimulationPageContent() {
         params.set('category', category);
       }
 
-      const response = await fetch(`/api/realistic-simulation?${params}`, {
+      const { BACKEND_URL } = await import('@/config/config');
+      const response = await fetch(`${BACKEND_URL}/realistic-simulation?${params}`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
