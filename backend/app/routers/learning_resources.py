@@ -10,7 +10,7 @@ from sqlmodel import Session, select
 from datetime import datetime
 import secrets
 
-from database.session import get_db
+from database.session import get_db, engine
 from sql_models import RoadmapResource, CuratedRoadmap, User
 from schemas import (
     GenerateResourcesRequest, GenerateResourcesResponse,
@@ -28,6 +28,11 @@ security = HTTPBasic()
 # Admin credentials (same as curated roadmaps)
 ADMIN_USERNAME = "mountain_snatcher"
 ADMIN_PASSWORD = "tyson2012"
+
+def get_admin_db() -> Session:
+    """Create direct database session for admin operations"""
+    session = Session(engine)
+    return session
 
 def verify_admin(credentials: HTTPBasicCredentials = Depends(security)):
     """Verify admin credentials"""
@@ -96,10 +101,10 @@ async def generate_resources_for_roadmap(
 @router.post("/save", response_model=dict)
 async def save_generated_resources(
     resources: List[LearningResourceCreate],
-    admin: str = Depends(verify_admin),
-    db: Session = Depends(get_db)
+    admin: str = Depends(verify_admin)
 ):
     """Save generated resources to the database (with admin auth) - force redeploy to fix 401 error"""
+    db = get_admin_db()
     try:
         saved_count = 0
         
@@ -137,6 +142,8 @@ async def save_generated_resources(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="Failed to save learning resources"
         )
+    finally:
+        db.close()
 
 
 @router.get("/{roadmap_id}", response_model=RoadmapResourcesResponse)
