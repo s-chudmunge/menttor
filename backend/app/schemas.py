@@ -581,7 +581,7 @@ class LearningResourceRequest(BaseModel):
     roadmap_id: int
     topic: str
     category: str
-    max_resources: int = 15
+    max_resources: int = 30
     model: str = "gemini-2.5-pro"
     max_output_tokens: int = 3000
     roadmap_title: Optional[str] = ""
