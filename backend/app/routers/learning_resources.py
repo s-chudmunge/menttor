@@ -99,7 +99,7 @@ async def save_generated_resources(
     admin: str = Depends(verify_admin),
     db: Session = Depends(get_db)
 ):
-    """Save generated resources to the database (with admin auth)"""
+    """Save generated resources to the database (with admin auth) - force redeploy to fix 401 error"""
     try:
         saved_count = 0
         
