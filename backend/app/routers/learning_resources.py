@@ -96,8 +96,8 @@ async def generate_resources_for_roadmap(
 @router.post("/save", response_model=dict)
 async def save_generated_resources(
     resources: List[LearningResourceCreate],
-    admin: str = Depends(verify_admin),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    admin: str = Depends(verify_admin)
 ):
     """Save generated resources to the database (with admin auth) - force redeploy to fix 401 error"""
     try:
