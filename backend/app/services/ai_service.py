@@ -45,7 +45,7 @@ from schemas import (LearningContentRequest, QuizAIResponse, QuizGenerateRequest
                      LearningContentOutlineRequest, LearningContentOutlineResponse,
                      LearningContentChunkRequest, LearningContentChunkResponse, QuestionBase, ThreeDVisualizationRequest, ThreeDVisualizationResponse,
                      GenerateFeedbackRequest, GenerateFeedbackResponse, PracticeQuestionResponse,
-                     LearningResourceRequest, LearningResourceBase, GenerateResourcesResponse)
+                     LearningResourceRequest, LearningResourceBase, GenerateResourcesResponse, RealisticSimulationResponse)
 
 # Define a TypeVar for BaseModel subclasses
 T = TypeVar('T', bound=BaseModel)
@@ -313,6 +313,8 @@ class AIExecutor:
                         feedback_text = raw_response
                     return {"response": response_schema(feedback_text=feedback_text), "model": model_id}
                 elif response_schema is ThreeDVisualizationResponse:
+                    return {"response": response_schema(html_content=raw_response, model=model_id), "model": model_id}
+                elif response_schema.__name__ == 'RealisticSimulationResponse':
                     return {"response": response_schema(html_content=raw_response, model=model_id), "model": model_id}
                 elif response_schema is RoadmapAIResponse:
                     return {"response": raw_response, "model": model_id}

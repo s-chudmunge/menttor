@@ -4,7 +4,7 @@ import json
 from typing import Dict, List, Optional, Any
 
 from schemas import RealisticSimulationRequest, RealisticSimulationResponse, ComponentAnalysis
-from services.ai_service import prompt_env, call_gemini_api
+from services.ai_service import prompt_env, ai_executor
 from core.config import settings
 
 logger = logging.getLogger(__name__)
@@ -215,12 +215,64 @@ async def generate_realistic_simulation(request: RealisticSimulationRequest) -> 
         logger.info(f"Using template: {template_name}")
         logger.info(f"Required libraries: {component_analysis.required_libraries}")
         
-        # Call AI service
-        html_content = await call_gemini_api(
-            prompt=prompt,
-            model=request.model,
-            max_tokens=request.max_output_tokens or 20000
-        )
+        # Call AI service directly using the AIExecutor instance
+        # We'll bypass the template rendering by directly calling the AI with our prepared prompt
+        from services.ai_service import AIExecutor
+        from vertexai.generative_models import GenerativeModel
+        
+        # Use the model from the request, defaulting to Vertex AI if no provider specified
+        model_id = request.model
+        if ':' not in model_id:
+            model_id = f"vertexai:{model_id}"
+        
+        # Get the AI response directly
+        provider, model_name = model_id.split(":", 1)
+        
+        if provider == "vertexai" and AIExecutor._vertex_ai_model:
+            # Use Vertex AI directly
+            generation_config = {
+                "temperature": 0.7,
+                "max_output_tokens": request.max_output_tokens or 20000,
+                "top_k": 40,
+            }
+            response = AIExecutor._vertex_ai_model.generate_content(
+                prompt,
+                generation_config=generation_config,
+            )
+            html_content = response.text
+        else:
+            # Fallback: use ai_executor but we need to handle the template issue
+            # Create a minimal request that won't conflict with template rendering
+            from pydantic import BaseModel
+            
+            class SimpleAIRequest(BaseModel):
+                description: str
+                model: str
+                
+            simple_request = SimpleAIRequest(
+                description=request.description,
+                model=model_id
+            )
+            
+            # Temporarily patch the prompt rendering to use our custom prompt
+            original_render_prompt = ai_executor._render_prompt
+            
+            def custom_render_prompt(task_type: str, request_data: BaseModel) -> str:
+                return prompt
+            
+            ai_executor._render_prompt = custom_render_prompt
+            
+            try:
+                result = await ai_executor.execute(
+                    task_type="realistic_simulation_general",
+                    request_data=simple_request,
+                    response_schema=RealisticSimulationResponse,
+                    is_json=False
+                )
+                html_content = result["response"].html_content
+            finally:
+                # Restore original render_prompt method
+                ai_executor._render_prompt = original_render_prompt
         
         return RealisticSimulationResponse(
             html_content=html_content,
