@@ -301,7 +301,8 @@ class AIExecutor:
                 validated_response = self._validate_and_parse_json(raw_response, response_schema, model_id)
                 # For most schemas, the model is added during validation.
                 # For LearningContentResponse, the model is part of the validated object.
-                if not hasattr(validated_response, 'model') or not validated_response.model:
+                # GenerateResourcesResponse doesn't have a model field, so skip setting it
+                if response_schema.__name__ != 'GenerateResourcesResponse' and (not hasattr(validated_response, 'model') or not validated_response.model):
                      validated_response.model = model_id
                 return {"response": validated_response, "model": model_id}
             else:
