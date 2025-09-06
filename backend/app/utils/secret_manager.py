@@ -3,6 +3,7 @@ import logging
 from typing import Optional
 from functools import lru_cache
 
+# Firebase admin authentication with Google Cloud Secret Manager integration
 logger = logging.getLogger(__name__)
 
 @lru_cache(maxsize=128)
