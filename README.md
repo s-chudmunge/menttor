@@ -1,30 +1,30 @@
-# Menttor - AI-Powered Learning Platform
+# Menttor - Smart Learning Platform
 
 <div align="center">
   <img src="20250823_211935.jpg" alt="Menttor" width="400">
 </div>
 
-AI-powered platform that creates personalized learning journeys with interactive practice sessions and real-time content generation.
+Smart-powered platform that creates personalized learning journeys with interactive practice sessions and real-time content generation.
 
-## 🚀 Quick Links
+## Quick Links
 
 **Live App**: [menttor.live](https://menttor.live)
 
-## ✨ What It Does
+## What It Does
 
-- **🗺️ Smart Roadmaps**: AI creates personalized learning paths for any topic
-- **⚡ Instant Practice**: Start practicing immediately with real-time question generation  
-- **📊 Progress Tracking**: Visual journey with completion tracking
-- **🎯 Multiple Question Types**: MCQ, coding, case studies, and more
+- **Smart Roadmaps**: AI creates personalized learning paths for any topic
+- **Instant Practice**: Start practicing immediately with real-time question generation  
+- **Progress Tracking**: Visual journey with completion tracking
+- **Multiple Question Types**: MCQ, coding, case studies, and more
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 **Frontend**: Next.js 14 + TypeScript + Tailwind  
 **Backend**: FastAPI + PostgreSQL + Google Vertex AI  
 **Auth**: Firebase  
 **Deploy**: Vercel + Google Cloud Run
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Backend
 ```bash
@@ -39,7 +39,7 @@ cd frontend
 npm install && npm run dev
 ```
 
-## 🔥 Key Features
+## Key Features
 
 - **Streaming Questions**: Practice starts instantly, no waiting
 - **AI Content Generation**: Powered by Google Vertex AI
@@ -48,4 +48,4 @@ npm install && npm run dev
 
 ---
 
-Built with ❤️ for personalized learning experiences.
+Built for personalized learning experiences.
