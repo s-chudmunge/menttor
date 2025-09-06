@@ -5,11 +5,12 @@ Handles generation and management of external learning resources for curated roa
 
 from typing import List
 from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from sqlmodel import Session, select
 from datetime import datetime
+import secrets
 
 from database.session import get_db
-from core.auth import get_current_user
 from sql_models import RoadmapResource, CuratedRoadmap, User
 from schemas import (
     GenerateResourcesRequest, GenerateResourcesResponse,
@@ -22,12 +23,30 @@ import logging
 logger = logging.getLogger(__name__)
 
 router = APIRouter()
+security = HTTPBasic()
+
+# Admin credentials (same as curated roadmaps)
+ADMIN_USERNAME = "mountain_snatcher"
+ADMIN_PASSWORD = "tyson2012"
+
+def verify_admin(credentials: HTTPBasicCredentials = Depends(security)):
+    """Verify admin credentials"""
+    is_correct_username = secrets.compare_digest(credentials.username, ADMIN_USERNAME)
+    is_correct_password = secrets.compare_digest(credentials.password, ADMIN_PASSWORD)
+    
+    if not (is_correct_username and is_correct_password):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid admin credentials",
+            headers={"WWW-Authenticate": "Basic"},
+        )
+    return credentials.username
 
 
 @router.post("/generate", response_model=GenerateResourcesResponse)
 async def generate_resources_for_roadmap(
     request: GenerateResourcesRequest,
-    current_user: User = Depends(get_current_user),
+    admin: str = Depends(verify_admin),
     db: Session = Depends(get_db)
 ):
     """Generate learning resources for a curated roadmap using AI"""
@@ -77,7 +96,7 @@ async def generate_resources_for_roadmap(
 @router.post("/save", response_model=dict)
 async def save_generated_resources(
     resources: List[LearningResourceCreate],
-    current_user: User = Depends(get_current_user),
+    admin: str = Depends(verify_admin),
     db: Session = Depends(get_db)
 ):
     """Save generated resources to the database"""
@@ -180,7 +199,7 @@ async def get_roadmap_resources(
 @router.delete("/{resource_id}")
 async def delete_resource(
     resource_id: int,
-    current_user: User = Depends(get_current_user),
+    admin: str = Depends(verify_admin),
     db: Session = Depends(get_db)
 ):
     """Delete a learning resource"""
@@ -211,7 +230,7 @@ async def delete_resource(
 @router.patch("/{resource_id}/toggle")
 async def toggle_resource_status(
     resource_id: int,
-    current_user: User = Depends(get_current_user),
+    admin: str = Depends(verify_admin),
     db: Session = Depends(get_db)
 ):
     """Toggle a learning resource's active status"""
