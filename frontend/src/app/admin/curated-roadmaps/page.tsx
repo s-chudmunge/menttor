@@ -264,7 +264,7 @@ export default function AdminCuratedRoadmaps() {
       }
 
       // Get all roadmaps to find the actual ID
-      const allRoadmapsResponse = await fetch(`${BACKEND_URL}/curated-roadmaps`, {
+      const allRoadmapsResponse = await fetch(`${BACKEND_URL}/curated-roadmaps/`, {
         headers: {
           'Authorization': createAuthHeader()
         }
@@ -329,7 +329,7 @@ export default function AdminCuratedRoadmaps() {
       }
 
       // Get all roadmaps to find the actual ID
-      const allRoadmapsResponse = await fetch(`${BACKEND_URL}/curated-roadmaps`, {
+      const allRoadmapsResponse = await fetch(`${BACKEND_URL}/curated-roadmaps/`, {
         headers: {
           'Authorization': createAuthHeader()
         }
