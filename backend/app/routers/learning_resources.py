@@ -64,7 +64,7 @@ async def generate_resources_for_roadmap(
             roadmap_id=roadmap.id,
             topic=roadmap.title,
             category=roadmap.category,
-            max_resources=15
+            max_resources=30
         )
         
         # Add roadmap context for better generation
