@@ -8,8 +8,8 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlmodel import Session, select
 from datetime import datetime
 
-from database.deps import get_db
-from database.auth import get_current_admin_user
+from database.session import get_db
+from core.auth import get_current_user
 from sql_models import RoadmapResource, CuratedRoadmap, User
 from schemas import (
     GenerateResourcesRequest, GenerateResourcesResponse,
@@ -27,7 +27,7 @@ router = APIRouter()
 @router.post("/generate", response_model=GenerateResourcesResponse)
 async def generate_resources_for_roadmap(
     request: GenerateResourcesRequest,
-    current_user: User = Depends(get_current_admin_user),
+    current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
     """Generate learning resources for a curated roadmap using AI"""
@@ -77,7 +77,7 @@ async def generate_resources_for_roadmap(
 @router.post("/save", response_model=dict)
 async def save_generated_resources(
     resources: List[LearningResourceCreate],
-    current_user: User = Depends(get_current_admin_user),
+    current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
     """Save generated resources to the database"""
@@ -180,7 +180,7 @@ async def get_roadmap_resources(
 @router.delete("/{resource_id}")
 async def delete_resource(
     resource_id: int,
-    current_user: User = Depends(get_current_admin_user),
+    current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
     """Delete a learning resource"""
@@ -211,7 +211,7 @@ async def delete_resource(
 @router.patch("/{resource_id}/toggle")
 async def toggle_resource_status(
     resource_id: int,
-    current_user: User = Depends(get_current_admin_user),
+    current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
     """Toggle a learning resource's active status"""
