@@ -236,15 +236,7 @@ export default function AdminCuratedRoadmaps() {
     setMessage('')
 
     try {
-      // First, we need to get the roadmap ID from the database
-      // Since we only have the index, we need to find the actual roadmap
-      const roadmapData = trendingList?.roadmaps[index]
-      if (!roadmapData) {
-        setMessage('❌ Roadmap data not found')
-        return
-      }
-
-      // Find the actual curated roadmap ID
+      // Check if roadmap is generated first
       const statusResponse = await fetch(`${BACKEND_URL}/curated-roadmaps/admin/status`, {
         headers: {
           'Authorization': createAuthHeader()
@@ -263,37 +255,13 @@ export default function AdminCuratedRoadmaps() {
         return
       }
 
-      // Get all roadmaps to find the actual ID
-      const allRoadmapsResponse = await fetch(`${BACKEND_URL}/curated-roadmaps/`, {
-        headers: {
-          'Authorization': createAuthHeader()
-        }
-      })
-
-      if (!allRoadmapsResponse.ok) {
-        throw new Error('Failed to fetch roadmaps')
-      }
-
-      const allRoadmaps = await allRoadmapsResponse.json()
-      const actualRoadmap = allRoadmaps.find((r: any) => 
-        r.title === roadmapData.title && r.category === roadmapData.category
-      )
-
-      if (!actualRoadmap) {
-        setMessage('❌ Could not find generated roadmap in database')
-        return
-      }
-
-      // Generate learning resources
-      const response = await fetch(`${BACKEND_URL}/learning-resources/generate`, {
+      // Use new simplified endpoint that takes index directly
+      const response = await fetch(`${BACKEND_URL}/learning-resources/generate-by-index/${index}`, {
         method: 'POST',
         headers: {
           'Authorization': createAuthHeader(),
           'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          curated_roadmap_id: actualRoadmap.id
-        })
+        }
       })
 
       const result = await response.json()
@@ -321,45 +289,17 @@ export default function AdminCuratedRoadmaps() {
     setMessage('')
 
     try {
-      // Find the actual roadmap
-      const roadmapData = trendingList?.roadmaps[roadmapIndex]
-      if (!roadmapData) {
-        setMessage('❌ Roadmap data not found')
-        return
-      }
-
-      // Get all roadmaps to find the actual ID
-      const allRoadmapsResponse = await fetch(`${BACKEND_URL}/curated-roadmaps/`, {
-        headers: {
-          'Authorization': createAuthHeader()
-        }
-      })
-
-      if (!allRoadmapsResponse.ok) {
-        throw new Error('Failed to fetch roadmaps')
-      }
-
-      const allRoadmaps = await allRoadmapsResponse.json()
-      const actualRoadmap = allRoadmaps.find((r: any) => 
-        r.title === roadmapData.title && r.category === roadmapData.category
-      )
-
-      if (!actualRoadmap) {
-        setMessage('❌ Could not find generated roadmap in database')
-        return
-      }
-
-      // Prepare resources for saving
+      // Prepare resources for saving (curated_roadmap_id will be set by backend)
       const resourcesToSave = resources.map(resource => ({
-        curated_roadmap_id: actualRoadmap.id,
+        curated_roadmap_id: 0, // Backend will set this based on roadmap index
         title: resource.title,
         url: resource.url,
         type: resource.type,
         description: resource.description
       }))
 
-      // Save resources
-      const response = await fetch(`${BACKEND_URL}/learning-resources/save`, {
+      // Use new simplified endpoint that takes index directly
+      const response = await fetch(`${BACKEND_URL}/learning-resources/save-by-index/${roadmapIndex}`, {
         method: 'POST',
         headers: {
           'Authorization': createAuthHeader(),

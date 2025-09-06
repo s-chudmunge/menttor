@@ -43,6 +43,71 @@ def verify_admin(credentials: HTTPBasicCredentials = Depends(security)):
     return credentials.username
 
 
+@router.post("/generate-by-index/{roadmap_index}", response_model=GenerateResourcesResponse)
+async def generate_resources_by_index(
+    roadmap_index: int,
+    db: Session = Depends(get_db),
+    admin: str = Depends(verify_admin)
+):
+    """Generate learning resources using roadmap index from trending list"""
+    try:
+        # Import here to avoid circular imports
+        from routers.curated_roadmaps import TRENDING_ROADMAPS_CONFIG
+        
+        # Validate index
+        if roadmap_index < 0 or roadmap_index >= len(TRENDING_ROADMAPS_CONFIG):
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail=f"Invalid roadmap index. Must be between 0 and {len(TRENDING_ROADMAPS_CONFIG) - 1}"
+            )
+        
+        # Get config for this index
+        config = TRENDING_ROADMAPS_CONFIG[roadmap_index]
+        
+        # Find the actual curated roadmap by title
+        roadmap = db.exec(
+            select(CuratedRoadmap).where(CuratedRoadmap.title == config["title"])
+        ).first()
+        
+        if not roadmap:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"Roadmap '{config['title']}' not found in database. Please generate the roadmap first."
+            )
+        
+        # Create AI request
+        ai_request = LearningResourceRequest(
+            roadmap_id=roadmap.id,
+            topic=roadmap.title,
+            category=roadmap.category,
+            max_resources=30
+        )
+        
+        # Add roadmap context for better generation
+        ai_request.roadmap_title = roadmap.title
+        ai_request.roadmap_description = roadmap.description
+        
+        # Generate resources using AI
+        response = await generate_learning_resources(ai_request)
+        
+        if not response.success:
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail=f"Failed to generate resources: {response.error}"
+            )
+        
+        logger.info(f"Generated {len(response.resources)} resources for roadmap {roadmap.id} (index {roadmap_index})")
+        return response
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error generating resources for index {roadmap_index}: {str(e)}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Failed to generate learning resources"
+        )
+
 @router.post("/generate", response_model=GenerateResourcesResponse)
 async def generate_resources_for_roadmap(
     request: GenerateResourcesRequest,
@@ -92,6 +157,81 @@ async def generate_resources_for_roadmap(
             detail="Failed to generate learning resources"
         )
 
+
+@router.post("/save-by-index/{roadmap_index}", response_model=dict)
+async def save_resources_by_index(
+    roadmap_index: int,
+    resources: List[LearningResourceCreate],
+    db: Session = Depends(get_db),
+    admin: str = Depends(verify_admin)
+):
+    """Save learning resources using roadmap index from trending list"""
+    try:
+        # Import here to avoid circular imports
+        from routers.curated_roadmaps import TRENDING_ROADMAPS_CONFIG
+        
+        # Validate index
+        if roadmap_index < 0 or roadmap_index >= len(TRENDING_ROADMAPS_CONFIG):
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail=f"Invalid roadmap index. Must be between 0 and {len(TRENDING_ROADMAPS_CONFIG) - 1}"
+            )
+        
+        # Get config for this index
+        config = TRENDING_ROADMAPS_CONFIG[roadmap_index]
+        
+        # Find the actual curated roadmap by title
+        roadmap = db.exec(
+            select(CuratedRoadmap).where(CuratedRoadmap.title == config["title"])
+        ).first()
+        
+        if not roadmap:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"Roadmap '{config['title']}' not found in database"
+            )
+        
+        saved_count = 0
+        
+        for resource_data in resources:
+            # Update the resource to use the found roadmap ID
+            resource_data.curated_roadmap_id = roadmap.id
+            
+            # Check if resource already exists (by URL)
+            existing = db.exec(
+                select(RoadmapResource).where(
+                    RoadmapResource.curated_roadmap_id == roadmap.id,
+                    RoadmapResource.url == resource_data.url
+                )
+            ).first()
+            
+            if not existing:
+                # Create new resource
+                resource = RoadmapResource(
+                    curated_roadmap_id=roadmap.id,
+                    title=resource_data.title,
+                    url=resource_data.url,
+                    type=resource_data.type,
+                    description=resource_data.description,
+                    is_active=True
+                )
+                db.add(resource)
+                saved_count += 1
+        
+        db.commit()
+        logger.info(f"Saved {saved_count} new learning resources for roadmap {roadmap.id} (index {roadmap_index})")
+        
+        return {"success": True, "saved_count": saved_count}
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error saving resources for index {roadmap_index}: {str(e)}")
+        db.rollback()
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Failed to save learning resources"
+        )
 
 @router.post("/save", response_model=dict)
 async def save_generated_resources(
