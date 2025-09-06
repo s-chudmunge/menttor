@@ -18,15 +18,16 @@ import logging
 import re
 import json
 import hashlib
+import os
 from datetime import datetime
 
 router = APIRouter(prefix="/curated-roadmaps", tags=["curated-roadmaps"])
 security = HTTPBasic()
 logger = logging.getLogger(__name__)
 
-# Admin credentials
-ADMIN_USERNAME = "mountain_snatcher"
-ADMIN_PASSWORD = "tyson2012"
+# Admin credentials from environment variables
+ADMIN_USERNAME = os.getenv("ADMIN_USERNAME", "admin")
+ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "changeme")
 
 def create_slug(title: str) -> str:
     """Create URL-friendly slug from title"""

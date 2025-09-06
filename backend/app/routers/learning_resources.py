@@ -9,6 +9,7 @@ from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from sqlmodel import Session, select
 from datetime import datetime
 import secrets
+import os
 
 from database.session import get_db
 from sql_models import RoadmapResource, CuratedRoadmap, User
@@ -25,9 +26,9 @@ logger = logging.getLogger(__name__)
 router = APIRouter()
 security = HTTPBasic()
 
-# Admin credentials (same as curated roadmaps)
-ADMIN_USERNAME = "mountain_snatcher"
-ADMIN_PASSWORD = "tyson2012"
+# Admin credentials from environment variables
+ADMIN_USERNAME = os.getenv("ADMIN_USERNAME", "admin")
+ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "changeme")
 
 def verify_admin(credentials: HTTPBasicCredentials = Depends(security)):
     """Verify admin credentials"""

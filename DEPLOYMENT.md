@@ -29,23 +29,23 @@ Menttor uses a hybrid deployment architecture:
 
 ### Environment Variables (Cloud Run)
 ```bash
-GOOGLE_CLOUD_PROJECT_ID=gen-lang-client-0319118634
-CLOUD_SQL_INSTANCE_NAME=menttor-db-instance
-CLOUD_SQL_REGION=asia-south1
+GOOGLE_CLOUD_PROJECT_ID=your-project-id
+CLOUD_SQL_INSTANCE_NAME=your-instance-name
+CLOUD_SQL_REGION=your-region
 USE_CLOUD_SQL_AUTH_PROXY=false
 ENVIRONMENT=production
 DATABASE_ECHO=false
-POSTGRES_USER=admin-db
-POSTGRES_DB=menttor-db
-POSTGRES_HOST=34.93.60.80
+POSTGRES_USER=your-db-user
+POSTGRES_DB=your-database-name
+POSTGRES_HOST=your-db-host
 POSTGRES_PORT=5432
-VERTEX_AI_PROJECT_ID=gen-lang-client-0319118634
+VERTEX_AI_PROJECT_ID=your-vertex-project-id
 VERTEX_AI_REGION=us-central1
 VERTEX_AI_MODEL_ID=gemini-1.5-flash
-FIREBASE_PROJECT_ID=gen-lang-client-0319118634
-FIREBASE_CLIENT_EMAIL=firebase-adminsdk-fbsvc@gen-lang-client-0319118634.iam.gserviceaccount.com
-FIREBASE_CLIENT_ID=102114583325761555963
-GOOGLE_CLIENT_ID=144050828172-7c4f3ms8ou0a2sjp8egsta35rtq6atq8.apps.googleusercontent.com
+FIREBASE_PROJECT_ID=your-firebase-project-id
+FIREBASE_CLIENT_EMAIL=your-service-account@your-project.iam.gserviceaccount.com
+FIREBASE_CLIENT_ID=your-client-id
+GOOGLE_CLIENT_ID=your-google-client-id
 ```
 
 ### Google Secret Manager Secrets

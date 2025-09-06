@@ -7,6 +7,9 @@
 # Firebase Service Account Keys - NEVER COMMIT THESE
 serviceAccountKey.json
 **/serviceAccountKey.json
+*firebase*.json
+*adminsdk*.json
+gen-lang-client-*.json
 
 # Node.js
 node_modules/
