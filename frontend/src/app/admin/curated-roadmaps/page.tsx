@@ -97,10 +97,6 @@ export default function AdminCuratedRoadmaps() {
     localStorage.setItem('practiceLocked', newLockState.toString())
   }
 
-  // No auth header needed
-  const createAuthHeader = async () => {
-    return ''
-  }
 
   // Load data without authentication checks
   useEffect(() => {
@@ -110,14 +106,9 @@ export default function AdminCuratedRoadmaps() {
   // Load both status and all roadmaps
   const loadData = async () => {
     try {
-      const authHeader = await createAuthHeader()
       const [statusResponse, roadmapsResponse] = await Promise.all([
-        fetch(`${BACKEND_URL}/curated-roadmaps/admin/status`, {
-          headers: { 'Authorization': authHeader }
-        }),
-        fetch(`${BACKEND_URL}/curated-roadmaps/?per_page=100&page=1`, {
-          headers: { 'Authorization': authHeader }
-        })
+        fetch(`${BACKEND_URL}/curated-roadmaps/admin/status`),
+        fetch(`${BACKEND_URL}/curated-roadmaps/?per_page=100&page=1`)
       ])
 
       if (statusResponse.ok && roadmapsResponse.ok) {
@@ -168,12 +159,8 @@ export default function AdminCuratedRoadmaps() {
     setMessage('')
 
     try {
-      const authHeader = await createAuthHeader()
       const response = await fetch(`${BACKEND_URL}/curated-roadmaps/admin/generate/${index}`, {
-        method: 'POST',
-        headers: {
-          'Authorization': authHeader
-        }
+        method: 'POST'
       })
 
       const result = await response.json()
@@ -227,11 +214,9 @@ export default function AdminCuratedRoadmaps() {
     setMessage('')
 
     try {
-      const authHeader = await createAuthHeader()
       const response = await fetch(`${BACKEND_URL}/curated-roadmaps/admin/delete-selected`, {
         method: 'DELETE',
         headers: {
-          'Authorization': authHeader,
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({ indexes: selectedArray })
@@ -260,12 +245,7 @@ export default function AdminCuratedRoadmaps() {
 
     try {
       // Check if roadmap is generated first
-      const authHeader = await createAuthHeader()
-      const statusResponse = await fetch(`${BACKEND_URL}/curated-roadmaps/admin/status`, {
-        headers: {
-          'Authorization': authHeader
-        }
-      })
+      const statusResponse = await fetch(`${BACKEND_URL}/curated-roadmaps/admin/status`)
 
       if (!statusResponse.ok) {
         throw new Error('Failed to fetch roadmap status')
@@ -283,7 +263,6 @@ export default function AdminCuratedRoadmaps() {
       const response = await fetch(`${BACKEND_URL}/learning-resources/generate-by-index/${index}`, {
         method: 'POST',
         headers: {
-          'Authorization': authHeader,
           'Content-Type': 'application/json'
         }
       })
@@ -323,11 +302,9 @@ export default function AdminCuratedRoadmaps() {
       }))
 
       // Use new simplified endpoint that takes index directly
-      const authHeader = await createAuthHeader()
       const response = await fetch(`${BACKEND_URL}/learning-resources/save-by-index/${roadmapIndex}`, {
         method: 'POST',
         headers: {
-          'Authorization': authHeader,
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(resourcesToSave)
@@ -359,12 +336,8 @@ export default function AdminCuratedRoadmaps() {
     setMessage('')
 
     try {
-      const authHeader = await createAuthHeader()
       const response = await fetch(`${BACKEND_URL}/curated-roadmaps/admin/clear-all`, {
-        method: 'DELETE',
-        headers: {
-          'Authorization': authHeader
-        }
+        method: 'DELETE'
       })
 
       const result = await response.json()
@@ -428,10 +401,7 @@ export default function AdminCuratedRoadmaps() {
     try {
       // Fetch all roadmaps and categories
       // First get the first page to see total count
-      const authHeader = await createAuthHeader()
-      const firstPageResponse = await fetch(`${BACKEND_URL}/curated-roadmaps/?per_page=100&page=1`, {
-        headers: { 'Authorization': authHeader }
-      })
+      const firstPageResponse = await fetch(`${BACKEND_URL}/curated-roadmaps/?per_page=100&page=1`)
 
       if (!firstPageResponse.ok) {
         throw new Error('Failed to fetch roadmaps data from server')
@@ -444,9 +414,7 @@ export default function AdminCuratedRoadmaps() {
       // If needed later, we can add proper pagination here
 
       // Fetch categories
-      const categoriesResponse = await fetch(`${BACKEND_URL}/curated-roadmaps/categories/all`, {
-        headers: { 'Authorization': authHeader }
-      })
+      const categoriesResponse = await fetch(`${BACKEND_URL}/curated-roadmaps/categories/all`)
 
       if (!categoriesResponse.ok) {
         throw new Error('Failed to fetch categories from server')
