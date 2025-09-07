@@ -25,13 +25,7 @@ import {
   Zap,
   TrendingUp,
   Download,
-  Home,
-  ExternalLink,
-  FileText,
-  Video,
-  Code,
-  Globe,
-  GraduationCap
+  Home
 } from 'lucide-react';
 import Link from 'next/link';
 import SimpleShareButton from '../../../../components/SimpleShareButton';
@@ -362,53 +356,6 @@ const RoadmapPreviewClient: React.FC<RoadmapPreviewClientProps> = ({ slug: roadm
 
   const totalTopics = roadmap?.roadmap_plan?.reduce((acc: number, module: RoadmapModule) => acc + module.topics.length, 0) || 0;
 
-  // Get icon for resource type
-  const getResourceIcon = (type: string) => {
-    switch (type.toLowerCase()) {
-      case 'documentation':
-        return <FileText className="w-4 h-4" />;
-      case 'video':
-        return <Video className="w-4 h-4" />;
-      case 'tutorial':
-        return <GraduationCap className="w-4 h-4" />;
-      case 'blog':
-        return <FileText className="w-4 h-4" />;
-      case 'course':
-        return <BookOpen className="w-4 h-4" />;
-      case 'paper':
-        return <FileText className="w-4 h-4" />;
-      case 'wikipedia':
-        return <Globe className="w-4 h-4" />;
-      case 'tool':
-        return <Code className="w-4 h-4" />;
-      default:
-        return <ExternalLink className="w-4 h-4" />;
-    }
-  };
-
-  // Get color for resource type
-  const getResourceColor = (type: string) => {
-    switch (type.toLowerCase()) {
-      case 'documentation':
-        return 'text-blue-600 bg-blue-50';
-      case 'video':
-        return 'text-red-600 bg-red-50';
-      case 'tutorial':
-        return 'text-green-600 bg-green-50';
-      case 'blog':
-        return 'text-purple-600 bg-purple-50';
-      case 'course':
-        return 'text-orange-600 bg-orange-50';
-      case 'paper':
-        return 'text-gray-600 bg-gray-50';
-      case 'wikipedia':
-        return 'text-indigo-600 bg-indigo-50';
-      case 'tool':
-        return 'text-cyan-600 bg-cyan-50';
-      default:
-        return 'text-gray-600 bg-gray-50';
-    }
-  };
 
   if (loading) {
     return (
@@ -706,41 +653,27 @@ const RoadmapPreviewClient: React.FC<RoadmapPreviewClientProps> = ({ slug: roadm
             {/* Learning Resources */}
             {learningResources.length > 0 && (
               <div className="bg-white dark:bg-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
-                <h3 className="text-lg font-semibold text-black dark:text-white mb-4 flex items-center">
-                  <ExternalLink className="w-5 h-5 mr-2" />
-                  Learning Resources
-                </h3>
-                <div className="space-y-3">
+                <h3 className="text-lg font-semibold text-black dark:text-white mb-4">Learning Resources</h3>
+                <div className="space-y-2">
                   {learningResources.slice(0, 5).map((resource) => (
-                    <a
-                      key={resource.id}
-                      href={resource.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="block p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors border border-gray-100 dark:border-gray-700"
-                    >
-                      <div className="flex items-start gap-3">
-                        <div className={`p-2 rounded-lg ${getResourceColor(resource.type)}`}>
-                          {getResourceIcon(resource.type)}
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <p className="text-sm font-medium text-gray-900 dark:text-white truncate">
-                            {resource.title}
-                          </p>
-                          <p className="text-xs text-gray-500 dark:text-gray-400 mt-1 line-clamp-2">
-                            {resource.description}
-                          </p>
-                          <span className="inline-block mt-1 text-xs px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded">
-                            {resource.type}
-                          </span>
-                        </div>
-                        <ExternalLink className="w-4 h-4 text-gray-400 flex-shrink-0" />
-                      </div>
-                    </a>
+                    <div key={resource.id} className="border-b border-gray-100 dark:border-gray-700 pb-2">
+                      <a
+                        href={resource.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-600 dark:text-blue-400 hover:underline font-medium"
+                        title={resource.description}
+                      >
+                        {resource.title}
+                      </a>
+                      <span className="text-gray-500 dark:text-gray-400 text-sm ml-2">
+                        ({resource.type})
+                      </span>
+                    </div>
                   ))}
                   {learningResources.length > 5 && (
-                    <p className="text-xs text-gray-500 dark:text-gray-400 text-center py-2">
-                      +{learningResources.length - 5} more resources below
+                    <p className="text-sm text-gray-500 dark:text-gray-400 mt-3">
+                      +{learningResources.length - 5} more resources in complete list below
                     </p>
                   )}
                 </div>
@@ -752,51 +685,40 @@ const RoadmapPreviewClient: React.FC<RoadmapPreviewClientProps> = ({ slug: roadm
         {/* Complete Learning Resources Section */}
         {learningResources.length > 0 && (
           <div className="mt-12 bg-white dark:bg-gray-900 rounded-2xl p-8 border border-gray-200 dark:border-gray-700">
-            <h2 className="text-2xl font-bold text-black dark:text-white mb-6 flex items-center">
-              <ExternalLink className="w-6 h-6 mr-3" />
+            <h2 className="text-2xl font-bold text-black dark:text-white mb-6">
               Learning Resources
             </h2>
-            <p className="text-gray-600 dark:text-gray-300 mb-8">
+            <p className="text-gray-600 dark:text-gray-300 mb-6">
               Curated external resources to enhance your learning journey with {roadmap.title.toLowerCase()}.
             </p>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {learningResources.map((resource) => (
-                <a
-                  key={resource.id}
-                  href={resource.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group block p-4 bg-gray-50 dark:bg-gray-800 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700 transition-all border border-gray-200 dark:border-gray-600"
-                >
-                  <div className="flex items-start gap-3">
-                    <div className={`p-3 rounded-lg ${getResourceColor(resource.type)} group-hover:scale-105 transition-transform`}>
-                      {getResourceIcon(resource.type)}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <h3 className="font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors line-clamp-2 mb-2">
-                        {resource.title}
-                      </h3>
-                      <p className="text-sm text-gray-600 dark:text-gray-300 line-clamp-3 mb-3">
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold text-black dark:text-white border-b border-gray-200 dark:border-gray-700 pb-2">
+                Recommended Reading & Resources
+              </h3>
+              <ul className="list-disc list-inside space-y-2 text-gray-700 dark:text-gray-300">
+                {learningResources.map((resource) => (
+                  <li key={resource.id} className="leading-relaxed">
+                    <a
+                      href={resource.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-600 dark:text-blue-400 hover:underline font-medium"
+                      title={resource.description}
+                    >
+                      {resource.title}
+                    </a>
+                    <span className="text-gray-500 dark:text-gray-400 text-sm ml-2">
+                      ({resource.type})
+                    </span>
+                    {resource.description && (
+                      <p className="text-sm text-gray-600 dark:text-gray-400 mt-1 ml-4">
                         {resource.description}
                       </p>
-                      <div className="flex items-center justify-between">
-                        <span className="inline-block text-xs px-2 py-1 bg-white dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded border">
-                          {resource.type}
-                        </span>
-                        <ExternalLink className="w-4 h-4 text-gray-400 group-hover:text-blue-500 transition-colors" />
-                      </div>
-                    </div>
-                  </div>
-                </a>
-              ))}
-            </div>
-            
-            <div className="mt-8 p-4 bg-blue-50 dark:bg-blue-900/30 rounded-lg border border-blue-200 dark:border-blue-800">
-              <p className="text-sm text-blue-700 dark:text-blue-300 flex items-center">
-                <ExternalLink className="w-4 h-4 mr-2" />
-                These resources are carefully curated to complement your learning. All links open in new tabs.
-              </p>
+                    )}
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
         )}
