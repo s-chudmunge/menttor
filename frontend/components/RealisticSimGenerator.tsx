@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '../src/app/context/AuthContext';
+import { api } from '../src/lib/api';
 import { 
   X, 
   Sparkles, 
@@ -134,6 +135,7 @@ const RealisticSimGeneratorModal: React.FC<RealisticSimGeneratorModalProps> = ({
   const [realismLevel, setRealismLevel] = useState('realistic');
   const [showAdvanced, setShowAdvanced] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleGenerate = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -146,30 +148,54 @@ const RealisticSimGeneratorModal: React.FC<RealisticSimGeneratorModalProps> = ({
     }
 
     setIsGenerating(true);
+    setError(null);
     
-    // Build the realistic simulation URL
-    const params = new URLSearchParams({
-      description: description.trim(),
-      model: selectedModel,
-      complexity,
-      realism_level: realismLevel,
-      interactivity: 'interactive'
-    });
-    
-    if (selectedCategory) {
-      params.set('category', selectedCategory);
-    }
-    
-    const realisticSimUrl = `/realistic-simulation?${params.toString()}`;
-    window.open(realisticSimUrl, '_blank', 'noopener,noreferrer');
-    
-    // Reset form and close modal after a short delay
-    setTimeout(() => {
-      setDescription('');
-      setSelectedCategory('');
+    try {
+      // Build the realistic simulation parameters
+      const params = new URLSearchParams({
+        description: description.trim(),
+        model: selectedModel,
+        complexity,
+        realism_level: realismLevel,
+        interactivity: 'interactive'
+      });
+      
+      if (selectedCategory) {
+        params.set('category', selectedCategory);
+      }
+      
+      // Make authenticated API request
+      const response = await api.get(`/realistic-simulation?${params.toString()}`);
+      
+      // Create a blob URL from the HTML content and open it in a new tab
+      const htmlContent = response.data.html_content;
+      if (htmlContent) {
+        const blob = new Blob([htmlContent], { type: 'text/html' });
+        const url = URL.createObjectURL(blob);
+        const newWindow = window.open(url, '_blank', 'noopener,noreferrer');
+        
+        // Clean up the blob URL after a delay
+        setTimeout(() => {
+          URL.revokeObjectURL(url);
+        }, 1000);
+        
+        // Reset form and close modal
+        setDescription('');
+        setSelectedCategory('');
+        setIsGenerating(false);
+        onClose();
+      } else {
+        throw new Error('No simulation content received');
+      }
+    } catch (err: any) {
+      console.error('Error generating simulation:', err);
+      setError(
+        err.response?.data?.detail || 
+        err.message || 
+        'Failed to generate simulation. Please try again.'
+      );
       setIsGenerating(false);
-      onClose();
-    }, 1000);
+    }
   };
 
   const isFormValid = description.trim().length >= 5;
@@ -368,6 +394,20 @@ const RealisticSimGeneratorModal: React.FC<RealisticSimGeneratorModalProps> = ({
                 </>
               )}
             </button>
+
+            {/* Error message */}
+            {error && (
+              <div className="mt-4 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-700 rounded-xl">
+                <div className="flex items-start space-x-3">
+                  <X className="w-5 h-5 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" />
+                  <div>
+                    <p className="text-sm text-red-700 dark:text-red-300">
+                      <strong>Generation failed:</strong> {error}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
 
             {/* Sign-in prompt */}
             {!user && (
