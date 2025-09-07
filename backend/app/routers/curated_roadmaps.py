@@ -2359,7 +2359,7 @@ TRENDING_ROADMAPS_CONFIG = [
 # ==============================================================================
 
 @router.get("/admin/trending-list")
-def get_trending_roadmaps_list(admin: str = Depends(verify_admin)):
+def get_trending_roadmaps_list():
     """Get list of available trending roadmaps for admin selection"""
     return {
         "total_available": len(TRENDING_ROADMAPS_CONFIG),
@@ -2379,8 +2379,7 @@ def get_trending_roadmaps_list(admin: str = Depends(verify_admin)):
 @router.post("/admin/generate/{roadmap_index}")
 async def generate_curated_roadmap(
     roadmap_index: int,
-    db: Session = Depends(get_db),
-    admin: str = Depends(verify_admin)
+    db: Session = Depends(get_db)
 ):
     """Generate and save a curated roadmap by index"""
     
@@ -2460,7 +2459,7 @@ async def generate_curated_roadmap(
         )
 
 @router.get("/admin/status")
-def get_admin_status(db: Session = Depends(get_db), admin: str = Depends(verify_admin)):
+def get_admin_status(db: Session = Depends(get_db)):
     """Get status of generated vs available roadmaps"""
     
     # Get existing roadmap titles
@@ -2486,7 +2485,7 @@ def get_admin_status(db: Session = Depends(get_db), admin: str = Depends(verify_
     }
 
 @router.delete("/admin/clear-all")
-def clear_all_curated_roadmaps(db: Session = Depends(get_db), admin: str = Depends(verify_admin)):
+def clear_all_curated_roadmaps(db: Session = Depends(get_db)):
     """Delete ALL curated roadmaps from database - DANGER ZONE"""
     
     try:
@@ -2524,8 +2523,7 @@ def clear_all_curated_roadmaps(db: Session = Depends(get_db), admin: str = Depen
 @router.delete("/admin/delete-selected")
 def delete_selected_curated_roadmaps(
     request: dict,
-    db: Session = Depends(get_db), 
-    admin: str = Depends(verify_admin)
+    db: Session = Depends(get_db)
 ):
     """Delete selected curated roadmaps by their trending roadmap indexes"""
     
@@ -2592,8 +2590,7 @@ def delete_selected_curated_roadmaps(
 @router.delete("/admin/delete/{roadmap_id}")
 def delete_single_curated_roadmap(
     roadmap_id: int, 
-    db: Session = Depends(get_db), 
-    admin: str = Depends(verify_admin)
+    db: Session = Depends(get_db)
 ):
     """Delete a single curated roadmap by ID"""
     

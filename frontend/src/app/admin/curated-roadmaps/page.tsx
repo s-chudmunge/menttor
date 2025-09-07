@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from 'react'
 import Button from '@/components/Button'
-import { useAuth } from '@/app/context/AuthContext'
 import { useRouter } from 'next/navigation'
 
 interface RoadmapConfig {
@@ -68,9 +67,7 @@ interface GenerateResourcesResponse {
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'https://menttor-backend.onrender.com'
 
 export default function AdminCuratedRoadmaps() {
-  const { user, isAdmin, loading } = useAuth()
   const router = useRouter()
-  const [loginError, setLoginError] = useState('')
   const [adminStatus, setAdminStatus] = useState<AdminStatus | null>(null)
   const [trendingList, setTrendingList] = useState<TrendingListResponse | null>(null)
   const [submitting, setSubmitting] = useState(false)
@@ -100,25 +97,15 @@ export default function AdminCuratedRoadmaps() {
     localStorage.setItem('practiceLocked', newLockState.toString())
   }
 
-  // Create Firebase auth header
+  // No auth header needed
   const createAuthHeader = async () => {
-    if (!user) return ''
-    const token = await user.getIdToken()
-    return `Bearer ${token}`
+    return ''
   }
 
-  // Check authentication status and load data
+  // Load data without authentication checks
   useEffect(() => {
-    if (!loading) {
-      if (!user) {
-        router.push('/auth/signin')
-      } else if (!isAdmin) {
-        setLoginError('Admin privileges required. Please contact an administrator.')
-      } else {
-        loadData()
-      }
-    }
-  }, [user, isAdmin, loading, router])
+    loadData()
+  }, [])
 
   // Load both status and all roadmaps
   const loadData = async () => {
@@ -498,63 +485,7 @@ export default function AdminCuratedRoadmaps() {
     }
   }
 
-  // Authentication check
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="text-lg">Loading...</div>
-        </div>
-      </div>
-    )
-  }
-
-  if (!user) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="max-w-md w-full space-y-8 p-8 bg-white rounded-lg shadow-md">
-          <div>
-            <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-              Admin Access Required
-            </h2>
-            <p className="mt-2 text-center text-sm text-gray-600">
-              Please sign in to access the admin panel
-            </p>
-          </div>
-          <div className="text-center">
-            <Button onClick={() => router.push('/auth/signin')}>
-              Sign In
-            </Button>
-          </div>
-        </div>
-      </div>
-    )
-  }
-
-  if (!isAdmin) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="max-w-md w-full space-y-8 p-8 bg-white rounded-lg shadow-md">
-          <div>
-            <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-              Access Denied
-            </h2>
-            <p className="mt-2 text-center text-sm text-gray-600">
-              Admin privileges required to access this page
-            </p>
-            {loginError && (
-              <div className="text-red-600 text-sm text-center mt-4">{loginError}</div>
-            )}
-          </div>
-          <div className="text-center">
-            <Button onClick={() => router.push('/dashboard')}>
-              Go to Dashboard
-            </Button>
-          </div>
-        </div>
-      </div>
-    )
-  }
+  // No authentication checks needed
 
   // Admin dashboard
   return (
@@ -837,10 +768,9 @@ export default function AdminCuratedRoadmaps() {
         <div className="mt-6 text-center">
           <button
             onClick={loadData}
-            disabled={loading}
-            className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition duration-150 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed"
+            className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition duration-150 ease-in-out"
           >
-            {loading ? 'Refreshing...' : 'Refresh Status'}
+            Refresh Status
           </button>
         </div>
       </div>

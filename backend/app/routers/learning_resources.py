@@ -47,8 +47,7 @@ def verify_admin(credentials: HTTPBasicCredentials = Depends(security)):
 @router.post("/generate-by-index/{roadmap_index}", response_model=GenerateResourcesResponse)
 async def generate_resources_by_index(
     roadmap_index: int,
-    db: Session = Depends(get_db),
-    admin: str = Depends(verify_admin)
+    db: Session = Depends(get_db)
 ):
     """Generate learning resources using roadmap index from trending list"""
     try:
@@ -112,7 +111,6 @@ async def generate_resources_by_index(
 @router.post("/generate", response_model=GenerateResourcesResponse)
 async def generate_resources_for_roadmap(
     request: GenerateResourcesRequest,
-    admin: str = Depends(verify_admin),
     db: Session = Depends(get_db)
 ):
     """Generate learning resources for a curated roadmap using AI"""
@@ -163,8 +161,7 @@ async def generate_resources_for_roadmap(
 async def save_resources_by_index(
     roadmap_index: int,
     resources: List[LearningResourceCreate],
-    db: Session = Depends(get_db),
-    admin: str = Depends(verify_admin)
+    db: Session = Depends(get_db)
 ):
     """Save learning resources using roadmap index from trending list"""
     try:
@@ -237,8 +234,7 @@ async def save_resources_by_index(
 @router.post("/save", response_model=dict)
 async def save_generated_resources(
     resources: List[LearningResourceCreate],
-    db: Session = Depends(get_db),
-    admin: str = Depends(verify_admin)
+    db: Session = Depends(get_db)
 ):
     """Save generated resources to the database (with admin auth) - force redeploy to fix 401 error"""
     try:
@@ -340,7 +336,6 @@ async def get_roadmap_resources(
 @router.delete("/{resource_id}")
 async def delete_resource(
     resource_id: int,
-    admin: str = Depends(verify_admin),
     db: Session = Depends(get_db)
 ):
     """Delete a learning resource"""
@@ -371,7 +366,6 @@ async def delete_resource(
 @router.patch("/{resource_id}/toggle")
 async def toggle_resource_status(
     resource_id: int,
-    admin: str = Depends(verify_admin),
     db: Session = Depends(get_db)
 ):
     """Toggle a learning resource's active status"""

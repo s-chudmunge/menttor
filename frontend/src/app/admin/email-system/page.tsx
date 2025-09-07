@@ -2,14 +2,11 @@
 
 import React, { useState, useEffect } from 'react'
 import Button from '@/components/Button'
-import { useAuth } from '@/app/context/AuthContext'
 import { useRouter } from 'next/navigation'
 import { Search, Users, ChevronLeft, ChevronRight, Mail } from 'lucide-react'
 
 export default function AdminEmailSystem() {
-  const { user, isAdmin, loading } = useAuth()
   const router = useRouter()
-  const [loginError, setLoginError] = useState('')
   
   const [recipientEmail, setRecipientEmail] = useState('')
   const [emailSubject, setEmailSubject] = useState('Test Email from Menttor')
@@ -30,18 +27,10 @@ export default function AdminEmailSystem() {
   const [bulkSending, setBulkSending] = useState(false)
   const [bulkEmails, setBulkEmails] = useState('')
 
-  // Check authentication status and load data
+  // Load data without authentication checks
   useEffect(() => {
-    if (!loading) {
-      if (!user) {
-        router.push('/auth/signin')
-      } else if (!isAdmin) {
-        setLoginError('Admin privileges required. Please contact an administrator.')
-      } else {
-        fetchUsers()
-      }
-    }
-  }, [user, isAdmin, loading, router])
+    fetchUsers()
+  }, [])
 
   const fetchUsers = async (page = 1, search = '') => {
     setLoadingUsers(true)
@@ -276,69 +265,7 @@ menttor.live`;
     }
   }
 
-  // Authentication check
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
-        <div className="text-center">
-          <div className="text-lg text-gray-900 dark:text-white">Loading...</div>
-        </div>
-      </div>
-    )
-  }
-
-  if (!user) {
-    return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-md mx-auto">
-          <div className="bg-white dark:bg-gray-800 py-8 px-4 shadow rounded-lg sm:px-10">
-            <div className="sm:mx-auto sm:w-full sm:max-w-md">
-              <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900 dark:text-white">
-                Admin Access Required
-              </h2>
-              <p className="mt-2 text-center text-sm text-gray-600 dark:text-gray-400">
-                Please sign in to access the email admin panel
-              </p>
-            </div>
-            <div className="mt-8 text-center">
-              <Button onClick={() => router.push('/auth/signin')}>
-                Sign In
-              </Button>
-            </div>
-          </div>
-        </div>
-      </div>
-    )
-  }
-
-  if (!isAdmin) {
-    return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-md mx-auto">
-          <div className="bg-white dark:bg-gray-800 py-8 px-4 shadow rounded-lg sm:px-10">
-            <div className="sm:mx-auto sm:w-full sm:max-w-md">
-              <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900 dark:text-white">
-                Access Denied
-              </h2>
-              <p className="mt-2 text-center text-sm text-gray-600 dark:text-gray-400">
-                Admin privileges required to access this page
-              </p>
-              {loginError && (
-                <div className="text-red-600 dark:text-red-400 text-sm text-center mt-4">
-                  {loginError}
-                </div>
-              )}
-            </div>
-            <div className="mt-8 text-center">
-              <Button onClick={() => router.push('/dashboard')}>
-                Go to Dashboard
-              </Button>
-            </div>
-          </div>
-        </div>
-      </div>
-    )
-  }
+  // No authentication checks needed
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
