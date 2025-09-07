@@ -16,6 +16,7 @@ import {
   Target,
   BookOpen,
   ChevronRight,
+  ChevronDown,
   Play,
   Loader2,
   AlertCircle,
@@ -213,6 +214,7 @@ const RoadmapPreviewClient: React.FC<RoadmapPreviewClientProps> = ({ slug: roadm
   const [adopting, setAdopting] = useState(false);
   const [learningResources, setLearningResources] = useState<LearningResource[]>([]);
   const [loadingResources, setLoadingResources] = useState(false);
+  const [expandedModules, setExpandedModules] = useState<Set<number>>(new Set([0])); // First module expanded by default
   
   // Use optimized hook for roadmap detail fetching
   const { 
@@ -356,6 +358,16 @@ const RoadmapPreviewClient: React.FC<RoadmapPreviewClientProps> = ({ slug: roadm
 
   const totalTopics = roadmap?.roadmap_plan?.reduce((acc: number, module: RoadmapModule) => acc + module.topics.length, 0) || 0;
 
+  const toggleModule = (moduleIndex: number) => {
+    const newExpanded = new Set(expandedModules);
+    if (newExpanded.has(moduleIndex)) {
+      newExpanded.delete(moduleIndex);
+    } else {
+      newExpanded.add(moduleIndex);
+    }
+    setExpandedModules(newExpanded);
+  };
+
 
   if (loading) {
     return (
@@ -461,79 +473,80 @@ const RoadmapPreviewClient: React.FC<RoadmapPreviewClientProps> = ({ slug: roadm
           Back to Explore
         </button>
 
-        {/* Clean Header Section */}
-        <div className="bg-white dark:bg-gray-800 rounded-xl p-8 mb-8 border border-gray-200 dark:border-gray-700">
+        {/* Compact Header Section */}
+        <div className="bg-white dark:bg-gray-800 rounded-lg p-5 mb-6 border border-gray-200 dark:border-gray-700">
           {/* Badges */}
-          <div className="flex flex-wrap items-center gap-2 mb-4">
-            <span className={`inline-flex items-center px-3 py-1 rounded-md text-sm font-medium ${categoryColors[roadmap.category] || 'bg-gray-100 text-gray-600'}`}>
-              <span className="mr-2">{categoryIcons[roadmap.category] || '📚'}</span>
+          <div className="flex flex-wrap items-center gap-2 mb-3">
+            <span className={`inline-flex items-center px-2 py-1 rounded text-xs font-medium ${categoryColors[roadmap.category] || 'bg-gray-100 text-gray-600'}`}>
+              <span className="mr-1">{categoryIcons[roadmap.category] || '📚'}</span>
               {roadmap.category.replace('-', ' ').replace(/\b\w/g, (l: string) => l.toUpperCase())}
             </span>
             {roadmap.is_featured && (
-              <span className="inline-flex items-center px-3 py-1 bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300 rounded-md text-sm font-medium">
+              <span className="inline-flex items-center px-2 py-1 bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300 rounded text-xs font-medium">
                 <Award className="w-3 h-3 mr-1" />
                 Featured
               </span>
             )}
             {roadmap.is_verified && (
-              <span className="inline-flex items-center px-3 py-1 bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300 rounded-md text-sm font-medium">
+              <span className="inline-flex items-center px-2 py-1 bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300 rounded text-xs font-medium">
                 <CheckCircle className="w-3 h-3 mr-1" />
                 Verified
               </span>
             )}
-            <span className={`px-3 py-1 text-sm font-medium rounded-md ${difficultyColors[roadmap.difficulty]}`}>
+            <span className={`px-2 py-1 text-xs font-medium rounded ${difficultyColors[roadmap.difficulty]}`}>
               {roadmap.difficulty.charAt(0).toUpperCase() + roadmap.difficulty.slice(1)}
             </span>
           </div>
           
           {/* Title and Description */}
-          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4 leading-tight">
+          <h1 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-2 leading-tight">
             {roadmap.title}
           </h1>
-          <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed mb-6">
+          <p className="text-gray-600 dark:text-gray-300 mb-4 line-clamp-2">
             {roadmap.description}
           </p>
           
-          {/* Quick Stats */}
-          <div className="flex flex-wrap items-center gap-6 text-sm text-gray-600 dark:text-gray-400 mb-6">
-            <div className="flex items-center">
-              <Users className="w-4 h-4 mr-2" />
-              <span className="font-medium">{formatNumber(roadmap.adoption_count)} students</span>
-            </div>
-            {roadmap.estimated_hours && (
+          {/* Quick Stats and CTA in one row */}
+          <div className="flex items-center justify-between gap-4">
+            <div className="flex flex-wrap items-center gap-4 text-xs text-gray-600 dark:text-gray-400">
               <div className="flex items-center">
-                <Clock className="w-4 h-4 mr-2" />
-                <span className="font-medium">{roadmap.estimated_hours} hours</span>
+                <Users className="w-3 h-3 mr-1" />
+                <span>{formatNumber(roadmap.adoption_count)} students</span>
               </div>
-            )}
-            <div className="flex items-center">
-              <BookOpen className="w-4 h-4 mr-2" />
-              <span className="font-medium">{totalSubtopics} lessons</span>
+              {roadmap.estimated_hours && (
+                <div className="flex items-center">
+                  <Clock className="w-3 h-3 mr-1" />
+                  <span>{roadmap.estimated_hours}h</span>
+                </div>
+              )}
+              <div className="flex items-center">
+                <BookOpen className="w-3 h-3 mr-1" />
+                <span>{totalSubtopics} lessons</span>
+              </div>
+            </div>
+            
+            {/* CTA Buttons */}
+            <div className="flex items-center gap-2">
+              <button
+                onClick={handleAdoptRoadmap}
+                disabled={adopting}
+                className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {adopting ? (
+                  <Loader2 className="w-3 h-3 mr-1 animate-spin" />
+                ) : (
+                  <Download className="w-3 h-3 mr-1" />
+                )}
+                {adopting ? 'Starting...' : user ? 'Start' : 'Sign In'}
+              </button>
+              <SimpleShareButton
+                title={roadmap.title}
+                text={`Learn ${roadmap.title} - ${roadmap.difficulty} level ${roadmap.category.replace('-', ' ')} roadmap`}
+                url={`${window.location.origin}/explore/${roadmap.slug || roadmap.id}`}
+                variant="button"
+              />
             </div>
           </div>
-          
-          {/* CTA Buttons */}
-          <div className="flex items-center gap-4">
-            <button
-              onClick={handleAdoptRoadmap}
-              disabled={adopting}
-              className="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {adopting ? (
-                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-              ) : (
-                <Download className="w-4 h-4 mr-2" />
-              )}
-              {adopting ? 'Starting...' : user ? 'Start Learning' : 'Sign In to Start'}
-            </button>
-            <SimpleShareButton
-              title={roadmap.title}
-              text={`Learn ${roadmap.title} - ${roadmap.difficulty} level ${roadmap.category.replace('-', ' ')} roadmap`}
-              url={`${window.location.origin}/explore/${roadmap.slug || roadmap.id}`}
-              variant="button"
-            />
-          </div>
-
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -543,53 +556,74 @@ const RoadmapPreviewClient: React.FC<RoadmapPreviewClientProps> = ({ slug: roadm
             <div className="bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
               <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-6">Course Content</h2>
               
-              {roadmap.roadmap_plan?.map((module: RoadmapModule, moduleIndex: number) => (
-                <div key={moduleIndex} className="mb-6 last:mb-0">
-                  <div className="flex items-start mb-4">
-                    <div className="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-lg flex items-center justify-center text-sm font-semibold mr-4">
-                      {moduleIndex + 1}
-                    </div>
-                    <div className="flex-1">
-                      <h3 className="text-lg font-semibold text-black dark:text-white mb-2">{module.title}</h3>
-                      <p className="text-gray-600 dark:text-gray-200 text-sm leading-relaxed">{module.description}</p>
-                    </div>
-                  </div>
-                  
-                  <div className="ml-12 space-y-3">
-                    {module.topics.map((topic, topicIndex) => (
-                      <div key={topicIndex} className="border border-gray-200 dark:border-gray-600 rounded-lg p-4">
-                        <div className="flex items-start justify-between mb-2">
-                          <h4 className="font-medium text-black dark:text-white">{topic.title}</h4>
-                          <span className="text-xs text-gray-500 dark:text-gray-300">
-                            {topic.subtopics.length} lessons
-                          </span>
+              {roadmap.roadmap_plan?.map((module: RoadmapModule, moduleIndex: number) => {
+                const isExpanded = expandedModules.has(moduleIndex);
+                
+                return (
+                  <div key={moduleIndex} className="mb-6 last:mb-0">
+                    <button
+                      onClick={() => toggleModule(moduleIndex)}
+                      className="w-full flex items-start mb-4 text-left hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg p-2 -m-2 transition-colors"
+                    >
+                      <div className="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-lg flex items-center justify-center text-sm font-semibold mr-4">
+                        {moduleIndex + 1}
+                      </div>
+                      <div className="flex-1">
+                        <div className="flex items-center justify-between">
+                          <h3 className="text-lg font-semibold text-black dark:text-white mb-2">{module.title}</h3>
+                          <div className="flex items-center ml-4">
+                            <span className="text-xs text-gray-500 dark:text-gray-300 mr-2">
+                              {module.topics.length} topics
+                            </span>
+                            {isExpanded ? (
+                              <ChevronDown className="w-5 h-5 text-gray-500 dark:text-gray-400" />
+                            ) : (
+                              <ChevronRight className="w-5 h-5 text-gray-500 dark:text-gray-400" />
+                            )}
+                          </div>
                         </div>
-                        <p className="text-sm text-gray-600 dark:text-gray-200 mb-3">{topic.description}</p>
-                        
-                        {topic.subtopics.length > 0 && (
-                          <div className="space-y-2">
-                            {topic.subtopics.slice(0, 3).map((subtopic, subtopicIndex) => (
-                              <div key={subtopicIndex} className="flex items-center justify-between py-2 px-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
-                                <span className="text-sm text-gray-700 dark:text-gray-200">{subtopic.title}</span>
-                                <div className="flex items-center space-x-1">
-                                  {subtopic.learn && <BookOpen className="w-3 h-3 text-blue-500" />}
-                                  {subtopic.quiz && <Badge className="w-3 h-3 text-green-500" />}
-                                  {subtopic.code && <Play className="w-3 h-3 text-purple-500" />}
-                                </div>
-                              </div>
-                            ))}
-                            {topic.subtopics.length > 3 && (
-                              <div className="text-xs text-gray-500 dark:text-gray-300 text-center py-2">
-                                +{topic.subtopics.length - 3} more lessons
+                        <p className="text-gray-600 dark:text-gray-200 text-sm leading-relaxed">{module.description}</p>
+                      </div>
+                    </button>
+                    
+                    {isExpanded && (
+                      <div className="ml-12 space-y-3">
+                        {module.topics.map((topic, topicIndex) => (
+                          <div key={topicIndex} className="border border-gray-200 dark:border-gray-600 rounded-lg p-4">
+                            <div className="flex items-start justify-between mb-2">
+                              <h4 className="font-medium text-black dark:text-white">{topic.title}</h4>
+                              <span className="text-xs text-gray-500 dark:text-gray-300">
+                                {topic.subtopics.length} lessons
+                              </span>
+                            </div>
+                            <p className="text-sm text-gray-600 dark:text-gray-200 mb-3">{topic.description}</p>
+                            
+                            {topic.subtopics.length > 0 && (
+                              <div className="space-y-2">
+                                {topic.subtopics.slice(0, 3).map((subtopic, subtopicIndex) => (
+                                  <div key={subtopicIndex} className="flex items-center justify-between py-2 px-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                                    <span className="text-sm text-gray-700 dark:text-gray-200">{subtopic.title}</span>
+                                    <div className="flex items-center space-x-1">
+                                      {subtopic.learn && <BookOpen className="w-3 h-3 text-blue-500" />}
+                                      {subtopic.quiz && <Badge className="w-3 h-3 text-green-500" />}
+                                      {subtopic.code && <Play className="w-3 h-3 text-purple-500" />}
+                                    </div>
+                                  </div>
+                                ))}
+                                {topic.subtopics.length > 3 && (
+                                  <div className="text-xs text-gray-500 dark:text-gray-300 text-center py-2">
+                                    +{topic.subtopics.length - 3} more lessons
+                                  </div>
+                                )}
                               </div>
                             )}
                           </div>
-                        )}
+                        ))}
                       </div>
-                    ))}
+                    )}
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
 
@@ -654,14 +688,14 @@ const RoadmapPreviewClient: React.FC<RoadmapPreviewClientProps> = ({ slug: roadm
             {learningResources.length > 0 && (
               <div className="bg-white dark:bg-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
                 <h3 className="text-lg font-semibold text-black dark:text-white mb-4">Learning Resources</h3>
-                <div className="space-y-2">
+                <div className="space-y-1">
                   {learningResources.slice(0, 5).map((resource) => (
-                    <div key={resource.id} className="border-b border-gray-100 dark:border-gray-700 pb-2">
+                    <div key={resource.id}>
                       <a
                         href={resource.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-blue-600 dark:text-blue-400 hover:underline font-medium"
+                        className="text-blue-600 dark:text-blue-400 hover:underline"
                         title={resource.description}
                       >
                         {resource.title}
@@ -672,8 +706,8 @@ const RoadmapPreviewClient: React.FC<RoadmapPreviewClientProps> = ({ slug: roadm
                     </div>
                   ))}
                   {learningResources.length > 5 && (
-                    <p className="text-sm text-gray-500 dark:text-gray-400 mt-3">
-                      +{learningResources.length - 5} more resources in complete list below
+                    <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
+                      +{learningResources.length - 5} more resources below
                     </p>
                   )}
                 </div>
@@ -692,33 +726,28 @@ const RoadmapPreviewClient: React.FC<RoadmapPreviewClientProps> = ({ slug: roadm
               Curated external resources to enhance your learning journey with {roadmap.title.toLowerCase()}.
             </p>
             
-            <div className="space-y-4">
-              <h3 className="text-lg font-semibold text-black dark:text-white border-b border-gray-200 dark:border-gray-700 pb-2">
-                Recommended Reading & Resources
-              </h3>
-              <ul className="list-disc list-inside space-y-2 text-gray-700 dark:text-gray-300">
-                {learningResources.map((resource) => (
-                  <li key={resource.id} className="leading-relaxed">
-                    <a
-                      href={resource.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-blue-600 dark:text-blue-400 hover:underline font-medium"
-                      title={resource.description}
-                    >
-                      {resource.title}
-                    </a>
-                    <span className="text-gray-500 dark:text-gray-400 text-sm ml-2">
-                      ({resource.type})
-                    </span>
-                    {resource.description && (
-                      <p className="text-sm text-gray-600 dark:text-gray-400 mt-1 ml-4">
-                        {resource.description}
-                      </p>
-                    )}
-                  </li>
-                ))}
-              </ul>
+            <div className="space-y-2">
+              {learningResources.map((resource) => (
+                <div key={resource.id}>
+                  <a
+                    href={resource.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-600 dark:text-blue-400 hover:underline"
+                    title={resource.description}
+                  >
+                    {resource.title}
+                  </a>
+                  <span className="text-gray-500 dark:text-gray-400 text-sm ml-2">
+                    ({resource.type})
+                  </span>
+                  {resource.description && (
+                    <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                      {resource.description}
+                    </p>
+                  )}
+                </div>
+              ))}
             </div>
           </div>
         )}
@@ -728,58 +757,71 @@ const RoadmapPreviewClient: React.FC<RoadmapPreviewClientProps> = ({ slug: roadm
           <h2 className="text-2xl font-bold text-black dark:text-white mb-6">
             Explore More {roadmap.category.replace('-', ' ').replace(/\b\w/g, (l: string) => l.toUpperCase())} Roadmaps
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {/* Dynamic Links Based on Category and Difficulty */}
-            <Link 
-              href={`/explore?category=${roadmap.category}`}
-              className="group p-4 bg-blue-50 dark:bg-blue-800 rounded-xl hover:bg-blue-100 dark:hover:bg-blue-700 transition-all border border-blue-200 dark:border-blue-600"
-            >
-              <div className="flex items-center space-x-3">
-                <BookOpen className="w-5 h-5 text-blue-600 dark:text-blue-300" />
-                <div>
-                  <h3 className="font-semibold text-black dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-200">
-                    All {roadmap.category.replace('-', ' ').replace(/\b\w/g, (l: string) => l.toUpperCase())} Courses
-                  </h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-200">
-                    Browse {roadmap.category.replace('-', ' ')} learning paths
-                  </p>
-                </div>
+          <div className="space-y-2">
+            <p className="text-gray-600 dark:text-gray-300 mb-4">
+              Discover more learning paths in this category:
+            </p>
+            <div className="space-y-1">
+              <div>
+                <Link 
+                  href={`/explore?category=${roadmap.category}`}
+                  className="text-blue-600 dark:text-blue-400 hover:underline font-medium"
+                >
+                  All {roadmap.category.replace('-', ' ').replace(/\b\w/g, (l: string) => l.toUpperCase())} Courses
+                </Link>
+                <span className="text-gray-500 dark:text-gray-400 text-sm ml-2">
+                  - Browse {roadmap.category.replace('-', ' ')} learning paths
+                </span>
               </div>
-            </Link>
-
-            <Link 
-              href={`/explore?difficulty=${roadmap.difficulty}`}
-              className="group p-4 bg-green-50 dark:bg-green-800 rounded-xl hover:bg-green-100 dark:hover:bg-green-700 transition-all border border-green-200 dark:border-green-600"
-            >
-              <div className="flex items-center space-x-3">
-                <Target className="w-5 h-5 text-green-600 dark:text-green-300" />
-                <div>
-                  <h3 className="font-semibold text-black dark:text-white group-hover:text-green-600 dark:group-hover:text-green-200">
-                    {roadmap.difficulty.charAt(0).toUpperCase() + roadmap.difficulty.slice(1)} Level Courses
-                  </h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-200">
-                    Perfect for your skill level
-                  </p>
-                </div>
+              
+              <div>
+                <Link 
+                  href={`/explore?difficulty=${roadmap.difficulty}`}
+                  className="text-blue-600 dark:text-blue-400 hover:underline font-medium"
+                >
+                  {roadmap.difficulty.charAt(0).toUpperCase() + roadmap.difficulty.slice(1)} Level Courses
+                </Link>
+                <span className="text-gray-500 dark:text-gray-400 text-sm ml-2">
+                  - Perfect for your skill level
+                </span>
               </div>
-            </Link>
-
-            <Link 
-              href={`/explore`}
-              className="group p-4 bg-purple-50 dark:bg-purple-800 rounded-xl hover:bg-purple-100 dark:hover:bg-purple-700 transition-all border border-purple-200 dark:border-purple-600"
-            >
-              <div className="flex items-center space-x-3">
-                <TrendingUp className="w-5 h-5 text-purple-600 dark:text-purple-300" />
-                <div>
-                  <h3 className="font-semibold text-black dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-200">
-                    Featured Roadmaps
-                  </h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-200">
-                    Top-rated learning paths
-                  </p>
-                </div>
+              
+              <div>
+                <Link 
+                  href={`/explore`}
+                  className="text-blue-600 dark:text-blue-400 hover:underline font-medium"
+                >
+                  Featured Roadmaps
+                </Link>
+                <span className="text-gray-500 dark:text-gray-400 text-sm ml-2">
+                  - Top-rated learning paths
+                </span>
               </div>
-            </Link>
+              
+              <div>
+                <Link 
+                  href={`/explore?category=${roadmap.category}&difficulty=beginner`}
+                  className="text-blue-600 dark:text-blue-400 hover:underline font-medium"
+                >
+                  Beginner {roadmap.category.replace('-', ' ').replace(/\b\w/g, (l: string) => l.toUpperCase())}
+                </Link>
+                <span className="text-gray-500 dark:text-gray-400 text-sm ml-2">
+                  - Start from the basics
+                </span>
+              </div>
+              
+              <div>
+                <Link 
+                  href={`/explore?category=${roadmap.category}&difficulty=advanced`}
+                  className="text-blue-600 dark:text-blue-400 hover:underline font-medium"
+                >
+                  Advanced {roadmap.category.replace('-', ' ').replace(/\b\w/g, (l: string) => l.toUpperCase())}
+                </Link>
+                <span className="text-gray-500 dark:text-gray-400 text-sm ml-2">
+                  - Master advanced concepts
+                </span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
