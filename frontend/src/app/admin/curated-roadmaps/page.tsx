@@ -16,6 +16,21 @@ interface RoadmapConfig {
   generated?: boolean
 }
 
+interface CuratedRoadmapFromAPI {
+  id: number
+  title: string
+  description: string
+  category: string
+  subcategory?: string
+  difficulty: string
+  is_featured: boolean
+  is_verified: boolean
+  view_count: number
+  adoption_count: number
+  average_rating: number
+  estimated_hours?: number
+}
+
 interface AdminStatus {
   total_available: number
   total_generated: number
@@ -25,7 +40,15 @@ interface AdminStatus {
 
 interface TrendingListResponse {
   total_available: number
-  roadmaps: Omit<RoadmapConfig, 'index' | 'generated'>[]
+  roadmaps: Array<{
+    id: number
+    title: string
+    category: string
+    subcategory?: string
+    difficulty: string
+    description: string
+    estimated_hours?: number
+  }>
 }
 
 interface LearningResource {
@@ -97,25 +120,55 @@ export default function AdminCuratedRoadmaps() {
     }
   }, [user, isAdmin, loading, router])
 
-  // Load both status and trending list
+  // Load both status and all roadmaps
   const loadData = async () => {
     try {
       const authHeader = await createAuthHeader()
-      const [statusResponse, trendingResponse] = await Promise.all([
+      const [statusResponse, roadmapsResponse] = await Promise.all([
         fetch(`${BACKEND_URL}/curated-roadmaps/admin/status`, {
           headers: { 'Authorization': authHeader }
         }),
-        fetch(`${BACKEND_URL}/curated-roadmaps/admin/trending-list`, {
+        fetch(`${BACKEND_URL}/curated-roadmaps/?per_page=100&page=1`, {
           headers: { 'Authorization': authHeader }
         })
       ])
 
-      if (statusResponse.ok && trendingResponse.ok) {
+      if (statusResponse.ok && roadmapsResponse.ok) {
         const statusData = await statusResponse.json()
-        const trendingData = await trendingResponse.json()
+        const roadmapsData: CuratedRoadmapFromAPI[] = await roadmapsResponse.json()
+        
+        console.log('Admin status data:', statusData)
+        console.log('Roadmaps data:', roadmapsData)
         
         setAdminStatus(statusData)
-        setTrendingList(trendingData)
+        // Transform the roadmaps data to match the TrendingListResponse format
+        setTrendingList({
+          total_available: roadmapsData.length,
+          roadmaps: roadmapsData.map((roadmap) => ({
+            id: roadmap.id,
+            title: roadmap.title,
+            category: roadmap.category,
+            subcategory: roadmap.subcategory,
+            difficulty: roadmap.difficulty,
+            description: roadmap.description,
+            estimated_hours: roadmap.estimated_hours
+          }))
+        })
+      } else {
+        console.error('API response errors:', {
+          status: statusResponse.status,
+          statusText: statusResponse.statusText,
+          roadmaps: roadmapsResponse.status,
+          roadmapsText: roadmapsResponse.statusText
+        })
+        if (!statusResponse.ok) {
+          const statusError = await statusResponse.text()
+          console.error('Status API error:', statusError)
+        }
+        if (!roadmapsResponse.ok) {
+          const roadmapsError = await roadmapsResponse.text()
+          console.error('Roadmaps API error:', roadmapsError)
+        }
       }
     } catch (error) {
       console.error('Failed to load data:', error)
@@ -628,14 +681,19 @@ export default function AdminCuratedRoadmaps() {
               </div>
             </div>
             <div className="space-y-4">
-              {trendingList.roadmaps.map((roadmap, index) => {
-                const isGenerated = adminStatus.roadmaps.find(r => r.index === index)?.generated || false
-                const isGenerating = generating === index
-                const isSelected = selectedRoadmaps.has(index)
+              {trendingList.roadmaps.map((roadmap, displayIndex) => {
+                // Find matching roadmap in admin status by comparing title and category
+                const matchingAdminRoadmap = adminStatus.roadmaps.find(r => 
+                  r.title === roadmap.title && r.category === roadmap.category
+                )
+                const roadmapIndex = matchingAdminRoadmap?.index || displayIndex
+                const isGenerated = matchingAdminRoadmap?.generated || false
+                const isGenerating = generating === roadmapIndex
+                const isSelected = selectedRoadmaps.has(roadmapIndex)
 
                 return (
                   <div
-                    key={index}
+                    key={roadmap.id || displayIndex}
                     className={`border rounded-lg p-6 ${isGenerated 
                       ? isSelected 
                         ? 'border-red-300 bg-red-50' 
@@ -650,7 +708,7 @@ export default function AdminCuratedRoadmaps() {
                             <input
                               type="checkbox"
                               checked={isSelected}
-                              onChange={() => toggleRoadmapSelection(index)}
+                              onChange={() => toggleRoadmapSelection(roadmapIndex)}
                               className="w-4 h-4 text-red-600 bg-gray-100 border-gray-300 rounded focus:ring-red-500 focus:ring-2"
                             />
                           </div>
@@ -658,7 +716,7 @@ export default function AdminCuratedRoadmaps() {
                           <div className="flex-1">
                             <div className="flex items-center gap-3 mb-2">
                               <span className="bg-gray-100 text-gray-800 px-2 py-1 rounded text-sm font-medium">
-                                #{index}
+                                #{roadmapIndex}
                               </span>
                               {isGenerated && (
                                 <span className={`px-2 py-1 rounded text-sm font-medium ${
@@ -683,20 +741,22 @@ export default function AdminCuratedRoadmaps() {
                               <div>
                                 <span className="font-medium">Difficulty:</span> {roadmap.difficulty}
                               </div>
-                              <div>
-                                <span className="font-medium">Estimated:</span> {roadmap.estimated_hours} hours
-                              </div>
+                              {roadmap.estimated_hours && (
+                                <div>
+                                  <span className="font-medium">Estimated:</span> {roadmap.estimated_hours} hours
+                                </div>
+                              )}
                             </div>
                             
                             <p className="text-gray-600 mt-2">
-                              <span className="font-medium">Target:</span> {roadmap.target_audience}
+                              <span className="font-medium">Description:</span> {roadmap.description}
                             </p>
                           </div>
                         </div>
 
                       <div className="ml-4 flex gap-2">
                         <Button
-                          onClick={() => generateRoadmap(index)}
+                          onClick={() => generateRoadmap(roadmapIndex)}
                           disabled={isGenerated || isGenerating}
                           className={isGenerated ? 'opacity-50 cursor-not-allowed' : ''}
                         >
@@ -704,11 +764,11 @@ export default function AdminCuratedRoadmaps() {
                         </Button>
                         {isGenerated && (
                           <Button
-                            onClick={() => generateLearningResources(index)}
-                            disabled={generatingResources === index}
+                            onClick={() => generateLearningResources(roadmapIndex)}
+                            disabled={generatingResources === roadmapIndex}
                             className="bg-purple-600 hover:bg-purple-700 text-white"
                           >
-                            {generatingResources === index ? 'Generating...' : 'Generate Resources'}
+                            {generatingResources === roadmapIndex ? 'Generating...' : 'Generate Resources'}
                           </Button>
                         )}
                       </div>
