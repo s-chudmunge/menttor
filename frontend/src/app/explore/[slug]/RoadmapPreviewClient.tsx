@@ -215,7 +215,7 @@ const RoadmapPreviewClient: React.FC<RoadmapPreviewClientProps> = ({ slug: roadm
   const [adopting, setAdopting] = useState(false);
   const [learningResources, setLearningResources] = useState<LearningResource[]>([]);
   const [loadingResources, setLoadingResources] = useState(false);
-  const [expandedModules, setExpandedModules] = useState<Set<number>>(new Set([0])); // First module expanded by default
+  const [expandedModules, setExpandedModules] = useState<number[]>([0]); // First module expanded by default
   
   // Use optimized hook for roadmap detail fetching
   const { 
@@ -360,13 +360,11 @@ const RoadmapPreviewClient: React.FC<RoadmapPreviewClientProps> = ({ slug: roadm
   const totalTopics = roadmap?.roadmap_plan?.reduce((acc: number, module: RoadmapModule) => acc + module.topics.length, 0) || 0;
 
   const toggleModule = (moduleIndex: number) => {
-    const newExpanded = new Set(expandedModules);
-    if (newExpanded.has(moduleIndex)) {
-      newExpanded.delete(moduleIndex);
+    if (expandedModules.includes(moduleIndex)) {
+      setExpandedModules(expandedModules.filter(index => index !== moduleIndex));
     } else {
-      newExpanded.add(moduleIndex);
+      setExpandedModules([...expandedModules, moduleIndex]);
     }
-    setExpandedModules(newExpanded);
   };
 
 
@@ -558,7 +556,7 @@ const RoadmapPreviewClient: React.FC<RoadmapPreviewClientProps> = ({ slug: roadm
               <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-6">Course Content</h2>
               
               {roadmap.roadmap_plan?.map((module: RoadmapModule, moduleIndex: number) => {
-                const isExpanded = expandedModules.has(moduleIndex);
+                const isExpanded = expandedModules.includes(moduleIndex);
                 
                 return (
                   <div key={moduleIndex} className="mb-6 last:mb-0">
