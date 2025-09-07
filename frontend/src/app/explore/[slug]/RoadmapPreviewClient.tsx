@@ -206,6 +206,7 @@ interface RoadmapPreviewClientProps {
   slug: string;
 }
 
+// Simplified preview page with collapsible course content, simple link lists, and compact header
 const RoadmapPreviewClient: React.FC<RoadmapPreviewClientProps> = ({ slug: roadmapSlug }) => {
   const router = useRouter();
   const { user } = useAuth();
