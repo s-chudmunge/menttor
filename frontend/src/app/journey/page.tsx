@@ -9,6 +9,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { formatSubtopicTitle, formatTitle, formatQuizQuestion } from './utils/textFormatting';
 
 import { api, RoadmapData, UserProgress } from '../../lib/api';
+import { BACKEND_URL } from '../../config/config';
 import { useRoadmap } from '../../hooks/useRoadmap';
 import { useProgress } from '../../hooks/useProgress';
 import { useRecommendedReviews } from '../../hooks/useRecommendedReviews';
@@ -47,12 +48,7 @@ import {
   RefreshCw,
   Box,
   PenTool,
-  ExternalLink,
-  FileText,
-  Video,
-  GraduationCap,
-  Code,
-  Globe
+  ExternalLink
 } from 'lucide-react';
 
 interface LearningResource {
@@ -265,12 +261,7 @@ const JourneyPage = () => {
       if (!roadmapData?.curated_roadmap_id) return;
       
       try {
-        const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000';
-        const response = await fetch(`${BACKEND_URL}/learning-resources/${roadmapData.curated_roadmap_id}`, {
-          headers: {
-            'Authorization': `Bearer ${await user.getIdToken()}`
-          }
-        });
+        const response = await fetch(`${BACKEND_URL}/learning-resources/${roadmapData.curated_roadmap_id}`);
         if (response.ok) {
           const data = await response.json();
           setLearningResources(data.resources || []);
@@ -283,54 +274,8 @@ const JourneyPage = () => {
     if (roadmapData?.curated_roadmap_id) {
       fetchLearningResources();
     }
-  }, [roadmapData?.curated_roadmap_id, user]);
+  }, [roadmapData?.curated_roadmap_id]);
 
-  // Helper functions for resource display
-  const getResourceIcon = (type: string) => {
-    switch (type.toLowerCase()) {
-      case 'documentation':
-        return <FileText className="w-4 h-4" />;
-      case 'video':
-        return <Video className="w-4 h-4" />;
-      case 'tutorial':
-        return <GraduationCap className="w-4 h-4" />;
-      case 'blog':
-        return <FileText className="w-4 h-4" />;
-      case 'course':
-        return <BookOpen className="w-4 h-4" />;
-      case 'paper':
-        return <FileText className="w-4 h-4" />;
-      case 'wikipedia':
-        return <Globe className="w-4 h-4" />;
-      case 'tool':
-        return <Code className="w-4 h-4" />;
-      default:
-        return <ExternalLink className="w-4 h-4" />;
-    }
-  };
-
-  const getResourceColor = (type: string) => {
-    switch (type.toLowerCase()) {
-      case 'documentation':
-        return 'text-blue-600 bg-blue-50';
-      case 'video':
-        return 'text-red-600 bg-red-50';
-      case 'tutorial':
-        return 'text-green-600 bg-green-50';
-      case 'blog':
-        return 'text-purple-600 bg-purple-50';
-      case 'course':
-        return 'text-orange-600 bg-orange-50';
-      case 'paper':
-        return 'text-gray-600 bg-gray-50';
-      case 'wikipedia':
-        return 'text-indigo-600 bg-indigo-50';
-      case 'tool':
-        return 'text-cyan-600 bg-cyan-50';
-      default:
-        return 'text-gray-600 bg-gray-50';
-    }
-  };
 
   // Polling mechanism for progress updates after learn completion
   useEffect(() => {
@@ -715,55 +660,36 @@ const JourneyPage = () => {
 
           {/* Learning Resources */}
           {learningResources.length > 0 && (
-            <div className="mb-6 lg:mb-8">
-              <div className="bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700 shadow-sm">
-                <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4 flex items-center">
-                  <ExternalLink className="w-5 h-5 mr-3 text-blue-600" />
-                  Learning Resources
-                </h2>
-                <p className="text-gray-600 dark:text-gray-300 mb-6 text-sm">
-                  Curated external resources to enhance your learning journey.
-                </p>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {learningResources.slice(0, 9).map((resource) => (
+            <div className="mt-12 bg-white dark:bg-gray-900 rounded-2xl p-8 border border-gray-200 dark:border-gray-700">
+              <h2 className="text-2xl font-bold text-black dark:text-white mb-6">
+                Learning Resources
+              </h2>
+              <p className="text-gray-600 dark:text-gray-300 mb-6">
+                Curated external resources to enhance your learning journey with {roadmapData.title || roadmapData.subject}.
+              </p>
+              
+              <div className="space-y-2">
+                {learningResources.map((resource) => (
+                  <div key={resource.id}>
                     <a
-                      key={resource.id}
                       href={resource.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="group block p-4 bg-gray-50 dark:bg-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-all border border-gray-200 dark:border-gray-600"
+                      className="text-blue-600 dark:text-blue-400 hover:underline"
+                      title={resource.description}
                     >
-                      <div className="flex items-start gap-3">
-                        <div className={`p-2 rounded-lg ${getResourceColor(resource.type)} group-hover:scale-105 transition-transform`}>
-                          {getResourceIcon(resource.type)}
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <h3 className="font-medium text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors text-sm line-clamp-2 mb-2">
-                            {resource.title}
-                          </h3>
-                          <p className="text-xs text-gray-600 dark:text-gray-300 line-clamp-2 mb-2">
-                            {resource.description}
-                          </p>
-                          <div className="flex items-center justify-between">
-                            <span className="inline-block text-xs px-2 py-1 bg-white dark:bg-gray-600 text-gray-600 dark:text-gray-300 rounded">
-                              {resource.type}
-                            </span>
-                            <ExternalLink className="w-3 h-3 text-gray-400 group-hover:text-blue-500 transition-colors" />
-                          </div>
-                        </div>
-                      </div>
+                      {resource.title}
                     </a>
-                  ))}
-                </div>
-                
-                {learningResources.length > 9 && (
-                  <div className="mt-4 text-center">
-                    <p className="text-xs text-gray-500 dark:text-gray-400">
-                      +{learningResources.length - 9} more resources available in the roadmap preview
-                    </p>
+                    <span className="text-gray-500 dark:text-gray-400 text-sm ml-2">
+                      ({resource.type})
+                    </span>
+                    {resource.description && (
+                      <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                        {resource.description}
+                      </p>
+                    )}
                   </div>
-                )}
+                ))}
               </div>
             </div>
           )}
