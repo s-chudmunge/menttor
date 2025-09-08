@@ -260,12 +260,22 @@ class AIExecutor:
 
                 logger.info(f"Sending prompt to LiteLLM model {litellm_model_name}: {prompt}")
                 try:
-                    response = litellm.completion(
-                        model=litellm_model_name,
-                        messages=[{"role": "user", "content": prompt}],
-                        temperature=0.7,
-                        api_key=api_key
-                    )
+                    # LiteLLM completion with proper OpenRouter configuration
+                    completion_params = {
+                        "model": litellm_model_name,
+                        "messages": [{"role": "user", "content": prompt}],
+                        "temperature": 0.7,
+                        "api_key": api_key.strip() if api_key else None
+                    }
+                    
+                    # Add OpenRouter-specific headers if using OpenRouter
+                    if provider == "openrouter":
+                        completion_params["extra_headers"] = {
+                            "HTTP-Referer": "https://menttor.live",  # Your site URL
+                            "X-Title": "Menttor Labs"  # Your app name
+                        }
+                    
+                    response = litellm.completion(**completion_params)
                     logger.info(f"Full LiteLLM Response Object: {response}")
 
                     if not response.choices or not response.choices[0].message or not response.choices[0].message.content:
