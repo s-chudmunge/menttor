@@ -8,7 +8,7 @@ from schemas import (
     CuratedRoadmapAdoptRequest, CuratedRoadmapAdoptResponse, 
     CuratedRoadmapCategoriesResponse, RoadmapResponse, RoadmapCreateRequest
 )
-from sql_models import CuratedRoadmap, UserCuratedRoadmap, Roadmap, User
+from sql_models import CuratedRoadmap, UserCuratedRoadmap, Roadmap, User, RoadmapResource
 from .optional_auth import get_optional_current_user
 from .auth import get_current_user
 from services.ai_service import generate_roadmap_content
@@ -2492,7 +2492,12 @@ def clear_all_curated_roadmaps(db: Session = Depends(get_db)):
         # Get count before deletion
         count_before = db.exec(select(func.count(CuratedRoadmap.id))).first()
         
-        # Delete all UserCuratedRoadmap associations first (foreign key constraint)
+        # Delete all RoadmapResource associations first (foreign key constraint)
+        resources = db.exec(select(RoadmapResource)).all()
+        for resource in resources:
+            db.delete(resource)
+        
+        # Delete all UserCuratedRoadmap associations (foreign key constraint)
         user_adoptions = db.exec(select(UserCuratedRoadmap)).all()
         for adoption in user_adoptions:
             db.delete(adoption)
@@ -2504,7 +2509,7 @@ def clear_all_curated_roadmaps(db: Session = Depends(get_db)):
         
         db.commit()
         
-        logger.info(f"🗑️ Admin {admin} cleared ALL curated roadmaps: {count_before} deleted")
+        logger.info(f"🗑️ Cleared ALL curated roadmaps: {count_before} deleted")
         
         return {
             "success": True,
@@ -2555,7 +2560,15 @@ def delete_selected_curated_roadmaps(
             roadmap = db.exec(select(CuratedRoadmap).where(CuratedRoadmap.title == title)).first()
             
             if roadmap:
-                # Delete associated user adoptions first
+                # Delete associated learning resources first
+                resources = db.exec(
+                    select(RoadmapResource).where(RoadmapResource.curated_roadmap_id == roadmap.id)
+                ).all()
+                
+                for resource in resources:
+                    db.delete(resource)
+                
+                # Delete associated user adoptions
                 adoptions = db.exec(
                     select(UserCuratedRoadmap).where(UserCuratedRoadmap.curated_roadmap_id == roadmap.id)
                 ).all()
@@ -2570,7 +2583,7 @@ def delete_selected_curated_roadmaps(
         
         db.commit()
         
-        logger.info(f"🗑️ Admin {admin} deleted {deleted_count} selected curated roadmaps: {', '.join(deleted_titles)}")
+        logger.info(f"🗑️ Deleted {deleted_count} selected curated roadmaps: {', '.join(deleted_titles)}")
         
         return {
             "success": True,
