@@ -254,35 +254,6 @@ class ThreeDVisualizationResponse(SQLModel):
     html_content: str
     model: str
 
-# --- Realistic 3D Simulation Service Schemas ---
-
-class RealisticSimulationRequest(SQLModel):
-    description: str
-    category: Optional[str] = None  # 'physics', 'molecular', 'fluid', 'biology', 'astronomy', 'engineering'
-    complexity: Optional[str] = 'intermediate'  # 'basic', 'intermediate', 'advanced', 'research'
-    interactivity: Optional[str] = 'interactive'  # 'observational', 'interactive', 'controllable'
-    realism_level: Optional[str] = 'realistic'  # 'educational', 'realistic', 'photorealistic'
-    model: str
-    max_output_tokens: Optional[int] = None
-
-class ComponentAnalysis(BaseModel):
-    """AI analysis of user input to determine required components"""
-    primary_components: List[str]  # e.g., ['particles', 'connections', 'forces']
-    physics_required: bool
-    molecular_structures: bool
-    fluid_dynamics: bool
-    electrical_systems: bool
-    quantum_effects: bool
-    required_libraries: List[str]  # e.g., ['cannon-es', '3dmol', 'liquidfun']
-    fallback_strategy: Optional[str] = None
-
-class RealisticSimulationResponse(SQLModel):
-    html_content: str
-    model: str
-    category: Optional[str] = None
-    libraries_used: List[str]
-    component_analysis: Optional[Dict[str, Any]] = None
-
 # --- New Structured Learning Content Schemas ---
 
 class HeadingBlock(BaseModel):

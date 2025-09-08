@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
-import { Sparkles, Box, BookOpen, ExternalLink, Eye, Play, Search, Atom } from 'lucide-react';
+import { Sparkles, Box, BookOpen, ExternalLink, Eye, Play, Search } from 'lucide-react';
 import Link from 'next/link';
 import { useCuratedRoadmaps } from '../../hooks/useCuratedRoadmaps';
 
@@ -19,7 +19,6 @@ interface CuratedRoadmap {
 interface MainPageSidePanelProps {
   onShow3DGenerator: () => void;
   onShowLearnAboutSomething: () => void;
-  onShowRealisticSimulation: () => void;
   isOpen?: boolean;
   onToggle?: () => void;
 }
@@ -27,7 +26,6 @@ interface MainPageSidePanelProps {
 const MainPageSidePanel: React.FC<MainPageSidePanelProps> = ({
   onShow3DGenerator,
   onShowLearnAboutSomething,
-  onShowRealisticSimulation,
   isOpen = true,
   onToggle
 }) => {
@@ -98,14 +96,6 @@ const MainPageSidePanel: React.FC<MainPageSidePanelProps> = ({
                 <span className="text-xs font-medium">Learn Something</span>
               </button>
               
-              <button
-                onClick={onShowRealisticSimulation}
-                className="w-full flex items-center px-2 py-1.5 text-left text-gray-700 dark:text-gray-300 hover:bg-purple-100 dark:hover:bg-purple-900/20 transition-colors rounded group"
-              >
-                <Atom className="w-3.5 h-3.5 mr-2 text-gray-500 dark:text-gray-400" />
-                <span className="text-xs font-medium">Realistic 3D Simulation</span>
-                <span className="ml-auto text-[10px] px-1.5 py-0.5 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-full opacity-80 group-hover:opacity-100 transition-opacity">NEW</span>
-              </button>
             </div>
           </div>
 

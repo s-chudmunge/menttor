@@ -51,7 +51,6 @@ import {
 import ProfileDropdown from '../components/ProfileDropdown';
 import { ThreeDGeneratorCard, ThreeDGeneratorModal } from '../../components/ThreeDGenerator';
 import { LearnAboutSomethingCard, LearnAboutSomethingModal } from '../../components/LearnAboutSomething';
-import { RealisticSimGeneratorCard, RealisticSimGeneratorModal } from '../../components/RealisticSimGenerator';
 import PromotionalBackground from '../components/PromotionalBackground';
 import SimpleLearningAnimation from '../components/SimpleLearningAnimation';
 import MainPageSidePanel from './components/MainPageSidePanel';
@@ -85,10 +84,6 @@ const MenttorLabsMainPage = () => {
   const [learnModel, setLearnModel] = useState('vertexai:gemini-2.5-flash-lite');
   const [learnModelName, setLearnModelName] = useState('Loading models...');
   const [showLearnModelModal, setShowLearnModelModal] = useState(false);
-  const [showRealisticSimulation, setShowRealisticSimulation] = useState(false);
-  const [realisticSimModel, setRealisticSimModel] = useState('vertexai:gemini-2.5-flash');
-  const [realisticSimModelName, setRealisticSimModelName] = useState('Loading models...');
-  const [showRealisticSimModelModal, setShowRealisticSimModelModal] = useState(false);
 
   // Define GenerateRoadmapRequest interface here or import if already defined
   interface GenerateRoadmapRequest {
@@ -223,12 +218,6 @@ const MenttorLabsMainPage = () => {
     }
   }, [threeDModelName]);
 
-  // Initialize realistic simulation model name
-  useEffect(() => {
-    if (realisticSimModelName === 'Loading models...') {
-      setRealisticSimModelName('Gemini 2.5 Flash (Advanced Physics)');
-    }
-  }, [realisticSimModelName]);
 
   // Initialize learn model name  
   useEffect(() => {
@@ -385,12 +374,6 @@ const MenttorLabsMainPage = () => {
     setShowLearnModelModal(false);
   };
   
-  const handleSelectRealisticSimModel = (modelId: string, modelName: string) => {
-    // Keep the full model ID for realistic simulation generation
-    setRealisticSimModel(modelId);
-    setRealisticSimModelName(modelName);
-    setShowRealisticSimModelModal(false);
-  };
 
   const handleLoadOldLearningContent = (content: any) => {
     // Navigate to learn page with the content
@@ -999,14 +982,6 @@ const MenttorLabsMainPage = () => {
         onModelSelect={() => setShowLearnModelModal(true)}
       />
       
-      {/* Realistic Simulation Modal */}
-      <RealisticSimGeneratorModal
-        isOpen={showRealisticSimulation}
-        onClose={() => setShowRealisticSimulation(false)}
-        selectedModel={realisticSimModel}
-        selectedModelName={realisticSimModelName}
-        onModelSelect={() => setShowRealisticSimModelModal(true)}
-      />
 
       {/* 3D Model Selection Modal */}
       {show3DModelModal && (
@@ -1028,15 +1003,6 @@ const MenttorLabsMainPage = () => {
         />
       )}
       
-      {/* Realistic Simulation Model Selection Modal */}
-      {showRealisticSimModelModal && (
-        <D3ModelMapModal
-          isOpen={showRealisticSimModelModal}
-          onClose={() => setShowRealisticSimModelModal(false)}
-          onSelectModel={handleSelectRealisticSimModel}
-          currentModelId={realisticSimModel.includes(':') ? realisticSimModel : `vertexai:${realisticSimModel}`}
-        />
-      )}
 
       </div>
 
@@ -1044,7 +1010,6 @@ const MenttorLabsMainPage = () => {
       <MainPageSidePanel
         onShow3DGenerator={() => setShow3DGenerator(true)}
         onShowLearnAboutSomething={() => setShowLearnAboutSomething(true)}
-        onShowRealisticSimulation={() => setShowRealisticSimulation(true)}
         isOpen={isSidePanelOpen}
         onToggle={() => setIsSidePanelOpen(!isSidePanelOpen)}
       />
