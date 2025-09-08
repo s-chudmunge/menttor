@@ -258,14 +258,14 @@ const JourneyPage = () => {
   // Fetch learning resources when roadmap data changes
   useEffect(() => {
     const fetchLearningResources = async () => {
-      if (!roadmapData?.curated_roadmap_id) {
-        console.log('🔍 No curated_roadmap_id found:', roadmapData);
+      if (!roadmapData?.id) {
+        console.log('🔍 No roadmap id found:', roadmapData);
         return;
       }
       
-      console.log('📚 Fetching learning resources for roadmap:', roadmapData.curated_roadmap_id);
+      console.log('📚 Fetching learning resources for roadmap:', roadmapData.id);
       try {
-        const response = await fetch(`${BACKEND_URL}/learning-resources/${roadmapData.curated_roadmap_id}`);
+        const response = await fetch(`${BACKEND_URL}/learning-resources/${roadmapData.id}`);
         console.log('📚 Learning resources response status:', response.status);
         if (response.ok) {
           const data = await response.json();
@@ -279,10 +279,10 @@ const JourneyPage = () => {
       }
     };
 
-    if (roadmapData?.curated_roadmap_id) {
+    if (roadmapData?.id) {
       fetchLearningResources();
     }
-  }, [roadmapData?.curated_roadmap_id]);
+  }, [roadmapData?.id]);
 
 
   // Polling mechanism for progress updates after learn completion
@@ -702,8 +702,7 @@ const JourneyPage = () => {
             ) : (
               <div className="text-gray-500 dark:text-gray-400 text-sm">
                 <p>Debug info:</p>
-                <p>Roadmap ID: {roadmapData?.id}</p>
-                <p>Curated Roadmap ID: {roadmapData?.curated_roadmap_id}</p>
+                <p>Roadmap ID (used for API): {roadmapData?.id}</p>
                 <p>Learning Resources Count: {learningResources.length}</p>
                 <p>Roadmap Title: {roadmapData?.title || roadmapData?.subject}</p>
                 {learningResources.length === 0 && <p>No learning resources found or still loading...</p>}
