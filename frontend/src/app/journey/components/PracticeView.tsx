@@ -497,7 +497,7 @@ const PracticeView: React.FC<PracticeViewProps> = ({ roadmapData, progressData }
               <input
                 type="range"
                 min="10"
-                max="150"
+                max="50"
                 step="5"
                 value={practiceSession.questionCount}
                 onChange={(e) => setPracticeSession(prev => ({
@@ -508,7 +508,7 @@ const PracticeView: React.FC<PracticeViewProps> = ({ roadmapData, progressData }
               />
               <div className="flex justify-between text-xs text-gray-500 mt-1">
                 <span>10</span>
-                <span>150</span>
+                <span>50</span>
               </div>
             </div>
 

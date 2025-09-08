@@ -258,13 +258,21 @@ const JourneyPage = () => {
   // Fetch learning resources when roadmap data changes
   useEffect(() => {
     const fetchLearningResources = async () => {
-      if (!roadmapData?.curated_roadmap_id) return;
+      if (!roadmapData?.curated_roadmap_id) {
+        console.log('🔍 No curated_roadmap_id found:', roadmapData);
+        return;
+      }
       
+      console.log('📚 Fetching learning resources for roadmap:', roadmapData.curated_roadmap_id);
       try {
         const response = await fetch(`${BACKEND_URL}/learning-resources/${roadmapData.curated_roadmap_id}`);
+        console.log('📚 Learning resources response status:', response.status);
         if (response.ok) {
           const data = await response.json();
+          console.log('📚 Learning resources data:', data);
           setLearningResources(data.resources || []);
+        } else {
+          console.log('📚 Failed to fetch learning resources, response not ok:', response.status);
         }
       } catch (error) {
         console.error('Failed to fetch learning resources:', error);
@@ -659,15 +667,15 @@ const JourneyPage = () => {
           <RecommendedReviews recommendedReviews={recommendedReviews || []} />
 
           {/* Learning Resources */}
-          {learningResources.length > 0 && (
-            <div className="mt-12 bg-white dark:bg-gray-900 rounded-2xl p-8 border border-gray-200 dark:border-gray-700">
-              <h2 className="text-2xl font-bold text-black dark:text-white mb-6">
-                Learning Resources
-              </h2>
-              <p className="text-gray-600 dark:text-gray-300 mb-6">
-                Curated external resources to enhance your learning journey with {roadmapData.title || roadmapData.subject}.
-              </p>
-              
+          <div className="mt-12 bg-white dark:bg-gray-900 rounded-2xl p-8 border border-gray-200 dark:border-gray-700">
+            <h2 className="text-2xl font-bold text-black dark:text-white mb-6">
+              Learning Resources
+            </h2>
+            <p className="text-gray-600 dark:text-gray-300 mb-6">
+              Curated external resources to enhance your learning journey with {roadmapData.title || roadmapData.subject}.
+            </p>
+            
+            {learningResources.length > 0 ? (
               <div className="space-y-2">
                 {learningResources.map((resource) => (
                   <div key={resource.id}>
@@ -691,8 +699,17 @@ const JourneyPage = () => {
                   </div>
                 ))}
               </div>
-            </div>
-          )}
+            ) : (
+              <div className="text-gray-500 dark:text-gray-400 text-sm">
+                <p>Debug info:</p>
+                <p>Roadmap ID: {roadmapData?.id}</p>
+                <p>Curated Roadmap ID: {roadmapData?.curated_roadmap_id}</p>
+                <p>Learning Resources Count: {learningResources.length}</p>
+                <p>Roadmap Title: {roadmapData?.title || roadmapData?.subject}</p>
+                {learningResources.length === 0 && <p>No learning resources found or still loading...</p>}
+              </div>
+            )}
+          </div>
         </main>
 
         {/* Old Roadmaps Modal */}
