@@ -69,7 +69,7 @@ class Settings(BaseSettings):
         if self.DATABASE_URL:
             return self.DATABASE_URL
         # Otherwise, construct from individual components (for development)
-        return f"postgresql://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}@{self.POSTGRES_HOST}:{self.POSTGRES_PORT}/{self.POSTGRES_DB}"
+        return f"postgresql+psycopg2://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}@{self.POSTGRES_HOST}:{self.POSTGRES_PORT}/{self.POSTGRES_DB}"
 
     class Config:
         env_file = ".env"
