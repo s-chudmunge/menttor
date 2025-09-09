@@ -1,4 +1,4 @@
-# Menttor - Smart Learning Platform
+# Menttor - A free and open source Learning Tool
 
 <div align="center">
   <img src="20250823_211935.jpg" alt="Menttor" width="400">
