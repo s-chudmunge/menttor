@@ -18,8 +18,10 @@ COPY requirements.prod.txt ./requirements.txt
 # Install psycopg2-binary FIRST to prevent conflicts
 RUN pip install --no-cache-dir psycopg2-binary==2.9.7
 
-# Install remaining dependencies (excluding any conflicting psycopg packages)
-RUN pip install --no-cache-dir -r requirements.txt
+# Install remaining dependencies while forcing psycopg2 usage
+ENV PIP_NO_BUILD_ISOLATION=1
+RUN pip install --no-cache-dir -r requirements.txt && \
+    pip uninstall -y psycopg || true
 
 # Copy application code
 COPY app/ ./
