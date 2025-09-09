@@ -56,50 +56,32 @@ export default function NeuralNetworkArchitecturesPage() {
               </nav>
             </div>
 
-            {/* Edit Mode Toggle */}
-            <div className="flex items-center space-x-3">
-              <button
-                onClick={() => setEditMode(!editMode)}
-                className={`flex items-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-                  editMode 
-                    ? 'bg-blue-100 text-blue-700 hover:bg-blue-200' 
-                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
-                }`}
-                title={`${editMode ? 'Exit' : 'Enter'} edit mode (Ctrl+E)`}
-              >
-                {editMode ? (
-                  <>
-                    <Eye className="w-4 h-4" />
-                    <span className="hidden sm:inline">View Mode</span>
-                  </>
-                ) : (
-                  <>
-                    <Edit3 className="w-4 h-4" />
-                    <span className="hidden sm:inline">Edit Mode</span>
-                  </>
-                )}
-              </button>
-            </div>
           </div>
         </div>
       </header>
 
-      {/* Breadcrumb */}
-      <div className="bg-gray-50 border-b border-gray-200">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
-          <div className="flex items-center space-x-2 text-sm text-gray-600">
-            <Link href="/library" className="hover:text-gray-900">Library</Link>
-            <ChevronLeft className="w-4 h-4 rotate-180" />
-            <span className="text-gray-900 font-medium">Neural Network Architectures</span>
+      {/* Subheader */}
+      <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-blue-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+          <div className="flex flex-col space-y-2">
+            <div className="flex items-center space-x-2 text-sm text-blue-600">
+              <Link href="/library" className="hover:text-blue-800 font-medium">Library</Link>
+              <ChevronLeft className="w-4 h-4 rotate-180" />
+              <span className="text-blue-800">Neural Network Architectures</span>
+            </div>
+            <h1 className="text-2xl font-bold text-gray-900">Neural Network Architectures</h1>
+            <p className="text-gray-700 text-sm max-w-3xl">
+              Comprehensive guide to neural network architectures in deep learning research, covering feedforward networks, CNNs, RNNs, and Transformers.
+            </p>
           </div>
         </div>
       </div>
 
       {/* Main Content */}
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="flex gap-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="flex gap-12">
           {/* Table of Contents - Desktop */}
-          <aside className="hidden lg:block w-64 flex-shrink-0">
+          <aside className="hidden lg:block w-56 flex-shrink-0">
             <div className="sticky top-24">
               <h3 className="text-sm font-semibold text-gray-900 mb-3">Contents</h3>
               <nav className="space-y-1">
@@ -125,7 +107,7 @@ export default function NeuralNetworkArchitecturesPage() {
           </aside>
 
           {/* Main Content */}
-          <main className="flex-1 min-w-0">
+          <main className="flex-1 min-w-0 max-w-none">
             <article className="prose prose-gray max-w-none">
               <LibraryContentRenderer 
                 content={content.content}
@@ -137,12 +119,24 @@ export default function NeuralNetworkArchitecturesPage() {
 
             {/* Footer */}
             <footer className="mt-12 pt-8 border-t border-gray-200">
-              <div className="flex flex-col sm:flex-row sm:justify-between text-sm text-gray-500">
+              <div className="flex flex-col sm:flex-row sm:justify-between items-center text-sm text-gray-500">
                 <div>
                   <p>Last updated: {new Date(content.lastUpdated).toLocaleDateString()}</p>
                 </div>
-                <div className="mt-2 sm:mt-0">
+                <div className="mt-2 sm:mt-0 flex items-center space-x-4">
                   <p>Part of Menttor Library</p>
+                  {/* Edit Mode Toggle - Small */}
+                  <button
+                    onClick={() => setEditMode(!editMode)}
+                    className={`text-xs px-2 py-1 rounded transition-colors ${
+                      editMode 
+                        ? 'bg-blue-100 text-blue-700 hover:bg-blue-200' 
+                        : 'text-gray-400 hover:text-gray-600 hover:bg-gray-100'
+                    }`}
+                    title={`${editMode ? 'Exit' : 'Enter'} edit mode (Ctrl+E)`}
+                  >
+                    {editMode ? 'Exit Edit' : 'Edit'}
+                  </button>
                 </div>
               </div>
             </footer>

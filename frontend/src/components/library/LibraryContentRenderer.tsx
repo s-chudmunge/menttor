@@ -27,6 +27,7 @@ import ReactMarkdown from 'react-markdown';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 import 'katex/dist/katex.min.css';
+import { BACKEND_URL } from '../../../config/config';
 
 interface Props {
   content: any[];
@@ -43,7 +44,7 @@ const LibraryContentRenderer: React.FC<Props> = ({ content, subject, subtopic, e
     setRegeneratingIndex(index);
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/library/neural-network-architectures/regenerate-component`,
+        `${BACKEND_URL}/library/neural-network-architectures/regenerate-component`,
         {
           method: 'POST',
           headers: {
@@ -79,7 +80,7 @@ const LibraryContentRenderer: React.FC<Props> = ({ content, subject, subtopic, e
     setRegeneratingPage(true);
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/library/neural-network-architectures/regenerate-page`,
+        `${BACKEND_URL}/library/neural-network-architectures/regenerate-page`,
         {
           method: 'POST',
           headers: {

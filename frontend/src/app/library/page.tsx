@@ -41,66 +41,18 @@ export default function LibraryPage() {
         </div>
 
         {/* Library Content */}
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          <Link 
+        <div className="space-y-4">
+          <a 
             href="/library/neural-network-architectures"
-            className="group bg-white border border-gray-200 rounded-lg p-6 hover:shadow-lg hover:border-gray-300 transition-all duration-200"
+            className="block border-l-4 border-blue-500 bg-white p-4 hover:bg-gray-50 transition-colors"
           >
-            <div className="flex items-center justify-between mb-4">
-              <div className="p-2 bg-blue-100 rounded-lg">
-                <BookOpen className="w-6 h-6 text-blue-600" />
-              </div>
-              <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-blue-600 transition-colors" />
-            </div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">
+            <h3 className="text-lg font-semibold text-gray-900 mb-1">
               Neural Network Architectures
             </h3>
             <p className="text-gray-600 text-sm">
-              Comprehensive guide to neural network architectures in deep learning research, covering feedforward networks, CNNs, RNNs, and Transformers.
+              Comprehensive guide to neural network architectures in deep learning research
             </p>
-            <div className="mt-4 flex items-center space-x-2">
-              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                Deep Learning
-              </span>
-              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                Research
-              </span>
-            </div>
-          </Link>
-          
-          {/* Placeholder for more library content */}
-          <div className="bg-gray-50 border-2 border-dashed border-gray-200 rounded-lg p-6 text-center">
-            <BookOpen className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-gray-500 mb-2">More Content Coming Soon</h3>
-            <p className="text-gray-400 text-sm">
-              Additional library pages will be added here
-            </p>
-          </div>
-        </div>
-
-        {/* Features */}
-        <div className="mt-16 grid gap-8 md:grid-cols-3">
-          <div className="text-center">
-            <div className="p-3 bg-green-100 rounded-full w-12 h-12 mx-auto mb-4 flex items-center justify-center">
-              <BookOpen className="w-6 h-6 text-green-600" />
-            </div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">Wiki-Style Reading</h3>
-            <p className="text-gray-600 text-sm">Clean, distraction-free reading experience with table of contents navigation</p>
-          </div>
-          <div className="text-center">
-            <div className="p-3 bg-blue-100 rounded-full w-12 h-12 mx-auto mb-4 flex items-center justify-center">
-              <ArrowRight className="w-6 h-6 text-blue-600" />
-            </div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">Hidden Edit Controls</h3>
-            <p className="text-gray-600 text-sm">Editing controls accessible via hover, edit mode, or right-click context menu</p>
-          </div>
-          <div className="text-center">
-            <div className="p-3 bg-purple-100 rounded-full w-12 h-12 mx-auto mb-4 flex items-center justify-center">
-              <BookOpen className="w-6 h-6 text-purple-600" />
-            </div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">AI Regeneration</h3>
-            <p className="text-gray-600 text-sm">Regenerate individual components or entire pages using different AI models</p>
-          </div>
+          </a>
         </div>
       </div>
     </div>
