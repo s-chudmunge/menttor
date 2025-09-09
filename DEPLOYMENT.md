@@ -109,10 +109,10 @@ File: `.github/workflows/deploy-backend.yml`
 ## Database Setup
 
 ### PostgreSQL Configuration
-- **Host**: `34.93.60.80`
-- **Port**: `5432`
-- **Database**: `menttor-db`
-- **User**: `admin-db`
+- **Host**: `[CONFIGURED_IN_SECRETS]`
+- **Port**: `[CONFIGURED_IN_SECRETS]` 
+- **Database**: `[CONFIGURED_IN_SECRETS]`
+- **User**: `[CONFIGURED_IN_SECRETS]`
 - **Connection**: Direct IP (not using Cloud SQL Proxy)
 
 ### Auto-Migration System

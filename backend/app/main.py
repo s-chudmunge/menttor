@@ -178,8 +178,7 @@ async def test_database():
                 "status": "success",
                 "message": "Database connection working!",
                 "test_query": data[0],
-                "tables_count": table_count,
-                "connection_url": "postgresql://admin-db:****@34.93.60.80:5432/menttor-db"
+                "tables_count": table_count
             }
             
     except Exception as e:

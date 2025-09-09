@@ -2351,6 +2351,594 @@ TRENDING_ROADMAPS_CONFIG = [
             "time_unit": "weeks",
             "model": "vertexai:gemini-2.5-flash"
         }
+    },
+
+    # ==============================================================================
+    # TRENDING 2025 TECH ROADMAPS - HIGHLY DEMANDED
+    # ==============================================================================
+    
+    # AGENTIC AI DEVELOPMENT
+    {
+        "title": "Agentic AI Development and Multi-Agent Systems",
+        "category": "artificial-intelligence",
+        "subcategory": "agentic-ai",
+        "difficulty": "advanced",
+        "target_audience": "AI engineers and researchers building autonomous AI systems",
+        "estimated_hours": 160,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.8,
+        "prerequisites": ["Machine learning fundamentals", "Python programming", "Deep learning experience"],
+        "learning_outcomes": [
+            "Design and implement autonomous AI agents",
+            "Build multi-agent coordination systems",
+            "Master agent-environment interaction patterns",
+            "Implement reinforcement learning for agent training",
+            "Deploy agentic AI systems in production environments"
+        ],
+        "tags": ["agentic-ai", "multi-agent", "autonomous-systems", "reinforcement-learning", "ai-agents"],
+        "request": {
+            "subject": "Agentic AI Development and Multi-Agent Systems",
+            "goal": "I want to master building autonomous AI agents and multi-agent systems. Teach me agent architectures, decision-making frameworks, multi-agent coordination, reinforcement learning for agents, environment simulation, and deploying agentic AI systems that can act independently to achieve goals.",
+            "time_value": 12,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # POST-QUANTUM CRYPTOGRAPHY
+    {
+        "title": "Post-Quantum Cryptography and Future-Proof Security",
+        "category": "cybersecurity",
+        "subcategory": "post-quantum-crypto",
+        "difficulty": "advanced",
+        "target_audience": "Security engineers and cryptographers preparing for quantum threats",
+        "estimated_hours": 140,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.7,
+        "prerequisites": ["Mathematics background", "Classical cryptography knowledge", "Programming experience"],
+        "learning_outcomes": [
+            "Understand quantum computing threats to current cryptography",
+            "Implement NIST-approved post-quantum algorithms",
+            "Design quantum-resistant security architectures",
+            "Migrate existing systems to post-quantum cryptography",
+            "Evaluate and implement hybrid cryptographic solutions"
+        ],
+        "tags": ["post-quantum", "cryptography", "quantum-resistance", "NIST", "security-migration"],
+        "request": {
+            "subject": "Post-Quantum Cryptography and Future-Proof Security",
+            "goal": "I want to master post-quantum cryptography to protect against future quantum computing threats. Teach me quantum threats to encryption, NIST post-quantum standards, implementing quantum-resistant algorithms, migration strategies, and building future-proof security systems.",
+            "time_value": 10,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # EDGE AI AND TINYML
+    {
+        "title": "Edge AI and TinyML for IoT Devices",
+        "category": "artificial-intelligence",
+        "subcategory": "edge-ai",
+        "difficulty": "intermediate",
+        "target_audience": "Developers building AI solutions for edge devices and IoT",
+        "estimated_hours": 120,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.4,
+        "prerequisites": ["Machine learning basics", "Embedded systems knowledge", "C/C++ or Python"],
+        "learning_outcomes": [
+            "Optimize AI models for resource-constrained devices",
+            "Implement TinyML frameworks and libraries",
+            "Deploy neural networks on microcontrollers",
+            "Handle real-time inference at the edge",
+            "Build complete edge AI applications and systems"
+        ],
+        "tags": ["edge-ai", "tinyml", "iot", "embedded-ml", "model-optimization"],
+        "request": {
+            "subject": "Edge AI and TinyML for IoT Devices",
+            "goal": "I want to master deploying AI on edge devices and IoT systems. Teach me model quantization and optimization, TinyML frameworks, embedded AI deployment, real-time inference, power optimization, and building complete edge AI solutions for resource-constrained environments.",
+            "time_value": 10,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # VECTOR DATABASES AND RAG
+    {
+        "title": "Vector Databases and RAG Systems Architecture",
+        "category": "artificial-intelligence",
+        "subcategory": "vector-databases",
+        "difficulty": "intermediate",
+        "target_audience": "AI engineers building modern RAG and semantic search systems",
+        "estimated_hours": 100,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.5,
+        "prerequisites": ["Python programming", "Basic machine learning", "Database fundamentals"],
+        "learning_outcomes": [
+            "Design and implement vector database architectures",
+            "Build production-ready RAG (Retrieval-Augmented Generation) systems",
+            "Optimize semantic search and similarity matching",
+            "Handle large-scale vector indexing and retrieval",
+            "Deploy scalable RAG applications with LLMs"
+        ],
+        "tags": ["vector-databases", "rag", "semantic-search", "llm", "embeddings"],
+        "request": {
+            "subject": "Vector Databases and RAG Systems Architecture",
+            "goal": "I want to master vector databases and RAG systems for modern AI applications. Teach me vector embeddings, similarity search, database design (Pinecone, Weaviate, Chroma), RAG architectures, retrieval optimization, and building production RAG systems with LLMs.",
+            "time_value": 8,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # AI SAFETY AND ALIGNMENT
+    {
+        "title": "AI Safety and Alignment Engineering",
+        "category": "artificial-intelligence",
+        "subcategory": "ai-safety",
+        "difficulty": "advanced",
+        "target_audience": "AI researchers and engineers focused on responsible AI development",
+        "estimated_hours": 140,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.6,
+        "prerequisites": ["Deep learning experience", "Ethics background", "Research methodology"],
+        "learning_outcomes": [
+            "Understand AI alignment challenges and solutions",
+            "Implement safety measures in AI systems",
+            "Design interpretable and explainable AI models",
+            "Handle AI bias detection and mitigation",
+            "Build governance frameworks for responsible AI"
+        ],
+        "tags": ["ai-safety", "alignment", "responsible-ai", "explainable-ai", "ai-governance"],
+        "request": {
+            "subject": "AI Safety and Alignment Engineering",
+            "goal": "I want to master AI safety and alignment for responsible AI development. Teach me alignment problems, safety measures, interpretability techniques, bias detection, robustness testing, governance frameworks, and building AI systems that are safe, reliable, and beneficial.",
+            "time_value": 12,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # WEB3 AND DECENTRALIZED APPS
+    {
+        "title": "Web3 and Decentralized Application Development",
+        "category": "blockchain",
+        "subcategory": "web3-dapps",
+        "difficulty": "intermediate",
+        "target_audience": "Developers building the next generation of decentralized applications",
+        "estimated_hours": 130,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.3,
+        "prerequisites": ["JavaScript/TypeScript", "Basic blockchain knowledge", "Frontend development"],
+        "learning_outcomes": [
+            "Build complete decentralized applications (DApps)",
+            "Implement Web3 wallet integration and authentication",
+            "Design decentralized storage and IPFS solutions",
+            "Create DAO governance and token economics",
+            "Deploy multi-chain DApps and cross-chain solutions"
+        ],
+        "tags": ["web3", "dapps", "defi", "dao", "ipfs", "multi-chain"],
+        "request": {
+            "subject": "Web3 and Decentralized Application Development",
+            "goal": "I want to master Web3 and decentralized app development. Teach me DApp architecture, wallet integration, IPFS and decentralized storage, smart contract interaction, DAO creation, token economics, cross-chain development, and building complete Web3 ecosystems.",
+            "time_value": 10,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # DIGITAL TWIN DEVELOPMENT
+    {
+        "title": "Digital Twin Development and IoT Integration",
+        "category": "emerging-technology",
+        "subcategory": "digital-twins",
+        "difficulty": "advanced",
+        "target_audience": "Engineers building virtual replicas of physical systems",
+        "estimated_hours": 150,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.4,
+        "prerequisites": ["Programming skills", "IoT knowledge", "3D modeling basics", "Data analysis"],
+        "learning_outcomes": [
+            "Design and implement digital twin architectures",
+            "Integrate real-time IoT data streams",
+            "Build predictive maintenance systems",
+            "Create 3D visualization and simulation environments",
+            "Deploy scalable digital twin platforms"
+        ],
+        "tags": ["digital-twins", "iot", "simulation", "predictive-maintenance", "3d-modeling"],
+        "request": {
+            "subject": "Digital Twin Development and IoT Integration",
+            "goal": "I want to master digital twin technology for creating virtual replicas of physical systems. Teach me digital twin architecture, IoT integration, real-time data synchronization, predictive analytics, 3D visualization, simulation modeling, and building complete digital twin platforms.",
+            "time_value": 12,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # 5G/6G NETWORK PROGRAMMING
+    {
+        "title": "5G/6G Network Programming and Edge Computing",
+        "category": "networking",
+        "subcategory": "next-gen-networks",
+        "difficulty": "advanced",
+        "target_audience": "Network engineers and developers working with next-generation networks",
+        "estimated_hours": 140,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.2,
+        "prerequisites": ["Networking fundamentals", "Programming experience", "Distributed systems"],
+        "learning_outcomes": [
+            "Develop applications leveraging 5G network capabilities",
+            "Implement ultra-low latency communication systems",
+            "Build network slicing and quality-of-service solutions",
+            "Create edge computing and MEC applications",
+            "Design network function virtualization (NFV) solutions"
+        ],
+        "tags": ["5g", "6g", "edge-computing", "network-slicing", "mec", "nfv"],
+        "request": {
+            "subject": "5G/6G Network Programming and Edge Computing",
+            "goal": "I want to master next-generation network programming for 5G and emerging 6G technologies. Teach me 5G architecture, network slicing, edge computing integration, ultra-low latency applications, network function virtualization, and building applications that leverage advanced network capabilities.",
+            "time_value": 10,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # SUSTAINABLE COMPUTING
+    {
+        "title": "Sustainable Computing and Green Software Development",
+        "category": "sustainable-technology",
+        "subcategory": "green-computing",
+        "difficulty": "intermediate",
+        "target_audience": "Developers and engineers building environmentally responsible technology",
+        "estimated_hours": 110,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.1,
+        "prerequisites": ["Programming fundamentals", "System architecture knowledge", "Environmental awareness"],
+        "learning_outcomes": [
+            "Measure and optimize software energy consumption",
+            "Design carbon-efficient algorithms and architectures",
+            "Implement sustainable cloud computing practices",
+            "Build renewable energy-aware applications",
+            "Create environmental impact assessment tools"
+        ],
+        "tags": ["sustainable-computing", "green-software", "carbon-efficiency", "renewable-energy", "environmental-impact"],
+        "request": {
+            "subject": "Sustainable Computing and Green Software Development",
+            "goal": "I want to master sustainable computing and green software development. Teach me energy-efficient programming, carbon footprint measurement, sustainable architecture design, renewable energy integration, green cloud practices, and building environmentally responsible technology solutions.",
+            "time_value": 8,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # NEUROMORPHIC COMPUTING
+    {
+        "title": "Neuromorphic Computing and Brain-Inspired AI",
+        "category": "emerging-technology",
+        "subcategory": "neuromorphic",
+        "difficulty": "advanced",
+        "target_audience": "Researchers and engineers exploring brain-inspired computing architectures",
+        "estimated_hours": 160,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.5,
+        "prerequisites": ["Neuroscience basics", "Machine learning", "Hardware understanding", "Mathematics"],
+        "learning_outcomes": [
+            "Understand neuromorphic computing principles and architectures",
+            "Implement spiking neural networks (SNNs)",
+            "Design energy-efficient brain-inspired algorithms",
+            "Work with neuromorphic hardware platforms",
+            "Build adaptive and learning-based computing systems"
+        ],
+        "tags": ["neuromorphic", "spiking-neural-networks", "brain-inspired", "adaptive-computing", "low-power-ai"],
+        "request": {
+            "subject": "Neuromorphic Computing and Brain-Inspired AI",
+            "goal": "I want to master neuromorphic computing and brain-inspired AI systems. Teach me neuromorphic principles, spiking neural networks, event-driven processing, adaptive algorithms, neuromorphic hardware (Intel Loihi, SpiNNaker), and building ultra-low-power intelligent systems inspired by the brain.",
+            "time_value": 12,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # ==============================================================================
+    # HIGH-DEMAND CROSS-DOMAIN ROADMAPS 2025
+    # ==============================================================================
+
+    # HEALTHCARE & MEDICAL TECHNOLOGY
+    {
+        "title": "Healthcare AI and Medical Technology Development",
+        "category": "healthcare-technology",
+        "subcategory": "medical-ai",
+        "difficulty": "advanced",
+        "target_audience": "Healthcare professionals and technologists building AI-powered medical solutions",
+        "estimated_hours": 160,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.6,
+        "prerequisites": ["Healthcare domain knowledge", "Programming fundamentals", "Basic AI/ML understanding"],
+        "learning_outcomes": [
+            "Develop AI-powered diagnostic and therapeutic systems",
+            "Implement medical imaging and computer vision solutions",
+            "Build electronic health record (EHR) integration systems",
+            "Design clinical decision support systems",
+            "Handle healthcare data privacy and regulatory compliance"
+        ],
+        "tags": ["healthcare-ai", "medical-imaging", "clinical-decision-support", "hipaa", "fda-compliance"],
+        "request": {
+            "subject": "Healthcare AI and Medical Technology Development",
+            "goal": "I want to master AI applications in healthcare and medical technology. Teach me medical AI algorithms, diagnostic imaging, clinical decision support, EHR systems, regulatory compliance (HIPAA, FDA), telemedicine platforms, and building safe, effective healthcare technology solutions.",
+            "time_value": 12,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # TELEMEDICINE AND REMOTE HEALTHCARE
+    {
+        "title": "Telemedicine Platform Development and Remote Patient Monitoring",
+        "category": "healthcare-technology",
+        "subcategory": "telemedicine",
+        "difficulty": "intermediate",
+        "target_audience": "Developers building telehealth and remote patient monitoring solutions",
+        "estimated_hours": 120,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.3,
+        "prerequisites": ["Web development", "Healthcare basics", "Database knowledge"],
+        "learning_outcomes": [
+            "Build secure telemedicine consultation platforms",
+            "Implement remote patient monitoring (RPM) systems",
+            "Design real-time video and communication solutions",
+            "Create patient data dashboards and analytics",
+            "Handle healthcare interoperability standards (HL7, FHIR)"
+        ],
+        "tags": ["telemedicine", "remote-monitoring", "video-conferencing", "hl7-fhir", "patient-analytics"],
+        "request": {
+            "subject": "Telemedicine Platform Development and Remote Patient Monitoring",
+            "goal": "I want to master building telemedicine and remote healthcare solutions. Teach me telehealth platforms, video consultation systems, remote patient monitoring, wearable device integration, healthcare APIs, real-time data processing, and creating comprehensive digital health ecosystems.",
+            "time_value": 10,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # CREATIVE DESIGN & UX/UI
+    {
+        "title": "Advanced UI/UX Design and Design Systems",
+        "category": "design",
+        "subcategory": "ui-ux",
+        "difficulty": "intermediate",
+        "target_audience": "Designers creating modern user experiences and design systems",
+        "estimated_hours": 110,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.4,
+        "prerequisites": ["Basic design principles", "Design tools familiarity", "Understanding of web/mobile"],
+        "learning_outcomes": [
+            "Master modern UI/UX design principles and methodologies",
+            "Build comprehensive design systems and component libraries",
+            "Conduct user research and usability testing",
+            "Create accessible and inclusive design solutions",
+            "Design for emerging platforms (AR/VR, voice interfaces)"
+        ],
+        "tags": ["ui-ux", "design-systems", "user-research", "accessibility", "prototyping"],
+        "request": {
+            "subject": "Advanced UI/UX Design and Design Systems",
+            "goal": "I want to master modern UI/UX design and design systems. Teach me design thinking, user research methods, wireframing and prototyping, design systems creation, accessibility standards, mobile-first design, and using tools like Figma, Adobe XD, and modern design workflows.",
+            "time_value": 8,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # CONTENT CREATION & DIGITAL MARKETING
+    {
+        "title": "Content Creation and Multimedia Production",
+        "category": "creative-technology",
+        "subcategory": "content-creation",
+        "difficulty": "beginner",
+        "target_audience": "Content creators and marketers building multimedia content strategies",
+        "estimated_hours": 100,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.2,
+        "prerequisites": ["Basic computer skills", "Creative mindset", "Communication skills"],
+        "learning_outcomes": [
+            "Master video editing and motion graphics production",
+            "Create engaging social media content across platforms",
+            "Develop podcast and audio content workflows",
+            "Build photography and visual storytelling skills",
+            "Implement content strategy and analytics"
+        ],
+        "tags": ["video-editing", "social-media", "podcasting", "photography", "content-strategy"],
+        "request": {
+            "subject": "Content Creation and Multimedia Production",
+            "goal": "I want to master content creation and multimedia production. Teach me video editing (Premiere Pro, Final Cut), photography, graphic design, social media strategy, podcast production, YouTube optimization, content planning, and building a personal brand through multimedia content.",
+            "time_value": 8,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # DATA ANALYTICS FOR BUSINESS
+    {
+        "title": "Business Intelligence and Advanced Data Analytics",
+        "category": "data-analytics",
+        "subcategory": "business-intelligence",
+        "difficulty": "intermediate",
+        "target_audience": "Business analysts and data professionals driving data-driven decisions",
+        "estimated_hours": 130,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.5,
+        "prerequisites": ["Excel proficiency", "Basic statistics", "SQL knowledge"],
+        "learning_outcomes": [
+            "Build comprehensive business intelligence dashboards",
+            "Master advanced analytics tools (Tableau, Power BI, Looker)",
+            "Implement predictive analytics and forecasting models",
+            "Design data warehouse and ETL pipelines",
+            "Create automated reporting and alerting systems"
+        ],
+        "tags": ["business-intelligence", "tableau", "power-bi", "predictive-analytics", "data-warehousing"],
+        "request": {
+            "subject": "Business Intelligence and Advanced Data Analytics",
+            "goal": "I want to master business intelligence and data analytics for decision-making. Teach me BI tools (Tableau, Power BI), dashboard design, predictive modeling, data warehousing, ETL processes, statistical analysis, KPI development, and creating data-driven business strategies.",
+            "time_value": 10,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # BIOTECHNOLOGY AND BIOINFORMATICS
+    {
+        "title": "Bioinformatics and Computational Biology",
+        "category": "biotechnology",
+        "subcategory": "bioinformatics",
+        "difficulty": "advanced",
+        "target_audience": "Researchers and scientists working with biological data and computational methods",
+        "estimated_hours": 150,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.4,
+        "prerequisites": ["Biology background", "Programming skills", "Statistics knowledge"],
+        "learning_outcomes": [
+            "Analyze genomic and proteomic data using computational tools",
+            "Implement sequence alignment and phylogenetic analysis",
+            "Build machine learning models for biological predictions",
+            "Work with biological databases and APIs",
+            "Develop bioinformatics pipelines and workflows"
+        ],
+        "tags": ["bioinformatics", "genomics", "proteomics", "sequence-analysis", "computational-biology"],
+        "request": {
+            "subject": "Bioinformatics and Computational Biology",
+            "goal": "I want to master bioinformatics and computational biology. Teach me genomic data analysis, sequence alignment, phylogenetics, protein structure prediction, biological databases (NCBI, Ensembl), Python/R for bioinformatics, machine learning in biology, and building computational pipelines for biological research.",
+            "time_value": 12,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # FINTECH AND DIGITAL FINANCE
+    {
+        "title": "FinTech Development and Digital Banking Solutions",
+        "category": "fintech",
+        "subcategory": "digital-banking",
+        "difficulty": "intermediate",
+        "target_audience": "Developers and financial professionals building modern financial technology",
+        "estimated_hours": 140,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.3,
+        "prerequisites": ["Programming skills", "Finance basics", "API development knowledge"],
+        "learning_outcomes": [
+            "Build secure payment processing and digital wallet systems",
+            "Implement regulatory compliance (PCI DSS, PSD2, GDPR)",
+            "Create robo-advisors and algorithmic trading platforms",
+            "Design peer-to-peer lending and crowdfunding solutions",
+            "Develop cryptocurrency and DeFi integrations"
+        ],
+        "tags": ["fintech", "digital-payments", "robo-advisors", "regulatory-compliance", "defi"],
+        "request": {
+            "subject": "FinTech Development and Digital Banking Solutions",
+            "goal": "I want to master FinTech development and digital banking solutions. Teach me payment processing, digital wallets, regulatory compliance, robo-advisors, algorithmic trading, lending platforms, cryptocurrency integration, and building secure, scalable financial technology products.",
+            "time_value": 10,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # RENEWABLE ENERGY AND SMART GRID
+    {
+        "title": "Smart Grid Technology and Renewable Energy Systems",
+        "category": "energy-technology",
+        "subcategory": "smart-grid",
+        "difficulty": "advanced",
+        "target_audience": "Engineers working on sustainable energy and smart grid technologies",
+        "estimated_hours": 160,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.2,
+        "prerequisites": ["Engineering background", "Programming skills", "Understanding of electrical systems"],
+        "learning_outcomes": [
+            "Design smart grid infrastructure and communication systems",
+            "Implement renewable energy integration and storage solutions",
+            "Build energy management and optimization algorithms",
+            "Create IoT-based energy monitoring systems",
+            "Develop predictive maintenance for energy infrastructure"
+        ],
+        "tags": ["smart-grid", "renewable-energy", "energy-storage", "iot-energy", "grid-optimization"],
+        "request": {
+            "subject": "Smart Grid Technology and Renewable Energy Systems",
+            "goal": "I want to master smart grid and renewable energy technologies. Teach me smart grid architecture, renewable energy integration, energy storage systems, grid optimization algorithms, IoT for energy monitoring, demand response systems, and building sustainable energy solutions.",
+            "time_value": 12,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # SPACE TECHNOLOGY AND AEROSPACE
+    {
+        "title": "Space Technology and Satellite Systems Development",
+        "category": "aerospace-technology",
+        "subcategory": "space-systems",
+        "difficulty": "advanced",
+        "target_audience": "Engineers and researchers working on space and satellite technologies",
+        "estimated_hours": 170,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.1,
+        "prerequisites": ["Engineering background", "Physics knowledge", "Programming skills"],
+        "learning_outcomes": [
+            "Design satellite systems and orbital mechanics solutions",
+            "Implement space communication and navigation systems",
+            "Build ground station software and mission control systems",
+            "Create space data processing and analysis pipelines",
+            "Develop CubeSat and small satellite technologies"
+        ],
+        "tags": ["satellite-systems", "orbital-mechanics", "space-communication", "cubesat", "mission-control"],
+        "request": {
+            "subject": "Space Technology and Satellite Systems Development",
+            "goal": "I want to master space technology and satellite systems. Teach me satellite design, orbital mechanics, space communications, ground station operations, mission planning, CubeSat development, space data analysis, and building systems for space exploration and Earth observation.",
+            "time_value": 14,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # ADVANCED ROBOTICS AND AUTOMATION
+    {
+        "title": "Advanced Robotics and Industrial Automation",
+        "category": "robotics",
+        "subcategory": "industrial-automation",
+        "difficulty": "advanced",
+        "target_audience": "Engineers building robotic systems and automation solutions",
+        "estimated_hours": 150,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.4,
+        "prerequisites": ["Engineering background", "Programming skills", "Control systems knowledge"],
+        "learning_outcomes": [
+            "Design and implement autonomous robotic systems",
+            "Build computer vision and sensor fusion solutions",
+            "Create motion planning and control algorithms",
+            "Implement human-robot interaction interfaces",
+            "Develop industrial automation and manufacturing systems"
+        ],
+        "tags": ["robotics", "computer-vision", "motion-planning", "industrial-automation", "sensor-fusion"],
+        "request": {
+            "subject": "Advanced Robotics and Industrial Automation",
+            "goal": "I want to master advanced robotics and automation systems. Teach me robotic control systems, computer vision, motion planning, sensor fusion, ROS (Robot Operating System), industrial automation, collaborative robots, and building autonomous systems for manufacturing and service applications.",
+            "time_value": 12,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
     }
 ]
 
