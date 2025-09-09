@@ -73,6 +73,8 @@ jobs:
 
     - name: Deploy to Cloud Run
       run: |
+        # Deploy to Cloud Run with environment variables
+        # Note: POSTGRES_PORT defaults to 5432 if secret is empty (fixed deployment issue 2025-09-09)
         gcloud run deploy ${{ env.SERVICE_NAME }} \
           --image ${{ env.REGISTRY_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.SERVICE_NAME }}:${{ github.sha }} \
           --region ${{ env.REGION }} \
