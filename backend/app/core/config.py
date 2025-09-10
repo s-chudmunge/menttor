@@ -70,9 +70,16 @@ class Settings(BaseSettings):
             logger.info(f"Using DATABASE_URL: {self.DATABASE_URL[:50]}...")
             return self.DATABASE_URL
         
-        # Otherwise, construct from individual components (for development)
-        url = f"postgresql+psycopg2://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}@{self.POSTGRES_HOST}:{self.POSTGRES_PORT}/{self.POSTGRES_DB}"
-        logger.info(f"Constructed database URL from components - Host: {self.POSTGRES_HOST}, User: {self.POSTGRES_USER}, DB: {self.POSTGRES_DB}")
+        # Check if using Cloud SQL Unix socket (starts with /cloudsql/)
+        if self.POSTGRES_HOST.startswith("/cloudsql/"):
+            # For Unix socket connections, use query parameter format
+            url = f"postgresql+psycopg2://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}@/{self.POSTGRES_DB}?host={self.POSTGRES_HOST}"
+            logger.info(f"Using Cloud SQL Unix socket connection - Socket: {self.POSTGRES_HOST}, DB: {self.POSTGRES_DB}")
+        else:
+            # Standard TCP connection for development/other environments
+            url = f"postgresql+psycopg2://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}@{self.POSTGRES_HOST}:{self.POSTGRES_PORT}/{self.POSTGRES_DB}"
+            logger.info(f"Using TCP connection - Host: {self.POSTGRES_HOST}:{self.POSTGRES_PORT}, DB: {self.POSTGRES_DB}")
+        
         return url
 
     class Config:
