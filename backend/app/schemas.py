@@ -439,7 +439,7 @@ class CuratedRoadmapSearchRequest(SQLModel):
     
     # Pagination
     page: int = 1
-    per_page: int = 12
+    per_page: int = 200  # Show all roadmaps by default
     
     # Sorting
     sort_by: str = "popularity"  # popularity, rating, recent, alphabetical
