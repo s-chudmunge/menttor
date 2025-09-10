@@ -8,47 +8,25 @@ from core.config import settings
 logger = logging.getLogger(__name__)
 
 def create_database_engine():
-    """Create database engine with Cloud SQL support"""
-    # Check if we should use Cloud SQL Auth Proxy
-    use_cloud_sql = os.getenv('USE_CLOUD_SQL_AUTH_PROXY', 'false').lower() == 'true'
-    
-    logger.info(f"Database configuration - USE_CLOUD_SQL_AUTH_PROXY: {use_cloud_sql}")
-    logger.info(f"Database URL pattern: {settings.get_database_url()[:50]}...")
-    
-    if use_cloud_sql:
-        try:
-            from database.cloud_sql import cloud_sql_connector
-            logger.info("Attempting Google Cloud SQL Auth Proxy connection")
-            return cloud_sql_connector.create_cloud_sql_engine()
-        except ImportError as e:
-            logger.error(f"Cloud SQL dependencies not available: {e}")
-            logger.info("Falling back to direct connection")
-        except Exception as e:
-            logger.error(f"Failed to create Cloud SQL connection: {e}")
-            logger.info("Falling back to direct connection")
-    
-    # Direct connection (fallback or default)
-    logger.info("Using direct database connection")
+    """Create database engine with direct connection"""
+    logger.info("Creating direct database connection")
     db_url = settings.get_database_url()
-    logger.info(f"Direct connection URL: {db_url}")
+    logger.info(f"Database URL: {db_url[:50]}...")
     
     return create_engine(
         db_url,
         echo=settings.DATABASE_ECHO,
-        # Optimized pool settings for production load
-        pool_size=15,  # Increased to handle concurrent requests
-        max_overflow=20,  # Increased overflow for peak load - max total 35 connections
-        pool_recycle=1800,  # 30 minutes - more aggressive recycling
+        # Optimized pool settings for production
+        pool_size=10,  # Reasonable pool size
+        max_overflow=15,  # Max total 25 connections
+        pool_recycle=1800,  # 30 minutes - recycle connections
         pool_pre_ping=True,  # Verify connections before use
-        pool_timeout=20,  # Reduced timeout to fail faster
-        # Use QueuePool which is most efficient for connection reuse
-        poolclass=None,  # Default QueuePool
-        # Additional optimization settings
+        pool_timeout=20,  # Connection timeout
         connect_args={
-            "connect_timeout": 20,  # Reduced connect timeout
+            "connect_timeout": 20,  # Connection timeout
             "application_name": "menttorlabs_backend",
-            # Compression and performance settings
-            "options": "-c statement_timeout=30000 -c idle_in_transaction_session_timeout=300000"  # 30s query, 5min idle timeout
+            # PostgreSQL performance settings
+            "options": "-c statement_timeout=30000 -c idle_in_transaction_session_timeout=300000"
         }
     )
 

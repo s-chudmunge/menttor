@@ -87,6 +87,3 @@ websockets==12.0
 firebase-admin==6.5.0
 instructor
 Pillow
-google-cloud-sql-connector
-asyncpg
-pg8000
