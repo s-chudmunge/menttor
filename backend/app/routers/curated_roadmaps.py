@@ -3072,6 +3072,47 @@ def get_admin_status(db: Session = Depends(get_db)):
         "roadmaps": generated_status
     }
 
+@router.get("/admin/all-roadmaps")
+def get_all_roadmaps_admin(db: Session = Depends(get_db)):
+    """Get ALL roadmaps in database for admin view"""
+    
+    # Get all roadmaps with basic info for admin
+    query = select(
+        CuratedRoadmap.id,
+        CuratedRoadmap.title,
+        CuratedRoadmap.category,
+        CuratedRoadmap.subcategory,
+        CuratedRoadmap.difficulty,
+        CuratedRoadmap.is_featured,
+        CuratedRoadmap.is_verified,
+        CuratedRoadmap.view_count,
+        CuratedRoadmap.adoption_count,
+        CuratedRoadmap.average_rating,
+        CuratedRoadmap.created_at
+    ).order_by(desc(CuratedRoadmap.created_at))
+    
+    roadmaps = db.exec(query).all()
+    
+    return {
+        "total_roadmaps": len(roadmaps),
+        "roadmaps": [
+            {
+                "id": rm.id,
+                "title": rm.title,
+                "category": rm.category,
+                "subcategory": rm.subcategory,
+                "difficulty": rm.difficulty,
+                "is_featured": rm.is_featured,
+                "is_verified": rm.is_verified,
+                "view_count": rm.view_count,
+                "adoption_count": rm.adoption_count,
+                "average_rating": rm.average_rating,
+                "created_at": rm.created_at
+            }
+            for rm in roadmaps
+        ]
+    }
+
 @router.delete("/admin/clear-all")
 def clear_all_curated_roadmaps(db: Session = Depends(get_db)):
     """Delete ALL curated roadmaps from database - DANGER ZONE"""
