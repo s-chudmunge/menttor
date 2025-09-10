@@ -85,9 +85,8 @@ jobs:
           --memory=2Gi \
           --cpu=1 \
           --timeout=300 \
-          --set-env-vars="GOOGLE_CLOUD_PROJECT_ID=${{ env.PROJECT_ID }},USE_CLOUD_SQL_AUTH_PROXY=true,ENVIRONMENT=production,DATABASE_ECHO=false,POSTGRES_PORT=5432,VERTEX_AI_PROJECT_ID=${{ env.PROJECT_ID }},VERTEX_AI_REGION=us-central1,VERTEX_AI_MODEL_ID=gemini-2.5-flash-lite,FIREBASE_PROJECT_ID=${{ env.PROJECT_ID }}" \
-          --add-cloudsql-instances="${{ env.PROJECT_ID }}:${{ env.REGION }}:menttor-db-instance" \
-          --set-secrets="POSTGRES_USER=postgres-user:latest,POSTGRES_PASSWORD=postgres-password:latest,POSTGRES_DB=postgres-db:latest,POSTGRES_HOST=postgres-host:latest,CLOUD_SQL_INSTANCE_NAME=cloud-sql-instance-name:latest,CLOUD_SQL_REGION=cloud-sql-region:latest,GOOGLE_APPLICATION_CREDENTIALS_JSON=google-application-credentials-json:latest,FIREBASE_CLIENT_EMAIL=firebase-client-email:latest,FIREBASE_CLIENT_ID=firebase-client-id:latest,GOOGLE_CLIENT_ID=google-client-id:latest,GOOGLE_CLIENT_SECRET=google-client-secret:latest,REDIS_URL=redis-url:latest,OPENROUTER_API_KEY=openrouter-api-key:latest,HUGGINGFACE_HUB_TOKEN=huggingface-hub-token:latest,SECRET_KEY=secret-key:latest,REFRESH_SECRET_KEY=refresh-secret-key:latest,FIREBASE_CREDENTIALS=firebase-service-account:latest"
+          --set-env-vars="GOOGLE_CLOUD_PROJECT_ID=${{ env.PROJECT_ID }},ENVIRONMENT=production,DATABASE_ECHO=false,POSTGRES_PORT=5432,VERTEX_AI_PROJECT_ID=${{ env.PROJECT_ID }},VERTEX_AI_REGION=us-central1,VERTEX_AI_MODEL_ID=gemini-2.5-flash-lite,FIREBASE_PROJECT_ID=${{ env.PROJECT_ID }}" \
+          --set-secrets="POSTGRES_USER=postgres-user:latest,POSTGRES_PASSWORD=postgres-password:latest,POSTGRES_DB=postgres-db:latest,POSTGRES_HOST=postgres-host:latest,FIREBASE_CLIENT_EMAIL=firebase-client-email:latest,FIREBASE_CLIENT_ID=firebase-client-id:latest,GOOGLE_CLIENT_ID=google-client-id:latest,GOOGLE_CLIENT_SECRET=google-client-secret:latest,REDIS_URL=redis-url:latest,OPENROUTER_API_KEY=openrouter-api-key:latest,HUGGINGFACE_HUB_TOKEN=huggingface-hub-token:latest,SECRET_KEY=secret-key:latest,REFRESH_SECRET_KEY=refresh-secret-key:latest,FIREBASE_CREDENTIALS=firebase-service-account:latest"
 
     - name: Verify deployment
       run: |
