@@ -58,6 +58,9 @@ const LibraryContentRenderer: React.FC<Props> = ({ content, subject, subtopic, e
       );
 
       if (!response.ok) {
+        if (response.status === 404) {
+          throw new Error(`Library endpoints not available on backend. Please ensure the backend includes library functionality.`);
+        }
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
@@ -69,8 +72,13 @@ const LibraryContentRenderer: React.FC<Props> = ({ content, subject, subtopic, e
       
     } catch (error) {
       console.error('Failed to regenerate component:', error);
-      // Show user-friendly error message
-      alert('Failed to regenerate component. Please try again.');
+      
+      // Show more specific error message based on error type
+      const errorMessage = error instanceof Error && error.message.includes('Library endpoints not available')
+        ? 'Library regeneration is currently unavailable. The backend needs to be updated with library functionality.'
+        : 'Failed to regenerate component. Please try again later.';
+      
+      alert(errorMessage);
     } finally {
       setRegeneratingIndex(null);
     }
@@ -93,6 +101,9 @@ const LibraryContentRenderer: React.FC<Props> = ({ content, subject, subtopic, e
       );
 
       if (!response.ok) {
+        if (response.status === 404) {
+          throw new Error(`Library endpoints not available on backend. Please ensure the backend includes library functionality.`);
+        }
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
@@ -104,8 +115,13 @@ const LibraryContentRenderer: React.FC<Props> = ({ content, subject, subtopic, e
       
     } catch (error) {
       console.error('Failed to regenerate page:', error);
-      // Show user-friendly error message
-      alert('Failed to regenerate page. Please try again.');
+      
+      // Show more specific error message based on error type
+      const errorMessage = error instanceof Error && error.message.includes('Library endpoints not available')
+        ? 'Library regeneration is currently unavailable. The backend needs to be updated with library functionality.'
+        : 'Failed to regenerate page. Please try again later.';
+      
+      alert(errorMessage);
     } finally {
       setRegeneratingPage(false);
     }

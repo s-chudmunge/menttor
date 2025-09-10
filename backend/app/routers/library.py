@@ -13,8 +13,22 @@ from services.ai_service import LearningContentResponse
 router = APIRouter(prefix="/library", tags=["library"])
 logger = logging.getLogger(__name__)
 
-# Path to the frontend content directory
-CONTENT_DIR = Path(__file__).parent.parent.parent.parent / "frontend" / "src" / "content"
+# Path to the content directory - check multiple possible locations
+CONTENT_DIR = None
+for possible_path in [
+    Path(__file__).parent.parent.parent.parent / "frontend" / "src" / "content",  # Development
+    Path(__file__).parent.parent.parent / "content",  # Backend deployment
+    Path(__file__).parent.parent / "content",  # Alternative deployment
+    Path("/app/content"),  # Docker deployment
+]:
+    if possible_path.exists():
+        CONTENT_DIR = possible_path
+        break
+
+if CONTENT_DIR is None:
+    # Fallback to a default location and create it
+    CONTENT_DIR = Path(__file__).parent.parent / "content"
+    CONTENT_DIR.mkdir(parents=True, exist_ok=True)
 
 class RegenerateComponentRequest(BaseModel):
     component_index: int
