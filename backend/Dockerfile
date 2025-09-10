@@ -15,14 +15,8 @@ RUN apt-get update && apt-get install -y \
 # Copy requirements and install Python dependencies
 COPY requirements.prod.txt ./requirements.txt
 
-# Install psycopg2-binary FIRST to prevent conflicts
-RUN pip install --no-cache-dir psycopg2-binary==2.9.7
-
-# Install remaining dependencies while forcing psycopg2 usage
-ENV PIP_NO_BUILD_ISOLATION=1
-RUN pip install --no-cache-dir -r requirements.txt && \
-    pip uninstall -y psycopg psycopg[binary] psycopg3 || true && \
-    pip list | grep psycopg
+# Install all dependencies in one step
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy application code
 COPY app/ ./
