@@ -73,7 +73,8 @@ jobs:
 
     - name: Deploy to Cloud Run
       run: |
-        # Deploy to Cloud Run with environment variables
+        # Deploy to Cloud Run with direct database connection (no Cloud SQL Auth Proxy)
+        # POSTGRES_HOST now uses direct IP address for simplified connectivity
         # Note: POSTGRES_PORT defaults to 5432 if secret is empty (fixed deployment issue 2025-09-09)
         # All sensitive data now securely managed via Google Secret Manager for production security
         gcloud run deploy ${{ env.SERVICE_NAME }} \
