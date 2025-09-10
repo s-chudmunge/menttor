@@ -551,10 +551,10 @@ export default function AdminCuratedRoadmaps() {
         )}
 
         {/* Roadmaps List */}
-        {trendingList && adminStatus && (
+        {adminStatus && (
           <div className="bg-white rounded-lg shadow-sm p-6">
             <div className="flex justify-between items-center mb-6">
-              <h2 className="text-xl font-semibold text-gray-900">Trending Roadmaps</h2>
+              <h2 className="text-xl font-semibold text-gray-900">All Available Roadmaps</h2>
               <div className="flex gap-2">
                 <button
                   onClick={selectAllGenerated}
@@ -580,19 +580,15 @@ export default function AdminCuratedRoadmaps() {
               </div>
             </div>
             <div className="space-y-4">
-              {trendingList.roadmaps.map((roadmap, displayIndex) => {
-                // Find matching roadmap in admin status by comparing title and category
-                const matchingAdminRoadmap = adminStatus.roadmaps.find(r => 
-                  r.title === roadmap.title && r.category === roadmap.category
-                )
-                const roadmapIndex = matchingAdminRoadmap?.index || displayIndex
-                const isGenerated = matchingAdminRoadmap?.generated || false
+              {adminStatus.roadmaps.map((roadmapStatus, displayIndex) => {
+                const roadmapIndex = roadmapStatus.index
+                const isGenerated = roadmapStatus.generated
                 const isGenerating = generating === roadmapIndex
                 const isSelected = selectedRoadmaps.has(roadmapIndex)
 
                 return (
                   <div
-                    key={roadmap.id || displayIndex}
+                    key={roadmapStatus.index}
                     className={`border rounded-lg p-6 ${isGenerated 
                       ? isSelected 
                         ? 'border-red-300 bg-red-50' 
@@ -617,7 +613,7 @@ export default function AdminCuratedRoadmaps() {
                               <span className="bg-gray-100 text-gray-800 px-2 py-1 rounded text-sm font-medium">
                                 #{roadmapIndex}
                               </span>
-                              {isGenerated && (
+                              {isGenerated ? (
                                 <span className={`px-2 py-1 rounded text-sm font-medium ${
                                   isSelected 
                                     ? 'bg-red-100 text-red-800' 
@@ -625,30 +621,28 @@ export default function AdminCuratedRoadmaps() {
                                 }`}>
                                   {isSelected ? '🗑️ Selected for deletion' : '✅ Generated'}
                                 </span>
+                              ) : (
+                                <span className="bg-orange-100 text-orange-800 px-2 py-1 rounded text-sm font-medium">
+                                  🔄 Not Generated
+                                </span>
                               )}
                             </div>
                             
                             <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                              {roadmap.title}
+                              {roadmapStatus.title}
                             </h3>
                             
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-600">
                               <div>
-                                <span className="font-medium">Category:</span> {roadmap.category}
-                                {roadmap.subcategory && ` › ${roadmap.subcategory}`}
+                                <span className="font-medium">Category:</span> {roadmapStatus.category}
                               </div>
                               <div>
-                                <span className="font-medium">Difficulty:</span> {roadmap.difficulty}
+                                <span className="font-medium">Difficulty:</span> Available in template
                               </div>
-                              {roadmap.estimated_hours && (
-                                <div>
-                                  <span className="font-medium">Estimated:</span> {roadmap.estimated_hours} hours
-                                </div>
-                              )}
                             </div>
                             
                             <p className="text-gray-600 mt-2">
-                              <span className="font-medium">Description:</span> {roadmap.description}
+                              <span className="font-medium">Status:</span> {isGenerated ? 'Generated and available in database' : 'Available for generation from template'}
                             </p>
                           </div>
                         </div>
