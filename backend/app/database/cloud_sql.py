@@ -68,7 +68,7 @@ class CloudSQLConnector:
         
         # For Cloud SQL Proxy, we use a special connection string
         # The connector will handle the authentication and proxy setup
-        return f"postgresql+psycopg://{db_user}:{db_password}@/{db_name}?host=/cloudsql/{connection_name}"
+        return f"postgresql+psycopg2://{db_user}:{db_password}@/{db_name}?host=/cloudsql/{connection_name}"
     
     def create_cloud_sql_engine(self) -> Engine:
         """Create SQLAlchemy engine with Cloud SQL Auth Proxy"""

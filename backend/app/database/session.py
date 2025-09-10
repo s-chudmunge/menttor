@@ -12,10 +12,13 @@ def create_database_engine():
     # Check if we should use Cloud SQL Auth Proxy
     use_cloud_sql = os.getenv('USE_CLOUD_SQL_AUTH_PROXY', 'false').lower() == 'true'
     
+    logger.info(f"Database configuration - USE_CLOUD_SQL_AUTH_PROXY: {use_cloud_sql}")
+    logger.info(f"Database URL pattern: {settings.get_database_url()[:50]}...")
+    
     if use_cloud_sql:
         try:
             from database.cloud_sql import cloud_sql_connector
-            logger.info("Using Google Cloud SQL Auth Proxy connection")
+            logger.info("Attempting Google Cloud SQL Auth Proxy connection")
             return cloud_sql_connector.create_cloud_sql_engine()
         except ImportError as e:
             logger.error(f"Cloud SQL dependencies not available: {e}")
@@ -26,8 +29,11 @@ def create_database_engine():
     
     # Direct connection (fallback or default)
     logger.info("Using direct database connection")
+    db_url = settings.get_database_url()
+    logger.info(f"Direct connection URL: {db_url}")
+    
     return create_engine(
-        settings.get_database_url(),
+        db_url,
         echo=settings.DATABASE_ECHO,
         # Optimized pool settings for production load
         pool_size=15,  # Increased to handle concurrent requests
@@ -46,8 +52,14 @@ def create_database_engine():
         }
     )
 
-# Create the engine
+# Create the engine - recreate on each import to pick up new environment variables
 engine = create_database_engine()
+
+def get_fresh_engine():
+    """Get a fresh engine with current environment variables"""
+    global engine
+    engine = create_database_engine()
+    return engine
 
 def create_db_and_tables():
     """Create database tables with connection monitoring"""

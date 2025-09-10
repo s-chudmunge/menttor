@@ -65,11 +65,18 @@ class Settings(BaseSettings):
         return [origin.strip() for origin in self.CORS_ALLOWED_ORIGINS.split(",")]
 
     def get_database_url(self) -> str:
+        import logging
+        logger = logging.getLogger(__name__)
+        
         # If DATABASE_URL is provided (for production), use it directly
         if self.DATABASE_URL:
+            logger.info(f"Using DATABASE_URL: {self.DATABASE_URL[:50]}...")
             return self.DATABASE_URL
+        
         # Otherwise, construct from individual components (for development)
-        return f"postgresql+psycopg2://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}@{self.POSTGRES_HOST}:{self.POSTGRES_PORT}/{self.POSTGRES_DB}"
+        url = f"postgresql+psycopg2://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}@{self.POSTGRES_HOST}:{self.POSTGRES_PORT}/{self.POSTGRES_DB}"
+        logger.info(f"Constructed database URL from components - Host: {self.POSTGRES_HOST}, User: {self.POSTGRES_USER}, DB: {self.POSTGRES_DB}")
+        return url
 
     class Config:
         env_file = ".env"

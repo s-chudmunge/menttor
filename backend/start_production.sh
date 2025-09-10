@@ -5,11 +5,11 @@
 echo "🚀 Starting Menttor Backend - Production Mode..."
 echo "🛡️ CI/CD Safe: All existing user data will be preserved"
 
-# Use direct connection (more reliable than Auth Proxy for now)
-export USE_CLOUD_SQL_AUTH_PROXY=false
+# Use Cloud SQL Auth Proxy if configured in environment
+# Don't override USE_CLOUD_SQL_AUTH_PROXY - respect the environment variable
 export PYTHONPATH=/app
 
-echo "🔍 Production startup - direct database connection"
+echo "🔍 Production startup - USE_CLOUD_SQL_AUTH_PROXY: ${USE_CLOUD_SQL_AUTH_PROXY:-false}"
 echo "POSTGRES_USER: $POSTGRES_USER"
 echo "POSTGRES_DB: $POSTGRES_DB"
 
