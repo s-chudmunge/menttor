@@ -2991,7 +2991,7 @@ async def generate_curated_roadmap(
         )
     
     try:
-        logger.info(f"🎯 Admin {admin} generating: {config['title']}")
+        logger.info(f"🎯 Admin generating: {config['title']}")
         
         # Create AI request
         request = RoadmapCreateRequest(**config['request'])
@@ -3256,7 +3256,7 @@ def delete_single_curated_roadmap(
         db.delete(roadmap)
         db.commit()
         
-        logger.info(f"🗑️ Admin {admin} deleted roadmap: {roadmap_title} (ID: {roadmap_id})")
+        logger.info(f"🗑️ Admin deleted roadmap: {roadmap_title} (ID: {roadmap_id})")
         
         return {
             "success": True,
