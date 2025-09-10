@@ -212,7 +212,8 @@ const LibraryContentRenderer: React.FC<Props> = ({ content, subject, subtopic, e
             data={block.data} 
             subject={subject} 
             subtopic={subtopic} 
-            allowAIGeneration={false} 
+            allowAIGeneration={false}
+            isLibraryPage={true}
           />
         );
         break;

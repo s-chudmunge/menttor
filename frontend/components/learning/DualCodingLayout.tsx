@@ -13,9 +13,10 @@ interface Props {
   subject?: string;
   subtopic?: string;
   allowAIGeneration?: boolean;
+  isLibraryPage?: boolean;
 }
 
-const DualCodingLayout: React.FC<Props> = ({ data, subject, subtopic, allowAIGeneration = true }) => {
+const DualCodingLayout: React.FC<Props> = ({ data, subject, subtopic, allowAIGeneration = true, isLibraryPage = false }) => {
   const flexDirection = data.position === 'left' ? 'lg:flex-row-reverse' : 'lg:flex-row';
   
   // Extract main concept from text without subject-specific rules
@@ -38,6 +39,19 @@ const DualCodingLayout: React.FC<Props> = ({ data, subject, subtopic, allowAIGen
   const hasValidImage = data.visual_url && data.visual_url.trim() !== '';
 
   const renderVisualization = () => {
+    // For library pages, don't show images or AI generation
+    if (isLibraryPage) {
+      return (
+        <div className="flex items-center justify-center bg-gray-100 border border-gray-200 rounded-lg p-8 w-full h-48">
+          <div className="text-center text-gray-500">
+            <div className="text-2xl mb-2">📚</div>
+            <p className="text-sm">Text-based content</p>
+            <p className="text-xs text-gray-400">Library pages focus on text content</p>
+          </div>
+        </div>
+      );
+    }
+
     // If there's a valid image URL, use it first
     if (hasValidImage) {
       return (
