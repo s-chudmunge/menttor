@@ -105,17 +105,19 @@ async def regenerate_component(request: RegenerateComponentRequest):
         
         # Find a matching component type from the generated content
         generated_content = result["response"].content
+        # Convert Pydantic models to dictionaries for JSON serialization
+        generated_content_dict = [component.model_dump() if hasattr(component, 'model_dump') else component for component in generated_content]
         new_component = None
         
         # Try to find a component of the same type
-        for component in generated_content:
+        for component in generated_content_dict:
             if component["type"] == block_type:
                 new_component = component
                 break
         
         # If no matching type found, regenerate the entire content and use the component at the same index
-        if new_component is None and request.component_index < len(generated_content):
-            new_component = generated_content[request.component_index]
+        if new_component is None and request.component_index < len(generated_content_dict):
+            new_component = generated_content_dict[request.component_index]
         
         # If still no component, create a default based on the original type
         if new_component is None:
@@ -179,7 +181,9 @@ async def regenerate_page(request: RegeneratePageRequest):
         )
         
         # Update the content while preserving metadata structure
-        content_data["content"] = result["response"].content
+        # Convert Pydantic models to dictionaries for JSON serialization
+        new_content = result["response"].content
+        content_data["content"] = [component.model_dump() if hasattr(component, 'model_dump') else component for component in new_content]
         content_data["lastUpdated"] = "2025-01-09T" + __import__('datetime').datetime.now().strftime("%H:%M:%S") + "Z"
         
         # Save the updated content
