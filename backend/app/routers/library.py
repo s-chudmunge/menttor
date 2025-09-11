@@ -1,103 +1,114 @@
-from fastapi import APIRouter, HTTPException, status
+from fastapi import APIRouter, HTTPException, status, Depends
 from pydantic import BaseModel
 from typing import Any, Dict, List, Optional
 import json
 import os
 import logging
 from pathlib import Path
+from datetime import datetime
+from sqlmodel import Session, select
 
 from schemas import LearningContentRequest
 from services.ai_service import ai_executor
 from services.ai_service import LearningContentResponse
+from sql_models import LibraryContent
+from database.session import get_db
 
 router = APIRouter(prefix="/library", tags=["library"])
 logger = logging.getLogger(__name__)
 
-# Path to the content directory - prioritize repo backend/content for persistence
-CONTENT_DIR = None
-for possible_path in [
-    Path(__file__).parent.parent.parent / "content",  # Backend repo content (preferred for persistence)
-    Path(__file__).parent.parent / "content",  # Alternative backend location
-    Path(__file__).parent.parent.parent.parent / "frontend" / "src" / "content",  # Frontend development
-    Path("/app/content"),  # Docker runtime (ephemeral)
-]:
-    if possible_path.exists():
-        CONTENT_DIR = possible_path
-        break
-
-if CONTENT_DIR is None:
-    # Create in backend repo directory for persistence
-    CONTENT_DIR = Path(__file__).parent.parent.parent / "content"
-    CONTENT_DIR.mkdir(parents=True, exist_ok=True)
-
 class RegeneratePageRequest(BaseModel):
     model: str
 
-def load_content_file(filename: str) -> Dict[str, Any]:
-    """Load content from JSON file"""
-    filepath = CONTENT_DIR / f"{filename}.json"
+def load_content_from_db(slug: str, db: Session) -> Dict[str, Any]:
+    """Load content from database"""
     try:
-        with open(filepath, 'r', encoding='utf-8') as f:
-            return json.load(f)
-    except FileNotFoundError:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Content file {filename}.json not found"
+        statement = select(LibraryContent).where(
+            LibraryContent.slug == slug,
+            LibraryContent.is_active == True
         )
+        content_record = db.exec(statement).first()
+        
+        if not content_record:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"Content for slug '{slug}' not found"
+            )
+        
+        # Convert database record to response format
+        content_data = {
+            "title": content_record.title,
+            "subject": content_record.subject,
+            "goal": content_record.goal,
+            "lastUpdated": content_record.last_updated.isoformat() + "Z",
+            "content": json.loads(content_record.content_json),
+        }
+        
+        # Add resources if they exist
+        if content_record.resources_json:
+            content_data["resources"] = json.loads(content_record.resources_json)
+        
+        return content_data
+        
     except json.JSONDecodeError:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Invalid JSON in content file {filename}.json"
+            detail=f"Invalid JSON stored for slug '{slug}'"
         )
 
-def save_content_file(filename: str, content: Dict[str, Any]) -> None:
-    """Save content to JSON file and commit to git"""
-    filepath = CONTENT_DIR / f"{filename}.json"
+def save_content_to_db(slug: str, content: Dict[str, Any], db: Session) -> None:
+    """Save content to database"""
     try:
-        # Ensure directory exists
-        filepath.parent.mkdir(parents=True, exist_ok=True)
+        # Check if content already exists
+        statement = select(LibraryContent).where(LibraryContent.slug == slug)
+        existing_content = db.exec(statement).first()
         
-        with open(filepath, 'w', encoding='utf-8') as f:
-            json.dump(content, f, indent=2, ensure_ascii=False)
+        # Prepare JSON strings
+        content_json = json.dumps(content.get("content", []))
+        resources_json = None
+        if content.get("resources"):
+            resources_json = json.dumps(content["resources"])
         
-        # Auto-commit to git if this is in a repo
-        try:
-            import subprocess
-            repo_root = Path(__file__).parent.parent.parent  # Go to backend root
+        if existing_content:
+            # Update existing content
+            existing_content.title = content.get("title", slug.replace("-", " ").title())
+            existing_content.subject = content.get("subject", "")
+            existing_content.goal = content.get("goal", "")
+            existing_content.content_json = content_json
+            existing_content.resources_json = resources_json
+            existing_content.last_updated = datetime.utcnow()
             
-            # Check if we're in a git repo
-            result = subprocess.run(['git', 'status'], cwd=repo_root, capture_output=True, text=True)
-            if result.returncode == 0:
-                # Add the file
-                subprocess.run(['git', 'add', f'content/{filename}.json'], cwd=repo_root, check=True)
-                
-                # Commit with a descriptive message
-                commit_msg = f"Add generated library content: {content.get('title', filename)}\n\nAuto-generated content for {filename}\n\nCo-Authored-By: AI Content Generator"
-                subprocess.run(['git', 'commit', '-m', commit_msg], cwd=repo_root, check=True)
-                
-                logger.info(f"Successfully committed {filename}.json to git")
-            else:
-                logger.info(f"Not in a git repo, skipping commit for {filename}.json")
-                
-        except subprocess.CalledProcessError as git_error:
-            logger.warning(f"Git commit failed for {filename}.json: {git_error}")
-        except Exception as git_error:
-            logger.warning(f"Git operations failed for {filename}.json: {git_error}")
-            
+            db.add(existing_content)
+        else:
+            # Create new content
+            new_content = LibraryContent(
+                slug=slug,
+                title=content.get("title", slug.replace("-", " ").title()),
+                subject=content.get("subject", ""),
+                goal=content.get("goal", ""),
+                content_json=content_json,
+                resources_json=resources_json
+            )
+            db.add(new_content)
+        
+        db.commit()
+        logger.info(f"Successfully saved content for slug '{slug}' to database")
+        
     except Exception as e:
-        logger.error(f"Failed to save content file {filename}.json: {e}")
+        db.rollback()
+        logger.error(f"Failed to save content for slug '{slug}': {e}")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Failed to save content file: {str(e)}"
+            detail=f"Failed to save content: {str(e)}"
         )
 
 
 @router.post("/{page_slug}/regenerate-page")
-async def regenerate_page(page_slug: str, request: RegeneratePageRequest):
+async def regenerate_page(page_slug: str, request: RegeneratePageRequest, db: Session = Depends(get_db)):
     """Regenerate any library page"""
     try:
         # Load current content to preserve metadata
-        content_data = load_content_file(page_slug)
+        content_data = load_content_from_db(page_slug, db)
         
         # Create a request for generating the entire page
         ai_request = LearningContentRequest(
@@ -162,10 +173,10 @@ async def regenerate_page(page_slug: str, request: RegeneratePageRequest):
             
             content_data["resources"] = serialized_resources
         
-        content_data["lastUpdated"] = "2025-01-09T" + __import__('datetime').datetime.now().strftime("%H:%M:%S") + "Z"
+        content_data["lastUpdated"] = datetime.now().isoformat() + "Z"
         
         # Save the updated content
-        save_content_file(page_slug, content_data)
+        save_content_to_db(page_slug, content_data, db)
         
         logger.info(f"Successfully regenerated page '{page_slug}' using model {request.model}")
         
@@ -186,42 +197,22 @@ async def regenerate_page(page_slug: str, request: RegeneratePageRequest):
         )
 
 @router.get("/available")
-async def get_available_content():
+async def get_available_content(db: Session = Depends(get_db)):
     """Get list of all available library content"""
     try:
-        available_items = []
+        # Query all active content from database
+        statement = select(LibraryContent).where(LibraryContent.is_active == True)
+        content_records = db.exec(statement).all()
         
-        # Scan the content directory for JSON files
-        if CONTENT_DIR and CONTENT_DIR.exists():
-            for json_file in CONTENT_DIR.glob("*.json"):
-                slug = json_file.stem
-                
-                # Skip processed_subtopics.txt file
-                if slug == "processed_subtopics":
-                    continue
-                    
-                try:
-                    # Load just the metadata we need
-                    with open(json_file, 'r', encoding='utf-8') as f:
-                        content_data = json.load(f)
-                        
-                    available_items.append({
-                        "slug": slug,
-                        "title": content_data.get("title", slug.replace("-", " ").title()),
-                        "subject": content_data.get("subject", ""),
-                        "goal": content_data.get("goal", ""),
-                        "lastUpdated": content_data.get("lastUpdated", "")
-                    })
-                except Exception as e:
-                    logger.warning(f"Failed to read metadata from {json_file}: {e}")
-                    # Still include it with basic info
-                    available_items.append({
-                        "slug": slug,
-                        "title": slug.replace("-", " ").title(),
-                        "subject": "",
-                        "goal": f"Learn about {slug.replace('-', ' ').lower()}",
-                        "lastUpdated": ""
-                    })
+        available_items = []
+        for record in content_records:
+            available_items.append({
+                "slug": record.slug,
+                "title": record.title,
+                "subject": record.subject,
+                "goal": record.goal,
+                "lastUpdated": record.last_updated.isoformat() + "Z"
+            })
         
         # Sort by title
         available_items.sort(key=lambda x: x["title"])
@@ -236,10 +227,10 @@ async def get_available_content():
         )
 
 @router.get("/{page_slug}/content")
-async def get_content(page_slug: str):
+async def get_content(page_slug: str, db: Session = Depends(get_db)):
     """Get the current content of any library page"""
     try:
-        content_data = load_content_file(page_slug)
+        content_data = load_content_from_db(page_slug, db)
         return content_data
     except HTTPException:
         raise

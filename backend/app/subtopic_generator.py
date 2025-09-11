@@ -24,7 +24,8 @@ import httpx
 
 from schemas import LearningContentRequest
 from services.ai_service import ai_executor, LearningContentResponse
-from routers.library import save_content_file, CONTENT_DIR
+from routers.library import save_content_to_db
+from database.session import get_db
 
 # Configure logging
 logging.basicConfig(
@@ -46,16 +47,17 @@ class SubtopicGenerator:
         self.load_processed_list()
     
     def load_processed_list(self):
-        """Load list of already processed subtopics to avoid regeneration"""
-        processed_file = Path(CONTENT_DIR) / "processed_subtopics.txt"
+        """Load list of already processed subtopics from temp storage"""
+        processed_file = Path("/tmp/processed_subtopics.txt")
         if processed_file.exists():
             with open(processed_file, 'r') as f:
                 self.processed_subtopics = set(line.strip() for line in f if line.strip())
             logger.info(f"Loaded {len(self.processed_subtopics)} already processed subtopics")
     
     def save_processed_list(self):
-        """Save list of processed subtopics"""
-        processed_file = Path(CONTENT_DIR) / "processed_subtopics.txt"
+        """Save list of processed subtopics to temp storage"""
+        processed_file = Path("/tmp/processed_subtopics.txt")
+        processed_file.parent.mkdir(exist_ok=True)
         with open(processed_file, 'w') as f:
             for subtopic_id in sorted(self.processed_subtopics):
                 f.write(f"{subtopic_id}\n")
@@ -138,12 +140,23 @@ class SubtopicGenerator:
             logger.info(f"Skipping already processed subtopic: {subtopic['title']}")
             return True
         
-        # Skip if file already exists
-        content_file = Path(CONTENT_DIR) / f"{slug}.json"
-        if content_file.exists():
-            logger.info(f"Content file already exists for: {subtopic['title']}")
-            self.processed_subtopics.add(subtopic['id'])
-            return True
+        # Check if content already exists in database
+        try:
+            db_session = next(get_db())
+            from routers.library import load_content_from_db
+            try:
+                existing_content = load_content_from_db(slug, db_session)
+                logger.info(f"Content already exists in database for: {subtopic['title']}")
+                self.processed_subtopics.add(subtopic['id'])
+                return True
+            except:
+                # Content doesn't exist, continue with generation
+                pass
+            finally:
+                db_session.close()
+        except Exception as e:
+            logger.warning(f"Failed to check existing content: {e}")
+            # Continue with generation
         
         try:
             logger.info(f"Generating content for subtopic: {subtopic['title']}")
@@ -222,8 +235,12 @@ class SubtopicGenerator:
                 }
             }
             
-            # Save the content file
-            save_content_file(slug, content_data)
+            # Save the content to database
+            db_session = next(get_db())
+            try:
+                save_content_to_db(slug, content_data, db_session)
+            finally:
+                db_session.close()
             
             # Mark as processed
             self.processed_subtopics.add(subtopic['id'])
@@ -301,7 +318,7 @@ class SubtopicGenerator:
     async def run(self):
         """Main execution loop - ALL REMAINING SUBTOPICS VERSION"""
         logger.info("🚀 Starting ALL Remaining Subtopics Library Content Generator")
-        logger.info(f"Content directory: {CONTENT_DIR}")
+        logger.info("Content storage: Database")
         logger.info(f"Using model: {DEFAULT_MODEL}")
         logger.info("NOTE: This version processes ALL remaining subtopics from the first roadmap")
         
@@ -319,7 +336,7 @@ class SubtopicGenerator:
         logger.info(f"\n📊 Final Summary:")
         logger.info(f"Total processed: {len(self.processed_subtopics)}")
         logger.info(f"Total failed: {len(self.failed_subtopics)}")
-        logger.info(f"Content files created in: {CONTENT_DIR}")
+        logger.info("Content files saved to database")
 
 async def main():
     """Entry point"""
