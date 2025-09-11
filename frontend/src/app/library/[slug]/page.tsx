@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useParams } from 'next/navigation';
 import { 
   Home, 
   BookOpen, 
@@ -29,7 +30,10 @@ interface LibraryContent {
   }>;
 }
 
-export default function NeuralNetworkArchitecturesPage() {
+export default function DynamicLibraryPage() {
+  const params = useParams();
+  const slug = params.slug as string;
+  
   const [editMode, setEditMode] = useState(false);
   const [activeHeadingId, setActiveHeadingId] = useState('');
   const [content, setContent] = useState<LibraryContent | null>(null);
@@ -41,7 +45,7 @@ export default function NeuralNetworkArchitecturesPage() {
     try {
       setLoading(true);
       setError(null);
-      const response = await fetch(`${BACKEND_URL}/library/neural-network-architectures/content`);
+      const response = await fetch(`${BACKEND_URL}/library/${slug}/content`);
       if (!response.ok) {
         throw new Error(`Failed to fetch content: ${response.status}`);
       }
@@ -50,12 +54,14 @@ export default function NeuralNetworkArchitecturesPage() {
     } catch (err) {
       console.error('Error fetching content:', err);
       setError(err instanceof Error ? err.message : 'Failed to load content');
+      
       // Fallback to static content if API fails
-      import('../../../content/neural-network-architectures.json').then(fallbackContent => {
+      try {
+        const fallbackContent = await import(`../../../content/${slug}.json`);
         setContent(fallbackContent.default as LibraryContent);
-      }).catch(() => {
-        console.error('Failed to load fallback content');
-      });
+      } catch (fallbackErr) {
+        console.error('Failed to load fallback content:', fallbackErr);
+      }
     } finally {
       setLoading(false);
     }
@@ -63,8 +69,10 @@ export default function NeuralNetworkArchitecturesPage() {
 
   // Load content on mount
   useEffect(() => {
-    fetchContent();
-  }, []);
+    if (slug) {
+      fetchContent();
+    }
+  }, [slug]);
 
   // Keyboard shortcut for edit mode toggle
   useEffect(() => {
@@ -97,8 +105,8 @@ export default function NeuralNetworkArchitecturesPage() {
     // Observe all heading elements
     const headings = content.content.filter(block => block.type === 'heading');
     headings.forEach((heading: any) => {
-      const slug = heading.data.text?.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-*|-*$/g, '') || '';
-      const id = `heading-${slug}`;
+      const headingSlug = heading.data.text?.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-*|-*$/g, '') || '';
+      const id = `heading-${headingSlug}`;
       const element = document.getElementById(id);
       if (element) {
         observer.observe(element);
@@ -107,8 +115,8 @@ export default function NeuralNetworkArchitecturesPage() {
 
     return () => {
       headings.forEach((heading: any) => {
-        const slug = heading.data.text?.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-*|-*$/g, '') || '';
-        const id = `heading-${slug}`;
+        const headingSlug = heading.data.text?.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-*|-*$/g, '') || '';
+        const id = `heading-${headingSlug}`;
         const element = document.getElementById(id);
         if (element) {
           observer.unobserve(element);
@@ -116,6 +124,14 @@ export default function NeuralNetworkArchitecturesPage() {
       });
     };
   }, [content]);
+
+  // Helper function to format title for display
+  const formatTitle = (slug: string) => {
+    return slug
+      .split('-')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
+  };
 
   // Show loading state
   if (loading) {
@@ -240,11 +256,11 @@ export default function NeuralNetworkArchitecturesPage() {
             <div className="flex items-center space-x-2 text-sm text-blue-600">
               <Link href="/library" className="hover:text-blue-800 font-medium">Library</Link>
               <ChevronLeft className="w-4 h-4 rotate-180" />
-              <span className="text-blue-800">Neural Network Architectures</span>
+              <span className="text-blue-800">{content.title}</span>
             </div>
-            <h1 className="text-2xl font-bold text-gray-900">Neural Network Architectures</h1>
+            <h1 className="text-2xl font-bold text-gray-900">{content.title}</h1>
             <p className="text-gray-700 text-sm max-w-3xl">
-              Comprehensive guide to neural network architectures in deep learning research, covering feedforward networks, CNNs, RNNs, and Transformers.
+              {content.goal}
             </p>
           </div>
         </div>
@@ -261,8 +277,8 @@ export default function NeuralNetworkArchitecturesPage() {
                 {content.content
                   .filter(block => block.type === 'heading')
                   .map((heading: any, index) => {
-                    const slug = heading.data.text?.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-*|-*$/g, '') || '';
-                    const id = `heading-${slug}`;
+                    const headingSlug = heading.data.text?.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-*|-*$/g, '') || '';
+                    const id = `heading-${headingSlug}`;
                     const isActive = activeHeadingId === id;
                     return (
                       <a
@@ -298,7 +314,7 @@ export default function NeuralNetworkArchitecturesPage() {
                 subject={content.subject}
                 subtopic={content.title}
                 editMode={editMode}
-                pageSlug="neural-network-architectures"
+                pageSlug={slug}
                 onContentUpdated={fetchContent}
               />
             </article>
