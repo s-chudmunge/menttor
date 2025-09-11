@@ -1,5 +1,5 @@
 import React from 'react';
-import { BookOpen, ArrowDownRight } from 'lucide-react';
+import { BookOpen } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
@@ -47,7 +47,20 @@ const ProgressiveDisclosure: React.FC<Props> = ({ data }) => {
 
         {/* Curved Arrow Indicator */}
         <div className="flex justify-center py-3">
-          <ArrowDownRight className="w-6 h-6 transform rotate-45 text-gray-400" />
+          <svg 
+            className="w-8 h-8 text-gray-400" 
+            viewBox="0 0 32 32" 
+            fill="none"
+            aria-hidden="true"
+          >
+            <path 
+              d="M8 8 Q16 20 24 12 L20 16 M24 12 L20 8" 
+              stroke="currentColor" 
+              strokeWidth="2" 
+              strokeLinecap="round" 
+              strokeLinejoin="round"
+            />
+          </svg>
         </div>
 
         {/* Full Explanation Section */}
