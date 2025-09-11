@@ -30,10 +30,6 @@ if CONTENT_DIR is None:
     CONTENT_DIR = Path(__file__).parent.parent / "content"
     CONTENT_DIR.mkdir(parents=True, exist_ok=True)
 
-class RegenerateComponentRequest(BaseModel):
-    component_index: int
-    model: str
-
 class RegeneratePageRequest(BaseModel):
     model: str
 
@@ -70,99 +66,13 @@ def save_content_file(filename: str, content: Dict[str, Any]) -> None:
             detail=f"Failed to save content file: {str(e)}"
         )
 
-@router.post("/neural-network-architectures/regenerate-component")
-async def regenerate_component(request: RegenerateComponentRequest):
-    """Regenerate a specific component in the Neural Network Architectures page"""
-    try:
-        # Load current content
-        content_data = load_content_file("neural-network-architectures")
-        
-        if request.component_index < 0 or request.component_index >= len(content_data["content"]):
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                detail="Invalid component index"
-            )
-        
-        # Get the current block to understand its type and context
-        current_block = content_data["content"][request.component_index]
-        block_type = current_block["type"]
-        
-        # Create a request for generating just this component
-        ai_request = LearningContentRequest(
-            subtopic=content_data["title"],
-            subject=content_data["subject"],
-            goal=content_data["goal"],
-            model=request.model
-        )
-        
-        # Generate new content for the entire page and extract the specific component
-        result = await ai_executor.execute(
-            task_type="learn_chunk",
-            request_data=ai_request,
-            response_schema=LearningContentResponse,
-            is_json=True
-        )
-        
-        # Find a matching component type from the generated content
-        generated_content = result["response"].content
-        # Convert Pydantic models to dictionaries for JSON serialization
-        generated_content_dict = [component.model_dump() if hasattr(component, 'model_dump') else component for component in generated_content]
-        new_component = None
-        
-        # Try to find a component of the same type
-        for component in generated_content_dict:
-            if component["type"] == block_type:
-                new_component = component
-                break
-        
-        # If no matching type found, regenerate the entire content and use the component at the same index
-        if new_component is None and request.component_index < len(generated_content_dict):
-            new_component = generated_content_dict[request.component_index]
-        
-        # If still no component, create a default based on the original type
-        if new_component is None:
-            if block_type == "paragraph":
-                new_component = {
-                    "type": "paragraph",
-                    "data": {
-                        "text": f"This section about {content_data['title']} has been regenerated. The content explores key concepts and provides detailed explanations to enhance understanding."
-                    }
-                }
-            else:
-                # Keep the original component if we can't generate a replacement
-                new_component = current_block
-        
-        # Update the specific component
-        content_data["content"][request.component_index] = new_component
-        content_data["lastUpdated"] = "2025-01-09T" + __import__('datetime').datetime.now().strftime("%H:%M:%S") + "Z"
-        
-        # Save the updated content
-        save_content_file("neural-network-architectures", content_data)
-        
-        logger.info(f"Successfully regenerated component {request.component_index} using model {request.model}")
-        
-        return {
-            "success": True,
-            "message": f"Component {request.component_index + 1} regenerated successfully",
-            "component": new_component,
-            "model": request.model
-        }
-        
-    except HTTPException:
-        raise
-    except Exception as e:
-        logger.error(f"Failed to regenerate component: {e}", exc_info=True)
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Failed to regenerate component: {str(e)}"
-        )
 
-@router.post("/neural-network-architectures/regenerate-page")
-async def regenerate_page(request: RegeneratePageRequest):
-    """Regenerate the entire Neural Network Architectures page"""
+@router.post("/{page_slug}/regenerate-page")
+async def regenerate_page(page_slug: str, request: RegeneratePageRequest):
+    """Regenerate any library page"""
     try:
         # Load current content to preserve metadata
-        content_data = load_content_file("neural-network-architectures")
+        content_data = load_content_file(page_slug)
         
         # Create a request for generating the entire page
         ai_request = LearningContentRequest(
@@ -174,7 +84,7 @@ async def regenerate_page(request: RegeneratePageRequest):
         
         # Generate new content
         result = await ai_executor.execute(
-            task_type="learn_chunk",
+            task_type="learn_chunk_with_resources",
             request_data=ai_request,
             response_schema=LearningContentResponse,
             is_json=True
@@ -184,16 +94,22 @@ async def regenerate_page(request: RegeneratePageRequest):
         # Convert Pydantic models to dictionaries for JSON serialization
         new_content = result["response"].content
         content_data["content"] = [component.model_dump() if hasattr(component, 'model_dump') else component for component in new_content]
+        
+        # Save resources if they exist
+        if result["response"].resources:
+            new_resources = result["response"].resources
+            content_data["resources"] = [resource.model_dump() if hasattr(resource, 'model_dump') else resource for resource in new_resources]
+        
         content_data["lastUpdated"] = "2025-01-09T" + __import__('datetime').datetime.now().strftime("%H:%M:%S") + "Z"
         
         # Save the updated content
-        save_content_file("neural-network-architectures", content_data)
+        save_content_file(page_slug, content_data)
         
-        logger.info(f"Successfully regenerated entire page using model {request.model}")
+        logger.info(f"Successfully regenerated page '{page_slug}' using model {request.model}")
         
         return {
             "success": True,
-            "message": "Page regenerated successfully",
+            "message": f"Page '{page_slug}' regenerated successfully",
             "content_blocks": len(content_data["content"]),
             "model": request.model
         }
@@ -207,17 +123,18 @@ async def regenerate_page(request: RegeneratePageRequest):
             detail=f"Failed to regenerate page: {str(e)}"
         )
 
-@router.get("/neural-network-architectures/content")
-async def get_content():
-    """Get the current content of the Neural Network Architectures page"""
+@router.get("/{page_slug}/content")
+async def get_content(page_slug: str):
+    """Get the current content of any library page"""
     try:
-        content_data = load_content_file("neural-network-architectures")
+        content_data = load_content_file(page_slug)
         return content_data
     except HTTPException:
         raise
     except Exception as e:
-        logger.error(f"Failed to get content: {e}", exc_info=True)
+        logger.error(f"Failed to get content for page '{page_slug}': {e}", exc_info=True)
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Failed to get content: {str(e)}"
+            detail=f"Failed to get content for page '{page_slug}': {str(e)}"
         )
+

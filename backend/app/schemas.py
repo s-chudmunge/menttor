@@ -346,6 +346,14 @@ class PracticeAnswerCreate(BaseModel):
     time_spent: int  # seconds
     hint_used: bool = False
 
+# Library Resources Schema (separate from roadmap learning resources)
+class LibraryResource(BaseModel):
+    """Individual library resource for library content pages"""
+    title: str
+    url: str
+    type: str  # 'documentation', 'tutorial', 'video', 'blog', 'paper', 'wikipedia'
+    description: str
+
 class LearningContentResponse(BaseModel):
     id: Optional[int] = None
     content: List[ContentBlock]
@@ -354,6 +362,9 @@ class LearningContentResponse(BaseModel):
     goal: Optional[str] = None
     subtopic: Optional[str] = None
     subtopic_id: Optional[str] = None
+    
+    # Library resources (only included for library content generation)
+    resources: Optional[List[LibraryResource]] = None
     
     # Enhanced fields for save/share functionality
     is_saved: bool = False

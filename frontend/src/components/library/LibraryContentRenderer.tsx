@@ -8,8 +8,7 @@ import Callout from '../../../components/learning/Callout';
 import CodeBlock from '../../../components/learning/CodeBlock';
 import SmartImage from '../../../components/learning/SmartImage';
 import dynamic from 'next/dynamic';
-import { RefreshCw, MoreHorizontal } from 'lucide-react';
-import EditableContentBlock from './EditableContentBlock';
+import { RefreshCw } from 'lucide-react';
 
 // Dynamic import for Mermaid to prevent SSR issues
 const MermaidDiagram = dynamic(() => import('../../../components/MermaidDiagram'), {
@@ -31,64 +30,22 @@ import { BACKEND_URL } from '../../config/config';
 
 interface Props {
   content: any[];
+  resources?: any[];
   subject?: string;
   subtopic?: string;
   editMode?: boolean;
+  pageSlug?: string;
 }
 
-const LibraryContentRenderer: React.FC<Props> = ({ content, subject, subtopic, editMode = false }) => {
-  const [regeneratingIndex, setRegeneratingIndex] = useState<number | null>(null);
+const LibraryContentRenderer: React.FC<Props> = ({ content, resources, subject, subtopic, editMode = false, pageSlug = "neural-network-architectures" }) => {
   const [regeneratingPage, setRegeneratingPage] = useState(false);
 
-  const handleRegenerateComponent = async (index: number, model: string) => {
-    setRegeneratingIndex(index);
-    try {
-      const response = await fetch(
-        `${BACKEND_URL}/library/neural-network-architectures/regenerate-component`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            component_index: index,
-            model: model,
-          }),
-        }
-      );
-
-      if (!response.ok) {
-        if (response.status === 404) {
-          throw new Error(`Library endpoints not available on backend. Please ensure the backend includes library functionality.`);
-        }
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const result = await response.json();
-      console.log('Component regenerated successfully:', result);
-      
-      // Reload the page to show updated content
-      window.location.reload();
-      
-    } catch (error) {
-      console.error('Failed to regenerate component:', error);
-      
-      // Show more specific error message based on error type
-      const errorMessage = error instanceof Error && error.message.includes('Library endpoints not available')
-        ? 'Library regeneration is currently unavailable. The backend needs to be updated with library functionality.'
-        : 'Failed to regenerate component. Please try again later.';
-      
-      alert(errorMessage);
-    } finally {
-      setRegeneratingIndex(null);
-    }
-  };
 
   const handleRegeneratePage = async (model: string) => {
     setRegeneratingPage(true);
     try {
       const response = await fetch(
-        `${BACKEND_URL}/library/neural-network-architectures/regenerate-page`,
+        `${BACKEND_URL}/library/${pageSlug}/regenerate-page`,
         {
           method: 'POST',
           headers: {
@@ -128,8 +85,6 @@ const LibraryContentRenderer: React.FC<Props> = ({ content, subject, subtopic, e
   };
 
   const renderContentBlock = (block: any, index: number) => {
-    const isRegenerating = regeneratingIndex === index;
-    
     let blockContent: React.ReactNode;
 
     switch (block.type) {
@@ -257,15 +212,9 @@ const LibraryContentRenderer: React.FC<Props> = ({ content, subject, subtopic, e
     }
 
     return (
-      <EditableContentBlock
-        key={index}
-        index={index}
-        isRegenerating={isRegenerating}
-        editMode={editMode}
-        onRegenerate={handleRegenerateComponent}
-      >
+      <div key={index}>
         {blockContent}
-      </EditableContentBlock>
+      </div>
     );
   };
 
@@ -302,6 +251,33 @@ const LibraryContentRenderer: React.FC<Props> = ({ content, subject, subtopic, e
 
       {/* Content blocks */}
       {content.map((block, index) => renderContentBlock(block, index))}
+
+      {/* Resources Section */}
+      {resources && resources.length > 0 && (
+        <div className="mt-12 pt-8 border-t border-gray-200">
+          <h2 className="text-2xl font-bold text-gray-900 mb-6">Learning Resources</h2>
+          <div className="space-y-3">
+            {resources.map((resource, index) => (
+              <div key={index}>
+                <a
+                  href={resource.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 hover:text-blue-800 font-medium"
+                >
+                  {resource.title}
+                </a>
+                <span className="text-gray-500 text-sm ml-2">({resource.type})</span>
+                {resource.description && (
+                  <p className="text-sm text-gray-600 mt-1 ml-0">
+                    {resource.description}
+                  </p>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 };

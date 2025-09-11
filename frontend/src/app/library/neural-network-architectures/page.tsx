@@ -11,10 +11,28 @@ import {
 } from 'lucide-react';
 import Logo from '../../../../components/Logo';
 import LibraryContentRenderer from '../../../components/library/LibraryContentRenderer';
-import content from '../../../content/neural-network-architectures.json';
+import contentJson from '../../../content/neural-network-architectures.json';
+
+// Type definition for library content with optional resources
+interface LibraryContent {
+  title: string;
+  subject: string;
+  goal: string;
+  lastUpdated: string;
+  content: any[];
+  resources?: Array<{
+    title: string;
+    url: string;
+    type: string;
+    description: string;
+  }>;
+}
+
+const content: LibraryContent = contentJson;
 
 export default function NeuralNetworkArchitecturesPage() {
   const [editMode, setEditMode] = useState(false);
+  const [activeHeadingId, setActiveHeadingId] = useState('');
 
   // Keyboard shortcut for edit mode toggle
   useEffect(() => {
@@ -27,6 +45,42 @@ export default function NeuralNetworkArchitecturesPage() {
 
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
+  // Scroll spy for TOC active highlighting
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveHeadingId(entry.target.id);
+          }
+        });
+      },
+      { rootMargin: '0px 0px -80% 0px' }
+    );
+
+    // Observe all heading elements
+    const headings = content.content.filter(block => block.type === 'heading');
+    headings.forEach((heading: any) => {
+      const slug = heading.data.text?.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-*|-*$/g, '') || '';
+      const id = `heading-${slug}`;
+      const element = document.getElementById(id);
+      if (element) {
+        observer.observe(element);
+      }
+    });
+
+    return () => {
+      headings.forEach((heading: any) => {
+        const slug = heading.data.text?.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-*|-*$/g, '') || '';
+        const id = `heading-${slug}`;
+        const element = document.getElementById(id);
+        if (element) {
+          observer.unobserve(element);
+        }
+      });
+    };
   }, []);
 
   return (
@@ -89,13 +143,23 @@ export default function NeuralNetworkArchitecturesPage() {
                   .filter(block => block.type === 'heading')
                   .map((heading: any, index) => {
                     const slug = heading.data.text?.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-*|-*$/g, '') || '';
+                    const id = `heading-${slug}`;
+                    const isActive = activeHeadingId === id;
                     return (
                       <a
                         key={index}
-                        href={`#heading-${slug}`}
-                        className={`block py-1 text-sm text-gray-600 hover:text-gray-900 ${
-                          heading.data.level === 1 ? 'font-medium' : heading.data.level === 2 ? 'pl-3' : 'pl-6'
+                        href={`#${id}`}
+                        className={`block py-1 text-sm transition-colors border-l-2 ${
+                          isActive 
+                            ? 'bg-blue-50 text-blue-700 border-blue-500 font-medium' 
+                            : 'border-transparent text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+                        } ${
+                          heading.data.level === 1 ? '' : heading.data.level === 2 ? 'pl-3' : 'pl-6'
                         }`}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+                        }}
                       >
                         {heading.data.text}
                       </a>
@@ -111,9 +175,11 @@ export default function NeuralNetworkArchitecturesPage() {
             <article className="prose prose-gray max-w-none">
               <LibraryContentRenderer 
                 content={content.content}
+                resources={content.resources}
                 subject={content.subject}
                 subtopic={content.title}
                 editMode={editMode}
+                pageSlug="neural-network-architectures"
               />
             </article>
 
