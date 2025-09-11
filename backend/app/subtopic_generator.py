@@ -290,10 +290,10 @@ class SubtopicGenerator:
                 failed_count += 1
                 logger.error(f"❌ Failed to generate ({i+1}/{len(unprocessed)}): {subtopic['title']}")
             
-            # Add small delay between generations to avoid overwhelming the API
+            # Add 3-minute delay between generations 
             if i < len(unprocessed) - 1:  # Don't wait after the last one
-                logger.info("Waiting 5 seconds before next generation...")
-                await asyncio.sleep(5)
+                logger.info("Waiting 3 minutes before next generation...")
+                await asyncio.sleep(180)  # 3 minutes
         
         logger.info(f"Batch completed! Processed: {processed_count}, Failed: {failed_count}")
         return True  # Signal completion
