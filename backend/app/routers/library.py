@@ -93,12 +93,49 @@ async def regenerate_page(page_slug: str, request: RegeneratePageRequest):
         # Update the content while preserving metadata structure
         # Convert Pydantic models to dictionaries for JSON serialization
         new_content = result["response"].content
-        content_data["content"] = [component.model_dump() if hasattr(component, 'model_dump') else component for component in new_content]
+        
+        # Better serialization handling for content blocks
+        serialized_content = []
+        for component in new_content:
+            if hasattr(component, 'model_dump'):
+                serialized_content.append(component.model_dump())
+            elif hasattr(component, 'dict'):
+                serialized_content.append(component.dict())
+            elif isinstance(component, dict):
+                serialized_content.append(component)
+            else:
+                # Fallback: try to convert using __dict__ or JSON serializable format
+                try:
+                    import json
+                    serialized_content.append(json.loads(json.dumps(component, default=str)))
+                except (TypeError, AttributeError):
+                    logger.error(f"Failed to serialize content component: {type(component)} - {component}")
+                    continue
+        
+        content_data["content"] = serialized_content
         
         # Save resources if they exist
         if result["response"].resources:
             new_resources = result["response"].resources
-            content_data["resources"] = [resource.model_dump() if hasattr(resource, 'model_dump') else resource for resource in new_resources]
+            
+            # Better serialization handling for resources
+            serialized_resources = []
+            for resource in new_resources:
+                if hasattr(resource, 'model_dump'):
+                    serialized_resources.append(resource.model_dump())
+                elif hasattr(resource, 'dict'):
+                    serialized_resources.append(resource.dict())
+                elif isinstance(resource, dict):
+                    serialized_resources.append(resource)
+                else:
+                    try:
+                        import json
+                        serialized_resources.append(json.loads(json.dumps(resource, default=str)))
+                    except (TypeError, AttributeError):
+                        logger.error(f"Failed to serialize resource: {type(resource)} - {resource}")
+                        continue
+            
+            content_data["resources"] = serialized_resources
         
         content_data["lastUpdated"] = "2025-01-09T" + __import__('datetime').datetime.now().strftime("%H:%M:%S") + "Z"
         
