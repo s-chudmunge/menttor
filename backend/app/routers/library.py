@@ -13,21 +13,21 @@ from services.ai_service import LearningContentResponse
 router = APIRouter(prefix="/library", tags=["library"])
 logger = logging.getLogger(__name__)
 
-# Path to the content directory - check multiple possible locations
+# Path to the content directory - prioritize repo backend/content for persistence
 CONTENT_DIR = None
 for possible_path in [
-    Path(__file__).parent.parent.parent.parent / "frontend" / "src" / "content",  # Development
-    Path(__file__).parent.parent.parent / "content",  # Backend deployment
-    Path(__file__).parent.parent / "content",  # Alternative deployment
-    Path("/app/content"),  # Docker deployment
+    Path(__file__).parent.parent.parent / "content",  # Backend repo content (preferred for persistence)
+    Path(__file__).parent.parent / "content",  # Alternative backend location
+    Path(__file__).parent.parent.parent.parent / "frontend" / "src" / "content",  # Frontend development
+    Path("/app/content"),  # Docker runtime (ephemeral)
 ]:
     if possible_path.exists():
         CONTENT_DIR = possible_path
         break
 
 if CONTENT_DIR is None:
-    # Fallback to a default location and create it
-    CONTENT_DIR = Path(__file__).parent.parent / "content"
+    # Create in backend repo directory for persistence
+    CONTENT_DIR = Path(__file__).parent.parent.parent / "content"
     CONTENT_DIR.mkdir(parents=True, exist_ok=True)
 
 class RegeneratePageRequest(BaseModel):
@@ -51,7 +51,7 @@ def load_content_file(filename: str) -> Dict[str, Any]:
         )
 
 def save_content_file(filename: str, content: Dict[str, Any]) -> None:
-    """Save content to JSON file"""
+    """Save content to JSON file and commit to git"""
     filepath = CONTENT_DIR / f"{filename}.json"
     try:
         # Ensure directory exists
@@ -59,6 +59,31 @@ def save_content_file(filename: str, content: Dict[str, Any]) -> None:
         
         with open(filepath, 'w', encoding='utf-8') as f:
             json.dump(content, f, indent=2, ensure_ascii=False)
+        
+        # Auto-commit to git if this is in a repo
+        try:
+            import subprocess
+            repo_root = Path(__file__).parent.parent.parent  # Go to backend root
+            
+            # Check if we're in a git repo
+            result = subprocess.run(['git', 'status'], cwd=repo_root, capture_output=True, text=True)
+            if result.returncode == 0:
+                # Add the file
+                subprocess.run(['git', 'add', f'content/{filename}.json'], cwd=repo_root, check=True)
+                
+                # Commit with a descriptive message
+                commit_msg = f"Add generated library content: {content.get('title', filename)}\n\nAuto-generated content for {filename}\n\nCo-Authored-By: AI Content Generator"
+                subprocess.run(['git', 'commit', '-m', commit_msg], cwd=repo_root, check=True)
+                
+                logger.info(f"Successfully committed {filename}.json to git")
+            else:
+                logger.info(f"Not in a git repo, skipping commit for {filename}.json")
+                
+        except subprocess.CalledProcessError as git_error:
+            logger.warning(f"Git commit failed for {filename}.json: {git_error}")
+        except Exception as git_error:
+            logger.warning(f"Git operations failed for {filename}.json: {git_error}")
+            
     except Exception as e:
         logger.error(f"Failed to save content file {filename}.json: {e}")
         raise HTTPException(
