@@ -1,8 +1,76 @@
+'use client';
+
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { BookOpen, ArrowRight } from 'lucide-react';
+import { BookOpen, Loader2 } from 'lucide-react';
 import Logo from '../../../components/Logo';
+import { BACKEND_URL } from '../../config/config';
+
+interface LibraryItem {
+  slug: string;
+  title: string;
+  subject?: string;
+  goal?: string;
+}
 
 export default function LibraryPage() {
+  const [libraryItems, setLibraryItems] = useState<LibraryItem[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch available library content
+  useEffect(() => {
+    const fetchLibraryItems = async () => {
+      try {
+        const response = await fetch(`${BACKEND_URL}/library/available`);
+        if (response.ok) {
+          const data = await response.json();
+          setLibraryItems(data);
+        } else {
+          // Fallback to hardcoded items if API fails
+          setLibraryItems([
+            {
+              slug: 'neural-network-architectures',
+              title: 'Neural Network Architectures',
+              goal: 'Comprehensive guide to neural network architectures in deep learning research'
+            },
+            {
+              slug: 'backpropagation-and-gradient-descent-variants',
+              title: 'Backpropagation and Gradient Descent Variants',
+              goal: 'Learn about the fundamental algorithms that enable deep learning models to learn and optimize'
+            }
+          ]);
+        }
+      } catch (error) {
+        console.error('Failed to fetch library items:', error);
+        // Fallback to hardcoded items
+        setLibraryItems([
+          {
+            slug: 'neural-network-architectures',
+            title: 'Neural Network Architectures',
+            goal: 'Comprehensive guide to neural network architectures in deep learning research'
+          },
+          {
+            slug: 'backpropagation-and-gradient-descent-variants',
+            title: 'Backpropagation and Gradient Descent Variants',
+            goal: 'Learn about the fundamental algorithms that enable deep learning models to learn and optimize'
+          }
+        ]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchLibraryItems();
+  }, []);
+
+  // Helper function to format titles
+  const formatTitle = (slug: string) => {
+    return slug
+      .split('-')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
+  };
+
   return (
     <div className="min-h-screen bg-white">
       {/* Header */}
@@ -41,19 +109,28 @@ export default function LibraryPage() {
         </div>
 
         {/* Library Content */}
-        <div className="space-y-4">
-          <a 
-            href="/library/neural-network-architectures"
-            className="block border-l-4 border-blue-500 bg-white p-4 hover:bg-gray-50 transition-colors"
-          >
-            <h3 className="text-lg font-semibold text-gray-900 mb-1">
-              Neural Network Architectures
-            </h3>
-            <p className="text-gray-600 text-sm">
-              Comprehensive guide to neural network architectures in deep learning research
-            </p>
-          </a>
-        </div>
+        {loading ? (
+          <div className="flex items-center justify-center py-12">
+            <Loader2 className="w-8 h-8 animate-spin text-blue-600" />
+          </div>
+        ) : (
+          <div className="space-y-4">
+            {libraryItems.map((item) => (
+              <a 
+                key={item.slug}
+                href={`/library/${item.slug}`}
+                className="block border-l-4 border-blue-500 bg-white p-4 hover:bg-gray-50 transition-colors"
+              >
+                <h3 className="text-lg font-semibold text-gray-900 mb-1">
+                  {item.title || formatTitle(item.slug)}
+                </h3>
+                <p className="text-gray-600 text-sm">
+                  {item.goal || item.subject || `Learn about ${formatTitle(item.slug).toLowerCase()}`}
+                </p>
+              </a>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

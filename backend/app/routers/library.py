@@ -160,6 +160,56 @@ async def regenerate_page(page_slug: str, request: RegeneratePageRequest):
             detail=f"Failed to regenerate page: {str(e)}"
         )
 
+@router.get("/available")
+async def get_available_content():
+    """Get list of all available library content"""
+    try:
+        available_items = []
+        
+        # Scan the content directory for JSON files
+        if CONTENT_DIR and CONTENT_DIR.exists():
+            for json_file in CONTENT_DIR.glob("*.json"):
+                slug = json_file.stem
+                
+                # Skip processed_subtopics.txt file
+                if slug == "processed_subtopics":
+                    continue
+                    
+                try:
+                    # Load just the metadata we need
+                    with open(json_file, 'r', encoding='utf-8') as f:
+                        content_data = json.load(f)
+                        
+                    available_items.append({
+                        "slug": slug,
+                        "title": content_data.get("title", slug.replace("-", " ").title()),
+                        "subject": content_data.get("subject", ""),
+                        "goal": content_data.get("goal", ""),
+                        "lastUpdated": content_data.get("lastUpdated", "")
+                    })
+                except Exception as e:
+                    logger.warning(f"Failed to read metadata from {json_file}: {e}")
+                    # Still include it with basic info
+                    available_items.append({
+                        "slug": slug,
+                        "title": slug.replace("-", " ").title(),
+                        "subject": "",
+                        "goal": f"Learn about {slug.replace('-', ' ').lower()}",
+                        "lastUpdated": ""
+                    })
+        
+        # Sort by title
+        available_items.sort(key=lambda x: x["title"])
+        
+        return available_items
+        
+    except Exception as e:
+        logger.error(f"Failed to get available content: {e}", exc_info=True)
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Failed to get available content: {str(e)}"
+        )
+
 @router.get("/{page_slug}/content")
 async def get_content(page_slug: str):
     """Get the current content of any library page"""
