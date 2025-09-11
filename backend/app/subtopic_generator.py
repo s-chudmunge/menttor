@@ -238,8 +238,8 @@ class SubtopicGenerator:
             return False
     
     async def run_generation_cycle(self):
-        """Run one cycle of subtopic generation - SINGLE SUBTOPIC VERSION"""
-        logger.info("Starting SINGLE subtopic generation cycle...")
+        """Run one cycle of subtopic generation - ALL REMAINING SUBTOPICS"""
+        logger.info("Starting ALL remaining subtopics generation cycle...")
         
         # Fetch first roadmap only
         roadmaps = await self.fetch_all_curated_roadmaps()
@@ -274,38 +274,41 @@ class SubtopicGenerator:
             logger.info("All subtopics from first roadmap have been processed! 🎉")
             return True  # Signal completion
         
-        # Skip the first subtopic (neural-network-architectures already exists)
-        # Process the SECOND unprocessed subtopic
-        if len(unprocessed) < 2:
-            logger.info("Less than 2 unprocessed subtopics available!")
-            subtopic = unprocessed[0]
-        else:
-            subtopic = unprocessed[1]  # Use second subtopic
-            logger.info("Skipping first subtopic (neural-network-architectures likely exists)")
+        # Process ALL remaining subtopics
+        processed_count = 0
+        failed_count = 0
         
-        logger.info(f"Processing subtopic: {subtopic['title']}")
-        logger.info(f"From: {subtopic['roadmap_title']} -> {subtopic['module_title']} -> {subtopic['topic_title']}")
+        for i, subtopic in enumerate(unprocessed):
+            logger.info(f"Processing subtopic {i+1}/{len(unprocessed)}: {subtopic['title']}")
+            logger.info(f"From: {subtopic['roadmap_title']} -> {subtopic['module_title']} -> {subtopic['topic_title']}")
+            
+            success = await self.generate_subtopic_content(subtopic)
+            if success:
+                processed_count += 1
+                logger.info(f"✅ Successfully generated ({i+1}/{len(unprocessed)}): {subtopic['title']}")
+            else:
+                failed_count += 1
+                logger.error(f"❌ Failed to generate ({i+1}/{len(unprocessed)}): {subtopic['title']}")
+            
+            # Add small delay between generations to avoid overwhelming the API
+            if i < len(unprocessed) - 1:  # Don't wait after the last one
+                logger.info("Waiting 5 seconds before next generation...")
+                await asyncio.sleep(5)
         
-        success = await self.generate_subtopic_content(subtopic)
-        if success:
-            logger.info(f"✅ Successfully generated: {subtopic['title']}")
-        else:
-            logger.error(f"❌ Failed to generate: {subtopic['title']}")
-        
-        logger.info(f"Single subtopic test completed. Processed: {len(self.processed_subtopics)}, Failed: {len(self.failed_subtopics)}")
-        return True  # Signal completion after single subtopic
+        logger.info(f"Batch completed! Processed: {processed_count}, Failed: {failed_count}")
+        return True  # Signal completion
     
     async def run(self):
-        """Main execution loop - SINGLE SUBTOPIC VERSION"""
-        logger.info("🚀 Starting SINGLE Subtopic Library Content Generator (TEST VERSION)")
+        """Main execution loop - ALL REMAINING SUBTOPICS VERSION"""
+        logger.info("🚀 Starting ALL Remaining Subtopics Library Content Generator")
         logger.info(f"Content directory: {CONTENT_DIR}")
         logger.info(f"Using model: {DEFAULT_MODEL}")
-        logger.info("NOTE: This version processes only ONE subtopic from the first roadmap")
+        logger.info("NOTE: This version processes ALL remaining subtopics from the first roadmap")
         
         try:
             completed = await self.run_generation_cycle()
             if completed:
-                logger.info("🎊 Single subtopic test completed!")
+                logger.info("🎊 All remaining subtopics processing completed!")
             
         except Exception as e:
             logger.error(f"Error in generation cycle: {e}")
