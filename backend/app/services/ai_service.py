@@ -6,6 +6,7 @@ import tempfile
 
 # --- Setup Logging ---
 # Fixed OpenRouter API key trailing newline issue in Secret Manager - 2025-09-06
+# Updated OpenRouter API key secret to remove trailing newline - 2025-09-11
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
