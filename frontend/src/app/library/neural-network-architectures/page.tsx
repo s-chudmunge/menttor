@@ -7,11 +7,12 @@ import {
   BookOpen, 
   Edit3, 
   Eye,
-  ChevronLeft
+  ChevronLeft,
+  Loader2
 } from 'lucide-react';
 import Logo from '../../../../components/Logo';
 import LibraryContentRenderer from '../../../components/library/LibraryContentRenderer';
-import contentJson from '../../../content/neural-network-architectures.json';
+import { BACKEND_URL } from '../../../config/config';
 
 // Type definition for library content with optional resources
 interface LibraryContent {
@@ -28,11 +29,42 @@ interface LibraryContent {
   }>;
 }
 
-const content: LibraryContent = contentJson;
-
 export default function NeuralNetworkArchitecturesPage() {
   const [editMode, setEditMode] = useState(false);
   const [activeHeadingId, setActiveHeadingId] = useState('');
+  const [content, setContent] = useState<LibraryContent | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // Fetch content from backend API
+  const fetchContent = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const response = await fetch(`${BACKEND_URL}/library/neural-network-architectures/content`);
+      if (!response.ok) {
+        throw new Error(`Failed to fetch content: ${response.status}`);
+      }
+      const contentData = await response.json();
+      setContent(contentData);
+    } catch (err) {
+      console.error('Error fetching content:', err);
+      setError(err instanceof Error ? err.message : 'Failed to load content');
+      // Fallback to static content if API fails
+      import('../../../content/neural-network-architectures.json').then(fallbackContent => {
+        setContent(fallbackContent.default as LibraryContent);
+      }).catch(() => {
+        console.error('Failed to load fallback content');
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Load content on mount
+  useEffect(() => {
+    fetchContent();
+  }, []);
 
   // Keyboard shortcut for edit mode toggle
   useEffect(() => {
@@ -49,6 +81,8 @@ export default function NeuralNetworkArchitecturesPage() {
 
   // Scroll spy for TOC active highlighting
   useEffect(() => {
+    if (!content) return;
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -81,7 +115,92 @@ export default function NeuralNetworkArchitecturesPage() {
         }
       });
     };
-  }, []);
+  }, [content]);
+
+  // Show loading state
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-white">
+        <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex justify-between items-center h-16">
+              <div className="flex items-center space-x-6">
+                <Logo variant="dark" />
+                <nav className="hidden md:flex items-center space-x-1">
+                  <Link 
+                    href="/" 
+                    className="flex items-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-colors"
+                  >
+                    <Home className="w-4 h-4" />
+                    <span>Home</span>
+                  </Link>
+                  <Link 
+                    href="/explore" 
+                    className="flex items-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-colors"
+                  >
+                    <BookOpen className="w-4 h-4" />
+                    <span>Explore</span>
+                  </Link>
+                </nav>
+              </div>
+            </div>
+          </div>
+        </header>
+        <div className="flex items-center justify-center min-h-[60vh]">
+          <div className="text-center">
+            <Loader2 className="w-8 h-8 animate-spin mx-auto mb-4 text-blue-600" />
+            <p className="text-gray-600">Loading content...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Show error state
+  if (error || !content) {
+    return (
+      <div className="min-h-screen bg-white">
+        <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex justify-between items-center h-16">
+              <div className="flex items-center space-x-6">
+                <Logo variant="dark" />
+                <nav className="hidden md:flex items-center space-x-1">
+                  <Link 
+                    href="/" 
+                    className="flex items-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-colors"
+                  >
+                    <Home className="w-4 h-4" />
+                    <span>Home</span>
+                  </Link>
+                  <Link 
+                    href="/explore" 
+                    className="flex items-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-colors"
+                  >
+                    <BookOpen className="w-4 h-4" />
+                    <span>Explore</span>
+                  </Link>
+                </nav>
+              </div>
+            </div>
+          </div>
+        </header>
+        <div className="flex items-center justify-center min-h-[60vh]">
+          <div className="text-center">
+            <div className="text-red-500 text-xl mb-4">⚠️</div>
+            <h2 className="text-xl font-semibold text-gray-900 mb-2">Failed to Load Content</h2>
+            <p className="text-gray-600 mb-4">{error || 'Unable to load library content'}</p>
+            <button
+              onClick={fetchContent}
+              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+            >
+              Retry
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-white">
@@ -180,6 +299,7 @@ export default function NeuralNetworkArchitecturesPage() {
                 subtopic={content.title}
                 editMode={editMode}
                 pageSlug="neural-network-architectures"
+                onContentUpdated={fetchContent}
               />
             </article>
 

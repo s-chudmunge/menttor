@@ -35,9 +35,10 @@ interface Props {
   subtopic?: string;
   editMode?: boolean;
   pageSlug?: string;
+  onContentUpdated?: () => void;
 }
 
-const LibraryContentRenderer: React.FC<Props> = ({ content, resources, subject, subtopic, editMode = false, pageSlug = "neural-network-architectures" }) => {
+const LibraryContentRenderer: React.FC<Props> = ({ content, resources, subject, subtopic, editMode = false, pageSlug = "neural-network-architectures", onContentUpdated }) => {
   const [regeneratingPage, setRegeneratingPage] = useState(false);
 
 
@@ -67,8 +68,13 @@ const LibraryContentRenderer: React.FC<Props> = ({ content, resources, subject, 
       const result = await response.json();
       console.log('Page regenerated successfully:', result);
       
-      // Reload the page to show updated content
-      window.location.reload();
+      // Refresh content instead of reloading the page
+      if (onContentUpdated) {
+        onContentUpdated();
+      } else {
+        // Fallback to page reload if no callback provided
+        window.location.reload();
+      }
       
     } catch (error) {
       console.error('Failed to regenerate page:', error);
