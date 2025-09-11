@@ -12,6 +12,9 @@ logger = logging.getLogger(__name__)
 
 router = APIRouter(prefix="/subtopic-generator", tags=["subtopic-generator"])
 
+# API endpoints for automated subtopic library content generation
+# Provides background processing and status tracking for subtopic JSON file creation
+
 class GeneratorStatus(BaseModel):
     running: bool
     message: str
