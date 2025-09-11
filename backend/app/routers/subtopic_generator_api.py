@@ -39,6 +39,9 @@ async def run_subtopic_generation():
         generator_status["message"] = "Starting subtopic generation..."
         
         # Import and run the generator
+        import sys
+        from pathlib import Path
+        sys.path.append(str(Path(__file__).parent.parent.parent))
         from subtopic_generator import SubtopicGenerator
         
         generator = SubtopicGenerator()
