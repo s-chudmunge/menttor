@@ -5,7 +5,7 @@ Subtopic Library Content Generator
 This script fetches all subtopics from ALL curated roadmaps and generates
 library content for each subtopic using AI generation functionality. 
 It automatically skips already processed subtopics and processes remaining
-ones with a 3-minute interval between generations.
+ones with a 30-second interval between generations.
 """
 
 import asyncio
@@ -38,7 +38,7 @@ logger = logging.getLogger(__name__)
 # Configuration
 BACKEND_URL = "https://menttor-backend-144050828172.asia-south1.run.app"
 DEFAULT_MODEL = "vertexai:gemini-2.5-flash-lite"
-GENERATION_INTERVAL = 180  # 3 minutes in seconds
+GENERATION_INTERVAL = 30  # 30 seconds
 MAX_RETRIES = 3
 
 class SubtopicGenerator:
@@ -320,10 +320,10 @@ class SubtopicGenerator:
                 failed_count += 1
                 logger.error(f"❌ Failed to generate ({i+1}/{len(unprocessed)}): {subtopic['title']}")
             
-            # Add 3-minute delay between generations 
+            # Add delay between generations 
             if i < len(unprocessed) - 1:  # Don't wait after the last one
-                logger.info("Waiting 3 minutes before next generation...")
-                await asyncio.sleep(180)  # 3 minutes
+                logger.info("Waiting 30 seconds before next generation...")
+                await asyncio.sleep(GENERATION_INTERVAL)  # 30 seconds
         
         logger.info(f"Batch completed! Processed: {processed_count}, Failed: {failed_count}")
         return True  # Signal completion
