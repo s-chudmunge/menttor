@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Head from 'next/head';
 import { useParams } from 'next/navigation';
 import { 
   Home, 
@@ -220,6 +221,69 @@ export default function DynamicLibraryPage() {
 
   return (
     <div className="min-h-screen bg-white">
+      <Head>
+        <title>{content.title} - Menttor Library</title>
+        <meta name="description" content={content.goal} />
+        <meta name="keywords" content={`${content.title}, ${content.subject}, learning, education, menttor`} />
+        <meta name="author" content="MenttorLabs" />
+        <meta name="robots" content="index, follow" />
+        
+        {/* Open Graph meta tags */}
+        <meta property="og:title" content={`${content.title} - Menttor Library`} />
+        <meta property="og:description" content={content.goal} />
+        <meta property="og:type" content="article" />
+        <meta property="og:url" content={`https://menttor.live/library/${slug}`} />
+        <meta property="og:site_name" content="Menttor" />
+        <meta property="og:image" content="https://menttor.live/og-image.png" />
+        
+        {/* Twitter Card meta tags */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={`${content.title} - Menttor Library`} />
+        <meta name="twitter:description" content={content.goal} />
+        <meta name="twitter:image" content="https://menttor.live/og-image.png" />
+        
+        {/* Article meta tags */}
+        <meta property="article:published_time" content={content.lastUpdated} />
+        <meta property="article:modified_time" content={content.lastUpdated} />
+        <meta property="article:section" content={content.subject} />
+        <meta property="article:tag" content={content.title} />
+        
+        {/* JSON-LD structured data */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Article",
+              "headline": content.title,
+              "description": content.goal,
+              "author": {
+                "@type": "Organization",
+                "name": "MenttorLabs",
+                "url": "https://menttor.live"
+              },
+              "publisher": {
+                "@type": "Organization",
+                "name": "MenttorLabs",
+                "logo": {
+                  "@type": "ImageObject",
+                  "url": "https://menttor.live/logo.png"
+                }
+              },
+              "datePublished": content.lastUpdated,
+              "dateModified": content.lastUpdated,
+              "url": `https://menttor.live/library/${slug}`,
+              "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": `https://menttor.live/library/${slug}`
+              },
+              "articleSection": content.subject,
+              "keywords": `${content.title}, ${content.subject}, learning, education`
+            })
+          }}
+        />
+      </Head>
+      
       {/* Clean Header */}
       <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">

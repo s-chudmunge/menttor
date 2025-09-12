@@ -17,6 +17,7 @@ export async function GET() {
   const staticUrls = [
     { url: baseUrl, priority: '1.0', changefreq: 'weekly' },
     { url: `${baseUrl}/explore`, priority: '0.9', changefreq: 'daily' },
+    { url: `${baseUrl}/library`, priority: '0.8', changefreq: 'daily' },
     { url: `${baseUrl}/help`, priority: '0.6', changefreq: 'monthly' },
     { url: `${baseUrl}/sitemap`, priority: '0.4', changefreq: 'monthly' },
     { url: `${baseUrl}/about`, priority: '0.5', changefreq: 'yearly' },
@@ -28,6 +29,31 @@ export async function GET() {
   let allUrls = [...staticUrls];
 
   try {
+    // Fetch library content
+    const libraryResponse = await fetch('https://menttor-backend-144050828172.asia-south1.run.app/library/available', {
+      headers: {
+        'Cache-Control': 'no-cache',
+        'Accept': 'application/json',
+      },
+      signal: AbortSignal.timeout(8000),
+    });
+
+    if (libraryResponse.ok && libraryResponse.status === 200) {
+      const libraryItems = await libraryResponse.json();
+      
+      if (Array.isArray(libraryItems) && libraryItems.length > 0) {
+        // Add library content URLs
+        const libraryUrls = libraryItems.map((item: any) => ({
+          url: `${baseUrl}/library/${item.slug}`,
+          priority: '0.7',
+          changefreq: 'weekly'
+        }));
+
+        allUrls = [...allUrls, ...libraryUrls];
+        console.log(`Successfully loaded ${libraryItems.length} library pages for sitemap`);
+      }
+    }
+
     // Fetch roadmaps from backend with short timeout for faster builds
     const response = await fetch('https://menttor-backend-144050828172.asia-south1.run.app/curated-roadmaps/?per_page=100', {
       headers: {

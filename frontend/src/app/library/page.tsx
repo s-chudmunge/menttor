@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Head from 'next/head';
 import { BookOpen, Loader2, Search } from 'lucide-react';
 import Logo from '../../../components/Logo';
 import { BACKEND_URL } from '../../config/config';
@@ -89,6 +90,55 @@ export default function LibraryPage() {
 
   return (
     <div className="min-h-screen bg-white">
+      <Head>
+        <title>Library - Learning Content | Menttor</title>
+        <meta name="description" content="Explore comprehensive learning content covering topics from programming to data science. Interactive lessons, visualizations, and resources for effective learning." />
+        <meta name="keywords" content="learning library, educational content, programming tutorials, data science, machine learning, interactive learning, menttor library" />
+        <meta name="author" content="MenttorLabs" />
+        <meta name="robots" content="index, follow" />
+        
+        {/* Open Graph meta tags */}
+        <meta property="og:title" content="Library - Learning Content | Menttor" />
+        <meta property="og:description" content="Explore comprehensive learning content covering topics from programming to data science." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://menttor.live/library" />
+        <meta property="og:site_name" content="Menttor" />
+        <meta property="og:image" content="https://menttor.live/og-image.png" />
+        
+        {/* Twitter Card meta tags */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Library - Learning Content | Menttor" />
+        <meta name="twitter:description" content="Explore comprehensive learning content covering topics from programming to data science." />
+        <meta name="twitter:image" content="https://menttor.live/og-image.png" />
+        
+        {/* JSON-LD structured data */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "CollectionPage",
+              "name": "Menttor Library",
+              "description": "Comprehensive learning content covering various topics in technology and education",
+              "url": "https://menttor.live/library",
+              "mainEntity": {
+                "@type": "ItemList",
+                "name": "Learning Content Library",
+                "description": "Collection of educational content"
+              },
+              "publisher": {
+                "@type": "Organization",
+                "name": "MenttorLabs",
+                "logo": {
+                  "@type": "ImageObject",
+                  "url": "https://menttor.live/logo.png"
+                }
+              }
+            })
+          }}
+        />
+      </Head>
+
       {/* Header */}
       <header className="bg-white border-b border-gray-200">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
