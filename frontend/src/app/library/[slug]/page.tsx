@@ -287,10 +287,12 @@ export default function DynamicLibraryPage() {
       {/* Clean Header */}
       <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
+          <div className="flex justify-between items-center h-14 sm:h-16">
             {/* Logo and Navigation */}
-            <div className="flex items-center space-x-6">
+            <div className="flex items-center space-x-4 sm:space-x-6">
               <Logo variant="dark" />
+              
+              {/* Desktop Navigation */}
               <nav className="hidden md:flex items-center space-x-1">
                 <Link 
                   href="/" 
@@ -306,9 +308,26 @@ export default function DynamicLibraryPage() {
                   <BookOpen className="w-4 h-4" />
                   <span>Explore</span>
                 </Link>
+                <Link 
+                  href="/library" 
+                  className="flex items-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-colors"
+                >
+                  <BookOpen className="w-4 h-4" />
+                  <span>Library</span>
+                </Link>
               </nav>
             </div>
 
+            {/* Mobile Back Button */}
+            <div className="md:hidden">
+              <Link 
+                href="/library" 
+                className="flex items-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-colors min-h-[44px]"
+              >
+                <ChevronLeft className="w-4 h-4" />
+                <span>Library</span>
+              </Link>
+            </div>
           </div>
         </div>
       </header>
@@ -331,9 +350,9 @@ export default function DynamicLibraryPage() {
       </div>
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="flex gap-12">
-          {/* Table of Contents - Desktop */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
+        <div className="lg:flex lg:gap-12">
+          {/* Table of Contents - Desktop Only */}
           <aside className="hidden lg:block w-56 flex-shrink-0">
             <div className="sticky top-24">
               <h3 className="text-sm font-semibold text-gray-900 mb-3">Contents</h3>
@@ -369,9 +388,46 @@ export default function DynamicLibraryPage() {
             </div>
           </aside>
 
+          {/* Mobile Table of Contents */}
+          <div className="lg:hidden mb-6">
+            <details className="bg-gray-50 rounded-lg p-4">
+              <summary className="font-semibold text-gray-900 cursor-pointer flex items-center justify-between">
+                <span>Table of Contents</span>
+                <svg className="w-5 h-5 transform transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </summary>
+              <nav className="mt-3 space-y-2">
+                {content.content
+                  .filter(block => block.type === 'heading')
+                  .map((heading: any, index) => {
+                    const headingSlug = heading.data.text?.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-*|-*$/g, '') || '';
+                    const id = `heading-${headingSlug}`;
+                    return (
+                      <a
+                        key={index}
+                        href={`#${id}`}
+                        className={`block py-2 px-3 text-sm rounded transition-colors ${
+                          heading.data.level === 1 ? 'font-medium text-gray-900' : 
+                          heading.data.level === 2 ? 'text-gray-700 pl-6' : 'text-gray-600 pl-9'
+                        } hover:bg-gray-100`}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+                        }}
+                      >
+                        {heading.data.text}
+                      </a>
+                    );
+                  })
+                }
+              </nav>
+            </details>
+          </div>
+
           {/* Main Content */}
-          <main className="flex-1 min-w-0 max-w-none">
-            <article className="prose prose-gray max-w-none">
+          <main className="lg:flex-1 lg:min-w-0 w-full">
+            <article className="prose prose-gray max-w-none lg:max-w-none">
               <LibraryContentRenderer 
                 content={content.content}
                 resources={content.resources}
@@ -384,17 +440,17 @@ export default function DynamicLibraryPage() {
             </article>
 
             {/* Footer */}
-            <footer className="mt-12 pt-8 border-t border-gray-200">
-              <div className="flex flex-col sm:flex-row sm:justify-between items-center text-sm text-gray-500">
+            <footer className="mt-8 sm:mt-12 pt-6 sm:pt-8 border-t border-gray-200">
+              <div className="flex flex-col sm:flex-row sm:justify-between items-start sm:items-center text-sm text-gray-500 space-y-3 sm:space-y-0">
                 <div>
                   <p>Last updated: {new Date(content.lastUpdated).toLocaleDateString()}</p>
                 </div>
-                <div className="mt-2 sm:mt-0 flex items-center space-x-4">
+                <div className="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-4">
                   <p>Part of Menttor Library</p>
-                  {/* Edit Mode Toggle - Small */}
+                  {/* Edit Mode Toggle - Larger for mobile */}
                   <button
                     onClick={() => setEditMode(!editMode)}
-                    className={`text-xs px-2 py-1 rounded transition-colors ${
+                    className={`text-sm px-3 py-2 rounded transition-colors min-h-[44px] ${
                       editMode 
                         ? 'bg-blue-100 text-blue-700 hover:bg-blue-200' 
                         : 'text-gray-400 hover:text-gray-600 hover:bg-gray-100'
