@@ -109,18 +109,18 @@ export default function LibraryPage() {
 
         {/* Library Content */}
         {loading ? (
-          <div className="flex items-center justify-center">
+          <div className="flex items-center justify-center py-8">
             <Loader2 className="w-6 h-6 animate-spin text-blue-600" />
           </div>
         ) : (
-          <div>
+          <div className="grid gap-2 py-2">
             {libraryItems.map((item) => (
               <a 
                 key={item.slug}
                 href={`/library/${item.slug}`}
-                className="block border-l-2 border-blue-500 bg-white hover:bg-gray-50 transition-colors"
+                className="block p-2 border border-gray-200 rounded hover:border-blue-300 hover:shadow-sm transition-all"
               >
-                <h3 className="text-sm font-medium text-gray-900">
+                <h3 className="text-sm font-medium text-gray-900 mb-1">
                   {item.title || formatTitle(item.slug)}
                 </h3>
                 <p className="text-gray-600 text-xs">
