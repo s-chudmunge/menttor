@@ -415,6 +415,13 @@ const MenttorLabsMainPage = () => {
                 <span className="text-sm">Explore</span>
               </Link>
               <Link 
+                href="/library" 
+                className="flex items-center space-x-2 px-3 py-2 rounded-md font-medium transition-all duration-200 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800"
+              >
+                <BookOpen className="w-4 h-4" />
+                <span className="text-sm">Library</span>
+              </Link>
+              <Link 
                 href="/journey" 
                 className="flex items-center space-x-2 px-3 py-2 rounded-md font-medium transition-all duration-200 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800"
               >
@@ -468,6 +475,7 @@ const MenttorLabsMainPage = () => {
                 <div className="px-4 py-3 space-y-1">
                   <Link href="/" className="block py-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white font-medium">Home</Link>
                   <Link href="/explore" className="block py-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white font-medium">Explore</Link>
+                  <Link href="/library" className="block py-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white font-medium">Library</Link>
                   <a href="#generate" className="block py-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white font-medium">Generate</a>
                   <button 
                     onClick={() => setShowOldRoadmaps(true)}
@@ -883,6 +891,7 @@ const MenttorLabsMainPage = () => {
               <ul className="space-y-3">
                 <li><Link href="/" className="text-gray-300 hover:text-white transition-colors duration-200">Home</Link></li>
                 <li><a href="#generate" className="text-gray-300 hover:text-white transition-colors duration-200">Create Roadmap</a></li>
+                <li><Link href="/library" className="text-gray-300 hover:text-white transition-colors duration-200">Library</Link></li>
                 <li><button onClick={() => setShowOldRoadmaps(true)} className="text-gray-300 hover:text-white transition-colors duration-200">My Roadmaps</button></li>
                 <li><Link href="/dashboard" className="text-gray-300 hover:text-white transition-colors duration-200">Dashboard</Link></li>
                 <li><Link href="/performance-analysis" className="text-gray-300 hover:text-white transition-colors duration-200">Analytics</Link></li>
