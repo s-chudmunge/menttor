@@ -2,9 +2,10 @@
 """
 Subtopic Library Content Generator
 
-This script fetches all subtopics from all curated roadmaps and generates
-JSON library content files for each subtopic using the existing AI generation
-functionality. Runs every 3 minutes until all subtopics are processed.
+This script fetches all subtopics from ALL curated roadmaps and generates
+library content for each subtopic using AI generation functionality. 
+It automatically skips already processed subtopics and processes remaining
+ones with a 3-minute interval between generations.
 """
 
 import asyncio
@@ -255,40 +256,52 @@ class SubtopicGenerator:
             return False
     
     async def run_generation_cycle(self):
-        """Run one cycle of subtopic generation - ALL REMAINING SUBTOPICS"""
-        logger.info("Starting ALL remaining subtopics generation cycle...")
+        """Run one cycle of subtopic generation - ALL REMAINING SUBTOPICS FROM ALL ROADMAPS"""
+        logger.info("Starting ALL remaining subtopics generation cycle from ALL roadmaps...")
         
-        # Fetch first roadmap only
+        # Fetch all curated roadmaps
         roadmaps = await self.fetch_all_curated_roadmaps()
         if not roadmaps:
             logger.error("No roadmaps found, skipping cycle")
             return True
         
-        # Get first roadmap details
-        first_roadmap = roadmaps[0]
-        slug = first_roadmap.get('slug') or str(first_roadmap.get('id'))
-        logger.info(f"Using first roadmap: {first_roadmap.get('title')} (slug: {slug})")
+        logger.info(f"Found {len(roadmaps)} curated roadmaps to process")
         
-        details = await self.fetch_roadmap_details(slug)
-        if not details:
-            logger.error("Failed to fetch roadmap details")
+        # Get details for all roadmaps
+        all_roadmap_details = []
+        for i, roadmap in enumerate(roadmaps):
+            slug = roadmap.get('slug') or str(roadmap.get('id'))
+            title = roadmap.get('title', 'Unknown Roadmap')
+            logger.info(f"Fetching details for roadmap {i+1}/{len(roadmaps)}: {title} (slug: {slug})")
+            
+            details = await self.fetch_roadmap_details(slug)
+            if details:
+                all_roadmap_details.append(details)
+                logger.info(f"✅ Successfully fetched details for: {title}")
+            else:
+                logger.warning(f"❌ Failed to fetch details for: {title}")
+        
+        if not all_roadmap_details:
+            logger.error("Failed to fetch details for any roadmap")
             return True
             
-        # Extract subtopics from first roadmap only
-        all_subtopics = self.extract_all_subtopics([details])
+        logger.info(f"Successfully fetched details for {len(all_roadmap_details)} roadmaps")
+            
+        # Extract subtopics from all roadmaps
+        all_subtopics = self.extract_all_subtopics(all_roadmap_details)
         
         if not all_subtopics:
-            logger.error("No subtopics extracted from first roadmap")
+            logger.error("No subtopics extracted from any roadmap")
             return True
         
-        logger.info(f"Found {len(all_subtopics)} subtopics in first roadmap")
+        logger.info(f"Found {len(all_subtopics)} total subtopics across all roadmaps")
         
-        # Filter unprocessed subtopics
+        # Filter unprocessed subtopics (this automatically skips already generated content)
         unprocessed = [s for s in all_subtopics if s['id'] not in self.processed_subtopics]
-        logger.info(f"Found {len(unprocessed)} unprocessed subtopics")
+        logger.info(f"Found {len(unprocessed)} unprocessed subtopics (skipping {len(all_subtopics) - len(unprocessed)} already processed)")
         
         if not unprocessed:
-            logger.info("All subtopics from first roadmap have been processed! 🎉")
+            logger.info("All subtopics from all roadmaps have been processed! 🎉")
             return True  # Signal completion
         
         # Process ALL remaining subtopics
@@ -316,16 +329,16 @@ class SubtopicGenerator:
         return True  # Signal completion
     
     async def run(self):
-        """Main execution loop - ALL REMAINING SUBTOPICS VERSION"""
-        logger.info("🚀 Starting ALL Remaining Subtopics Library Content Generator")
+        """Main execution loop - ALL ROADMAPS VERSION"""
+        logger.info("🚀 Starting Library Content Generator for ALL Curated Roadmaps")
         logger.info("Content storage: Database")
         logger.info(f"Using model: {DEFAULT_MODEL}")
-        logger.info("NOTE: This version processes ALL remaining subtopics from the first roadmap")
+        logger.info("NOTE: This version processes ALL remaining subtopics from ALL curated roadmaps")
         
         try:
             completed = await self.run_generation_cycle()
             if completed:
-                logger.info("🎊 All remaining subtopics processing completed!")
+                logger.info("🎊 All subtopics from all roadmaps processing completed!")
             
         except Exception as e:
             logger.error(f"Error in generation cycle: {e}")

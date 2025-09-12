@@ -75,22 +75,22 @@ export default function LibraryPage() {
     <div className="min-h-screen bg-white">
       {/* Header */}
       <header className="bg-white border-b border-gray-200">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center space-x-6">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-12">
+            <div className="flex items-center space-x-4">
               <Logo variant="dark" />
               <nav className="hidden md:flex items-center space-x-1">
                 <Link 
                   href="/" 
-                  className="flex items-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-colors"
+                  className="px-2 py-1 rounded text-xs font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-colors"
                 >
-                  <span>Home</span>
+                  Home
                 </Link>
                 <Link 
                   href="/explore" 
-                  className="flex items-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-colors"
+                  className="px-2 py-1 rounded text-xs font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-colors"
                 >
-                  <span>Explore</span>
+                  Explore
                 </Link>
               </nav>
             </div>
@@ -99,32 +99,31 @@ export default function LibraryPage() {
       </header>
 
       {/* Main Content */}
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="text-center mb-12">
-          <BookOpen className="w-16 h-16 text-blue-600 mx-auto mb-4" />
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">Menttor Library</h1>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Comprehensive knowledge base with editable, regeneratable content powered by AI
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900">Library</h1>
+          <p className="text-sm text-gray-600">
+            Knowledge base with editable, regeneratable content
           </p>
         </div>
 
         {/* Library Content */}
         {loading ? (
-          <div className="flex items-center justify-center py-12">
-            <Loader2 className="w-8 h-8 animate-spin text-blue-600" />
+          <div className="flex items-center justify-center">
+            <Loader2 className="w-6 h-6 animate-spin text-blue-600" />
           </div>
         ) : (
-          <div className="space-y-4">
+          <div>
             {libraryItems.map((item) => (
               <a 
                 key={item.slug}
                 href={`/library/${item.slug}`}
-                className="block border-l-4 border-blue-500 bg-white p-4 hover:bg-gray-50 transition-colors"
+                className="block border-l-2 border-blue-500 bg-white hover:bg-gray-50 transition-colors"
               >
-                <h3 className="text-lg font-semibold text-gray-900 mb-1">
+                <h3 className="text-sm font-medium text-gray-900">
                   {item.title || formatTitle(item.slug)}
                 </h3>
-                <p className="text-gray-600 text-sm">
+                <p className="text-gray-600 text-xs">
                   {item.goal || item.subject || `Learn about ${formatTitle(item.slug).toLowerCase()}`}
                 </p>
               </a>
