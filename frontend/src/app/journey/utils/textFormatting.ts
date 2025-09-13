@@ -3,7 +3,7 @@
 /**
  * Removes markdown-style formatting from text
  */
-export const cleanMarkdownText = (text: string): string => {
+export const cleanMarkdownText = (text: string | undefined): string => {
   if (!text) return '';
   
   return text
