@@ -1,11 +1,29 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo, Suspense } from 'react';
 import Link from 'next/link';
 import Head from 'next/head';
 import { BookOpen, Loader2, Search } from 'lucide-react';
 import Logo from '../../../components/Logo';
 import { BACKEND_URL } from '../../config/config';
+import { cleanMarkdownText } from '../journey/utils/textFormatting';
+
+// Skeleton component for library items
+const LibraryItemSkeleton = () => (
+  <div className="block p-4 border border-gray-200 rounded-lg min-h-[60px] animate-pulse">
+    <div className="h-4 bg-gray-200 rounded mb-2 w-3/4"></div>
+    <div className="h-3 bg-gray-200 rounded w-full"></div>
+  </div>
+);
+
+// Skeleton grid for loading state
+const LibraryGridSkeleton = () => (
+  <div className="grid gap-3 py-4 px-2 sm:px-0">
+    {Array.from({ length: 12 }, (_, i) => (
+      <LibraryItemSkeleton key={i} />
+    ))}
+  </div>
+);
 
 interface LibraryItem {
   slug: string;
@@ -14,11 +32,52 @@ interface LibraryItem {
   goal?: string;
 }
 
+// Library item component with prefetch on hover
+const LibraryItem = React.memo(({ item }: { item: LibraryItem }) => {
+  const [isPrefetched, setIsPrefetched] = useState(false);
+  
+  const handleMouseEnter = () => {
+    if (!isPrefetched) {
+      // Prefetch the page data
+      const link = document.createElement('link');
+      link.rel = 'prefetch';
+      link.href = `/library/${item.slug}`;
+      document.head.appendChild(link);
+      setIsPrefetched(true);
+    }
+  };
+  
+  const formatTitle = (slug: string) => {
+    return slug
+      .split('-')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
+  };
+  
+  return (
+    <Link 
+      href={`/library/${item.slug}`}
+      className="block p-4 border border-gray-200 rounded-lg hover:border-blue-300 hover:shadow-sm transition-all min-h-[60px] touch-manipulation"
+      onMouseEnter={handleMouseEnter}
+      prefetch={false}
+    >
+      <h3 className="text-base sm:text-sm font-medium text-gray-900 mb-2 leading-tight">
+        {cleanMarkdownText(item.title) || formatTitle(item.slug)}
+      </h3>
+      <p className="text-gray-600 text-sm sm:text-xs leading-relaxed">
+        {cleanMarkdownText(item.goal) || cleanMarkdownText(item.subject) || `Learn about ${formatTitle(item.slug).toLowerCase()}`}
+      </p>
+    </Link>
+  );
+});
+
+LibraryItem.displayName = 'LibraryItem';
+
 export default function LibraryPage() {
   const [libraryItems, setLibraryItems] = useState<LibraryItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
-  const [filteredItems, setFilteredItems] = useState<LibraryItem[]>([]);
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
 
   // Fetch available library content
   useEffect(() => {
@@ -59,34 +118,38 @@ export default function LibraryPage() {
           }
         ]);
       } finally {
-        setLoading(false);
+        if (!isInitialLoad) {
+          setLoading(false);
+        }
       }
     };
 
     fetchLibraryItems();
   }, []);
 
-  // Filter items based on search query
-  useEffect(() => {
+  // Memoized filtered items for better performance
+  const filteredItems = useMemo(() => {
     if (!searchQuery.trim()) {
-      setFilteredItems(libraryItems);
-    } else {
-      const filtered = libraryItems.filter(item =>
-        item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        (item.subject && item.subject.toLowerCase().includes(searchQuery.toLowerCase())) ||
-        (item.goal && item.goal.toLowerCase().includes(searchQuery.toLowerCase()))
-      );
-      setFilteredItems(filtered);
+      return libraryItems;
     }
+    return libraryItems.filter(item =>
+      item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (item.subject && item.subject.toLowerCase().includes(searchQuery.toLowerCase())) ||
+      (item.goal && item.goal.toLowerCase().includes(searchQuery.toLowerCase()))
+    );
   }, [libraryItems, searchQuery]);
+  
+  // Add a brief delay for skeleton to show on first load
+  useEffect(() => {
+    if (libraryItems.length > 0 && isInitialLoad) {
+      const timer = setTimeout(() => {
+        setIsInitialLoad(false);
+        setLoading(false);
+      }, 300);
+      return () => clearTimeout(timer);
+    }
+  }, [libraryItems, isInitialLoad]);
 
-  // Helper function to format titles
-  const formatTitle = (slug: string) => {
-    return slug
-      .split('-')
-      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(' ');
-  };
 
   return (
     <div className="min-h-screen bg-white">
@@ -272,34 +335,23 @@ export default function LibraryPage() {
         </div>
 
         {/* Library Content */}
-        {loading ? (
-          <div className="flex items-center justify-center py-8">
-            <Loader2 className="w-6 h-6 animate-spin text-blue-600" />
-          </div>
-        ) : (
-          <div className="grid gap-3 py-4 px-2 sm:px-0">
-            {filteredItems.length === 0 ? (
-              <div className="text-center py-8 text-gray-500">
-                {searchQuery ? `No results found for "${searchQuery}"` : 'No library content available'}
-              </div>
-            ) : (
-              filteredItems.map((item) => (
-              <a 
-                key={item.slug}
-                href={`/library/${item.slug}`}
-                className="block p-4 border border-gray-200 rounded-lg hover:border-blue-300 hover:shadow-sm transition-all min-h-[60px] touch-manipulation"
-              >
-                <h3 className="text-base sm:text-sm font-medium text-gray-900 mb-2 leading-tight">
-                  {item.title || formatTitle(item.slug)}
-                </h3>
-                <p className="text-gray-600 text-sm sm:text-xs leading-relaxed">
-                  {item.goal || item.subject || `Learn about ${formatTitle(item.slug).toLowerCase()}`}
-                </p>
-              </a>
-              ))
-            )}
-          </div>
-        )}
+        <Suspense fallback={<LibraryGridSkeleton />}>
+          {(loading || isInitialLoad) ? (
+            <LibraryGridSkeleton />
+          ) : (
+            <div className="grid gap-3 py-4 px-2 sm:px-0">
+              {filteredItems.length === 0 ? (
+                <div className="text-center py-8 text-gray-500">
+                  {searchQuery ? `No results found for "${searchQuery}"` : 'No library content available'}
+                </div>
+              ) : (
+                filteredItems.map((item) => (
+                  <LibraryItem key={item.slug} item={item} />
+                ))
+              )}
+            </div>
+          )}
+        </Suspense>
       </div>
     </div>
   );

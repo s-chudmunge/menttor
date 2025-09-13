@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense, lazy } from 'react';
 import Link from 'next/link';
 import Head from 'next/head';
 import { useParams } from 'next/navigation';
@@ -13,8 +13,40 @@ import {
   Loader2
 } from 'lucide-react';
 import Logo from '../../../../components/Logo';
-import LibraryContentRenderer from '../../../components/library/LibraryContentRenderer';
 import { BACKEND_URL } from '../../../config/config';
+import { cleanMarkdownText } from '../../journey/utils/textFormatting';
+
+// Lazy load the content renderer for better performance
+const LibraryContentRenderer = lazy(() => import('../../../components/library/LibraryContentRenderer'));
+
+// Skeleton components
+const ContentSkeleton = () => (
+  <div className="animate-pulse space-y-6">
+    <div className="h-8 bg-gray-200 rounded w-3/4"></div>
+    <div className="h-4 bg-gray-200 rounded w-1/2"></div>
+    <div className="space-y-3">
+      <div className="h-4 bg-gray-200 rounded"></div>
+      <div className="h-4 bg-gray-200 rounded"></div>
+      <div className="h-4 bg-gray-200 rounded w-5/6"></div>
+    </div>
+    <div className="h-6 bg-gray-200 rounded w-1/3"></div>
+    <div className="space-y-2">
+      <div className="h-4 bg-gray-200 rounded"></div>
+      <div className="h-4 bg-gray-200 rounded"></div>
+      <div className="h-4 bg-gray-200 rounded w-4/5"></div>
+    </div>
+  </div>
+);
+
+const TOCSkeleton = () => (
+  <div className="animate-pulse space-y-2">
+    <div className="h-4 bg-gray-200 rounded w-3/4"></div>
+    <div className="h-3 bg-gray-200 rounded w-1/2 ml-4"></div>
+    <div className="h-3 bg-gray-200 rounded w-2/3 ml-4"></div>
+    <div className="h-4 bg-gray-200 rounded w-3/5"></div>
+    <div className="h-3 bg-gray-200 rounded w-1/2 ml-4"></div>
+  </div>
+);
 
 // Type definition for library content with optional resources
 interface LibraryContent {
@@ -40,6 +72,7 @@ export default function DynamicLibraryPage() {
   const [content, setContent] = useState<LibraryContent | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
 
   // Fetch content from backend API
   const fetchContent = async () => {
@@ -74,6 +107,17 @@ export default function DynamicLibraryPage() {
       fetchContent();
     }
   }, [slug]);
+  
+  // Handle initial loading with skeleton delay
+  useEffect(() => {
+    if (content && isInitialLoad) {
+      const timer = setTimeout(() => {
+        setIsInitialLoad(false);
+        setLoading(false);
+      }, 400); // Slightly longer delay for content pages
+      return () => clearTimeout(timer);
+    }
+  }, [content, isInitialLoad]);
 
   // Keyboard shortcut for edit mode toggle
   useEffect(() => {
@@ -134,14 +178,14 @@ export default function DynamicLibraryPage() {
       .join(' ');
   };
 
-  // Show loading state
-  if (loading) {
+  // Show loading state with skeleton
+  if (loading || isInitialLoad) {
     return (
       <div className="min-h-screen bg-white">
         <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex justify-between items-center h-16">
-              <div className="flex items-center space-x-6">
+            <div className="flex justify-between items-center h-14 sm:h-16">
+              <div className="flex items-center space-x-4 sm:space-x-6">
                 <Logo variant="dark" />
                 <nav className="hidden md:flex items-center space-x-1">
                   <Link 
@@ -152,21 +196,52 @@ export default function DynamicLibraryPage() {
                     <span>Home</span>
                   </Link>
                   <Link 
-                    href="/explore" 
+                    href="/library" 
                     className="flex items-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-colors"
                   >
                     <BookOpen className="w-4 h-4" />
-                    <span>Explore</span>
+                    <span>Library</span>
                   </Link>
                 </nav>
+              </div>
+              <div className="md:hidden">
+                <Link 
+                  href="/library"
+                  className="flex items-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-colors min-h-[44px]"
+                >
+                  <ChevronLeft className="w-4 h-4" />
+                  <span>Back</span>
+                </Link>
               </div>
             </div>
           </div>
         </header>
-        <div className="flex items-center justify-center min-h-[60vh]">
-          <div className="text-center">
-            <Loader2 className="w-8 h-8 animate-spin mx-auto mb-4 text-blue-600" />
-            <p className="text-gray-600">Loading content...</p>
+        
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+          <div className="lg:flex lg:gap-8">
+            {/* Desktop TOC Skeleton */}
+            <aside className="hidden lg:block lg:w-64 flex-shrink-0">
+              <div className="sticky top-24">
+                <div className="bg-gray-50 rounded-lg p-4">
+                  <div className="h-5 bg-gray-200 rounded mb-4 w-3/4 animate-pulse"></div>
+                  <TOCSkeleton />
+                </div>
+              </div>
+            </aside>
+
+            {/* Mobile TOC Skeleton */}
+            <div className="lg:hidden mb-6">
+              <div className="bg-gray-50 rounded-lg p-4 animate-pulse">
+                <div className="h-5 bg-gray-200 rounded w-1/2"></div>
+              </div>
+            </div>
+
+            {/* Main Content Skeleton */}
+            <main className="lg:flex-1 lg:min-w-0 w-full">
+              <article className="prose prose-gray max-w-none lg:max-w-none">
+                <ContentSkeleton />
+              </article>
+            </main>
           </div>
         </div>
       </div>
@@ -222,15 +297,15 @@ export default function DynamicLibraryPage() {
   return (
     <div className="min-h-screen bg-white">
       <Head>
-        <title>{content.title} - Menttor Library</title>
-        <meta name="description" content={content.goal} />
+        <title>{cleanMarkdownText(content.title)} - Menttor Library</title>
+        <meta name="description" content={cleanMarkdownText(content.goal)} />
         <meta name="keywords" content={`${content.title}, ${content.subject}, learning, education, menttor`} />
         <meta name="author" content="MenttorLabs" />
         <meta name="robots" content="index, follow" />
         
         {/* Open Graph meta tags */}
-        <meta property="og:title" content={`${content.title} - Menttor Library`} />
-        <meta property="og:description" content={content.goal} />
+        <meta property="og:title" content={`${cleanMarkdownText(content.title)} - Menttor Library`} />
+        <meta property="og:description" content={cleanMarkdownText(content.goal)} />
         <meta property="og:type" content="article" />
         <meta property="og:url" content={`https://menttor.live/library/${slug}`} />
         <meta property="og:site_name" content="Menttor" />
@@ -238,8 +313,8 @@ export default function DynamicLibraryPage() {
         
         {/* Twitter Card meta tags */}
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={`${content.title} - Menttor Library`} />
-        <meta name="twitter:description" content={content.goal} />
+        <meta name="twitter:title" content={`${cleanMarkdownText(content.title)} - Menttor Library`} />
+        <meta name="twitter:description" content={cleanMarkdownText(content.goal)} />
         <meta name="twitter:image" content="https://menttor.live/og-image.png" />
         
         {/* Article meta tags */}
@@ -255,8 +330,8 @@ export default function DynamicLibraryPage() {
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "Article",
-              "headline": content.title,
-              "description": content.goal,
+              "headline": cleanMarkdownText(content.title),
+              "description": cleanMarkdownText(content.goal),
               "author": {
                 "@type": "Organization",
                 "name": "MenttorLabs",
@@ -339,11 +414,11 @@ export default function DynamicLibraryPage() {
             <div className="flex items-center space-x-2 text-sm text-blue-600">
               <Link href="/library" className="hover:text-blue-800 font-medium">Library</Link>
               <ChevronLeft className="w-4 h-4 rotate-180" />
-              <span className="text-blue-800">{content.title}</span>
+              <span className="text-blue-800">{cleanMarkdownText(content.title)}</span>
             </div>
-            <h1 className="text-2xl font-bold text-gray-900">{content.title}</h1>
+            <h1 className="text-2xl font-bold text-gray-900">{cleanMarkdownText(content.title)}</h1>
             <p className="text-gray-700 text-sm max-w-3xl">
-              {content.goal}
+              {cleanMarkdownText(content.goal)}
             </p>
           </div>
         </div>
@@ -379,7 +454,7 @@ export default function DynamicLibraryPage() {
                           document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
                         }}
                       >
-                        {heading.data.text}
+                        {cleanMarkdownText(heading.data.text)}
                       </a>
                     );
                   })
@@ -416,7 +491,7 @@ export default function DynamicLibraryPage() {
                           document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
                         }}
                       >
-                        {heading.data.text}
+                        {cleanMarkdownText(heading.data.text)}
                       </a>
                     );
                   })
@@ -428,15 +503,17 @@ export default function DynamicLibraryPage() {
           {/* Main Content */}
           <main className="lg:flex-1 lg:min-w-0 w-full">
             <article className="prose prose-gray max-w-none lg:max-w-none">
-              <LibraryContentRenderer 
-                content={content.content}
-                resources={content.resources}
-                subject={content.subject}
-                subtopic={content.title}
-                editMode={editMode}
-                pageSlug={slug}
-                onContentUpdated={fetchContent}
-              />
+              <Suspense fallback={<ContentSkeleton />}>
+                <LibraryContentRenderer 
+                  content={content.content}
+                  resources={content.resources}
+                  subject={content.subject}
+                  subtopic={content.title}
+                  editMode={editMode}
+                  pageSlug={slug}
+                  onContentUpdated={fetchContent}
+                />
+              </Suspense>
             </article>
 
             {/* Footer */}
