@@ -865,7 +865,7 @@ const MenttorLabsMainPage = () => {
         {/* Footer */}
         <footer className="bg-gray-900 dark:bg-black text-white py-12 transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
             {/* Company Info */}
             <div className="lg:col-span-1">
               <Logo />
@@ -898,17 +898,6 @@ const MenttorLabsMainPage = () => {
               </ul>
             </div>
 
-            {/* Company */}
-            <div>
-              <h4 className="text-lg font-semibold mb-6 text-white">Company</h4>
-              <ul className="space-y-3">
-                <li><a href="/about" className="text-gray-300 hover:text-white transition-colors duration-200">About Us</a></li>
-                <li><a href="/careers" className="text-gray-300 hover:text-white transition-colors duration-200">Careers</a></li>
-                <li><a href="/blog" className="text-gray-300 hover:text-white transition-colors duration-200">Blog</a></li>
-                <li><a href="/press" className="text-gray-300 hover:text-white transition-colors duration-200">Press</a></li>
-                <li><a href="/partnerships" className="text-gray-300 hover:text-white transition-colors duration-200">Partners</a></li>
-              </ul>
-            </div>
 
             {/* Support */}
             <div>
