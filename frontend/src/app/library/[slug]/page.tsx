@@ -28,23 +28,11 @@ interface LibraryContent {
   }>;
 }
 
-// Generate static params for all library pages
+// Generate static params for library pages (limited for faster builds)
 export async function generateStaticParams() {
-  try {
-    const response = await fetch(`${BACKEND_URL}/library/available`);
-    if (!response.ok) {
-      console.warn('Failed to fetch library items for static generation');
-      return [];
-    }
-    
-    const libraryItems = await response.json();
-    return libraryItems.map((item: any) => ({
-      slug: item.slug,
-    }));
-  } catch (error) {
-    console.warn('Error generating static params for library:', error);
-    return [];
-  }
+  // Return empty array to enable ISR without build-time generation
+  // This allows pages to be generated on-demand with caching benefits
+  return [];
 }
 
 // Generate metadata for each page
