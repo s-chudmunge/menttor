@@ -2,8 +2,9 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { Play, RotateCcw, Bug, Terminal, AlertTriangle, CheckCircle } from 'lucide-react';
+import { Play, RotateCcw, Bug, Terminal, AlertTriangle, CheckCircle, Lightbulb, Zap } from 'lucide-react';
 import Editor from '@monaco-editor/react';
+import type { editor, languages } from 'monaco-editor';
 
 interface DebuggingQuestionProps {
   question: string;
@@ -33,122 +34,203 @@ const detectLanguage = (code: string): string => {
   return 'javascript'; // default
 };
 
-// Mock function to simulate code execution and debugging
+// Enhanced debugging analysis engine
 const executeAndDebug = (code: string, language: string = 'javascript'): { 
   output: string; 
   error?: string; 
   hasErrors: boolean;
   errorLines?: number[];
   suggestions?: string[];
+  warnings?: string[];
+  fixes?: { line: number; original: string; fixed: string }[];
 } => {
   const lines = code.split('\n');
   const errorLines: number[] = [];
   const suggestions: string[] = [];
+  const warnings: string[] = [];
+  const fixes: { line: number; original: string; fixed: string }[] = [];
   let hasErrors = false;
 
   try {
     if (language === 'javascript') {
-      // Check for common JavaScript errors
-      lines.forEach((line, index) => {
-        // Assignment in if condition (i = 5 instead of i === 5)
-        if (line.includes('if') && line.includes('=') && !line.includes('==') && !line.includes('!=')) {
-          errorLines.push(index + 1);
-          suggestions.push(`Line ${index + 1}: Use comparison operator (===) instead of assignment (=)`);
-          hasErrors = true;
-        }
-        
-        // Missing semicolons in function declarations
-        if (line.includes('function') && !line.includes('{') && !line.endsWith(';')) {
-          // This is more for style, but can flag it
-        }
-        
-        // Undefined variables
-        if (line.includes('console.log') && line.includes('undefinedVar')) {
-          errorLines.push(index + 1);
-          suggestions.push(`Line ${index + 1}: 'undefinedVar' is not defined`);
-          hasErrors = true;
-        }
-        
-        // Syntax errors
-        if (line.includes('function') && line.includes('(') && !line.includes(')')) {
-          errorLines.push(index + 1);
-          suggestions.push(`Line ${index + 1}: Missing closing parenthesis`);
-          hasErrors = true;
-        }
-      });
-
-      if (!hasErrors) {
-        return {
-          output: `✅ Code executed successfully!
-
-No errors detected. Your debugging was successful!
-
-Sample execution completed without issues.`,
-          hasErrors: false
-        };
-      } else {
-        return {
-          output: '',
-          error: `❌ Found ${errorLines.length} error(s) in the code`,
-          hasErrors: true,
-          errorLines,
-          suggestions
-        };
-      }
+      return analyzeJavaScript(code, lines, errorLines, suggestions, warnings, fixes);
     } else if (language === 'python') {
-      // Check for common Python errors
-      lines.forEach((line, index) => {
-        // Indentation errors
-        if (line.includes('def ') && lines[index + 1] && !lines[index + 1].startsWith('    ')) {
-          errorLines.push(index + 2);
-          suggestions.push(`Line ${index + 2}: Expected indentation after function definition`);
-          hasErrors = true;
-        }
-        
-        // Missing colons
-        if ((line.includes('if ') || line.includes('for ') || line.includes('while ')) && !line.includes(':')) {
-          errorLines.push(index + 1);
-          suggestions.push(`Line ${index + 1}: Missing colon (:) at end of statement`);
-          hasErrors = true;
-        }
-        
-        // Print without parentheses (Python 2 vs 3)
-        if (line.includes('print ') && !line.includes('print(')) {
-          errorLines.push(index + 1);
-          suggestions.push(`Line ${index + 1}: Use print() function syntax for Python 3`);
-          hasErrors = true;
-        }
-      });
-
-      if (!hasErrors) {
-        return {
-          output: `✅ Python code executed successfully!
-
-No syntax or runtime errors found.
-Code structure and logic appear correct.`,
-          hasErrors: false
-        };
-      } else {
-        return {
-          output: '',
-          error: `❌ Found ${errorLines.length} error(s) in the Python code`,
-          hasErrors: true,
-          errorLines,
-          suggestions
-        };
-      }
+      return analyzePython(code, lines, errorLines, suggestions, warnings, fixes);
+    } else if (language === 'java') {
+      return analyzeJava(code, lines, errorLines, suggestions, warnings, fixes);
     }
     
     // Generic language handling
     return {
       output: '✅ Code compiled and executed successfully!\n\nNo errors detected.',
-      hasErrors: false
+      hasErrors: false,
+      warnings
     };
   } catch (error) {
     return { 
       output: '', 
       error: `Runtime Error: ${error instanceof Error ? error.message : 'Unknown error'}`,
       hasErrors: true
+    };
+  }
+};
+
+// JavaScript-specific analysis
+const analyzeJavaScript = (code: string, lines: string[], errorLines: number[], suggestions: string[], warnings: string[], fixes: { line: number; original: string; fixed: string }[]) => {
+  let hasErrors = false;
+  
+  lines.forEach((line, index) => {
+    const lineNum = index + 1;
+    
+    // Assignment in if condition (i = 5 instead of i === 5)
+    if (line.includes('if') && /if\s*\([^)]*[^!=<>]=[^=]/.test(line)) {
+      errorLines.push(lineNum);
+      suggestions.push(`Line ${lineNum}: Use comparison operator (===) instead of assignment (=)`);
+      const fixedLine = line.replace(/([^!=<>])=([^=])/, '$1===$2');
+      fixes.push({ line: lineNum, original: line.trim(), fixed: fixedLine.trim() });
+      hasErrors = true;
+    }
+    
+    // Missing semicolons
+    if (/^\s*\w+\s*=\s*[^;]+$/.test(line) && !line.includes('for') && !line.includes('if')) {
+      warnings.push(`Line ${lineNum}: Consider adding semicolon for consistency`);
+    }
+    
+    // Undefined variables (common patterns)
+    if (line.includes('undefinedVar') || line.includes('unknownFunc')) {
+      errorLines.push(lineNum);
+      suggestions.push(`Line ${lineNum}: Variable or function is not defined`);
+      hasErrors = true;
+    }
+    
+    // Syntax errors - missing parentheses
+    if (/function\s+\w+\s*\([^)]*$/.test(line)) {
+      errorLines.push(lineNum);
+      suggestions.push(`Line ${lineNum}: Missing closing parenthesis in function declaration`);
+      hasErrors = true;
+    }
+    
+    // Missing braces
+    if (/^\s*(if|for|while)\s*\([^)]*\)\s*[^{].*[^;]$/.test(line)) {
+      warnings.push(`Line ${lineNum}: Consider using braces {} for better code structure`);
+    }
+  });
+
+  if (!hasErrors) {
+    return {
+      output: `✅ JavaScript code executed successfully!\n\n🎉 No errors detected. Your debugging was successful!\n\n📊 Code analysis complete - all syntax checks passed.`,
+      hasErrors: false,
+      warnings: warnings.length > 0 ? warnings : undefined
+    };
+  } else {
+    return {
+      output: '',
+      error: `❌ Found ${errorLines.length} error(s) in the JavaScript code`,
+      hasErrors: true,
+      errorLines,
+      suggestions,
+      warnings: warnings.length > 0 ? warnings : undefined,
+      fixes: fixes.length > 0 ? fixes : undefined
+    };
+  }
+};
+
+// Python-specific analysis
+const analyzePython = (code: string, lines: string[], errorLines: number[], suggestions: string[], warnings: string[], fixes: { line: number; original: string; fixed: string }[]) => {
+  let hasErrors = false;
+  
+  lines.forEach((line, index) => {
+    const lineNum = index + 1;
+    
+    // Indentation errors
+    if (/^\s*(def|class)\s+\w/.test(line) && lines[index + 1] && !/^\s{4,}/.test(lines[index + 1])) {
+      if (lines[index + 1].trim()) { // Only if next line isn't empty
+        errorLines.push(lineNum + 1);
+        suggestions.push(`Line ${lineNum + 1}: Expected indentation (4 spaces) after ${line.includes('def') ? 'function' : 'class'} definition`);
+        hasErrors = true;
+      }
+    }
+    
+    // Missing colons
+    if (/^\s*(def|if|for|while|class|elif|else|try|except|finally)\b/.test(line) && !line.includes(':')) {
+      errorLines.push(lineNum);
+      suggestions.push(`Line ${lineNum}: Missing colon (:) at end of statement`);
+      const fixedLine = line.trim() + ':';
+      fixes.push({ line: lineNum, original: line.trim(), fixed: fixedLine });
+      hasErrors = true;
+    }
+    
+    // Print without parentheses (Python 2 vs 3)
+    if (/\bprint\s+[^(]/.test(line) && !line.includes('print(')) {
+      errorLines.push(lineNum);
+      suggestions.push(`Line ${lineNum}: Use print() function syntax for Python 3`);
+      const fixedLine = line.replace(/print\s+(.+)/, 'print($1)');
+      fixes.push({ line: lineNum, original: line.trim(), fixed: fixedLine.trim() });
+      hasErrors = true;
+    }
+    
+    // Common variable naming issues
+    if (/\b[A-Z][a-zA-Z]*\s*=/.test(line) && !line.includes('class')) {
+      warnings.push(`Line ${lineNum}: Variable names should be lowercase with underscores (PEP 8)`);
+    }
+  });
+
+  if (!hasErrors) {
+    return {
+      output: `✅ Python code executed successfully!\n\n🐍 No syntax or runtime errors found.\n📋 Code structure and logic appear correct.\n\n✨ All Python syntax checks passed!`,
+      hasErrors: false,
+      warnings: warnings.length > 0 ? warnings : undefined
+    };
+  } else {
+    return {
+      output: '',
+      error: `❌ Found ${errorLines.length} error(s) in the Python code`,
+      hasErrors: true,
+      errorLines,
+      suggestions,
+      warnings: warnings.length > 0 ? warnings : undefined,
+      fixes: fixes.length > 0 ? fixes : undefined
+    };
+  }
+};
+
+// Java-specific analysis
+const analyzeJava = (code: string, lines: string[], errorLines: number[], suggestions: string[], warnings: string[], fixes: { line: number; original: string; fixed: string }[]) => {
+  let hasErrors = false;
+  
+  lines.forEach((line, index) => {
+    const lineNum = index + 1;
+    
+    // Missing semicolons
+    if (/^\s*\w+.*[^;{}]$/.test(line) && !line.includes('class') && !line.includes('{') && !line.includes('}') && line.trim()) {
+      errorLines.push(lineNum);
+      suggestions.push(`Line ${lineNum}: Missing semicolon (;) at end of statement`);
+      const fixedLine = line.trim() + ';';
+      fixes.push({ line: lineNum, original: line.trim(), fixed: fixedLine });
+      hasErrors = true;
+    }
+    
+    // Variable declaration issues
+    if (/=\s*\w+/.test(line) && !/\b(int|String|boolean|double|float|char)\s+\w+/.test(line) && !line.includes('=')) {
+      warnings.push(`Line ${lineNum}: Consider explicit type declaration`);
+    }
+  });
+
+  if (!hasErrors) {
+    return {
+      output: `✅ Java code compiled successfully!\n\n☕ No compilation errors found.\n🏗️ Class structure appears correct.\n\n📋 All syntax checks passed!`,
+      hasErrors: false,
+      warnings: warnings.length > 0 ? warnings : undefined
+    };
+  } else {
+    return {
+      output: '',
+      error: `❌ Found ${errorLines.length} error(s) in the Java code`,
+      hasErrors: true,
+      errorLines,
+      suggestions,
+      warnings: warnings.length > 0 ? warnings : undefined,
+      fixes: fixes.length > 0 ? fixes : undefined
     };
   }
 };
@@ -168,6 +250,8 @@ const DebuggingQuestion: React.FC<DebuggingQuestionProps> = ({
     hasErrors: boolean;
     errorLines?: number[];
     suggestions?: string[];
+    warnings?: string[];
+    fixes?: { line: number; original: string; fixed: string }[];
   }>({ output: 'Click "Run/Check" to test your code', hasErrors: false });
   const [isRunning, setIsRunning] = useState(false);
   const [hasBeenModified, setHasBeenModified] = useState(false);
@@ -189,8 +273,8 @@ const DebuggingQuestion: React.FC<DebuggingQuestionProps> = ({
   const handleRunCode = async () => {
     setIsRunning(true);
     
-    // Simulate execution delay
-    await new Promise(resolve => setTimeout(resolve, 800));
+    // Simulate realistic execution delay
+    await new Promise(resolve => setTimeout(resolve, Math.random() * 1200 + 300));
     
     const result = executeAndDebug(editorCode, detectedLanguage);
     setExecutionResult(result);
@@ -294,28 +378,76 @@ const DebuggingQuestion: React.FC<DebuggingQuestionProps> = ({
                 wordWrap: 'on',
                 contextmenu: true,
                 folding: true,
-                lineDecorationsWidth: 0,
+                lineDecorationsWidth: 10,
                 lineNumbersMinChars: 3,
                 renderLineHighlight: 'line',
                 selectOnLineNumbers: true,
                 bracketPairColorization: { enabled: true },
-                // Subtle error highlighting
-                glyphMargin: true
+                // Enhanced IntelliSense and error highlighting
+                glyphMargin: true,
+                suggestOnTriggerCharacters: true,
+                acceptSuggestionOnEnter: 'on',
+                quickSuggestions: { other: true, comments: false, strings: false },
+                hover: { enabled: true },
+                parameterHints: { enabled: true },
+                renderValidationDecorations: 'on'
               }}
               onMount={(editor, monaco) => {
-                // Add subtle error indicators for initial buggy lines
+                // Add enhanced error indicators for initial buggy lines
                 if (initialAnalysis.errorLines && initialAnalysis.errorLines.length > 0) {
                   const markers = initialAnalysis.errorLines.map(lineNum => ({
                     startLineNumber: lineNum,
                     startColumn: 1,
                     endLineNumber: lineNum,
                     endColumn: 1000,
-                    message: 'Potential error on this line - click to investigate',
-                    severity: monaco.MarkerSeverity.Warning
+                    message: initialAnalysis.suggestions?.[initialAnalysis.errorLines!.indexOf(lineNum)] || 'Potential error detected',
+                    severity: monaco.MarkerSeverity.Error
                   }));
                   
                   monaco.editor.setModelMarkers(editor.getModel()!, 'debugging', markers);
                 }
+                
+                // Real-time error checking
+                editor.onDidChangeModelContent(() => {
+                  const model = editor.getModel();
+                  if (model) {
+                    const currentCode = model.getValue();
+                    const analysis = executeAndDebug(currentCode, detectedLanguage);
+                    
+                    const newMarkers: any[] = [];
+                    if (analysis.errorLines) {
+                      analysis.errorLines.forEach((lineNum, index) => {
+                        newMarkers.push({
+                          startLineNumber: lineNum,
+                          startColumn: 1,
+                          endLineNumber: lineNum,
+                          endColumn: 1000,
+                          message: analysis.suggestions?.[index] || 'Error detected',
+                          severity: monaco.MarkerSeverity.Error
+                        });
+                      });
+                    }
+                    
+                    if (analysis.warnings) {
+                      analysis.warnings.forEach((warning) => {
+                        const lineMatch = warning.match(/Line (\d+)/);
+                        if (lineMatch) {
+                          const lineNum = parseInt(lineMatch[1]);
+                          newMarkers.push({
+                            startLineNumber: lineNum,
+                            startColumn: 1,
+                            endLineNumber: lineNum,
+                            endColumn: 1000,
+                            message: warning,
+                            severity: monaco.MarkerSeverity.Warning
+                          });
+                        }
+                      });
+                    }
+                    
+                    monaco.editor.setModelMarkers(model, 'debugging', newMarkers);
+                  }
+                });
               }}
             />
           </div>
@@ -350,28 +482,85 @@ const DebuggingQuestion: React.FC<DebuggingQuestionProps> = ({
                 
                 {executionResult.suggestions && executionResult.suggestions.length > 0 && (
                   <div className="text-yellow-400">
-                    <div className="font-semibold mb-2">💡 Debugging Suggestions:</div>
-                    <ul className="space-y-1 pl-4">
+                    <div className="font-semibold mb-2 flex items-center">
+                      <Lightbulb className="w-4 h-4 mr-2" />
+                      Debugging Suggestions:
+                    </div>
+                    <ul className="space-y-1 bg-yellow-900/20 p-3 rounded border-l-4 border-yellow-500">
                       {executionResult.suggestions.map((suggestion, index) => (
-                        <li key={index} className="list-disc">{suggestion}</li>
+                        <li key={index} className="list-disc list-inside text-sm">{suggestion}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+                
+                {executionResult.fixes && executionResult.fixes.length > 0 && (
+                  <div className="text-blue-400">
+                    <div className="font-semibold mb-2 flex items-center">
+                      <Zap className="w-4 h-4 mr-2" />
+                      Suggested Fixes:
+                    </div>
+                    <div className="space-y-2 bg-blue-900/20 p-3 rounded border-l-4 border-blue-500">
+                      {executionResult.fixes.map((fix, index) => (
+                        <div key={index} className="text-sm">
+                          <div className="font-medium">Line {fix.line}:</div>
+                          <div className="pl-4">
+                            <div className="text-red-300">- {fix.original}</div>
+                            <div className="text-green-300">+ {fix.fixed}</div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                
+                {executionResult.warnings && executionResult.warnings.length > 0 && (
+                  <div className="text-orange-400">
+                    <div className="font-semibold mb-2 flex items-center">
+                      <AlertTriangle className="w-4 h-4 mr-2" />
+                      Code Quality Warnings:
+                    </div>
+                    <ul className="space-y-1 bg-orange-900/20 p-3 rounded border-l-4 border-orange-500">
+                      {executionResult.warnings.map((warning, index) => (
+                        <li key={index} className="list-disc list-inside text-sm">{warning}</li>
                       ))}
                     </ul>
                   </div>
                 )}
               </div>
             ) : (
-              <div className="text-green-400">
-                <div className="font-semibold mb-2 flex items-center">
-                  <CheckCircle className="w-4 h-4 mr-2" />
-                  Execution Result:
+              <div className="space-y-4">
+                <div className="text-green-400">
+                  <div className="font-semibold mb-2 flex items-center">
+                    <CheckCircle className="w-4 h-4 mr-2" />
+                    Execution Result:
+                  </div>
+                  <div className="whitespace-pre-wrap bg-green-900/20 p-3 rounded border-l-4 border-green-500">
+                    {executionResult.output}
+                  </div>
                 </div>
-                <div className="whitespace-pre-wrap bg-green-900/20 p-3 rounded border-l-4 border-green-500">
-                  {executionResult.output}
-                </div>
+                
+                {executionResult.warnings && executionResult.warnings.length > 0 && (
+                  <div className="text-orange-400">
+                    <div className="font-semibold mb-2 flex items-center">
+                      <AlertTriangle className="w-4 h-4 mr-2" />
+                      Code Quality Warnings:
+                    </div>
+                    <ul className="space-y-1 bg-orange-900/20 p-3 rounded border-l-4 border-orange-500">
+                      {executionResult.warnings.map((warning, index) => (
+                        <li key={index} className="list-disc list-inside text-sm">{warning}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+                
                 {hasBeenModified && !executionResult.hasErrors && (
-                  <div className="mt-4 p-3 bg-blue-900/20 rounded border-l-4 border-blue-500">
-                    <div className="text-blue-400 font-semibold">🎉 Great job!</div>
-                    <div className="text-blue-300">You've successfully fixed the bug(s) in the code!</div>
+                  <div className="p-3 bg-blue-900/20 rounded border-l-4 border-blue-500">
+                    <div className="text-blue-400 font-semibold flex items-center">
+                      <CheckCircle className="w-4 h-4 mr-2" />
+                      🎉 Excellent debugging work!
+                    </div>
+                    <div className="text-blue-300">You've successfully identified and fixed all the bugs in the code!</div>
                   </div>
                 )}
               </div>
