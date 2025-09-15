@@ -341,10 +341,10 @@ const PracticeSessionContent = () => {
   // Safety check to prevent crashes
   if (!currentQuestion || !currentQuestion.type) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-white via-blue-50 to-blue-100 dark:from-gray-900 dark:via-blue-900 dark:to-gray-800 flex items-center justify-center">
+      <div className="min-h-screen bg-white dark:bg-black transition-colors duration-300 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-pulse">
-            <Brain className="w-12 h-12 text-indigo-600 mx-auto mb-4" />
+            <Brain className="w-12 h-12 text-blue-600 mx-auto mb-4" />
           </div>
           <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
             Loading Question...
@@ -484,10 +484,10 @@ const PracticeSessionContent = () => {
 
   if (isLoading || !config) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-white via-blue-50 to-blue-100 dark:from-gray-900 dark:via-blue-900 dark:to-gray-800 flex items-center justify-center">
+      <div className="min-h-screen bg-white dark:bg-black transition-colors duration-300 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-pulse">
-            <Brain className="w-12 h-12 text-indigo-600 mx-auto mb-4" />
+            <Brain className="w-12 h-12 text-blue-600 mx-auto mb-4" />
           </div>
           <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
             Preparing Practice Session
@@ -503,14 +503,14 @@ const PracticeSessionContent = () => {
   if (!sessionStarted) {
     return (
       <ProtectedRoute>
-        <div className="min-h-screen bg-gradient-to-br from-white via-blue-50 to-blue-100 dark:from-gray-900 dark:via-blue-900 dark:to-gray-800 flex items-center justify-center">
+        <div className="min-h-screen bg-white dark:bg-black transition-colors duration-300 flex items-center justify-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-2xl border border-gray-200/50 dark:border-gray-700/50 p-6 sm:p-8 max-w-2xl w-full mx-4"
+            className="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 p-6 sm:p-8 max-w-2xl w-full mx-4"
           >
             <div className="text-center mb-6">
-              <PenTool className="w-12 h-12 sm:w-16 sm:h-16 text-indigo-600 mx-auto mb-4" />
+              <PenTool className="w-12 h-12 sm:w-16 sm:h-16 text-blue-600 mx-auto mb-4" />
               <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-2">
                 Practice Session Ready
               </h1>
@@ -548,7 +548,7 @@ const PracticeSessionContent = () => {
                 setSessionStarted(true);
                 setQuestionStartTime(Date.now());
               }}
-              className="w-full py-4 px-6 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-bold rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl flex items-center justify-center space-x-2 min-h-[56px] text-base sm:text-lg"
+              className="w-full py-4 px-6 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl flex items-center justify-center space-x-2 min-h-[56px] text-base sm:text-lg"
             >
               <Timer className="w-5 h-5" />
               <span>Start Practice Session</span>
@@ -562,11 +562,11 @@ const PracticeSessionContent = () => {
   if (sessionCompleted) {
     return (
       <ProtectedRoute>
-        <div className="min-h-screen bg-gradient-to-br from-white via-blue-50 to-blue-100 dark:from-gray-900 dark:via-blue-900 dark:to-gray-800 flex items-center justify-center">
+        <div className="min-h-screen bg-white dark:bg-black transition-colors duration-300 flex items-center justify-center">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-2xl border border-gray-200/50 dark:border-gray-700/50 p-6 sm:p-8 max-w-2xl w-full mx-4 text-center"
+            className="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 p-6 sm:p-8 max-w-2xl w-full mx-4 text-center"
           >
             <CheckCircle className="w-12 h-12 sm:w-16 sm:h-16 text-green-600 mx-auto mb-4" />
             <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-2">
@@ -578,7 +578,7 @@ const PracticeSessionContent = () => {
             
             <button
               onClick={handleFinishSession}
-              className="w-full py-4 px-6 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-bold rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl min-h-[56px] text-base sm:text-lg"
+              className="w-full py-4 px-6 bg-green-600 hover:bg-green-700 text-white font-bold rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl min-h-[56px] text-base sm:text-lg"
             >
               View Results & Analysis
             </button>
@@ -590,16 +590,16 @@ const PracticeSessionContent = () => {
 
   return (
     <ProtectedRoute>
-      <div className="min-h-screen bg-gradient-to-br from-white via-blue-50 to-blue-100 dark:from-gray-900 dark:via-blue-900 dark:to-gray-800">
+      <div className="min-h-screen bg-white dark:bg-black transition-colors duration-300">
         {/* Header */}
-        <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-b border-gray-200 dark:border-gray-700 sticky top-0 z-10">
+        <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-10">
           <div className="max-w-6xl mx-auto px-4 py-3 sm:py-4">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-3 sm:space-y-0">
               <div className="flex items-center justify-between sm:justify-start sm:space-x-4">
                 <h1 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white">
                   Practice Session
                 </h1>
-                <span className="px-2 sm:px-3 py-1 bg-indigo-100 dark:bg-indigo-900/30 text-indigo-800 dark:text-indigo-200 rounded-full text-xs sm:text-sm font-medium">
+                <span className="px-2 sm:px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200 rounded-full text-xs sm:text-sm font-medium">
                   {currentQuestionIndex + 1}/{questions.length}
                 </span>
               </div>
@@ -637,7 +637,7 @@ const PracticeSessionContent = () => {
             >
               {/* Question Type Badge */}
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-3 sm:space-y-0">
-                <span className="px-3 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-200 rounded-full text-sm font-medium self-start">
+                <span className="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-full text-sm font-medium self-start">
                   {QUESTION_TYPE_LABELS[currentQuestion.type]}
                 </span>
                 
@@ -654,7 +654,7 @@ const PracticeSessionContent = () => {
               </div>
 
               {/* Question */}
-              <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-xl border border-gray-200/50 dark:border-gray-700/50 p-4 sm:p-6 lg:p-8">
+              <div className="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 p-4 sm:p-6 lg:p-8">
                 <div className="mb-4 sm:mb-6">
                   <ReactMarkdown
                     className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white prose prose-lg dark:prose-invert max-w-none"
@@ -736,12 +736,12 @@ const PracticeSessionContent = () => {
                         >
                           <div className={`flex items-center p-4 rounded-xl border-2 transition-all ${
                             currentAnswer === option
-                              ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-900/30 shadow-md'
+                              ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/30 shadow-md'
                               : 'border-gray-200 dark:border-gray-600 hover:border-gray-300 dark:hover:border-gray-500 hover:bg-gray-50 dark:hover:bg-gray-700/50'
                           }`}>
                             <div className={`w-8 h-8 rounded-full border-2 flex items-center justify-center mr-4 transition-colors ${
                               currentAnswer === option
-                                ? 'border-indigo-500 bg-indigo-500 text-white'
+                                ? 'border-blue-500 bg-blue-500 text-white'
                                 : 'border-gray-300 dark:border-gray-500 text-gray-400 dark:text-gray-500 group-hover:border-gray-400 dark:group-hover:border-gray-400'
                             }`}>
                               <span className="font-semibold text-sm">{letter}</span>
@@ -781,7 +781,7 @@ const PracticeSessionContent = () => {
                           value={currentAnswer}
                           onChange={(e) => setCurrentAnswer(e.target.value)}
                           placeholder="0"
-                          className="flex-1 p-4 text-lg sm:text-xl font-mono border-2 border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all min-h-[56px]"
+                          className="flex-1 p-4 text-lg sm:text-xl font-mono border-2 border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all min-h-[56px]"
                         />
                         <div className="text-sm text-gray-500 dark:text-gray-400 min-w-0">
                           units/format
@@ -833,7 +833,7 @@ const PracticeSessionContent = () => {
                         value={currentAnswer}
                         onChange={(e) => setCurrentAnswer(e.target.value)}
                         placeholder="Provide your analysis of the case and recommend the best approach..."
-                        className="w-full p-4 border-2 border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all resize-none text-base"
+                        className="w-full p-4 border-2 border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all resize-none text-base"
                         rows={4}
                       />
                       <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
@@ -864,7 +864,7 @@ const PracticeSessionContent = () => {
                       value={currentAnswer}
                       onChange={(e) => setCurrentAnswer(e.target.value)}
                       placeholder="Type your answer here..."
-                      className="w-full p-4 border-2 border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all resize-none"
+                      className="w-full p-4 border-2 border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all resize-none"
                       rows={4}
                     />
                   </div>
@@ -916,7 +916,7 @@ const PracticeSessionContent = () => {
                   <button
                     onClick={handleAnswerSubmit}
                     disabled={currentAnswer.trim() === ''}
-                    className="px-6 sm:px-8 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed order-1 sm:order-2"
+                    className="px-6 sm:px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed order-1 sm:order-2"
                   >
                     {currentQuestionIndex === questions.length - 1 ? 'Finish' : 'Next Question'}
                   </button>
@@ -933,10 +933,10 @@ const PracticeSessionContent = () => {
 const PracticeSessionPage = () => {
   return (
     <Suspense fallback={
-      <div className="min-h-screen bg-gradient-to-br from-white via-blue-50 to-blue-100 dark:from-gray-900 dark:via-blue-900 dark:to-gray-800 flex items-center justify-center">
+      <div className="min-h-screen bg-white dark:bg-black transition-colors duration-300 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-pulse">
-            <Brain className="w-12 h-12 text-indigo-600 mx-auto mb-4" />
+            <Brain className="w-12 h-12 text-blue-600 mx-auto mb-4" />
           </div>
           <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
             Loading Practice Session

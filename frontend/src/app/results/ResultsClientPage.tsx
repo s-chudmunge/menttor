@@ -70,7 +70,7 @@ export default function ResultsClientPage({
                 </section>
             </main>
 
-            <footer className="bg-white shadow-md py-6 text-center text-gray-600 text-sm mt-12">
+            <footer className="bg-white dark:bg-gray-800 shadow-md py-6 text-center text-gray-600 dark:text-gray-300 text-sm mt-12 border-t border-gray-200 dark:border-gray-700">
                 <p>&copy; 2024 MenttorLabs. All rights reserved.</p>
                 <p className="mt-2">Built with ❤️ for learners</p>
             </footer>

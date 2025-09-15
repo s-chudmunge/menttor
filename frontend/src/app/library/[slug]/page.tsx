@@ -256,8 +256,8 @@ export default async function LibraryPage({ params }: { params: { slug: string }
             </article>
 
             {/* Footer */}
-            <footer className="mt-8 sm:mt-12 pt-6 sm:pt-8 border-t border-gray-200">
-              <div className="flex flex-col sm:flex-row sm:justify-between items-start sm:items-center text-sm text-gray-500 space-y-3 sm:space-y-0">
+            <footer className="mt-8 sm:mt-12 pt-6 sm:pt-8 border-t border-gray-200 dark:border-gray-700">
+              <div className="flex flex-col sm:flex-row sm:justify-between items-start sm:items-center text-sm text-gray-500 dark:text-gray-400 space-y-3 sm:space-y-0">
                 <div>
                   <p>Last updated: {new Date(content.lastUpdated).toLocaleDateString()}</p>
                 </div>

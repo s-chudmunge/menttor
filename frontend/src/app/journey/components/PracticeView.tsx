@@ -325,7 +325,7 @@ const PracticeView: React.FC<PracticeViewProps> = ({ roadmapData, progressData }
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="flex flex-col items-center justify-center py-20 bg-white/50 dark:bg-zinc-950/50 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-200/50 dark:border-gray-700/50"
+          className="flex flex-col items-center justify-center py-20 bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700"
         >
           <div className="w-20 h-20 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center mb-6">
             <Lock className="w-10 h-10 text-red-600" />
@@ -363,10 +363,10 @@ const PracticeView: React.FC<PracticeViewProps> = ({ roadmapData, progressData }
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.1 }}
-          className="bg-white/80 dark:bg-zinc-950/80 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-200/50 dark:border-gray-700/50 p-6"
+          className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 p-6"
         >
           <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4 flex items-center">
-            <Search className="w-5 h-5 mr-2 text-indigo-600" />
+            <Search className="w-5 h-5 mr-2 text-blue-600" />
             Select Subtopics
           </h3>
 
@@ -397,8 +397,8 @@ const PracticeView: React.FC<PracticeViewProps> = ({ roadmapData, progressData }
                   transition={{ delay: index * 0.02 }}
                   className={`p-3 rounded-lg border transition-all cursor-pointer ${
                     isSelected 
-                      ? 'bg-indigo-50 dark:bg-indigo-900/30 border-indigo-300 dark:border-indigo-600' 
-                      : 'bg-gray-50 dark:bg-zinc-900 border-gray-200 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-600'
+                      ? 'bg-blue-50 dark:bg-blue-900/30 border-blue-300 dark:border-blue-600' 
+                      : 'bg-gray-50 dark:bg-gray-700 border-gray-200 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-600'
                   }`}
                   onClick={() => isSelected ? handleRemoveSubtopic(subtopic.id) : handleAddSubtopic(subtopic)}
                 >
@@ -430,8 +430,8 @@ const PracticeView: React.FC<PracticeViewProps> = ({ roadmapData, progressData }
           </div>
 
           {/* Selected Count */}
-          <div className="mt-4 p-3 bg-indigo-50 dark:bg-indigo-900/30 rounded-lg">
-            <p className="text-sm font-medium text-indigo-800 dark:text-indigo-200">
+          <div className="mt-4 p-3 bg-blue-50 dark:bg-blue-900/30 rounded-lg">
+            <p className="text-sm font-medium text-blue-800 dark:text-blue-200">
               {practiceSession.selectedSubtopics.length} subtopics selected
             </p>
           </div>
@@ -445,9 +445,9 @@ const PracticeView: React.FC<PracticeViewProps> = ({ roadmapData, progressData }
           className="space-y-6"
         >
           {/* Selected Subtopics */}
-          <div className="bg-white/80 dark:bg-zinc-950/80 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-200/50 dark:border-gray-700/50 p-6">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 p-6">
             <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center">
-              <GripVertical className="w-5 h-5 mr-2 text-indigo-600" />
+              <GripVertical className="w-5 h-5 mr-2 text-blue-600" />
               Selected Subtopics ({practiceSession.selectedSubtopics.length})
             </h4>
             
@@ -455,7 +455,7 @@ const PracticeView: React.FC<PracticeViewProps> = ({ roadmapData, progressData }
               {practiceSession.selectedSubtopics.map((subtopic) => (
                 <div
                   key={subtopic.id}
-                  className="flex items-center justify-between p-2 bg-indigo-50 dark:bg-indigo-900/30 rounded-lg"
+                  className="flex items-center justify-between p-2 bg-blue-50 dark:bg-blue-900/30 rounded-lg"
                 >
                   <div className="flex-1">
                     <p className="font-medium text-gray-900 dark:text-white text-sm">
@@ -483,9 +483,9 @@ const PracticeView: React.FC<PracticeViewProps> = ({ roadmapData, progressData }
           </div>
 
           {/* Question Configuration */}
-          <div className="bg-white/80 dark:bg-zinc-950/80 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-200/50 dark:border-gray-700/50 p-6">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 p-6">
             <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center">
-              <Settings className="w-5 h-5 mr-2 text-indigo-600" />
+              <Settings className="w-5 h-5 mr-2 text-blue-600" />
               Practice Configuration
             </h4>
 
@@ -504,7 +504,7 @@ const PracticeView: React.FC<PracticeViewProps> = ({ roadmapData, progressData }
                   ...prev,
                   questionCount: parseInt(e.target.value)
                 }))}
-                className="w-full h-2 bg-gray-200 dark:bg-zinc-900 rounded-lg appearance-none cursor-pointer slider"
+                className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer slider"
               />
               <div className="flex justify-between text-xs text-gray-500 mt-1">
                 <span>10</span>
@@ -527,7 +527,7 @@ const PracticeView: React.FC<PracticeViewProps> = ({ roadmapData, progressData }
                   ...prev,
                   timeLimit: parseInt(e.target.value)
                 }))}
-                className="w-full h-2 bg-gray-200 dark:bg-zinc-900 rounded-lg appearance-none cursor-pointer slider"
+                className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer slider"
               />
               <div className="flex justify-between text-xs text-gray-500 mt-1">
                 <span>10 min</span>
@@ -550,8 +550,8 @@ const PracticeView: React.FC<PracticeViewProps> = ({ roadmapData, progressData }
                       key={type.key}
                       className={`flex items-center p-3 rounded-lg border cursor-pointer transition-all ${
                         isEnabled
-                          ? 'bg-indigo-50 dark:bg-indigo-900/30 border-indigo-300 dark:border-indigo-600'
-                          : 'bg-gray-50 dark:bg-zinc-900 border-gray-200 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-600'
+                          ? 'bg-blue-50 dark:bg-blue-900/30 border-blue-300 dark:border-blue-600'
+                          : 'bg-gray-50 dark:bg-gray-700 border-gray-200 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-600'
                       }`}
                     >
                       <input
@@ -588,7 +588,7 @@ const PracticeView: React.FC<PracticeViewProps> = ({ roadmapData, progressData }
                   className="sr-only"
                 />
                 <div className={`w-11 h-6 bg-gray-200 rounded-full relative transition-colors ${
-                  practiceSession.hintsEnabled ? 'bg-indigo-600' : ''
+                  practiceSession.hintsEnabled ? 'bg-blue-600' : ''
                 }`}>
                   <div className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full transition-transform ${
                     practiceSession.hintsEnabled ? 'translate-x-5' : ''
@@ -606,8 +606,8 @@ const PracticeView: React.FC<PracticeViewProps> = ({ roadmapData, progressData }
               disabled={!canStartPractice || isCreatingSession}
               className={`w-full py-3 px-6 rounded-xl font-semibold transition-all duration-200 flex items-center justify-center space-x-2 ${
                 canStartPractice && !isCreatingSession
-                  ? 'bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white shadow-lg hover:shadow-xl'
-                  : 'bg-gray-300 dark:bg-zinc-600 text-gray-500 dark:text-gray-400 cursor-not-allowed'
+                  ? 'bg-blue-600 hover:bg-blue-700 text-white shadow-lg hover:shadow-xl'
+                  : 'bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 cursor-not-allowed'
               }`}
             >
               {isCreatingSession ? (
@@ -631,7 +631,7 @@ const PracticeView: React.FC<PracticeViewProps> = ({ roadmapData, progressData }
             
             {isCreatingSession && (
               <div className="text-center mt-3">
-                <p className="text-sm text-indigo-600 dark:text-indigo-400 font-medium">
+                <p className="text-sm text-blue-600 dark:text-blue-400 font-medium">
                   Please wait while we generate your practice questions...
                 </p>
                 <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
