@@ -32,19 +32,15 @@ interface LibraryItem {
   goal?: string;
 }
 
-// Library item component with prefetch on hover
+// Library item component with aggressive prefetching
 const LibraryItem = React.memo(({ item }: { item: LibraryItem }) => {
-  const [isPrefetched, setIsPrefetched] = useState(false);
-  
   const handleMouseEnter = () => {
-    if (!isPrefetched) {
-      // Prefetch the page data
-      const link = document.createElement('link');
-      link.rel = 'prefetch';
-      link.href = `/library/${item.slug}`;
-      document.head.appendChild(link);
-      setIsPrefetched(true);
-    }
+    // Prefetch the static page content
+    const link = document.createElement('link');
+    link.rel = 'prefetch';
+    link.href = `/library/${item.slug}`;
+    link.as = 'document';
+    document.head.appendChild(link);
   };
   
   const formatTitle = (slug: string) => {
@@ -59,7 +55,7 @@ const LibraryItem = React.memo(({ item }: { item: LibraryItem }) => {
       href={`/library/${item.slug}`}
       className="block p-4 border border-gray-200 rounded-lg hover:border-blue-300 hover:shadow-sm transition-all min-h-[60px] touch-manipulation"
       onMouseEnter={handleMouseEnter}
-      prefetch={false}
+      prefetch={true}
     >
       <h3 className="text-base sm:text-sm font-medium text-gray-900 mb-2 leading-tight">
         {cleanMarkdownText(item.title) || formatTitle(item.slug)}

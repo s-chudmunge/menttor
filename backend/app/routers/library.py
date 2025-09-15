@@ -7,21 +7,37 @@ import logging
 from pathlib import Path
 from datetime import datetime
 from sqlmodel import Session, select
+import json
 
 from schemas import LearningContentRequest
 from services.ai_service import ai_executor
 from services.ai_service import LearningContentResponse
 from sql_models import LibraryContent
 from database.session import get_db
+from database.redis_client import get_redis_client
 
 router = APIRouter(prefix="/library", tags=["library"])
 logger = logging.getLogger(__name__)
 
-class RegeneratePageRequest(BaseModel):
-    model: str
+CACHE_TTL = 3600  # 1 hour cache
+
+# RegeneratePageRequest removed - library pages are now static
 
 def load_content_from_db(slug: str, db: Session) -> Dict[str, Any]:
-    """Load content from database"""
+    """Load content from database with Redis caching"""
+    cache_key = f"library_content:{slug}"
+    
+    # Try to get from cache first
+    try:
+        with get_redis_client() as redis_client:
+            cached_data = redis_client.get(cache_key)
+            if cached_data:
+                logger.info(f"Cache hit for library content: {slug}")
+                return json.loads(cached_data)
+    except Exception as e:
+        logger.warning(f"Redis cache read failed for {slug}: {e}")
+    
+    # Cache miss - fetch from database
     try:
         statement = select(LibraryContent).where(
             LibraryContent.slug == slug,
@@ -48,6 +64,14 @@ def load_content_from_db(slug: str, db: Session) -> Dict[str, Any]:
         if content_record.resources_json:
             content_data["resources"] = json.loads(content_record.resources_json)
         
+        # Cache the result
+        try:
+            with get_redis_client() as redis_client:
+                redis_client.setex(cache_key, CACHE_TTL, json.dumps(content_data, default=str))
+                logger.info(f"Cached library content: {slug}")
+        except Exception as e:
+            logger.warning(f"Redis cache write failed for {slug}: {e}")
+        
         return content_data
         
     except json.JSONDecodeError:
@@ -57,7 +81,7 @@ def load_content_from_db(slug: str, db: Session) -> Dict[str, Any]:
         )
 
 def save_content_to_db(slug: str, content: Dict[str, Any], db: Session) -> None:
-    """Save content to database"""
+    """Save content to database and invalidate cache"""
     try:
         # Check if content already exists
         statement = select(LibraryContent).where(LibraryContent.slug == slug)
@@ -92,6 +116,18 @@ def save_content_to_db(slug: str, content: Dict[str, Any], db: Session) -> None:
             db.add(new_content)
         
         db.commit()
+        
+        # Invalidate caches
+        try:
+            with get_redis_client() as redis_client:
+                # Clear specific content cache
+                redis_client.delete(f"library_content:{slug}")
+                # Clear available content list cache
+                redis_client.delete("library_available")
+                logger.info(f"Invalidated cache for library content: {slug}")
+        except Exception as e:
+            logger.warning(f"Cache invalidation failed for {slug}: {e}")
+        
         logger.info(f"Successfully saved content for slug '{slug}' to database")
         
     except Exception as e:
@@ -103,102 +139,24 @@ def save_content_to_db(slug: str, content: Dict[str, Any], db: Session) -> None:
         )
 
 
-@router.post("/{page_slug}/regenerate-page")
-async def regenerate_page(page_slug: str, request: RegeneratePageRequest, db: Session = Depends(get_db)):
-    """Regenerate any library page"""
-    try:
-        # Load current content to preserve metadata
-        content_data = load_content_from_db(page_slug, db)
-        
-        # Create a request for generating the entire page
-        ai_request = LearningContentRequest(
-            subtopic=content_data["title"],
-            subject=content_data["subject"], 
-            goal=content_data["goal"],
-            model=request.model
-        )
-        
-        # Generate new content
-        result = await ai_executor.execute(
-            task_type="learn_chunk_with_resources",
-            request_data=ai_request,
-            response_schema=LearningContentResponse,
-            is_json=True
-        )
-        
-        # Update the content while preserving metadata structure
-        # Convert Pydantic models to dictionaries for JSON serialization
-        new_content = result["response"].content
-        
-        # Better serialization handling for content blocks
-        serialized_content = []
-        for component in new_content:
-            if hasattr(component, 'model_dump'):
-                serialized_content.append(component.model_dump())
-            elif hasattr(component, 'dict'):
-                serialized_content.append(component.dict())
-            elif isinstance(component, dict):
-                serialized_content.append(component)
-            else:
-                # Fallback: try to convert using __dict__ or JSON serializable format
-                try:
-                    import json
-                    serialized_content.append(json.loads(json.dumps(component, default=str)))
-                except (TypeError, AttributeError):
-                    logger.error(f"Failed to serialize content component: {type(component)} - {component}")
-                    continue
-        
-        content_data["content"] = serialized_content
-        
-        # Save resources if they exist
-        if result["response"].resources:
-            new_resources = result["response"].resources
-            
-            # Better serialization handling for resources
-            serialized_resources = []
-            for resource in new_resources:
-                if hasattr(resource, 'model_dump'):
-                    serialized_resources.append(resource.model_dump())
-                elif hasattr(resource, 'dict'):
-                    serialized_resources.append(resource.dict())
-                elif isinstance(resource, dict):
-                    serialized_resources.append(resource)
-                else:
-                    try:
-                        import json
-                        serialized_resources.append(json.loads(json.dumps(resource, default=str)))
-                    except (TypeError, AttributeError):
-                        logger.error(f"Failed to serialize resource: {type(resource)} - {resource}")
-                        continue
-            
-            content_data["resources"] = serialized_resources
-        
-        content_data["lastUpdated"] = datetime.now().isoformat() + "Z"
-        
-        # Save the updated content
-        save_content_to_db(page_slug, content_data, db)
-        
-        logger.info(f"Successfully regenerated page '{page_slug}' using model {request.model}")
-        
-        return {
-            "success": True,
-            "message": f"Page '{page_slug}' regenerated successfully",
-            "content_blocks": len(content_data["content"]),
-            "model": request.model
-        }
-        
-    except HTTPException:
-        raise
-    except Exception as e:
-        logger.error(f"Failed to regenerate page: {e}", exc_info=True)
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Failed to regenerate page: {str(e)}"
-        )
+# Regeneration endpoint removed - library pages are now static
 
 @router.get("/available")
 async def get_available_content(db: Session = Depends(get_db)):
-    """Get list of all available library content"""
+    """Get list of all available library content with caching"""
+    cache_key = "library_available"
+    
+    # Try to get from cache first
+    try:
+        with get_redis_client() as redis_client:
+            cached_data = redis_client.get(cache_key)
+            if cached_data:
+                logger.info("Cache hit for library available content")
+                return json.loads(cached_data)
+    except Exception as e:
+        logger.warning(f"Redis cache read failed for available content: {e}")
+    
+    # Cache miss - fetch from database
     try:
         # Query all active content from database
         statement = select(LibraryContent).where(LibraryContent.is_active == True)
@@ -216,6 +174,14 @@ async def get_available_content(db: Session = Depends(get_db)):
         
         # Sort by title
         available_items.sort(key=lambda x: x["title"])
+        
+        # Cache the result
+        try:
+            with get_redis_client() as redis_client:
+                redis_client.setex(cache_key, CACHE_TTL, json.dumps(available_items, default=str))
+                logger.info("Cached library available content")
+        except Exception as e:
+            logger.warning(f"Redis cache write failed for available content: {e}")
         
         return available_items
         

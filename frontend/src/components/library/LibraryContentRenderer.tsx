@@ -33,62 +33,10 @@ interface Props {
   resources?: any[];
   subject?: string;
   subtopic?: string;
-  editMode?: boolean;
-  pageSlug?: string;
-  onContentUpdated?: () => void;
 }
 
-const LibraryContentRenderer: React.FC<Props> = ({ content, resources, subject, subtopic, editMode = false, pageSlug = "neural-network-architectures", onContentUpdated }) => {
-  const [regeneratingPage, setRegeneratingPage] = useState(false);
-
-
-  const handleRegeneratePage = async (model: string) => {
-    setRegeneratingPage(true);
-    try {
-      const response = await fetch(
-        `${BACKEND_URL}/library/${pageSlug}/regenerate-page`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            model: model,
-          }),
-        }
-      );
-
-      if (!response.ok) {
-        if (response.status === 404) {
-          throw new Error(`Library endpoints not available on backend. Please ensure the backend includes library functionality.`);
-        }
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const result = await response.json();
-      console.log('Page regenerated successfully:', result);
-      
-      // Refresh content instead of reloading the page
-      if (onContentUpdated) {
-        onContentUpdated();
-      } else {
-        // Fallback to page reload if no callback provided
-        window.location.reload();
-      }
-      
-    } catch (error) {
-      console.error('Failed to regenerate page:', error);
-      
-      // Show more specific error message based on error type
-      const errorMessage = error instanceof Error && error.message.includes('Library endpoints not available')
-        ? 'Library regeneration is currently unavailable. The backend needs to be updated with library functionality.'
-        : 'Failed to regenerate page. Please try again later.';
-      
-      alert(errorMessage);
-    } finally {
-      setRegeneratingPage(false);
-    }
-  };
+const LibraryContentRenderer: React.FC<Props> = ({ content, resources, subject, subtopic }) => {
+  // Edit mode and regeneration removed for static pages
 
   const renderContentBlock = (block: any, index: number) => {
     let blockContent: React.ReactNode;
@@ -226,35 +174,6 @@ const LibraryContentRenderer: React.FC<Props> = ({ content, resources, subject, 
 
   return (
     <div className="space-y-6">
-      {/* Page-level regeneration controls */}
-      {editMode && (
-        <div className="mb-8 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-          <div className="flex items-center justify-between">
-            <div>
-              <h3 className="text-sm font-medium text-blue-900">Page Controls</h3>
-              <p className="text-sm text-blue-700 mt-1">Regenerate the entire page content</p>
-            </div>
-            <button
-              onClick={() => handleRegeneratePage('vertexai:gemini-2.5-flash-lite')}
-              disabled={regeneratingPage}
-              className="flex items-center space-x-2 px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed text-sm font-medium"
-            >
-              {regeneratingPage ? (
-                <>
-                  <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
-                  <span>Regenerating...</span>
-                </>
-              ) : (
-                <>
-                  <RefreshCw className="w-4 h-4" />
-                  <span>Regenerate Page</span>
-                </>
-              )}
-            </button>
-          </div>
-        </div>
-      )}
-
       {/* Content blocks */}
       {content.map((block, index) => renderContentBlock(block, index))}
 
