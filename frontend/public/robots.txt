@@ -7,6 +7,9 @@ Allow: /
 Allow: /explore
 Allow: /explore/
 Allow: /explore/*
+Allow: /library
+Allow: /library/
+Allow: /library/*
 Allow: /help
 Allow: /sitemap
 Allow: /about
@@ -51,6 +54,9 @@ Allow: /
 Allow: /explore
 Allow: /explore/
 Allow: /explore/*
+Allow: /library
+Allow: /library/
+Allow: /library/*
 Crawl-delay: 1
 
 User-agent: Bingbot
@@ -58,6 +64,9 @@ Allow: /
 Allow: /explore
 Allow: /explore/
 Allow: /explore/*
+Allow: /library
+Allow: /library/
+Allow: /library/*
 Crawl-delay: 1
 
 User-agent: facebookexternalhit
@@ -65,12 +74,18 @@ Allow: /
 Allow: /explore
 Allow: /explore/
 Allow: /explore/*
+Allow: /library
+Allow: /library/
+Allow: /library/*
 
 User-agent: Twitterbot
 Allow: /
 Allow: /explore
 Allow: /explore/
 Allow: /explore/*
+Allow: /library
+Allow: /library/
+Allow: /library/*
 
 # Sitemap locations
 Sitemap: https://menttor.live/sitemap.xml

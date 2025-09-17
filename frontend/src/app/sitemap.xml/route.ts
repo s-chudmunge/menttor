@@ -29,30 +29,51 @@ export async function GET() {
   let allUrls = [...staticUrls];
 
   try {
-    // Fetch library content
-    const libraryResponse = await fetch('https://menttor-backend-144050828172.asia-south1.run.app/library/available', {
-      headers: {
-        'Cache-Control': 'no-cache',
-        'Accept': 'application/json',
-      },
-      signal: AbortSignal.timeout(8000),
-    });
+    // Fetch library content with fallback to known content
+    const fallbackLibraryItems = [
+      { slug: 'neural-network-architectures' },
+      { slug: 'backpropagation-and-gradient-descent-variants' },
+      { slug: 'deep-learning-fundamentals' },
+      { slug: 'machine-learning-algorithms' },
+      { slug: 'data-structures-and-algorithms' }
+    ];
 
-    if (libraryResponse.ok && libraryResponse.status === 200) {
-      const libraryItems = await libraryResponse.json();
-      
-      if (Array.isArray(libraryItems) && libraryItems.length > 0) {
-        // Add library content URLs
-        const libraryUrls = libraryItems.map((item: any) => ({
-          url: `${baseUrl}/library/${item.slug}`,
-          priority: '0.7',
-          changefreq: 'weekly'
-        }));
+    let libraryItems = fallbackLibraryItems;
+    
+    try {
+      const libraryResponse = await fetch('https://menttor-backend-144050828172.asia-south1.run.app/library/available?per_page=10000', {
+        headers: {
+          'Cache-Control': 'no-cache',
+          'Accept': 'application/json',
+        },
+        signal: AbortSignal.timeout(20000), // Increased timeout for large response
+      });
 
-        allUrls = [...allUrls, ...libraryUrls];
-        console.log(`Successfully loaded ${libraryItems.length} library pages for sitemap`);
+      if (libraryResponse.ok && libraryResponse.status === 200) {
+        const fetchedItems = await libraryResponse.json();
+        
+        if (Array.isArray(fetchedItems) && fetchedItems.length > 0) {
+          libraryItems = fetchedItems;
+          console.log(`Successfully loaded ${fetchedItems.length} library pages from API for sitemap`);
+        } else {
+          console.log('Using fallback library items - no items returned from API');
+        }
+      } else {
+        console.log(`Library API responded with status ${libraryResponse.status} - using fallback items`);
       }
+    } catch (libraryError) {
+      console.log('Library API fetch failed - using fallback items:', libraryError instanceof Error ? libraryError.message : libraryError);
     }
+
+    // Always add library content URLs (either from API or fallback)
+    const libraryUrls = libraryItems.map((item: any) => ({
+      url: `${baseUrl}/library/${item.slug}`,
+      priority: '0.7',
+      changefreq: 'weekly'
+    }));
+
+    allUrls = [...allUrls, ...libraryUrls];
+    console.log(`Added ${libraryItems.length} library pages to sitemap`);
 
     // Fetch roadmaps from backend with short timeout for faster builds
     const response = await fetch('https://menttor-backend-144050828172.asia-south1.run.app/curated-roadmaps/?per_page=100', {
@@ -91,7 +112,7 @@ export async function GET() {
           changefreq: 'weekly'
         }));
 
-        allUrls = [...staticUrls, ...roadmapUrls, ...categoryUrls, ...difficultyUrls];
+        allUrls = [...allUrls, ...roadmapUrls, ...categoryUrls, ...difficultyUrls];
         console.log(`Successfully loaded ${roadmaps.length} roadmaps for sitemap`);
       } else {
         console.warn('No roadmaps returned from API');
