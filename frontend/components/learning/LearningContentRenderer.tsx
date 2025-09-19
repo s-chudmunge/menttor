@@ -117,11 +117,8 @@ const LearningContentRenderer: React.FC<Props> = ({ content, subject, subtopic }
           case 'active_recall':
             return <ActiveRecall key={index} data={block.data} />;
           case 'dual_coding':
-            const shouldGenerateImage = !aiImageGenerated;
-            if (shouldGenerateImage) {
-              aiImageGenerated = true;
-            }
-            return <DualCodingLayout key={index} data={block.data} subject={subject} subtopic={subtopic} allowAIGeneration={shouldGenerateImage} />;
+            // Hidden - dual coding component disabled
+            return null;
           case 'comparison_table':
             return <ComparisonTable key={index} data={block.data} />;
           case 'callout':

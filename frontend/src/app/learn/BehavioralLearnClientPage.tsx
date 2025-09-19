@@ -696,9 +696,89 @@ const BehavioralLearnClientPage: React.FC<BehavioralLearnClientPageProps> = ({
           </div>
         ) : content ? (
           <div className="flex flex-col lg:flex-row gap-4 lg:gap-8">
-            {/* TOC Sidebar - Hidden on mobile, shown on desktop */}
+            {/* TOC Sidebar with Action Buttons - Hidden on mobile, shown on desktop */}
             <div className="hidden lg:block">
               <FloatingTOC content={content} />
+              
+              {/* Compact Action Buttons Below TOC */}
+              <div className="w-64 mt-4 space-y-2">
+                {/* Mark as Complete Button */}
+                {!isCompleted && (
+                  <button
+                    onClick={() => completeLearnMutation.mutate()}
+                    disabled={completeLearnMutation.isPending}
+                    className="w-full flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white text-xs font-medium py-2 px-3 rounded-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {completeLearnMutation.isPending ? (
+                      <>
+                        <div className="w-3 h-3 border border-current border-t-transparent rounded-full animate-spin" />
+                        <span>Marking...</span>
+                      </>
+                    ) : (
+                      <>
+                        <CheckCircle className="w-3 h-3" />
+                        <span>Mark as Learned</span>
+                      </>
+                    )}
+                  </button>
+                )}
+
+                {/* Quiz Button */}
+                {subtopic && subtopicId && roadmapId && (
+                  <Link 
+                    href={`/quiz?subtopic_id=${subtopicId}&subtopic=${encodeURIComponent(subtopic)}&subject=${encodeURIComponent(learningContext.subject || 'General Subject')}&goal=${encodeURIComponent(learningContext.goal || 'Learn new concepts')}&roadmap_id=${roadmapId}`}
+                    className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-medium py-2 px-3 rounded-md transition-colors"
+                    onClick={() => {
+                      if (contentData) {
+                        sessionStorage.setItem('learn_content_context', JSON.stringify({
+                          content: contentData.content,
+                          subject: contentData.subject,
+                          subtopic: contentData.subtopic,
+                          goal: contentData.goal
+                        }));
+                      }
+                      sessionStorage.setItem('returning-from-learn', 'true');
+                      analytics?.track('quiz_started_from_learn', {
+                        subtopic_id: subtopicId,
+                        subtopic: subtopic,
+                        roadmap_id: roadmapId
+                      });
+                    }}
+                  >
+                    <Brain className="w-3 h-3" />
+                    <span>Take Quiz</span>
+                  </Link>
+                )}
+
+                {/* Continue Learning Button */}
+                {nextSubtopic && (
+                  <Link 
+                    href={`/learn?subtopic=${encodeURIComponent(nextSubtopic.subtopic_title)}&subtopic_id=${nextSubtopic.subtopic_id}&roadmap_id=${roadmapId}`}
+                    className="w-full flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-medium py-2 px-3 rounded-md transition-colors"
+                  >
+                    <ArrowRight className="w-3 h-3" />
+                    <span>Continue Learning</span>
+                  </Link>
+                )}
+
+                {/* Completion Message */}
+                {isCompleted && (
+                  <div className="bg-green-50 border border-green-200 rounded-md p-3">
+                    <div className="flex items-center text-green-800 text-xs mb-2">
+                      <CheckCircle className="w-3 h-3 mr-1" />
+                      <span className="font-medium">Completed! 🎉</span>
+                    </div>
+                    <Link
+                      href="/journey"
+                      onClick={() => sessionStorage.setItem('returning-from-learn', 'true')}
+                      className="w-full flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-medium py-2 px-3 rounded-md transition-colors"
+                    >
+                      <ArrowRight className="w-3 h-3 rotate-180" />
+                      <span>Back to Journey</span>
+                    </Link>
+                  </div>
+                )}
+              </div>
             </div>
             
             {/* Main Content */}
@@ -709,104 +789,84 @@ const BehavioralLearnClientPage: React.FC<BehavioralLearnClientPageProps> = ({
                 subtopic={learningContext.subtopic}
               />
               
-              {/* Completion and Next Actions */}
-              <div className="mt-8 sm:mt-12 pt-6 sm:pt-8 border-t border-gray-200">
-                <div className="text-center space-y-4">
-                  {/* Mark as Complete Button */}
+              {/* Mobile Action Buttons - Only shown on mobile */}
+              <div className="lg:hidden mt-8 pt-6 border-t border-gray-200">
+                <div className="flex flex-col gap-3">
+                  {/* Mark as Complete Button - Mobile */}
                   {!isCompleted && (
-                    <div>
-                      <p className="text-gray-600 text-sm sm:text-base mb-3">Finished reading? Mark this topic as learned!</p>
-                      <button
-                        onClick={() => completeLearnMutation.mutate()}
-                        disabled={completeLearnMutation.isPending}
-                        className="inline-flex items-center gap-2 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-medium py-2 sm:py-3 px-4 sm:px-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 transform hover:scale-105 text-sm sm:text-base disabled:opacity-50 disabled:cursor-not-allowed"
-                      >
-                        {completeLearnMutation.isPending ? (
-                          <>
-                            <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
-                            <span>Marking Complete...</span>
-                          </>
-                        ) : (
-                          <>
-                            <CheckCircle className="w-4 h-4" />
-                            <span>Mark as Learned</span>
-                          </>
-                        )}
-                      </button>
-                    </div>
+                    <button
+                      onClick={() => completeLearnMutation.mutate()}
+                      disabled={completeLearnMutation.isPending}
+                      className="w-full flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white text-sm font-medium py-3 px-4 rounded-lg transition-colors disabled:opacity-50"
+                    >
+                      {completeLearnMutation.isPending ? (
+                        <>
+                          <div className="w-4 h-4 border border-current border-t-transparent rounded-full animate-spin" />
+                          <span>Marking...</span>
+                        </>
+                      ) : (
+                        <>
+                          <CheckCircle className="w-4 h-4" />
+                          <span>Mark as Learned</span>
+                        </>
+                      )}
+                    </button>
                   )}
 
-                  {/* Completion Success Message */}
+                  {/* Completion Message - Mobile */}
                   {isCompleted && (
-                    <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-4">
+                    <div className="bg-green-50 border border-green-200 rounded-lg p-4">
                       <div className="flex items-center justify-center text-green-800 mb-3">
                         <CheckCircle className="w-5 h-5 mr-2" />
-                        <span className="font-medium">Learning completed! Great job! 🎉</span>
+                        <span className="font-medium">Learning completed! 🎉</span>
                       </div>
-                      <div className="text-center">
-                        <Link
-                          href="/journey"
-                          onClick={() => sessionStorage.setItem('returning-from-learn', 'true')}
-                          className="inline-flex items-center gap-2 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-medium py-2 px-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 transform hover:scale-105 text-sm"
-                        >
-                          <ArrowRight className="w-4 h-4 rotate-180" />
-                          <span>Back to Journey</span>
-                        </Link>
-                      </div>
+                      <Link
+                        href="/journey"
+                        onClick={() => sessionStorage.setItem('returning-from-learn', 'true')}
+                        className="w-full flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium py-3 px-4 rounded-lg transition-colors"
+                      >
+                        <ArrowRight className="w-4 h-4 rotate-180" />
+                        <span>Back to Journey</span>
+                      </Link>
                     </div>
                   )}
 
-                  {/* Quiz Button for Current Subtopic */}
+                  {/* Quiz Button - Mobile */}
                   {subtopic && subtopicId && roadmapId && (
-                    <div className="mb-6">
-                      <p className="text-gray-600 text-sm sm:text-base mb-2">Test your knowledge!</p>
-                      <p className="text-gray-500 text-xs sm:text-sm mb-3">
-                        Take a quiz on: {subtopic}
-                      </p>
-                      <Link 
-                        href={`/quiz?subtopic_id=${subtopicId}&subtopic=${encodeURIComponent(subtopic)}&subject=${encodeURIComponent(learningContext.subject || 'General Subject')}&goal=${encodeURIComponent(learningContext.goal || 'Learn new concepts')}&roadmap_id=${roadmapId}`}
-                        className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6"
-                        onClick={() => {
-                          // Cache learn content for contextual quiz generation
-                          if (contentData) {
-                            sessionStorage.setItem('learn_content_context', JSON.stringify({
-                              content: contentData.content,
-                              subject: contentData.subject,
-                              subtopic: contentData.subtopic,
-                              goal: contentData.goal
-                            }));
-                          }
-                          
-                          // Track that user is going to quiz from learn page
-                          sessionStorage.setItem('returning-from-learn', 'true');
-                          analytics?.track('quiz_started_from_learn', {
-                            subtopic_id: subtopicId,
-                            subtopic: subtopic,
-                            roadmap_id: roadmapId
-                          });
-                        }}
-                      >
-                        <Brain className="w-4 h-4" />
-                        <span>Take Quiz</span>
-                      </Link>
-                    </div>
+                    <Link 
+                      href={`/quiz?subtopic_id=${subtopicId}&subtopic=${encodeURIComponent(subtopic)}&subject=${encodeURIComponent(learningContext.subject || 'General Subject')}&goal=${encodeURIComponent(learningContext.goal || 'Learn new concepts')}&roadmap_id=${roadmapId}`}
+                      className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium py-3 px-4 rounded-lg transition-colors"
+                      onClick={() => {
+                        if (contentData) {
+                          sessionStorage.setItem('learn_content_context', JSON.stringify({
+                            content: contentData.content,
+                            subject: contentData.subject,
+                            subtopic: contentData.subtopic,
+                            goal: contentData.goal
+                          }));
+                        }
+                        sessionStorage.setItem('returning-from-learn', 'true');
+                        analytics?.track('quiz_started_from_learn', {
+                          subtopic_id: subtopicId,
+                          subtopic: subtopic,
+                          roadmap_id: roadmapId
+                        });
+                      }}
+                    >
+                      <Brain className="w-4 h-4" />
+                      <span>Take Quiz</span>
+                    </Link>
                   )}
 
-                  {/* Next Subtopic Button */}
+                  {/* Continue Learning Button - Mobile */}
                   {nextSubtopic && (
-                    <div>
-                      <p className="text-gray-600 text-sm sm:text-base mb-2">Ready for the next topic?</p>
-                      <p className="text-gray-500 text-xs sm:text-sm mb-3">
-                        {nextSubtopic.topic_title} • {nextSubtopic.subtopic_title}
-                      </p>
-                      <Link 
-                        href={`/learn?subtopic=${encodeURIComponent(nextSubtopic.subtopic_title)}&subtopic_id=${nextSubtopic.subtopic_id}&roadmap_id=${roadmapId}`}
-                        className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-medium py-2 sm:py-3 px-4 sm:px-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 transform hover:scale-105 text-sm sm:text-base"
-                      >
-                        <span>Continue Learning</span>
-                        <ArrowRight className="w-4 h-4" />
-                      </Link>
-                    </div>
+                    <Link 
+                      href={`/learn?subtopic=${encodeURIComponent(nextSubtopic.subtopic_title)}&subtopic_id=${nextSubtopic.subtopic_id}&roadmap_id=${roadmapId}`}
+                      className="w-full flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium py-3 px-4 rounded-lg transition-colors"
+                    >
+                      <ArrowRight className="w-4 h-4" />
+                      <span>Continue Learning</span>
+                    </Link>
                   )}
 
                   {!nextSubtopic && !isLoadingNextSubtopic && subtopicId && roadmapId && (
