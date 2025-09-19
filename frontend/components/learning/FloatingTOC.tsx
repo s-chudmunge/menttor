@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { LearningContent } from '../../types/learning';
-import { BookOpen, CheckCircle, FileText, ArrowRight } from 'lucide-react';
+import { BookOpen, CheckCircle, FileText, ArrowRight, Download } from 'lucide-react';
 
 interface Props {
   content: LearningContent;
   onMarkAsLearned?: () => void;
   onTakeQuiz?: () => void;
   onContinueLearning?: () => void;
+  onDownloadPDF?: () => void;
   isCompleted?: boolean;
   isMarkingAsLearned?: boolean;
 }
 
-const FloatingTOC: React.FC<Props> = ({ content, onMarkAsLearned, onTakeQuiz, onContinueLearning, isCompleted, isMarkingAsLearned }) => {
+const FloatingTOC: React.FC<Props> = ({ content, onMarkAsLearned, onTakeQuiz, onContinueLearning, onDownloadPDF, isCompleted, isMarkingAsLearned }) => {
   const [activeId, setActiveId] = useState('');
 
   const headings = content.filter(block => block.type === 'heading');
@@ -111,6 +112,17 @@ const FloatingTOC: React.FC<Props> = ({ content, onMarkAsLearned, onTakeQuiz, on
                     >
                         <FileText className="w-3 h-3" />
                         Take Quiz
+                    </button>
+                )}
+
+                {/* Download PDF Button */}
+                {onDownloadPDF && (
+                    <button
+                        onClick={onDownloadPDF}
+                        className="w-full flex items-center justify-center gap-2 bg-purple-600 hover:bg-purple-700 text-white py-2 px-3 rounded-lg text-xs font-medium transition-colors"
+                    >
+                        <Download className="w-3 h-3" />
+                        Download PDF
                     </button>
                 )}
 

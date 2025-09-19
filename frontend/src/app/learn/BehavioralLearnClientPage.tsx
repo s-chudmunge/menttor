@@ -9,7 +9,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Clock, Target, Brain, Zap, Star, BookOpen, Play, Pause, 
   Focus, Award, TrendingUp, Eye, Timer, CheckCircle, ArrowRight,
-  Home, Map, BarChart3, User, Menu, X
+  Home, Map, BarChart3, User, Menu, X, Download
 } from 'lucide-react';
 
 import Logo from '../../../components/Logo';
@@ -23,6 +23,7 @@ import { useBehavioralContext } from '../context/BehavioralContext';
 import { useFocusMode, useSessionFSM, useBehavioralStats, useQuickChallenge } from '../../hooks/useBehavioral';
 import { api, LearningContentResponse, getNextSubtopic, NextSubtopicResponse, learningAPI } from '../../lib/api';
 import { analytics } from '../../lib/analytics';
+import { generateLearnPagePDF } from '../../../utils/pdfGenerator';
 
 const TIME_TRACKING_INTERVAL = 30000; // 30 seconds
 const FOCUS_SESSION_DURATION = 25; // 25-minute Pomodoro sessions
@@ -303,6 +304,33 @@ const BehavioralLearnClientPage: React.FC<BehavioralLearnClientPageProps> = ({
       }
     }
   }, [currentMicrogoal, completedMicrogoals, sessionPhase, focusMode, awardXPForActivity, showNotification, generateMicrogoal]);
+
+  // PDF generation handler
+  const handleDownloadPDF = useCallback(async () => {
+    if (!content || !contentData) {
+      console.error('No content available for PDF generation');
+      return;
+    }
+    
+    try {
+      await generateLearnPagePDF({
+        content: content,
+        subject: contentData.subject || learningContext.subject,
+        subtopic: contentData.subtopic || learningContext.subtopic || subtopic,
+        goal: contentData.goal || learningContext.goal
+      });
+      
+      // Track analytics
+      analytics?.track('pdf_downloaded', {
+        subtopic_id: subtopicId,
+        subtopic: subtopic,
+        subject: learningContext.subject
+      });
+    } catch (error) {
+      console.error('Failed to generate PDF:', error);
+      // You could add a toast notification here
+    }
+  }, [content, contentData, learningContext, subtopic, subtopicId, analytics]);
 
   // Initialize learning session
   useEffect(() => {
@@ -721,6 +749,7 @@ const BehavioralLearnClientPage: React.FC<BehavioralLearnClientPageProps> = ({
                 onContinueLearning={nextSubtopic ? () => {
                   window.location.href = `/learn?subtopic=${encodeURIComponent(nextSubtopic.subtopic_title)}&subtopic_id=${nextSubtopic.subtopic_id}&roadmap_id=${roadmapId}`;
                 } : undefined}
+                onDownloadPDF={handleDownloadPDF}
                 isCompleted={isCompleted}
                 isMarkingAsLearned={completeLearnMutation.isPending}
               />
@@ -802,6 +831,15 @@ const BehavioralLearnClientPage: React.FC<BehavioralLearnClientPageProps> = ({
                       <span>Take Quiz</span>
                     </Link>
                   )}
+
+                  {/* Download PDF Button - Mobile */}
+                  <button
+                    onClick={handleDownloadPDF}
+                    className="w-full flex items-center justify-center gap-2 bg-purple-600 hover:bg-purple-700 text-white text-sm font-medium py-3 px-4 rounded-lg transition-colors"
+                  >
+                    <Download className="w-4 h-4" />
+                    <span>Download PDF</span>
+                  </button>
 
                   {/* Continue Learning Button - Mobile */}
                   {nextSubtopic && (
