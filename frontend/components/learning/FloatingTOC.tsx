@@ -1,12 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { LearningContent } from '../../types/learning';
-import { BookOpen } from 'lucide-react';
+import { BookOpen, CheckCircle, FileText, ArrowRight } from 'lucide-react';
 
 interface Props {
   content: LearningContent;
+  onMarkAsLearned?: () => void;
+  onTakeQuiz?: () => void;
+  onContinueLearning?: () => void;
+  isCompleted?: boolean;
+  isMarkingAsLearned?: boolean;
 }
 
-const FloatingTOC: React.FC<Props> = ({ content }) => {
+const FloatingTOC: React.FC<Props> = ({ content, onMarkAsLearned, onTakeQuiz, onContinueLearning, isCompleted, isMarkingAsLearned }) => {
   const [activeId, setActiveId] = useState('');
 
   const headings = content.filter(block => block.type === 'heading');
@@ -74,6 +79,69 @@ const FloatingTOC: React.FC<Props> = ({ content }) => {
                 })}
                 </ul>
             </nav>
+            
+            {/* Action Buttons */}
+            <div className="mt-6 pt-4 border-t border-gray-300 space-y-2">
+                {/* Mark as Complete Button */}
+                {onMarkAsLearned && !isCompleted && (
+                    <button
+                        onClick={onMarkAsLearned}
+                        disabled={isMarkingAsLearned}
+                        className="w-full flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white py-2 px-3 rounded-lg text-xs font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                        {isMarkingAsLearned ? (
+                            <>
+                                <div className="w-3 h-3 border border-current border-t-transparent rounded-full animate-spin" />
+                                Marking...
+                            </>
+                        ) : (
+                            <>
+                                <CheckCircle className="w-3 h-3" />
+                                Mark as Learned
+                            </>
+                        )}
+                    </button>
+                )}
+
+                {/* Quiz Button */}
+                {onTakeQuiz && (
+                    <button
+                        onClick={onTakeQuiz}
+                        className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white py-2 px-3 rounded-lg text-xs font-medium transition-colors"
+                    >
+                        <FileText className="w-3 h-3" />
+                        Take Quiz
+                    </button>
+                )}
+
+                {/* Continue Learning Button */}
+                {onContinueLearning && (
+                    <button
+                        onClick={onContinueLearning}
+                        className="w-full flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-3 rounded-lg text-xs font-medium transition-colors"
+                    >
+                        <ArrowRight className="w-3 h-3" />
+                        Continue Learning
+                    </button>
+                )}
+
+                {/* Completion Message */}
+                {isCompleted && (
+                    <div className="bg-green-50 border border-green-200 rounded-lg p-3">
+                        <div className="flex items-center text-green-800 text-xs mb-2">
+                            <CheckCircle className="w-3 h-3 mr-1" />
+                            <span className="font-medium">Completed! 🎉</span>
+                        </div>
+                        <button
+                            onClick={() => window.location.href = '/journey'}
+                            className="w-full flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-medium py-2 px-3 rounded-lg transition-colors"
+                        >
+                            <ArrowRight className="w-3 h-3 rotate-180" />
+                            Back to Journey
+                        </button>
+                    </div>
+                )}
+            </div>
         </div>
     </aside>
   );

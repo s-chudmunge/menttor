@@ -698,87 +698,32 @@ const BehavioralLearnClientPage: React.FC<BehavioralLearnClientPageProps> = ({
           <div className="flex flex-col lg:flex-row gap-4 lg:gap-8">
             {/* TOC Sidebar with Action Buttons - Hidden on mobile, shown on desktop */}
             <div className="hidden lg:block">
-              <FloatingTOC content={content} />
-              
-              {/* Compact Action Buttons Below TOC */}
-              <div className="w-64 mt-4 space-y-2">
-                {/* Mark as Complete Button */}
-                {!isCompleted && (
-                  <button
-                    onClick={() => completeLearnMutation.mutate()}
-                    disabled={completeLearnMutation.isPending}
-                    className="w-full flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white text-xs font-medium py-2 px-3 rounded-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    {completeLearnMutation.isPending ? (
-                      <>
-                        <div className="w-3 h-3 border border-current border-t-transparent rounded-full animate-spin" />
-                        <span>Marking...</span>
-                      </>
-                    ) : (
-                      <>
-                        <CheckCircle className="w-3 h-3" />
-                        <span>Mark as Learned</span>
-                      </>
-                    )}
-                  </button>
-                )}
-
-                {/* Quiz Button */}
-                {subtopic && subtopicId && roadmapId && (
-                  <Link 
-                    href={`/quiz?subtopic_id=${subtopicId}&subtopic=${encodeURIComponent(subtopic)}&subject=${encodeURIComponent(learningContext.subject || 'General Subject')}&goal=${encodeURIComponent(learningContext.goal || 'Learn new concepts')}&roadmap_id=${roadmapId}`}
-                    className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-medium py-2 px-3 rounded-md transition-colors"
-                    onClick={() => {
-                      if (contentData) {
-                        sessionStorage.setItem('learn_content_context', JSON.stringify({
-                          content: contentData.content,
-                          subject: contentData.subject,
-                          subtopic: contentData.subtopic,
-                          goal: contentData.goal
-                        }));
-                      }
-                      sessionStorage.setItem('returning-from-learn', 'true');
-                      analytics?.track('quiz_started_from_learn', {
-                        subtopic_id: subtopicId,
-                        subtopic: subtopic,
-                        roadmap_id: roadmapId
-                      });
-                    }}
-                  >
-                    <Brain className="w-3 h-3" />
-                    <span>Take Quiz</span>
-                  </Link>
-                )}
-
-                {/* Continue Learning Button */}
-                {nextSubtopic && (
-                  <Link 
-                    href={`/learn?subtopic=${encodeURIComponent(nextSubtopic.subtopic_title)}&subtopic_id=${nextSubtopic.subtopic_id}&roadmap_id=${roadmapId}`}
-                    className="w-full flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-medium py-2 px-3 rounded-md transition-colors"
-                  >
-                    <ArrowRight className="w-3 h-3" />
-                    <span>Continue Learning</span>
-                  </Link>
-                )}
-
-                {/* Completion Message */}
-                {isCompleted && (
-                  <div className="bg-green-50 border border-green-200 rounded-md p-3">
-                    <div className="flex items-center text-green-800 text-xs mb-2">
-                      <CheckCircle className="w-3 h-3 mr-1" />
-                      <span className="font-medium">Completed! 🎉</span>
-                    </div>
-                    <Link
-                      href="/journey"
-                      onClick={() => sessionStorage.setItem('returning-from-learn', 'true')}
-                      className="w-full flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-medium py-2 px-3 rounded-md transition-colors"
-                    >
-                      <ArrowRight className="w-3 h-3 rotate-180" />
-                      <span>Back to Journey</span>
-                    </Link>
-                  </div>
-                )}
-              </div>
+              <FloatingTOC 
+                content={content}
+                onMarkAsLearned={!isCompleted ? () => completeLearnMutation.mutate() : undefined}
+                onTakeQuiz={subtopic && subtopicId && roadmapId ? () => {
+                  if (contentData) {
+                    sessionStorage.setItem('learn_content_context', JSON.stringify({
+                      content: contentData.content,
+                      subject: contentData.subject,
+                      subtopic: contentData.subtopic,
+                      goal: contentData.goal
+                    }));
+                  }
+                  sessionStorage.setItem('returning-from-learn', 'true');
+                  analytics?.track('quiz_started_from_learn', {
+                    subtopic_id: subtopicId,
+                    subtopic: subtopic,
+                    roadmap_id: roadmapId
+                  });
+                  window.location.href = `/quiz?subtopic_id=${subtopicId}&subtopic=${encodeURIComponent(subtopic)}&subject=${encodeURIComponent(learningContext.subject || 'General Subject')}&goal=${encodeURIComponent(learningContext.goal || 'Learn new concepts')}&roadmap_id=${roadmapId}`;
+                } : undefined}
+                onContinueLearning={nextSubtopic ? () => {
+                  window.location.href = `/learn?subtopic=${encodeURIComponent(nextSubtopic.subtopic_title)}&subtopic_id=${nextSubtopic.subtopic_id}&roadmap_id=${roadmapId}`;
+                } : undefined}
+                isCompleted={isCompleted}
+                isMarkingAsLearned={completeLearnMutation.isPending}
+              />
             </div>
             
             {/* Main Content */}
