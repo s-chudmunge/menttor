@@ -364,7 +364,7 @@ const SmartNudgeSystem: React.FC = () => {
                 damping: 25
               }}
               className={`
-                bg-gradient-to-r ${config.color} text-white rounded-xl p-3 shadow-lg 
+                ${config.color.replace('bg-gradient-to-r ', 'bg-')} text-white rounded-xl p-3 shadow-lg 
                 border border-white/20 backdrop-blur-sm cursor-pointer group
                 hover:shadow-xl hover:scale-105 transition-all duration-200 max-w-xs
               `}

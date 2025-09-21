@@ -76,7 +76,7 @@ const ContentView: React.FC<ContentViewProps> = ({
           </span>
           <div className="w-24 h-2 bg-gray-200 rounded-full overflow-hidden">
             <div 
-              className="h-full bg-gradient-to-r from-indigo-600 to-purple-600 transition-all duration-300"
+              className="h-full bg-indigo-600 transition-all duration-300"
               style={{
                 width: `${((currentIndex + 1) / (currentView === 'day' ? roadmapByDay.length : roadmapBySection.length)) * 100}%` 
               }}

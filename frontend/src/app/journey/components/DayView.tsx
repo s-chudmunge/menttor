@@ -264,7 +264,7 @@ const DayView: React.FC<DayViewProps> = ({ roadmapData, progressData }) => {
                 {/* Compact Progress Bar */}
                 <div className="w-full h-2 bg-gray-200 dark:bg-zinc-700 rounded-full overflow-hidden mt-3">
                   <motion.div 
-                    className="h-full bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full"
+                    className="h-full bg-indigo-600 rounded-full"
                     initial={{ width: 0 }}
                     animate={{ width: `${day.completionRate}%` }}
                     transition={{ duration: 0.5 }}

@@ -99,7 +99,7 @@ const XPPopAnimation: React.FC<XPPopProps> = ({
             className="relative"
           >
             {/* Main XP bubble */}
-            <div className="bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full px-6 py-3 shadow-2xl border-2 border-white/30">
+            <div className="bg-yellow-400 rounded-full px-6 py-3 shadow-2xl border-2 border-white/30">
               <div className="flex items-center space-x-2">
                 <Star className="w-5 h-5 text-white" />
                 <span className="text-white font-bold text-lg">

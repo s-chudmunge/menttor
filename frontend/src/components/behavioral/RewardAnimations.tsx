@@ -61,7 +61,7 @@ const AchievementBadge: React.FC<{ content: any; onClose: () => void }> = ({ con
           stiffness: 200,
           damping: 15 
         }}
-        className="relative bg-gradient-to-br from-yellow-400 via-orange-500 to-red-500 rounded-full p-12 shadow-2xl"
+        className="relative bg-yellow-400 rounded-full p-12 shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Rotating ring */}
@@ -124,7 +124,7 @@ const LevelUpCelebration: React.FC<{ content: any; onClose: () => void }> = ({ c
       className="fixed inset-0 flex items-center justify-center z-50 p-4"
       onClick={onClose}
     >
-      <div className="absolute inset-0 bg-gradient-to-br from-purple-900/60 to-indigo-900/60 backdrop-blur-sm" />
+      <div className="absolute inset-0 bg-purple-900/60 backdrop-blur-sm" />
       
       <motion.div
         initial={{ scale: 0, y: 100 }}
@@ -152,7 +152,7 @@ const LevelUpCelebration: React.FC<{ content: any; onClose: () => void }> = ({ c
             ease: "easeInOut"
           }}
         >
-          <div className="bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 rounded-full p-12 shadow-2xl border-4 border-white/30">
+          <div className="bg-yellow-400 rounded-full p-12 shadow-2xl border-4 border-white/30">
             <Crown className="w-20 h-20 text-white mx-auto mb-4" />
             <div className="text-white">
               <div className="text-6xl font-bold mb-2">
@@ -231,7 +231,7 @@ const StreakBonus: React.FC<{ content: any; onClose: () => void }> = ({ content,
           rotate: [0, 10, -10, 0]
         }}
         transition={{ duration: 1, repeat: 2 }}
-        className="bg-gradient-to-r from-orange-500 to-red-500 rounded-2xl p-6 shadow-2xl text-white text-center"
+        className="bg-orange-500 rounded-2xl p-6 shadow-2xl text-white text-center"
       >
         <div className="flex items-center justify-center mb-3">
           <Zap className="w-8 h-8 text-yellow-300 mr-2" />

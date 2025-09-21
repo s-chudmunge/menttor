@@ -85,7 +85,7 @@ const SitemapPage = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-white via-blue-50 to-blue-100 dark:from-gray-900 dark:via-blue-900 dark:to-gray-800 transition-colors duration-300">
+    <div className="min-h-screen bg-blue-50 dark:bg-gray-900 transition-colors duration-300">
       {/* Navigation */}
       <nav className="bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm border-b border-gray-100 dark:border-gray-800 sticky top-0 z-50 transition-all duration-300">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -95,7 +95,7 @@ const SitemapPage = () => {
             </div>
             <Link 
               href="/"
-              className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-200 shadow-sm hover:shadow-md"
+              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-200 shadow-sm hover:shadow-md"
             >
               Back to Home
             </Link>
@@ -106,7 +106,7 @@ const SitemapPage = () => {
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="text-center mb-16">
-          <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent mb-6">
+          <h1 className="text-4xl md:text-5xl font-bold text-blue-600 dark:text-blue-400 mb-6">
             Sitemap
           </h1>
           <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
@@ -123,7 +123,7 @@ const SitemapPage = () => {
               className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg border border-gray-200/50 dark:border-gray-700/50 hover:shadow-xl transition-all duration-300"
             >
               <div className="flex items-center mb-6">
-                <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center text-white mr-4">
+                <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center text-white mr-4">
                   {category.icon}
                 </div>
                 <h2 className="text-xl font-bold text-gray-900 dark:text-white">
@@ -156,7 +156,7 @@ const SitemapPage = () => {
         </div>
 
         {/* Additional Information */}
-        <div className="mt-16 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl p-8 md:p-12 text-white">
+        <div className="mt-16 bg-blue-600 rounded-2xl p-8 md:p-12 text-white">
           <div className="text-center">
             <h2 className="text-3xl font-bold mb-4">Need Help Finding Something?</h2>
             <p className="text-xl opacity-90 mb-8">

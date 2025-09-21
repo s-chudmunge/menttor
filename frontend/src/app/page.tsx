@@ -297,9 +297,9 @@ const MenttorLabsMainPage = () => {
         <h3 className="text-2xl font-bold mb-6 text-gray-800 dark:text-white">Your Learning Roadmap: {formData.subject}</h3>
         <div className="space-y-6">
           {roadmapPlan.map((item, index) => (
-            <div key={index} className="module bg-gradient-to-r from-white to-blue-50 dark:from-gray-700 dark:to-blue-900/20 rounded-xl p-6 shadow-lg border border-gray-200 dark:border-gray-600 hover:shadow-xl transition-all duration-300">
+            <div key={index} className="module bg-white dark:bg-gray-700 rounded-xl p-6 shadow-lg border border-gray-200 dark:border-gray-600 hover:shadow-xl transition-all duration-300">
               <div className="flex items-center mb-3">
-                <div className="w-8 h-8 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-sm mr-3">
+                <div className="w-8 h-8 bg-indigo-600 rounded-full flex items-center justify-center text-white font-bold text-sm mr-3">
                   {index + 1}
                 </div>
                 <h4 className="text-xl font-semibold text-indigo-600 dark:text-indigo-400">{item.title}</h4>
@@ -311,7 +311,7 @@ const MenttorLabsMainPage = () => {
                 {item.topics.map((topic, topicIdx) => (
                   <div key={topicIdx} className="bg-white dark:bg-gray-600 rounded-lg p-4 shadow-sm border border-gray-100 dark:border-gray-500">
                     <h5 className="text-lg font-semibold text-gray-800 dark:text-white mb-3 flex items-center">
-                      <span className="w-6 h-6 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center text-white text-xs font-bold mr-2">
+                      <span className="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center text-white text-xs font-bold mr-2">
                         {topicIdx + 1}
                       </span>
                       {topic.title}
@@ -320,7 +320,7 @@ const MenttorLabsMainPage = () => {
                       {topic.subtopics.map((subTopic, subTopicIdx) => (
                         <div key={subTopicIdx} className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors">
                           <div className="flex items-center">
-                            <div className="w-3 h-3 bg-gradient-to-r from-green-400 to-blue-500 rounded-full mr-3"></div>
+                            <div className="w-3 h-3 bg-green-400 rounded-full mr-3"></div>
                             <span className="text-gray-700 dark:text-gray-200 font-medium">{subTopic.title}</span>
                           </div>
                           <div className="flex items-center space-x-2">
@@ -509,7 +509,7 @@ const MenttorLabsMainPage = () => {
                     ) : (
                       <button
                         onClick={() => router.push('/auth/signin')}
-                        className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white py-2.5 rounded-full font-medium transition-all duration-200"
+                        className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2.5 rounded-full font-medium transition-all duration-200"
                       >
                         Sign In
                       </button>
@@ -718,13 +718,13 @@ const MenttorLabsMainPage = () => {
               <div className="flex flex-col justify-center space-y-8">
                 <div className="relative">
                   {/* Background decoration */}
-                  <div className="absolute -inset-2 bg-gradient-to-r from-blue-600/20 to-purple-600/20 rounded-2xl blur-xl"></div>
+                  <div className="absolute -inset-2 bg-blue-600/20 rounded-2xl blur-xl"></div>
                   
                   {/* Main panel */}
-                  <div className="relative card-elevated p-8 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 border-0">
+                  <div className="relative card-elevated p-8 bg-blue-50 dark:bg-blue-900/20 border-0">
                     <div className="text-center">
                       <div className="relative mb-6">
-                        <div className="w-20 h-20 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl flex items-center justify-center mx-auto shadow-xl">
+                        <div className="w-20 h-20 bg-blue-600 rounded-2xl flex items-center justify-center mx-auto shadow-xl">
                           <img src="/favicon_io_light/android-chrome-192x192.png" alt="Menttor" className="w-12 h-12" />
                         </div>
                         <div className="absolute -top-2 -right-2 w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
@@ -786,7 +786,7 @@ const MenttorLabsMainPage = () => {
               <div className="text-center mt-8">
                 <button 
                   onClick={() => router.push('/journey')}
-                  className="bg-gradient-to-r from-green-600 to-blue-600 text-white px-8 py-4 rounded-full font-bold text-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 flex items-center space-x-2 mx-auto"
+                  className="bg-green-600 text-white px-8 py-4 rounded-full font-bold text-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 flex items-center space-x-2 mx-auto"
                 >
                   <Play className="w-6 h-6" />
                   <span>Start Your Journey</span>

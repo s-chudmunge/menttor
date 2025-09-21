@@ -45,7 +45,7 @@ const LearningGuide: React.FC<LearningGuideProps> = ({ className = '' }) => {
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center space-x-3">
-          <div className="w-8 h-8 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-lg flex items-center justify-center">
+          <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center">
             <Info className="w-4 h-4 text-white" />
           </div>
           <div>
@@ -102,9 +102,9 @@ const LearningGuide: React.FC<LearningGuideProps> = ({ className = '' }) => {
       {/* Expanded Details */}
       {isExpanded && (
         <div className="mt-6 pt-6 border-t border-gray-200/50 dark:border-gray-600/50 animate-in slide-in-from-top-2 duration-200">
-          <div className="bg-gradient-to-r from-blue-50/50 to-indigo-50/50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-xl p-4 border border-blue-200/30 dark:border-blue-700/30">
+          <div className="bg-blue-50/50 dark:bg-blue-900/20 rounded-xl p-4 border border-blue-200/30 dark:border-blue-700/30">
             <div className="flex items-start space-x-3">
-              <div className="w-6 h-6 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+              <div className="w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
                 <Target className="w-3 h-3 text-white" />
               </div>
               <div>

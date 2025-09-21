@@ -95,7 +95,7 @@ export default function PromotionalBackground({ className = "", children }: Prom
     return (
       <div className={`relative ${className}`}>
         {/* Fallback gradient background while loading - Mobile optimized */}
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-50/60 via-white to-indigo-50/60 dark:from-gray-900 dark:via-blue-900/25 dark:to-gray-800" />
+        <div className="absolute inset-0 bg-blue-50/60 dark:bg-gray-900" />
         <div className="absolute top-0 left-0 w-64 h-64 sm:w-96 sm:h-96 bg-blue-400/15 dark:bg-blue-400/10 rounded-full filter blur-2xl sm:blur-3xl" />
         <div className="absolute bottom-0 right-0 w-64 h-64 sm:w-96 sm:h-96 bg-indigo-400/15 dark:bg-indigo-400/10 rounded-full filter blur-2xl sm:blur-3xl" />
         <div className="relative z-10">
@@ -141,8 +141,8 @@ export default function PromotionalBackground({ className = "", children }: Prom
         />
         
         {/* Gradient overlays for content readability - optimized for theme */}
-        <div className="absolute inset-0 bg-gradient-to-br from-black/20 via-black/5 to-black/15 dark:from-black/50 dark:via-black/15 dark:to-black/40" />
-        <div className="absolute inset-0 bg-gradient-to-t from-white/90 via-white/40 to-white/70 dark:from-gray-900/75 dark:via-gray-900/15 dark:to-gray-900/50" />
+        <div className="absolute inset-0 bg-black/20 dark:bg-black/50" />
+        <div className="absolute inset-0 bg-white/90 dark:bg-gray-900/75" />
         
         {/* Mobile-specific overlay for better text readability */}
         <div className="absolute inset-0 bg-white/30 dark:bg-gray-900/20 sm:hidden" />

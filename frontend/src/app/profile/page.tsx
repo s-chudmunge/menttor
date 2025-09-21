@@ -133,7 +133,7 @@ export default function ProfilePage() {
           <div className="lg:col-span-1">
             <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-4 lg:p-6">
               <div className="flex lg:flex-col lg:items-start items-center space-x-3 lg:space-x-0 mb-6">
-                <div className="w-12 h-12 lg:w-16 lg:h-16 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-lg lg:text-xl lg:mb-3">
+                <div className="w-12 h-12 lg:w-16 lg:h-16 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold text-lg lg:text-xl lg:mb-3">
                   {getInitials(user.displayName, user.email)}
                 </div>
                 <div className="lg:text-center">

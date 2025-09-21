@@ -45,21 +45,21 @@ const BehavioralNotifications: React.FC = () => {
     switch (type) {
       case 'levelup':
         return {
-          bg: 'bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/30 dark:to-orange-900/30',
+          bg: 'bg-yellow-50 dark:bg-yellow-900/30',
           border: 'border-yellow-200 dark:border-yellow-700',
           title: 'text-yellow-800 dark:text-yellow-200',
           message: 'text-yellow-700 dark:text-yellow-300'
         };
       case 'milestone':
         return {
-          bg: 'bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/30 dark:to-pink-900/30',
+          bg: 'bg-purple-50 dark:bg-purple-900/30',
           border: 'border-purple-200 dark:border-purple-700',
           title: 'text-purple-800 dark:text-purple-200',
           message: 'text-purple-700 dark:text-purple-300'
         };
       case 'reward':
         return {
-          bg: 'bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/30 dark:to-indigo-900/30',
+          bg: 'bg-blue-50 dark:bg-blue-900/30',
           border: 'border-blue-200 dark:border-blue-700',
           title: 'text-blue-800 dark:text-blue-200',
           message: 'text-blue-700 dark:text-blue-300'
@@ -118,7 +118,7 @@ const BehavioralNotifications: React.FC = () => {
                     <div className="mt-2 flex items-center space-x-2">
                       <div className="flex-1 bg-yellow-200 dark:bg-yellow-800 rounded-full h-1.5">
                         <div 
-                          className="bg-gradient-to-r from-yellow-500 to-orange-500 h-full rounded-full transition-all duration-500"
+                          className="bg-yellow-500 h-full rounded-full transition-all duration-500"
                           style={{ 
                             width: `${(notification.data.total_xp % notification.data.xp_to_next_level) / notification.data.xp_to_next_level * 100}%` 
                           }}
@@ -151,7 +151,7 @@ const BehavioralNotifications: React.FC = () => {
               
               {/* Progress bar for notification duration */}
               <motion.div
-                className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-gray-400 to-transparent"
+                className="absolute bottom-0 left-0 right-0 h-0.5 bg-gray-400"
                 initial={{ scaleX: 1 }}
                 animate={{ scaleX: 0 }}
                 transition={{ 

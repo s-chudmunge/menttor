@@ -130,9 +130,9 @@ const ModuleView: React.FC<ModuleViewProps> = ({
                 {/* Topic Container */}
                 <div className="bg-white dark:bg-zinc-950 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-xl transition-all duration-300">
                   {/* Topic Header */}
-                  <div className="p-3 sm:p-4 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/30 dark:to-indigo-900/30 border-b border-gray-200 dark:border-gray-700">
+                  <div className="p-3 sm:p-4 bg-blue-50 dark:bg-blue-900/30 border-b border-gray-200 dark:border-gray-700">
                     <div className="flex items-center space-x-3">
-                      <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-lg flex items-center justify-center shadow-lg">
+                      <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center shadow-lg">
                         <BookOpen className="w-4 h-4 text-white" />
                       </div>
                       <div>
@@ -163,15 +163,15 @@ const ModuleView: React.FC<ModuleViewProps> = ({
                             className="group/card relative"
                           >
                             {/* Subtopic Card */}
-                            <div className="relative bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-600 p-3 sm:p-4 hover:shadow-lg hover:scale-105 transition-all duration-200 overflow-hidden">
+                            <div className="relative bg-gray-50 dark:bg-gray-700 rounded-lg shadow-md border border-gray-200 dark:border-gray-600 p-3 sm:p-4 hover:shadow-lg hover:scale-105 transition-all duration-200 overflow-hidden">
                               {/* Completion Indicator */}
                               <div className="absolute top-2 right-2 z-10">
                                 {isCompleted ? (
-                                  <div className="w-5 h-5 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center shadow-lg">
+                                  <div className="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center shadow-lg">
                                     <Trophy className="w-2.5 h-2.5 text-white" />
                                   </div>
                                 ) : hasProgress ? (
-                                  <div className="w-5 h-5 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full flex items-center justify-center shadow-lg">
+                                  <div className="w-5 h-5 bg-blue-500 rounded-full flex items-center justify-center shadow-lg">
                                     <Clock className="w-2.5 h-2.5 text-white" />
                                   </div>
                                 ) : (
@@ -218,7 +218,7 @@ const ModuleView: React.FC<ModuleViewProps> = ({
                                     className={`w-full py-2 text-xs flex items-center justify-center space-x-1.5 group rounded-md font-medium transition-all duration-200 ${
                                       subtopicProgress?.learn_completed 
                                         ? 'bg-green-100 text-green-800 border border-green-300 hover:bg-green-200 dark:bg-green-900/30 dark:text-green-300 dark:border-green-700 dark:hover:bg-green-900/50' 
-                                        : 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:from-blue-700 hover:to-indigo-700 shadow-md hover:shadow-lg'
+                                        : 'bg-blue-600 text-white hover:bg-blue-700 shadow-md hover:shadow-lg'
                                     }`}
                                     onClick={(e) => {
                                       const target = e.currentTarget;
@@ -248,7 +248,7 @@ const ModuleView: React.FC<ModuleViewProps> = ({
                                   {subtopic.has_quiz && (
                                     <Link
                                       href={`/quiz?subtopic_id=${subtopic.id}&subtopic=${encodeURIComponent(subtopic.title)}&subject=${encodeURIComponent(roadmapData.subject || 'General Subject')}&goal=${encodeURIComponent(roadmapData.goal || roadmapData.description || 'Learn new concepts')}&module_title=${encodeURIComponent(currentModule.title || 'Module')}&topic_title=${encodeURIComponent(topic.title)}&roadmap_id=${roadmapData.id}`}
-                                      className="bg-gradient-to-r from-green-600 to-emerald-600 text-white hover:from-green-700 hover:to-emerald-700 w-full py-2 text-xs flex items-center justify-center space-x-1.5 group rounded-md font-medium transition-all duration-200 shadow-md hover:shadow-lg"
+                                      className="bg-green-600 text-white hover:bg-green-700 w-full py-2 text-xs flex items-center justify-center space-x-1.5 group rounded-md font-medium transition-all duration-200 shadow-md hover:shadow-lg"
                                     >
                                       <Brain className="w-3 h-3 group-hover:scale-110 transition-transform" />
                                       <span>Quiz</span>
@@ -295,7 +295,7 @@ const ModuleView: React.FC<ModuleViewProps> = ({
           </span>
           <div className="w-24 h-2 bg-gray-200 dark:bg-zinc-700 rounded-full overflow-hidden">
             <div 
-              className="h-full bg-gradient-to-r from-indigo-600 to-purple-600 transition-all duration-500"
+              className="h-full bg-indigo-600 transition-all duration-500"
               style={{
                 width: `${((currentModuleIndex + 1) / modules.length) * 100}%` 
               }}

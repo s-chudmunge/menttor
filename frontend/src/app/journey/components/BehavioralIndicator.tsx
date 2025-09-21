@@ -87,7 +87,7 @@ const BehavioralIndicator: React.FC<BehavioralIndicatorProps> = ({
       <div className="fixed bottom-6 right-6 z-50">
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="relative group bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white rounded-full p-3 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+          className="relative group bg-indigo-600 hover:bg-indigo-700 text-white rounded-full p-3 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
         >
           <Brain className="w-6 h-6" />
           
@@ -136,7 +136,7 @@ const BehavioralIndicator: React.FC<BehavioralIndicatorProps> = ({
 
             <div className="space-y-4">
               {/* Progress */}
-              <div className="bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-900/20 dark:to-purple-900/20 rounded-xl p-4 border border-indigo-100 dark:border-indigo-800">
+              <div className="bg-indigo-50 dark:bg-indigo-900/20 rounded-xl p-4 border border-indigo-100 dark:border-indigo-800">
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center space-x-2">
                     <Target className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
@@ -148,7 +148,7 @@ const BehavioralIndicator: React.FC<BehavioralIndicatorProps> = ({
                 </div>
                 <div className="w-full h-3 bg-indigo-200 dark:bg-indigo-800 rounded-full overflow-hidden">
                   <div 
-                    className="h-full bg-gradient-to-r from-indigo-500 to-purple-600 transition-all duration-500 rounded-full"
+                    className="h-full bg-indigo-500 transition-all duration-500 rounded-full"
                     style={{ width: `${overallProgress}%` }}
                   />
                 </div>
@@ -158,7 +158,7 @@ const BehavioralIndicator: React.FC<BehavioralIndicatorProps> = ({
               </div>
 
               {/* XP & Level */}
-              <div className="bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 rounded-xl p-4 border border-yellow-100 dark:border-yellow-800">
+              <div className="bg-yellow-50 dark:bg-yellow-900/20 rounded-xl p-4 border border-yellow-100 dark:border-yellow-800">
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center space-x-2">
                     <Star className="w-5 h-5 text-yellow-600 dark:text-yellow-400" />
@@ -185,7 +185,7 @@ const BehavioralIndicator: React.FC<BehavioralIndicatorProps> = ({
                 {/* XP Progress Bar */}
                 <div className="w-full h-2 bg-yellow-200 dark:bg-yellow-800 rounded-full overflow-hidden">
                   <div 
-                    className="h-full bg-gradient-to-r from-yellow-500 to-orange-500 transition-all duration-500 rounded-full"
+                    className="h-full bg-yellow-500 transition-all duration-500 rounded-full"
                     style={{ width: `${behavioralStats.xp_stats.progress_to_next * 100}%` }}
                   />
                 </div>
@@ -209,7 +209,7 @@ const BehavioralIndicator: React.FC<BehavioralIndicatorProps> = ({
 
               {/* Streak */}
               {behavioralStats.streak_stats.current_streak > 0 && (
-                <div className="bg-gradient-to-r from-red-50 to-pink-50 dark:from-red-900/20 dark:to-pink-900/20 rounded-xl p-4 border border-red-100 dark:border-red-800">
+                <div className="bg-red-50 dark:bg-red-900/20 rounded-xl p-4 border border-red-100 dark:border-red-800">
                   <div className="flex items-center justify-between mb-2">
                     <div className="flex items-center space-x-2">
                       <div className="w-5 h-5 text-red-600 dark:text-red-400">🔥</div>
@@ -226,7 +226,7 @@ const BehavioralIndicator: React.FC<BehavioralIndicatorProps> = ({
               )}
 
               {/* Focus Mode */}
-              <div className="bg-gradient-to-r from-purple-50 to-indigo-50 dark:from-purple-900/20 dark:to-indigo-900/20 rounded-xl p-4 border border-purple-100 dark:border-purple-800">
+              <div className="bg-purple-50 dark:bg-purple-900/20 rounded-xl p-4 border border-purple-100 dark:border-purple-800">
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center space-x-2">
                     <Timer className="w-5 h-5 text-purple-600 dark:text-purple-400" />

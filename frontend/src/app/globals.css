@@ -52,22 +52,22 @@
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
 }
 
-/* Professional Gradient Backgrounds */
+/* Professional Solid Backgrounds */
 .gradient-bg-primary {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #4F46E5;
 }
 
 .gradient-bg-secondary {
-  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  background: #06B6D4;
 }
 
 .gradient-bg-success {
-  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  background: #10B981;
 }
 
 /* Enhanced Button Styles */
 .btn-primary {
-  @apply bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold py-3 px-6 rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300;
+  @apply bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300;
 }
 
 .btn-secondary {
@@ -89,7 +89,7 @@
 
 /* Professional Typography */
 .heading-primary {
-  @apply text-4xl md:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-300 bg-clip-text text-transparent leading-tight;
+  @apply text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white leading-tight;
 }
 
 .heading-secondary {
@@ -132,7 +132,7 @@
 }
 
 .progress-fill {
-  @apply h-full bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full transition-all duration-1000 ease-out;
+  @apply h-full bg-blue-600 rounded-full transition-all duration-1000 ease-out;
 }
 
 /* Professional Status Indicators */

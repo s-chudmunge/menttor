@@ -22,7 +22,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, children }) => {
 
   return (
     <div
-      className={`fixed inset-0 z-50 flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-blue-100 transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0'}`}
+      className={`fixed inset-0 z-50 flex items-center justify-center bg-blue-50 transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0'}`}
       onClick={onClose}
     >
       <div

@@ -275,7 +275,7 @@ const InteractiveRoadmap: React.FC<InteractiveRoadmapProps> = ({ roadmapData, pr
       </div>
 
       {/* Simplified Roadmap Container */}
-      <div className="relative overflow-x-auto p-4 md:p-6 bg-gradient-to-br from-blue-50/30 to-indigo-50/30 dark:from-blue-900/10 dark:to-indigo-900/10" style={{ height: `${roadmapHeight}px` }}>
+      <div className="relative overflow-x-auto p-4 md:p-6 bg-blue-50/30 dark:bg-blue-900/10" style={{ height: `${roadmapHeight}px` }}>
         <div className="relative" style={{ width: `${roadmapWidth}px`, height: '100%' }}>
           
           {/* Grid Background */}
@@ -324,7 +324,7 @@ const InteractiveRoadmap: React.FC<InteractiveRoadmapProps> = ({ roadmapData, pr
                   }}
                   onClick={(e) => handleNodeClick(node, e)}
                 >
-                  <div className={`w-full h-full rounded-full flex items-center justify-center border-2 border-white dark:border-gray-800 bg-gradient-to-br ${getNodeColor(node)}`}>
+                  <div className={`w-full h-full rounded-full flex items-center justify-center border-2 border-white dark:border-gray-800 ${getNodeColor(node)}`}>
                     <IconComponent className="w-6 h-6 text-white" />
                   </div>
                 </div>
@@ -403,7 +403,7 @@ const InteractiveRoadmap: React.FC<InteractiveRoadmapProps> = ({ roadmapData, pr
           {/* Panel Header */}
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center space-x-2">
-              <div className={`w-8 h-8 rounded-lg bg-gradient-to-br ${getNodeColor(selectedNode)} flex items-center justify-center`}>
+              <div className={`w-8 h-8 rounded-lg ${getNodeColor(selectedNode)} flex items-center justify-center`}>
                 <BookOpen className="w-4 h-4 text-white" />
               </div>
               <div>

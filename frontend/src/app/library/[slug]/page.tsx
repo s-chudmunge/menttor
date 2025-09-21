@@ -163,7 +163,7 @@ export default async function LibraryPage({ params }: { params: { slug: string }
       </header>
 
       {/* Subheader */}
-      <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-blue-200">
+      <div className="bg-blue-50 border-b border-blue-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex flex-col space-y-2">
             <div className="flex items-center space-x-2 text-sm text-blue-600">

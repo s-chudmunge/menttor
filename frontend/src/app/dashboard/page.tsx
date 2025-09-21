@@ -197,7 +197,7 @@ export default function DashboardPage() {
 
   if (!user) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50/20 dark:from-gray-900 dark:to-blue-950/20 flex items-center justify-center">
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -210,7 +210,7 @@ export default function DashboardPage() {
           <p className="text-gray-600 dark:text-gray-400 mb-6">Sign in to track your learning progress and achievements</p>
           <button
             onClick={() => router.push('/auth/signin')}
-            className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-200 font-semibold shadow-lg hover:shadow-xl"
+            className="w-full bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-all duration-200 font-semibold shadow-lg hover:shadow-xl"
           >
             Sign In
           </button>
@@ -271,7 +271,7 @@ export default function DashboardPage() {
   const momentum = getMomentumLevel(stats?.weeklyProgress || 0);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50/20 dark:from-gray-900 dark:to-blue-950/20">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Header */}
       <header className="bg-white/95 dark:bg-gray-900/95 backdrop-blur-lg border-b border-gray-200/50 dark:border-gray-700/50 sticky top-0 z-50 shadow-lg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -290,7 +290,7 @@ export default function DashboardPage() {
                     href={item.href} 
                     className={`flex items-center space-x-2 px-4 py-2.5 rounded-lg font-medium transition-all duration-200 ${
                       item.active 
-                        ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg transform scale-105' 
+                        ? 'bg-indigo-600 text-white shadow-lg transform scale-105' 
                         : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/10'
                     }`}
                   >
@@ -497,7 +497,7 @@ export default function DashboardPage() {
                           </div>
                           <div className="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-2 mb-2">
                             <div 
-                              className="bg-gradient-to-r from-blue-500 to-purple-500 h-2 rounded-full transition-all duration-300"
+                              className="bg-blue-500 h-2 rounded-full transition-all duration-300"
                               style={{ width: `${roadmap.completion_percentage || 0}%` }}
                             ></div>
                           </div>
@@ -605,7 +605,7 @@ export default function DashboardPage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                   <button 
                     onClick={() => router.push('/#generate')}
-                    className="flex items-center space-x-3 p-4 bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 rounded-lg hover:from-blue-100 hover:to-blue-200 dark:hover:from-blue-900/30 dark:hover:to-blue-800/30 transition-all duration-200 group"
+                    className="flex items-center space-x-3 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-all duration-200 group"
                   >
                     <div className="p-2 bg-blue-600 text-white rounded-lg group-hover:scale-110 transition-transform">
                       <Plus className="w-4 h-4" />
@@ -615,7 +615,7 @@ export default function DashboardPage() {
                   
                   <button 
                     onClick={() => router.push('/journey')}
-                    className="flex items-center space-x-3 p-4 bg-gradient-to-r from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-800/20 rounded-lg hover:from-green-100 hover:to-green-200 dark:hover:from-green-900/30 dark:hover:to-green-800/30 transition-all duration-200 group"
+                    className="flex items-center space-x-3 p-4 bg-green-50 dark:bg-green-900/20 rounded-lg hover:bg-green-100 dark:hover:bg-green-900/30 transition-all duration-200 group"
                   >
                     <div className="p-2 bg-green-600 text-white rounded-lg group-hover:scale-110 transition-transform">
                       <Play className="w-4 h-4" />
@@ -625,7 +625,7 @@ export default function DashboardPage() {
                   
                   <button 
                     onClick={() => router.push('/explore')}
-                    className="flex items-center space-x-3 p-4 bg-gradient-to-r from-purple-50 to-purple-100 dark:from-purple-900/20 dark:to-purple-800/20 rounded-lg hover:from-purple-100 hover:to-purple-200 dark:hover:from-purple-900/30 dark:hover:to-purple-800/30 transition-all duration-200 group"
+                    className="flex items-center space-x-3 p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg hover:bg-purple-100 dark:hover:bg-purple-900/30 transition-all duration-200 group"
                   >
                     <div className="p-2 bg-purple-600 text-white rounded-lg group-hover:scale-110 transition-transform">
                       <Eye className="w-4 h-4" />
@@ -635,7 +635,7 @@ export default function DashboardPage() {
                   
                   <button 
                     onClick={() => router.push('/performance-analysis')}
-                    className="flex items-center space-x-3 p-4 bg-gradient-to-r from-orange-50 to-orange-100 dark:from-orange-900/20 dark:to-orange-800/20 rounded-lg hover:from-orange-100 hover:to-orange-200 dark:hover:from-orange-900/30 dark:hover:to-orange-800/30 transition-all duration-200 group"
+                    className="flex items-center space-x-3 p-4 bg-orange-50 dark:bg-orange-900/20 rounded-lg hover:bg-orange-100 dark:hover:bg-orange-900/30 transition-all duration-200 group"
                   >
                     <div className="p-2 bg-orange-600 text-white rounded-lg group-hover:scale-110 transition-transform">
                       <BarChart3 className="w-4 h-4" />
@@ -683,7 +683,7 @@ export default function DashboardPage() {
                         
                         <div className="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-3 mb-4">
                           <div 
-                            className="bg-gradient-to-r from-blue-500 to-purple-500 h-3 rounded-full transition-all duration-500"
+                            className="bg-blue-500 h-3 rounded-full transition-all duration-500"
                             style={{ width: `${roadmap.completion_percentage || 0}%` }}
                           ></div>
                         </div>
@@ -716,7 +716,7 @@ export default function DashboardPage() {
                       <p className="text-gray-600 dark:text-gray-400 mb-6">Start your first roadmap to track your progress</p>
                       <Link 
                         href="/explore"
-                        className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-200 font-semibold shadow-lg hover:shadow-xl"
+                        className="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all duration-200 font-semibold shadow-lg hover:shadow-xl"
                       >
                         <BookOpen className="w-4 h-4 mr-2" />
                         Explore Roadmaps
@@ -794,7 +794,7 @@ export default function DashboardPage() {
                       <p className="text-gray-600 dark:text-gray-400 mb-6">Your learning activities will appear here</p>
                       <Link 
                         href="/journey"
-                        className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-green-600 to-blue-600 text-white rounded-lg hover:from-green-700 hover:to-blue-700 transition-all duration-200 font-semibold shadow-lg hover:shadow-xl"
+                        className="inline-flex items-center px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-all duration-200 font-semibold shadow-lg hover:shadow-xl"
                       >
                         <Play className="w-4 h-4 mr-2" />
                         Start Learning

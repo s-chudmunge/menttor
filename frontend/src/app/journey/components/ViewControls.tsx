@@ -18,7 +18,7 @@ const ViewControls: React.FC<ViewControlsProps> = ({ currentView, setCurrentView
           onClick={() => {setCurrentView('day'); setCurrentIndex(0);}}
           className={`flex items-center space-x-2 px-6 py-3 rounded-xl font-medium transition-all ${
             currentView === 'day' 
-              ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg' 
+              ? 'bg-indigo-600 text-white shadow-lg' 
               : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
           }`}
         >
@@ -29,7 +29,7 @@ const ViewControls: React.FC<ViewControlsProps> = ({ currentView, setCurrentView
           onClick={() => {setCurrentView('section'); setCurrentIndex(0);}}
           className={`flex items-center space-x-2 px-6 py-3 rounded-xl font-medium transition-all ${
             currentView === 'section' 
-              ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg' 
+              ? 'bg-indigo-600 text-white shadow-lg' 
               : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
           }`}
         >

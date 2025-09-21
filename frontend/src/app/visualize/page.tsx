@@ -100,7 +100,7 @@ function VisualizationPageContent() {
 
     if (isGenerating || isLoading) {
         return (
-            <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex flex-col items-center justify-center p-8">
+            <div className="min-h-screen bg-indigo-50 dark:bg-gray-900 flex flex-col items-center justify-center p-8">
                 <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 max-w-md w-full text-center">
                     <div className="relative mb-6">
                         <div className="w-20 h-20 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin mx-auto"></div>
@@ -118,7 +118,7 @@ function VisualizationPageContent() {
                     
                     <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 mb-4">
                         <div 
-                            className="bg-gradient-to-r from-indigo-500 to-purple-600 h-2 rounded-full transition-all duration-500"
+                            className="bg-indigo-600 h-2 rounded-full transition-all duration-500"
                             style={{ width: `${loadingProgress}%` }}
                         ></div>
                     </div>
@@ -133,7 +133,7 @@ function VisualizationPageContent() {
 
     if (error) {
         return (
-            <div className="min-h-screen bg-gradient-to-br from-red-50 via-white to-pink-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex flex-col items-center justify-center p-8">
+            <div className="min-h-screen bg-red-50 dark:bg-gray-900 flex flex-col items-center justify-center p-8">
                 <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 max-w-md w-full text-center">
                     <AlertTriangle className="w-16 h-16 text-red-500 mx-auto mb-4" />
                     <h2 className="text-xl font-bold text-gray-800 dark:text-gray-200 mb-2">
