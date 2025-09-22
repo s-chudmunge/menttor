@@ -14,18 +14,18 @@ export default function SimpleLearningAnimation() {
         {/* Background Grid Pattern */}
         <defs>
           <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(139, 92, 246, 0.1)" strokeWidth="1"/>
+            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(21, 128, 61, 0.1)" strokeWidth="1"/>
           </pattern>
           
           {/* Background Glows */}
           <radialGradient id="backgroundGlow1">
-            <stop offset="0%" stopColor="#8B5CF6" stopOpacity="0.4"/>
-            <stop offset="100%" stopColor="#8B5CF6" stopOpacity="0"/>
+            <stop offset="0%" stopColor="#15803d" stopOpacity="0.4"/>
+            <stop offset="100%" stopColor="#15803d" stopOpacity="0"/>
           </radialGradient>
           
           <radialGradient id="backgroundGlow2">
-            <stop offset="0%" stopColor="#A855F7" stopOpacity="0.3"/>
-            <stop offset="100%" stopColor="#A855F7" stopOpacity="0"/>
+            <stop offset="0%" stopColor="#16a34a" stopOpacity="0.3"/>
+            <stop offset="100%" stopColor="#16a34a" stopOpacity="0"/>
           </radialGradient>
           
           <radialGradient id="backgroundGlow3">
@@ -41,44 +41,44 @@ export default function SimpleLearningAnimation() {
           
           {/* Feature Card Gradient */}
           <linearGradient id="featureCard" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="rgba(139,92,246,0.2)" stopOpacity="1"/>
-            <stop offset="100%" stopColor="rgba(139,92,246,0.1)" stopOpacity="1"/>
+            <stop offset="0%" stopColor="rgba(21,128,61,0.2)" stopOpacity="1"/>
+            <stop offset="100%" stopColor="rgba(21,128,61,0.1)" stopOpacity="1"/>
           </linearGradient>
           
           {/* Premium Feature Gradient */}
           <linearGradient id="premiumFeature" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="rgba(139,92,246,0.3)" stopOpacity="1"/>
-            <stop offset="50%" stopColor="rgba(168,85,247,0.25)" stopOpacity="1"/>
-            <stop offset="100%" stopColor="rgba(192,132,252,0.2)" stopOpacity="1"/>
+            <stop offset="0%" stopColor="rgba(21,128,61,0.3)" stopOpacity="1"/>
+            <stop offset="50%" stopColor="rgba(22,163,74,0.25)" stopOpacity="1"/>
+            <stop offset="100%" stopColor="rgba(34,197,94,0.2)" stopOpacity="1"/>
           </linearGradient>
           
           {/* Icon Background */}
           <radialGradient id="iconBackground">
-            <stop offset="0%" stopColor="rgba(139,92,246,0.8)" stopOpacity="1"/>
-            <stop offset="100%" stopColor="rgba(139,92,246,0.4)" stopOpacity="1"/>
+            <stop offset="0%" stopColor="rgba(21,128,61,0.8)" stopOpacity="1"/>
+            <stop offset="100%" stopColor="rgba(21,128,61,0.4)" stopOpacity="1"/>
           </radialGradient>
           
           {/* Border Gradients */}
           <linearGradient id="cardBorder" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="rgba(139,92,246,0.5)" stopOpacity="1"/>
-            <stop offset="100%" stopColor="rgba(168,85,247,0.3)" stopOpacity="1"/>
+            <stop offset="0%" stopColor="rgba(21,128,61,0.5)" stopOpacity="1"/>
+            <stop offset="100%" stopColor="rgba(22,163,74,0.3)" stopOpacity="1"/>
           </linearGradient>
           
           <linearGradient id="featureBorder" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="rgba(139,92,246,0.3)" stopOpacity="1"/>
-            <stop offset="100%" stopColor="rgba(139,92,246,0.1)" stopOpacity="1"/>
+            <stop offset="0%" stopColor="rgba(21,128,61,0.3)" stopOpacity="1"/>
+            <stop offset="100%" stopColor="rgba(21,128,61,0.1)" stopOpacity="1"/>
           </linearGradient>
           
           {/* Connection Gradient */}
           <linearGradient id="connectionGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#8B5CF6" stopOpacity="0.9"/>
-            <stop offset="50%" stopColor="#A855F7" stopOpacity="0.8"/>
-            <stop offset="100%" stopColor="#C084FC" stopOpacity="0.7"/>
+            <stop offset="0%" stopColor="#15803d" stopOpacity="0.9"/>
+            <stop offset="50%" stopColor="#16a34a" stopOpacity="0.8"/>
+            <stop offset="100%" stopColor="#22c55e" stopOpacity="0.7"/>
           </linearGradient>
         </defs>
         
         {/* Subtle background */}
-        <rect width="100%" height="100%" fill="rgba(139, 92, 246, 0.02)"/>
+        <rect width="100%" height="100%" fill="rgba(21, 128, 61, 0.02)"/>
         
         {/* Minimal Background Glows */}
         <circle cx="200" cy="150" r="100" fill="url(#backgroundGlow1)" opacity="0.1"/>
@@ -198,9 +198,9 @@ export default function SimpleLearningAnimation() {
           <defs>
             {/* Gradient for electricity effect */}
             <linearGradient id="electricityGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#8B5CF6" stopOpacity="0.2"/>
-              <stop offset="50%" stopColor="#A855F7" stopOpacity="1"/>
-              <stop offset="100%" stopColor="#8B5CF6" stopOpacity="0.2"/>
+              <stop offset="0%" stopColor="#15803d" stopOpacity="0.2"/>
+              <stop offset="50%" stopColor="#16a34a" stopOpacity="1"/>
+              <stop offset="100%" stopColor="#15803d" stopOpacity="0.2"/>
               <animateTransform
                 attributeName="gradientTransform"
                 attributeType="XML"
@@ -213,7 +213,7 @@ export default function SimpleLearningAnimation() {
             
             {/* Dashed stroke for electricity effect */}
             <pattern id="electricityPattern" patternUnits="userSpaceOnUse" width="20" height="3">
-              <rect width="10" height="3" fill="#8B5CF6" opacity="0.8"/>
+              <rect width="10" height="3" fill="#15803d" opacity="0.8"/>
               <rect x="10" width="10" height="3" fill="transparent"/>
               <animateTransform
                 attributeName="patternTransform"
@@ -226,7 +226,7 @@ export default function SimpleLearningAnimation() {
           </defs>
 
           {/* Base connection lines */}
-          <g stroke="#8B5CF6" strokeWidth="3" fill="none" strokeLinecap="round" opacity="0.3">
+          <g stroke="#15803d" strokeWidth="3" fill="none" strokeLinecap="round" opacity="0.3">
             <path d="M 230 300 L 300 300" strokeWidth="4"/>
             <path d="M 700 185 L 750 185" strokeWidth="3"/>
             <path d="M 700 295 L 750 295" strokeWidth="3"/>
@@ -255,7 +255,7 @@ export default function SimpleLearningAnimation() {
           </g>
 
           {/* Moving particles for enhanced effect */}
-          <g fill="#A855F7">
+          <g fill="#16a34a">
             <circle r="2" opacity="0.8">
               <animateMotion dur="2s" repeatCount="indefinite" path="M 230 300 L 300 300"/>
               <animate attributeName="opacity" values="0;1;0" dur="2s" repeatCount="indefinite"/>

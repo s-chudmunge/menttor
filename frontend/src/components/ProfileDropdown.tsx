@@ -104,7 +104,7 @@ export default function ProfileDropdown({ className = '', variant = 'light' }: P
         }`}
       >
         <div className="relative">
-          <div className="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center text-white font-medium text-sm">
+          <div className="w-8 h-8 bg-green-700 rounded-full flex items-center justify-center text-white font-medium text-sm">
             {getInitials(user.displayName, user.email)}
           </div>
           <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 border-2 border-white dark:border-gray-900 rounded-full"></div>
@@ -126,7 +126,7 @@ export default function ProfileDropdown({ className = '', variant = 'light' }: P
             variant === 'dark' ? 'border-gray-800' : 'border-gray-200 dark:border-gray-800'
           }`}>
             <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center text-white font-medium text-sm">
+              <div className="w-8 h-8 bg-green-700 rounded-full flex items-center justify-center text-white font-medium text-sm">
                 {getInitials(user.displayName, user.email)}
               </div>
               <div className="flex-1 min-w-0">

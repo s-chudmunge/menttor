@@ -156,7 +156,7 @@ const ExplorePage = () => {
 
   const categoryColors: { [key: string]: string } = {
     'web-development': 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300',
-    'data-science': 'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300',
+    'data-science': 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300',
     'cloud-computing': 'bg-sky-100 text-sky-800 dark:bg-sky-900/30 dark:text-sky-300',
     'computer-science': 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-300',
     'mobile-development': 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300',
@@ -530,7 +530,7 @@ const ExplorePage = () => {
                     href={item.href} 
                     className={`flex items-center space-x-2 px-3 py-2 rounded-md font-medium transition-all duration-200 ${
                       item.active 
-                        ? 'bg-purple-600 text-white ' 
+                        ? 'bg-green-700 text-white ' 
                         : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800'
                     }`}
                   >
@@ -599,7 +599,7 @@ const ExplorePage = () => {
                       onClick={() => setIsMobileMenuOpen(false)}
                       className={`flex items-center space-x-3 px-4 py-3 rounded-md font-medium transition-all duration-200 ${
                         item.active 
-                          ? 'bg-purple-600 text-white shadow-lg' 
+                          ? 'bg-green-700 text-white shadow-lg' 
                           : 'text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800'
                       }`}
                     >
@@ -631,7 +631,7 @@ const ExplorePage = () => {
       <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-b border-gray-200/50 dark:border-gray-700/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="text-center mb-8">
-            <div className="inline-flex items-center px-4 py-2 rounded-full bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-900/40 dark:to-purple-900/40 text-blue-700 dark:text-blue-300 text-sm font-medium mb-6">
+            <div className="inline-flex items-center px-4 py-2 rounded-full bg-gradient-to-r from-blue-100 to-green-100 dark:from-blue-900/40 dark:to-green-900/40 text-blue-700 dark:text-blue-300 text-sm font-medium mb-6">
               <Sparkles className="w-4 h-4 mr-2" />
               Expert-Curated Learning Paths 
             </div>
@@ -986,7 +986,7 @@ const ExplorePage = () => {
               </p>
               <div className="bg-gray-200 dark:bg-gray-700 rounded-full h-2 mb-4">
                 <div 
-                  className="bg-gradient-to-r from-blue-500 to-purple-500 h-2 rounded-full transition-all duration-1000"
+                  className="bg-gradient-to-r from-blue-500 to-green-500 h-2 rounded-full transition-all duration-1000"
                   style={{ width: `${Math.min(100, generationProgress + (Date.now() % 10000) / 100)}%` }}
                 ></div>
               </div>

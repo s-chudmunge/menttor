@@ -107,7 +107,7 @@ const JourneyHeader: React.FC<JourneyHeaderProps> = ({
                     href={item.href} 
                     className={`flex items-center space-x-2 px-3 py-2 rounded-md font-medium transition-all duration-200 ${
                       item.active 
-                        ? 'bg-purple-600 text-white' 
+                        ? 'bg-green-700 text-white' 
                         : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800'
                     }`}
                   >
@@ -177,7 +177,7 @@ const JourneyHeader: React.FC<JourneyHeaderProps> = ({
                       onClick={() => setIsMobileMenuOpen(false)}
                       className={`flex items-center space-x-3 px-4 py-3 rounded-md font-medium transition-all duration-200 ${
                         item.active 
-                          ? 'bg-purple-600 text-white' 
+                          ? 'bg-green-700 text-white' 
                           : 'text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800'
                       }`}
                     >

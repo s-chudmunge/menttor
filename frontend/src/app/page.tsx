@@ -403,7 +403,7 @@ const MenttorLabsMainPage = () => {
             <nav className="hidden lg:flex items-center space-x-1">
               <Link 
                 href="/" 
-                className="flex items-center space-x-2 px-3 py-2 rounded-md font-medium transition-all duration-200 bg-purple-600 text-white"
+                className="flex items-center space-x-2 px-3 py-2 rounded-md font-medium transition-all duration-200 bg-green-700 text-white"
               >
                 <span className="text-sm">Home</span>
               </Link>
@@ -809,7 +809,7 @@ const MenttorLabsMainPage = () => {
               <div className="text-xs font-medium text-gray-600 dark:text-gray-400">Active Learners</div>
             </div>
             <div className="bg-white dark:bg-black rounded-lg p-4 text-center border border-gray-200 dark:border-gray-700">
-              <div className="w-8 h-8 bg-purple-600 rounded-lg flex items-center justify-center mx-auto mb-3">
+              <div className="w-8 h-8 bg-green-700 rounded-lg flex items-center justify-center mx-auto mb-3">
                 <Target className="w-4 h-4 text-white" />
               </div>
               <div className="text-xl font-bold text-gray-900 dark:text-white mb-1">1M+</div>
