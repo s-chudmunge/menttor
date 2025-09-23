@@ -58,7 +58,6 @@ export async function POST(request: NextRequest) {
           </div>
           <div style="padding: 24px; border-top: 1px solid #e5e7eb; background-color: #f9fafb;">
             <p style="color: #6b7280; font-size: 12px; margin: 0; text-align: center;">
-              This email was sent from the Menttor Admin Panel<br />
               <a href="https://menttor.live" style="color: #3b82f6; text-decoration: none;">menttor.live</a>
             </p>
           </div>
@@ -67,7 +66,7 @@ export async function POST(request: NextRequest) {
     }
 
     const { data, error } = await resend.emails.send({
-      from: 'Menttor Team <sankalp@menttor.live>',
+      from: 'Sankalp <sankalp@menttor.live>',
       replyTo: 'csankalp21@gmail.com',
       to: [to],
       subject: subject,
