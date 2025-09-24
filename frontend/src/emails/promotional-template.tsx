@@ -40,14 +40,15 @@ export default function PromotionalEmail({ recipientName = "there" }: Promotiona
             <Text style={text}>Hi {recipientName}!</Text>
             <Text style={text}>
               I wanted to share something that might help with your learning goals. 
-              Menttor provides structured roadmaps that can guide you through complex topics step by step.
+              Menttor lets you create custom roadmaps for any subject or explore our curated learning paths that guide you through complex topics step by step.
             </Text>
           </Section>
 
           {/* Key Benefits */}
           <Section style={section}>
             <Text style={benefitsTitle}>What you'll find helpful:</Text>
-            <Text style={bulletText}>• <strong>Curated Learning Paths</strong> - Structured roadmaps for programming, business, and science topics</Text>
+            <Text style={bulletText}>• <strong>Custom Roadmap Creation</strong> - Generate personalized learning paths for your specific goals and timeline</Text>
+            <Text style={bulletText}>• <strong>Curated Learning Paths</strong> - Explore ready-made structured roadmaps for programming, business, and science topics</Text>
             <Text style={bulletText}>• <strong>Progress Tracking</strong> - See where you are in your learning journey</Text>
             <Text style={bulletText}>• <strong>Study Tools</strong> - Flashcards and practice sessions to reinforce learning</Text>
             <Text style={bulletText}>• <strong>Focus on Learning</strong> - Spend time studying, not planning what to study next</Text>
@@ -56,18 +57,18 @@ export default function PromotionalEmail({ recipientName = "there" }: Promotiona
           {/* Social Proof */}
           <Section style={proofSection}>
             <Text style={proofText}>
-              "The roadmaps helped me stay organized and focused on what to learn next. Really useful for breaking down complex topics." 
+              "Being able to generate custom roadmaps for my specific learning goals and then follow structured paths really helped me stay organized and focused. The flexibility to create my own or use curated ones is perfect." 
               <br /><em>- Sarah, Software Engineer</em>
             </Text>
           </Section>
 
           {/* CTA */}
           <Section style={ctaSection}>
-            <Button style={buttonPrimary} href="https://menttor.live/explore">
-              Explore Learning Paths
+            <Button style={buttonPrimary} href="https://menttor.live/">
+              Create Your Custom Roadmap
             </Button>
             <Text style={ctaSubtext}>
-              Free to browse and get started
+              Or <Link href="https://menttor.live/explore" style={link}>explore curated learning paths</Link> • Free to get started
             </Text>
           </Section>
 
