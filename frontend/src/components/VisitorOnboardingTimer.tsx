@@ -105,16 +105,23 @@ const VisitorOnboardingTimer: React.FC<VisitorOnboardingTimerProps> = ({ childre
     sessionStorage.setItem(SHOWN_KEY, 'true');
   };
 
-  // Clean up stored data when user authenticates
+  // Clean up stored data when user authenticates and show roadmap
   useEffect(() => {
     if (user && !loading) {
       const storedData = localStorage.getItem(STORAGE_KEY);
+      const previewRoadmap = sessionStorage.getItem('preview_roadmap');
+      
       if (storedData) {
         // Save the onboarding data to user profile
         try {
           const data = JSON.parse(storedData);
           saveOnboardingDataToProfile(data);
           localStorage.removeItem(STORAGE_KEY); // Clean up
+          
+          // Show roadmap if we have one generated
+          if (previewRoadmap) {
+            setShowRoadmap(true);
+          }
         } catch (error) {
           console.error('Error parsing stored onboarding data:', error);
         }
@@ -152,24 +159,32 @@ const VisitorOnboardingTimer: React.FC<VisitorOnboardingTimerProps> = ({ childre
           <div className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-auto">
             <div className="p-6">
               <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-                Your Learning Roadmap is Ready! 🎉
+                Welcome to Your Learning Journey! 🎉
               </h2>
               <p className="text-gray-600 dark:text-gray-400 mb-6">
-                We've created a personalized learning path based on your preferences. 
-                Login to save your progress and access advanced features.
+                Your personalized roadmap has been created and saved to your profile. 
+                Ready to start learning?
               </p>
               <div className="flex space-x-3">
                 <button
-                  onClick={() => router.push('/auth/signin')}
-                  className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-all duration-200 flex-1"
+                  onClick={() => {
+                    // Store roadmap for journey page and redirect
+                    const previewRoadmap = sessionStorage.getItem('preview_roadmap');
+                    if (previewRoadmap) {
+                      sessionStorage.setItem('currentRoadmap', previewRoadmap);
+                      sessionStorage.removeItem('preview_roadmap');
+                    }
+                    router.push('/journey');
+                  }}
+                  className="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-lg transition-all duration-200 flex-1"
                 >
-                  Login to Save & Start Learning
+                  Start Learning Now
                 </button>
                 <button
                   onClick={() => setShowRoadmap(false)}
                   className="bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-500 text-gray-700 dark:text-gray-300 font-medium py-2 px-4 rounded-lg transition-all duration-200"
                 >
-                  Maybe Later
+                  Later
                 </button>
               </div>
             </div>

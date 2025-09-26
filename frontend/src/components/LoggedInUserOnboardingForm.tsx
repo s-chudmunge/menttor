@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, ArrowRight, ArrowLeft, Target, Clock, Brain, BookOpen, Sparkles, CheckCircle } from 'lucide-react';
+import { X, ArrowRight, ArrowLeft, Sparkles, CheckCircle } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { api } from '../lib/api';
 import Button from './Button';
@@ -142,7 +142,11 @@ const LoggedInUserOnboardingForm: React.FC<LoggedInUserOnboardingFormProps> = ({
             className="space-y-6"
           >
             <div className="text-center">
-              <Target className="w-8 h-8 mx-auto mb-4 text-blue-600" />
+              <div className="w-12 h-12 mx-auto mb-4 bg-blue-100 dark:bg-blue-900/20 rounded-full flex items-center justify-center">
+                <div className="w-6 h-6 border-2 border-blue-600 rounded-full relative">
+                  <div className="w-2 h-2 bg-blue-600 rounded-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></div>
+                </div>
+              </div>
               <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
                 What interests you?
               </h3>
@@ -184,7 +188,13 @@ const LoggedInUserOnboardingForm: React.FC<LoggedInUserOnboardingFormProps> = ({
             className="space-y-6"
           >
             <div className="text-center">
-              <BookOpen className="w-8 h-8 mx-auto mb-4 text-green-600" />
+              <div className="w-12 h-12 mx-auto mb-4 bg-green-100 dark:bg-green-900/20 rounded-full flex items-center justify-center">
+                <div className="w-6 h-5 border-2 border-green-600 rounded-sm relative">
+                  <div className="w-full h-0.5 bg-green-600 absolute top-1"></div>
+                  <div className="w-full h-0.5 bg-green-600 absolute top-2.5"></div>
+                  <div className="w-full h-0.5 bg-green-600 absolute top-4"></div>
+                </div>
+              </div>
               <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
                 What's your goal?
               </h3>
@@ -212,7 +222,12 @@ const LoggedInUserOnboardingForm: React.FC<LoggedInUserOnboardingFormProps> = ({
             className="space-y-6"
           >
             <div className="text-center">
-              <Clock className="w-8 h-8 mx-auto mb-4 text-orange-600" />
+              <div className="w-12 h-12 mx-auto mb-4 bg-orange-100 dark:bg-orange-900/20 rounded-full flex items-center justify-center">
+                <div className="w-6 h-6 border-2 border-orange-600 rounded-full relative">
+                  <div className="w-0.5 h-2 bg-orange-600 absolute top-1 left-1/2 transform -translate-x-1/2 origin-bottom rotate-12"></div>
+                  <div className="w-0.5 h-1 bg-orange-600 absolute top-1.5 left-1/2 transform -translate-x-1/2 origin-bottom -rotate-45"></div>
+                </div>
+              </div>
               <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
                 What's your timeline?
               </h3>
@@ -268,7 +283,14 @@ const LoggedInUserOnboardingForm: React.FC<LoggedInUserOnboardingFormProps> = ({
             className="space-y-6"
           >
             <div className="text-center">
-              <Brain className="w-8 h-8 mx-auto mb-4 text-green-600" />
+              <div className="w-12 h-12 mx-auto mb-4 bg-green-100 dark:bg-green-900/20 rounded-full flex items-center justify-center">
+                <div className="w-6 h-5 relative">
+                  <div className="w-6 h-3 border-2 border-green-600 rounded-t-full"></div>
+                  <div className="w-4 h-2 bg-green-600 rounded-b-full absolute bottom-0 left-1"></div>
+                  <div className="w-1 h-1 bg-green-600 rounded-full absolute top-1 left-1.5"></div>
+                  <div className="w-1 h-1 bg-green-600 rounded-full absolute top-1 right-1.5"></div>
+                </div>
+              </div>
               <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
                 How do you learn best?
               </h3>

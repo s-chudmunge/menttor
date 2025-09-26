@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, ArrowRight, ArrowLeft, Target, Clock, Brain, BookOpen, User } from 'lucide-react';
+import { X, ArrowRight, ArrowLeft } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import Button from './Button';
 
@@ -81,11 +81,39 @@ const VisitorOnboardingForm: React.FC<VisitorOnboardingFormProps> = ({
   const handleComplete = async () => {
     setIsGenerating(true);
     
-    // Simulate roadmap generation
-    setTimeout(() => {
-      onComplete(formData);
-      setIsGenerating(false);
-    }, 2000);
+    // Generate roadmap in background and store for after login
+    try {
+      const roadmapRequest = {
+        subject: formData.interests.join(', '),
+        goal: formData.goal,
+        time_value: formData.timeline.value,
+        time_unit: formData.timeline.unit,
+        model: 'vertexai:gemini-2.5-flash-lite' // Default model
+      };
+
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL || 'https://menttor-backend-144050828172.asia-south1.run.app'}/roadmaps/generate-preview`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(roadmapRequest),
+      });
+
+      if (response.ok) {
+        const roadmapData = await response.json();
+        // Store both form data and generated roadmap
+        localStorage.setItem('visitor_onboarding_data', JSON.stringify(formData));
+        sessionStorage.setItem('preview_roadmap', JSON.stringify(roadmapData));
+      }
+    } catch (error) {
+      console.error('Error generating roadmap preview:', error);
+      // Still store form data even if roadmap generation fails
+      localStorage.setItem('visitor_onboarding_data', JSON.stringify(formData));
+    }
+    
+    setIsGenerating(false);
+    // Redirect to login
+    onLogin();
   };
 
   const canProceed = () => {
@@ -109,7 +137,11 @@ const VisitorOnboardingForm: React.FC<VisitorOnboardingFormProps> = ({
             className="space-y-6"
           >
             <div className="text-center">
-              <Target className="w-8 h-8 mx-auto mb-4 text-blue-600" />
+              <div className="w-12 h-12 mx-auto mb-4 bg-blue-100 dark:bg-blue-900/20 rounded-full flex items-center justify-center">
+                <div className="w-6 h-6 border-2 border-blue-600 rounded-full relative">
+                  <div className="w-2 h-2 bg-blue-600 rounded-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></div>
+                </div>
+              </div>
               <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
                 What interests you?
               </h3>
@@ -151,7 +183,13 @@ const VisitorOnboardingForm: React.FC<VisitorOnboardingFormProps> = ({
             className="space-y-6"
           >
             <div className="text-center">
-              <BookOpen className="w-8 h-8 mx-auto mb-4 text-green-600" />
+              <div className="w-12 h-12 mx-auto mb-4 bg-green-100 dark:bg-green-900/20 rounded-full flex items-center justify-center">
+                <div className="w-6 h-5 border-2 border-green-600 rounded-sm relative">
+                  <div className="w-full h-0.5 bg-green-600 absolute top-1"></div>
+                  <div className="w-full h-0.5 bg-green-600 absolute top-2.5"></div>
+                  <div className="w-full h-0.5 bg-green-600 absolute top-4"></div>
+                </div>
+              </div>
               <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
                 What's your goal?
               </h3>
@@ -179,7 +217,12 @@ const VisitorOnboardingForm: React.FC<VisitorOnboardingFormProps> = ({
             className="space-y-6"
           >
             <div className="text-center">
-              <Clock className="w-8 h-8 mx-auto mb-4 text-orange-600" />
+              <div className="w-12 h-12 mx-auto mb-4 bg-orange-100 dark:bg-orange-900/20 rounded-full flex items-center justify-center">
+                <div className="w-6 h-6 border-2 border-orange-600 rounded-full relative">
+                  <div className="w-0.5 h-2 bg-orange-600 absolute top-1 left-1/2 transform -translate-x-1/2 origin-bottom rotate-12"></div>
+                  <div className="w-0.5 h-1 bg-orange-600 absolute top-1.5 left-1/2 transform -translate-x-1/2 origin-bottom -rotate-45"></div>
+                </div>
+              </div>
               <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
                 What's your timeline?
               </h3>
@@ -235,7 +278,14 @@ const VisitorOnboardingForm: React.FC<VisitorOnboardingFormProps> = ({
             className="space-y-6"
           >
             <div className="text-center">
-              <Brain className="w-8 h-8 mx-auto mb-4 text-green-600" />
+              <div className="w-12 h-12 mx-auto mb-4 bg-green-100 dark:bg-green-900/20 rounded-full flex items-center justify-center">
+                <div className="w-6 h-5 relative">
+                  <div className="w-6 h-3 border-2 border-green-600 rounded-t-full"></div>
+                  <div className="w-4 h-2 bg-green-600 rounded-b-full absolute bottom-0 left-1"></div>
+                  <div className="w-1 h-1 bg-green-600 rounded-full absolute top-1 left-1.5"></div>
+                  <div className="w-1 h-1 bg-green-600 rounded-full absolute top-1 right-1.5"></div>
+                </div>
+              </div>
               <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
                 How do you learn best?
               </h3>
@@ -315,23 +365,32 @@ const VisitorOnboardingForm: React.FC<VisitorOnboardingFormProps> = ({
         {/* Footer */}
         <div className="p-6 border-t border-gray-200 dark:border-gray-700">
           {currentStep === totalSteps - 1 ? (
-            <div className="space-y-3">
-              <Button
-                onClick={handleComplete}
-                disabled={!canProceed() || isGenerating}
-                loading={isGenerating}
-                className="w-full bg-green-600 hover:bg-green-700 text-white"
-              >
-                {isGenerating ? 'Generating Roadmap...' : 'Create My Roadmap'}
-              </Button>
-              <button
-                onClick={onLogin}
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-all duration-200 flex items-center justify-center space-x-2"
-              >
-                <User className="w-4 h-4" />
-                <span>Login to Save Progress</span>
-              </button>
-            </div>
+            <button
+              onClick={handleComplete}
+              disabled={!canProceed() || isGenerating}
+              className={`w-full py-3 rounded-lg font-medium transition-all duration-200 flex items-center justify-center space-x-2 ${
+                isGenerating
+                  ? 'bg-gray-400 cursor-not-allowed text-white'
+                  : 'bg-blue-600 hover:bg-blue-700 text-white'
+              }`}
+            >
+              {isGenerating ? (
+                <>
+                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                  <span>Generating Your Roadmap...</span>
+                </>
+              ) : (
+                <>
+                  <div className="w-4 h-4 flex items-center justify-center">
+                    <div className="w-3 h-3 border border-white rounded-full relative">
+                      <div className="w-1 h-1 bg-white rounded-full absolute top-0.5 left-1"></div>
+                      <div className="w-2 h-1 bg-white rounded-b-full absolute bottom-0 left-0.5"></div>
+                    </div>
+                  </div>
+                  <span>Login to Get Your Personalized Roadmap</span>
+                </>
+              )}
+            </button>
           ) : (
             <div className="flex space-x-3">
               {currentStep > 0 && (
