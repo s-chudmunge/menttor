@@ -96,6 +96,9 @@ const VisitorOnboardingTimer: React.FC<VisitorOnboardingTimerProps> = ({ childre
   };
 
   const handleLogin = () => {
+    // Close the onboarding form
+    setShowOnboarding(false);
+    sessionStorage.setItem(SHOWN_KEY, 'true');
     router.push('/auth/signin');
   };
 
@@ -111,20 +114,32 @@ const VisitorOnboardingTimer: React.FC<VisitorOnboardingTimerProps> = ({ childre
       const storedData = localStorage.getItem(STORAGE_KEY);
       const previewRoadmap = sessionStorage.getItem('preview_roadmap');
       
+      console.log('User authenticated, checking stored data:', { storedData: !!storedData, previewRoadmap: !!previewRoadmap });
+      
       if (storedData) {
         // Save the onboarding data to user profile
         try {
           const data = JSON.parse(storedData);
+          console.log('Saving onboarding data to profile:', data);
           saveOnboardingDataToProfile(data);
           localStorage.removeItem(STORAGE_KEY); // Clean up
           
-          // Show roadmap if we have one generated
+          // Show roadmap if we have one generated (with slight delay)
           if (previewRoadmap) {
-            setShowRoadmap(true);
+            console.log('Showing roadmap modal');
+            setTimeout(() => {
+              setShowRoadmap(true);
+            }, 500);
           }
         } catch (error) {
           console.error('Error parsing stored onboarding data:', error);
         }
+      } else if (previewRoadmap) {
+        // Show roadmap even if no stored data (fallback)
+        console.log('No stored data but have roadmap, showing modal');
+        setTimeout(() => {
+          setShowRoadmap(true);
+        }, 500);
       }
     }
   }, [user, loading]);

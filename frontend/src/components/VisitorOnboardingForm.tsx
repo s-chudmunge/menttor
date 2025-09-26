@@ -102,6 +102,8 @@ const VisitorOnboardingForm: React.FC<VisitorOnboardingFormProps> = ({
       if (response.ok) {
         const roadmapData = await response.json();
         // Store both form data and generated roadmap
+        console.log('Storing visitor onboarding data:', formData);
+        console.log('Storing preview roadmap:', roadmapData);
         localStorage.setItem('visitor_onboarding_data', JSON.stringify(formData));
         sessionStorage.setItem('preview_roadmap', JSON.stringify(roadmapData));
       }
