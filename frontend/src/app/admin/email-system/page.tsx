@@ -112,7 +112,8 @@ export default function AdminEmailSystem() {
     setBulkSending(true)
     const results = []
     
-    for (const email of selectedUsers) {
+    for (let i = 0; i < selectedUsers.length; i++) {
+      const email = selectedUsers[i]
       try {
         const response = await fetch('/api/send-email', {
           method: 'POST',
@@ -127,14 +128,33 @@ export default function AdminEmailSystem() {
         })
         
         const data = await response.json()
-        results.push({ email, success: response.ok, data })
+        results.push({ email, success: response.ok, data, error: response.ok ? null : data.error })
+        
+        // Update progress
+        setSendResult(`📧 Sending... ${i + 1}/${selectedUsers.length} (${results.filter(r => r.success).length} successful)`)
+        
       } catch (error) {
-        results.push({ email, success: false, error })
+        results.push({ email, success: false, error: error.message })
+      }
+      
+      // Add delay between emails to prevent rate limiting (2 seconds for Brevo)
+      if (i < selectedUsers.length - 1 && emailService === 'brevo') {
+        await new Promise(resolve => setTimeout(resolve, 2000))
+      } else if (i < selectedUsers.length - 1 && emailService === 'resend') {
+        await new Promise(resolve => setTimeout(resolve, 500))
       }
     }
     
     const successful = results.filter(r => r.success).length
-    setSendResult(`✅ Sent ${successful}/${selectedUsers.length} emails successfully`)
+    const failed = results.filter(r => !r.success)
+    
+    let resultMessage = `✅ Sent ${successful}/${selectedUsers.length} emails successfully`
+    if (failed.length > 0) {
+      const errorSample = failed.slice(0, 3).map(f => `${f.email}: ${f.error || f.data?.error || 'Unknown error'}`).join('; ')
+      resultMessage += `\n❌ Failed: ${failed.length}. Sample errors: ${errorSample}`
+    }
+    
+    setSendResult(resultMessage)
     setSelectedUsers([])
     setBulkSending(false)
   }
@@ -146,7 +166,8 @@ export default function AdminEmailSystem() {
     setBulkSending(true)
     const results = []
     
-    for (const email of emailList) {
+    for (let i = 0; i < emailList.length; i++) {
+      const email = emailList[i]
       try {
         const response = await fetch('/api/send-email', {
           method: 'POST',
@@ -161,14 +182,33 @@ export default function AdminEmailSystem() {
         })
         
         const data = await response.json()
-        results.push({ email, success: response.ok, data })
+        results.push({ email, success: response.ok, data, error: response.ok ? null : data.error })
+        
+        // Update progress
+        setSendResult(`📧 Sending... ${i + 1}/${emailList.length} (${results.filter(r => r.success).length} successful)`)
+        
       } catch (error) {
-        results.push({ email, success: false, error })
+        results.push({ email, success: false, error: error.message })
+      }
+      
+      // Add delay between emails to prevent rate limiting (2 seconds for Brevo)
+      if (i < emailList.length - 1 && emailService === 'brevo') {
+        await new Promise(resolve => setTimeout(resolve, 2000))
+      } else if (i < emailList.length - 1 && emailService === 'resend') {
+        await new Promise(resolve => setTimeout(resolve, 500))
       }
     }
     
     const successful = results.filter(r => r.success).length
-    setSendResult(`✅ Sent ${successful}/${emailList.length} emails successfully`)
+    const failed = results.filter(r => !r.success)
+    
+    let resultMessage = `✅ Sent ${successful}/${emailList.length} emails successfully`
+    if (failed.length > 0) {
+      const errorSample = failed.slice(0, 3).map(f => `${f.email}: ${f.error || f.data?.error || 'Unknown error'}`).join('; ')
+      resultMessage += `\n❌ Failed: ${failed.length}. Sample errors: ${errorSample}`
+    }
+    
+    setSendResult(resultMessage)
     setBulkEmails('')
     setBulkSending(false)
   }
