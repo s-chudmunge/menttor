@@ -84,42 +84,12 @@ const VisitorOnboardingForm: React.FC<VisitorOnboardingFormProps> = ({
 
   const handleComplete = async () => {
     setIsGenerating(true);
+    console.log('Form completed, passing data to parent:', formData);
     
-    // Generate roadmap in background and store for after login
-    try {
-      const roadmapRequest = {
-        subject: formData.interests.join(', '),
-        goal: formData.goal,
-        time_value: formData.timeline.value,
-        time_unit: formData.timeline.unit,
-        model: 'vertexai:gemini-2.5-flash-lite' // Default model
-      };
-
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL || 'https://menttor-backend-144050828172.asia-south1.run.app'}/roadmaps/generate-preview`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(roadmapRequest),
-      });
-
-      if (response.ok) {
-        const roadmapData = await response.json();
-        // Store both form data and generated roadmap
-        console.log('Storing visitor onboarding data:', formData);
-        console.log('Storing preview roadmap:', roadmapData);
-        localStorage.setItem('visitor_onboarding_data', JSON.stringify(formData));
-        sessionStorage.setItem('preview_roadmap', JSON.stringify(roadmapData));
-      }
-    } catch (error) {
-      console.error('Error generating roadmap preview:', error);
-      // Still store form data even if roadmap generation fails
-      localStorage.setItem('visitor_onboarding_data', JSON.stringify(formData));
-    }
+    // Pass data to parent component (VisitorOnboardingTimer) which handles storage and auth flow
+    onComplete(formData);
     
     setIsGenerating(false);
-    // Redirect to login
-    onLogin();
   };
 
   const canProceed = () => {

@@ -87,11 +87,11 @@ const VisitorOnboardingTimer: React.FC<VisitorOnboardingTimerProps> = ({ childre
       console.log('User authenticated, checking stored data:', { storedData: !!storedData });
       
       if (storedData) {
-        // Save the onboarding data to user profile and generate roadmap
+        // Generate roadmap from stored onboarding data
         try {
           const data = JSON.parse(storedData);
-          console.log('Saving onboarding data to profile and generating roadmap:', data);
-          saveOnboardingDataAndGenerateRoadmap(data);
+          console.log('Found stored onboarding data, generating roadmap:', data);
+          generateRoadmapFromOnboardingData(data);
           localStorage.removeItem(STORAGE_KEY); // Clean up
         } catch (error) {
           console.error('Error parsing stored onboarding data:', error);
@@ -100,27 +100,9 @@ const VisitorOnboardingTimer: React.FC<VisitorOnboardingTimerProps> = ({ childre
     }
   }, [user, loading]);
 
-  const saveOnboardingDataToProfile = async (data: OnboardingData) => {
+  const generateRoadmapFromOnboardingData = async (data: OnboardingData) => {
     try {
-      await api.post('/auth/save-onboarding-preferences', {
-        interests: data.interests,
-        goal: data.goal,
-        timeline_value: data.timeline.value,
-        timeline_unit: data.timeline.unit,
-        learning_style: data.learningStyle
-      });
-      console.log('Onboarding preferences saved to profile');
-    } catch (error) {
-      console.error('Error saving onboarding preferences:', error);
-    }
-  };
-
-  const saveOnboardingDataAndGenerateRoadmap = async (data: OnboardingData) => {
-    try {
-      // First save onboarding preferences
-      await saveOnboardingDataToProfile(data);
-      
-      // Then generate roadmap using authenticated endpoint
+      // Generate roadmap using authenticated endpoint with onboarding data
       const roadmapRequest = {
         subject: data.interests.join(', '),
         goal: data.goal,
@@ -129,18 +111,18 @@ const VisitorOnboardingTimer: React.FC<VisitorOnboardingTimerProps> = ({ childre
         model: 'vertexai:gemini-2.5-flash-lite'
       };
 
-      console.log('Generating roadmap with request:', roadmapRequest);
+      console.log('Generating roadmap from onboarding data:', roadmapRequest);
       const response = await api.post('/roadmaps/', roadmapRequest);
       
       if (response.data) {
-        console.log('Roadmap generated successfully');
+        console.log('Roadmap generated successfully:', response.data);
         // Show success modal after a short delay
         setTimeout(() => {
           setShowRoadmap(true);
         }, 500);
       }
     } catch (error) {
-      console.error('Error saving preferences or generating roadmap:', error);
+      console.error('Error generating roadmap from onboarding data:', error);
     }
   };
 
