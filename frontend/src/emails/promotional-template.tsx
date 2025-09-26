@@ -40,7 +40,7 @@ export default function PromotionalEmail({ recipientName = "there" }: Promotiona
             <Text style={text}>Hi {recipientName}!</Text>
             <Text style={text}>
               I wanted to share something that might help with your learning goals. 
-              Menttor lets you create custom roadmaps for any subject or explore our curated learning paths that guide you through complex topics step by step.
+              Menttor lets you create custom roadmaps for any subject or explore our curated learning paths that guide you through complex topics step by step. <strong>Best of all, it's completely free to use!</strong>
             </Text>
           </Section>
 
@@ -68,7 +68,7 @@ export default function PromotionalEmail({ recipientName = "there" }: Promotiona
               Create Your Custom Roadmap
             </Button>
             <Text style={ctaSubtext}>
-              Or <Link href="https://menttor.live/explore" style={link}>explore curated learning paths</Link> • Free to get started
+              Or <Link href="https://menttor.live/explore" style={link}>explore curated learning paths</Link> • Completely free, no hidden costs
             </Text>
           </Section>
 
