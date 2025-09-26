@@ -263,6 +263,7 @@ menttor.live`;
                 subject: emailSubject,
                 message: emailTemplate === 'custom' ? emailMessage : undefined,
                 template: emailTemplate,
+                emailService: emailService,
               }),
             })
             
