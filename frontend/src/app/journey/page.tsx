@@ -48,7 +48,10 @@ import {
   RefreshCw,
   Box,
   PenTool,
-  ExternalLink
+  ExternalLink,
+  Sparkles,
+  X,
+  Play
 } from 'lucide-react';
 
 interface LearningResource {
@@ -80,6 +83,7 @@ const JourneyPage = () => {
   const [showLearnModelModal, setShowLearnModelModal] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isQuickToolsPanelOpen, setIsQuickToolsPanelOpen] = useState(true);
+  const [showWelcomeMessage, setShowWelcomeMessage] = useState(false);
 
   const { user, loading } = useAuth();
   const router = useRouter();
@@ -322,6 +326,15 @@ const JourneyPage = () => {
     };
   }, [roadmapData?.id, refetchProgress]);
 
+  // Check for welcome message flag
+  useEffect(() => {
+    const shouldShowWelcome = sessionStorage.getItem('showWelcomeMessage');
+    if (shouldShowWelcome === 'true') {
+      setShowWelcomeMessage(true);
+      sessionStorage.removeItem('showWelcomeMessage'); // Clear the flag
+    }
+  }, []);
+
   // Calculate progress metrics
   const progressMetrics = useMemo(() => {
     if (!roadmapData?.roadmap_plan) {
@@ -485,6 +498,51 @@ const JourneyPage = () => {
         />
 
         <main className={`max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 lg:py-8 transition-all duration-300 ${isQuickToolsPanelOpen ? 'lg:ml-72' : 'lg:ml-0'}`}>
+
+          {/* Welcome Message Box */}
+          {showWelcomeMessage && (
+            <div className="mb-6 p-6 bg-blue-50 dark:bg-blue-900/20 border-2 border-blue-200 dark:border-blue-700 rounded-xl shadow-lg">
+              <div className="flex items-start justify-between">
+                <div className="flex items-start space-x-4">
+                  <div className="w-12 h-12 bg-blue-600 rounded-xl flex items-center justify-center flex-shrink-0">
+                    <Sparkles className="w-6 h-6 text-white" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">
+                      🎉 Welcome to Your Learning Journey!
+                    </h3>
+                    <p className="text-gray-700 dark:text-gray-300 mb-4 leading-relaxed">
+                      Your personalized roadmap is ready! Here's what you can do to start learning:
+                    </p>
+                    <div className="grid md:grid-cols-2 gap-3">
+                      <div className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400">
+                        <Play className="w-4 h-4 text-green-600" />
+                        <span>Click on any topic to start learning</span>
+                      </div>
+                      <div className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400">
+                        <Target className="w-4 h-4 text-blue-600" />
+                        <span>Track your progress as you go</span>
+                      </div>
+                      <div className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400">
+                        <Brain className="w-4 h-4 text-purple-600" />
+                        <span>Take quizzes to test your knowledge</span>
+                      </div>
+                      <div className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400">
+                        <Clock className="w-4 h-4 text-orange-600" />
+                        <span>Follow your custom timeline</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setShowWelcomeMessage(false)}
+                  className="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+            </div>
+          )}
 
           {/* Compact View Controls */}
           <div className="mb-4">

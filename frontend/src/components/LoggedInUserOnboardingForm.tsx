@@ -105,6 +105,8 @@ const LoggedInUserOnboardingForm: React.FC<LoggedInUserOnboardingFormProps> = ({
       if (response.data) {
         // Store the generated roadmap
         sessionStorage.setItem('currentRoadmap', JSON.stringify(response.data));
+        // Set flag to show welcome message on journey page
+        sessionStorage.setItem('showWelcomeMessage', 'true');
         setShowSuccess(true);
         
         // Auto-redirect after 3 seconds

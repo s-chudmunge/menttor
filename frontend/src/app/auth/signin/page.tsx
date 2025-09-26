@@ -31,7 +31,52 @@ export default function SignInPage() {
 
   useEffect(() => {
     if (!loading && user) {
-      router.push('/');
+      // Check if user has completed onboarding and roadmaps to redirect appropriately
+      const checkUserStatusAndRedirect = async () => {
+        try {
+          // Use the existing API instance to check onboarding status and roadmaps
+          const { api } = await import('@/lib/api');
+          
+          // Check onboarding status
+          const onboardingData = await api.get('/auth/onboarding-status');
+          
+          // If user doesn't need onboarding, check if they have a current roadmap from onboarding
+          if (!onboardingData.data.needs_onboarding) {
+            try {
+              // First check if there's a roadmap from onboarding process
+              const currentRoadmap = sessionStorage.getItem('currentRoadmap');
+              if (currentRoadmap) {
+                // User just completed onboarding and has a roadmap, redirect to journey
+                sessionStorage.setItem('showWelcomeMessage', 'true');
+                router.push('/journey');
+                return;
+              }
+              
+              // Otherwise check if they have any existing roadmaps
+              const roadmaps = await api.get('/roadmaps/user');
+              
+              // If user has roadmaps, redirect to journey page  
+              if (roadmaps.data && roadmaps.data.length > 0) {
+                // Load the most recent roadmap
+                const latestRoadmap = roadmaps.data[0];
+                sessionStorage.setItem('currentRoadmap', JSON.stringify(latestRoadmap));
+                sessionStorage.setItem('showWelcomeMessage', 'true');
+                router.push('/journey');
+                return;
+              }
+            } catch (error) {
+              console.error('Error checking roadmaps:', error);
+            }
+          }
+        } catch (error) {
+          console.error('Error checking onboarding status:', error);
+        }
+        
+        // Default redirect to home page
+        router.push('/');
+      };
+      
+      checkUserStatusAndRedirect();
     }
   }, [user, loading, router]);
 
@@ -56,7 +101,7 @@ export default function SignInPage() {
     try {
       if (isLogin) {
         await signIn(email, password);
-        router.push('/');
+        // Redirect will be handled by the useEffect after sign in
       } else {
         await signUp(email, password);
         setSuccess('Registration successful! You can now sign in.');
@@ -81,7 +126,7 @@ export default function SignInPage() {
       } else {
         await githubSignIn();
       }
-      router.push('/');
+      // Redirect will be handled by the useEffect after sign in
     } catch (err: any) {
       setError(err.message || 'An unexpected error occurred.');
     }
@@ -90,7 +135,7 @@ export default function SignInPage() {
 
   const handlePhoneAuthSuccess = (user: any) => {
     setShowPhoneAuth(false);
-    router.push('/');
+    // Redirect will be handled by the useEffect after sign in
   };
 
   const handlePhoneAuthError = (error: string) => {
