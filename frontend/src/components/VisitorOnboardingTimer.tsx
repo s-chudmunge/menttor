@@ -66,12 +66,6 @@ const VisitorOnboardingTimer: React.FC<VisitorOnboardingTimerProps> = ({ childre
     setShowOnboarding(false);
   };
 
-  const handleLogin = () => {
-    // Close the onboarding form
-    setShowOnboarding(false);
-    sessionStorage.setItem(SHOWN_KEY, 'true');
-    router.push('/auth/signin');
-  };
 
   const handleClose = () => {
     setShowOnboarding(false);
@@ -133,7 +127,7 @@ const VisitorOnboardingTimer: React.FC<VisitorOnboardingTimerProps> = ({ childre
         <VisitorOnboardingForm
           onClose={handleClose}
           onComplete={handleOnboardingComplete}
-          onLogin={handleLogin}
+          onLogin={() => {}} // No longer needed, authentication handled inline
         />
       )}
       {showRoadmap && (

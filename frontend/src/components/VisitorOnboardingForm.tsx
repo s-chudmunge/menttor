@@ -5,6 +5,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, ArrowRight, ArrowLeft } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import Button from './Button';
+import SocialButton from './SocialButton';
+import InputField from './InputField';
+import ErrorBanner from './ErrorBanner';
+import { signUp, signIn, googleSignIn, githubSignIn } from '../lib/auth/utils';
 
 interface OnboardingData {
   interests: string[];
@@ -35,6 +39,12 @@ const VisitorOnboardingForm: React.FC<VisitorOnboardingFormProps> = ({
     learningStyle: ''
   });
   const [isGenerating, setIsGenerating] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [isLogin, setIsLogin] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [authLoading, setAuthLoading] = useState(false);
   const router = useRouter();
 
   // Interest options
@@ -57,7 +67,7 @@ const VisitorOnboardingForm: React.FC<VisitorOnboardingFormProps> = ({
     { id: 'reading', label: 'Reading/Writing', description: 'Prefer text-based learning and note-taking' }
   ];
 
-  const totalSteps = 4;
+  const totalSteps = 5;
 
   const handleInterestToggle = (interest: string) => {
     setFormData(prev => ({
@@ -98,7 +108,64 @@ const VisitorOnboardingForm: React.FC<VisitorOnboardingFormProps> = ({
       case 1: return formData.goal.trim().length > 0;
       case 2: return formData.timeline.value > 0;
       case 3: return formData.learningStyle.length > 0;
+      case 4: return true; // Sign-in step always allows proceeding (handled by auth forms)
       default: return false;
+    }
+  };
+
+  const handleOAuthSignIn = async (provider: 'google' | 'github') => {
+    setAuthLoading(true);
+    setError(null);
+    try {
+      // First save onboarding data
+      onComplete(formData);
+      
+      // Then handle OAuth sign-in
+      if (provider === 'google') {
+        await googleSignIn();
+      } else {
+        await githubSignIn();
+      }
+      // Authentication success will be handled by AuthContext
+    } catch (err: any) {
+      setError(err.message || 'An unexpected error occurred.');
+    }
+    setAuthLoading(false);
+  };
+
+  const handleAuthSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setAuthLoading(true);
+    setError(null);
+
+    if (!email || !password) {
+      setError('Email and password are required.');
+      setAuthLoading(false);
+      return;
+    }
+
+    if (!isLogin && password !== confirmPassword) {
+      setError('Passwords do not match.');
+      setAuthLoading(false);
+      return;
+    }
+
+    try {
+      // First save onboarding data
+      onComplete(formData);
+      
+      if (isLogin) {
+        await signIn(email, password);
+      } else {
+        await signUp(email, password);
+        // After successful signup, sign them in
+        await signIn(email, password);
+      }
+      // Authentication success will be handled by AuthContext
+    } catch (err: any) {
+      setError(err.message || 'An unexpected error occurred.');
+    } finally {
+      setAuthLoading(false);
     }
   };
 
@@ -293,6 +360,135 @@ const VisitorOnboardingForm: React.FC<VisitorOnboardingFormProps> = ({
           </motion.div>
         );
 
+      case 4:
+        return (
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -20 }}
+            className="space-y-6"
+          >
+            <div className="text-center">
+              <div className="w-12 h-12 mx-auto mb-4 bg-purple-100 dark:bg-purple-900/20 rounded-full flex items-center justify-center">
+                <div className="w-6 h-6 border-2 border-purple-600 rounded-md relative">
+                  <div className="w-2 h-2 bg-purple-600 rounded-full absolute top-0.5 left-0.5"></div>
+                  <div className="w-1 h-1 bg-purple-600 rounded-full absolute bottom-0.5 right-0.5"></div>
+                </div>
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+                Sign in to continue
+              </h3>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Create your account to get your personalized roadmap
+              </p>
+            </div>
+
+            {error && <ErrorBanner message={error} />}
+
+            {/* Social Login */}
+            <div className="space-y-3 mb-6">
+              <SocialButton
+                provider="google"
+                onClick={() => handleOAuthSignIn('google')}
+                disabled={authLoading}
+              >
+                Continue with Google
+              </SocialButton>
+              <SocialButton
+                provider="github"
+                onClick={() => handleOAuthSignIn('github')}
+                disabled={authLoading}
+              >
+                Continue with GitHub
+              </SocialButton>
+            </div>
+
+            {/* Divider */}
+            <div className="mb-6">
+              <div className="text-center">
+                <span className="text-xs text-gray-500 dark:text-gray-400">or continue with email</span>
+              </div>
+              <div className="mt-2">
+                <div className="w-full border-t border-gray-200 dark:border-gray-600" />
+              </div>
+            </div>
+
+            {/* Email Form */}
+            <form className="space-y-4" onSubmit={handleAuthSubmit}>
+              <InputField
+                id="email"
+                name="email"
+                type="email"
+                autoComplete="email"
+                required
+                label="Email address"
+                placeholder="you@example.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <InputField
+                id="password"
+                name="password"
+                type="password"
+                autoComplete={isLogin ? "current-password" : "new-password"}
+                required
+                label="Password"
+                placeholder="Enter your password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              {!isLogin && (
+                <InputField
+                  id="confirm-password"
+                  name="confirm-password"
+                  type="password"
+                  autoComplete="new-password"
+                  required
+                  label="Confirm Password"
+                  placeholder="Confirm your password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                />
+              )}
+              <button
+                type="submit"
+                disabled={authLoading}
+                className={`w-full py-2 px-4 rounded-lg font-medium transition-all duration-200 ${
+                  authLoading
+                    ? 'bg-gray-400 cursor-not-allowed text-white'
+                    : 'bg-blue-600 hover:bg-blue-700 text-white'
+                }`}
+              >
+                {authLoading ? (
+                  <div className="flex items-center justify-center space-x-2">
+                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                    <span>{isLogin ? 'Signing In...' : 'Creating Account...'}</span>
+                  </div>
+                ) : (
+                  <span>{isLogin ? 'Sign In' : 'Create Account'}</span>
+                )}
+              </button>
+            </form>
+
+            {/* Toggle Auth Mode */}
+            <div className="text-center">
+              <p className="text-xs text-gray-500 dark:text-gray-400">
+                {isLogin ? "New to Menttor?" : "Already have an account?"}{' '}
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsLogin(!isLogin);
+                    setError(null);
+                  }}
+                  className="font-semibold text-blue-600 hover:text-blue-700 focus:outline-none focus:underline"
+                >
+                  {isLogin ? 'Create an account' : 'Sign in'}
+                </button>
+              </p>
+            </div>
+          </motion.div>
+        );
+
       default:
         return null;
     }
@@ -341,32 +537,16 @@ const VisitorOnboardingForm: React.FC<VisitorOnboardingFormProps> = ({
         {/* Footer */}
         <div className="p-6 border-t border-gray-200 dark:border-gray-700">
           {currentStep === totalSteps - 1 ? (
-            <button
-              onClick={handleComplete}
-              disabled={!canProceed() || isGenerating}
-              className={`w-full py-3 rounded-lg font-medium transition-all duration-200 flex items-center justify-center space-x-2 ${
-                isGenerating
-                  ? 'bg-gray-400 cursor-not-allowed text-white'
-                  : 'bg-blue-600 hover:bg-blue-700 text-white'
-              }`}
-            >
-              {isGenerating ? (
-                <>
-                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                  <span>Generating Your Roadmap...</span>
-                </>
-              ) : (
-                <>
-                  <div className="w-4 h-4 flex items-center justify-center">
-                    <div className="w-3 h-3 border border-white rounded-full relative">
-                      <div className="w-1 h-1 bg-white rounded-full absolute top-0.5 left-1"></div>
-                      <div className="w-2 h-1 bg-white rounded-b-full absolute bottom-0 left-0.5"></div>
-                    </div>
-                  </div>
-                  <span>Login to Get Your Personalized Roadmap</span>
-                </>
-              )}
-            </button>
+            // Last step is now sign-in, so just show back button
+            currentStep > 0 && (
+              <button
+                onClick={handleBack}
+                className="flex items-center space-x-2 px-4 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+              >
+                <ArrowLeft className="w-4 h-4" />
+                <span>Back</span>
+              </button>
+            )
           ) : (
             <div className="flex space-x-3">
               {currentStep > 0 && (
