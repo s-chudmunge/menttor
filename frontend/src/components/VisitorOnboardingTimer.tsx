@@ -20,7 +20,7 @@ interface VisitorOnboardingTimerProps {
   children: React.ReactNode;
 }
 
-const TIMER_DURATION = 90000; // 1.5 minutes in milliseconds
+const TIMER_DURATION = 39000; // 39 seconds in milliseconds
 const STORAGE_KEY = 'visitor_onboarding_data';
 const SHOWN_KEY = 'visitor_onboarding_shown';
 

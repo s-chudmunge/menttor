@@ -2,7 +2,7 @@
 
 ## Overview
 
-The onboarding system provides a comprehensive approach to engage both visitors and logged-in users who haven't started their learning journey yet. It appears after 1.5 minutes and collects learning preferences to generate personalized roadmaps.
+The onboarding system provides a comprehensive approach to engage both visitors and logged-in users who haven't started their learning journey yet. It appears after 39 seconds and collects learning preferences to generate personalized roadmaps.
 
 ### Two Types of Onboarding:
 1. **Visitor Onboarding**: For non-logged users to encourage signup
@@ -23,7 +23,7 @@ The onboarding system provides a comprehensive approach to engage both visitors 
 - **Location**: `src/components/VisitorOnboardingTimer.tsx`
 - **Purpose**: Manages timing logic and data persistence for visitors
 - **Features**:
-  - 1.5-minute timer for non-logged users
+  - 39-second timer for non-logged users
   - Session storage to prevent repeated showings
   - Local storage for data persistence across sessions
   - Automatic data save to user profile after login
@@ -41,7 +41,7 @@ The onboarding system provides a comprehensive approach to engage both visitors 
 - **Location**: `src/components/LoggedInUserOnboardingTimer.tsx`
 - **Purpose**: Manages timing logic for logged-in users
 - **Features**:
-  - 1.5-minute timer for users without roadmaps
+  - 39-second timer for users without roadmaps
   - Checks user roadmap data before showing
   - Session storage to prevent repeated showings
   - Automatic page refresh after completion
@@ -54,7 +54,7 @@ The onboarding system is integrated into the root layout (`src/app/layout.tsx`) 
 
 ### Visitor Flow (Non-logged Users)
 1. **Visitor arrives** on any page while not logged in
-2. **Timer starts** counting 1.5 minutes
+2. **Timer starts** counting 39 seconds
 3. **Form appears** as a modal overlay (square design, no gradients/purple)
 4. **User completes** 4-step onboarding process
 5. **Roadmap generates** in the background during completion
@@ -63,7 +63,7 @@ The onboarding system is integrated into the root layout (`src/app/layout.tsx`) 
 
 ### Logged-in User Flow (No Roadmaps)
 1. **User logs in** and browses site without any existing roadmaps
-2. **Timer starts** counting 1.5 minutes
+2. **Timer starts** counting 39 seconds
 3. **Form appears** as a modal overlay (same design as visitor version)
 4. **User completes** 4-step onboarding process
 5. **Preferences save** directly to user profile
@@ -111,6 +111,6 @@ The feature has been tested with:
 ## Future Enhancements
 
 - Analytics tracking for conversion rates
-- A/B testing for different timings (1.5min vs others)
+- A/B testing for different timings (39s vs others)
 - Customizable interest categories
 - Enhanced roadmap preview features

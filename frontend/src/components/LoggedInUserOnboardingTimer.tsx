@@ -9,7 +9,7 @@ interface LoggedInUserOnboardingTimerProps {
   children: React.ReactNode;
 }
 
-const TIMER_DURATION = 90000; // 1.5 minutes in milliseconds
+const TIMER_DURATION = 39000; // 39 seconds in milliseconds
 const SHOWN_KEY = 'logged_user_onboarding_shown';
 
 const LoggedInUserOnboardingTimer: React.FC<LoggedInUserOnboardingTimerProps> = ({ children }) => {
