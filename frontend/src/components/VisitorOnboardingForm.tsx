@@ -40,9 +40,13 @@ const VisitorOnboardingForm: React.FC<VisitorOnboardingFormProps> = ({
   // Interest options
   const interestOptions = [
     'Web Development', 'Mobile Development', 'Data Science', 'Machine Learning',
-    'Cloud Computing', 'Cybersecurity', 'UI/UX Design', 'DevOps',
-    'Game Development', 'Blockchain', 'AI/ML', 'Database Management',
-    'Software Engineering', 'Product Management', 'Digital Marketing', 'Other'
+    'Python', 'JavaScript', 'React', 'Node.js', 'Cloud Computing', 'Cybersecurity', 
+    'UI/UX Design', 'DevOps', 'Game Development', 'Blockchain', 'AI/ML', 
+    'Database Management', 'Software Engineering', 'Product Management', 
+    'Digital Marketing', 'Business Analysis', 'Project Management', 'Photography',
+    'Video Editing', 'Graphic Design', 'Content Writing', 'SEO', 'Finance',
+    'Accounting', 'Mathematics', 'Physics', 'Chemistry', 'Biology', 'Language Learning',
+    'Creative Writing', 'Music Production', 'Animation', 'Architecture', 'Other'
   ];
 
   // Learning style options
@@ -152,12 +156,12 @@ const VisitorOnboardingForm: React.FC<VisitorOnboardingFormProps> = ({
               </p>
             </div>
 
-            <div className="grid grid-cols-2 gap-2 max-h-48 overflow-y-auto">
+            <div className="grid grid-cols-3 gap-1.5 max-h-64 overflow-y-auto">
               {interestOptions.map((interest) => (
                 <button
                   key={interest}
                   onClick={() => handleInterestToggle(interest)}
-                  className={`p-3 text-sm rounded-lg border-2 transition-all ${
+                  className={`p-2 text-xs rounded-md border-2 transition-all ${
                     formData.interests.includes(interest)
                       ? 'border-blue-600 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300'
                       : 'border-gray-200 dark:border-gray-600 hover:border-gray-300 dark:hover:border-gray-500 text-gray-700 dark:text-gray-300'
