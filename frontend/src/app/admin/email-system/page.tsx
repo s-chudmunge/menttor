@@ -12,6 +12,7 @@ export default function AdminEmailSystem() {
   const [emailSubject, setEmailSubject] = useState('Test Email from Menttor')
   const [emailMessage, setEmailMessage] = useState('This is a test email sent from the Menttor admin panel.')
   const [emailTemplate, setEmailTemplate] = useState('custom')
+  const [emailService, setEmailService] = useState('resend')
   const [sending, setSending] = useState(false)
   const [sendResult, setSendResult] = useState<string>('')
   const [showPreview, setShowPreview] = useState(false)
@@ -121,6 +122,7 @@ export default function AdminEmailSystem() {
             subject: emailSubject,
             message: emailTemplate === 'custom' ? emailMessage : undefined,
             template: emailTemplate,
+            emailService: emailService,
           }),
         })
         
@@ -154,6 +156,7 @@ export default function AdminEmailSystem() {
             subject: emailSubject,
             message: emailTemplate === 'custom' ? emailMessage : undefined,
             template: emailTemplate,
+            emailService: emailService,
           }),
         })
         
@@ -278,7 +281,7 @@ menttor.live`;
                   Email System Administration
                 </h1>
                 <p className="mt-2 text-sm text-gray-700 dark:text-gray-300">
-                  Send test emails using Resend from admin-emails@menttor.live
+                  Send emails using {emailService === 'resend' ? 'Resend' : 'Brevo'} from sankalp@menttor.live
                   {pagination && (
                     <span className="ml-2 text-blue-600 dark:text-blue-400">
                       • {pagination.totalUsers} Firebase users loaded
@@ -305,6 +308,21 @@ menttor.live`;
 
             <div className="mt-8">
               <form onSubmit={handleSendEmail} className="space-y-6">
+                <div>
+                  <label htmlFor="emailService" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                    Email Service
+                  </label>
+                  <select
+                    id="emailService"
+                    className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm px-3 py-2"
+                    value={emailService}
+                    onChange={(e) => setEmailService(e.target.value)}
+                  >
+                    <option value="resend">Resend</option>
+                    <option value="brevo">Brevo</option>
+                  </select>
+                </div>
+
                 <div>
                   <label htmlFor="template" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                     Email Template

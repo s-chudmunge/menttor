@@ -1,21 +1,28 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
+import * as brevo from '@getbrevo/brevo';
 import { render } from '@react-email/render';
 import WelcomeEmail from '@/emails/welcome-template';
 import PromotionalEmail from '@/emails/promotional-template';
 
 export async function POST(request: NextRequest) {
   try {
-    if (!process.env.RESEND_API_KEY) {
+    const { to, subject, message, template, userName, emailService = 'resend' } = await request.json();
+
+    // Validate email service configuration
+    if (emailService === 'resend' && !process.env.RESEND_API_KEY) {
       return NextResponse.json(
         { error: 'RESEND_API_KEY environment variable is not set' },
         { status: 500 }
       );
     }
 
-    const resend = new Resend(process.env.RESEND_API_KEY);
-
-    const { to, subject, message, template, userName } = await request.json();
+    if (emailService === 'brevo' && !process.env.BREVO_API_KEY) {
+      return NextResponse.json(
+        { error: 'BREVO_API_KEY environment variable is not set' },
+        { status: 500 }
+      );
+    }
 
     if (!to || !subject) {
       return NextResponse.json(
@@ -65,30 +72,72 @@ export async function POST(request: NextRequest) {
       `;
     }
 
-    const { data, error } = await resend.emails.send({
-      from: 'Sankalp <sankalp@menttor.live>',
-      replyTo: 'csankalp21@gmail.com',
-      to: [to],
-      subject: subject,
-      html: emailHtml,
-    });
+    // Send email using selected service
+    if (emailService === 'resend') {
+      const resend = new Resend(process.env.RESEND_API_KEY);
+      
+      const { data, error } = await resend.emails.send({
+        from: 'Sankalp <sankalp@menttor.live>',
+        replyTo: 'csankalp21@gmail.com',
+        to: [to],
+        subject: subject,
+        html: emailHtml,
+      });
 
-    if (error) {
-      console.error('Resend error:', error);
+      if (error) {
+        console.error('Resend error:', error);
+        return NextResponse.json(
+          { error: 'Failed to send email via Resend', details: error },
+          { status: 500 }
+        );
+      }
+
       return NextResponse.json(
-        { error: 'Failed to send email', details: error },
-        { status: 500 }
+        { 
+          success: true, 
+          message: 'Email sent successfully via Resend',
+          emailId: data?.id,
+          service: 'resend'
+        },
+        { status: 200 }
+      );
+    } else if (emailService === 'brevo') {
+      // Configure Brevo API client
+      const apiInstance = new brevo.TransactionalEmailsApi();
+      apiInstance.setApiKey(brevo.TransactionalEmailsApiApiKeys.apiKey, process.env.BREVO_API_KEY!);
+
+      const sendSmtpEmail = new brevo.SendSmtpEmail();
+      sendSmtpEmail.sender = { name: 'Sankalp', email: 'sankalp@menttor.live' };
+      sendSmtpEmail.to = [{ email: to }];
+      sendSmtpEmail.subject = subject;
+      sendSmtpEmail.htmlContent = emailHtml;
+      sendSmtpEmail.replyTo = { email: 'csankalp21@gmail.com' };
+
+      try {
+        const data = await apiInstance.sendTransacEmail(sendSmtpEmail);
+        
+        return NextResponse.json(
+          { 
+            success: true, 
+            message: 'Email sent successfully via Brevo',
+            emailId: data.body?.messageId,
+            service: 'brevo'
+          },
+          { status: 200 }
+        );
+      } catch (error) {
+        console.error('Brevo error:', error);
+        return NextResponse.json(
+          { error: 'Failed to send email via Brevo', details: error },
+          { status: 500 }
+        );
+      }
+    } else {
+      return NextResponse.json(
+        { error: 'Invalid email service specified' },
+        { status: 400 }
       );
     }
-
-    return NextResponse.json(
-      { 
-        success: true, 
-        message: 'Email sent successfully',
-        emailId: data?.id 
-      },
-      { status: 200 }
-    );
 
   } catch (error) {
     console.error('Email sending error:', error);
