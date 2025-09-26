@@ -15,6 +15,8 @@ import Script from 'next/script';
 import PageTracker from "../components/PageTracker";
 import SessionTracker from "../components/SessionTracker";
 import FaviconUpdater from "../components/FaviconUpdater";
+import VisitorOnboardingTimer from "../components/VisitorOnboardingTimer";
+import LoggedInUserOnboardingTimer from "../components/LoggedInUserOnboardingTimer";
 import "../services/backendWarmer";
 
 export const metadata: Metadata = {
@@ -248,7 +250,11 @@ export default function RootLayout({
                 <RewardSystemManager />
                 <PageTracker />
                 <SessionTracker />
-                {children}
+                <VisitorOnboardingTimer>
+                  <LoggedInUserOnboardingTimer>
+                    {children}
+                  </LoggedInUserOnboardingTimer>
+                </VisitorOnboardingTimer>
                 <Analytics />
               </BehavioralProvider>
             </QueryClientProviderWrapper>
