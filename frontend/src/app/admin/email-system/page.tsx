@@ -134,7 +134,7 @@ export default function AdminEmailSystem() {
         setSendResult(`📧 Sending... ${i + 1}/${selectedUsers.length} (${results.filter(r => r.success).length} successful)`)
         
       } catch (error) {
-        results.push({ email, success: false, error: error.message })
+        results.push({ email, success: false, error: error instanceof Error ? error.message : String(error) })
       }
       
       // Add delay between emails to prevent rate limiting (2 seconds for Brevo)
@@ -188,7 +188,7 @@ export default function AdminEmailSystem() {
         setSendResult(`📧 Sending... ${i + 1}/${emailList.length} (${results.filter(r => r.success).length} successful)`)
         
       } catch (error) {
-        results.push({ email, success: false, error: error.message })
+        results.push({ email, success: false, error: error instanceof Error ? error.message : String(error) })
       }
       
       // Add delay between emails to prevent rate limiting (2 seconds for Brevo)
