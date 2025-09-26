@@ -106,7 +106,7 @@ const VisitorOnboardingTimer: React.FC<VisitorOnboardingTimerProps> = ({ childre
       };
 
       console.log('Generating roadmap from onboarding data:', roadmapRequest);
-      const response = await api.post('/roadmaps/', roadmapRequest);
+      const response = await api.post('/roadmaps/generate', roadmapRequest);
       
       if (response.data) {
         console.log('Roadmap generated successfully:', response.data);
