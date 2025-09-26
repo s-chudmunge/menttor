@@ -46,12 +46,12 @@ export default function PromotionalEmail({ recipientName = "there" }: Promotiona
 
           {/* Key Benefits */}
           <Section style={section}>
-            <Text style={benefitsTitle}>What you'll find helpful:</Text>
-            <Text style={bulletText}>• <strong>Custom Roadmap Creation</strong> - Generate personalized learning paths for your specific goals and timeline</Text>
-            <Text style={bulletText}>• <strong>Curated Learning Paths</strong> - Explore ready-made structured roadmaps for programming, business, and science topics</Text>
-            <Text style={bulletText}>• <strong>Progress Tracking</strong> - See where you are in your learning journey</Text>
-            <Text style={bulletText}>• <strong>Study Tools</strong> - Flashcards and practice sessions to reinforce learning</Text>
-            <Text style={bulletText}>• <strong>Focus on Learning</strong> - Spend time studying, not planning what to study next</Text>
+            <Text style={text}>
+              Whether you want to learn programming, explore business concepts, or dive into science topics, Menttor adapts to your pace and preferences. You can generate completely personalized roadmaps for your specific goals, or jump into our carefully curated learning paths that break down complex subjects into manageable steps.
+            </Text>
+            <Text style={text}>
+              Track your progress as you learn, use built-in flashcards and practice sessions to reinforce what you've studied, and spend your time actually learning instead of wondering what to study next.
+            </Text>
           </Section>
 
           {/* Social Proof */}
