@@ -7,7 +7,10 @@ import PromotionalEmail from '@/emails/promotional-template';
 
 export async function POST(request: NextRequest) {
   try {
-    const { to, subject, message, template, userName, emailService = 'resend' } = await request.json();
+    const requestBody = await request.json();
+    const { to, subject, message, template, userName, emailService = 'resend' } = requestBody;
+    
+    console.log('Email API received:', { to, subject, template, emailService, requestBody });
 
     // Validate email service configuration
     if (emailService === 'resend' && !process.env.RESEND_API_KEY) {
