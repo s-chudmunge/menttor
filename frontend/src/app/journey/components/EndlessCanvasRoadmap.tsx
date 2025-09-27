@@ -81,11 +81,11 @@ const RoadmapNode: React.FC<{ data: RoadmapNodeData }> = ({ data }) => {
     <div className="relative">
       {/* "You are here" indicator */}
       {data.isCurrent && (
-        <div className="absolute -top-12 left-1/2 transform -translate-x-1/2 flex flex-col items-center z-10">
-          <div className="bg-orange-500 text-white px-3 py-1 rounded-full text-xs font-bold whitespace-nowrap">
+        <div className="absolute -top-14 left-1/2 transform -translate-x-1/2 flex flex-col items-center z-10">
+          <div className="bg-orange-500 text-white px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap shadow-lg border-2 border-white">
             YOU ARE HERE
           </div>
-          <ArrowDown className="w-4 h-4 text-orange-500 mt-1" />
+          <div className="w-0 h-0 border-l-4 border-r-4 border-t-6 border-transparent border-t-orange-500 mt-1"></div>
         </div>
       )}
       
@@ -94,16 +94,22 @@ const RoadmapNode: React.FC<{ data: RoadmapNodeData }> = ({ data }) => {
         className={`
           w-16 h-16 rounded-full ${getNodeColor()} 
           flex items-center justify-center 
-          border-4 border-white shadow-lg
-          cursor-pointer transition-transform hover:scale-105
+          border-4 border-white shadow-xl
+          cursor-pointer transition-all duration-300 ease-out
+          hover:scale-110 hover:shadow-2xl
+          relative
         `}
+        style={{
+          filter: 'drop-shadow(0 8px 16px rgba(0, 0, 0, 0.15))'
+        }}
         title={data.title}
       >
+        <div className="absolute inset-1 rounded-full bg-white/10"></div>
         {getIcon()}
         
         {/* Progress percentage */}
         {data.progress !== undefined && data.progress > 0 && (
-          <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-white border border-gray-200 rounded px-1 py-0.5">
+          <div className="absolute -bottom-3 left-1/2 transform -translate-x-1/2 bg-white border border-gray-200 rounded-full px-2 py-1 shadow-md">
             <span className="text-xs font-bold text-gray-700">{Math.round(data.progress)}%</span>
           </div>
         )}
@@ -238,14 +244,16 @@ const EndlessCanvasRoadmap: React.FC<EndlessCanvasRoadmapProps> = ({
           type: 'smoothstep',
           style: { 
             stroke: edgeColor, 
-            strokeWidth: 3 
+            strokeWidth: 4,
+            filter: 'drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.1))'
           },
           markerEnd: {
             type: MarkerType.ArrowClosed,
             color: edgeColor,
-            width: 20,
-            height: 20,
+            width: 24,
+            height: 24,
           },
+          animated: moduleStatus === 'current',
         });
       }
 
@@ -302,10 +310,12 @@ const EndlessCanvasRoadmap: React.FC<EndlessCanvasRoadmapProps> = ({
             id: `edge-${moduleId}-${topicId}`,
             source: moduleId,
             target: topicId,
-            type: 'smoothstep',
+            type: 'bezier',
             style: { 
-              stroke: '#E5E7EB', 
-              strokeWidth: 2 
+              stroke: '#CBD5E1', 
+              strokeWidth: 3,
+              strokeDasharray: '5,5',
+              opacity: 0.6
             },
           });
         });
@@ -341,7 +351,7 @@ const EndlessCanvasRoadmap: React.FC<EndlessCanvasRoadmapProps> = ({
         nodeTypes={nodeTypes}
         fitView
         attributionPosition="bottom-left"
-        className="bg-gray-50 dark:bg-gray-900"
+        className="bg-slate-50 dark:bg-gray-900"
       >
         <Controls 
           position="top-left"
@@ -349,10 +359,10 @@ const EndlessCanvasRoadmap: React.FC<EndlessCanvasRoadmapProps> = ({
         />
         <Background 
           variant={BackgroundVariant.Dots} 
-          gap={20} 
-          size={1}
-          color="#E5E7EB"
-          className="dark:opacity-20"
+          gap={30} 
+          size={2}
+          color="#CBD5E1"
+          className="dark:opacity-30"
         />
       </ReactFlow>
 
