@@ -9,49 +9,15 @@ interface CodeBlockProps {
   filename?: string;
 }
 
-// Simple syntax highlighter as JSX
-const highlightCode = (code: string, language: string) => {
+// Simple code display without complex highlighting
+const renderCode = (code: string) => {
   const lines = code.split('\n');
   
-  return lines.map((line, lineIndex) => {
-    let highlightedLine = line;
-    
-    if (language === 'python') {
-      // Keywords
-      highlightedLine = highlightedLine.replace(
-        /\b(def|return|if|else|elif|import|from|class|for|while|try|except|finally|with|as|in|not|and|or|True|False|None|__name__|__main__)\b/g,
-        '<span class="text-blue-400 font-medium">$1</span>'
-      );
-      
-      // Strings
-      highlightedLine = highlightedLine.replace(
-        /(['"`])((?:\\.|(?!\1)[^\\])*?)\1/g,
-        '<span class="text-green-400">$&</span>'
-      );
-      
-      // Comments
-      highlightedLine = highlightedLine.replace(
-        /#.*/g,
-        '<span class="text-gray-500 italic">$&</span>'
-      );
-      
-      // Function calls
-      highlightedLine = highlightedLine.replace(
-        /\b(\w+)(?=\s*\()/g,
-        '<span class="text-yellow-400">$1</span>'
-      );
-      
-      // Numbers
-      highlightedLine = highlightedLine.replace(
-        /\b\d+\.?\d*\b/g,
-        '<span class="text-purple-400">$&</span>'
-      );
-    }
-    
-    return (
-      <div key={lineIndex} dangerouslySetInnerHTML={{ __html: highlightedLine }} />
-    );
-  });
+  return lines.map((line, lineIndex) => (
+    <div key={lineIndex} className="text-gray-100">
+      {line || '\u00A0'} {/* Non-breaking space for empty lines */}
+    </div>
+  ));
 };
 
 const CodeBlock: React.FC<CodeBlockProps> = ({ children, language = '', filename }) => {
@@ -134,8 +100,8 @@ const CodeBlock: React.FC<CodeBlockProps> = ({ children, language = '', filename
       
       {/* Code content */}
       <div className="p-4 overflow-x-auto">
-        <pre className="text-sm font-mono leading-relaxed text-gray-100">
-          {highlightCode(children, language)}
+        <pre className="text-sm font-mono leading-relaxed text-gray-100 whitespace-pre-wrap">
+          {renderCode(children)}
         </pre>
       </div>
     </div>
