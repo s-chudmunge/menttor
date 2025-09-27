@@ -156,6 +156,10 @@ app.include_router(db_test.router)
 from migration_endpoint import migration_router
 app.include_router(migration_router)
 
+# Schema migration endpoint
+from fix_learningcontent_schema import migration_router as schema_migration_router
+app.include_router(schema_migration_router)
+
 # Temporary database test endpoint
 @app.get("/test-db")
 async def test_database():

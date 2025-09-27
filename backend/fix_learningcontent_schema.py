@@ -104,3 +104,80 @@ def run_migration():
 
 if __name__ == "__main__":
     run_migration()
+
+# FastAPI endpoint version
+from fastapi import APIRouter, HTTPException
+from database.session import engine
+from sqlalchemy import text
+
+migration_router = APIRouter()
+
+@migration_router.post("/run-schema-migration")
+async def run_schema_migration():
+    """Run the database schema migration via API endpoint"""
+    try:
+        with engine.connect() as conn:
+            trans = conn.begin()
+            
+            try:
+                # Check if columns already exist
+                result = conn.execute(text("""
+                    SELECT column_name 
+                    FROM information_schema.columns 
+                    WHERE table_name = 'learningcontent' 
+                    AND column_name IN ('is_generated', 'roadmap_id')
+                """))
+                existing_columns = [row[0] for row in result.fetchall()]
+                
+                results = []
+                
+                # Add is_generated column if it doesn't exist
+                if 'is_generated' not in existing_columns:
+                    conn.execute(text("""
+                        ALTER TABLE learningcontent 
+                        ADD COLUMN is_generated BOOLEAN NOT NULL DEFAULT FALSE
+                    """))
+                    results.append("Added is_generated column")
+                else:
+                    results.append("is_generated column already exists")
+                
+                # Add roadmap_id column if it doesn't exist
+                if 'roadmap_id' not in existing_columns:
+                    conn.execute(text("""
+                        ALTER TABLE learningcontent 
+                        ADD COLUMN roadmap_id INTEGER
+                    """))
+                    results.append("Added roadmap_id column")
+                    
+                    # Add foreign key constraint (if roadmap table exists)
+                    try:
+                        conn.execute(text("""
+                            ALTER TABLE learningcontent 
+                            ADD CONSTRAINT fk_learningcontent_roadmap_id 
+                            FOREIGN KEY (roadmap_id) REFERENCES roadmap(id)
+                        """))
+                        results.append("Added foreign key constraint")
+                    except Exception as e:
+                        results.append(f"Could not add foreign key constraint: {str(e)}")
+                    
+                    # Add index
+                    try:
+                        conn.execute(text("""
+                            CREATE INDEX ix_learningcontent_roadmap_id 
+                            ON learningcontent(roadmap_id)
+                        """))
+                        results.append("Added index on roadmap_id")
+                    except Exception as e:
+                        results.append(f"Could not add index: {str(e)}")
+                else:
+                    results.append("roadmap_id column already exists")
+                
+                trans.commit()
+                return {"success": True, "message": "Migration completed successfully", "details": results}
+                
+            except Exception as e:
+                trans.rollback()
+                raise e
+                
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Migration failed: {str(e)}")
