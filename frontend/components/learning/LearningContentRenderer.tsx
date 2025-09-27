@@ -62,20 +62,22 @@ const LearningContentRenderer: React.FC<Props> = ({ content, subject, subtopic }
                       const match = /language-(\w+)/.exec(className || '');
                       const language = match ? match[1] : '';
                       const inline = props.inline;
+                      const codeContent = String(children).replace(/\n$/, '');
                       
                       if (!inline && children) {
+                        // Always render as CodeBlock - it will decide how to display based on content length
                         return (
                           <CodeBlock language={language}>
-                            {String(children).replace(/\n$/, '')}
+                            {codeContent}
                           </CodeBlock>
                         );
                       }
                       
-                      // Inline code
+                      // Inline code - use CodeBlock component for consistency
                       return (
-                        <code className="bg-gray-100 text-gray-800 px-1 sm:px-1.5 py-0.5 rounded text-xs sm:text-sm font-mono" {...props}>
-                          {children}
-                        </code>
+                        <CodeBlock language={language}>
+                          {codeContent}
+                        </CodeBlock>
                       );
                     },
                     pre: ({ children }) => <>{children}</>, // Remove default pre wrapper

@@ -57,6 +57,10 @@ const highlightCode = (code: string, language: string) => {
 const CodeBlock: React.FC<CodeBlockProps> = ({ children, language = '', filename }) => {
   const [isCopied, setIsCopied] = useState(false);
 
+  // Skip rendering if code is too short (likely a snippet)
+  const lineCount = children.split('\n').length;
+  const isSubstantialCode = lineCount >= 3 || children.length > 50;
+
   const handleCopy = async () => {
     try {
       await navigator.clipboard.writeText(children);
@@ -71,6 +75,15 @@ const CodeBlock: React.FC<CodeBlockProps> = ({ children, language = '', filename
     // This could open an editor modal or navigate to an editor page
     console.log('Edit code:', children);
   };
+
+  // Render simple inline code for short snippets
+  if (!isSubstantialCode) {
+    return (
+      <code className="bg-gray-100 text-gray-800 px-2 py-1 rounded text-sm font-mono">
+        {children}
+      </code>
+    );
+  }
 
   return (
     <div className="my-6 bg-gray-900 rounded-lg overflow-hidden shadow-lg border border-gray-700">
