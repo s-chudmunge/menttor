@@ -553,6 +553,189 @@ async def track_learning_time(
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to track time: {e}")
 
+@router.get("/ml/learn/saved/user", response_model=List[LearningContentResponse])
+async def get_user_saved_learn_pages(
+    roadmap_id: int = Query(None),
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """Get saved learn pages for a user, optionally filtered by roadmap"""
+    try:
+        current_user_id = current_user.id
+        
+        # Build query for saved learning content
+        query = select(LearningContent).where(
+            LearningContent.user_id == current_user_id,
+            LearningContent.is_saved == True
+        )
+        
+        # If roadmap_id is provided, filter by it
+        if roadmap_id:
+            query = query.where(LearningContent.roadmap_id == roadmap_id)
+        
+        saved_content = db.exec(
+            query.order_by(LearningContent.updated_at.desc())
+        ).all()
+        
+        response_list = []
+        for content_item in saved_content:
+            # Decompress the content
+            content_to_return = decompress_content(content_item.content)
+            
+            response_list.append(LearningContentResponse(
+                id=content_item.id,
+                content=content_to_return,
+                model=content_item.model,
+                subject=content_item.subject,
+                goal=content_item.goal,
+                subtopic=content_item.subtopic,
+                subtopic_id=content_item.subtopic_id,
+                roadmap_id=content_item.roadmap_id,
+                is_saved=content_item.is_saved,
+                is_generated=content_item.is_generated,
+                is_public=content_item.is_public,
+                share_token=content_item.share_token,
+                created_at=content_item.created_at,
+                updated_at=content_item.updated_at
+            ))
+        
+        return response_list
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to retrieve saved learning content: {e}")
+
+@router.get("/ml/learn/saved", response_model=LearningContentResponse)
+async def get_saved_learn_page(
+    subtopic_id: str = Query(...),
+    roadmap_id: int = Query(...),
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """Get a specific saved learn page by subtopic_id and roadmap_id"""
+    try:
+        current_user_id = current_user.id
+        
+        # Find the saved content for this specific subtopic and roadmap
+        content = db.exec(
+            select(LearningContent).where(
+                LearningContent.user_id == current_user_id,
+                LearningContent.subtopic_id == subtopic_id,
+                LearningContent.roadmap_id == roadmap_id,
+                LearningContent.is_saved == True
+            )
+        ).first()
+        
+        if not content:
+            raise HTTPException(status_code=404, detail="Saved content not found")
+        
+        # Decompress the content
+        content_to_return = decompress_content(content.content)
+        
+        return LearningContentResponse(
+            id=content.id,
+            content=content_to_return,
+            model=content.model,
+            subject=content.subject,
+            goal=content.goal,
+            subtopic=content.subtopic,
+            subtopic_id=content.subtopic_id,
+            roadmap_id=content.roadmap_id,
+            is_saved=content.is_saved,
+            is_generated=content.is_generated,
+            is_public=content.is_public,
+            share_token=content.share_token,
+            created_at=content.created_at,
+            updated_at=content.updated_at
+        )
+    except HTTPException as e:
+        raise e
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to retrieve saved content: {e}")
+
+@router.post("/ml/learn/save", response_model=LearningContentResponse)
+async def save_generated_learn_page(
+    content_data: dict = Body(...),
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """Save a generated learn page to the database"""
+    try:
+        current_user_id = current_user.id
+        
+        # Extract content data
+        content_blocks = content_data.get('content', [])
+        subtopic = content_data.get('subtopic', '')
+        subject = content_data.get('subject', '')
+        goal = content_data.get('goal', '')
+        model = content_data.get('model', '')
+        subtopic_id = content_data.get('subtopic_id', '')
+        roadmap_id = content_data.get('roadmap_id', None)
+        
+        # Compress and save the content
+        compressed_content = compress_content(content_blocks)
+        
+        # Check if already saved for this subtopic and roadmap
+        existing_content = db.exec(
+            select(LearningContent).where(
+                LearningContent.user_id == current_user_id,
+                LearningContent.subtopic_id == subtopic_id,
+                LearningContent.roadmap_id == roadmap_id,
+                LearningContent.is_saved == True
+            )
+        ).first()
+        
+        if existing_content:
+            # Update existing content
+            existing_content.content = compressed_content
+            existing_content.updated_at = datetime.utcnow()
+            db.add(existing_content)
+            db.commit()
+            db.refresh(existing_content)
+            content_item = existing_content
+        else:
+            # Create new content
+            db_learning_content = LearningContent(
+                subtopic=subtopic,
+                content=compressed_content,
+                user_id=current_user_id,
+                model=model,
+                subject=subject,
+                goal=goal,
+                subtopic_id=subtopic_id,
+                roadmap_id=roadmap_id,
+                is_saved=True,
+                is_generated=True,
+                is_public=False,
+                created_at=datetime.utcnow(),
+                updated_at=datetime.utcnow()
+            )
+            
+            db.add(db_learning_content)
+            db.commit()
+            db.refresh(db_learning_content)
+            content_item = db_learning_content
+        
+        # Decompress content for response
+        content_to_return = decompress_content(content_item.content)
+        
+        return LearningContentResponse(
+            id=content_item.id,
+            content=content_to_return,
+            model=content_item.model,
+            subject=content_item.subject,
+            goal=content_item.goal,
+            subtopic=content_item.subtopic,
+            subtopic_id=content_item.subtopic_id,
+            roadmap_id=content_item.roadmap_id,
+            is_saved=content_item.is_saved,
+            is_generated=content_item.is_generated,
+            is_public=content_item.is_public,
+            share_token=content_item.share_token,
+            created_at=content_item.created_at,
+            updated_at=content_item.updated_at
+        )
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to save generated content: {e}")
+
 @router.post("/complete-learning")
 async def mark_learning_complete(
     completion_data: dict = Body(...),

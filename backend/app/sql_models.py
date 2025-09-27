@@ -149,6 +149,7 @@ class LearningContent(LearningContentBase, table=True):
     
     # Enhanced fields for save/share functionality
     is_saved: bool = Field(default=False)  # User explicitly saved this
+    is_generated: bool = Field(default=False)  # Content was AI-generated
     is_public: bool = Field(default=False)  # Can be shared publicly
     share_token: Optional[str] = Field(default=None, index=True)  # Unique token for sharing
     created_at: datetime = Field(default_factory=datetime.utcnow)
@@ -158,6 +159,7 @@ class LearningContent(LearningContentBase, table=True):
     subject: Optional[str] = Field(default=None)
     goal: Optional[str] = Field(default=None)
     subtopic_id: Optional[str] = Field(default=None, index=True)  # Reference to roadmap subtopic
+    roadmap_id: Optional[int] = Field(default=None, index=True, foreign_key="roadmap.id")  # Reference to roadmap
 
 class Question(QuestionBase, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)

@@ -362,12 +362,14 @@ class LearningContentResponse(BaseModel):
     goal: Optional[str] = None
     subtopic: Optional[str] = None
     subtopic_id: Optional[str] = None
+    roadmap_id: Optional[int] = None
     
     # Library resources (only included for library content generation)
     resources: Optional[List[LibraryResource]] = None
     
     # Enhanced fields for save/share functionality
     is_saved: bool = False
+    is_generated: bool = False
     is_public: bool = False
     share_token: Optional[str] = None
     created_at: Optional[datetime] = None
