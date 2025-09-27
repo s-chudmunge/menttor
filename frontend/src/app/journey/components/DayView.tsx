@@ -22,6 +22,7 @@ import {
 import { RoadmapData } from '../../../lib/api';
 import { formatSubtopicTitle, formatTitle } from '../utils/textFormatting';
 import ReportButton from './ReportButton';
+import { useSavedLearnPages } from '../../../hooks/useSavedLearnPages';
 
 interface DayViewProps {
   roadmapData: RoadmapData;
@@ -55,6 +56,14 @@ interface DayViewItem {
 const DayView: React.FC<DayViewProps> = ({ roadmapData, progressData }) => {
   const [currentWeekIndex, setCurrentWeekIndex] = useState(0);
   const daysPerPage = 7; // Show 7 days at once (like a week)
+  
+  // Get saved learn pages for this roadmap
+  const { data: savedLearnPages } = useSavedLearnPages(roadmapData.id);
+  
+  // Helper function to check if a subtopic has a saved learn page
+  const hasGeneratedLearnPage = (subtopicId: string) => {
+    return Array.isArray(savedLearnPages) && savedLearnPages.some((page: any) => page.subtopic_id === subtopicId);
+  };
 
   // Early return for invalid roadmap data
   if (!roadmapData) {
@@ -340,10 +349,17 @@ const DayView: React.FC<DayViewProps> = ({ roadmapData, progressData }) => {
                     className={`flex-1 text-center py-2 px-3 text-xs rounded-md font-medium transition-all duration-200 ${
                       topic.progress?.learn_completed
                         ? 'bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300 hover:bg-orange-200 dark:hover:bg-orange-900/50'
+                        : hasGeneratedLearnPage(topic.id)
+                        ? 'bg-green-600 hover:bg-green-700 text-white border border-green-500'
                         : 'bg-blue-600 hover:bg-blue-700 text-white'
                     }`}
                   >
-                    {topic.progress?.learn_completed ? 'Review' : 'Learn'}
+                    {topic.progress?.learn_completed 
+                      ? 'Review' 
+                      : hasGeneratedLearnPage(topic.id) 
+                      ? '⚡ Learn' 
+                      : 'Learn'
+                    }
                   </Link>
                 )}
                 

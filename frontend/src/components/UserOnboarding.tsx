@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { User, Mail, ArrowRight, Sparkles } from 'lucide-react';
+import { User, Mail, ArrowRight } from 'lucide-react';
 import { api } from '../lib/api';
 
 interface UserOnboardingProps {
@@ -58,7 +58,7 @@ const UserOnboarding: React.FC<UserOnboardingProps> = ({ onComplete }) => {
         {/* Header */}
         <div className="flex items-start space-x-4 mb-6">
           <div className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center flex-shrink-0">
-            <Sparkles className="w-6 h-6 text-white" />
+            <User className="w-6 h-6 text-white" />
           </div>
           
           <div className="flex-1">

@@ -150,9 +150,11 @@ export interface LearningContentResponse {
     goal?: string;
     subtopic?: string;
     subtopic_id?: string;
+    roadmap_id?: number;
     
     // Enhanced fields for save/share functionality
     is_saved: boolean;
+    is_generated: boolean;
     is_public: boolean;
     share_token?: string;
     created_at?: string;
@@ -209,6 +211,36 @@ export const unsaveLearningContent = async (contentId: number) => {
 
 export const createShareLink = async (contentId: number) => {
   return api.post(`/${contentId}/share`);
+};
+
+// New functions for saved learn pages
+export const getSavedLearnPage = async (subtopicId: string, roadmapId: number): Promise<LearningContentResponse | null> => {
+  try {
+    const response = await api.get(`/ml/learn/saved?subtopic_id=${subtopicId}&roadmap_id=${roadmapId}`);
+    return response.data;
+  } catch (error: any) {
+    if (error.response?.status === 404) {
+      return null; // No saved content found
+    }
+    throw error;
+  }
+};
+
+export const saveGeneratedLearnPage = async (contentData: LearningContentResponse): Promise<LearningContentResponse> => {
+  const response = await api.post('/ml/learn/save', {
+    ...contentData,
+    is_generated: true,
+    is_saved: true
+  });
+  return response.data;
+};
+
+export const getUserSavedLearnPages = async (roadmapId?: number) => {
+  const endpoint = roadmapId 
+    ? `/ml/learn/saved/user?roadmap_id=${roadmapId}`
+    : '/ml/learn/saved/user';
+  const response = await api.get(endpoint);
+  return response.data;
 };
 
 export const removeShareLink = async (contentId: number) => {

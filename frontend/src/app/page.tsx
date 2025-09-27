@@ -25,7 +25,7 @@ import {
   Clock, 
   Calendar,
   ChevronDown, 
-  Sparkles, 
+ 
   Play, 
   History,
   User,
@@ -824,7 +824,7 @@ const MenttorLabsMainPage = () => {
             </div>
             <div className="bg-white dark:bg-black rounded-lg p-4 text-center border border-gray-200 dark:border-gray-700">
               <div className="w-8 h-8 bg-orange-600 rounded-lg flex items-center justify-center mx-auto mb-3">
-                <Sparkles className="w-4 h-4 text-white" />
+                <BookOpen className="w-4 h-4 text-white" />
               </div>
               <div className="text-xl font-bold text-gray-900 dark:text-white mb-1">500+</div>
               <div className="text-xs font-medium text-gray-600 dark:text-gray-400">Topics Available</div>

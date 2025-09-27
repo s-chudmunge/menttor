@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Sparkles, Box, BookOpen } from 'lucide-react';
+import { Box, BookOpen } from 'lucide-react';
 import TimetableTools from './TimetableTools';
 
 interface QuickToolsSidePanelProps {
@@ -37,17 +37,6 @@ const QuickToolsSidePanel: React.FC<QuickToolsSidePanelProps> = ({
         ${isOpen ? 'translate-x-0' : '-translate-x-full'}
         w-64 lg:w-72 flex flex-col
       `}>
-        {/* Header */}
-        <div className="p-2 border-b border-gray-200 dark:border-gray-700 flex-shrink-0">
-          <div className="flex items-center space-x-1.5">
-            <div className="w-5 h-5 bg-purple-600 dark:bg-purple-500 rounded flex items-center justify-center">
-              <Sparkles className="w-2.5 h-2.5 text-white" />
-            </div>
-            <h2 className="text-sm font-semibold text-gray-900 dark:text-white">
-              Quick Tools
-            </h2>
-          </div>
-        </div>
 
         {/* Content */}
         <div className="flex-1 overflow-y-auto">

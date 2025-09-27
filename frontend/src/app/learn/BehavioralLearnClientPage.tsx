@@ -21,7 +21,7 @@ import FloatingTOC from '../../../components/learning/FloatingTOC';
 import SaveShareButtons from '../../../components/learning/SaveShareButtons';
 import { useBehavioralContext } from '../context/BehavioralContext';
 import { useFocusMode, useSessionFSM, useBehavioralStats, useQuickChallenge } from '../../hooks/useBehavioral';
-import { api, LearningContentResponse, getNextSubtopic, NextSubtopicResponse, learningAPI } from '../../lib/api';
+import { api, LearningContentResponse, getNextSubtopic, NextSubtopicResponse, learningAPI, getSavedLearnPage, saveGeneratedLearnPage } from '../../lib/api';
 import { analytics } from '../../lib/analytics';
 import { generateLearnPagePDF } from '../../../utils/pdfGenerator';
 
@@ -448,22 +448,52 @@ const BehavioralLearnClientPage: React.FC<BehavioralLearnClientPageProps> = ({
     setIsLoading(true);
     setFetchError(null);
     try {
-      let response;
+      let data: LearningContentResponse;
       
-      if (isCustomLearning && customSubject && customGoal && customModel) {
+      // For roadmap-based learning (not custom), check for saved content first
+      if (!isCustomLearning && subtopicId && roadmapId) {
+        console.log('🔍 Checking for saved learn page...', { subtopicId, roadmapId });
+        const savedContent = await getSavedLearnPage(subtopicId, roadmapId);
+        
+        if (savedContent) {
+          console.log('✅ Found saved learn page, loading instantly');
+          data = savedContent;
+        } else {
+          console.log('🔄 No saved content found, generating new learn page...');
+          // Generate new content
+          const response = await api.get(`/ml/learn?subtopic=${encodeURIComponent(subtopic)}&subtopic_id=${subtopicId}`);
+          data = response.data;
+          
+          // Save the newly generated content
+          try {
+            console.log('💾 Saving generated learn page to database...');
+            const savedData = await saveGeneratedLearnPage({
+              ...data,
+              subtopic_id: subtopicId,
+              roadmap_id: roadmapId
+            });
+            console.log('✅ Learn page saved successfully');
+            data = savedData; // Use the saved data which includes the ID
+          } catch (saveError) {
+            console.error('⚠️ Failed to save learn page, but continuing with generated content:', saveError);
+            // Continue with the generated content even if saving fails
+          }
+        }
+      } else if (isCustomLearning && customSubject && customGoal && customModel) {
         // Use the /generate endpoint for custom learning with user-selected model
-        response = await api.post('/generate', {
+        const response = await api.post('/generate', {
           subtopic: subtopic,
           subject: customSubject,
           goal: customGoal,
           model: customModel
         });
+        data = response.data;
       } else {
-        // Use the hardcoded model endpoint for journey page learning
-        response = await api.get(`/ml/learn?subtopic=${encodeURIComponent(subtopic)}&subtopic_id=${subtopicId}`);
+        // Fallback to standard generation
+        const response = await api.get(`/ml/learn?subtopic=${encodeURIComponent(subtopic)}&subtopic_id=${subtopicId}`);
+        data = response.data;
       }
       
-      const data: LearningContentResponse = response.data;
       setContentData(data);
       setContent(data.content);
       setLearningContext({

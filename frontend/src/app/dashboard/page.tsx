@@ -26,7 +26,6 @@ import {
   Brain,
   Timer,
   Trophy,
-  Sparkles,
   ChevronRight,
   ArrowRight,
   Play,
@@ -579,7 +578,7 @@ export default function DashboardPage() {
                       ))
                     ) : (
                       <div className="text-center py-8">
-                        <Sparkles className="w-12 h-12 text-gray-400 dark:text-gray-600 mx-auto mb-4" />
+                        <BookOpen className="w-12 h-12 text-gray-400 dark:text-gray-600 mx-auto mb-4" />
                         <p className="text-gray-600 dark:text-gray-400 mb-4">Start learning to get personalized recommendations</p>
                         <Link 
                           href="/explore"

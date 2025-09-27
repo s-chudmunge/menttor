@@ -21,6 +21,7 @@ import { CheckCircle, Circle, PlayCircle, BookOpen, X, ArrowDown } from 'lucide-
 import { RoadmapData } from '../../../lib/api';
 import { formatSubtopicTitle, formatTitle } from '../utils/textFormatting';
 import Link from 'next/link';
+import { useSavedLearnPages } from '../../../hooks/useSavedLearnPages';
 
 interface EndlessCanvasRoadmapProps {
   roadmapData: RoadmapData;
@@ -129,8 +130,15 @@ const EndlessCanvasRoadmap: React.FC<EndlessCanvasRoadmapProps> = ({
 }) => {
   const [selectedNode, setSelectedNode] = useState<RoadmapNodeData | null>(null);
   const [isPanelOpen, setIsPanelOpen] = useState(false);
+  
+  // Get saved learn pages for this roadmap
+  const { data: savedLearnPages } = useSavedLearnPages(roadmapData.id);
 
   // Helper functions
+  const hasGeneratedLearnPage = (subtopicId: string) => {
+    return Array.isArray(savedLearnPages) && savedLearnPages.some((page: any) => page.subtopic_id === subtopicId);
+  };
+
   const getSubtopicStatus = (subtopicId: string) => {
     if (!progressData) return 'available';
     const progress = progressData.find(p => p.sub_topic_id === subtopicId);
@@ -244,14 +252,14 @@ const EndlessCanvasRoadmap: React.FC<EndlessCanvasRoadmapProps> = ({
           type: 'smoothstep',
           style: { 
             stroke: edgeColor, 
-            strokeWidth: 4,
-            filter: 'drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.1))'
+            strokeWidth: 6,
+            strokeLinecap: 'round'
           },
           markerEnd: {
             type: MarkerType.ArrowClosed,
             color: edgeColor,
-            width: 24,
-            height: 24,
+            width: 30,
+            height: 30,
           },
           animated: moduleStatus === 'current',
         });
@@ -310,12 +318,12 @@ const EndlessCanvasRoadmap: React.FC<EndlessCanvasRoadmapProps> = ({
             id: `edge-${moduleId}-${topicId}`,
             source: moduleId,
             target: topicId,
-            type: 'bezier',
+            type: 'straight',
             style: { 
-              stroke: '#CBD5E1', 
-              strokeWidth: 3,
-              strokeDasharray: '5,5',
-              opacity: 0.6
+              stroke: '#64748B', 
+              strokeWidth: 4,
+              strokeDasharray: '10,5',
+              strokeLinecap: 'round'
             },
           });
         });
@@ -450,9 +458,13 @@ const EndlessCanvasRoadmap: React.FC<EndlessCanvasRoadmapProps> = ({
                         {subtopic.has_learn && (
                           <Link
                             href={`/learn?subtopic=${encodeURIComponent(subtopic.title)}&subtopic_id=${subtopic.id}&roadmap_id=${roadmapData.id}`}
-                            className="flex-1 text-center py-2 px-3 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded-md font-medium transition-colors"
+                            className={`flex-1 text-center py-2 px-3 text-sm rounded-md font-medium transition-colors ${
+                              hasGeneratedLearnPage(subtopic.id)
+                                ? 'bg-green-600 hover:bg-green-700 text-white border border-green-500'
+                                : 'bg-blue-600 hover:bg-blue-700 text-white'
+                            }`}
                           >
-                            Learn
+                            {hasGeneratedLearnPage(subtopic.id) ? '⚡ Learn' : 'Learn'}
                           </Link>
                         )}
                         

@@ -48,7 +48,6 @@ import {
   Box,
   PenTool,
   ExternalLink,
-  Sparkles,
   X,
   Play
 } from 'lucide-react';
@@ -505,7 +504,7 @@ const JourneyPage = () => {
               <div className="flex items-start justify-between">
                 <div className="flex items-start space-x-4">
                   <div className="w-12 h-12 bg-blue-600 rounded-xl flex items-center justify-center flex-shrink-0">
-                    <Sparkles className="w-6 h-6 text-white" />
+                    <Target className="w-6 h-6 text-white" />
                   </div>
                   <div className="flex-1">
                     <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">

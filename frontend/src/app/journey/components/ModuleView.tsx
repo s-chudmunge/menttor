@@ -16,6 +16,7 @@ import {
 import { RoadmapData } from '../../../lib/api';
 import { formatSubtopicTitle, formatTitle } from '../utils/textFormatting';
 import ReportButton from './ReportButton';
+import { useSavedLearnPages } from '../../../hooks/useSavedLearnPages';
 
 interface ModuleViewProps {
   roadmapData: RoadmapData;
@@ -30,6 +31,13 @@ const ModuleView: React.FC<ModuleViewProps> = ({
   currentModuleIndex, 
   onModuleNavigation 
 }) => {
+  // Get saved learn pages for this roadmap
+  const { data: savedLearnPages } = useSavedLearnPages(roadmapData.id);
+  
+  // Helper function to check if a subtopic has a saved learn page
+  const hasGeneratedLearnPage = (subtopicId: string) => {
+    return Array.isArray(savedLearnPages) && savedLearnPages.some((page: any) => page.subtopic_id === subtopicId);
+  };
   // Early return for invalid roadmap data
   if (!roadmapData) {
     return (
@@ -218,6 +226,8 @@ const ModuleView: React.FC<ModuleViewProps> = ({
                                     className={`w-full py-2 text-xs flex items-center justify-center space-x-1.5 group rounded-md font-medium transition-all duration-200 ${
                                       subtopicProgress?.learn_completed 
                                         ? 'bg-green-100 text-green-800 border border-green-300 hover:bg-green-200 dark:bg-green-900/30 dark:text-green-300 dark:border-green-700 dark:hover:bg-green-900/50' 
+                                        : hasGeneratedLearnPage(subtopic.id)
+                                        ? 'bg-green-600 text-white hover:bg-green-700 shadow-md hover:shadow-lg border border-green-500'
                                         : 'bg-blue-600 text-white hover:bg-blue-700 shadow-md hover:shadow-lg'
                                     }`}
                                     onClick={(e) => {
@@ -236,6 +246,11 @@ const ModuleView: React.FC<ModuleViewProps> = ({
                                       <>
                                         <CheckCircle className="w-3 h-3 group-hover:scale-110 transition-transform" />
                                         <span>Review</span>
+                                      </>
+                                    ) : hasGeneratedLearnPage(subtopic.id) ? (
+                                      <>
+                                        <BookOpen className="w-3 h-3 group-hover:scale-110 transition-transform" />
+                                        <span>⚡ Learn</span>
                                       </>
                                     ) : (
                                       <>
