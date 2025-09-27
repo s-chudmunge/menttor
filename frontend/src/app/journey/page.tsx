@@ -15,8 +15,7 @@ import { useProgress } from '../../hooks/useProgress';
 import { useRecommendedReviews } from '../../hooks/useRecommendedReviews';
 
 import JourneyHeader from './components/JourneyHeader';
-import RoadmapVisualization from './components/RoadmapVisualization';
-import InteractiveRoadmap from './components/InteractiveRoadmap';
+import EndlessCanvasRoadmap from './components/EndlessCanvasRoadmap';
 import RecommendedReviews from './components/RecommendedReviews';
 import OldRoadmapsModal from '../components/OldRoadmapsModal';
 import OldLearnPagesModal from '../learn/OldLearnPagesModal';
@@ -65,7 +64,7 @@ interface LearningResource {
 }
 
 const JourneyPage = () => {
-  const [currentView, setCurrentView] = useState<'day' | 'modules' | 'visual' | 'practice'>('day');
+  const [currentView, setCurrentView] = useState<'day' | 'modules' | 'practice'>('day');
   const [currentModuleIndex, setCurrentModuleIndex] = useState(0);
   const [learningResources, setLearningResources] = useState<LearningResource[]>([]);
   const [isOldRoadmapsModalOpen, setIsOldRoadmapsModalOpen] = useState(false);
@@ -84,6 +83,7 @@ const JourneyPage = () => {
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isQuickToolsPanelOpen, setIsQuickToolsPanelOpen] = useState(true);
   const [showWelcomeMessage, setShowWelcomeMessage] = useState(false);
+  const [isRoadmapModalOpen, setIsRoadmapModalOpen] = useState(false);
 
   const { user, loading } = useAuth();
   const router = useRouter();
@@ -560,18 +560,6 @@ const JourneyPage = () => {
                 <span className="sm:hidden">Day</span>
               </button>
               <button
-                onClick={() => setCurrentView('visual')}
-                className={`flex items-center space-x-2 px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
-                  currentView === 'visual' 
-                    ? 'bg-blue-600 text-white shadow-sm' 
-                    : 'text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700'
-                }`}
-              >
-                <Target className="w-4 h-4" />
-                <span className="hidden sm:inline">Visual Overview</span>
-                <span className="sm:hidden">Visual</span>
-              </button>
-              <button
                 onClick={() => setCurrentView('modules')}
                 className={`flex items-center space-x-2 px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
                   currentView === 'modules' 
@@ -634,7 +622,7 @@ const JourneyPage = () => {
                     </div>
                     
                     <div className="flex items-center space-x-2 bg-white/50 dark:bg-gray-800/50 rounded-md p-2">
-                      <div className="w-6 h-6 bg-purple-500 rounded-md flex items-center justify-center">
+                      <div className="w-6 h-6 bg-blue-500 rounded-md flex items-center justify-center">
                         <Trophy className="w-3 h-3 text-white" />
                       </div>
                       <div>
@@ -652,6 +640,27 @@ const JourneyPage = () => {
                         <p className="text-xs font-bold text-gray-900 dark:text-white">{progressMetrics.overallProgress}%</p>
                       </div>
                     </div>
+                  </div>
+
+                  {/* Roadmap Trigger Card */}
+                  <div className="mt-4">
+                    <button
+                      onClick={() => setIsRoadmapModalOpen(true)}
+                      className="w-full flex items-center justify-between p-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-all duration-200 shadow-md hover:shadow-lg group"
+                    >
+                      <div className="flex items-center space-x-3">
+                        <div className="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center">
+                          <Target className="w-4 h-4 text-white" />
+                        </div>
+                        <div className="text-left">
+                          <p className="font-semibold text-sm">Interactive Roadmap</p>
+                          <p className="text-xs text-blue-100">Click to explore your learning path</p>
+                        </div>
+                      </div>
+                      <div className="transform group-hover:translate-x-1 transition-transform duration-200">
+                        <ChevronRight className="w-5 h-5 text-white" />
+                      </div>
+                    </button>
                   </div>
                 </div>
                 
@@ -688,12 +697,7 @@ const JourneyPage = () => {
 
 
           {/* Content Area */}
-          {currentView === 'visual' ? (
-            <InteractiveRoadmap 
-              roadmapData={roadmapData}
-              progressData={progressData}
-            />
-          ) : currentView === 'day' ? (
+          {currentView === 'day' ? (
             <DayView 
               roadmapData={roadmapData}
               progressData={progressData}
@@ -811,6 +815,44 @@ const JourneyPage = () => {
 
         {/* Quiz Report Modal */}
         <QuizReportModal />
+
+        {/* Roadmap Modal */}
+        {isRoadmapModalOpen && (
+          <div className="fixed inset-0 z-50 overflow-hidden">
+            {/* Backdrop */}
+            <div 
+              className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+              onClick={() => setIsRoadmapModalOpen(false)}
+            />
+            
+            {/* Modal Content */}
+            <div className="relative w-full h-full flex items-center justify-center p-4">
+              <div className="w-full max-w-6xl h-[90vh] bg-white dark:bg-gray-800 rounded-2xl shadow-2xl overflow-hidden">
+                {/* Modal Header */}
+                <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
+                  <div>
+                    <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Interactive Learning Roadmap</h2>
+                    <p className="text-gray-600 dark:text-gray-400 mt-1">Explore your personalized learning path</p>
+                  </div>
+                  <button
+                    onClick={() => setIsRoadmapModalOpen(false)}
+                    className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                  >
+                    <X className="w-6 h-6 text-gray-400 dark:text-gray-500" />
+                  </button>
+                </div>
+
+                {/* Canvas Container */}
+                <div className="h-[calc(90vh-88px)]">
+                  <EndlessCanvasRoadmap 
+                    roadmapData={roadmapData}
+                    progressData={progressData}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Quick Tools Side Panel */}
         <QuickToolsSidePanel
