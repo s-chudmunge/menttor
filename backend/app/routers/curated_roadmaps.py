@@ -1796,6 +1796,1159 @@ TRENDING_ROADMAPS_CONFIG = [
             "model": "vertexai:gemini-2.5-flash"
         }
     },
+
+    # UPSC CIVIL SERVICES PREPARATION
+    {
+        "title": "UPSC Prelims Preparation - General Studies and CSAT",
+        "category": "competitive-exams",
+        "subcategory": "upsc-prelims",
+        "difficulty": "advanced",
+        "target_audience": "UPSC aspirants preparing for Civil Services Prelims",
+        "estimated_hours": 180,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.2,
+        "prerequisites": ["Graduate degree", "Basic knowledge of Indian history and polity", "Current affairs awareness"],
+        "learning_outcomes": [
+            "Master Indian polity, constitution, and governance",
+            "Understand Indian and world history comprehensively",
+            "Develop analytical skills for geography and environment",
+            "Stay updated with current affairs and government schemes",
+            "Excel in quantitative aptitude and logical reasoning (CSAT)"
+        ],
+        "tags": ["upsc", "prelims", "general-studies", "csat", "civil-services"],
+        "request": {
+            "subject": "UPSC Prelims - General Studies and CSAT Mastery",
+            "goal": "I want to master UPSC Prelims preparation covering General Studies Paper I and CSAT Paper II. Teach me Indian polity, history, geography, economics, environment, science & technology, and current affairs. Include CSAT quantitative aptitude, comprehension, and logical reasoning. Focus on previous year analysis, answer writing techniques, and time management strategies.",
+            "time_value": 15,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "UPSC Mains Preparation - Essay and General Studies",
+        "category": "competitive-exams",
+        "subcategory": "upsc-mains",
+        "difficulty": "expert",
+        "target_audience": "UPSC aspirants preparing for Civil Services Mains",
+        "estimated_hours": 220,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.4,
+        "prerequisites": ["UPSC Prelims qualification", "Strong foundation in General Studies", "Essay writing basics"],
+        "learning_outcomes": [
+            "Master essay writing with contemporary themes",
+            "Develop analytical answer writing for GS papers",
+            "Understand ethics, integrity, and aptitude concepts",
+            "Apply critical thinking to governance and public administration",
+            "Excel in interdisciplinary problem-solving approach"
+        ],
+        "tags": ["upsc", "mains", "essay", "general-studies", "answer-writing"],
+        "request": {
+            "subject": "UPSC Mains - Essay and General Studies Mastery",
+            "goal": "I want to master UPSC Mains preparation focusing on Essay Paper and General Studies papers (GS1-GS4). Teach me essay writing techniques, answer structuring, ethics and integrity, governance concepts, security issues, and international relations. Include previous year analysis, answer evaluation criteria, and time management for descriptive papers.",
+            "time_value": 18,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # BANKING SECTOR EXAMS
+    {
+        "title": "SBI PO Preparation - Banking and Financial Awareness",
+        "category": "competitive-exams",
+        "subcategory": "banking-exams",
+        "difficulty": "intermediate",
+        "target_audience": "Banking exam aspirants targeting Probationary Officer positions",
+        "estimated_hours": 120,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 8.9,
+        "prerequisites": ["Graduate degree", "Basic mathematics", "English proficiency"],
+        "learning_outcomes": [
+            "Master quantitative aptitude for banking exams",
+            "Develop reasoning and analytical skills",
+            "Understand banking and financial systems comprehensively",
+            "Excel in English language and comprehension",
+            "Learn current affairs related to banking and economy"
+        ],
+        "tags": ["sbi-po", "banking", "quantitative-aptitude", "reasoning", "financial-awareness"],
+        "request": {
+            "subject": "SBI PO Banking and Financial Awareness Mastery",
+            "goal": "I want to master SBI PO preparation covering all sections - Quantitative Aptitude, Reasoning Ability, English Language, General Awareness, and Computer Aptitude. Teach me banking concepts, financial markets, monetary policy, quantitative techniques, logical reasoning, and English comprehension. Include mock test strategies and time management techniques.",
+            "time_value": 12,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "IBPS Clerk and RRB Preparation",
+        "category": "competitive-exams",
+        "subcategory": "banking-exams",
+        "difficulty": "intermediate",
+        "target_audience": "Banking exam aspirants for clerical and rural banking positions",
+        "estimated_hours": 100,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 8.7,
+        "prerequisites": ["Graduate degree", "Basic arithmetic", "Hindi/English proficiency"],
+        "learning_outcomes": [
+            "Master fundamental quantitative aptitude concepts",
+            "Develop basic reasoning and computer skills",
+            "Understand rural banking and financial inclusion",
+            "Excel in language skills (Hindi/English)",
+            "Learn banking regulations and customer service"
+        ],
+        "tags": ["ibps", "clerk", "rrb", "banking", "financial-inclusion"],
+        "request": {
+            "subject": "IBPS Clerk and RRB Banking Preparation",
+            "goal": "I want to master IBPS Clerk and RRB preparation focusing on fundamental banking concepts. Teach me basic quantitative aptitude, reasoning ability, English/Hindi language, computer knowledge, and general awareness. Include rural banking concepts, financial inclusion, and customer service skills. Focus on accuracy and speed building techniques.",
+            "time_value": 10,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # SSC EXAMS
+    {
+        "title": "SSC CGL Preparation - Comprehensive Government Jobs",
+        "category": "competitive-exams",
+        "subcategory": "ssc-exams",
+        "difficulty": "intermediate",
+        "target_audience": "SSC Combined Graduate Level exam aspirants",
+        "estimated_hours": 140,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.0,
+        "prerequisites": ["Graduate degree", "Basic mathematics", "General knowledge"],
+        "learning_outcomes": [
+            "Master quantitative aptitude and data interpretation",
+            "Develop strong general intelligence and reasoning",
+            "Excel in English comprehension and grammar",
+            "Understand Indian history, polity, and current affairs",
+            "Learn statistical analysis and data handling"
+        ],
+        "tags": ["ssc-cgl", "government-jobs", "quantitative-aptitude", "reasoning", "general-awareness"],
+        "request": {
+            "subject": "SSC CGL Comprehensive Government Jobs Preparation",
+            "goal": "I want to master SSC CGL preparation covering all tiers - General Intelligence & Reasoning, General Awareness, Quantitative Aptitude, and English Comprehension. Teach me statistical investigator concepts, data interpretation, government schemes, Indian geography, and mathematical problem-solving. Include tier-wise preparation strategies and descriptive writing skills.",
+            "time_value": 14,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "SSC CHSL Preparation - Higher Secondary Level Posts",
+        "category": "competitive-exams",
+        "subcategory": "ssc-exams",
+        "difficulty": "intermediate",
+        "target_audience": "SSC Combined Higher Secondary Level exam aspirants",
+        "estimated_hours": 110,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 8.8,
+        "prerequisites": ["12th pass", "Basic English", "General awareness"],
+        "learning_outcomes": [
+            "Master fundamental quantitative aptitude",
+            "Develop logical reasoning and analytical skills",
+            "Excel in English language and basic grammar",
+            "Understand general studies and current affairs",
+            "Learn typing skills and computer proficiency"
+        ],
+        "tags": ["ssc-chsl", "higher-secondary", "data-entry", "postal-assistant", "typing-skills"],
+        "request": {
+            "subject": "SSC CHSL Higher Secondary Level Preparation",
+            "goal": "I want to master SSC CHSL preparation for Data Entry Operator, Lower Division Clerk, and Postal Assistant positions. Teach me quantitative aptitude at 12th level, general intelligence, English language, general awareness, and typing skills. Include speed and accuracy building, descriptive writing, and interview preparation.",
+            "time_value": 11,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # ENGINEERING ENTRANCE EXAMS
+    {
+        "title": "BITSAT Preparation - Birla Institute of Technology",
+        "category": "competitive-exams",
+        "subcategory": "engineering-entrance",
+        "difficulty": "advanced",
+        "target_audience": "Engineering aspirants targeting BITS Pilani campuses",
+        "estimated_hours": 130,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.1,
+        "prerequisites": ["12th PCM", "Strong foundation in physics, chemistry, mathematics", "English proficiency"],
+        "learning_outcomes": [
+            "Master BITSAT physics concepts and applications",
+            "Excel in chemistry - organic, inorganic, and physical",
+            "Develop advanced mathematical problem-solving skills",
+            "Improve English proficiency and logical reasoning",
+            "Learn computer-based test strategies and time management"
+        ],
+        "tags": ["bitsat", "bits-pilani", "engineering-entrance", "physics", "chemistry", "mathematics"],
+        "request": {
+            "subject": "BITSAT Engineering Entrance Mastery",
+            "goal": "I want to master BITSAT preparation for admission to BITS Pilani. Teach me advanced physics concepts, chemistry (all branches), mathematics including calculus and coordinate geometry, English proficiency, and logical reasoning. Include computer-based test strategies, negative marking awareness, and speed-accuracy balance techniques.",
+            "time_value": 13,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "VITEEE and State Engineering Entrance Preparation",
+        "category": "competitive-exams",
+        "subcategory": "engineering-entrance",
+        "difficulty": "intermediate",
+        "target_audience": "Engineering aspirants for VIT and state-level engineering colleges",
+        "estimated_hours": 115,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 8.6,
+        "prerequisites": ["12th PCM", "NCERT understanding", "Basic English"],
+        "learning_outcomes": [
+            "Master NCERT-based physics, chemistry, and mathematics",
+            "Develop speed and accuracy for MCQ-based tests",
+            "Understand state-specific exam patterns and syllabi",
+            "Excel in application-based problem solving",
+            "Learn multiple engineering entrance strategies"
+        ],
+        "tags": ["viteee", "state-engineering", "ncert-based", "mcq-strategy", "engineering-entrance"],
+        "request": {
+            "subject": "VITEEE and State Engineering Entrance Preparation",
+            "goal": "I want to master VITEEE and state engineering entrance preparation. Teach me NCERT-based physics, chemistry, and mathematics with application focus. Include state-specific exam patterns (MHT-CET, KCET, EAMCET), MCQ solving techniques, and multiple exam management strategies. Focus on conceptual clarity and speed building.",
+            "time_value": 12,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # MEDICAL ENTRANCE EXAMS
+    {
+        "title": "AIIMS Preparation - All India Institute of Medical Sciences",
+        "category": "competitive-exams",
+        "subcategory": "medical-entrance",
+        "difficulty": "expert",
+        "target_audience": "Medical aspirants targeting AIIMS and premium medical colleges",
+        "estimated_hours": 160,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.5,
+        "prerequisites": ["NEET qualification", "Strong PCB foundation", "Advanced problem-solving skills"],
+        "learning_outcomes": [
+            "Master advanced physics concepts for medical applications",
+            "Excel in high-level chemistry and biochemistry",
+            "Develop comprehensive biology and human physiology understanding",
+            "Learn advanced problem-solving and analytical reasoning",
+            "Understand medical ethics and healthcare systems"
+        ],
+        "tags": ["aiims", "medical-entrance", "advanced-physics", "biochemistry", "medical-ethics"],
+        "request": {
+            "subject": "AIIMS Advanced Medical Entrance Preparation",
+            "goal": "I want to master AIIMS preparation for premium medical college admission. Teach me advanced physics applications in medicine, high-level chemistry including biochemistry, comprehensive biology with human anatomy and physiology, and analytical reasoning. Include medical ethics, healthcare awareness, and interview preparation for medical professionals.",
+            "time_value": 16,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "JIPMER and Medical PG Entrance Preparation",
+        "category": "competitive-exams",
+        "subcategory": "medical-entrance",
+        "difficulty": "advanced",
+        "target_audience": "Medical aspirants and MBBS graduates for postgraduate studies",
+        "estimated_hours": 145,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 9.0,
+        "prerequisites": ["MBBS degree (for PG)", "Strong medical sciences foundation", "Clinical exposure"],
+        "learning_outcomes": [
+            "Master clinical medicine and pathophysiology",
+            "Excel in pharmacology and therapeutics",
+            "Develop diagnostic and treatment planning skills",
+            "Understand medical research and evidence-based medicine",
+            "Learn specialty-specific medical knowledge"
+        ],
+        "tags": ["jipmer", "medical-pg", "clinical-medicine", "pharmacology", "evidence-based-medicine"],
+        "request": {
+            "subject": "JIPMER and Medical PG Entrance Mastery",
+            "goal": "I want to master JIPMER and medical PG entrance preparation. Teach me clinical medicine, pathophysiology, pharmacology, community medicine, forensic medicine, and medical research methodology. Include case-based learning, diagnostic reasoning, evidence-based medicine, and specialty selection guidance for postgraduate medical studies.",
+            "time_value": 15,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # LAW ENTRANCE EXAMS
+    {
+        "title": "CLAT Preparation - Common Law Admission Test",
+        "category": "competitive-exams",
+        "subcategory": "law-entrance",
+        "difficulty": "advanced",
+        "target_audience": "Law aspirants for National Law Universities",
+        "estimated_hours": 135,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.2,
+        "prerequisites": ["12th pass", "Strong English skills", "Current affairs awareness", "Logical reasoning ability"],
+        "learning_outcomes": [
+            "Master legal reasoning and constitutional principles",
+            "Excel in English comprehension and grammar",
+            "Develop strong current affairs and general knowledge",
+            "Understand basic mathematics and logical reasoning",
+            "Learn legal writing and analytical skills"
+        ],
+        "tags": ["clat", "law-entrance", "legal-reasoning", "constitution", "nlu-admission"],
+        "request": {
+            "subject": "CLAT Common Law Admission Test Mastery",
+            "goal": "I want to master CLAT preparation for National Law University admission. Teach me legal reasoning, Indian Constitution basics, English language and comprehension, current affairs including legal developments, quantitative techniques, and logical reasoning. Include passage-based questions, legal awareness, and critical thinking skills for law studies.",
+            "time_value": 14,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "LSAT India and International Law School Preparation",
+        "category": "competitive-exams",
+        "subcategory": "law-entrance",
+        "difficulty": "expert",
+        "target_audience": "Law aspirants targeting international law schools and advanced legal studies",
+        "estimated_hours": 150,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 9.3,
+        "prerequisites": ["Graduate degree", "Advanced English proficiency", "Critical thinking skills", "Research aptitude"],
+        "learning_outcomes": [
+            "Master analytical reasoning and logic games",
+            "Excel in reading comprehension and critical analysis",
+            "Develop advanced logical reasoning skills",
+            "Understand international legal systems and comparative law",
+            "Learn academic writing and research methodology"
+        ],
+        "tags": ["lsat", "international-law", "analytical-reasoning", "logic-games", "critical-analysis"],
+        "request": {
+            "subject": "LSAT India and International Law School Preparation",
+            "goal": "I want to master LSAT preparation for international law schools and advanced legal studies. Teach me analytical reasoning, logic games, reading comprehension with legal passages, logical reasoning arguments, and comparative legal systems. Include international law concepts, academic legal writing, and preparation for global law school applications.",
+            "time_value": 15,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # ==============================================================================
+    # INTERNATIONAL STANDARDIZED TESTS
+    # ==============================================================================
+
+    # COLLEGE ADMISSION TESTS
+    {
+        "title": "SAT Preparation - College Board Standardized Test",
+        "category": "competitive-exams",
+        "subcategory": "international-standardized",
+        "difficulty": "intermediate",
+        "target_audience": "High school students applying to US colleges and universities",
+        "estimated_hours": 100,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.1,
+        "prerequisites": ["High school mathematics", "Strong English reading skills", "Basic algebra and geometry"],
+        "learning_outcomes": [
+            "Master SAT Math concepts including algebra, geometry, and data analysis",
+            "Excel in Evidence-Based Reading and Writing sections",
+            "Develop test-taking strategies and time management skills",
+            "Understand college admission requirements and score interpretation",
+            "Learn essay writing techniques for optional SAT Essay"
+        ],
+        "tags": ["sat", "college-admission", "standardized-test", "us-universities", "college-board"],
+        "request": {
+            "subject": "SAT College Admission Test Mastery",
+            "goal": "I want to master SAT preparation for US college admissions. Teach me SAT Math (algebra, geometry, trigonometry, data analysis), Evidence-Based Reading and Writing (reading comprehension, grammar, vocabulary), and test strategies. Include practice tests, time management, score improvement techniques, and college application guidance.",
+            "time_value": 10,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "ACT Preparation - American College Testing",
+        "category": "competitive-exams",
+        "subcategory": "international-standardized",
+        "difficulty": "intermediate",
+        "target_audience": "High school students seeking alternative to SAT for US college admissions",
+        "estimated_hours": 95,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 8.9,
+        "prerequisites": ["High school curriculum completion", "Basic science knowledge", "English proficiency"],
+        "learning_outcomes": [
+            "Master ACT English, Math, Reading, and Science sections",
+            "Develop speed and accuracy for ACT's faster pace",
+            "Understand ACT scoring system and college requirements",
+            "Learn science reasoning and data interpretation skills",
+            "Excel in optional ACT Writing section"
+        ],
+        "tags": ["act", "college-admission", "american-college-testing", "science-reasoning", "us-colleges"],
+        "request": {
+            "subject": "ACT American College Testing Preparation",
+            "goal": "I want to master ACT preparation for US college admissions. Teach me ACT English (grammar, rhetoric), Mathematics (algebra through trigonometry), Reading (comprehension strategies), Science (data interpretation, scientific reasoning), and optional Writing. Include timing strategies, score improvement techniques, and comparison with SAT.",
+            "time_value": 10,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # GRADUATE SCHOOL ADMISSION TESTS
+    {
+        "title": "GRE Preparation - Graduate Record Examination",
+        "category": "competitive-exams",
+        "subcategory": "international-standardized",
+        "difficulty": "advanced",
+        "target_audience": "Graduate school applicants for international universities",
+        "estimated_hours": 120,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.3,
+        "prerequisites": ["Bachelor's degree or final year", "Strong analytical skills", "Advanced English proficiency"],
+        "learning_outcomes": [
+            "Master GRE Verbal Reasoning with advanced vocabulary",
+            "Excel in Quantitative Reasoning and data interpretation",
+            "Develop analytical writing skills for complex topics",
+            "Learn test-adaptive strategies for computer-based format",
+            "Understand graduate school admission requirements globally"
+        ],
+        "tags": ["gre", "graduate-admission", "ets", "verbal-reasoning", "quantitative-reasoning"],
+        "request": {
+            "subject": "GRE Graduate Record Examination Mastery",
+            "goal": "I want to master GRE preparation for graduate school admissions worldwide. Teach me Verbal Reasoning (reading comprehension, text completion, sentence equivalence), Quantitative Reasoning (arithmetic, algebra, geometry, data analysis), and Analytical Writing (issue and argument essays). Include vocabulary building, test strategies, and score improvement techniques.",
+            "time_value": 12,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "GMAT Preparation - Graduate Management Admission Test",
+        "category": "competitive-exams",
+        "subcategory": "international-standardized",
+        "difficulty": "advanced",
+        "target_audience": "MBA and business school applicants worldwide",
+        "estimated_hours": 130,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.4,
+        "prerequisites": ["Bachelor's degree", "Work experience (preferred)", "Business aptitude", "Strong analytical skills"],
+        "learning_outcomes": [
+            "Master GMAT Quantitative section with advanced problem solving",
+            "Excel in Verbal section with critical reasoning",
+            "Develop integrated reasoning for complex data analysis",
+            "Learn analytical writing for business scenarios",
+            "Understand top business school admission strategies"
+        ],
+        "tags": ["gmat", "mba-admission", "business-school", "quantitative-reasoning", "critical-reasoning"],
+        "request": {
+            "subject": "GMAT Graduate Management Admission Test Mastery",
+            "goal": "I want to master GMAT preparation for top MBA programs globally. Teach me Quantitative Reasoning (data sufficiency, problem solving), Verbal Reasoning (reading comprehension, critical reasoning, sentence correction), Integrated Reasoning (multi-source reasoning, graphics interpretation), and Analytical Writing Assessment. Include business school selection and application strategies.",
+            "time_value": 13,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # PROFESSIONAL CERTIFICATION EXAMS
+    {
+        "title": "CPA Preparation - Certified Public Accountant",
+        "category": "competitive-exams",
+        "subcategory": "professional-certification",
+        "difficulty": "expert",
+        "target_audience": "Accounting professionals seeking CPA certification in US",
+        "estimated_hours": 200,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.2,
+        "prerequisites": ["Accounting degree", "150 credit hours", "Work experience in accounting", "Ethics course completion"],
+        "learning_outcomes": [
+            "Master Financial Accounting and Reporting (FAR)",
+            "Excel in Auditing and Attestation (AUD)",
+            "Understand Business Environment and Concepts (BEC)",
+            "Learn Regulation including tax and business law (REG)",
+            "Develop professional judgment and ethical reasoning"
+        ],
+        "tags": ["cpa", "accounting", "professional-certification", "auditing", "financial-reporting"],
+        "request": {
+            "subject": "CPA Certified Public Accountant Mastery",
+            "goal": "I want to master CPA exam preparation for professional accounting certification. Teach me Financial Accounting and Reporting, Auditing and Attestation, Business Environment and Concepts, and Regulation (taxation and business law). Include professional ethics, GAAP/IFRS standards, audit procedures, and tax regulations. Focus on passing all four sections of the CPA exam.",
+            "time_value": 20,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "CFA Preparation - Chartered Financial Analyst",
+        "category": "competitive-exams",
+        "subcategory": "professional-certification",
+        "difficulty": "expert",
+        "target_audience": "Finance professionals seeking CFA charter for investment analysis",
+        "estimated_hours": 250,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.5,
+        "prerequisites": ["Bachelor's degree", "4 years work experience", "Strong mathematics background", "Finance knowledge"],
+        "learning_outcomes": [
+            "Master Ethical and Professional Standards",
+            "Excel in Quantitative Methods and Economics",
+            "Understand Financial Reporting and Analysis comprehensively",
+            "Learn Corporate Finance and Equity Investments",
+            "Develop Fixed Income, Derivatives, and Alternative Investments expertise"
+        ],
+        "tags": ["cfa", "investment-analysis", "finance", "portfolio-management", "financial-modeling"],
+        "request": {
+            "subject": "CFA Chartered Financial Analyst Mastery",
+            "goal": "I want to master CFA Level I, II, and III preparation for the CFA charter. Teach me Ethics and Professional Standards, Quantitative Methods, Economics, Financial Reporting and Analysis, Corporate Finance, Equity Investments, Fixed Income, Derivatives, Alternative Investments, and Portfolio Management. Include investment analysis, valuation techniques, and professional conduct standards.",
+            "time_value": 25,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "PMP Preparation - Project Management Professional",
+        "category": "competitive-exams",
+        "subcategory": "professional-certification",
+        "difficulty": "advanced",
+        "target_audience": "Project managers seeking PMI certification",
+        "estimated_hours": 80,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 8.8,
+        "prerequisites": ["Bachelor's degree", "3 years project management experience", "35 hours project management education"],
+        "learning_outcomes": [
+            "Master Project Management Framework and Processes",
+            "Excel in Agile and Hybrid project methodologies",
+            "Understand People management and team leadership",
+            "Learn Business Environment and strategic alignment",
+            "Develop risk management and quality assurance skills"
+        ],
+        "tags": ["pmp", "project-management", "pmi", "agile", "leadership"],
+        "request": {
+            "subject": "PMP Project Management Professional Mastery",
+            "goal": "I want to master PMP certification preparation for project management excellence. Teach me Project Management Framework, Agile and Hybrid approaches, People management, Business Environment, and the PMBOK Guide principles. Include situational questions, leadership scenarios, risk management, and quality assurance practices for successful project delivery.",
+            "time_value": 8,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # LANGUAGE PROFICIENCY TESTS
+    {
+        "title": "IELTS Preparation - International English Language Testing",
+        "category": "competitive-exams",
+        "subcategory": "language-proficiency",
+        "difficulty": "intermediate",
+        "target_audience": "Non-native English speakers for study/work abroad",
+        "estimated_hours": 90,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.0,
+        "prerequisites": ["Intermediate English level", "Basic grammar knowledge", "Vocabulary foundation"],
+        "learning_outcomes": [
+            "Master IELTS Listening with various accents and contexts",
+            "Excel in Reading comprehension and scanning techniques",
+            "Develop Writing skills for Task 1 and Task 2",
+            "Improve Speaking fluency and pronunciation",
+            "Achieve target band scores for university/immigration requirements"
+        ],
+        "tags": ["ielts", "english-proficiency", "study-abroad", "immigration", "british-council"],
+        "request": {
+            "subject": "IELTS International English Language Testing Mastery",
+            "goal": "I want to master IELTS preparation for study abroad and immigration. Teach me Listening (conversations, lectures, various accents), Reading (academic and general texts), Writing (Task 1 data description/letter writing, Task 2 essays), and Speaking (fluency, pronunciation, coherence). Include band score improvement strategies and test-taking techniques.",
+            "time_value": 9,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "TOEFL Preparation - Test of English as Foreign Language",
+        "category": "competitive-exams",
+        "subcategory": "language-proficiency",
+        "difficulty": "intermediate",
+        "target_audience": "International students applying to US universities",
+        "estimated_hours": 85,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 8.9,
+        "prerequisites": ["Upper-intermediate English", "Academic vocabulary", "Computer familiarity"],
+        "learning_outcomes": [
+            "Master TOEFL Reading with academic passages",
+            "Excel in Listening with campus and academic contexts",
+            "Develop Speaking skills for integrated tasks",
+            "Improve Writing for independent and integrated essays",
+            "Achieve required scores for US university admission"
+        ],
+        "tags": ["toefl", "english-proficiency", "us-universities", "academic-english", "ets"],
+        "request": {
+            "subject": "TOEFL Test of English as Foreign Language Mastery",
+            "goal": "I want to master TOEFL iBT preparation for US university admission. Teach me Reading (academic passages, inference skills), Listening (lectures, conversations), Speaking (independent and integrated tasks), and Writing (independent essays, integrated writing). Include note-taking strategies, academic vocabulary, and score improvement techniques for computer-based testing.",
+            "time_value": 9,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "DELE Preparation - Spanish Language Proficiency",
+        "category": "competitive-exams",
+        "subcategory": "language-proficiency",
+        "difficulty": "intermediate",
+        "target_audience": "Spanish language learners seeking official certification",
+        "estimated_hours": 110,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 8.7,
+        "prerequisites": ["Basic Spanish knowledge", "Grammar fundamentals", "Cultural awareness"],
+        "learning_outcomes": [
+            "Master Spanish listening comprehension at target level",
+            "Excel in reading complex Spanish texts",
+            "Develop writing skills for formal and informal contexts",
+            "Improve speaking fluency and cultural competence",
+            "Achieve A1-C2 level certification as per CEFR"
+        ],
+        "tags": ["dele", "spanish-proficiency", "cervantes", "cefr", "language-certification"],
+        "request": {
+            "subject": "DELE Spanish Language Proficiency Mastery",
+            "goal": "I want to master DELE preparation for official Spanish language certification. Teach me listening comprehension, reading comprehension, written expression and interaction, and oral expression and interaction at my target CEFR level (A1-C2). Include Spanish grammar, vocabulary expansion, cultural context, and test-specific strategies for Instituto Cervantes certification.",
+            "time_value": 11,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # INTERNATIONAL CIVIL SERVICE AND GOVERNMENT EXAMS
+    {
+        "title": "UN Competitive Examinations - United Nations Careers",
+        "category": "competitive-exams",
+        "subcategory": "international-civil-service",
+        "difficulty": "expert",
+        "target_audience": "International development professionals seeking UN careers",
+        "estimated_hours": 160,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.3,
+        "prerequisites": ["Master's degree", "2+ years relevant experience", "Multilingual abilities", "International experience"],
+        "learning_outcomes": [
+            "Master UN system knowledge and organizational structure",
+            "Excel in international development and policy analysis",
+            "Develop multilingual communication skills",
+            "Understand global governance and diplomatic relations",
+            "Learn competency-based interview techniques"
+        ],
+        "tags": ["un-careers", "international-development", "diplomacy", "multilingual", "global-governance"],
+        "request": {
+            "subject": "UN Competitive Examinations Mastery",
+            "goal": "I want to master UN competitive examinations for international civil service careers. Teach me UN system knowledge, international development principles, policy analysis, global governance, multilingual communication, and competency-based assessment techniques. Include knowledge of SDGs, humanitarian principles, and international law for various UN agency positions.",
+            "time_value": 16,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "EU Competitions - European Union Civil Service",
+        "category": "competitive-exams",
+        "subcategory": "international-civil-service",
+        "difficulty": "expert",
+        "target_audience": "European professionals seeking EU institutional careers",
+        "estimated_hours": 140,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 9.1,
+        "prerequisites": ["EU citizenship", "University degree", "Language requirements", "European affairs knowledge"],
+        "learning_outcomes": [
+            "Master EU institutional knowledge and procedures",
+            "Excel in European law and policy frameworks",
+            "Develop multilingual proficiency in EU languages",
+            "Understand European integration and governance",
+            "Learn assessment center and interview techniques"
+        ],
+        "tags": ["eu-competitions", "european-union", "institutional-careers", "european-law", "epso"],
+        "request": {
+            "subject": "EU Competitions European Civil Service Mastery",
+            "goal": "I want to master EU competition examinations for European Union careers. Teach me EU institutional framework, European law, policy analysis, multilingual communication, and assessment center techniques. Include knowledge of EU treaties, decision-making processes, and competency-based evaluation methods for various EU institution positions through EPSO.",
+            "time_value": 14,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "UK Civil Service Fast Stream and Graduate Programs",
+        "category": "competitive-exams",
+        "subcategory": "international-civil-service",
+        "difficulty": "advanced",
+        "target_audience": "UK graduates seeking government and public sector careers",
+        "estimated_hours": 100,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 8.9,
+        "prerequisites": ["UK degree", "British citizenship/eligible nationality", "Leadership potential", "Public service motivation"],
+        "learning_outcomes": [
+            "Master UK government structure and civil service values",
+            "Excel in policy analysis and public administration",
+            "Develop leadership and management competencies",
+            "Understand British political system and governance",
+            "Learn assessment center and competency-based interviews"
+        ],
+        "tags": ["uk-civil-service", "fast-stream", "public-administration", "government-careers", "leadership"],
+        "request": {
+            "subject": "UK Civil Service Fast Stream Mastery",
+            "goal": "I want to master UK Civil Service Fast Stream preparation for government careers. Teach me UK government structure, policy analysis, public administration, leadership competencies, and civil service values. Include assessment center techniques, competency-based interviews, and understanding of British political system for various government department positions.",
+            "time_value": 10,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # ==============================================================================
+    # NICHE AND SPECIALIZED COMPETITIVE EXAMS
+    # ==============================================================================
+
+    # ACTUARIAL SCIENCE CERTIFICATIONS
+    {
+        "title": "SOA Actuarial Exams - Society of Actuaries",
+        "category": "competitive-exams",
+        "subcategory": "actuarial-science",
+        "difficulty": "expert",
+        "target_audience": "Actuarial professionals and mathematics graduates seeking SOA Fellowship",
+        "estimated_hours": 300,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.4,
+        "prerequisites": ["Strong mathematics background", "Statistics knowledge", "Probability theory", "Bachelor's degree in mathematics/statistics"],
+        "learning_outcomes": [
+            "Master probability theory and mathematical statistics",
+            "Excel in financial mathematics and interest theory",
+            "Understand life contingencies and survival models",
+            "Learn advanced risk modeling and quantitative methods",
+            "Develop expertise in insurance and pension mathematics"
+        ],
+        "tags": ["soa", "actuarial-science", "probability", "financial-mathematics", "risk-modeling"],
+        "request": {
+            "subject": "SOA Actuarial Science Certification Mastery",
+            "goal": "I want to master SOA actuarial examinations for professional actuarial certification. Teach me probability theory, financial mathematics, actuarial modeling, life contingencies, risk theory, and advanced statistics. Include exam-specific problem solving techniques, statistical software usage, and professional actuarial practices for insurance and pension industries.",
+            "time_value": 30,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "CAS Actuarial Exams - Casualty Actuarial Society",
+        "category": "competitive-exams",
+        "subcategory": "actuarial-science",
+        "difficulty": "expert",
+        "target_audience": "Property and casualty insurance actuarial professionals",
+        "estimated_hours": 280,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 9.3,
+        "prerequisites": ["Mathematics degree", "Statistical analysis skills", "Insurance industry knowledge", "Programming skills (R/Python)"],
+        "learning_outcomes": [
+            "Master casualty actuarial methods and reserving techniques",
+            "Excel in ratemaking and pricing strategies",
+            "Understand predictive modeling and machine learning applications",
+            "Learn regulatory requirements and insurance law",
+            "Develop expertise in catastrophe modeling and reinsurance"
+        ],
+        "tags": ["cas", "casualty-actuarial", "insurance", "ratemaking", "predictive-modeling"],
+        "request": {
+            "subject": "CAS Casualty Actuarial Science Mastery",
+            "goal": "I want to master CAS actuarial examinations for casualty insurance expertise. Teach me reserving methods, ratemaking techniques, predictive modeling, catastrophe analysis, and regulatory frameworks. Include practical applications in property and casualty insurance, statistical programming, and advanced analytical techniques for insurance pricing and risk assessment.",
+            "time_value": 28,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # AVIATION CERTIFICATIONS
+    {
+        "title": "ATPL Preparation - Airline Transport Pilot License",
+        "category": "competitive-exams",
+        "subcategory": "aviation",
+        "difficulty": "expert",
+        "target_audience": "Professional pilots seeking airline captain qualifications",
+        "estimated_hours": 200,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.2,
+        "prerequisites": ["Commercial Pilot License", "1500+ flight hours", "Instrument Rating", "Medical certificate", "Aviation English proficiency"],
+        "learning_outcomes": [
+            "Master advanced aerodynamics and aircraft systems",
+            "Excel in airline operations and crew resource management",
+            "Understand complex meteorology and navigation systems",
+            "Learn aviation law and international regulations",
+            "Develop leadership skills for airline operations"
+        ],
+        "tags": ["atpl", "airline-pilot", "aviation", "aerodynamics", "crew-resource-management"],
+        "request": {
+            "subject": "ATPL Airline Transport Pilot License Mastery",
+            "goal": "I want to master ATPL preparation for airline pilot certification. Teach me advanced aerodynamics, aircraft systems, meteorology, navigation, aviation law, crew resource management, and airline operations procedures. Include multi-crew cooperation, emergency procedures, and leadership skills required for airline captain responsibilities.",
+            "time_value": 20,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Remote Pilot Certificate - Commercial Drone Operations",
+        "category": "competitive-exams",
+        "subcategory": "aviation",
+        "difficulty": "intermediate",
+        "target_audience": "Commercial drone operators and aerial photography professionals",
+        "estimated_hours": 60,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 8.7,
+        "prerequisites": ["Basic aviation knowledge", "English proficiency", "Understanding of regulations", "Technical aptitude"],
+        "learning_outcomes": [
+            "Master FAA regulations for commercial drone operations",
+            "Understand airspace classifications and restrictions",
+            "Learn weather interpretation for safe drone operations",
+            "Develop flight planning and risk assessment skills",
+            "Excel in radio communication and emergency procedures"
+        ],
+        "tags": ["drone-pilot", "uas", "commercial-aviation", "faa-regulations", "aerial-photography"],
+        "request": {
+            "subject": "Remote Pilot Certificate Drone Operations Mastery",
+            "goal": "I want to master Remote Pilot Certificate preparation for commercial drone operations. Teach me FAA regulations, airspace requirements, weather interpretation, flight planning, radio communications, and emergency procedures. Include practical applications for aerial photography, surveying, inspection, and delivery operations within regulatory frameworks.",
+            "time_value": 6,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # MARITIME CERTIFICATIONS
+    {
+        "title": "Master Mariner Certification - Ship Command",
+        "category": "competitive-exams",
+        "subcategory": "maritime",
+        "difficulty": "expert",
+        "target_audience": "Merchant marine officers seeking ship command authority",
+        "estimated_hours": 250,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.1,
+        "prerequisites": ["Chief Mate license", "Sea service requirements", "STCW certifications", "Medical fitness", "Security clearance"],
+        "learning_outcomes": [
+            "Master advanced ship navigation and bridge management",
+            "Excel in maritime law and international regulations",
+            "Understand cargo operations and port procedures",
+            "Learn crisis management and emergency response",
+            "Develop leadership skills for maritime operations"
+        ],
+        "tags": ["master-mariner", "ship-command", "maritime", "navigation", "maritime-law"],
+        "request": {
+            "subject": "Master Mariner Ship Command Certification Mastery",
+            "goal": "I want to master Master Mariner certification for ship command authority. Teach me advanced navigation, bridge resource management, maritime law, cargo operations, port procedures, crisis management, and international maritime regulations. Include leadership skills, safety management, and environmental compliance for commercial vessel operations.",
+            "time_value": 25,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Chief Engineer Marine License - Ship Engineering",
+        "category": "competitive-exams",
+        "subcategory": "maritime",
+        "difficulty": "expert",
+        "target_audience": "Marine engineers seeking chief engineer positions on commercial vessels",
+        "estimated_hours": 220,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 8.9,
+        "prerequisites": ["Marine engineering degree", "Sea service as engineer", "STCW engineering certifications", "Technical competency"],
+        "learning_outcomes": [
+            "Master marine propulsion systems and machinery",
+            "Excel in electrical and automation systems",
+            "Understand fuel systems and environmental compliance",
+            "Learn maintenance planning and safety procedures",
+            "Develop technical leadership and crew management skills"
+        ],
+        "tags": ["chief-engineer", "marine-engineering", "propulsion-systems", "maritime-safety", "machinery"],
+        "request": {
+            "subject": "Chief Engineer Marine License Mastery",
+            "goal": "I want to master Chief Engineer marine license for ship engineering leadership. Teach me marine propulsion systems, electrical systems, automation, fuel management, environmental regulations, maintenance planning, and safety procedures. Include technical leadership, crew management, and troubleshooting skills for commercial vessel engineering operations.",
+            "time_value": 22,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # SPECIALIZED IT SECURITY CERTIFICATIONS
+    {
+        "title": "CISSP Certification - Information Systems Security",
+        "category": "competitive-exams",
+        "subcategory": "cybersecurity",
+        "difficulty": "expert",
+        "target_audience": "Senior cybersecurity professionals and information security managers",
+        "estimated_hours": 120,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.3,
+        "prerequisites": ["5 years security experience", "Bachelor's degree (preferred)", "Understanding of security frameworks", "Professional work experience"],
+        "learning_outcomes": [
+            "Master security and risk management frameworks",
+            "Excel in asset security and data classification",
+            "Understand security architecture and engineering",
+            "Learn identity and access management systems",
+            "Develop expertise in security operations and incident response"
+        ],
+        "tags": ["cissp", "cybersecurity", "information-security", "risk-management", "security-architecture"],
+        "request": {
+            "subject": "CISSP Information Systems Security Mastery",
+            "goal": "I want to master CISSP certification for senior cybersecurity roles. Teach me security and risk management, asset security, security architecture, communication and network security, identity and access management, security assessment, security operations, and software development security. Include management-level security concepts and strategic security planning.",
+            "time_value": 12,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "OSCP Certification - Offensive Security Certified Professional",
+        "category": "competitive-exams",
+        "subcategory": "cybersecurity",
+        "difficulty": "expert",
+        "target_audience": "Penetration testers and ethical hackers seeking advanced practical skills",
+        "estimated_hours": 180,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.5,
+        "prerequisites": ["Linux command line proficiency", "Basic networking knowledge", "Programming skills", "Cybersecurity fundamentals"],
+        "learning_outcomes": [
+            "Master advanced penetration testing methodologies",
+            "Excel in manual exploit development and techniques",
+            "Understand buffer overflow exploitation",
+            "Learn privilege escalation on Windows and Linux",
+            "Develop hands-on ethical hacking skills"
+        ],
+        "tags": ["oscp", "penetration-testing", "ethical-hacking", "exploit-development", "offensive-security"],
+        "request": {
+            "subject": "OSCP Offensive Security Penetration Testing Mastery",
+            "goal": "I want to master OSCP certification for advanced penetration testing. Teach me manual exploitation techniques, buffer overflow development, privilege escalation, post-exploitation techniques, and advanced penetration testing methodologies. Include hands-on labs, real-world scenarios, and practical ethical hacking skills for professional security testing.",
+            "time_value": 18,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # MEDICAL SPECIALTY BOARDS
+    {
+        "title": "USMLE Preparation - United States Medical Licensing",
+        "category": "competitive-exams",
+        "subcategory": "medical-licensing",
+        "difficulty": "expert",
+        "target_audience": "International medical graduates seeking US medical practice",
+        "estimated_hours": 400,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.4,
+        "prerequisites": ["Medical degree", "Clinical experience", "Strong English proficiency", "ECFMG certification eligibility"],
+        "learning_outcomes": [
+            "Master basic medical sciences for Step 1",
+            "Excel in clinical knowledge for Step 2 CK",
+            "Develop clinical skills for Step 2 CS",
+            "Understand US healthcare system and medical ethics",
+            "Learn standardized patient interaction techniques"
+        ],
+        "tags": ["usmle", "medical-licensing", "clinical-medicine", "medical-ethics", "standardized-patients"],
+        "request": {
+            "subject": "USMLE United States Medical Licensing Mastery",
+            "goal": "I want to master USMLE preparation for US medical practice. Teach me basic medical sciences (anatomy, physiology, pathology, pharmacology), clinical medicine, diagnostic reasoning, treatment protocols, medical ethics, and standardized patient communication. Include Step 1, Step 2 CK, and Step 2 CS preparation with US healthcare system knowledge.",
+            "time_value": 40,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "PLAB Preparation - Professional and Linguistic Assessment Board",
+        "category": "competitive-exams",
+        "subcategory": "medical-licensing",
+        "difficulty": "advanced",
+        "target_audience": "International medical graduates seeking UK medical practice",
+        "estimated_hours": 300,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 9.2,
+        "prerequisites": ["Medical degree", "IELTS qualification", "GMC eligibility", "Clinical experience"],
+        "learning_outcomes": [
+            "Master UK clinical guidelines and NICE protocols",
+            "Excel in clinical reasoning and differential diagnosis",
+            "Understand NHS structure and UK healthcare system",
+            "Learn professional communication and patient safety",
+            "Develop OSCE skills for practical assessment"
+        ],
+        "tags": ["plab", "uk-medical-licensing", "nhs", "clinical-guidelines", "osce"],
+        "request": {
+            "subject": "PLAB UK Medical Licensing Preparation Mastery",
+            "goal": "I want to master PLAB preparation for UK medical practice. Teach me PLAB 1 clinical knowledge, UK clinical guidelines, NICE protocols, NHS procedures, and PLAB 2 OSCE skills. Include UK medical ethics, patient safety, clinical reasoning, and professional communication standards for General Medical Council registration.",
+            "time_value": 30,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # FINANCIAL RISK AND COMPLIANCE
+    {
+        "title": "FRM Certification - Financial Risk Manager",
+        "category": "competitive-exams",
+        "subcategory": "financial-risk",
+        "difficulty": "expert",
+        "target_audience": "Risk management professionals in banking and finance",
+        "estimated_hours": 200,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.1,
+        "prerequisites": ["Finance background", "Quantitative skills", "Risk management experience", "Statistical knowledge"],
+        "learning_outcomes": [
+            "Master quantitative risk analysis and modeling",
+            "Excel in market risk measurement and management",
+            "Understand credit risk and operational risk frameworks",
+            "Learn regulatory requirements and Basel frameworks",
+            "Develop expertise in risk management tools and techniques"
+        ],
+        "tags": ["frm", "financial-risk", "risk-management", "basel", "quantitative-analysis"],
+        "request": {
+            "subject": "FRM Financial Risk Manager Certification Mastery",
+            "goal": "I want to master FRM certification for financial risk management expertise. Teach me quantitative analysis, market risk, credit risk, operational risk, liquidity risk, investment risk, current issues in financial markets, and risk management tools. Include Basel frameworks, regulatory requirements, and advanced risk modeling techniques.",
+            "time_value": 20,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "CAMS Certification - Certified Anti-Money Laundering Specialist",
+        "category": "competitive-exams",
+        "subcategory": "financial-compliance",
+        "difficulty": "advanced",
+        "target_audience": "Compliance professionals and anti-money laundering specialists",
+        "estimated_hours": 100,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 8.8,
+        "prerequisites": ["Compliance experience", "AML knowledge", "Financial services background", "Regulatory awareness"],
+        "learning_outcomes": [
+            "Master AML regulations and compliance frameworks",
+            "Excel in suspicious activity monitoring and reporting",
+            "Understand customer due diligence procedures",
+            "Learn investigation techniques and case management",
+            "Develop expertise in international AML standards"
+        ],
+        "tags": ["cams", "anti-money-laundering", "compliance", "financial-crimes", "regulatory"],
+        "request": {
+            "subject": "CAMS Anti-Money Laundering Specialist Mastery",
+            "goal": "I want to master CAMS certification for anti-money laundering expertise. Teach me AML regulations, compliance programs, customer due diligence, suspicious activity monitoring, investigation techniques, and international AML standards. Include practical applications in financial institutions and regulatory compliance frameworks.",
+            "time_value": 10,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # LINGUISTICS AND TRANSLATION
+    {
+        "title": "ATA Certification - American Translators Association",
+        "category": "competitive-exams",
+        "subcategory": "translation-linguistics",
+        "difficulty": "advanced",
+        "target_audience": "Professional translators seeking industry certification",
+        "estimated_hours": 150,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.0,
+        "prerequisites": ["Bilingual proficiency", "Translation experience", "Cultural knowledge", "Subject matter expertise"],
+        "learning_outcomes": [
+            "Master professional translation techniques and methodologies",
+            "Excel in specialized translation domains (medical, legal, technical)",
+            "Understand translation ethics and professional standards",
+            "Learn computer-assisted translation tools",
+            "Develop quality assurance and editing skills"
+        ],
+        "tags": ["ata", "translation", "linguistics", "bilingual", "professional-certification"],
+        "request": {
+            "subject": "ATA Professional Translation Certification Mastery",
+            "goal": "I want to master ATA certification for professional translation services. Teach me translation techniques, specialized domain knowledge (medical, legal, technical), translation ethics, quality assurance, computer-assisted translation tools, and professional practices. Include cultural competency and subject matter specialization for certified translation work.",
+            "time_value": 15,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "IOL Olympiad - International Linguistics Olympiad",
+        "category": "competitive-exams",
+        "subcategory": "translation-linguistics",
+        "difficulty": "expert",
+        "target_audience": "High school students and linguistics enthusiasts",
+        "estimated_hours": 80,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 8.9,
+        "prerequisites": ["Strong analytical thinking", "Pattern recognition skills", "Logic and reasoning ability", "No prior linguistics knowledge required"],
+        "learning_outcomes": [
+            "Master linguistic analysis and problem-solving techniques",
+            "Excel in phonological and morphological analysis",
+            "Understand syntax and semantic structures",
+            "Learn writing system decipherment",
+            "Develop expertise in comparative linguistics"
+        ],
+        "tags": ["iol", "linguistics-olympiad", "linguistic-analysis", "phonology", "morphology"],
+        "request": {
+            "subject": "IOL International Linguistics Olympiad Mastery",
+            "goal": "I want to master IOL preparation for competitive linguistics. Teach me linguistic analysis techniques, phonological systems, morphological structures, syntactic patterns, semantic relationships, and writing system analysis. Include problem-solving strategies for unknown languages and comparative linguistic methods for olympiad competitions.",
+            "time_value": 8,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # FORENSIC AND INVESTIGATIVE SCIENCES
+    {
+        "title": "CCE Certification - Certified Computer Examiner",
+        "category": "competitive-exams",
+        "subcategory": "forensic-science",
+        "difficulty": "expert",
+        "target_audience": "Digital forensics professionals and law enforcement investigators",
+        "estimated_hours": 160,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.2,
+        "prerequisites": ["Computer science background", "Digital forensics experience", "Law enforcement or legal knowledge", "Technical investigation skills"],
+        "learning_outcomes": [
+            "Master digital evidence acquisition and preservation",
+            "Excel in forensic analysis of computer systems",
+            "Understand legal frameworks for digital evidence",
+            "Learn advanced forensic tools and techniques",
+            "Develop courtroom testimony and expert witness skills"
+        ],
+        "tags": ["cce", "digital-forensics", "computer-examination", "legal-evidence", "cyber-investigation"],
+        "request": {
+            "subject": "CCE Certified Computer Examiner Mastery",
+            "goal": "I want to master CCE certification for digital forensics expertise. Teach me digital evidence acquisition, forensic analysis techniques, file system analysis, network forensics, mobile device examination, legal procedures, and expert testimony skills. Include hands-on forensic tools usage and legal compliance for computer examination.",
+            "time_value": 16,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "CFE Certification - Certified Fraud Examiner",
+        "category": "competitive-exams",
+        "subcategory": "forensic-investigation",
+        "difficulty": "advanced",
+        "target_audience": "Fraud investigators, auditors, and financial crime specialists",
+        "estimated_hours": 120,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 8.9,
+        "prerequisites": ["Investigative experience", "Accounting knowledge", "Legal understanding", "Professional work experience"],
+        "learning_outcomes": [
+            "Master fraud prevention and detection techniques",
+            "Excel in financial investigation and analysis",
+            "Understand legal elements of fraud and interviewing",
+            "Learn fraud risk assessment and controls",
+            "Develop expertise in white-collar crime investigation"
+        ],
+        "tags": ["cfe", "fraud-examination", "financial-investigation", "white-collar-crime", "forensic-accounting"],
+        "request": {
+            "subject": "CFE Certified Fraud Examiner Mastery",
+            "goal": "I want to master CFE certification for fraud examination expertise. Teach me fraud prevention, financial transactions analysis, legal elements of fraud, interviewing techniques, fraud investigation methods, and forensic accounting principles. Include practical investigation skills and professional ethics for fraud examination.",
+            "time_value": 12,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
     
     # ==============================================================================
     # RESEARCH-FOCUSED ROADMAPS FOR GRADUATE STUDENTS
@@ -2936,6 +4089,2936 @@ TRENDING_ROADMAPS_CONFIG = [
             "subject": "Advanced Robotics and Industrial Automation",
             "goal": "I want to master advanced robotics and automation systems. Teach me robotic control systems, computer vision, motion planning, sensor fusion, ROS (Robot Operating System), industrial automation, collaborative robots, and building autonomous systems for manufacturing and service applications.",
             "time_value": 12,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # ==============================================================================
+    # RESEARCH AND LIFE SCIENCES ROADMAPS
+    # ==============================================================================
+
+    # RESEARCH METHODOLOGY AND EXPERIMENTAL DESIGN
+    {
+        "title": "Research Methodology and Experimental Design for Life Sciences",
+        "category": "research",
+        "subcategory": "methodology",
+        "difficulty": "intermediate",
+        "target_audience": "Graduate students, postdocs, and early-career researchers",
+        "estimated_hours": 80,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.2,
+        "prerequisites": ["Basic statistics", "Scientific background", "Critical thinking skills"],
+        "learning_outcomes": [
+            "Master experimental design principles and controls",
+            "Understand hypothesis formulation and testing",
+            "Learn sampling methods and statistical power analysis",
+            "Excel in research ethics and reproducibility",
+            "Develop skills in literature review and meta-analysis"
+        ],
+        "tags": ["research-methodology", "experimental-design", "statistics", "reproducibility", "ethics"],
+        "request": {
+            "subject": "Research Methodology and Experimental Design Mastery",
+            "goal": "I want to master research methodology for life sciences research. Teach me experimental design, hypothesis testing, controls, sampling methods, statistical analysis, research ethics, reproducibility, literature review techniques, and meta-analysis. Include best practices for planning and executing rigorous scientific studies.",
+            "time_value": 8,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Biostatistics and Data Analysis for Researchers",
+        "category": "research",
+        "subcategory": "data-analysis",
+        "difficulty": "intermediate",
+        "target_audience": "Life sciences researchers and graduate students",
+        "estimated_hours": 90,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.0,
+        "prerequisites": ["Basic mathematics", "Research background", "Computer literacy"],
+        "learning_outcomes": [
+            "Master descriptive and inferential statistics",
+            "Excel in hypothesis testing and confidence intervals",
+            "Learn regression analysis and ANOVA",
+            "Understand survival analysis and clinical trial statistics",
+            "Develop skills in R, Python, and statistical software"
+        ],
+        "tags": ["biostatistics", "data-analysis", "r-programming", "python", "clinical-trials"],
+        "request": {
+            "subject": "Biostatistics and Data Analysis Expertise",
+            "goal": "I want to master biostatistics for life sciences research. Teach me descriptive statistics, inferential statistics, hypothesis testing, regression analysis, ANOVA, survival analysis, clinical trial design, and statistical software (R, Python, SPSS). Include practical applications in biological and medical research.",
+            "time_value": 9,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # BIOINFORMATICS AND COMPUTATIONAL BIOLOGY
+    {
+        "title": "Bioinformatics Fundamentals for Life Sciences Researchers",
+        "category": "research",
+        "subcategory": "bioinformatics",
+        "difficulty": "intermediate",
+        "target_audience": "Biologists transitioning to computational analysis",
+        "estimated_hours": 120,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.1,
+        "prerequisites": ["Basic biology", "Computer literacy", "Mathematics background"],
+        "learning_outcomes": [
+            "Master sequence analysis and alignment algorithms",
+            "Excel in genomics and transcriptomics data analysis",
+            "Learn protein structure analysis and prediction",
+            "Understand phylogenetic analysis and evolution",
+            "Develop skills in bioinformatics databases and tools"
+        ],
+        "tags": ["bioinformatics", "genomics", "sequence-analysis", "computational-biology", "python"],
+        "request": {
+            "subject": "Bioinformatics and Computational Biology Mastery",
+            "goal": "I want to master bioinformatics for biological research. Teach me sequence analysis, genome assembly, transcriptomics, proteomics, phylogenetics, structural biology, and bioinformatics tools. Include Python programming, R for bioinformatics, database usage (NCBI, UniProt), and pipeline development.",
+            "time_value": 12,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Genomics and Next-Generation Sequencing Analysis",
+        "category": "research",
+        "subcategory": "genomics",
+        "difficulty": "advanced",
+        "target_audience": "Researchers working with NGS data",
+        "estimated_hours": 100,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.3,
+        "prerequisites": ["Bioinformatics basics", "Programming skills", "Molecular biology knowledge"],
+        "learning_outcomes": [
+            "Master NGS data preprocessing and quality control",
+            "Excel in variant calling and genome assembly",
+            "Learn RNA-seq and ChIP-seq analysis workflows",
+            "Understand single-cell sequencing analysis",
+            "Develop expertise in genomics pipelines and cloud computing"
+        ],
+        "tags": ["genomics", "ngs", "sequencing", "variant-calling", "rna-seq"],
+        "request": {
+            "subject": "Genomics and NGS Analysis Expertise",
+            "goal": "I want to master genomics and next-generation sequencing analysis. Teach me NGS data processing, quality control, read alignment, variant calling, genome assembly, RNA-seq analysis, ChIP-seq, single-cell sequencing, and pipeline development. Include tools like BWA, GATK, Samtools, and cloud computing platforms.",
+            "time_value": 10,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # LABORATORY TECHNIQUES AND INSTRUMENTATION
+    {
+        "title": "Advanced Laboratory Techniques in Molecular Biology",
+        "category": "research",
+        "subcategory": "laboratory-techniques",
+        "difficulty": "intermediate",
+        "target_audience": "Lab researchers and graduate students",
+        "estimated_hours": 85,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.0,
+        "prerequisites": ["Basic molecular biology", "Lab safety training", "Hands-on lab experience"],
+        "learning_outcomes": [
+            "Master PCR, qPCR, and advanced amplification techniques",
+            "Excel in protein expression and purification",
+            "Learn cell culture and transfection methods",
+            "Understand microscopy and imaging techniques",
+            "Develop expertise in western blotting and ELISA"
+        ],
+        "tags": ["molecular-biology", "pcr", "protein-expression", "cell-culture", "microscopy"],
+        "request": {
+            "subject": "Advanced Molecular Biology Laboratory Techniques",
+            "goal": "I want to master advanced laboratory techniques in molecular biology. Teach me PCR and qPCR, protein expression and purification, cell culture techniques, transfection methods, western blotting, ELISA, immunofluorescence, microscopy, and troubleshooting lab protocols. Include best practices for reproducible research.",
+            "time_value": 8.5,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Mass Spectrometry and Analytical Instrumentation",
+        "category": "research",
+        "subcategory": "instrumentation",
+        "difficulty": "advanced",
+        "target_audience": "Analytical researchers and instrument specialists",
+        "estimated_hours": 95,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 8.9,
+        "prerequisites": ["Analytical chemistry", "Physics background", "Instrument experience"],
+        "learning_outcomes": [
+            "Master mass spectrometry principles and applications",
+            "Excel in LC-MS, GC-MS, and tandem MS techniques",
+            "Learn proteomics and metabolomics workflows",
+            "Understand ion sources and mass analyzers",
+            "Develop expertise in data analysis and interpretation"
+        ],
+        "tags": ["mass-spectrometry", "lc-ms", "proteomics", "metabolomics", "analytical-chemistry"],
+        "request": {
+            "subject": "Mass Spectrometry and Analytical Instrumentation Mastery",
+            "goal": "I want to master mass spectrometry for research applications. Teach me MS principles, ionization methods, mass analyzers, LC-MS and GC-MS techniques, proteomics workflows, metabolomics analysis, quantitative methods, and data interpretation. Include instrument maintenance and troubleshooting.",
+            "time_value": 9.5,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # CLINICAL RESEARCH AND TRIALS
+    {
+        "title": "Clinical Research and Good Clinical Practice (GCP)",
+        "category": "research",
+        "subcategory": "clinical-research",
+        "difficulty": "intermediate",
+        "target_audience": "Clinical researchers and trial coordinators",
+        "estimated_hours": 75,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.1,
+        "prerequisites": ["Healthcare background", "Research ethics training", "Clinical experience"],
+        "learning_outcomes": [
+            "Master GCP guidelines and regulatory compliance",
+            "Excel in clinical trial design and protocol development",
+            "Learn patient recruitment and informed consent",
+            "Understand data management and monitoring",
+            "Develop expertise in adverse event reporting"
+        ],
+        "tags": ["clinical-research", "gcp", "clinical-trials", "regulatory-compliance", "patient-safety"],
+        "request": {
+            "subject": "Clinical Research and GCP Mastery",
+            "goal": "I want to master clinical research and Good Clinical Practice. Teach me GCP guidelines, clinical trial design, protocol development, patient recruitment, informed consent, data management, monitoring, adverse event reporting, and regulatory compliance. Include ICH guidelines and FDA regulations.",
+            "time_value": 7.5,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Translational Medicine and Drug Development",
+        "category": "research",
+        "subcategory": "translational-medicine",
+        "difficulty": "advanced",
+        "target_audience": "Translational researchers and pharmaceutical scientists",
+        "estimated_hours": 110,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.2,
+        "prerequisites": ["Molecular biology", "Pharmacology", "Clinical research knowledge"],
+        "learning_outcomes": [
+            "Master bench-to-bedside research principles",
+            "Excel in biomarker discovery and validation",
+            "Learn drug discovery and development pathways",
+            "Understand regulatory pathways and FDA approval",
+            "Develop expertise in personalized medicine approaches"
+        ],
+        "tags": ["translational-medicine", "drug-development", "biomarkers", "personalized-medicine", "fda"],
+        "request": {
+            "subject": "Translational Medicine and Drug Development Expertise",
+            "goal": "I want to master translational medicine and drug development. Teach me bench-to-bedside research, biomarker discovery, drug discovery pipelines, preclinical studies, clinical development, regulatory affairs, personalized medicine, and commercialization strategies. Include FDA regulations and industry best practices.",
+            "time_value": 11,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # GRANT WRITING AND SCIENTIFIC COMMUNICATION
+    {
+        "title": "Grant Writing and Research Funding Mastery",
+        "category": "research",
+        "subcategory": "funding",
+        "difficulty": "intermediate",
+        "target_audience": "Academic researchers and principal investigators",
+        "estimated_hours": 60,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.0,
+        "prerequisites": ["Research experience", "Scientific writing", "Project management"],
+        "learning_outcomes": [
+            "Master grant proposal structure and components",
+            "Excel in specific aims and hypothesis development",
+            "Learn budget preparation and justification",
+            "Understand funding agency requirements (NIH, NSF)",
+            "Develop expertise in peer review and revision strategies"
+        ],
+        "tags": ["grant-writing", "research-funding", "nih", "nsf", "proposal-writing"],
+        "request": {
+            "subject": "Grant Writing and Research Funding Mastery",
+            "goal": "I want to master grant writing for research funding. Teach me proposal structure, specific aims development, significance and innovation sections, approach and methods, budget preparation, NIH and NSF guidelines, peer review process, and revision strategies. Include successful grant examples and common pitfalls.",
+            "time_value": 6,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Scientific Writing and Publication Strategy",
+        "category": "research",
+        "subcategory": "communication",
+        "difficulty": "intermediate",
+        "target_audience": "Researchers preparing manuscripts for publication",
+        "estimated_hours": 70,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 8.9,
+        "prerequisites": ["Research experience", "Basic writing skills", "Scientific background"],
+        "learning_outcomes": [
+            "Master scientific manuscript structure and flow",
+            "Excel in figure design and data visualization",
+            "Learn journal selection and submission process",
+            "Understand peer review and revision handling",
+            "Develop expertise in impact factor and citation strategies"
+        ],
+        "tags": ["scientific-writing", "publication", "manuscript", "peer-review", "data-visualization"],
+        "request": {
+            "subject": "Scientific Writing and Publication Excellence",
+            "goal": "I want to master scientific writing and publication strategy. Teach me manuscript structure, abstract writing, figure design, data presentation, journal selection, submission process, peer review responses, and citation strategies. Include best practices for high-impact publications and career advancement.",
+            "time_value": 7,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # SPECIALIZED RESEARCH AREAS
+    {
+        "title": "Proteomics and Protein Analysis Techniques",
+        "category": "research",
+        "subcategory": "proteomics",
+        "difficulty": "advanced",
+        "target_audience": "Protein researchers and structural biologists",
+        "estimated_hours": 95,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 8.8,
+        "prerequisites": ["Biochemistry", "Protein chemistry", "Analytical techniques"],
+        "learning_outcomes": [
+            "Master protein separation and purification techniques",
+            "Excel in mass spectrometry for protein analysis",
+            "Learn protein-protein interaction studies",
+            "Understand structural proteomics and X-ray crystallography",
+            "Develop expertise in quantitative proteomics workflows"
+        ],
+        "tags": ["proteomics", "protein-analysis", "mass-spectrometry", "structural-biology", "biochemistry"],
+        "request": {
+            "subject": "Proteomics and Protein Analysis Mastery",
+            "goal": "I want to master proteomics and protein analysis techniques. Teach me protein purification, mass spectrometry proteomics, protein-protein interactions, structural proteomics, quantitative proteomics, post-translational modifications, and bioinformatics analysis. Include both experimental and computational approaches.",
+            "time_value": 9.5,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Cell Biology and Microscopy Techniques",
+        "category": "research",
+        "subcategory": "cell-biology",
+        "difficulty": "intermediate",
+        "target_audience": "Cell biologists and imaging specialists",
+        "estimated_hours": 85,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.0,
+        "prerequisites": ["Cell biology basics", "Microscopy experience", "Lab techniques"],
+        "learning_outcomes": [
+            "Master advanced microscopy techniques (confocal, super-resolution)",
+            "Excel in live cell imaging and time-lapse microscopy",
+            "Learn fluorescence techniques and probe development",
+            "Understand image analysis and quantification",
+            "Develop expertise in cellular assays and functional studies"
+        ],
+        "tags": ["cell-biology", "microscopy", "imaging", "fluorescence", "live-cell"],
+        "request": {
+            "subject": "Advanced Cell Biology and Microscopy Mastery",
+            "goal": "I want to master advanced cell biology and microscopy techniques. Teach me confocal microscopy, super-resolution imaging, live cell imaging, fluorescence techniques, image analysis, quantification methods, cellular assays, and functional studies. Include best practices for high-quality imaging and data interpretation.",
+            "time_value": 8.5,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # REGULATORY AFFAIRS AND COMPLIANCE
+    {
+        "title": "Regulatory Affairs for Biotech and Pharma",
+        "category": "research",
+        "subcategory": "regulatory-affairs",
+        "difficulty": "advanced",
+        "target_audience": "Regulatory professionals and biotech researchers",
+        "estimated_hours": 90,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 8.7,
+        "prerequisites": ["Life sciences background", "Regulatory knowledge", "Industry experience"],
+        "learning_outcomes": [
+            "Master FDA regulations and submission processes",
+            "Excel in IND and NDA preparation",
+            "Learn global regulatory requirements (EMA, ICH)",
+            "Understand quality systems and GxP compliance",
+            "Develop expertise in regulatory strategy and planning"
+        ],
+        "tags": ["regulatory-affairs", "fda", "gxp", "compliance", "biotech"],
+        "request": {
+            "subject": "Regulatory Affairs for Biotech and Pharma Mastery",
+            "goal": "I want to master regulatory affairs for biotechnology and pharmaceutical industries. Teach me FDA regulations, IND/NDA submissions, clinical trial regulations, quality systems, GxP compliance, global regulatory requirements, and regulatory strategy. Include practical applications in drug development.",
+            "time_value": 9,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # DIAGNOSTIC AND MEDICAL RESEARCH
+    {
+        "title": "Diagnostic Test Development and Validation",
+        "category": "research",
+        "subcategory": "diagnostics",
+        "difficulty": "advanced",
+        "target_audience": "Diagnostic researchers and clinical laboratory scientists",
+        "estimated_hours": 100,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.1,
+        "prerequisites": ["Laboratory experience", "Statistics", "Analytical chemistry"],
+        "learning_outcomes": [
+            "Master diagnostic assay design and optimization",
+            "Excel in analytical validation and performance testing",
+            "Learn clinical validation and utility studies",
+            "Understand regulatory requirements for diagnostics",
+            "Develop expertise in biomarker discovery and validation"
+        ],
+        "tags": ["diagnostics", "assay-development", "validation", "biomarkers", "clinical-laboratory"],
+        "request": {
+            "subject": "Diagnostic Test Development and Validation Mastery",
+            "goal": "I want to master diagnostic test development and validation. Teach me assay design, analytical validation, clinical validation, biomarker discovery, regulatory requirements, quality control, and performance testing. Include FDA guidelines for in vitro diagnostics and laboratory standards.",
+            "time_value": 10,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Epidemiology and Public Health Research Methods",
+        "category": "research",
+        "subcategory": "epidemiology",
+        "difficulty": "intermediate",
+        "target_audience": "Public health researchers and epidemiologists",
+        "estimated_hours": 80,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.0,
+        "prerequisites": ["Statistics", "Public health background", "Research methods"],
+        "learning_outcomes": [
+            "Master study design (cohort, case-control, cross-sectional)",
+            "Excel in disease surveillance and outbreak investigation",
+            "Learn causal inference and confounding control",
+            "Understand systematic reviews and meta-analysis",
+            "Develop expertise in health policy and intervention evaluation"
+        ],
+        "tags": ["epidemiology", "public-health", "study-design", "surveillance", "causal-inference"],
+        "request": {
+            "subject": "Epidemiology and Public Health Research Mastery",
+            "goal": "I want to master epidemiology and public health research methods. Teach me study design, disease surveillance, outbreak investigation, statistical analysis, causal inference, systematic reviews, meta-analysis, and health policy evaluation. Include practical applications in population health research.",
+            "time_value": 8,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # RESEARCH TECHNOLOGY AND INNOVATION
+    {
+        "title": "Research Data Management and FAIR Principles",
+        "category": "research",
+        "subcategory": "data-management",
+        "difficulty": "intermediate",
+        "target_audience": "Researchers handling large datasets",
+        "estimated_hours": 55,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 8.6,
+        "prerequisites": ["Research experience", "Basic programming", "Database concepts"],
+        "learning_outcomes": [
+            "Master FAIR data principles (Findable, Accessible, Interoperable, Reusable)",
+            "Excel in data management planning and documentation",
+            "Learn metadata standards and data repositories",
+            "Understand version control for research data",
+            "Develop expertise in data sharing and collaboration"
+        ],
+        "tags": ["data-management", "fair-principles", "metadata", "repositories", "collaboration"],
+        "request": {
+            "subject": "Research Data Management and FAIR Principles Mastery",
+            "goal": "I want to master research data management and FAIR principles. Teach me data management planning, metadata standards, data repositories, version control, data sharing protocols, and collaborative research practices. Include best practices for reproducible research and data stewardship.",
+            "time_value": 5.5,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Machine Learning Applications in Life Sciences",
+        "category": "research",
+        "subcategory": "machine-learning",
+        "difficulty": "advanced",
+        "target_audience": "Computational biologists and data scientists",
+        "estimated_hours": 120,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.2,
+        "prerequisites": ["Programming skills", "Statistics", "Machine learning basics", "Biology background"],
+        "learning_outcomes": [
+            "Master supervised learning for biological classification",
+            "Excel in unsupervised learning for pattern discovery",
+            "Learn deep learning applications in genomics and imaging",
+            "Understand feature selection and model validation",
+            "Develop expertise in biological network analysis"
+        ],
+        "tags": ["machine-learning", "computational-biology", "deep-learning", "genomics", "bioinformatics"],
+        "request": {
+            "subject": "Machine Learning in Life Sciences Mastery",
+            "goal": "I want to master machine learning applications in life sciences. Teach me supervised and unsupervised learning, deep learning for genomics and medical imaging, feature selection, model validation, network analysis, and biological data interpretation. Include Python, TensorFlow, and domain-specific applications.",
+            "time_value": 12,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # QUALITY ASSURANCE AND LABORATORY MANAGEMENT
+    {
+        "title": "Laboratory Quality Management and ISO Standards",
+        "category": "research",
+        "subcategory": "quality-management",
+        "difficulty": "intermediate",
+        "target_audience": "Lab managers and quality assurance professionals",
+        "estimated_hours": 65,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 8.5,
+        "prerequisites": ["Laboratory experience", "Management background", "Quality concepts"],
+        "learning_outcomes": [
+            "Master ISO 15189 and laboratory accreditation standards",
+            "Excel in quality control and quality assurance systems",
+            "Learn documentation and record keeping best practices",
+            "Understand method validation and verification",
+            "Develop expertise in audit preparation and management"
+        ],
+        "tags": ["quality-management", "iso-standards", "laboratory-accreditation", "quality-control", "auditing"],
+        "request": {
+            "subject": "Laboratory Quality Management and ISO Standards Mastery",
+            "goal": "I want to master laboratory quality management and ISO standards. Teach me ISO 15189, quality management systems, method validation, documentation control, internal auditing, corrective actions, and accreditation processes. Include practical implementation in research and clinical laboratories.",
+            "time_value": 6.5,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # ==============================================================================
+    # LEGAL EDUCATION AND PRACTICE ROADMAPS
+    # ==============================================================================
+
+    # LEGAL RESEARCH AND WRITING
+    {
+        "title": "Advanced Legal Research and Citation Mastery",
+        "category": "legal",
+        "subcategory": "research-writing",
+        "difficulty": "intermediate",
+        "target_audience": "Law students and junior associates",
+        "estimated_hours": 45,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.1,
+        "prerequisites": ["Basic legal knowledge", "Law school coursework", "Writing skills"],
+        "learning_outcomes": [
+            "Master advanced legal databases (Westlaw, Lexis, Bloomberg Law)",
+            "Excel in Boolean search strategies and case law analysis",
+            "Learn secondary source utilization and validation",
+            "Understand citation formats (Bluebook, ALWD) and shepardizing",
+            "Develop efficient research methodologies and fact-checking"
+        ],
+        "tags": ["legal-research", "westlaw", "lexis", "bluebook", "case-law"],
+        "request": {
+            "subject": "Advanced Legal Research and Citation Excellence",
+            "goal": "I want to master advanced legal research techniques and citation. Teach me sophisticated database searching, case law analysis, secondary source evaluation, proper citation formats, shepardizing, and efficient research workflows. Include practical exercises with real legal problems and time management strategies.",
+            "time_value": 4.5,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Legal Brief Writing and Persuasive Advocacy",
+        "category": "legal",
+        "subcategory": "advocacy-writing",
+        "difficulty": "intermediate",
+        "target_audience": "Law students and litigation attorneys",
+        "estimated_hours": 55,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.2,
+        "prerequisites": ["Legal writing basics", "Case law understanding", "Research skills"],
+        "learning_outcomes": [
+            "Master persuasive brief structure and argumentation",
+            "Excel in motion practice and procedural briefing",
+            "Learn appellate brief writing and oral argument preparation",
+            "Understand judicial writing styles and audience analysis",
+            "Develop compelling fact presentation and legal storytelling"
+        ],
+        "tags": ["brief-writing", "persuasive-writing", "motion-practice", "appellate-advocacy", "litigation"],
+        "request": {
+            "subject": "Legal Brief Writing and Persuasive Advocacy Mastery",
+            "goal": "I want to master legal brief writing and persuasive advocacy. Teach me brief structure, argument development, motion practice, appellate writing, fact presentation, and legal storytelling. Include analysis of winning briefs, judicial preferences, and practical drafting exercises.",
+            "time_value": 5.5,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # CONTRACT DRAFTING AND NEGOTIATION
+    {
+        "title": "Contract Drafting and Risk Allocation",
+        "category": "legal",
+        "subcategory": "transactional",
+        "difficulty": "advanced",
+        "target_audience": "Transactional attorneys and business lawyers",
+        "estimated_hours": 65,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.3,
+        "prerequisites": ["Contract law knowledge", "Business understanding", "Legal drafting experience"],
+        "learning_outcomes": [
+            "Master sophisticated contract drafting techniques",
+            "Excel in risk allocation and liability management",
+            "Learn indemnification, insurance, and warranty provisions",
+            "Understand force majeure and termination clauses",
+            "Develop expertise in contract negotiation strategies"
+        ],
+        "tags": ["contract-drafting", "risk-allocation", "indemnification", "negotiation", "transactional"],
+        "request": {
+            "subject": "Advanced Contract Drafting and Risk Management",
+            "goal": "I want to master sophisticated contract drafting and risk allocation. Teach me advanced drafting techniques, liability management, indemnification provisions, insurance requirements, force majeure clauses, and negotiation strategies. Include real-world examples and industry-specific considerations.",
+            "time_value": 6.5,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "M&A Due Diligence and Transaction Documentation",
+        "category": "legal",
+        "subcategory": "corporate-ma",
+        "difficulty": "advanced",
+        "target_audience": "Corporate attorneys and M&A specialists",
+        "estimated_hours": 75,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 9.0,
+        "prerequisites": ["Corporate law", "Securities knowledge", "Transaction experience"],
+        "learning_outcomes": [
+            "Master due diligence process and document review",
+            "Excel in purchase agreement drafting and negotiation",
+            "Learn disclosure schedules and representation warranties",
+            "Understand closing conditions and post-closing adjustments",
+            "Develop expertise in deal structure and tax considerations"
+        ],
+        "tags": ["mergers-acquisitions", "due-diligence", "purchase-agreements", "corporate-law", "securities"],
+        "request": {
+            "subject": "M&A Due Diligence and Transaction Excellence",
+            "goal": "I want to master M&A due diligence and transaction documentation. Teach me due diligence processes, purchase agreement drafting, disclosure schedules, closing conditions, deal structures, and tax considerations. Include practical transaction management and client counseling skills.",
+            "time_value": 7.5,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # LITIGATION AND TRIAL ADVOCACY
+    {
+        "title": "Deposition Strategy and Witness Examination",
+        "category": "legal",
+        "subcategory": "litigation",
+        "difficulty": "advanced",
+        "target_audience": "Litigation attorneys and trial lawyers",
+        "estimated_hours": 50,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.1,
+        "prerequisites": ["Civil procedure", "Evidence law", "Litigation experience"],
+        "learning_outcomes": [
+            "Master deposition planning and question development",
+            "Excel in witness examination techniques",
+            "Learn impeachment strategies and document handling",
+            "Understand objection practice and preservation of record",
+            "Develop skills in hostile witness management"
+        ],
+        "tags": ["depositions", "witness-examination", "litigation-strategy", "impeachment", "trial-advocacy"],
+        "request": {
+            "subject": "Deposition Strategy and Witness Examination Mastery",
+            "goal": "I want to master deposition strategy and witness examination. Teach me deposition planning, question development, examination techniques, impeachment strategies, objection practice, and hostile witness management. Include practical exercises and courtroom psychology insights.",
+            "time_value": 5,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "E-Discovery and Digital Evidence Management",
+        "category": "legal",
+        "subcategory": "ediscovery",
+        "difficulty": "intermediate",
+        "target_audience": "Litigation attorneys and legal technology specialists",
+        "estimated_hours": 60,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 8.9,
+        "prerequisites": ["Civil procedure", "Evidence law", "Technology familiarity"],
+        "learning_outcomes": [
+            "Master e-discovery protocols and preservation duties",
+            "Excel in search methodologies and review platforms",
+            "Learn privilege protection and clawback procedures",
+            "Understand metadata and digital forensics basics",
+            "Develop expertise in e-discovery project management"
+        ],
+        "tags": ["ediscovery", "digital-evidence", "litigation-support", "privilege", "metadata"],
+        "request": {
+            "subject": "E-Discovery and Digital Evidence Excellence",
+            "goal": "I want to master e-discovery and digital evidence management. Teach me preservation protocols, search methodologies, review platforms, privilege protection, metadata handling, and digital forensics. Include cost management and vendor coordination strategies.",
+            "time_value": 6,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # SPECIALIZED PRACTICE AREAS
+    {
+        "title": "Employment Law Compliance and Investigation",
+        "category": "legal",
+        "subcategory": "employment",
+        "difficulty": "intermediate",
+        "target_audience": "Employment attorneys and HR legal counsel",
+        "estimated_hours": 55,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 8.8,
+        "prerequisites": ["Employment law basics", "HR knowledge", "Compliance background"],
+        "learning_outcomes": [
+            "Master workplace investigation techniques",
+            "Excel in discrimination and harassment claim analysis",
+            "Learn wage and hour compliance strategies",
+            "Understand NLRA and union-related issues",
+            "Develop expertise in policy drafting and training"
+        ],
+        "tags": ["employment-law", "workplace-investigations", "discrimination", "wage-hour", "compliance"],
+        "request": {
+            "subject": "Employment Law Compliance and Investigation Mastery",
+            "goal": "I want to master employment law compliance and workplace investigations. Teach me investigation techniques, discrimination analysis, wage and hour compliance, union issues, policy development, and training programs. Include practical case management and client counseling skills.",
+            "time_value": 5.5,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Intellectual Property Portfolio Management",
+        "category": "legal",
+        "subcategory": "intellectual-property",
+        "difficulty": "advanced",
+        "target_audience": "IP attorneys and technology lawyers",
+        "estimated_hours": 70,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.2,
+        "prerequisites": ["IP law knowledge", "Patent/trademark basics", "Technology understanding"],
+        "learning_outcomes": [
+            "Master patent prosecution and portfolio strategy",
+            "Excel in trademark clearance and enforcement",
+            "Learn trade secret protection and licensing",
+            "Understand IP due diligence and valuation",
+            "Develop expertise in global IP filing strategies"
+        ],
+        "tags": ["intellectual-property", "patents", "trademarks", "trade-secrets", "licensing"],
+        "request": {
+            "subject": "Intellectual Property Portfolio Management Excellence",
+            "goal": "I want to master IP portfolio management and strategy. Teach me patent prosecution, trademark clearance, trade secret protection, licensing negotiations, IP due diligence, valuation methods, and global filing strategies. Include enforcement and litigation considerations.",
+            "time_value": 7,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # LEGAL TECHNOLOGY AND PRACTICE MANAGEMENT
+    {
+        "title": "Legal Technology and AI Implementation",
+        "category": "legal",
+        "subcategory": "legal-tech",
+        "difficulty": "intermediate",
+        "target_audience": "Law firm administrators and tech-savvy attorneys",
+        "estimated_hours": 40,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 8.7,
+        "prerequisites": ["Legal practice experience", "Technology familiarity", "Project management"],
+        "learning_outcomes": [
+            "Master legal AI tools and document automation",
+            "Excel in practice management software implementation",
+            "Learn cybersecurity and data protection protocols",
+            "Understand cloud computing and remote work solutions",
+            "Develop expertise in technology vendor evaluation"
+        ],
+        "tags": ["legal-technology", "ai-tools", "practice-management", "cybersecurity", "automation"],
+        "request": {
+            "subject": "Legal Technology and AI Implementation Mastery",
+            "goal": "I want to master legal technology and AI implementation in law practice. Teach me AI-powered legal tools, document automation, practice management systems, cybersecurity protocols, cloud solutions, and vendor evaluation. Include ROI analysis and change management strategies.",
+            "time_value": 4,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Law Firm Business Development and Client Relations",
+        "category": "legal",
+        "subcategory": "business-development",
+        "difficulty": "intermediate",
+        "target_audience": "Partners and senior associates seeking business growth",
+        "estimated_hours": 45,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 8.6,
+        "prerequisites": ["Legal practice experience", "Client interaction", "Business acumen"],
+        "learning_outcomes": [
+            "Master client development and relationship management",
+            "Excel in legal marketing and networking strategies",
+            "Learn proposal writing and pitch presentations",
+            "Understand fee structures and billing optimization",
+            "Develop expertise in referral network building"
+        ],
+        "tags": ["business-development", "client-relations", "legal-marketing", "networking", "proposals"],
+        "request": {
+            "subject": "Law Firm Business Development and Client Relations Excellence",
+            "goal": "I want to master law firm business development and client relations. Teach me client development, relationship management, marketing strategies, networking, proposal writing, pitch presentations, fee optimization, and referral building. Include personal branding and thought leadership strategies.",
+            "time_value": 4.5,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # REGULATORY COMPLIANCE AND ETHICS
+    {
+        "title": "Securities Law Compliance and Disclosure",
+        "category": "legal",
+        "subcategory": "securities-compliance",
+        "difficulty": "advanced",
+        "target_audience": "Securities attorneys and compliance professionals",
+        "estimated_hours": 65,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 9.0,
+        "prerequisites": ["Securities law knowledge", "Corporate law", "Regulatory experience"],
+        "learning_outcomes": [
+            "Master SEC reporting and disclosure requirements",
+            "Excel in proxy statement and 10-K preparation",
+            "Learn insider trading and Section 16 compliance",
+            "Understand Sarbanes-Oxley and corporate governance",
+            "Develop expertise in securities offering documentation"
+        ],
+        "tags": ["securities-law", "sec-compliance", "disclosure", "corporate-governance", "offerings"],
+        "request": {
+            "subject": "Securities Law Compliance and Disclosure Mastery",
+            "goal": "I want to master securities law compliance and disclosure requirements. Teach me SEC reporting, proxy statements, 10-K filings, insider trading rules, Sarbanes-Oxley compliance, corporate governance, and securities offerings. Include practical compliance program development.",
+            "time_value": 6.5,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Professional Responsibility and Ethics in Practice",
+        "category": "legal",
+        "subcategory": "professional-ethics",
+        "difficulty": "intermediate",
+        "target_audience": "All practicing attorneys and law students",
+        "estimated_hours": 35,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.0,
+        "prerequisites": ["Legal education", "Professional responsibility course", "Practice awareness"],
+        "learning_outcomes": [
+            "Master conflict of interest analysis and management",
+            "Excel in client confidentiality and privilege issues",
+            "Learn fee arrangement ethics and billing practices",
+            "Understand advertising and solicitation rules",
+            "Develop expertise in professional liability prevention"
+        ],
+        "tags": ["professional-responsibility", "ethics", "conflicts", "confidentiality", "malpractice"],
+        "request": {
+            "subject": "Professional Responsibility and Legal Ethics Excellence",
+            "goal": "I want to master professional responsibility and legal ethics in practice. Teach me conflict analysis, confidentiality rules, fee ethics, advertising regulations, professional liability prevention, and disciplinary procedures. Include practical decision-making frameworks and real-world scenarios.",
+            "time_value": 3.5,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # SPECIALIZED SKILLS FOR MODERN PRACTICE
+    {
+        "title": "Alternative Dispute Resolution and Mediation",
+        "category": "legal",
+        "subcategory": "adr",
+        "difficulty": "intermediate",
+        "target_audience": "Attorneys interested in ADR and mediation practice",
+        "estimated_hours": 50,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 8.7,
+        "prerequisites": ["Legal practice experience", "Dispute resolution basics", "Communication skills"],
+        "learning_outcomes": [
+            "Master mediation techniques and facilitation skills",
+            "Excel in arbitration procedures and advocacy",
+            "Learn negotiation psychology and strategy",
+            "Understand ADR clause drafting and enforcement",
+            "Develop expertise in multi-party dispute resolution"
+        ],
+        "tags": ["adr", "mediation", "arbitration", "negotiation", "dispute-resolution"],
+        "request": {
+            "subject": "Alternative Dispute Resolution and Mediation Mastery",
+            "goal": "I want to master alternative dispute resolution and mediation. Teach me mediation techniques, arbitration procedures, negotiation psychology, ADR clause drafting, and multi-party dispute resolution. Include practical skills for building an ADR practice and certification requirements.",
+            "time_value": 5,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Cross-Border Transactions and International Law",
+        "category": "legal",
+        "subcategory": "international",
+        "difficulty": "advanced",
+        "target_audience": "International lawyers and cross-border transaction attorneys",
+        "estimated_hours": 80,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 8.9,
+        "prerequisites": ["Corporate law", "International business", "Foreign language helpful"],
+        "learning_outcomes": [
+            "Master international contract law and choice of law",
+            "Excel in cross-border M&A and joint ventures",
+            "Learn foreign investment regulations and compliance",
+            "Understand international arbitration and dispute resolution",
+            "Develop expertise in tax treaty and transfer pricing issues"
+        ],
+        "tags": ["international-law", "cross-border", "choice-of-law", "foreign-investment", "tax-treaties"],
+        "request": {
+            "subject": "Cross-Border Transactions and International Law Mastery",
+            "goal": "I want to master cross-border transactions and international law. Teach me international contract law, choice of law analysis, cross-border M&A, foreign investment regulations, international arbitration, and tax treaty considerations. Include practical jurisdiction and enforcement issues.",
+            "time_value": 8,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # ==============================================================================
+    # INDIAN LEGAL PRACTICE ROADMAPS
+    # ==============================================================================
+
+    # CONSTITUTIONAL AND FUNDAMENTAL RIGHTS
+    {
+        "title": "Constitutional Law Litigation and PIL Practice",
+        "category": "legal",
+        "subcategory": "constitutional-law",
+        "difficulty": "advanced",
+        "target_audience": "Constitutional lawyers and public interest advocates",
+        "estimated_hours": 70,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.2,
+        "prerequisites": ["Constitutional law basics", "Court procedure", "Legal research skills"],
+        "learning_outcomes": [
+            "Master PIL drafting and constitutional remedy procedures",
+            "Excel in fundamental rights jurisprudence and Article 32/226 practice",
+            "Learn Supreme Court and High Court constitutional litigation",
+            "Understand locus standi, maintainability, and constitutional interpretation",
+            "Develop expertise in constitutional bench arguments and precedent analysis"
+        ],
+        "tags": ["constitutional-law", "pil", "fundamental-rights", "supreme-court", "article-32"],
+        "request": {
+            "subject": "Constitutional Law Litigation and PIL Mastery",
+            "goal": "I want to master constitutional law litigation and PIL practice in India. Teach me PIL drafting, Article 32 and 226 procedures, fundamental rights jurisprudence, Supreme Court practice, constitutional interpretation, and precedent analysis. Include practical pleading techniques and constitutional bench advocacy.",
+            "time_value": 7,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Criminal Law Practice and CRPC Mastery",
+        "category": "legal",
+        "subcategory": "criminal-law",
+        "difficulty": "intermediate",
+        "target_audience": "Criminal lawyers and public prosecutors",
+        "estimated_hours": 65,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.0,
+        "prerequisites": ["IPC basics", "CRPC fundamentals", "Evidence Act knowledge"],
+        "learning_outcomes": [
+            "Master bail applications and anticipatory bail practice",
+            "Excel in charge sheet analysis and trial strategy",
+            "Learn cross-examination techniques in criminal trials",
+            "Understand plea bargaining and compounding procedures",
+            "Develop expertise in appellate criminal practice and sentence mitigation"
+        ],
+        "tags": ["criminal-law", "crpc", "bail-applications", "cross-examination", "criminal-trials"],
+        "request": {
+            "subject": "Criminal Law Practice and CRPC Excellence",
+            "goal": "I want to master criminal law practice and CRPC procedures in India. Teach me bail applications, anticipatory bail, charge sheet analysis, trial strategy, cross-examination, plea bargaining, and appellate practice. Include practical courtroom advocacy and case management skills.",
+            "time_value": 6.5,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # CORPORATE AND COMMERCIAL LAW
+    {
+        "title": "Companies Act 2013 Compliance and Corporate Governance",
+        "category": "legal",
+        "subcategory": "corporate-law",
+        "difficulty": "advanced",
+        "target_audience": "Corporate lawyers and company secretaries",
+        "estimated_hours": 80,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.1,
+        "prerequisites": ["Companies Act basics", "Corporate law", "Secretarial practice"],
+        "learning_outcomes": [
+            "Master board resolutions, AGM/EGM procedures, and regulatory filings",
+            "Excel in NCLT proceedings and corporate restructuring",
+            "Learn due diligence for acquisitions and compliance audits",
+            "Understand related party transactions and insider trading regulations",
+            "Develop expertise in corporate governance and board advisory"
+        ],
+        "tags": ["companies-act", "nclt", "corporate-governance", "compliance", "board-resolutions"],
+        "request": {
+            "subject": "Companies Act 2013 and Corporate Governance Mastery",
+            "goal": "I want to master Companies Act 2013 compliance and corporate governance. Teach me board procedures, NCLT practice, regulatory filings, due diligence, related party transactions, and corporate restructuring. Include practical compliance strategies and governance advisory skills.",
+            "time_value": 8,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "GST Law and Indirect Tax Practice",
+        "category": "legal",
+        "subcategory": "tax-law",
+        "difficulty": "intermediate",
+        "target_audience": "Tax lawyers and GST practitioners",
+        "estimated_hours": 60,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 8.9,
+        "prerequisites": ["Taxation basics", "GST Act knowledge", "Commercial law"],
+        "learning_outcomes": [
+            "Master GST return filing, input tax credit, and compliance procedures",
+            "Excel in GST assessment, audit, and appellate proceedings",
+            "Learn place of supply rules and interstate transactions",
+            "Understand advance ruling procedures and refund mechanisms",
+            "Develop expertise in GST litigation and settlement procedures"
+        ],
+        "tags": ["gst-law", "indirect-tax", "input-tax-credit", "gst-appellate", "advance-ruling"],
+        "request": {
+            "subject": "GST Law and Indirect Tax Practice Mastery",
+            "goal": "I want to master GST law and indirect tax practice in India. Teach me GST compliance, return filing, input tax credit, assessment procedures, appellate practice, advance rulings, and litigation strategies. Include practical case management and client advisory skills.",
+            "time_value": 6,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # SPECIALIZED COMMERCIAL PRACTICE
+    {
+        "title": "Insolvency and Bankruptcy Code (IBC) Practice",
+        "category": "legal",
+        "subcategory": "insolvency",
+        "difficulty": "advanced",
+        "target_audience": "Insolvency lawyers and resolution professionals",
+        "estimated_hours": 75,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.2,
+        "prerequisites": ["IBC knowledge", "Corporate law", "NCLT procedure"],
+        "learning_outcomes": [
+            "Master CIRP initiation and resolution plan preparation",
+            "Excel in NCLT/NCLAT practice and creditor representation",
+            "Learn liquidation procedures and asset monetization",
+            "Understand resolution professional duties and stakeholder management",
+            "Develop expertise in cross-border insolvency and group insolvency"
+        ],
+        "tags": ["ibc", "insolvency", "cirp", "nclt", "resolution-professional"],
+        "request": {
+            "subject": "Insolvency and Bankruptcy Code (IBC) Mastery",
+            "goal": "I want to master IBC practice and insolvency law in India. Teach me CIRP procedures, resolution plans, NCLT practice, liquidation processes, creditor rights, and resolution professional duties. Include practical case management and stakeholder coordination skills.",
+            "time_value": 7.5,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Real Estate and RERA Compliance Practice",
+        "category": "legal",
+        "subcategory": "real-estate",
+        "difficulty": "intermediate",
+        "target_audience": "Real estate lawyers and property developers",
+        "estimated_hours": 55,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 8.7,
+        "prerequisites": ["Property law", "Contract law", "Registration procedures"],
+        "learning_outcomes": [
+            "Master RERA registration and compliance procedures",
+            "Excel in sale deed drafting and title verification",
+            "Learn development agreement structuring and joint ventures",
+            "Understand land acquisition and approval procedures",
+            "Develop expertise in real estate dispute resolution and RERA appellate practice"
+        ],
+        "tags": ["rera", "real-estate", "property-law", "title-verification", "development-agreements"],
+        "request": {
+            "subject": "Real Estate and RERA Compliance Mastery",
+            "goal": "I want to master real estate law and RERA compliance in India. Teach me RERA procedures, title verification, sale deed drafting, development agreements, land acquisition, and dispute resolution. Include practical due diligence and compliance strategies.",
+            "time_value": 5.5,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # LITIGATION AND PROCEDURE
+    {
+        "title": "Civil Procedure Code and Court Practice Mastery",
+        "category": "legal",
+        "subcategory": "civil-procedure",
+        "difficulty": "intermediate",
+        "target_audience": "Civil litigation lawyers and court practitioners",
+        "estimated_hours": 65,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.0,
+        "prerequisites": ["CPC basics", "Pleading fundamentals", "Court procedure"],
+        "learning_outcomes": [
+            "Master plaint drafting, written statement, and interim applications",
+            "Excel in examination-in-chief and cross-examination techniques",
+            "Learn execution procedures and recovery mechanisms",
+            "Understand appeal and revision procedures in civil courts",
+            "Develop expertise in summary suit procedures and commercial court practice"
+        ],
+        "tags": ["cpc", "civil-procedure", "plaint-drafting", "execution", "commercial-courts"],
+        "request": {
+            "subject": "Civil Procedure Code and Court Practice Excellence",
+            "goal": "I want to master CPC and civil court practice in India. Teach me plaint drafting, written statements, interim applications, examination techniques, execution procedures, and appellate practice. Include commercial court procedures and case management strategies.",
+            "time_value": 6.5,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Arbitration and Alternative Dispute Resolution in India",
+        "category": "legal",
+        "subcategory": "arbitration",
+        "difficulty": "advanced",
+        "target_audience": "Arbitration lawyers and commercial dispute specialists",
+        "estimated_hours": 70,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.1,
+        "prerequisites": ["Arbitration Act knowledge", "Contract law", "Commercial law"],
+        "learning_outcomes": [
+            "Master arbitration clause drafting and appointment procedures",
+            "Excel in arbitration proceedings and award enforcement",
+            "Learn mediation and conciliation under various acts",
+            "Understand international commercial arbitration and enforcement",
+            "Develop expertise in arbitration-related court proceedings and challenges"
+        ],
+        "tags": ["arbitration", "adr", "mediation", "award-enforcement", "commercial-disputes"],
+        "request": {
+            "subject": "Arbitration and ADR Excellence in India",
+            "goal": "I want to master arbitration and ADR practice in India. Teach me arbitration procedures, clause drafting, award enforcement, mediation techniques, international arbitration, and court proceedings. Include practical advocacy and case management skills.",
+            "time_value": 7,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # REGULATORY AND COMPLIANCE
+    {
+        "title": "SEBI Regulations and Securities Law Practice",
+        "category": "legal",
+        "subcategory": "securities-law",
+        "difficulty": "advanced",
+        "target_audience": "Securities lawyers and compliance professionals",
+        "estimated_hours": 75,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 8.9,
+        "prerequisites": ["Securities law", "SEBI regulations", "Capital markets"],
+        "learning_outcomes": [
+            "Master IPO procedures and listing compliance requirements",
+            "Excel in insider trading investigations and SEBI proceedings",
+            "Learn mutual fund and AIF regulatory compliance",
+            "Understand takeover regulations and delisting procedures",
+            "Develop expertise in SAT appeals and securities litigation"
+        ],
+        "tags": ["sebi", "securities-law", "ipo", "insider-trading", "takeover-regulations"],
+        "request": {
+            "subject": "SEBI Regulations and Securities Law Mastery",
+            "goal": "I want to master SEBI regulations and securities law practice in India. Teach me IPO procedures, listing compliance, insider trading rules, mutual fund regulations, takeover procedures, and SAT practice. Include practical compliance strategies and litigation skills.",
+            "time_value": 7.5,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Labor Law and Industrial Relations Practice",
+        "category": "legal",
+        "subcategory": "labor-law",
+        "difficulty": "intermediate",
+        "target_audience": "Labor lawyers and industrial relations specialists",
+        "estimated_hours": 60,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 8.8,
+        "prerequisites": ["Labor law basics", "Industrial law", "Employment regulations"],
+        "learning_outcomes": [
+            "Master Industrial Disputes Act and labor court proceedings",
+            "Excel in trade union matters and collective bargaining",
+            "Learn workmen compensation and social security compliance",
+            "Understand factory law and safety regulations",
+            "Develop expertise in labor tribunal practice and settlement negotiations"
+        ],
+        "tags": ["labor-law", "industrial-disputes", "trade-unions", "workmen-compensation", "labor-tribunal"],
+        "request": {
+            "subject": "Labor Law and Industrial Relations Mastery",
+            "goal": "I want to master labor law and industrial relations practice in India. Teach me Industrial Disputes Act, labor court procedures, trade union matters, workmen compensation, factory law, and tribunal practice. Include practical negotiation and settlement strategies.",
+            "time_value": 6,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # MODERN LEGAL PRACTICE IN INDIA
+    {
+        "title": "Legal Technology and Digital Court Practice in India",
+        "category": "legal",
+        "subcategory": "legal-tech-india",
+        "difficulty": "intermediate",
+        "target_audience": "Indian lawyers adapting to digital court systems",
+        "estimated_hours": 45,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 8.6,
+        "prerequisites": ["Court practice", "Technology familiarity", "E-filing knowledge"],
+        "learning_outcomes": [
+            "Master e-filing systems across High Courts and Supreme Court",
+            "Excel in virtual court proceedings and online advocacy",
+            "Learn digital case management and client communication tools",
+            "Understand AI tools for legal research and document drafting",
+            "Develop expertise in cybersecurity and data protection for law firms"
+        ],
+        "tags": ["legal-tech-india", "e-filing", "virtual-courts", "digital-advocacy", "ai-legal-research"],
+        "request": {
+            "subject": "Legal Technology and Digital Court Practice in India",
+            "goal": "I want to master legal technology and digital court practice in India. Teach me e-filing systems, virtual court proceedings, digital case management, AI legal research tools, and cybersecurity for law firms. Include practical tips for online advocacy and client management.",
+            "time_value": 4.5,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Cyber Law and IT Act Practice in India",
+        "category": "legal",
+        "subcategory": "cyber-law",
+        "difficulty": "intermediate",
+        "target_audience": "Cyber law specialists and technology lawyers",
+        "estimated_hours": 55,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 8.8,
+        "prerequisites": ["IT Act knowledge", "Technology understanding", "Criminal law basics"],
+        "learning_outcomes": [
+            "Master cyber crime investigation and digital evidence handling",
+            "Excel in data protection and privacy law compliance",
+            "Learn e-commerce regulations and digital contract law",
+            "Understand blockchain, cryptocurrency, and fintech regulations",
+            "Develop expertise in cyber tribunal practice and online dispute resolution"
+        ],
+        "tags": ["cyber-law", "it-act", "data-protection", "digital-evidence", "fintech-regulations"],
+        "request": {
+            "subject": "Cyber Law and IT Act Practice Mastery",
+            "goal": "I want to master cyber law and IT Act practice in India. Teach me cyber crime procedures, digital evidence, data protection compliance, e-commerce regulations, fintech law, and cyber tribunal practice. Include practical investigation techniques and technology law advisory skills.",
+            "time_value": 5.5,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # SPECIALIZED INDIAN PRACTICE AREAS
+    {
+        "title": "Family Law and Personal Laws Practice in India",
+        "category": "legal",
+        "subcategory": "family-law",
+        "difficulty": "intermediate",
+        "target_audience": "Family court lawyers and matrimonial law specialists",
+        "estimated_hours": 50,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 8.7,
+        "prerequisites": ["Personal laws knowledge", "Family court procedure", "Mediation skills"],
+        "learning_outcomes": [
+            "Master divorce proceedings under various personal laws",
+            "Excel in maintenance and custody dispute resolution",
+            "Learn domestic violence protection and family court advocacy",
+            "Understand adoption procedures and guardianship laws",
+            "Develop expertise in family mediation and counseling integration"
+        ],
+        "tags": ["family-law", "personal-laws", "divorce-proceedings", "custody-disputes", "family-mediation"],
+        "request": {
+            "subject": "Family Law and Personal Laws Practice Excellence",
+            "goal": "I want to master family law and personal laws practice in India. Teach me divorce procedures, maintenance laws, custody disputes, domestic violence protection, adoption procedures, and family mediation. Include practical courtroom advocacy and client counseling skills.",
+            "time_value": 5,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Environmental Law and NGT Practice in India",
+        "category": "legal",
+        "subcategory": "environmental-law",
+        "difficulty": "intermediate",
+        "target_audience": "Environmental lawyers and green compliance specialists",
+        "estimated_hours": 60,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 8.8,
+        "prerequisites": ["Environmental law basics", "Administrative law", "Public interest litigation"],
+        "learning_outcomes": [
+            "Master environmental clearance and compliance procedures",
+            "Excel in NGT proceedings and environmental litigation",
+            "Learn pollution control and waste management regulations",
+            "Understand forest law and wildlife protection regulations",
+            "Develop expertise in environmental impact assessment and green tribunal advocacy"
+        ],
+        "tags": ["environmental-law", "ngt", "environmental-clearance", "pollution-control", "forest-law"],
+        "request": {
+            "subject": "Environmental Law and NGT Practice Mastery",
+            "goal": "I want to master environmental law and NGT practice in India. Teach me environmental clearances, NGT procedures, pollution control laws, forest regulations, EIA processes, and green tribunal advocacy. Include practical compliance strategies and environmental litigation skills.",
+            "time_value": 6,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # ==============================================================================
+    # NICHE INDIAN LEGAL SPECIALIZATIONS
+    # ==============================================================================
+
+    # SPECIALIZED TRIBUNALS AND REGULATORY BODIES
+    {
+        "title": "Income Tax and ITAT Practice Mastery",
+        "category": "legal",
+        "subcategory": "tax-tribunal",
+        "difficulty": "advanced",
+        "target_audience": "Tax lawyers and chartered accountants in litigation",
+        "estimated_hours": 70,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.0,
+        "prerequisites": ["Income Tax Act knowledge", "Tax planning", "Appellate procedure"],
+        "learning_outcomes": [
+            "Master ITAT proceedings and appeal drafting techniques",
+            "Excel in assessment order challenges and penalty proceedings",
+            "Learn search and seizure case representation",
+            "Understand international taxation and transfer pricing disputes",
+            "Develop expertise in advance ruling procedures and settlement commission"
+        ],
+        "tags": ["income-tax", "itat", "assessment-orders", "transfer-pricing", "advance-ruling"],
+        "request": {
+            "subject": "Income Tax and ITAT Practice Excellence",
+            "goal": "I want to master income tax litigation and ITAT practice in India. Teach me ITAT procedures, appeal drafting, assessment challenges, search and seizure cases, transfer pricing disputes, and advance ruling applications. Include practical advocacy and case strategy development.",
+            "time_value": 7,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "PMLA and ED Investigation Defense",
+        "category": "legal",
+        "subcategory": "financial-crimes",
+        "difficulty": "advanced",
+        "target_audience": "White-collar crime lawyers and ED investigation specialists",
+        "estimated_hours": 65,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 8.9,
+        "prerequisites": ["PMLA knowledge", "Criminal law", "Financial regulations"],
+        "learning_outcomes": [
+            "Master PMLA proceedings and provisional attachment challenges",
+            "Excel in ED investigation representation and ECIR responses",
+            "Learn money laundering case defense strategies",
+            "Understand SAFEMA and asset forfeiture proceedings",
+            "Develop expertise in international mutual legal assistance (MLAT) cases"
+        ],
+        "tags": ["pmla", "enforcement-directorate", "money-laundering", "provisional-attachment", "mlat"],
+        "request": {
+            "subject": "PMLA and ED Investigation Defense Mastery",
+            "goal": "I want to master PMLA defense and ED investigation representation. Teach me PMLA procedures, provisional attachment challenges, ED investigation tactics, money laundering defense, SAFEMA proceedings, and MLAT cases. Include practical investigation response and defense strategies.",
+            "time_value": 6.5,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Competition Law and CCI Practice",
+        "category": "legal",
+        "subcategory": "competition-law",
+        "difficulty": "advanced",
+        "target_audience": "Competition lawyers and antitrust specialists",
+        "estimated_hours": 60,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 8.8,
+        "prerequisites": ["Competition Act knowledge", "Economics understanding", "Corporate law"],
+        "learning_outcomes": [
+            "Master CCI investigation procedures and leniency applications",
+            "Excel in merger notification and combination approvals",
+            "Learn dominant position abuse and cartel investigation defense",
+            "Understand market definition and economic analysis",
+            "Develop expertise in NCLAT appeals and settlement procedures"
+        ],
+        "tags": ["competition-law", "cci", "merger-control", "cartel-defense", "leniency"],
+        "request": {
+            "subject": "Competition Law and CCI Practice Excellence",
+            "goal": "I want to master competition law and CCI practice in India. Teach me CCI procedures, merger notifications, cartel investigations, leniency applications, dominance cases, and NCLAT appeals. Include economic analysis and practical advocacy strategies.",
+            "time_value": 6,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # EMERGING TECHNOLOGY AND FINTECH
+    {
+        "title": "Cryptocurrency and Digital Assets Law in India",
+        "category": "legal",
+        "subcategory": "crypto-law",
+        "difficulty": "advanced",
+        "target_audience": "Fintech lawyers and cryptocurrency compliance specialists",
+        "estimated_hours": 55,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 8.7,
+        "prerequisites": ["IT Act knowledge", "Financial regulations", "Blockchain understanding"],
+        "learning_outcomes": [
+            "Master cryptocurrency taxation and TDS compliance",
+            "Excel in digital asset exchange regulatory requirements",
+            "Learn blockchain technology legal frameworks",
+            "Understand RBI guidelines and banking restrictions",
+            "Develop expertise in ICO/STO regulatory compliance and enforcement"
+        ],
+        "tags": ["cryptocurrency", "blockchain", "digital-assets", "rbi-guidelines", "fintech-compliance"],
+        "request": {
+            "subject": "Cryptocurrency and Digital Assets Law Mastery",
+            "goal": "I want to master cryptocurrency and digital assets law in India. Teach me crypto taxation, TDS compliance, exchange regulations, blockchain legal frameworks, RBI guidelines, ICO regulations, and enforcement issues. Include practical compliance strategies for fintech businesses.",
+            "time_value": 5.5,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Data Protection and Privacy Law (DPDP Act) Practice",
+        "category": "legal",
+        "subcategory": "data-protection",
+        "difficulty": "intermediate",
+        "target_audience": "Privacy lawyers and data protection officers",
+        "estimated_hours": 50,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 8.8,
+        "prerequisites": ["IT Act knowledge", "DPDP Act familiarity", "Technology understanding"],
+        "learning_outcomes": [
+            "Master DPDP Act compliance and consent management",
+            "Excel in data breach notification and penalty defense",
+            "Learn cross-border data transfer regulations",
+            "Understand data protection impact assessments",
+            "Develop expertise in DPA proceedings and appellate practice"
+        ],
+        "tags": ["dpdp-act", "data-protection", "privacy-law", "consent-management", "data-breach"],
+        "request": {
+            "subject": "Data Protection and Privacy Law (DPDP Act) Excellence",
+            "goal": "I want to master data protection and privacy law under DPDP Act. Teach me compliance requirements, consent management, breach notifications, cross-border transfers, impact assessments, and DPA proceedings. Include practical implementation for businesses and defense strategies.",
+            "time_value": 5,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # SECTOR-SPECIFIC SPECIALIZATIONS
+    {
+        "title": "Banking and Financial Services Regulation",
+        "category": "legal",
+        "subcategory": "banking-law",
+        "difficulty": "advanced",
+        "target_audience": "Banking lawyers and financial services compliance professionals",
+        "estimated_hours": 75,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 9.0,
+        "prerequisites": ["Banking law", "RBI regulations", "Financial markets knowledge"],
+        "learning_outcomes": [
+            "Master RBI compliance and banking license procedures",
+            "Excel in NBFC regulations and fintech compliance",
+            "Learn loan recovery and SARFAESI Act proceedings",
+            "Understand payment system regulations and UPI compliance",
+            "Develop expertise in banking ombudsman and RBI enforcement actions"
+        ],
+        "tags": ["banking-law", "rbi-compliance", "sarfaesi", "nbfc", "payment-systems"],
+        "request": {
+            "subject": "Banking and Financial Services Regulation Mastery",
+            "goal": "I want to master banking and financial services regulation in India. Teach me RBI compliance, banking licenses, NBFC regulations, SARFAESI proceedings, payment systems, fintech compliance, and enforcement defense. Include practical regulatory strategy and compliance implementation.",
+            "time_value": 7.5,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Aviation Law and DGCA Compliance",
+        "category": "legal",
+        "subcategory": "aviation-law",
+        "difficulty": "intermediate",
+        "target_audience": "Aviation lawyers and airline compliance professionals",
+        "estimated_hours": 45,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 8.5,
+        "prerequisites": ["Aviation regulations", "Contract law", "International law"],
+        "learning_outcomes": [
+            "Master DGCA licensing and aircraft registration procedures",
+            "Excel in airline operational compliance and safety regulations",
+            "Learn aircraft leasing and financing structures",
+            "Understand passenger rights and aviation consumer protection",
+            "Develop expertise in aviation accident investigation and liability"
+        ],
+        "tags": ["aviation-law", "dgca", "aircraft-leasing", "passenger-rights", "aviation-safety"],
+        "request": {
+            "subject": "Aviation Law and DGCA Compliance Excellence",
+            "goal": "I want to master aviation law and DGCA compliance in India. Teach me DGCA procedures, aircraft registration, operational compliance, leasing structures, passenger rights, safety regulations, and accident investigation. Include practical aviation business advisory skills.",
+            "time_value": 4.5,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Pharmaceutical and Drug Regulatory Law",
+        "category": "legal",
+        "subcategory": "pharma-law",
+        "difficulty": "intermediate",
+        "target_audience": "Pharmaceutical lawyers and regulatory affairs professionals",
+        "estimated_hours": 55,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 8.7,
+        "prerequisites": ["Drug regulations", "IP law", "Healthcare law"],
+        "learning_outcomes": [
+            "Master drug licensing and CDSCO approval procedures",
+            "Excel in clinical trial regulations and ethics committee compliance",
+            "Learn pharmaceutical patent challenges and ANDA filings",
+            "Understand price control and DPCO compliance",
+            "Develop expertise in drug recall procedures and regulatory enforcement"
+        ],
+        "tags": ["pharmaceutical-law", "cdsco", "clinical-trials", "drug-pricing", "patent-challenges"],
+        "request": {
+            "subject": "Pharmaceutical and Drug Regulatory Law Mastery",
+            "goal": "I want to master pharmaceutical and drug regulatory law in India. Teach me CDSCO procedures, drug licensing, clinical trial regulations, patent challenges, price control, DPCO compliance, and enforcement defense. Include practical regulatory strategy for pharmaceutical companies.",
+            "time_value": 5.5,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # SPECIALIZED ENFORCEMENT AND RECOVERY
+    {
+        "title": "SARFAESI and Asset Reconstruction Practice",
+        "category": "legal",
+        "subcategory": "asset-recovery",
+        "difficulty": "advanced",
+        "target_audience": "Recovery lawyers and asset reconstruction specialists",
+        "estimated_hours": 60,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 8.9,
+        "prerequisites": ["SARFAESI Act", "Banking law", "Security interest"],
+        "learning_outcomes": [
+            "Master SARFAESI notice procedures and enforcement mechanisms",
+            "Excel in DRT proceedings and asset reconstruction company operations",
+            "Learn security interest creation and perfection",
+            "Understand asset reconstruction and securitization transactions",
+            "Develop expertise in borrower defense and settlement negotiations"
+        ],
+        "tags": ["sarfaesi", "drt", "asset-reconstruction", "security-interest", "loan-recovery"],
+        "request": {
+            "subject": "SARFAESI and Asset Reconstruction Excellence",
+            "goal": "I want to master SARFAESI and asset reconstruction practice. Teach me SARFAESI procedures, DRT practice, security interest enforcement, ARC operations, securitization transactions, and borrower defense strategies. Include practical recovery and restructuring techniques.",
+            "time_value": 6,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Customs and Foreign Trade Policy Practice",
+        "category": "legal",
+        "subcategory": "customs-law",
+        "difficulty": "intermediate",
+        "target_audience": "Customs lawyers and international trade specialists",
+        "estimated_hours": 65,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 8.8,
+        "prerequisites": ["Customs Act", "EXIM policy", "International trade"],
+        "learning_outcomes": [
+            "Master customs valuation and classification disputes",
+            "Excel in CESTAT proceedings and customs appeal practice",
+            "Learn export-import policy compliance and licensing",
+            "Understand advance authorization and duty drawback schemes",
+            "Develop expertise in customs audit defense and settlement procedures"
+        ],
+        "tags": ["customs-law", "cestat", "exim-policy", "customs-valuation", "duty-drawback"],
+        "request": {
+            "subject": "Customs and Foreign Trade Policy Excellence",
+            "goal": "I want to master customs and foreign trade policy practice. Teach me customs procedures, CESTAT appeals, valuation disputes, EXIM policy compliance, licensing requirements, and audit defense. Include practical international trade advisory and compliance strategies.",
+            "time_value": 6.5,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # NICHE REGULATORY COMPLIANCE
+    {
+        "title": "FEMA and Foreign Exchange Compliance",
+        "category": "legal",
+        "subcategory": "fema-compliance",
+        "difficulty": "advanced",
+        "target_audience": "FEMA lawyers and foreign investment specialists",
+        "estimated_hours": 55,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 8.7,
+        "prerequisites": ["FEMA knowledge", "Foreign investment", "RBI regulations"],
+        "learning_outcomes": [
+            "Master FDI compliance and FIPB/DPIIT approval procedures",
+            "Excel in ECB regulations and external borrowing compliance",
+            "Learn ODI procedures and overseas investment structures",
+            "Understand FEMA violation defense and penalty proceedings",
+            "Develop expertise in foreign exchange derivative transactions"
+        ],
+        "tags": ["fema", "fdi-compliance", "ecb", "odi", "foreign-exchange"],
+        "request": {
+            "subject": "FEMA and Foreign Exchange Compliance Mastery",
+            "goal": "I want to master FEMA and foreign exchange compliance. Teach me FDI procedures, ECB regulations, ODI compliance, FEMA violation defense, derivative transactions, and RBI enforcement. Include practical foreign investment structuring and compliance strategies.",
+            "time_value": 5.5,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Cooperative Law and Society Registration Practice",
+        "category": "legal",
+        "subcategory": "cooperative-law",
+        "difficulty": "intermediate",
+        "target_audience": "Cooperative lawyers and society formation specialists",
+        "estimated_hours": 40,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 8.4,
+        "prerequisites": ["Cooperative law", "Society formation", "Governance"],
+        "learning_outcomes": [
+            "Master cooperative society registration and amendment procedures",
+            "Excel in housing society legal compliance and dispute resolution",
+            "Learn multi-state cooperative society formation and operations",
+            "Understand cooperative bank licensing and RBI compliance",
+            "Develop expertise in society dissolution and asset distribution"
+        ],
+        "tags": ["cooperative-law", "housing-societies", "multi-state-cooperative", "cooperative-banks", "society-registration"],
+        "request": {
+            "subject": "Cooperative Law and Society Registration Excellence",
+            "goal": "I want to master cooperative law and society registration practice. Teach me society formation, housing society compliance, multi-state cooperatives, cooperative banking, dispute resolution, and dissolution procedures. Include practical governance and legal advisory for cooperative institutions.",
+            "time_value": 4,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # EMERGING PRACTICE AREAS
+    {
+        "title": "ESG Compliance and Sustainability Law",
+        "category": "legal",
+        "subcategory": "esg-compliance",
+        "difficulty": "intermediate",
+        "target_audience": "ESG lawyers and sustainability compliance professionals",
+        "estimated_hours": 50,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 8.6,
+        "prerequisites": ["Corporate law", "Environmental law", "Securities regulations"],
+        "learning_outcomes": [
+            "Master ESG reporting and disclosure requirements",
+            "Excel in sustainability-linked financing and green bonds",
+            "Learn carbon credit trading and renewable energy compliance",
+            "Understand social impact assessment and stakeholder engagement",
+            "Develop expertise in ESG due diligence and risk assessment"
+        ],
+        "tags": ["esg-compliance", "sustainability", "green-bonds", "carbon-credits", "social-impact"],
+        "request": {
+            "subject": "ESG Compliance and Sustainability Law Excellence",
+            "goal": "I want to master ESG compliance and sustainability law in India. Teach me ESG reporting, disclosure requirements, green financing, carbon trading, renewable energy compliance, and social impact assessment. Include practical ESG advisory and implementation strategies for businesses.",
+            "time_value": 5,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Gaming and Gambling Law Compliance",
+        "category": "legal",
+        "subcategory": "gaming-law",
+        "difficulty": "intermediate",
+        "target_audience": "Gaming lawyers and online betting compliance specialists",
+        "estimated_hours": 45,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 8.3,
+        "prerequisites": ["Criminal law", "State gambling laws", "IT regulations"],
+        "learning_outcomes": [
+            "Master online gaming regulations and state law compliance",
+            "Excel in skill vs. chance game classification",
+            "Learn fantasy sports and rummy legal frameworks",
+            "Understand advertising regulations and responsible gaming",
+            "Develop expertise in gaming license applications and enforcement defense"
+        ],
+        "tags": ["gaming-law", "online-gambling", "fantasy-sports", "skill-games", "gaming-licenses"],
+        "request": {
+            "subject": "Gaming and Gambling Law Compliance Mastery",
+            "goal": "I want to master gaming and gambling law compliance in India. Teach me online gaming regulations, skill vs. chance classification, fantasy sports compliance, state licensing requirements, advertising regulations, and enforcement defense. Include practical compliance strategies for gaming businesses.",
+            "time_value": 4.5,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # ==============================================================================
+    # USA LEGAL PRACTICE SPECIALIZATIONS
+    # ==============================================================================
+
+    # FEDERAL PRACTICE AND REGULATORY AGENCIES
+    {
+        "title": "Federal Court Practice and Appellate Advocacy",
+        "category": "legal",
+        "subcategory": "federal-practice",
+        "difficulty": "advanced",
+        "target_audience": "Federal practitioners and appellate attorneys",
+        "estimated_hours": 70,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.1,
+        "prerequisites": ["Federal Rules of Civil Procedure", "Constitutional law", "Appellate procedure"],
+        "learning_outcomes": [
+            "Master federal court jurisdiction and removal procedures",
+            "Excel in circuit court brief writing and oral argument",
+            "Learn Supreme Court petition practice and merits briefing",
+            "Understand federal sentencing guidelines and criminal appeals",
+            "Develop expertise in emergency relief and injunctive practice"
+        ],
+        "tags": ["federal-courts", "appellate-practice", "supreme-court", "circuit-courts", "federal-jurisdiction"],
+        "request": {
+            "subject": "Federal Court Practice and Appellate Advocacy Mastery",
+            "goal": "I want to master federal court practice and appellate advocacy in the US. Teach me federal jurisdiction, removal procedures, circuit court practice, Supreme Court petitions, appellate brief writing, oral argument techniques, and emergency relief. Include practical federal litigation strategy and appellate advocacy skills.",
+            "time_value": 7,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "SEC Enforcement Defense and Securities Litigation",
+        "category": "legal",
+        "subcategory": "sec-enforcement",
+        "difficulty": "advanced",
+        "target_audience": "Securities defense lawyers and white-collar specialists",
+        "estimated_hours": 75,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.0,
+        "prerequisites": ["Securities law", "Federal procedure", "White-collar defense"],
+        "learning_outcomes": [
+            "Master SEC investigation response and Wells submission strategies",
+            "Excel in insider trading and market manipulation defense",
+            "Learn disclosure violations and accounting fraud representation",
+            "Understand parallel proceedings coordination and privilege issues",
+            "Develop expertise in settlement negotiations and administrative proceedings"
+        ],
+        "tags": ["sec-enforcement", "securities-litigation", "wells-submissions", "insider-trading", "market-manipulation"],
+        "request": {
+            "subject": "SEC Enforcement Defense and Securities Litigation Excellence",
+            "goal": "I want to master SEC enforcement defense and securities litigation. Teach me SEC investigation procedures, Wells submissions, insider trading defense, disclosure violations, parallel proceedings, settlement strategies, and administrative hearings. Include practical white-collar defense and client counseling techniques.",
+            "time_value": 7.5,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "FDA Regulatory Practice and Healthcare Law",
+        "category": "legal",
+        "subcategory": "fda-regulatory",
+        "difficulty": "advanced",
+        "target_audience": "FDA lawyers and healthcare regulatory specialists",
+        "estimated_hours": 65,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 8.9,
+        "prerequisites": ["Administrative law", "Healthcare regulations", "FDA procedures"],
+        "learning_outcomes": [
+            "Master drug approval processes and 510(k) medical device submissions",
+            "Excel in FDA inspection response and warning letter defense",
+            "Learn clinical trial regulations and IRB compliance",
+            "Understand food safety regulations and dietary supplement law",
+            "Develop expertise in FDA enforcement actions and consent decrees"
+        ],
+        "tags": ["fda-regulatory", "drug-approval", "medical-devices", "clinical-trials", "fda-enforcement"],
+        "request": {
+            "subject": "FDA Regulatory Practice and Healthcare Law Mastery",
+            "goal": "I want to master FDA regulatory practice and healthcare law. Teach me drug approval processes, medical device submissions, FDA inspections, warning letter responses, clinical trial regulations, food safety law, and enforcement defense. Include practical regulatory strategy and compliance implementation.",
+            "time_value": 6.5,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # SPECIALIZED LITIGATION AND DISPUTE RESOLUTION
+    {
+        "title": "Class Action Litigation and Mass Tort Practice",
+        "category": "legal",
+        "subcategory": "class-action",
+        "difficulty": "advanced",
+        "target_audience": "Class action lawyers and mass tort specialists",
+        "estimated_hours": 80,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.2,
+        "prerequisites": ["Complex litigation", "Federal procedure", "Trial advocacy"],
+        "learning_outcomes": [
+            "Master Rule 23 class certification and notice requirements",
+            "Excel in MDL proceedings and bellwether trial strategy",
+            "Learn settlement class administration and distribution",
+            "Understand opt-out procedures and objector practice",
+            "Develop expertise in fee award litigation and court approval processes"
+        ],
+        "tags": ["class-action", "mass-tort", "rule-23", "mdl", "bellwether-trials"],
+        "request": {
+            "subject": "Class Action Litigation and Mass Tort Excellence",
+            "goal": "I want to master class action litigation and mass tort practice. Teach me Rule 23 certification, MDL procedures, bellwether trials, settlement administration, opt-out processes, fee litigation, and court approval mechanisms. Include practical case management and trial strategy for complex litigation.",
+            "time_value": 8,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Patent Litigation and PTAB Proceedings",
+        "category": "legal",
+        "subcategory": "patent-litigation",
+        "difficulty": "advanced",
+        "target_audience": "Patent litigators and IP trial specialists",
+        "estimated_hours": 70,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.1,
+        "prerequisites": ["Patent law", "Federal court procedure", "Technical background helpful"],
+        "learning_outcomes": [
+            "Master Markman hearings and claim construction strategy",
+            "Excel in IPR and PGR proceedings before PTAB",
+            "Learn invalidity and non-infringement defense strategies",
+            "Understand damages calculations and reasonable royalty analysis",
+            "Develop expertise in ITC Section 337 investigations"
+        ],
+        "tags": ["patent-litigation", "ptab", "markman-hearings", "ipr", "itc-337"],
+        "request": {
+            "subject": "Patent Litigation and PTAB Proceedings Mastery",
+            "goal": "I want to master patent litigation and PTAB proceedings. Teach me claim construction, Markman hearings, IPR/PGR practice, invalidity defenses, damages analysis, ITC investigations, and PTAB advocacy. Include practical patent trial strategy and technical case management.",
+            "time_value": 7,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # REGULATORY COMPLIANCE AND ENFORCEMENT
+    {
+        "title": "FCPA and International Anti-Corruption Compliance",
+        "category": "legal",
+        "subcategory": "fcpa-compliance",
+        "difficulty": "advanced",
+        "target_audience": "FCPA lawyers and international compliance specialists",
+        "estimated_hours": 60,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 8.8,
+        "prerequisites": ["White-collar defense", "International law", "Compliance programs"],
+        "learning_outcomes": [
+            "Master FCPA investigation response and DOJ cooperation",
+            "Excel in due diligence for international acquisitions",
+            "Learn third-party risk assessment and vendor compliance",
+            "Understand voluntary disclosure strategies and settlement negotiations",
+            "Develop expertise in compliance program design and monitoring"
+        ],
+        "tags": ["fcpa", "anti-corruption", "doj-cooperation", "international-compliance", "third-party-risk"],
+        "request": {
+            "subject": "FCPA and International Anti-Corruption Excellence",
+            "goal": "I want to master FCPA and international anti-corruption compliance. Teach me FCPA investigations, DOJ cooperation, due diligence procedures, third-party risk management, voluntary disclosure, settlement strategies, and compliance program design. Include practical international business advisory skills.",
+            "time_value": 6,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "OFAC Sanctions and Export Controls Practice",
+        "category": "legal",
+        "subcategory": "sanctions-export",
+        "difficulty": "advanced",
+        "target_audience": "Sanctions lawyers and export control specialists",
+        "estimated_hours": 65,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 8.7,
+        "prerequisites": ["International trade law", "National security law", "Regulatory compliance"],
+        "learning_outcomes": [
+            "Master OFAC sanctions programs and blocking procedures",
+            "Excel in EAR and ITAR licensing and compliance",
+            "Learn voluntary self-disclosure and penalty mitigation",
+            "Understand interdiction procedures and enforcement actions",
+            "Develop expertise in sanctions due diligence and screening systems"
+        ],
+        "tags": ["ofac-sanctions", "export-controls", "ear", "itar", "voluntary-disclosure"],
+        "request": {
+            "subject": "OFAC Sanctions and Export Controls Mastery",
+            "goal": "I want to master OFAC sanctions and export controls practice. Teach me sanctions programs, blocking procedures, EAR/ITAR compliance, licensing requirements, voluntary disclosure, penalty mitigation, and screening systems. Include practical international trade compliance and enforcement defense.",
+            "time_value": 6.5,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # EMERGING TECHNOLOGY AND FINTECH
+    {
+        "title": "Cryptocurrency and Digital Assets Regulation (US)",
+        "category": "legal",
+        "subcategory": "crypto-regulation-us",
+        "difficulty": "advanced",
+        "target_audience": "Fintech lawyers and digital asset specialists",
+        "estimated_hours": 60,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 8.9,
+        "prerequisites": ["Securities law", "Banking regulations", "Technology understanding"],
+        "learning_outcomes": [
+            "Master SEC and CFTC cryptocurrency enforcement and guidance",
+            "Excel in digital asset securities analysis and Howey test application",
+            "Learn stablecoin regulations and banking charter requirements",
+            "Understand DeFi protocols and smart contract legal issues",
+            "Develop expertise in cryptocurrency exchange compliance and licensing"
+        ],
+        "tags": ["cryptocurrency-us", "sec-guidance", "howey-test", "stablecoins", "defi-protocols"],
+        "request": {
+            "subject": "Cryptocurrency and Digital Assets Regulation (US) Excellence",
+            "goal": "I want to master cryptocurrency and digital assets regulation in the US. Teach me SEC/CFTC guidance, securities analysis, Howey test application, stablecoin regulations, DeFi protocols, exchange licensing, and enforcement defense. Include practical fintech compliance and regulatory strategy.",
+            "time_value": 6,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "AI and Technology Law Practice",
+        "category": "legal",
+        "subcategory": "ai-technology-law",
+        "difficulty": "intermediate",
+        "target_audience": "Technology lawyers and AI governance specialists",
+        "estimated_hours": 55,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 8.6,
+        "prerequisites": ["Technology contracts", "IP law", "Data privacy"],
+        "learning_outcomes": [
+            "Master AI bias auditing and algorithmic accountability requirements",
+            "Excel in machine learning IP protection and trade secret strategies",
+            "Learn autonomous systems liability and regulatory frameworks",
+            "Understand AI ethics compliance and governance frameworks",
+            "Develop expertise in AI contract drafting and risk allocation"
+        ],
+        "tags": ["ai-law", "algorithmic-accountability", "machine-learning-ip", "autonomous-systems", "ai-ethics"],
+        "request": {
+            "subject": "AI and Technology Law Practice Excellence",
+            "goal": "I want to master AI and technology law practice. Teach me AI bias auditing, algorithmic accountability, ML IP protection, autonomous systems liability, AI ethics compliance, and technology contract drafting. Include practical AI governance and risk management strategies.",
+            "time_value": 5.5,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # SPECIALIZED BUSINESS AND CORPORATE TRANSACTIONS
+    {
+        "title": "Private Equity and Venture Capital Transactions",
+        "category": "legal",
+        "subcategory": "pe-vc-transactions",
+        "difficulty": "advanced",
+        "target_audience": "Corporate lawyers and investment fund specialists",
+        "estimated_hours": 75,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.2,
+        "prerequisites": ["Corporate law", "Securities regulations", "M&A experience"],
+        "learning_outcomes": [
+            "Master fund formation and LP/GP agreement negotiation",
+            "Excel in Series A through growth equity transaction structuring",
+            "Learn management buyout and leveraged buyout documentation",
+            "Understand carried interest taxation and ERISA compliance",
+            "Develop expertise in portfolio company governance and exit strategies"
+        ],
+        "tags": ["private-equity", "venture-capital", "fund-formation", "lbo", "carried-interest"],
+        "request": {
+            "subject": "Private Equity and Venture Capital Transactions Excellence",
+            "goal": "I want to master private equity and venture capital transactions. Teach me fund formation, LP/GP agreements, Series A-growth equity deals, LBO structuring, carried interest taxation, ERISA compliance, and exit strategies. Include practical investment fund legal advisory and transaction management.",
+            "time_value": 7.5,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "SPAC Transactions and Public Company Practice",
+        "category": "legal",
+        "subcategory": "spac-transactions",
+        "difficulty": "advanced",
+        "target_audience": "Capital markets lawyers and public company specialists",
+        "estimated_hours": 65,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 8.8,
+        "prerequisites": ["Securities law", "Public offerings", "M&A"],
+        "learning_outcomes": [
+            "Master SPAC IPO process and sponsor arrangement structuring",
+            "Excel in de-SPAC transaction negotiation and shareholder approval",
+            "Learn PIPE financing and backstop arrangements",
+            "Understand earnout structures and working capital adjustments",
+            "Develop expertise in proxy/registration statement drafting and SEC comments"
+        ],
+        "tags": ["spac-transactions", "de-spac", "pipe-financing", "earnout-structures", "sec-comments"],
+        "request": {
+            "subject": "SPAC Transactions and Public Company Practice Excellence",
+            "goal": "I want to master SPAC transactions and public company practice. Teach me SPAC IPOs, sponsor structures, de-SPAC negotiations, PIPE financing, earnout arrangements, proxy statements, and SEC comment responses. Include practical capital markets and public company advisory skills.",
+            "time_value": 6.5,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # SPECIALIZED ENFORCEMENT AND INVESTIGATIONS
+    {
+        "title": "DOJ Criminal Tax and Financial Crimes Defense",
+        "category": "legal",
+        "subcategory": "criminal-tax-defense",
+        "difficulty": "advanced",
+        "target_audience": "White-collar defense lawyers and tax crime specialists",
+        "estimated_hours": 70,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 9.0,
+        "prerequisites": ["Criminal law", "Tax law", "Federal procedure"],
+        "learning_outcomes": [
+            "Master tax evasion and fraud investigation defense strategies",
+            "Excel in grand jury practice and cooperation negotiations",
+            "Learn FBAR and offshore account disclosure defense",
+            "Understand sentencing guidelines and downward departure arguments",
+            "Develop expertise in parallel civil and criminal tax proceedings"
+        ],
+        "tags": ["criminal-tax", "tax-evasion", "fbar", "grand-jury", "sentencing-guidelines"],
+        "request": {
+            "subject": "DOJ Criminal Tax and Financial Crimes Defense Excellence",
+            "goal": "I want to master DOJ criminal tax and financial crimes defense. Teach me tax evasion defense, grand jury practice, FBAR violations, cooperation strategies, sentencing arguments, and parallel proceedings. Include practical white-collar defense and client counseling in tax crime cases.",
+            "time_value": 7,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Employment Law Compliance and Workplace Investigations",
+        "category": "legal",
+        "subcategory": "employment-compliance-us",
+        "difficulty": "intermediate",
+        "target_audience": "Employment lawyers and HR legal counsel",
+        "estimated_hours": 60,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 8.8,
+        "prerequisites": ["Employment law", "Federal regulations", "Investigation techniques"],
+        "learning_outcomes": [
+            "Master EEOC investigation response and position statements",
+            "Excel in workplace harassment and discrimination investigations",
+            "Learn wage and hour class action defense and DOL audits",
+            "Understand NLRA compliance and union avoidance strategies",
+            "Develop expertise in executive compensation and severance negotiations"
+        ],
+        "tags": ["employment-compliance", "eeoc-investigations", "workplace-harassment", "wage-hour", "nlra-compliance"],
+        "request": {
+            "subject": "Employment Law Compliance and Workplace Investigations Excellence",
+            "goal": "I want to master employment law compliance and workplace investigations. Teach me EEOC responses, harassment investigations, wage and hour defense, DOL audits, NLRA compliance, and executive compensation. Include practical workplace investigation techniques and compliance program development.",
+            "time_value": 6,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # NICHE REGULATORY PRACTICE AREAS
+    {
+        "title": "Environmental Law and Superfund Litigation",
+        "category": "legal",
+        "subcategory": "environmental-superfund",
+        "difficulty": "advanced",
+        "target_audience": "Environmental lawyers and Superfund specialists",
+        "estimated_hours": 65,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 8.7,
+        "prerequisites": ["Environmental law", "Administrative law", "Complex litigation"],
+        "learning_outcomes": [
+            "Master CERCLA liability allocation and contribution claims",
+            "Excel in EPA enforcement defense and consent decree negotiation",
+            "Learn RCRA corrective action and permit compliance",
+            "Understand natural resource damages and restoration planning",
+            "Develop expertise in environmental due diligence and transaction support"
+        ],
+        "tags": ["environmental-law", "superfund", "cercla", "epa-enforcement", "natural-resource-damages"],
+        "request": {
+            "subject": "Environmental Law and Superfund Litigation Excellence",
+            "goal": "I want to master environmental law and Superfund litigation. Teach me CERCLA liability, EPA enforcement defense, consent decrees, RCRA compliance, natural resource damages, and environmental due diligence. Include practical environmental litigation and regulatory compliance strategies.",
+            "time_value": 6.5,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Healthcare Fraud and Stark Law Compliance",
+        "category": "legal",
+        "subcategory": "healthcare-fraud",
+        "difficulty": "advanced",
+        "target_audience": "Healthcare lawyers and compliance specialists",
+        "estimated_hours": 70,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 8.9,
+        "prerequisites": ["Healthcare law", "False Claims Act", "Compliance programs"],
+        "learning_outcomes": [
+            "Master Stark Law and Anti-Kickback Statute compliance analysis",
+            "Excel in False Claims Act investigation defense and qui tam litigation",
+            "Learn OIG exclusion defense and corporate integrity agreements",
+            "Understand Medicare/Medicaid billing compliance and audits",
+            "Develop expertise in healthcare M&A regulatory due diligence"
+        ],
+        "tags": ["healthcare-fraud", "stark-law", "false-claims-act", "oig-exclusion", "medicare-compliance"],
+        "request": {
+            "subject": "Healthcare Fraud and Stark Law Compliance Excellence",
+            "goal": "I want to master healthcare fraud and Stark Law compliance. Teach me Stark/AKS analysis, False Claims Act defense, qui tam litigation, OIG exclusions, Medicare audits, and healthcare M&A due diligence. Include practical healthcare compliance and fraud defense strategies.",
+            "time_value": 7,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # ==============================================================================
+    # NICHE PROFESSIONAL CERTIFICATIONS
+    # ==============================================================================
+
+    # SPECIALIZED IT AND CYBERSECURITY CERTIFICATIONS
+    {
+        "title": "SANS GIAC Security Expert (GSE) Certification",
+        "category": "competitive-exams",
+        "subcategory": "cybersecurity-advanced",
+        "difficulty": "expert",
+        "target_audience": "Elite cybersecurity professionals and security architects",
+        "estimated_hours": 400,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.5,
+        "prerequisites": ["Multiple GIAC certifications", "5+ years security experience", "Advanced technical skills"],
+        "learning_outcomes": [
+            "Master advanced penetration testing and red team operations",
+            "Excel in digital forensics and incident response leadership",
+            "Learn security architecture design and threat modeling",
+            "Understand advanced malware analysis and reverse engineering",
+            "Develop expertise in security program management and strategic planning"
+        ],
+        "tags": ["gse", "sans", "elite-cybersecurity", "penetration-testing", "digital-forensics"],
+        "request": {
+            "subject": "SANS GIAC Security Expert (GSE) Mastery",
+            "goal": "I want to achieve the elite SANS GSE certification. Teach me advanced penetration testing, red team operations, digital forensics, incident response, security architecture, threat modeling, malware analysis, and security program management. Include hands-on labs and practical security leadership skills.",
+            "time_value": 40,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Certified Information Systems Auditor (CISA) Excellence",
+        "category": "competitive-exams",
+        "subcategory": "information-audit",
+        "difficulty": "advanced",
+        "target_audience": "IT auditors and information assurance professionals",
+        "estimated_hours": 120,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.0,
+        "prerequisites": ["IT experience", "Audit fundamentals", "Risk management knowledge"],
+        "learning_outcomes": [
+            "Master information systems audit processes and methodologies",
+            "Excel in IT governance and risk assessment frameworks",
+            "Learn business continuity and disaster recovery auditing",
+            "Understand regulatory compliance and control testing",
+            "Develop expertise in audit report writing and stakeholder communication"
+        ],
+        "tags": ["cisa", "it-audit", "governance", "risk-assessment", "compliance"],
+        "request": {
+            "subject": "CISA Certification Excellence",
+            "goal": "I want to master CISA certification for information systems auditing. Teach me audit processes, IT governance, risk assessment, control testing, compliance frameworks, business continuity, and audit reporting. Include practical auditing techniques and professional audit management skills.",
+            "time_value": 12,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Certified Cloud Security Professional (CCSP) Mastery",
+        "category": "competitive-exams",
+        "subcategory": "cloud-security",
+        "difficulty": "advanced",
+        "target_audience": "Cloud security architects and engineers",
+        "estimated_hours": 100,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 8.9,
+        "prerequisites": ["Cloud computing experience", "Security fundamentals", "CISSP knowledge helpful"],
+        "learning_outcomes": [
+            "Master cloud architecture and design security principles",
+            "Excel in cloud data security and privacy protection",
+            "Learn cloud platform and infrastructure security",
+            "Understand cloud application security and DevSecOps",
+            "Develop expertise in cloud security operations and incident response"
+        ],
+        "tags": ["ccsp", "cloud-security", "aws-security", "azure-security", "devsecops"],
+        "request": {
+            "subject": "CCSP Cloud Security Professional Mastery",
+            "goal": "I want to master CCSP certification for cloud security. Teach me cloud architecture security, data protection, platform security, application security, DevSecOps, incident response, and compliance in cloud environments. Include hands-on cloud security implementation and management.",
+            "time_value": 10,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # NICHE FINANCIAL AND RISK MANAGEMENT CERTIFICATIONS
+    {
+        "title": "Financial Risk Manager (FRM) Part II Advanced",
+        "category": "competitive-exams",
+        "subcategory": "advanced-risk-management",
+        "difficulty": "expert",
+        "target_audience": "Senior risk managers and quantitative analysts",
+        "estimated_hours": 150,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 9.1,
+        "prerequisites": ["FRM Part I", "Risk management experience", "Quantitative background"],
+        "learning_outcomes": [
+            "Master advanced market risk measurement and management",
+            "Excel in credit risk modeling and portfolio management",
+            "Learn operational risk and resilience frameworks",
+            "Understand liquidity and funding risk management",
+            "Develop expertise in current issues and emerging risks"
+        ],
+        "tags": ["frm-part-ii", "market-risk", "credit-risk", "operational-risk", "liquidity-risk"],
+        "request": {
+            "subject": "FRM Part II Advanced Risk Management Excellence",
+            "goal": "I want to master FRM Part II for advanced risk management. Teach me market risk measurement, credit risk modeling, operational risk frameworks, liquidity management, stress testing, and emerging risk topics. Include practical risk management applications and quantitative techniques.",
+            "time_value": 15,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Certified Treasury Professional (CTP) Mastery",
+        "category": "competitive-exams",
+        "subcategory": "treasury-management",
+        "difficulty": "advanced",
+        "target_audience": "Treasury professionals and cash management specialists",
+        "estimated_hours": 90,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 8.8,
+        "prerequisites": ["Finance background", "Treasury experience", "Banking knowledge"],
+        "learning_outcomes": [
+            "Master cash and liquidity management strategies",
+            "Excel in working capital optimization and forecasting",
+            "Learn financial risk management and hedging techniques",
+            "Understand capital structure and funding strategies",
+            "Develop expertise in treasury technology and operations"
+        ],
+        "tags": ["ctp", "treasury-management", "cash-management", "working-capital", "hedging"],
+        "request": {
+            "subject": "CTP Treasury Professional Excellence",
+            "goal": "I want to master CTP certification for treasury management. Teach me cash management, liquidity optimization, working capital strategies, financial risk hedging, capital structure, funding techniques, and treasury operations. Include practical treasury management and corporate finance applications.",
+            "time_value": 9,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Certified Credit Professional (CCP) Specialization",
+        "category": "competitive-exams",
+        "subcategory": "credit-risk",
+        "difficulty": "intermediate",
+        "target_audience": "Credit analysts and commercial lending professionals",
+        "estimated_hours": 80,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 8.6,
+        "prerequisites": ["Credit analysis experience", "Financial statement analysis", "Banking knowledge"],
+        "learning_outcomes": [
+            "Master commercial credit analysis and underwriting",
+            "Excel in financial statement analysis and cash flow modeling",
+            "Learn loan structuring and documentation techniques",
+            "Understand credit risk rating and portfolio management",
+            "Develop expertise in workout and restructuring strategies"
+        ],
+        "tags": ["ccp", "credit-analysis", "commercial-lending", "underwriting", "loan-structuring"],
+        "request": {
+            "subject": "CCP Credit Professional Excellence",
+            "goal": "I want to master CCP certification for credit analysis and commercial lending. Teach me credit underwriting, financial analysis, cash flow modeling, loan structuring, risk rating, portfolio management, and workout strategies. Include practical credit decision-making and relationship management.",
+            "time_value": 8,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # SPECIALIZED HEALTHCARE AND MEDICAL CERTIFICATIONS
+    {
+        "title": "Certified Clinical Research Professional (CCRP) Mastery",
+        "category": "competitive-exams",
+        "subcategory": "clinical-research",
+        "difficulty": "advanced",
+        "target_audience": "Clinical research coordinators and CRA professionals",
+        "estimated_hours": 100,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.0,
+        "prerequisites": ["Clinical research experience", "GCP training", "Healthcare background"],
+        "learning_outcomes": [
+            "Master clinical trial design and protocol development",
+            "Excel in regulatory compliance and GCP implementation",
+            "Learn clinical data management and biostatistics",
+            "Understand pharmacovigilance and safety reporting",
+            "Develop expertise in site management and monitoring"
+        ],
+        "tags": ["ccrp", "clinical-research", "clinical-trials", "gcp", "pharmacovigilance"],
+        "request": {
+            "subject": "CCRP Clinical Research Professional Excellence",
+            "goal": "I want to master CCRP certification for clinical research. Teach me clinical trial design, protocol development, GCP compliance, data management, biostatistics, pharmacovigilance, safety reporting, and site monitoring. Include practical clinical research management and regulatory expertise.",
+            "time_value": 10,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Certified Professional in Healthcare Quality (CPHQ) Excellence",
+        "category": "competitive-exams",
+        "subcategory": "healthcare-quality",
+        "difficulty": "advanced",
+        "target_audience": "Healthcare quality professionals and patient safety specialists",
+        "estimated_hours": 85,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 8.8,
+        "prerequisites": ["Healthcare experience", "Quality improvement knowledge", "Patient safety background"],
+        "learning_outcomes": [
+            "Master healthcare quality management systems and methodologies",
+            "Excel in patient safety and risk management programs",
+            "Learn performance improvement and data analysis techniques",
+            "Understand regulatory compliance and accreditation standards",
+            "Develop expertise in leadership and organizational development"
+        ],
+        "tags": ["cphq", "healthcare-quality", "patient-safety", "performance-improvement", "accreditation"],
+        "request": {
+            "subject": "CPHQ Healthcare Quality Professional Excellence",
+            "goal": "I want to master CPHQ certification for healthcare quality management. Teach me quality systems, patient safety programs, performance improvement, data analysis, regulatory compliance, accreditation standards, and healthcare leadership. Include practical quality improvement and patient safety implementation.",
+            "time_value": 8.5,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # PROJECT MANAGEMENT AND BUSINESS ANALYSIS CERTIFICATIONS
+    {
+        "title": "PMI Agile Certified Practitioner (PMI-ACP) Mastery",
+        "category": "competitive-exams",
+        "subcategory": "agile-project-management",
+        "difficulty": "intermediate",
+        "target_audience": "Agile practitioners and scrum masters",
+        "estimated_hours": 75,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 8.7,
+        "prerequisites": ["Project management experience", "Agile methodology knowledge", "Team leadership"],
+        "learning_outcomes": [
+            "Master multiple agile methodologies and frameworks",
+            "Excel in agile project planning and estimation techniques",
+            "Learn servant leadership and team facilitation skills",
+            "Understand agile metrics and continuous improvement",
+            "Develop expertise in stakeholder engagement and communication"
+        ],
+        "tags": ["pmi-acp", "agile", "scrum", "kanban", "servant-leadership"],
+        "request": {
+            "subject": "PMI-ACP Agile Certified Practitioner Excellence",
+            "goal": "I want to master PMI-ACP certification for agile project management. Teach me agile methodologies, scrum, kanban, planning techniques, estimation, servant leadership, team facilitation, metrics, and stakeholder engagement. Include practical agile implementation and coaching skills.",
+            "time_value": 7.5,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Certified Business Analysis Professional (CBAP) Excellence",
+        "category": "competitive-exams",
+        "subcategory": "business-analysis",
+        "difficulty": "advanced",
+        "target_audience": "Senior business analysts and requirements specialists",
+        "estimated_hours": 110,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.0,
+        "prerequisites": ["Business analysis experience", "Requirements management", "Stakeholder engagement"],
+        "learning_outcomes": [
+            "Master business analysis planning and monitoring techniques",
+            "Excel in elicitation and collaboration methodologies",
+            "Learn requirements life cycle management",
+            "Understand strategy analysis and solution assessment",
+            "Develop expertise in business analysis governance and leadership"
+        ],
+        "tags": ["cbap", "business-analysis", "requirements-management", "elicitation", "strategy-analysis"],
+        "request": {
+            "subject": "CBAP Business Analysis Professional Excellence",
+            "goal": "I want to master CBAP certification for business analysis. Teach me business analysis planning, elicitation techniques, collaboration methods, requirements management, strategy analysis, solution assessment, and governance. Include practical business analysis leadership and stakeholder management.",
+            "time_value": 11,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # SPECIALIZED TECHNICAL AND INDUSTRY-SPECIFIC CERTIFICATIONS
+    {
+        "title": "Certified Energy Manager (CEM) Professional Certification",
+        "category": "competitive-exams",
+        "subcategory": "energy-management",
+        "difficulty": "advanced",
+        "target_audience": "Energy managers and sustainability professionals",
+        "estimated_hours": 95,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 8.7,
+        "prerequisites": ["Engineering background", "Energy systems knowledge", "Project management"],
+        "learning_outcomes": [
+            "Master energy auditing and assessment methodologies",
+            "Excel in energy efficiency project development and financing",
+            "Learn renewable energy systems and integration",
+            "Understand energy procurement and utility management",
+            "Develop expertise in energy policy and regulatory compliance"
+        ],
+        "tags": ["cem", "energy-management", "energy-auditing", "renewable-energy", "sustainability"],
+        "request": {
+            "subject": "CEM Energy Manager Professional Excellence",
+            "goal": "I want to master CEM certification for energy management. Teach me energy auditing, efficiency projects, renewable systems, utility management, energy procurement, financing, policy compliance, and sustainability strategies. Include practical energy management and cost optimization techniques.",
+            "time_value": 9.5,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Certified Professional in Erosion and Sediment Control (CPESC)",
+        "category": "competitive-exams",
+        "subcategory": "environmental-engineering",
+        "difficulty": "intermediate",
+        "target_audience": "Environmental engineers and stormwater specialists",
+        "estimated_hours": 70,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 8.5,
+        "prerequisites": ["Environmental engineering", "Civil engineering", "Stormwater management"],
+        "learning_outcomes": [
+            "Master erosion and sediment control design principles",
+            "Excel in stormwater management and BMP implementation",
+            "Learn soil mechanics and hydrology applications",
+            "Understand regulatory compliance and permitting processes",
+            "Develop expertise in construction site management and inspection"
+        ],
+        "tags": ["cpesc", "erosion-control", "stormwater", "environmental-engineering", "bmp"],
+        "request": {
+            "subject": "CPESC Erosion and Sediment Control Excellence",
+            "goal": "I want to master CPESC certification for erosion and sediment control. Teach me erosion control design, stormwater management, BMP implementation, soil mechanics, hydrology, regulatory compliance, and construction site management. Include practical environmental engineering and inspection techniques.",
+            "time_value": 7,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Certified Professional in Supply Management (CPSM) Excellence",
+        "category": "competitive-exams",
+        "subcategory": "supply-chain",
+        "difficulty": "advanced",
+        "target_audience": "Supply chain professionals and procurement managers",
+        "estimated_hours": 120,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 8.9,
+        "prerequisites": ["Supply chain experience", "Procurement knowledge", "Business operations"],
+        "learning_outcomes": [
+            "Master strategic sourcing and supplier relationship management",
+            "Excel in contract negotiation and risk management",
+            "Learn supply chain analytics and performance measurement",
+            "Understand global supply chain and logistics optimization",
+            "Develop expertise in supply chain leadership and transformation"
+        ],
+        "tags": ["cpsm", "supply-chain", "strategic-sourcing", "procurement", "supplier-management"],
+        "request": {
+            "subject": "CPSM Supply Management Professional Excellence",
+            "goal": "I want to master CPSM certification for supply management. Teach me strategic sourcing, supplier relationship management, contract negotiation, risk management, supply chain analytics, logistics optimization, and leadership. Include practical procurement and supply chain transformation strategies.",
+            "time_value": 12,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Certified Regulatory Compliance Manager (CRCM) Mastery",
+        "category": "competitive-exams",
+        "subcategory": "regulatory-compliance",
+        "difficulty": "advanced",
+        "target_audience": "Banking compliance officers and regulatory specialists",
+        "estimated_hours": 100,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 8.8,
+        "prerequisites": ["Banking experience", "Regulatory knowledge", "Compliance background"],
+        "learning_outcomes": [
+            "Master federal banking regulations and compliance requirements",
+            "Excel in consumer protection and fair lending practices",
+            "Learn anti-money laundering and BSA compliance",
+            "Understand examination procedures and regulatory relationships",
+            "Develop expertise in compliance program management and governance"
+        ],
+        "tags": ["crcm", "banking-compliance", "consumer-protection", "aml", "bsa"],
+        "request": {
+            "subject": "CRCM Regulatory Compliance Manager Excellence",
+            "goal": "I want to master CRCM certification for banking compliance. Teach me federal banking regulations, consumer protection, fair lending, anti-money laundering, BSA compliance, examination procedures, and compliance program management. Include practical regulatory compliance and risk management strategies.",
+            "time_value": 10,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Certified Professional in Learning and Performance (CPLP) Excellence",
+        "category": "competitive-exams",
+        "subcategory": "learning-development",
+        "difficulty": "advanced",
+        "target_audience": "Learning and development professionals and training managers",
+        "estimated_hours": 90,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 8.6,
+        "prerequisites": ["L&D experience", "Training design", "Adult learning principles"],
+        "learning_outcomes": [
+            "Master instructional design and curriculum development",
+            "Excel in training delivery and facilitation techniques",
+            "Learn performance improvement and needs assessment",
+            "Understand learning technologies and e-learning development",
+            "Develop expertise in learning measurement and evaluation"
+        ],
+        "tags": ["cplp", "learning-development", "instructional-design", "training", "performance-improvement"],
+        "request": {
+            "subject": "CPLP Learning and Performance Professional Excellence",
+            "goal": "I want to master CPLP certification for learning and performance. Teach me instructional design, curriculum development, training delivery, facilitation, performance improvement, needs assessment, learning technologies, and evaluation methods. Include practical L&D leadership and organizational development skills.",
+            "time_value": 9,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # ==============================================================================
+    # ADVANCED MACHINE LEARNING AND AI ENGINEERING
+    # ==============================================================================
+
+    # ADVANCED ML ENGINEERING AND MLOPS
+    {
+        "title": "Production MLOps and Model Lifecycle Management",
+        "category": "technology",
+        "subcategory": "mlops-engineering",
+        "difficulty": "advanced",
+        "target_audience": "ML engineers and MLOps specialists",
+        "estimated_hours": 120,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.2,
+        "prerequisites": ["Machine learning fundamentals", "Software engineering", "DevOps experience"],
+        "learning_outcomes": [
+            "Master end-to-end ML pipeline automation and orchestration",
+            "Excel in model versioning, experiment tracking, and reproducibility",
+            "Learn continuous integration and deployment for ML systems",
+            "Understand model monitoring, drift detection, and retraining strategies",
+            "Develop expertise in MLOps tools and infrastructure management"
+        ],
+        "tags": ["mlops", "model-deployment", "ml-pipelines", "kubeflow", "model-monitoring"],
+        "request": {
+            "subject": "Production MLOps and Model Lifecycle Management Mastery",
+            "goal": "I want to master production MLOps and model lifecycle management. Teach me ML pipeline automation, model versioning, experiment tracking, CI/CD for ML, model monitoring, drift detection, retraining strategies, and MLOps infrastructure. Include practical MLOps tools like Kubeflow, MLflow, and cloud ML platforms.",
+            "time_value": 12,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Distributed Machine Learning and Model Parallelism",
+        "category": "technology",
+        "subcategory": "distributed-ml",
+        "difficulty": "expert",
+        "target_audience": "Senior ML engineers and distributed systems specialists",
+        "estimated_hours": 100,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.0,
+        "prerequisites": ["Advanced ML knowledge", "Distributed systems", "High-performance computing"],
+        "learning_outcomes": [
+            "Master data parallelism and model parallelism techniques",
+            "Excel in federated learning and privacy-preserving ML",
+            "Learn distributed training optimization and scaling strategies",
+            "Understand gradient compression and communication efficiency",
+            "Develop expertise in distributed ML frameworks and cluster management"
+        ],
+        "tags": ["distributed-ml", "model-parallelism", "federated-learning", "distributed-training", "horovod"],
+        "request": {
+            "subject": "Distributed Machine Learning and Model Parallelism Excellence",
+            "goal": "I want to master distributed machine learning and model parallelism. Teach me data/model parallelism, federated learning, distributed training optimization, gradient compression, communication efficiency, and distributed ML frameworks. Include practical implementation with PyTorch Distributed, Horovod, and cloud ML clusters.",
+            "time_value": 10,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Real-time ML Inference and Edge AI Optimization",
+        "category": "technology",
+        "subcategory": "edge-ai",
+        "difficulty": "advanced",
+        "target_audience": "Edge AI engineers and mobile ML developers",
+        "estimated_hours": 95,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 8.9,
+        "prerequisites": ["ML model development", "Mobile development", "Embedded systems knowledge"],
+        "learning_outcomes": [
+            "Master model quantization and pruning for edge deployment",
+            "Excel in neural architecture search for efficient models",
+            "Learn hardware-specific optimization and acceleration",
+            "Understand real-time inference pipelines and latency optimization",
+            "Develop expertise in edge AI frameworks and mobile deployment"
+        ],
+        "tags": ["edge-ai", "model-quantization", "mobile-ml", "tensorrt", "onnx"],
+        "request": {
+            "subject": "Real-time ML Inference and Edge AI Optimization Mastery",
+            "goal": "I want to master real-time ML inference and edge AI optimization. Teach me model quantization, pruning, neural architecture search, hardware optimization, real-time pipelines, latency optimization, and edge deployment. Include practical tools like TensorRT, ONNX, Core ML, and TensorFlow Lite.",
+            "time_value": 9.5,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # SPECIALIZED AI RESEARCH AND DEVELOPMENT
+    {
+        "title": "Advanced Neural Architecture Design and AutoML",
+        "category": "technology",
+        "subcategory": "neural-architecture",
+        "difficulty": "expert",
+        "target_audience": "AI researchers and neural network architects",
+        "estimated_hours": 130,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.3,
+        "prerequisites": ["Deep learning expertise", "Research experience", "Mathematical foundations"],
+        "learning_outcomes": [
+            "Master neural architecture search (NAS) algorithms and techniques",
+            "Excel in transformer architecture design and optimization",
+            "Learn attention mechanisms and advanced architectural patterns",
+            "Understand hyperparameter optimization and automated ML pipelines",
+            "Develop expertise in novel architecture development and research"
+        ],
+        "tags": ["neural-architecture-search", "transformer-design", "attention-mechanisms", "automl", "architecture-optimization"],
+        "request": {
+            "subject": "Advanced Neural Architecture Design and AutoML Excellence",
+            "goal": "I want to master advanced neural architecture design and AutoML. Teach me neural architecture search, transformer design, attention mechanisms, architectural patterns, hyperparameter optimization, and automated ML. Include cutting-edge research in efficient architectures and novel design principles.",
+            "time_value": 13,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Multimodal AI and Cross-Modal Learning Systems",
+        "category": "technology",
+        "subcategory": "multimodal-ai",
+        "difficulty": "advanced",
+        "target_audience": "AI researchers and multimodal system developers",
+        "estimated_hours": 110,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.1,
+        "prerequisites": ["Computer vision", "NLP", "Deep learning", "Research background"],
+        "learning_outcomes": [
+            "Master vision-language models and cross-modal understanding",
+            "Excel in multimodal fusion techniques and joint embeddings",
+            "Learn audio-visual learning and speech-vision integration",
+            "Understand cross-modal retrieval and generation systems",
+            "Develop expertise in multimodal transformer architectures"
+        ],
+        "tags": ["multimodal-ai", "vision-language", "cross-modal", "multimodal-fusion", "clip"],
+        "request": {
+            "subject": "Multimodal AI and Cross-Modal Learning Excellence",
+            "goal": "I want to master multimodal AI and cross-modal learning systems. Teach me vision-language models, multimodal fusion, joint embeddings, audio-visual learning, cross-modal retrieval, generation systems, and multimodal transformers. Include practical applications with CLIP, DALL-E, and latest multimodal architectures.",
+            "time_value": 11,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Reinforcement Learning for Real-World Applications",
+        "category": "technology",
+        "subcategory": "applied-rl",
+        "difficulty": "advanced",
+        "target_audience": "RL researchers and applied AI engineers",
+        "estimated_hours": 115,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.0,
+        "prerequisites": ["RL fundamentals", "Deep learning", "Mathematical optimization"],
+        "learning_outcomes": [
+            "Master deep reinforcement learning algorithms and implementations",
+            "Excel in multi-agent RL and cooperative learning systems",
+            "Learn offline RL and batch reinforcement learning techniques",
+            "Understand RL for robotics and autonomous systems",
+            "Develop expertise in safe RL and constrained optimization"
+        ],
+        "tags": ["reinforcement-learning", "deep-rl", "multi-agent", "offline-rl", "safe-rl"],
+        "request": {
+            "subject": "Reinforcement Learning for Real-World Applications Excellence",
+            "goal": "I want to master reinforcement learning for real-world applications. Teach me deep RL algorithms, multi-agent systems, offline RL, RL for robotics, safe RL, constrained optimization, and practical deployment strategies. Include hands-on implementation with modern RL frameworks and real-world case studies.",
+            "time_value": 11.5,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # DOMAIN-SPECIFIC AI APPLICATIONS
+    {
+        "title": "AI for Scientific Computing and Research Acceleration",
+        "category": "technology",
+        "subcategory": "scientific-ai",
+        "difficulty": "advanced",
+        "target_audience": "Scientific AI researchers and computational scientists",
+        "estimated_hours": 105,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 8.9,
+        "prerequisites": ["Scientific computing", "ML fundamentals", "Domain expertise helpful"],
+        "learning_outcomes": [
+            "Master physics-informed neural networks and scientific ML",
+            "Excel in AI for drug discovery and molecular modeling",
+            "Learn neural differential equations and scientific simulation",
+            "Understand AI for materials science and protein folding",
+            "Develop expertise in scientific data analysis and hypothesis generation"
+        ],
+        "tags": ["scientific-ml", "physics-informed", "drug-discovery", "molecular-modeling", "neural-ode"],
+        "request": {
+            "subject": "AI for Scientific Computing and Research Acceleration Excellence",
+            "goal": "I want to master AI for scientific computing and research acceleration. Teach me physics-informed neural networks, AI for drug discovery, molecular modeling, neural differential equations, scientific simulation, materials science applications, and scientific data analysis. Include practical applications in research domains.",
+            "time_value": 10.5,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Advanced Computer Vision and 3D Scene Understanding",
+        "category": "technology",
+        "subcategory": "advanced-cv",
+        "difficulty": "advanced",
+        "target_audience": "Computer vision engineers and 3D AI specialists",
+        "estimated_hours": 100,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.0,
+        "prerequisites": ["Computer vision basics", "3D geometry", "Deep learning"],
+        "learning_outcomes": [
+            "Master 3D object detection and scene reconstruction",
+            "Excel in neural radiance fields (NeRF) and novel view synthesis",
+            "Learn depth estimation and stereo vision techniques",
+            "Understand SLAM and visual odometry with deep learning",
+            "Develop expertise in 3D generative models and point cloud processing"
+        ],
+        "tags": ["3d-vision", "nerf", "scene-reconstruction", "slam", "point-clouds"],
+        "request": {
+            "subject": "Advanced Computer Vision and 3D Scene Understanding Excellence",
+            "goal": "I want to master advanced computer vision and 3D scene understanding. Teach me 3D object detection, scene reconstruction, neural radiance fields, novel view synthesis, depth estimation, stereo vision, SLAM, visual odometry, 3D generative models, and point cloud processing. Include practical applications in AR/VR and robotics.",
+            "time_value": 10,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Natural Language Processing for Code and Software Engineering",
+        "category": "technology",
+        "subcategory": "code-nlp",
+        "difficulty": "advanced",
+        "target_audience": "NLP engineers and AI-assisted programming specialists",
+        "estimated_hours": 90,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 8.8,
+        "prerequisites": ["NLP fundamentals", "Software engineering", "Programming languages"],
+        "learning_outcomes": [
+            "Master code generation and program synthesis techniques",
+            "Excel in code understanding and semantic analysis",
+            "Learn automated debugging and vulnerability detection",
+            "Understand code translation and refactoring automation",
+            "Develop expertise in AI-powered development tools and IDEs"
+        ],
+        "tags": ["code-generation", "program-synthesis", "code-understanding", "automated-debugging", "codex"],
+        "request": {
+            "subject": "NLP for Code and Software Engineering Excellence",
+            "goal": "I want to master NLP for code and software engineering. Teach me code generation, program synthesis, code understanding, semantic analysis, automated debugging, vulnerability detection, code translation, refactoring automation, and AI-powered development tools. Include practical applications with Codex, CodeT5, and code LLMs.",
+            "time_value": 9,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # EMERGING AI TECHNOLOGIES AND TECHNIQUES
+    {
+        "title": "Neural Information Retrieval and Semantic Search Systems",
+        "category": "technology",
+        "subcategory": "neural-search",
+        "difficulty": "advanced",
+        "target_audience": "Search engineers and information retrieval specialists",
+        "estimated_hours": 85,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 8.7,
+        "prerequisites": ["NLP", "Information retrieval", "Vector databases"],
+        "learning_outcomes": [
+            "Master dense retrieval and neural ranking models",
+            "Excel in embedding-based search and semantic matching",
+            "Learn query understanding and intent recognition",
+            "Understand retrieval-augmented generation (RAG) systems",
+            "Develop expertise in large-scale search infrastructure and optimization"
+        ],
+        "tags": ["neural-search", "dense-retrieval", "semantic-search", "rag", "vector-databases"],
+        "request": {
+            "subject": "Neural Information Retrieval and Semantic Search Excellence",
+            "goal": "I want to master neural information retrieval and semantic search systems. Teach me dense retrieval, neural ranking, embedding-based search, semantic matching, query understanding, RAG systems, and large-scale search infrastructure. Include practical implementation with modern search stacks and vector databases.",
+            "time_value": 8.5,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Efficient AI and Green Machine Learning",
+        "category": "technology",
+        "subcategory": "efficient-ai",
+        "difficulty": "intermediate",
+        "target_audience": "Sustainable AI engineers and efficiency specialists",
+        "estimated_hours": 80,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 8.6,
+        "prerequisites": ["ML fundamentals", "Systems optimization", "Environmental awareness"],
+        "learning_outcomes": [
+            "Master energy-efficient model architectures and training",
+            "Excel in carbon footprint measurement and optimization",
+            "Learn knowledge distillation and model compression techniques",
+            "Understand sustainable AI practices and green computing",
+            "Develop expertise in efficiency metrics and environmental impact assessment"
+        ],
+        "tags": ["efficient-ai", "green-ml", "energy-optimization", "model-compression", "sustainable-ai"],
+        "request": {
+            "subject": "Efficient AI and Green Machine Learning Excellence",
+            "goal": "I want to master efficient AI and green machine learning practices. Teach me energy-efficient architectures, carbon footprint optimization, knowledge distillation, model compression, sustainable AI practices, green computing, and environmental impact assessment. Include practical strategies for reducing AI's environmental impact.",
+            "time_value": 8,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+
+    # AI SAFETY AND ETHICS SPECIALIZATIONS
+    {
+        "title": "AI Safety and Alignment Engineering",
+        "category": "technology",
+        "subcategory": "ai-safety",
+        "difficulty": "advanced",
+        "target_audience": "AI safety researchers and alignment engineers",
+        "estimated_hours": 95,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 9.0,
+        "prerequisites": ["ML expertise", "Ethics background", "Research experience"],
+        "learning_outcomes": [
+            "Master AI alignment theory and value learning techniques",
+            "Excel in robustness testing and adversarial defense",
+            "Learn interpretability methods and explainable AI",
+            "Understand failure detection and safe deployment strategies",
+            "Develop expertise in AI governance and safety frameworks"
+        ],
+        "tags": ["ai-safety", "ai-alignment", "interpretability", "robustness", "ai-governance"],
+        "request": {
+            "subject": "AI Safety and Alignment Engineering Excellence",
+            "goal": "I want to master AI safety and alignment engineering. Teach me AI alignment theory, value learning, robustness testing, adversarial defense, interpretability methods, explainable AI, failure detection, safe deployment, and AI governance frameworks. Include practical safety evaluation and risk mitigation strategies.",
+            "time_value": 9.5,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Fairness and Bias Mitigation in AI Systems",
+        "category": "technology",
+        "subcategory": "ai-fairness",
+        "difficulty": "intermediate",
+        "target_audience": "AI ethics specialists and responsible AI engineers",
+        "estimated_hours": 75,
+        "is_featured": True,
+        "is_verified": True,
+        "quality_score": 8.8,
+        "prerequisites": ["ML fundamentals", "Statistics", "Ethics awareness"],
+        "learning_outcomes": [
+            "Master bias detection and measurement techniques",
+            "Excel in fairness metrics and evaluation frameworks",
+            "Learn bias mitigation strategies in data and algorithms",
+            "Understand demographic parity and equalized opportunity",
+            "Develop expertise in responsible AI deployment and monitoring"
+        ],
+        "tags": ["ai-fairness", "bias-mitigation", "responsible-ai", "algorithmic-fairness", "ethics"],
+        "request": {
+            "subject": "Fairness and Bias Mitigation in AI Systems Excellence",
+            "goal": "I want to master fairness and bias mitigation in AI systems. Teach me bias detection, measurement techniques, fairness metrics, evaluation frameworks, bias mitigation strategies, demographic parity, equalized opportunity, and responsible AI deployment. Include practical tools for building fair and inclusive AI systems.",
+            "time_value": 7.5,
+            "time_unit": "weeks",
+            "model": "vertexai:gemini-2.5-flash"
+        }
+    },
+    {
+        "title": "Privacy-Preserving Machine Learning and Differential Privacy",
+        "category": "technology",
+        "subcategory": "privacy-ml",
+        "difficulty": "advanced",
+        "target_audience": "Privacy engineers and secure ML specialists",
+        "estimated_hours": 100,
+        "is_featured": False,
+        "is_verified": True,
+        "quality_score": 8.9,
+        "prerequisites": ["ML fundamentals", "Cryptography basics", "Privacy concepts"],
+        "learning_outcomes": [
+            "Master differential privacy theory and implementation",
+            "Excel in federated learning and secure aggregation",
+            "Learn homomorphic encryption for ML applications",
+            "Understand secure multi-party computation for AI",
+            "Develop expertise in privacy-preserving data analysis and deployment"
+        ],
+        "tags": ["differential-privacy", "federated-learning", "homomorphic-encryption", "secure-ml", "privacy-preserving"],
+        "request": {
+            "subject": "Privacy-Preserving ML and Differential Privacy Excellence",
+            "goal": "I want to master privacy-preserving machine learning and differential privacy. Teach me differential privacy theory, federated learning, secure aggregation, homomorphic encryption, secure multi-party computation, and privacy-preserving data analysis. Include practical implementation of privacy-preserving AI systems.",
+            "time_value": 10,
             "time_unit": "weeks",
             "model": "vertexai:gemini-2.5-flash"
         }
