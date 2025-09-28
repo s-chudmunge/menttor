@@ -7382,7 +7382,7 @@ def get_curated_roadmap_categories(db: Session = Depends(get_db)):
 @router.get("/", response_model=List[CuratedRoadmapListResponse])
 async def browse_curated_roadmaps(
     page: int = Query(1, ge=1, description="Page number"),
-    per_page: int = Query(200, ge=1, le=200, description="Items per page"),
+    per_page: int = Query(200, ge=1, le=1000, description="Items per page"),
     category: Optional[str] = Query(None, description="Filter by category"),
     subcategory: Optional[str] = Query(None, description="Filter by subcategory"), 
     difficulty: Optional[str] = Query(None, description="Filter by difficulty"),
