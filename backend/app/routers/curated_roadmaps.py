@@ -4233,7 +4233,7 @@ TRENDING_ROADMAPS_CONFIG = [
         "request": {
             "subject": "Advanced Molecular Biology Laboratory Techniques",
             "goal": "I want to master advanced laboratory techniques in molecular biology. Teach me PCR and qPCR, protein expression and purification, cell culture techniques, transfection methods, western blotting, ELISA, immunofluorescence, microscopy, and troubleshooting lab protocols. Include best practices for reproducible research.",
-            "time_value": 8.5,
+            "time_value": 9,
             "time_unit": "weeks",
             "model": "vertexai:gemini-2.5-flash"
         }
@@ -4260,7 +4260,7 @@ TRENDING_ROADMAPS_CONFIG = [
         "request": {
             "subject": "Mass Spectrometry and Analytical Instrumentation Mastery",
             "goal": "I want to master mass spectrometry for research applications. Teach me MS principles, ionization methods, mass analyzers, LC-MS and GC-MS techniques, proteomics workflows, metabolomics analysis, quantitative methods, and data interpretation. Include instrument maintenance and troubleshooting.",
-            "time_value": 9.5,
+            "time_value": 10,
             "time_unit": "weeks",
             "model": "vertexai:gemini-2.5-flash"
         }
@@ -4289,7 +4289,7 @@ TRENDING_ROADMAPS_CONFIG = [
         "request": {
             "subject": "Clinical Research and GCP Mastery",
             "goal": "I want to master clinical research and Good Clinical Practice. Teach me GCP guidelines, clinical trial design, protocol development, patient recruitment, informed consent, data management, monitoring, adverse event reporting, and regulatory compliance. Include ICH guidelines and FDA regulations.",
-            "time_value": 7.5,
+            "time_value": 8,
             "time_unit": "weeks",
             "model": "vertexai:gemini-2.5-flash"
         }
@@ -4401,7 +4401,7 @@ TRENDING_ROADMAPS_CONFIG = [
         "request": {
             "subject": "Proteomics and Protein Analysis Mastery",
             "goal": "I want to master proteomics and protein analysis techniques. Teach me protein purification, mass spectrometry proteomics, protein-protein interactions, structural proteomics, quantitative proteomics, post-translational modifications, and bioinformatics analysis. Include both experimental and computational approaches.",
-            "time_value": 9.5,
+            "time_value": 10,
             "time_unit": "weeks",
             "model": "vertexai:gemini-2.5-flash"
         }
@@ -4428,7 +4428,7 @@ TRENDING_ROADMAPS_CONFIG = [
         "request": {
             "subject": "Advanced Cell Biology and Microscopy Mastery",
             "goal": "I want to master advanced cell biology and microscopy techniques. Teach me confocal microscopy, super-resolution imaging, live cell imaging, fluorescence techniques, image analysis, quantification methods, cellular assays, and functional studies. Include best practices for high-quality imaging and data interpretation.",
-            "time_value": 8.5,
+            "time_value": 9,
             "time_unit": "weeks",
             "model": "vertexai:gemini-2.5-flash"
         }
@@ -4542,7 +4542,7 @@ TRENDING_ROADMAPS_CONFIG = [
         "request": {
             "subject": "Research Data Management and FAIR Principles Mastery",
             "goal": "I want to master research data management and FAIR principles. Teach me data management planning, metadata standards, data repositories, version control, data sharing protocols, and collaborative research practices. Include best practices for reproducible research and data stewardship.",
-            "time_value": 5.5,
+            "time_value": 6,
             "time_unit": "weeks",
             "model": "vertexai:gemini-2.5-flash"
         }
@@ -4598,7 +4598,7 @@ TRENDING_ROADMAPS_CONFIG = [
         "request": {
             "subject": "Laboratory Quality Management and ISO Standards Mastery",
             "goal": "I want to master laboratory quality management and ISO standards. Teach me ISO 15189, quality management systems, method validation, documentation control, internal auditing, corrective actions, and accreditation processes. Include practical implementation in research and clinical laboratories.",
-            "time_value": 6.5,
+            "time_value": 7,
             "time_unit": "weeks",
             "model": "vertexai:gemini-2.5-flash"
         }
@@ -4631,7 +4631,7 @@ TRENDING_ROADMAPS_CONFIG = [
         "request": {
             "subject": "Advanced Legal Research and Citation Excellence",
             "goal": "I want to master advanced legal research techniques and citation. Teach me sophisticated database searching, case law analysis, secondary source evaluation, proper citation formats, shepardizing, and efficient research workflows. Include practical exercises with real legal problems and time management strategies.",
-            "time_value": 4.5,
+            "time_value": 5,
             "time_unit": "weeks",
             "model": "vertexai:gemini-2.5-flash"
         }
@@ -4658,7 +4658,7 @@ TRENDING_ROADMAPS_CONFIG = [
         "request": {
             "subject": "Legal Brief Writing and Persuasive Advocacy Mastery",
             "goal": "I want to master legal brief writing and persuasive advocacy. Teach me brief structure, argument development, motion practice, appellate writing, fact presentation, and legal storytelling. Include analysis of winning briefs, judicial preferences, and practical drafting exercises.",
-            "time_value": 5.5,
+            "time_value": 6,
             "time_unit": "weeks",
             "model": "vertexai:gemini-2.5-flash"
         }
@@ -4687,7 +4687,7 @@ TRENDING_ROADMAPS_CONFIG = [
         "request": {
             "subject": "Advanced Contract Drafting and Risk Management",
             "goal": "I want to master sophisticated contract drafting and risk allocation. Teach me advanced drafting techniques, liability management, indemnification provisions, insurance requirements, force majeure clauses, and negotiation strategies. Include real-world examples and industry-specific considerations.",
-            "time_value": 6.5,
+            "time_value": 7,
             "time_unit": "weeks",
             "model": "vertexai:gemini-2.5-flash"
         }
@@ -4714,7 +4714,7 @@ TRENDING_ROADMAPS_CONFIG = [
         "request": {
             "subject": "M&A Due Diligence and Transaction Excellence",
             "goal": "I want to master M&A due diligence and transaction documentation. Teach me due diligence processes, purchase agreement drafting, disclosure schedules, closing conditions, deal structures, and tax considerations. Include practical transaction management and client counseling skills.",
-            "time_value": 7.5,
+            "time_value": 8,
             "time_unit": "weeks",
             "model": "vertexai:gemini-2.5-flash"
         }
@@ -4799,7 +4799,7 @@ TRENDING_ROADMAPS_CONFIG = [
         "request": {
             "subject": "Employment Law Compliance and Investigation Mastery",
             "goal": "I want to master employment law compliance and workplace investigations. Teach me investigation techniques, discrimination analysis, wage and hour compliance, union issues, policy development, and training programs. Include practical case management and client counseling skills.",
-            "time_value": 5.5,
+            "time_value": 6,
             "time_unit": "weeks",
             "model": "vertexai:gemini-2.5-flash"
         }
@@ -4882,7 +4882,7 @@ TRENDING_ROADMAPS_CONFIG = [
         "request": {
             "subject": "Law Firm Business Development and Client Relations Excellence",
             "goal": "I want to master law firm business development and client relations. Teach me client development, relationship management, marketing strategies, networking, proposal writing, pitch presentations, fee optimization, and referral building. Include personal branding and thought leadership strategies.",
-            "time_value": 4.5,
+            "time_value": 5,
             "time_unit": "weeks",
             "model": "vertexai:gemini-2.5-flash"
         }
@@ -4911,7 +4911,7 @@ TRENDING_ROADMAPS_CONFIG = [
         "request": {
             "subject": "Securities Law Compliance and Disclosure Mastery",
             "goal": "I want to master securities law compliance and disclosure requirements. Teach me SEC reporting, proxy statements, 10-K filings, insider trading rules, Sarbanes-Oxley compliance, corporate governance, and securities offerings. Include practical compliance program development.",
-            "time_value": 6.5,
+            "time_value": 7,
             "time_unit": "weeks",
             "model": "vertexai:gemini-2.5-flash"
         }
@@ -4938,7 +4938,7 @@ TRENDING_ROADMAPS_CONFIG = [
         "request": {
             "subject": "Professional Responsibility and Legal Ethics Excellence",
             "goal": "I want to master professional responsibility and legal ethics in practice. Teach me conflict analysis, confidentiality rules, fee ethics, advertising regulations, professional liability prevention, and disciplinary procedures. Include practical decision-making frameworks and real-world scenarios.",
-            "time_value": 3.5,
+            "time_value": 4,
             "time_unit": "weeks",
             "model": "vertexai:gemini-2.5-flash"
         }
@@ -5054,7 +5054,7 @@ TRENDING_ROADMAPS_CONFIG = [
         "request": {
             "subject": "Criminal Law Practice and CRPC Excellence",
             "goal": "I want to master criminal law practice and CRPC procedures in India. Teach me bail applications, anticipatory bail, charge sheet analysis, trial strategy, cross-examination, plea bargaining, and appellate practice. Include practical courtroom advocacy and case management skills.",
-            "time_value": 6.5,
+            "time_value": 7,
             "time_unit": "weeks",
             "model": "vertexai:gemini-2.5-flash"
         }
@@ -5139,7 +5139,7 @@ TRENDING_ROADMAPS_CONFIG = [
         "request": {
             "subject": "Insolvency and Bankruptcy Code (IBC) Mastery",
             "goal": "I want to master IBC practice and insolvency law in India. Teach me CIRP procedures, resolution plans, NCLT practice, liquidation processes, creditor rights, and resolution professional duties. Include practical case management and stakeholder coordination skills.",
-            "time_value": 7.5,
+            "time_value": 8,
             "time_unit": "weeks",
             "model": "vertexai:gemini-2.5-flash"
         }
@@ -5166,7 +5166,7 @@ TRENDING_ROADMAPS_CONFIG = [
         "request": {
             "subject": "Real Estate and RERA Compliance Mastery",
             "goal": "I want to master real estate law and RERA compliance in India. Teach me RERA procedures, title verification, sale deed drafting, development agreements, land acquisition, and dispute resolution. Include practical due diligence and compliance strategies.",
-            "time_value": 5.5,
+            "time_value": 6,
             "time_unit": "weeks",
             "model": "vertexai:gemini-2.5-flash"
         }
@@ -5195,7 +5195,7 @@ TRENDING_ROADMAPS_CONFIG = [
         "request": {
             "subject": "Civil Procedure Code and Court Practice Excellence",
             "goal": "I want to master CPC and civil court practice in India. Teach me plaint drafting, written statements, interim applications, examination techniques, execution procedures, and appellate practice. Include commercial court procedures and case management strategies.",
-            "time_value": 6.5,
+            "time_value": 7,
             "time_unit": "weeks",
             "model": "vertexai:gemini-2.5-flash"
         }
@@ -5251,7 +5251,7 @@ TRENDING_ROADMAPS_CONFIG = [
         "request": {
             "subject": "SEBI Regulations and Securities Law Mastery",
             "goal": "I want to master SEBI regulations and securities law practice in India. Teach me IPO procedures, listing compliance, insider trading rules, mutual fund regulations, takeover procedures, and SAT practice. Include practical compliance strategies and litigation skills.",
-            "time_value": 7.5,
+            "time_value": 8,
             "time_unit": "weeks",
             "model": "vertexai:gemini-2.5-flash"
         }
@@ -5307,7 +5307,7 @@ TRENDING_ROADMAPS_CONFIG = [
         "request": {
             "subject": "Legal Technology and Digital Court Practice in India",
             "goal": "I want to master legal technology and digital court practice in India. Teach me e-filing systems, virtual court proceedings, digital case management, AI legal research tools, and cybersecurity for law firms. Include practical tips for online advocacy and client management.",
-            "time_value": 4.5,
+            "time_value": 5,
             "time_unit": "weeks",
             "model": "vertexai:gemini-2.5-flash"
         }
@@ -5334,7 +5334,7 @@ TRENDING_ROADMAPS_CONFIG = [
         "request": {
             "subject": "Cyber Law and IT Act Practice Mastery",
             "goal": "I want to master cyber law and IT Act practice in India. Teach me cyber crime procedures, digital evidence, data protection compliance, e-commerce regulations, fintech law, and cyber tribunal practice. Include practical investigation techniques and technology law advisory skills.",
-            "time_value": 5.5,
+            "time_value": 6,
             "time_unit": "weeks",
             "model": "vertexai:gemini-2.5-flash"
         }
@@ -5450,7 +5450,7 @@ TRENDING_ROADMAPS_CONFIG = [
         "request": {
             "subject": "PMLA and ED Investigation Defense Mastery",
             "goal": "I want to master PMLA defense and ED investigation representation. Teach me PMLA procedures, provisional attachment challenges, ED investigation tactics, money laundering defense, SAFEMA proceedings, and MLAT cases. Include practical investigation response and defense strategies.",
-            "time_value": 6.5,
+            "time_value": 7,
             "time_unit": "weeks",
             "model": "vertexai:gemini-2.5-flash"
         }
@@ -5506,7 +5506,7 @@ TRENDING_ROADMAPS_CONFIG = [
         "request": {
             "subject": "Cryptocurrency and Digital Assets Law Mastery",
             "goal": "I want to master cryptocurrency and digital assets law in India. Teach me crypto taxation, TDS compliance, exchange regulations, blockchain legal frameworks, RBI guidelines, ICO regulations, and enforcement issues. Include practical compliance strategies for fintech businesses.",
-            "time_value": 5.5,
+            "time_value": 6,
             "time_unit": "weeks",
             "model": "vertexai:gemini-2.5-flash"
         }
@@ -5562,7 +5562,7 @@ TRENDING_ROADMAPS_CONFIG = [
         "request": {
             "subject": "Banking and Financial Services Regulation Mastery",
             "goal": "I want to master banking and financial services regulation in India. Teach me RBI compliance, banking licenses, NBFC regulations, SARFAESI proceedings, payment systems, fintech compliance, and enforcement defense. Include practical regulatory strategy and compliance implementation.",
-            "time_value": 7.5,
+            "time_value": 8,
             "time_unit": "weeks",
             "model": "vertexai:gemini-2.5-flash"
         }
@@ -5589,7 +5589,7 @@ TRENDING_ROADMAPS_CONFIG = [
         "request": {
             "subject": "Aviation Law and DGCA Compliance Excellence",
             "goal": "I want to master aviation law and DGCA compliance in India. Teach me DGCA procedures, aircraft registration, operational compliance, leasing structures, passenger rights, safety regulations, and accident investigation. Include practical aviation business advisory skills.",
-            "time_value": 4.5,
+            "time_value": 5,
             "time_unit": "weeks",
             "model": "vertexai:gemini-2.5-flash"
         }
@@ -5616,7 +5616,7 @@ TRENDING_ROADMAPS_CONFIG = [
         "request": {
             "subject": "Pharmaceutical and Drug Regulatory Law Mastery",
             "goal": "I want to master pharmaceutical and drug regulatory law in India. Teach me CDSCO procedures, drug licensing, clinical trial regulations, patent challenges, price control, DPCO compliance, and enforcement defense. Include practical regulatory strategy for pharmaceutical companies.",
-            "time_value": 5.5,
+            "time_value": 6,
             "time_unit": "weeks",
             "model": "vertexai:gemini-2.5-flash"
         }
@@ -5672,7 +5672,7 @@ TRENDING_ROADMAPS_CONFIG = [
         "request": {
             "subject": "Customs and Foreign Trade Policy Excellence",
             "goal": "I want to master customs and foreign trade policy practice. Teach me customs procedures, CESTAT appeals, valuation disputes, EXIM policy compliance, licensing requirements, and audit defense. Include practical international trade advisory and compliance strategies.",
-            "time_value": 6.5,
+            "time_value": 7,
             "time_unit": "weeks",
             "model": "vertexai:gemini-2.5-flash"
         }
@@ -5701,7 +5701,7 @@ TRENDING_ROADMAPS_CONFIG = [
         "request": {
             "subject": "FEMA and Foreign Exchange Compliance Mastery",
             "goal": "I want to master FEMA and foreign exchange compliance. Teach me FDI procedures, ECB regulations, ODI compliance, FEMA violation defense, derivative transactions, and RBI enforcement. Include practical foreign investment structuring and compliance strategies.",
-            "time_value": 5.5,
+            "time_value": 6,
             "time_unit": "weeks",
             "model": "vertexai:gemini-2.5-flash"
         }
@@ -5784,7 +5784,7 @@ TRENDING_ROADMAPS_CONFIG = [
         "request": {
             "subject": "Gaming and Gambling Law Compliance Mastery",
             "goal": "I want to master gaming and gambling law compliance in India. Teach me online gaming regulations, skill vs. chance classification, fantasy sports compliance, state licensing requirements, advertising regulations, and enforcement defense. Include practical compliance strategies for gaming businesses.",
-            "time_value": 4.5,
+            "time_value": 5,
             "time_unit": "weeks",
             "model": "vertexai:gemini-2.5-flash"
         }
@@ -5844,7 +5844,7 @@ TRENDING_ROADMAPS_CONFIG = [
         "request": {
             "subject": "SEC Enforcement Defense and Securities Litigation Excellence",
             "goal": "I want to master SEC enforcement defense and securities litigation. Teach me SEC investigation procedures, Wells submissions, insider trading defense, disclosure violations, parallel proceedings, settlement strategies, and administrative hearings. Include practical white-collar defense and client counseling techniques.",
-            "time_value": 7.5,
+            "time_value": 8,
             "time_unit": "weeks",
             "model": "vertexai:gemini-2.5-flash"
         }
@@ -5871,7 +5871,7 @@ TRENDING_ROADMAPS_CONFIG = [
         "request": {
             "subject": "FDA Regulatory Practice and Healthcare Law Mastery",
             "goal": "I want to master FDA regulatory practice and healthcare law. Teach me drug approval processes, medical device submissions, FDA inspections, warning letter responses, clinical trial regulations, food safety law, and enforcement defense. Include practical regulatory strategy and compliance implementation.",
-            "time_value": 6.5,
+            "time_value": 7,
             "time_unit": "weeks",
             "model": "vertexai:gemini-2.5-flash"
         }
@@ -5983,7 +5983,7 @@ TRENDING_ROADMAPS_CONFIG = [
         "request": {
             "subject": "OFAC Sanctions and Export Controls Mastery",
             "goal": "I want to master OFAC sanctions and export controls practice. Teach me sanctions programs, blocking procedures, EAR/ITAR compliance, licensing requirements, voluntary disclosure, penalty mitigation, and screening systems. Include practical international trade compliance and enforcement defense.",
-            "time_value": 6.5,
+            "time_value": 7,
             "time_unit": "weeks",
             "model": "vertexai:gemini-2.5-flash"
         }
@@ -6039,7 +6039,7 @@ TRENDING_ROADMAPS_CONFIG = [
         "request": {
             "subject": "AI and Technology Law Practice Excellence",
             "goal": "I want to master AI and technology law practice. Teach me AI bias auditing, algorithmic accountability, ML IP protection, autonomous systems liability, AI ethics compliance, and technology contract drafting. Include practical AI governance and risk management strategies.",
-            "time_value": 5.5,
+            "time_value": 6,
             "time_unit": "weeks",
             "model": "vertexai:gemini-2.5-flash"
         }
@@ -6068,7 +6068,7 @@ TRENDING_ROADMAPS_CONFIG = [
         "request": {
             "subject": "Private Equity and Venture Capital Transactions Excellence",
             "goal": "I want to master private equity and venture capital transactions. Teach me fund formation, LP/GP agreements, Series A-growth equity deals, LBO structuring, carried interest taxation, ERISA compliance, and exit strategies. Include practical investment fund legal advisory and transaction management.",
-            "time_value": 7.5,
+            "time_value": 8,
             "time_unit": "weeks",
             "model": "vertexai:gemini-2.5-flash"
         }
@@ -6095,7 +6095,7 @@ TRENDING_ROADMAPS_CONFIG = [
         "request": {
             "subject": "SPAC Transactions and Public Company Practice Excellence",
             "goal": "I want to master SPAC transactions and public company practice. Teach me SPAC IPOs, sponsor structures, de-SPAC negotiations, PIPE financing, earnout arrangements, proxy statements, and SEC comment responses. Include practical capital markets and public company advisory skills.",
-            "time_value": 6.5,
+            "time_value": 7,
             "time_unit": "weeks",
             "model": "vertexai:gemini-2.5-flash"
         }
@@ -6180,7 +6180,7 @@ TRENDING_ROADMAPS_CONFIG = [
         "request": {
             "subject": "Environmental Law and Superfund Litigation Excellence",
             "goal": "I want to master environmental law and Superfund litigation. Teach me CERCLA liability, EPA enforcement defense, consent decrees, RCRA compliance, natural resource damages, and environmental due diligence. Include practical environmental litigation and regulatory compliance strategies.",
-            "time_value": 6.5,
+            "time_value": 7,
             "time_unit": "weeks",
             "model": "vertexai:gemini-2.5-flash"
         }
@@ -6433,7 +6433,7 @@ TRENDING_ROADMAPS_CONFIG = [
         "request": {
             "subject": "CPHQ Healthcare Quality Professional Excellence",
             "goal": "I want to master CPHQ certification for healthcare quality management. Teach me quality systems, patient safety programs, performance improvement, data analysis, regulatory compliance, accreditation standards, and healthcare leadership. Include practical quality improvement and patient safety implementation.",
-            "time_value": 8.5,
+            "time_value": 9,
             "time_unit": "weeks",
             "model": "vertexai:gemini-2.5-flash"
         }
@@ -6462,7 +6462,7 @@ TRENDING_ROADMAPS_CONFIG = [
         "request": {
             "subject": "PMI-ACP Agile Certified Practitioner Excellence",
             "goal": "I want to master PMI-ACP certification for agile project management. Teach me agile methodologies, scrum, kanban, planning techniques, estimation, servant leadership, team facilitation, metrics, and stakeholder engagement. Include practical agile implementation and coaching skills.",
-            "time_value": 7.5,
+            "time_value": 8,
             "time_unit": "weeks",
             "model": "vertexai:gemini-2.5-flash"
         }
@@ -6518,7 +6518,7 @@ TRENDING_ROADMAPS_CONFIG = [
         "request": {
             "subject": "CEM Energy Manager Professional Excellence",
             "goal": "I want to master CEM certification for energy management. Teach me energy auditing, efficiency projects, renewable systems, utility management, energy procurement, financing, policy compliance, and sustainability strategies. Include practical energy management and cost optimization techniques.",
-            "time_value": 9.5,
+            "time_value": 10,
             "time_unit": "weeks",
             "model": "vertexai:gemini-2.5-flash"
         }
@@ -6713,7 +6713,7 @@ TRENDING_ROADMAPS_CONFIG = [
         "request": {
             "subject": "Real-time ML Inference and Edge AI Optimization Mastery",
             "goal": "I want to master real-time ML inference and edge AI optimization. Teach me model quantization, pruning, neural architecture search, hardware optimization, real-time pipelines, latency optimization, and edge deployment. Include practical tools like TensorRT, ONNX, Core ML, and TensorFlow Lite.",
-            "time_value": 9.5,
+            "time_value": 10,
             "time_unit": "weeks",
             "model": "vertexai:gemini-2.5-flash"
         }
@@ -6796,7 +6796,7 @@ TRENDING_ROADMAPS_CONFIG = [
         "request": {
             "subject": "Reinforcement Learning for Real-World Applications Excellence",
             "goal": "I want to master reinforcement learning for real-world applications. Teach me deep RL algorithms, multi-agent systems, offline RL, RL for robotics, safe RL, constrained optimization, and practical deployment strategies. Include hands-on implementation with modern RL frameworks and real-world case studies.",
-            "time_value": 11.5,
+            "time_value": 12,
             "time_unit": "weeks",
             "model": "vertexai:gemini-2.5-flash"
         }
@@ -6825,7 +6825,7 @@ TRENDING_ROADMAPS_CONFIG = [
         "request": {
             "subject": "AI for Scientific Computing and Research Acceleration Excellence",
             "goal": "I want to master AI for scientific computing and research acceleration. Teach me physics-informed neural networks, AI for drug discovery, molecular modeling, neural differential equations, scientific simulation, materials science applications, and scientific data analysis. Include practical applications in research domains.",
-            "time_value": 10.5,
+            "time_value": 11,
             "time_unit": "weeks",
             "model": "vertexai:gemini-2.5-flash"
         }
@@ -6908,7 +6908,7 @@ TRENDING_ROADMAPS_CONFIG = [
         "request": {
             "subject": "Neural Information Retrieval and Semantic Search Excellence",
             "goal": "I want to master neural information retrieval and semantic search systems. Teach me dense retrieval, neural ranking, embedding-based search, semantic matching, query understanding, RAG systems, and large-scale search infrastructure. Include practical implementation with modern search stacks and vector databases.",
-            "time_value": 8.5,
+            "time_value": 9,
             "time_unit": "weeks",
             "model": "vertexai:gemini-2.5-flash"
         }
@@ -6964,7 +6964,7 @@ TRENDING_ROADMAPS_CONFIG = [
         "request": {
             "subject": "AI Safety and Alignment Engineering Excellence",
             "goal": "I want to master AI safety and alignment engineering. Teach me AI alignment theory, value learning, robustness testing, adversarial defense, interpretability methods, explainable AI, failure detection, safe deployment, and AI governance frameworks. Include practical safety evaluation and risk mitigation strategies.",
-            "time_value": 9.5,
+            "time_value": 10,
             "time_unit": "weeks",
             "model": "vertexai:gemini-2.5-flash"
         }
@@ -6991,7 +6991,7 @@ TRENDING_ROADMAPS_CONFIG = [
         "request": {
             "subject": "Fairness and Bias Mitigation in AI Systems Excellence",
             "goal": "I want to master fairness and bias mitigation in AI systems. Teach me bias detection, measurement techniques, fairness metrics, evaluation frameworks, bias mitigation strategies, demographic parity, equalized opportunity, and responsible AI deployment. Include practical tools for building fair and inclusive AI systems.",
-            "time_value": 7.5,
+            "time_value": 8,
             "time_unit": "weeks",
             "model": "vertexai:gemini-2.5-flash"
         }
