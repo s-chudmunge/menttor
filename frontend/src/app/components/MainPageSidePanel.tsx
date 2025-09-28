@@ -30,7 +30,7 @@ const MainPageSidePanel: React.FC<MainPageSidePanelProps> = ({
   onToggle
 }) => {
   const [searchQuery, setSearchQuery] = useState('');
-  const { data: roadmaps = [], isLoading: loading, isFetching } = useCuratedRoadmaps(100);
+  const { data: roadmaps = [], isLoading: loading, isFetching } = useCuratedRoadmaps(1000);
 
   const difficultyColors: { [key: string]: string } = {
     beginner: 'bg-green-500',

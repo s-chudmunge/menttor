@@ -104,7 +104,7 @@ const ExplorePage = () => {
   const router = useRouter();
   const { user } = useAuth();
   
-  const { data: roadmaps = [], isLoading: loading, error: queryError } = useCuratedRoadmaps(150);
+  const { data: roadmaps = [], isLoading: loading, error: queryError } = useCuratedRoadmaps(1000);
   const [categories, setCategories] = useState<Categories>({});
   const error = queryError?.message || null;
   

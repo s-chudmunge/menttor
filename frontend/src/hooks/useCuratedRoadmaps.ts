@@ -19,7 +19,7 @@ interface CuratedRoadmap {
   slug?: string;
 }
 
-export const useCuratedRoadmaps = (perPage: number = 100) => {
+export const useCuratedRoadmaps = (perPage: number = 1000) => {
   return useQuery<CuratedRoadmap[]>({
     queryKey: ['curated-roadmaps', perPage],
     queryFn: async () => {
