@@ -703,25 +703,36 @@ async def mark_learning_complete(
             raise HTTPException(status_code=400, detail="subtopic_id is required")
         
         current_user_id = current_user.id  # Extract ID while user is bound to session
+        
         # Mark learning as completed in progress tracker
-        from .progress import mark_learn_completed_helper
-        progress_result = mark_learn_completed_helper(subtopic_id, db, current_user)
+        try:
+            from .progress import mark_learn_completed_helper
+            progress_result = mark_learn_completed_helper(subtopic_id, db, current_user)
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=f"Failed to update progress: {e}")
         
         # Award completion XP and update streaks
-        behavioral_service = BehavioralService(db)
-        
-        # Award completion XP
-        xp_result = behavioral_service.award_xp(current_user_id, "subtopic_completion", {
-            "subtopic_id": subtopic_id,
-            "time_spent": time_spent
-        })
-        
-        # Update streak
-        streak_result = behavioral_service.update_streak(current_user_id)
+        try:
+            behavioral_service = BehavioralService(db)
+            
+            # Award completion XP
+            xp_result = behavioral_service.award_xp(current_user_id, "subtopic_completion", {
+                "subtopic_id": subtopic_id,
+                "time_spent": time_spent
+            })
+            
+            # Update streak
+            streak_result = behavioral_service.update_streak(current_user_id)
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=f"Failed to update behavioral data: {e}")
         
         return {
             "message": "Learning completed successfully",
-            "progress": progress_result,
+            "progress": {
+                "subtopic_id": progress_result.sub_topic_id if progress_result else subtopic_id,
+                "status": progress_result.status if progress_result else "completed",
+                "completed": True
+            },
             "behavioral_data": {
                 "xp_earned": xp_result.get("xp_earned", 0),
                 "total_xp": xp_result.get("total_xp", 0),
