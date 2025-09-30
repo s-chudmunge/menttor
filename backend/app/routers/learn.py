@@ -702,20 +702,60 @@ async def mark_learning_complete(
         if not subtopic_id:
             raise HTTPException(status_code=400, detail="subtopic_id is required")
         
-        # Simple success response without database operations for now
+        current_user_id = current_user.id
+        
+        # Mark learning as completed in progress tracker (with error handling)
+        progress_completed = False
+        try:
+            from .progress import mark_learn_completed_helper
+            progress_result = mark_learn_completed_helper(subtopic_id, db, current_user)
+            progress_completed = True
+        except Exception as e:
+            print(f"Warning: Failed to update progress: {e}")
+            progress_result = None
+        
+        # Award XP and update streak (with error handling)
+        xp_earned = 5  # default
+        total_xp = 100  # default
+        current_level = 1  # default
+        level_up = False  # default
+        current_streak = 1  # default
+        
+        try:
+            behavioral_service = BehavioralService(db)
+            
+            # Award completion XP
+            xp_result = behavioral_service.award_xp(current_user_id, "subtopic_completion", {
+                "subtopic_id": subtopic_id,
+                "time_spent": time_spent
+            })
+            
+            # Update streak
+            streak_result = behavioral_service.update_streak(current_user_id)
+            
+            # Extract results
+            xp_earned = xp_result.get("xp_earned", 5)
+            total_xp = xp_result.get("total_xp", 100)
+            current_level = xp_result.get("current_level", 1)
+            level_up = xp_result.get("level_up_occurred", False)
+            current_streak = streak_result.get("current_streak", 1)
+            
+        except Exception as e:
+            print(f"Warning: Failed to update behavioral data: {e}")
+        
         return {
             "message": "Learning completed successfully",
             "progress": {
-                "subtopic_id": subtopic_id,
-                "status": "completed",
-                "completed": True
+                "subtopic_id": progress_result.sub_topic_id if progress_result else subtopic_id,
+                "status": progress_result.status if progress_result else "completed", 
+                "completed": progress_completed
             },
             "behavioral_data": {
-                "xp_earned": 5,
-                "total_xp": 100,
-                "current_level": 1,
-                "level_up": False,
-                "current_streak": 1
+                "xp_earned": xp_earned,
+                "total_xp": total_xp,
+                "current_level": current_level,
+                "level_up": level_up,
+                "current_streak": current_streak
             }
         }
     except Exception as e:
