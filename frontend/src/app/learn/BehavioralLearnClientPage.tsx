@@ -460,24 +460,16 @@ const BehavioralLearnClientPage: React.FC<BehavioralLearnClientPageProps> = ({
           data = savedContent;
         } else {
           console.log('🔄 No saved content found, generating new learn page...');
-          // Generate new content
+          // Generate new content (backend auto-saves now)
           const response = await api.get(`/ml/learn?subtopic=${encodeURIComponent(subtopic)}&subtopic_id=${subtopicId}`);
           data = response.data;
           
-          // Save the newly generated content
-          try {
-            console.log('💾 Saving generated learn page to database...');
-            const savedData = await saveGeneratedLearnPage({
-              ...data,
-              subtopic_id: subtopicId,
-              roadmap_id: roadmapId
-            });
-            console.log('✅ Learn page saved successfully');
-            data = savedData; // Use the saved data which includes the ID
-          } catch (saveError) {
-            console.error('⚠️ Failed to save learn page, but continuing with generated content:', saveError);
-            // Continue with the generated content even if saving fails
-          }
+          // Invalidate saved learn pages cache since new content was generated
+          console.log('🔄 Invalidating saved learn pages cache after generation...');
+          queryClient.invalidateQueries(['savedLearnPages', roadmapId]);
+          queryClient.invalidateQueries(['savedLearnPages']);
+          
+          console.log('✅ Learn page generated and auto-saved by backend');
         }
       } else if (isCustomLearning && customSubject && customGoal && customModel) {
         // Use the /generate endpoint for custom learning with user-selected model
@@ -488,10 +480,17 @@ const BehavioralLearnClientPage: React.FC<BehavioralLearnClientPageProps> = ({
           model: customModel
         });
         data = response.data;
+        
+        // Note: Custom generation doesn't auto-save, so no cache invalidation needed
       } else {
         // Fallback to standard generation
         const response = await api.get(`/ml/learn?subtopic=${encodeURIComponent(subtopic)}&subtopic_id=${subtopicId}`);
         data = response.data;
+        
+        // Invalidate saved learn pages cache since new content was generated
+        console.log('🔄 Invalidating saved learn pages cache after fallback generation...');
+        queryClient.invalidateQueries(['savedLearnPages', roadmapId]);
+        queryClient.invalidateQueries(['savedLearnPages']);
       }
       
       setContentData(data);
