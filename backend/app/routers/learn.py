@@ -115,16 +115,6 @@ async def get_learn_content_endpoint(
         # Track learning activity with behavioral service
         behavioral_service = BehavioralService(db)
         
-        # Find the roadmap ID for milestone tracking
-        roadmap_id = None
-        for roadmap in user_roadmaps:
-            roadmap_id = roadmap.id
-            break
-        
-        if roadmap_id:
-            # Ensure user has milestones set up
-            _ensure_user_milestones(current_user_id, roadmap_id, behavioral_service)
-        
         # Award XP for accessing learning content
         xp_result = behavioral_service.award_xp(current_user_id, "subtopic_completion", {
             "subtopic": subtopic,
@@ -133,9 +123,6 @@ async def get_learn_content_endpoint(
         
         # Update streak
         streak_result = behavioral_service.update_streak(current_user_id)
-        
-        # Update milestones
-        milestone_result = behavioral_service.update_milestone_progress(current_user_id, "Foundation Builder", 1)
 
         # Return the generated content without saving to database
         content_dict = [block.model_dump() for block in ai_generated_content.content]
@@ -147,7 +134,7 @@ async def get_learn_content_endpoint(
             current_level=xp_result.get("current_level", 1),
             level_up=xp_result.get("level_up_occurred", False),
             current_streak=streak_result.get("current_streak", 1),
-            milestone_completed=milestone_result.get("just_completed", False) if milestone_result else False
+            milestone_completed=False
         )
 
         response = LearningContentResponse(
@@ -172,41 +159,6 @@ async def get_learn_content_endpoint(
     except Exception as e:
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"Failed to retrieve or generate learning content: {e}")
 
-def _ensure_user_milestones(user_id: int, roadmap_id: int, behavioral_service: BehavioralService):
-    """Ensure user has basic milestones set up"""
-    try:
-        from sql_models import MilestoneProgress
-        
-        # Check if user already has milestones
-        existing_milestones = behavioral_service.db.exec(
-            select(MilestoneProgress).where(
-                MilestoneProgress.user_id == user_id,
-                MilestoneProgress.roadmap_id == roadmap_id
-            )
-        ).all()
-        
-        if not existing_milestones:
-            # Create basic milestones
-            milestones = [
-                {"name": "Foundation Builder", "description": "Complete 5 learning subtopics", "target": 5, "type": "subtopic_completion"},
-                {"name": "Dedicated Learner", "description": "Complete 15 learning subtopics", "target": 15, "type": "subtopic_completion"},
-                {"name": "Knowledge Master", "description": "Complete 50 learning subtopics", "target": 50, "type": "subtopic_completion"},
-                {"name": "Streak Starter", "description": "Maintain a 3-day learning streak", "target": 3, "type": "streak"},
-                {"name": "Consistency King", "description": "Maintain a 7-day learning streak", "target": 7, "type": "streak"},
-                {"name": "Focus Champion", "description": "Spend 60 minutes learning", "target": 60, "type": "focus_time"}
-            ]
-            
-            for milestone in milestones:
-                behavioral_service.create_milestone(
-                    user_id=user_id,
-                    roadmap_id=roadmap_id,
-                    milestone_type=milestone["type"],
-                    name=milestone["name"],
-                    description=milestone["description"],
-                    target_value=milestone["target"]
-                )
-    except Exception as e:
-        print(f"Failed to create milestones: {e}")  # Log but don't fail the request
 
 @router.get("/saved", response_model=List[LearningContentResponse])
 def get_saved_learn_content(
@@ -767,17 +719,6 @@ async def mark_learning_complete(
         # Update streak
         streak_result = behavioral_service.update_streak(current_user_id)
         
-        # Update milestones
-        milestone_result = behavioral_service.update_milestone_progress(current_user_id, "Foundation Builder", 1)
-        
-        # Check for rewards
-        reward = behavioral_service.create_reward_event(
-            current_user_id, 
-            "subtopic_completion", 
-            {"subtopic_id": subtopic_id},
-            session_id=None
-        )
-        
         return {
             "message": "Learning completed successfully",
             "progress": progress_result,
@@ -786,10 +727,7 @@ async def mark_learning_complete(
                 "total_xp": xp_result.get("total_xp", 0),
                 "current_level": xp_result.get("current_level", 1),
                 "level_up": xp_result.get("level_up_occurred", False),
-                "current_streak": streak_result.get("current_streak", 1),
-                "milestone_completed": milestone_result.get("just_completed", False) if milestone_result else False,
-                "reward_triggered": reward is not None,
-                "reward": reward.model_dump() if reward else None
+                "current_streak": streak_result.get("current_streak", 1)
             }
         }
     except Exception as e:
