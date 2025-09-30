@@ -124,8 +124,62 @@ async def get_learn_content_endpoint(
         # Update streak
         streak_result = behavioral_service.update_streak(current_user_id)
 
-        # Return the generated content without saving to database
+        # Save the generated content to database automatically
         content_dict = [block.model_dump() for block in ai_generated_content.content]
+        
+        # Find the roadmap ID for saving
+        roadmap_id = None
+        for roadmap in user_roadmaps:
+            roadmap_id = roadmap.id
+            break
+        
+        # Save to database
+        saved_content = None
+        try:
+            compressed_content = compress_content(content_dict)
+            
+            # Check if content already exists for this subtopic and roadmap
+            existing_content = db.exec(
+                select(LearningContent).where(
+                    LearningContent.user_id == current_user_id,
+                    LearningContent.subtopic_id == subtopic_id,
+                    LearningContent.roadmap_id == roadmap_id
+                )
+            ).first()
+            
+            if existing_content:
+                # Update existing content
+                existing_content.content = compressed_content
+                existing_content.updated_at = datetime.utcnow()
+                db.add(existing_content)
+                db.commit()
+                db.refresh(existing_content)
+                saved_content = existing_content
+            else:
+                # Create new content
+                db_learning_content = LearningContent(
+                    subtopic=subtopic,
+                    content=compressed_content,
+                    user_id=current_user_id,
+                    model=ai_generated_content.model,
+                    subject=roadmap_subject,
+                    goal=roadmap_goal,
+                    subtopic_id=subtopic_id,
+                    roadmap_id=roadmap_id,
+                    is_saved=True,
+                    is_generated=True,
+                    is_public=False,
+                    created_at=datetime.utcnow(),
+                    updated_at=datetime.utcnow()
+                )
+                
+                db.add(db_learning_content)
+                db.commit()
+                db.refresh(db_learning_content)
+                saved_content = db_learning_content
+                
+        except Exception as e:
+            print(f"Warning: Failed to save generated content: {e}")
 
         # Create behavioral data
         behavioral_data = BehavioralData(
@@ -138,18 +192,20 @@ async def get_learn_content_endpoint(
         )
 
         response = LearningContentResponse(
-            id=None,  # No ID since not saved to DB
+            id=saved_content.id if saved_content else None,
             content=content_dict,
             model=ai_generated_content.model,
             subject=roadmap_subject,
             goal=roadmap_goal,
             subtopic=subtopic,
             subtopic_id=subtopic_id,
-            is_saved=False,
+            roadmap_id=roadmap_id,
+            is_saved=True if saved_content else False,
+            is_generated=True,
             is_public=False,
             share_token=None,
-            created_at=None,
-            updated_at=None,
+            created_at=saved_content.created_at if saved_content else None,
+            updated_at=saved_content.updated_at if saved_content else None,
             behavioral_data=behavioral_data
         )
 
