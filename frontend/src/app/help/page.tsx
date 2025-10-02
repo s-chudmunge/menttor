@@ -156,11 +156,6 @@ export default function HelpPage() {
                   bg: 'bg-green-100 dark:bg-green-900/20',
                   text: 'text-green-600 dark:text-green-400',
                   button: 'bg-green-600 hover:bg-green-700'
-                },
-                green: {
-                  bg: 'bg-green-100 dark:bg-green-900/20',
-                  text: 'text-green-600 dark:text-green-400',
-                  button: 'bg-green-600 hover:bg-green-700'
                 }
               };
               
