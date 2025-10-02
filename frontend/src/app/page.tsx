@@ -522,7 +522,7 @@ const MenttorLabsMainPage = () => {
 
       {/* Main Content Area */}
       <div className="lg:ml-80">
-        {/* Roadmap Generation Form */}
+        {/* Roadmap Generation Form - Compact Design */}
         <section id="generate" className="py-8 bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 transition-colors duration-300">
         <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-8">
