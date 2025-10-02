@@ -77,7 +77,7 @@ const ThreeDGeneratorModal: React.FC<ThreeDGeneratorModalProps> = ({
 
         <div className="p-6">
           <div className="text-center mb-6">
-            <div className="inline-flex items-center justify-center w-14 h-14 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-2xl mb-4">
+            <div className="inline-flex items-center justify-center w-14 h-14 bg-gradient-to-r from-green-600 to-green-600 rounded-2xl mb-4">
               <Box className="w-7 h-7 text-white" />
             </div>
             <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
@@ -98,7 +98,7 @@ const ThreeDGeneratorModal: React.FC<ThreeDGeneratorModalProps> = ({
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 placeholder="e.g., DNA double helix structure, solar system with planets, molecular structure of caffeine..."
-                className="w-full px-3 py-3 border border-gray-200 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 resize-none transition-colors"
+                className="w-full px-3 py-3 border border-gray-200 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 resize-none transition-colors"
                 rows={4}
                 maxLength={500}
                 disabled={loading || isGenerating}
@@ -121,7 +121,7 @@ const ThreeDGeneratorModal: React.FC<ThreeDGeneratorModalProps> = ({
                 <button
                   type="button"
                   onClick={onModelSelect}
-                  className="text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 text-sm font-medium transition-colors"
+                  className="text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300 text-sm font-medium transition-colors"
                 >
                   Change
                 </button>
@@ -131,7 +131,7 @@ const ThreeDGeneratorModal: React.FC<ThreeDGeneratorModalProps> = ({
             <button
               type="submit"
               disabled={!isFormValid || loading || isGenerating}
-              className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed text-white py-3 px-6 rounded-lg font-medium transition-all duration-200 flex items-center justify-center space-x-2 group"
+              className="w-full bg-gradient-to-r from-green-600 to-green-600 hover:from-green-700 hover:to-green-700 disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed text-white py-3 px-6 rounded-lg font-medium transition-all duration-200 flex items-center justify-center space-x-2 group"
             >
               {loading ? (
                 <>
@@ -184,10 +184,10 @@ const ThreeDGeneratorCard: React.FC<ThreeDGeneratorCardProps> = ({ onClick, clas
   return (
     <div 
       onClick={onClick}
-      className={`cursor-pointer bg-purple-100 dark:bg-purple-800 rounded p-3 border border-purple-200 dark:border-purple-700 hover:bg-purple-200 dark:hover:bg-purple-700 transition-colors ${className}`}
+      className={`cursor-pointer bg-green-100 dark:bg-green-800 rounded p-3 border border-green-200 dark:border-green-700 hover:bg-green-200 dark:hover:bg-green-700 transition-colors ${className}`}
     >
       <div className="flex items-center space-x-3">
-        <div className="w-8 h-8 bg-purple-600 dark:bg-purple-500 rounded flex items-center justify-center">
+        <div className="w-8 h-8 bg-green-600 dark:bg-green-500 rounded flex items-center justify-center">
           <Box className="w-4 h-4 text-white" />
         </div>
         <div className="flex-1">
@@ -195,7 +195,7 @@ const ThreeDGeneratorCard: React.FC<ThreeDGeneratorCardProps> = ({ onClick, clas
             3D Visualization
           </h3>
         </div>
-        <ArrowRight className="w-4 h-4 text-purple-600 dark:text-purple-400" />
+        <ArrowRight className="w-4 h-4 text-green-600 dark:text-green-400" />
       </div>
     </div>
   );

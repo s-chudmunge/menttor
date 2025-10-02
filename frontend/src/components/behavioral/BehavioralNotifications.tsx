@@ -33,9 +33,9 @@ const BehavioralNotifications: React.FC = () => {
       case 'xp': return <Star className="w-5 h-5 text-yellow-500" />;
       case 'levelup': return <Trophy className="w-5 h-5 text-gold-500" />;
       case 'streak': return <Zap className="w-5 h-5 text-orange-500" />;
-      case 'milestone': return <Award className="w-5 h-5 text-purple-500" />;
+      case 'milestone': return <Award className="w-5 h-5 text-green-500" />;
       case 'reward': return <Target className="w-5 h-5 text-blue-500" />;
-      case 'focus': return <Brain className="w-5 h-5 text-indigo-500" />;
+      case 'focus': return <Brain className="w-5 h-5 text-green-500" />;
       case 'session': return <Clock className="w-5 h-5 text-green-500" />;
       default: return <Star className="w-5 h-5 text-gray-500" />;
     }
@@ -52,10 +52,10 @@ const BehavioralNotifications: React.FC = () => {
         };
       case 'milestone':
         return {
-          bg: 'bg-purple-50 dark:bg-purple-900/30',
-          border: 'border-purple-200 dark:border-purple-700',
-          title: 'text-purple-800 dark:text-purple-200',
-          message: 'text-purple-700 dark:text-purple-300'
+          bg: 'bg-green-50 dark:bg-green-900/30',
+          border: 'border-green-200 dark:border-green-700',
+          title: 'text-green-800 dark:text-green-200',
+          message: 'text-green-700 dark:text-green-300'
         };
       case 'reward':
         return {
@@ -132,7 +132,7 @@ const BehavioralNotifications: React.FC = () => {
                   
                   {/* Special handling for milestone notifications */}
                   {notification.type === 'milestone' && notification.data && (
-                    <div className="mt-2 text-xs text-purple-600 dark:text-purple-400">
+                    <div className="mt-2 text-xs text-green-600 dark:text-green-400">
                       Progress: {Math.round(notification.data.progress_percentage)}%
                     </div>
                   )}

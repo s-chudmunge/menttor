@@ -12,9 +12,9 @@ interface Props {
 const styleConfig = {
   metaphor: {
     icon: Lightbulb,
-    className: "bg-purple-50 border-purple-400 text-purple-800",
-    iconBg: "bg-purple-100",
-    iconColor: "text-purple-600"
+    className: "bg-green-50 border-green-400 text-green-800",
+    iconBg: "bg-green-100",
+    iconColor: "text-green-600"
   },
   analogy: {
     icon: GitCompareArrows,

@@ -44,7 +44,7 @@ const ModelComparisonModal: React.FC<ModelComparisonModalProps> = ({
     <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 p-2 sm:p-4 font-sans backdrop-blur-sm">
       <div className="bg-white rounded-lg sm:rounded-2xl shadow-2xl w-full h-full sm:max-w-4xl sm:w-full sm:max-h-[95vh] flex flex-col overflow-hidden relative">
         {/* Mobile-Optimized Header */}
-        <div className="flex items-center justify-between p-4 sm:p-6 border-b border-gray-100 bg-gradient-to-r from-blue-600 to-indigo-700 text-white sticky top-0 z-10 rounded-t-lg sm:rounded-t-2xl">
+        <div className="flex items-center justify-between p-4 sm:p-6 border-b border-gray-100 bg-gradient-to-r from-blue-600 to-green-700 text-white sticky top-0 z-10 rounded-t-lg sm:rounded-t-2xl">
           <div className="flex-1 min-w-0">
             <h2 className="text-lg sm:text-3xl font-extrabold flex items-center gap-2 sm:gap-3">
               <Brain className="w-6 h-6 sm:w-8 sm:h-8" />
@@ -134,7 +134,7 @@ const ModelComparisonModal: React.FC<ModelComparisonModalProps> = ({
                     <tr className="border-b border-gray-200 hover:bg-gray-50">
                       <td className="py-2 px-3 sm:py-3 sm:px-6 text-left font-medium">
                         <div className="flex items-center gap-1 sm:gap-2">
-                          <Brain className="w-3 h-3 sm:w-4 sm:h-4 text-purple-500" /> 
+                          <Brain className="w-3 h-3 sm:w-4 sm:h-4 text-green-500" /> 
                           <span className="hidden sm:inline">Capability</span>
                           <span className="sm:hidden">Cap.</span>
                         </div>

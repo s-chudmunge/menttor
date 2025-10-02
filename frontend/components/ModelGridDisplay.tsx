@@ -60,7 +60,7 @@ const ModelGridDisplay: React.FC<ModelGridDisplayProps> = ({
             <motion.div
               className={`relative flex flex-col items-center justify-center rounded-full cursor-pointer shadow-lg text-white text-center overflow-visible border-4 ${
                 currentModelId === model.id 
-                  ? 'border-indigo-400 ring-4 ring-indigo-200' 
+                  ? 'border-green-400 ring-4 ring-green-200' 
                   : 'border-white/50 hover:border-white/80'
               }`}
               style={{
@@ -100,7 +100,7 @@ const ModelGridDisplay: React.FC<ModelGridDisplayProps> = ({
               
               {/* Selected indicator */}
               {currentModelId === model.id && (
-                <div className="absolute -top-3 -left-3 w-6 h-6 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full flex items-center justify-center border-2 border-white">
+                <div className="absolute -top-3 -left-3 w-6 h-6 bg-gradient-to-r from-green-500 to-green-600 rounded-full flex items-center justify-center border-2 border-white">
                   <motion.div
                     className="w-3 h-3 bg-white rounded-full"
                     animate={{ scale: [1, 1.2, 1] }}

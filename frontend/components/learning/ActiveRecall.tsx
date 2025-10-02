@@ -13,9 +13,9 @@ const ActiveRecall: React.FC<Props> = ({ data }) => {
   return (
     <div className="my-6 bg-white/70 backdrop-blur-sm rounded-3xl border border-gray-200/50 shadow-lg p-6">
       {/* Question Section */}
-      <div className="flex items-start bg-indigo-50 px-4 py-3 rounded-xl mb-4">
-        <BrainCircuit className="h-6 w-6 mr-3 text-indigo-600 mt-1 flex-shrink-0" />
-        <div className="text-xl font-medium text-indigo-900 prose prose-xl max-w-none">
+      <div className="flex items-start bg-green-50 px-4 py-3 rounded-xl mb-4">
+        <BrainCircuit className="h-6 w-6 mr-3 text-green-600 mt-1 flex-shrink-0" />
+        <div className="text-xl font-medium text-green-900 prose prose-xl max-w-none">
           <ReactMarkdown
             remarkPlugins={[remarkMath]}
             rehypePlugins={[rehypeKatex]}

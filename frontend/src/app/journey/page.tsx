@@ -523,7 +523,7 @@ const JourneyPage = () => {
                         <span>Track your progress as you go</span>
                       </div>
                       <div className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400">
-                        <Brain className="w-4 h-4 text-purple-600" />
+                        <Brain className="w-4 h-4 text-green-600" />
                         <span>Take quizzes to test your knowledge</span>
                       </div>
                       <div className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400">

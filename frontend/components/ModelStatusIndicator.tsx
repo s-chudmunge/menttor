@@ -29,11 +29,11 @@ const ModelStatusIndicator = () => {
   };
 
   const getModelColor = (model: string | null) => {
-    if (!model) return 'bg-purple-500';
+    if (!model) return 'bg-green-500';
     if (model.includes('gpt')) return 'bg-green-500';
     if (model.includes('claude')) return 'bg-orange-500';
     if (model.includes('gemini')) return 'bg-blue-500';
-    return 'bg-purple-500';
+    return 'bg-green-500';
   };
 
   if (!isGenerating) return null;

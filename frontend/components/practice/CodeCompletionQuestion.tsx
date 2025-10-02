@@ -518,9 +518,9 @@ const CodeCompletionQuestion: React.FC<CodeCompletionQuestionProps> = ({
         >
           <div className="flex items-center justify-between px-4 py-3 bg-gray-50 dark:bg-gray-700 border-b border-gray-200 dark:border-gray-600">
             <div className="flex items-center space-x-2">
-              <Code2 className="w-4 h-4 text-indigo-600" />
+              <Code2 className="w-4 h-4 text-green-600" />
               <span className="font-medium text-gray-900 dark:text-white">Code Editor</span>
-              <span className="text-xs px-2 py-1 bg-indigo-100 dark:bg-indigo-900/30 text-indigo-800 dark:text-indigo-200 rounded">
+              <span className="text-xs px-2 py-1 bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200 rounded">
                 {detectedLanguage}
               </span>
             </div>

@@ -124,7 +124,7 @@ const LevelUpCelebration: React.FC<{ content: any; onClose: () => void }> = ({ c
       className="fixed inset-0 flex items-center justify-center z-50 p-4"
       onClick={onClose}
     >
-      <div className="absolute inset-0 bg-purple-900/60 backdrop-blur-sm" />
+      <div className="absolute inset-0 bg-green-900/60 backdrop-blur-sm" />
       
       <motion.div
         initial={{ scale: 0, y: 100 }}
@@ -207,7 +207,7 @@ const LevelUpCelebration: React.FC<{ content: any; onClose: () => void }> = ({ c
             <ConfettiParticle 
               key={i} 
               delay={i * 0.05} 
-              color={`${['bg-yellow-400', 'bg-orange-400', 'bg-red-400', 'bg-pink-400', 'bg-purple-400'][i % 5]}`}
+              color={`${['bg-yellow-400', 'bg-orange-400', 'bg-red-400', 'bg-pink-400', 'bg-green-400'][i % 5]}`}
             />
           ))}
         </div>
@@ -285,7 +285,7 @@ const ConfettiBurst: React.FC<{ onComplete: () => void }> = ({ onComplete }) => 
         <ConfettiParticle 
           key={i} 
           delay={i * 0.1} 
-          color={`${['bg-blue-400', 'bg-green-400', 'bg-yellow-400', 'bg-purple-400', 'bg-pink-400'][i % 5]}`}
+          color={`${['bg-blue-400', 'bg-green-400', 'bg-yellow-400', 'bg-green-400', 'bg-pink-400'][i % 5]}`}
         />
       ))}
     </div>

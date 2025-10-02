@@ -119,7 +119,7 @@ const FloatingTOC: React.FC<Props> = ({ content, onMarkAsLearned, onTakeQuiz, on
                 {onDownloadPDF && (
                     <button
                         onClick={onDownloadPDF}
-                        className="w-full flex items-center justify-center gap-2 bg-purple-600 hover:bg-purple-700 text-white py-2 px-3 rounded-lg text-xs font-medium transition-colors"
+                        className="w-full flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white py-2 px-3 rounded-lg text-xs font-medium transition-colors"
                     >
                         <Download className="w-3 h-3" />
                         Download PDF
@@ -130,7 +130,7 @@ const FloatingTOC: React.FC<Props> = ({ content, onMarkAsLearned, onTakeQuiz, on
                 {onContinueLearning && (
                     <button
                         onClick={onContinueLearning}
-                        className="w-full flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-3 rounded-lg text-xs font-medium transition-colors"
+                        className="w-full flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white py-2 px-3 rounded-lg text-xs font-medium transition-colors"
                     >
                         <ArrowRight className="w-3 h-3" />
                         Continue Learning
@@ -146,7 +146,7 @@ const FloatingTOC: React.FC<Props> = ({ content, onMarkAsLearned, onTakeQuiz, on
                         </div>
                         <button
                             onClick={() => window.location.href = '/journey'}
-                            className="w-full flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-medium py-2 px-3 rounded-lg transition-colors"
+                            className="w-full flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white text-xs font-medium py-2 px-3 rounded-lg transition-colors"
                         >
                             <ArrowRight className="w-3 h-3 rotate-180" />
                             Back to Journey

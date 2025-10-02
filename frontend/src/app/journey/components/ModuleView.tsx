@@ -89,7 +89,7 @@ const ModuleView: React.FC<ModuleViewProps> = ({
         <button
           onClick={() => onModuleNavigation('prev')}
           disabled={currentModuleIndex === 0}
-          className="flex items-center justify-center w-12 h-12 rounded-full bg-white/80 dark:bg-zinc-950/80 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-white dark:hover:bg-gray-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl"
+          className="flex items-center justify-center w-12 h-12 rounded-full bg-white/80 dark:bg-zinc-950/80 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 text-gray-600 dark:text-gray-400 hover:text-green-600 dark:hover:text-green-400 hover:bg-white dark:hover:bg-gray-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl"
         >
           <ChevronLeft className="w-5 h-5" />
         </button>
@@ -111,7 +111,7 @@ const ModuleView: React.FC<ModuleViewProps> = ({
         <button
           onClick={() => onModuleNavigation('next')}
           disabled={currentModuleIndex >= modules.length - 1}
-          className="flex items-center justify-center w-12 h-12 rounded-full bg-white/80 dark:bg-zinc-950/80 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-white dark:hover:bg-gray-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl"
+          className="flex items-center justify-center w-12 h-12 rounded-full bg-white/80 dark:bg-zinc-950/80 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 text-gray-600 dark:text-gray-400 hover:text-green-600 dark:hover:text-green-400 hover:bg-white dark:hover:bg-gray-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl"
         >
           <ChevronRight className="w-5 h-5" />
         </button>
@@ -212,7 +212,7 @@ const ModuleView: React.FC<ModuleViewProps> = ({
                                     </span>
                                   )}
                                   {subtopic.has_code_challenge && (
-                                    <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300">
+                                    <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300">
                                       <Target className="w-2.5 h-2.5 mr-1" />
                                       Code
                                     </span>
@@ -310,7 +310,7 @@ const ModuleView: React.FC<ModuleViewProps> = ({
           </span>
           <div className="w-24 h-2 bg-gray-200 dark:bg-zinc-700 rounded-full overflow-hidden">
             <div 
-              className="h-full bg-indigo-600 transition-all duration-500"
+              className="h-full bg-green-600 transition-all duration-500"
               style={{
                 width: `${((currentModuleIndex + 1) / modules.length) * 100}%` 
               }}

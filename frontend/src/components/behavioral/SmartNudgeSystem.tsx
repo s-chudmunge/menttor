@@ -87,7 +87,7 @@ const SmartNudgeSystem: React.FC = () => {
         action: 'Take on Advanced Content',
       },
       icon: <TrendingUp className="w-5 h-5 text-blue-500" />,
-      color: 'from-blue-500 to-indigo-600',
+      color: 'from-blue-500 to-green-600',
       dismissible: true,
       autoHide: 15
     },
@@ -160,8 +160,8 @@ const SmartNudgeSystem: React.FC = () => {
         message: 'You\'ve been learning for a while. Enable Focus Mode for deeper concentration and bonus XP.',
         action: 'Enable Focus Mode'
       },
-      icon: <Focus className="w-5 h-5 text-indigo-500" />,
-      color: 'from-indigo-500 to-purple-600',
+      icon: <Focus className="w-5 h-5 text-green-500" />,
+      color: 'from-green-500 to-green-600',
       dismissible: true
     },
     
@@ -208,8 +208,8 @@ const SmartNudgeSystem: React.FC = () => {
         action: 'Take Quiz',
         actionUrl: '/quiz'
       },
-      icon: <Brain className="w-5 h-5 text-purple-500" />,
-      color: 'from-purple-500 to-pink-600',
+      icon: <Brain className="w-5 h-5 text-green-500" />,
+      color: 'from-green-500 to-pink-600',
       dismissible: true
     },
     */

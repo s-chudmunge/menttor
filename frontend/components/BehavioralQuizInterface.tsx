@@ -383,9 +383,9 @@ const BehavioralQuizInterface: React.FC<QuizInterfaceProps> = ({ quizParams }) =
                         <motion.div
                             animate={{ rotate: 360 }}
                             transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                            className="w-16 h-16 border-4 border-indigo-200 border-t-indigo-600 rounded-full mx-auto mb-4"
+                            className="w-16 h-16 border-4 border-green-200 border-t-green-600 rounded-full mx-auto mb-4"
                         />
-                        <Brain className="w-8 h-8 text-indigo-600 absolute inset-0 m-auto" />
+                        <Brain className="w-8 h-8 text-green-600 absolute inset-0 m-auto" />
                     </div>
                     <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-2">
                         Generating Your Personalized Quiz

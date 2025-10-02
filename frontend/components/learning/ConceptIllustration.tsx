@@ -83,10 +83,10 @@ const HttpRequestIllustration: React.FC<{ width: number; height: number }> = ({ 
     
     {/* Response Arrow */}
     <marker id="arrowhead2" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-      <polygon points="0 0, 10 3.5, 0 7" fill="#8b5cf6" />
+      <polygon points="0 0, 10 3.5, 0 7" fill="#22c55e" />
     </marker>
-    <line x1="215" y1="115" x2="85" y2="115" stroke="#8b5cf6" strokeWidth="3" markerEnd="url(#arrowhead2)" />
-    <text x="150" y="135" textAnchor="middle" fill="#8b5cf6" fontSize="11" fontWeight="bold">HTTP Response</text>
+    <line x1="215" y1="115" x2="85" y2="115" stroke="#22c55e" strokeWidth="3" markerEnd="url(#arrowhead2)" />
+    <text x="150" y="135" textAnchor="middle" fill="#22c55e" fontSize="11" fontWeight="bold">HTTP Response</text>
     
     {/* Method Labels */}
     <rect x="110" y="50" width="80" height="20" rx="4" fill="#fef3c7" stroke="#f59e0b" />
@@ -114,7 +114,7 @@ const ApiIllustration: React.FC<{ width: number; height: number }> = ({ width, h
     <rect x="20" y="130" width="50" height="30" rx="4" fill="#ef4444" />
     <text x="45" y="148" textAnchor="middle" fill="white" fontSize="10">Cache</text>
     
-    <rect x="230" y="85" width="50" height="30" rx="4" fill="#8b5cf6" />
+    <rect x="230" y="85" width="50" height="30" rx="4" fill="#22c55e" />
     <text x="255" y="103" textAnchor="middle" fill="white" fontSize="10">Client</text>
     
     {/* Connection Lines */}
@@ -304,13 +304,13 @@ const EnergyIllustration: React.FC<{ width: number; height: number }> = ({ width
     <rect x="130" y="80" width="40" height="80" fill="#10b981" />
     <text x="150" y="175" textAnchor="middle" fill="#10b981" fontSize="10" fontWeight="bold">Potential</text>
     
-    <rect x="210" y="40" width="40" height="120" fill="#8b5cf6" />
-    <text x="230" y="175" textAnchor="middle" fill="#8b5cf6" fontSize="10" fontWeight="bold">Total</text>
+    <rect x="210" y="40" width="40" height="120" fill="#22c55e" />
+    <text x="230" y="175" textAnchor="middle" fill="#22c55e" fontSize="10" fontWeight="bold">Total</text>
     
     {/* Energy Values */}
     <text x="70" y="50" textAnchor="middle" fill="#ef4444" fontSize="12">80J</text>
     <text x="150" y="70" textAnchor="middle" fill="#10b981" fontSize="12">60J</text>
-    <text x="230" y="30" textAnchor="middle" fill="#8b5cf6" fontSize="12">140J</text>
+    <text x="230" y="30" textAnchor="middle" fill="#22c55e" fontSize="12">140J</text>
     
     <text x="150" y="195" textAnchor="middle" fill="#374151" fontSize="12" fontWeight="bold">Energy Distribution</text>
   </svg>

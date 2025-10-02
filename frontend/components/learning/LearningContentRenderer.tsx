@@ -151,7 +151,7 @@ const LearningContentRenderer: React.FC<Props> = ({ content, subject, subtopic }
               <div key={index} className="my-3 sm:my-4">
                 <a 
                   href={`/visualize?d=${encodeURIComponent(block.data.description)}&m=gemini-2.5-flash`} 
-                  className="group inline-flex items-center gap-2 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-medium py-2 sm:py-2 px-3 sm:px-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 transform hover:scale-105 text-sm sm:text-base"
+                  className="group inline-flex items-center gap-2 bg-gradient-to-r from-green-600 to-green-600 hover:from-green-700 hover:to-green-700 text-white font-medium py-2 sm:py-2 px-3 sm:px-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 transform hover:scale-105 text-sm sm:text-base"
                   target="_blank" 
                   rel="noopener noreferrer"
                 >

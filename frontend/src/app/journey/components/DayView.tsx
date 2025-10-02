@@ -213,7 +213,7 @@ const DayView: React.FC<DayViewProps> = ({ roadmapData, progressData }) => {
         <button
           onClick={() => handleNavigation('prev')}
           disabled={currentWeekIndex === 0}
-          className="flex items-center justify-center w-10 h-10 rounded-full bg-white dark:bg-zinc-950 border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-gray-50 dark:hover:bg-gray-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-sm"
+          className="flex items-center justify-center w-10 h-10 rounded-full bg-white dark:bg-zinc-950 border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:text-green-600 dark:hover:text-green-400 hover:bg-gray-50 dark:hover:bg-gray-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-sm"
         >
           <ChevronLeft className="w-5 h-5" />
         </button>
@@ -230,7 +230,7 @@ const DayView: React.FC<DayViewProps> = ({ roadmapData, progressData }) => {
         <button
           onClick={() => handleNavigation('next')}
           disabled={currentWeekIndex >= totalPages - 1}
-          className="flex items-center justify-center w-10 h-10 rounded-full bg-white dark:bg-zinc-950 border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-gray-50 dark:hover:bg-gray-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-sm"
+          className="flex items-center justify-center w-10 h-10 rounded-full bg-white dark:bg-zinc-950 border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:text-green-600 dark:hover:text-green-400 hover:bg-gray-50 dark:hover:bg-gray-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-sm"
         >
           <ChevronRight className="w-5 h-5" />
         </button>
@@ -250,7 +250,7 @@ const DayView: React.FC<DayViewProps> = ({ roadmapData, progressData }) => {
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-3">
                     <div className="flex items-center">
-                      <Calendar className="w-4 h-4 text-indigo-600 mr-2" />
+                      <Calendar className="w-4 h-4 text-green-600 mr-2" />
                       <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                         Day {day.day}
                       </h3>
@@ -273,7 +273,7 @@ const DayView: React.FC<DayViewProps> = ({ roadmapData, progressData }) => {
                 {/* Compact Progress Bar */}
                 <div className="w-full h-2 bg-gray-200 dark:bg-zinc-700 rounded-full overflow-hidden mt-3">
                   <motion.div 
-                    className="h-full bg-indigo-600 rounded-full"
+                    className="h-full bg-green-600 rounded-full"
                     initial={{ width: 0 }}
                     animate={{ width: `${day.completionRate}%` }}
                     transition={{ duration: 0.5 }}

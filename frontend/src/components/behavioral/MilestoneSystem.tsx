@@ -75,7 +75,7 @@ const MilestoneSystem: React.FC = () => {
         target: 500,
         current: totalXP,
         icon: <Trophy className="w-6 h-6" />,
-        color: 'from-blue-400 to-purple-500',
+        color: 'from-blue-400 to-green-500',
         rewards: ['Rare Badge', 'Focus Mode Enhancement'],
         isCompleted: totalXP >= 500
       },
@@ -87,7 +87,7 @@ const MilestoneSystem: React.FC = () => {
         target: 1000,
         current: totalXP,
         icon: <Crown className="w-6 h-6" />,
-        color: 'from-purple-500 to-pink-500',
+        color: 'from-green-500 to-pink-500',
         rewards: ['Epic Badge', 'Advanced Analytics'],
         isCompleted: totalXP >= 1000
       },
@@ -125,7 +125,7 @@ const MilestoneSystem: React.FC = () => {
         target: 30,
         current: currentStreak,
         icon: <Medal className="w-6 h-6" />,
-        color: 'from-indigo-500 to-purple-600',
+        color: 'from-green-500 to-green-600',
         rewards: ['Legendary Badge', 'Streak Insurance'],
         isCompleted: longestStreak >= 30
       },
@@ -165,7 +165,7 @@ const MilestoneSystem: React.FC = () => {
         target: 60,
         current: Math.floor(totalFocusTime / 60),
         icon: <TrendingUp className="w-6 h-6" />,
-        color: 'from-violet-400 to-purple-500',
+        color: 'from-green-400 to-green-500',
         rewards: ['Focus Master Badge', 'Extended Sessions'],
         isCompleted: totalFocusTime >= 3600 // 1 hour in seconds
       }
@@ -225,8 +225,8 @@ const MilestoneSystem: React.FC = () => {
   const getRarityColor = (rarity: Achievement['rarity']) => {
     switch (rarity) {
       case 'legendary': return 'from-yellow-400 via-orange-500 to-red-600';
-      case 'epic': return 'from-purple-500 via-pink-500 to-red-500';
-      case 'rare': return 'from-blue-500 via-purple-500 to-pink-500';
+      case 'epic': return 'from-green-500 via-pink-500 to-red-500';
+      case 'rare': return 'from-blue-500 via-green-500 to-pink-500';
       default: return 'from-gray-400 to-gray-600';
     }
   };

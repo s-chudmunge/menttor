@@ -243,7 +243,7 @@ export default function DashboardPage() {
       case 'completion':
         return <CheckCircle className="w-4 h-4 text-green-500" />;
       case 'quiz':
-        return <Brain className="w-4 h-4 text-purple-500" />;
+        return <Brain className="w-4 h-4 text-green-500" />;
       case 'roadmap_started':
         return <Target className="w-4 h-4 text-blue-500" />;
       default:
@@ -289,7 +289,7 @@ export default function DashboardPage() {
                     href={item.href} 
                     className={`flex items-center space-x-2 px-4 py-2.5 rounded-lg font-medium transition-all duration-200 ${
                       item.active 
-                        ? 'bg-indigo-600 text-white shadow-lg transform scale-105' 
+                        ? 'bg-green-600 text-white shadow-lg transform scale-105' 
                         : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/10'
                     }`}
                   >
@@ -414,7 +414,7 @@ export default function DashboardPage() {
                     change: 'Across all subjects',
                     changeType: 'neutral',
                     icon: <Target className="w-5 h-5" />,
-                    color: 'purple'
+                    color: 'green'
                   },
                   {
                     label: 'Average Score',
@@ -436,7 +436,7 @@ export default function DashboardPage() {
                       <div className={`p-2 rounded-lg ${
                         stat.color === 'blue' ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400' :
                         stat.color === 'green' ? 'bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400' :
-                        stat.color === 'purple' ? 'bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400' :
+                        stat.color === 'green' ? 'bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400' :
                         'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-600 dark:text-yellow-400'
                       }`}>
                         {stat.icon}
@@ -582,7 +582,7 @@ export default function DashboardPage() {
                         <p className="text-gray-600 dark:text-gray-400 mb-4">Start learning to get personalized recommendations</p>
                         <Link 
                           href="/explore"
-                          className="inline-flex items-center px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-sm font-medium"
+                          className="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm font-medium"
                         >
                           <Eye className="w-4 h-4 mr-2" />
                           Explore All Roadmaps
@@ -624,12 +624,12 @@ export default function DashboardPage() {
                   
                   <button 
                     onClick={() => router.push('/explore')}
-                    className="flex items-center space-x-3 p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg hover:bg-purple-100 dark:hover:bg-purple-900/30 transition-all duration-200 group"
+                    className="flex items-center space-x-3 p-4 bg-green-50 dark:bg-green-900/20 rounded-lg hover:bg-green-100 dark:hover:bg-green-900/30 transition-all duration-200 group"
                   >
-                    <div className="p-2 bg-purple-600 text-white rounded-lg group-hover:scale-110 transition-transform">
+                    <div className="p-2 bg-green-600 text-white rounded-lg group-hover:scale-110 transition-transform">
                       <Eye className="w-4 h-4" />
                     </div>
-                    <span className="font-medium text-purple-700 dark:text-purple-300">Explore Roadmaps</span>
+                    <span className="font-medium text-green-700 dark:text-green-300">Explore Roadmaps</span>
                   </button>
                   
                   <button 

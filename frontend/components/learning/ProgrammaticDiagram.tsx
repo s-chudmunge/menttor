@@ -126,7 +126,7 @@ const drawForceDiagram = (ctx: CanvasRenderingContext2D, width: number, height: 
   }
   
   if (forces.includes('applied')) {
-    drawArrow(ctx, centerX + 25, centerY, centerX + 80, centerY, '#8B5CF6', 'Applied (F)');
+    drawArrow(ctx, centerX + 25, centerY, centerX + 80, centerY, '#22C55E', 'Applied (F)');
   }
 };
 
@@ -171,7 +171,7 @@ const drawEnergyDiagram = (ctx: CanvasRenderingContext2D, width: number, height:
   const energies = [
     { label: 'Kinetic', value: 0.8, color: '#EF4444' },
     { label: 'Potential', value: 0.6, color: '#10B981' },
-    { label: 'Total', value: 1.0, color: '#8B5CF6' }
+    { label: 'Total', value: 1.0, color: '#22C55E' }
   ];
   
   energies.forEach((energy, index) => {
@@ -310,7 +310,7 @@ const drawHttpFlowDiagram = (ctx: CanvasRenderingContext2D, width: number, heigh
   drawArrow(ctx, clientX + 30, y1, serverX - 30, y1, '#EF4444', 'HTTP Request');
   
   // Draw response arrow
-  drawArrow(ctx, serverX - 30, y2, clientX + 30, y2, '#8B5CF6', 'HTTP Response');
+  drawArrow(ctx, serverX - 30, y2, clientX + 30, y2, '#22C55E', 'HTTP Response');
   
   // Add method labels
   ctx.fillStyle = '#666';
