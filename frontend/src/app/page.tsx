@@ -574,7 +574,7 @@ const MenttorLabsMainPage = () => {
           {/* Connected Form Flow */}
           <div className="relative">
             {/* Flow Container */}
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-8 items-start">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-12 items-start">
               
               {/* Step 1: Subject */}
               <div className="relative">
@@ -603,10 +603,43 @@ const MenttorLabsMainPage = () => {
                     </div>
                   )}
                 </div>
-                {/* Arrow to next step */}
-                <div className="hidden md:block absolute top-1/2 -right-4 transform -translate-y-1/2 z-10">
-                  <div className="w-8 h-0.5 bg-green-600"></div>
-                  <div className="absolute -right-1 -top-1 w-0 h-0 border-l-4 border-l-green-600 border-t-2 border-b-2 border-t-transparent border-b-transparent"></div>
+                {/* Enhanced Arrow to next step - Desktop Horizontal */}
+                <div className="hidden md:block absolute top-1/2 -right-6 transform -translate-y-1/2 z-10 group">
+                  <div className="relative flex items-center transition-all duration-300 group-hover:scale-110">
+                    {/* Arrow body - clean solid design */}
+                    <div className="w-12 h-1.5 bg-green-600 rounded-full transition-all duration-300 group-hover:bg-green-500"></div>
+                    {/* Arrow head with better styling */}
+                    <div className="relative -ml-2">
+                      <div className="w-0 h-0 border-l-[10px] border-l-green-600 border-t-[6px] border-b-[6px] border-t-transparent border-b-transparent transition-all duration-300 group-hover:border-l-green-500"></div>
+                      {/* Animated pulse effect */}
+                      <div className="absolute -top-1 -left-1 w-0 h-0 border-l-[12px] border-l-green-400 border-t-[8px] border-b-[8px] border-t-transparent border-b-transparent opacity-40 animate-pulse"></div>
+                    </div>
+                  </div>
+                  {/* Flow indicator dots */}
+                  <div className="absolute -top-5 left-4 flex space-x-1.5">
+                    <div className="w-2 h-2 bg-green-400 rounded-full animate-bounce opacity-80 group-hover:bg-green-300" style={{animationDelay: '0ms', animationDuration: '1.5s'}}></div>
+                    <div className="w-2 h-2 bg-green-400 rounded-full animate-bounce opacity-60 group-hover:bg-green-300" style={{animationDelay: '200ms', animationDuration: '1.5s'}}></div>
+                    <div className="w-2 h-2 bg-green-400 rounded-full animate-bounce opacity-40 group-hover:bg-green-300" style={{animationDelay: '400ms', animationDuration: '1.5s'}}></div>
+                  </div>
+                </div>
+                
+                {/* Mobile Vertical Arrow */}
+                <div className="md:hidden absolute -bottom-6 left-1/2 transform -translate-x-1/2 z-10">
+                  <div className="relative flex flex-col items-center transition-all duration-300 hover:scale-110">
+                    {/* Arrow body vertical - clean solid design */}
+                    <div className="w-1.5 h-10 bg-green-600 rounded-full transition-all duration-300 hover:bg-green-500"></div>
+                    {/* Arrow head pointing down */}
+                    <div className="relative -mt-2">
+                      <div className="w-0 h-0 border-t-[10px] border-t-green-600 border-l-[6px] border-r-[6px] border-l-transparent border-r-transparent transition-all duration-300 hover:border-t-green-500"></div>
+                      {/* Animated pulse effect */}
+                      <div className="absolute -top-1 -left-1 w-0 h-0 border-t-[12px] border-t-green-400 border-l-[8px] border-r-[8px] border-l-transparent border-r-transparent opacity-40 animate-pulse"></div>
+                    </div>
+                    {/* Mobile flow dots */}
+                    <div className="absolute -right-6 top-3 flex flex-col space-y-1">
+                      <div className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse opacity-60"></div>
+                      <div className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse opacity-40" style={{animationDelay: '300ms'}}></div>
+                    </div>
+                  </div>
                 </div>
               </div>
 
@@ -636,10 +669,43 @@ const MenttorLabsMainPage = () => {
                     </div>
                   )}
                 </div>
-                {/* Arrow to next step */}
-                <div className="hidden md:block absolute top-1/2 -right-4 transform -translate-y-1/2 z-10">
-                  <div className="w-8 h-0.5 bg-green-600"></div>
-                  <div className="absolute -right-1 -top-1 w-0 h-0 border-l-4 border-l-green-600 border-t-2 border-b-2 border-t-transparent border-b-transparent"></div>
+                {/* Enhanced Arrow to next step - Desktop Horizontal */}
+                <div className="hidden md:block absolute top-1/2 -right-6 transform -translate-y-1/2 z-10 group">
+                  <div className="relative flex items-center transition-all duration-300 group-hover:scale-110">
+                    {/* Arrow body - clean solid design */}
+                    <div className="w-12 h-1.5 bg-green-600 rounded-full transition-all duration-300 group-hover:bg-green-500"></div>
+                    {/* Arrow head with better styling */}
+                    <div className="relative -ml-2">
+                      <div className="w-0 h-0 border-l-[10px] border-l-green-600 border-t-[6px] border-b-[6px] border-t-transparent border-b-transparent transition-all duration-300 group-hover:border-l-green-500"></div>
+                      {/* Animated pulse effect */}
+                      <div className="absolute -top-1 -left-1 w-0 h-0 border-l-[12px] border-l-green-400 border-t-[8px] border-b-[8px] border-t-transparent border-b-transparent opacity-40 animate-pulse"></div>
+                    </div>
+                  </div>
+                  {/* Flow indicator dots */}
+                  <div className="absolute -top-5 left-4 flex space-x-1.5">
+                    <div className="w-2 h-2 bg-green-400 rounded-full animate-bounce opacity-80 group-hover:bg-green-300" style={{animationDelay: '100ms', animationDuration: '1.5s'}}></div>
+                    <div className="w-2 h-2 bg-green-400 rounded-full animate-bounce opacity-60 group-hover:bg-green-300" style={{animationDelay: '300ms', animationDuration: '1.5s'}}></div>
+                    <div className="w-2 h-2 bg-green-400 rounded-full animate-bounce opacity-40 group-hover:bg-green-300" style={{animationDelay: '500ms', animationDuration: '1.5s'}}></div>
+                  </div>
+                </div>
+                
+                {/* Mobile Vertical Arrow */}
+                <div className="md:hidden absolute -bottom-6 left-1/2 transform -translate-x-1/2 z-10">
+                  <div className="relative flex flex-col items-center transition-all duration-300 hover:scale-110">
+                    {/* Arrow body vertical - clean solid design */}
+                    <div className="w-1.5 h-10 bg-green-600 rounded-full transition-all duration-300 hover:bg-green-500"></div>
+                    {/* Arrow head pointing down */}
+                    <div className="relative -mt-2">
+                      <div className="w-0 h-0 border-t-[10px] border-t-green-600 border-l-[6px] border-r-[6px] border-l-transparent border-r-transparent transition-all duration-300 hover:border-t-green-500"></div>
+                      {/* Animated pulse effect */}
+                      <div className="absolute -top-1 -left-1 w-0 h-0 border-t-[12px] border-t-green-400 border-l-[8px] border-r-[8px] border-l-transparent border-r-transparent opacity-40 animate-pulse"></div>
+                    </div>
+                    {/* Mobile flow dots */}
+                    <div className="absolute -right-6 top-3 flex flex-col space-y-1">
+                      <div className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse opacity-60"></div>
+                      <div className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse opacity-40" style={{animationDelay: '300ms'}}></div>
+                    </div>
+                  </div>
                 </div>
               </div>
 
@@ -683,10 +749,26 @@ const MenttorLabsMainPage = () => {
                     </div>
                   )}
                 </div>
-                {/* Arrow to next step */}
+                {/* Enhanced Arrow to next step */}
                 <div className="hidden md:block absolute top-1/2 -right-4 transform -translate-y-1/2 z-10">
-                  <div className="w-8 h-0.5 bg-green-600"></div>
-                  <div className="absolute -right-1 -top-1 w-0 h-0 border-l-4 border-l-green-600 border-t-2 border-b-2 border-t-transparent border-b-transparent"></div>
+                  <div className="relative flex items-center">
+                    {/* Arrow body with gradient and glow */}
+                    <div className="w-10 h-1 bg-gradient-to-r from-green-500 to-green-600 rounded-full shadow-lg relative">
+                      <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-green-400 to-green-500 rounded-full blur-sm opacity-60"></div>
+                    </div>
+                    {/* Arrow head with better styling */}
+                    <div className="relative -ml-2">
+                      <div className="w-0 h-0 border-l-[8px] border-l-green-600 border-t-[5px] border-b-[5px] border-t-transparent border-b-transparent drop-shadow-md filter"></div>
+                      {/* Animated pulse effect */}
+                      <div className="absolute -top-1 -left-1 w-0 h-0 border-l-[10px] border-l-green-400 border-t-[7px] border-b-[7px] border-t-transparent border-b-transparent opacity-40 animate-pulse"></div>
+                    </div>
+                  </div>
+                  {/* Flow indicator dots */}
+                  <div className="absolute -top-4 left-3 flex space-x-1">
+                    <div className="w-1.5 h-1.5 bg-green-400 rounded-full animate-bounce opacity-80" style={{animationDelay: '200ms', animationDuration: '1.5s'}}></div>
+                    <div className="w-1.5 h-1.5 bg-green-400 rounded-full animate-bounce opacity-60" style={{animationDelay: '400ms', animationDuration: '1.5s'}}></div>
+                    <div className="w-1.5 h-1.5 bg-green-400 rounded-full animate-bounce opacity-40" style={{animationDelay: '600ms', animationDuration: '1.5s'}}></div>
+                  </div>
                 </div>
               </div>
 
