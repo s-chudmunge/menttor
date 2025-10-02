@@ -373,7 +373,6 @@ const MenttorLabsMainPage = () => {
     setLearnModelName(modelName);
     setShowLearnModelModal(false);
   };
-  
 
   const handleLoadOldLearningContent = (content: any) => {
     // Navigate to learn page with the content
@@ -649,7 +648,6 @@ const MenttorLabsMainPage = () => {
               )}
             </button>
           </div>
-        </div>
 
           {roadmapHtml && (
             <div className="mt-16 p-8 bg-white dark:bg-gray-800 rounded-3xl shadow-2xl border border-gray-200 dark:border-gray-700 transition-colors duration-300">
