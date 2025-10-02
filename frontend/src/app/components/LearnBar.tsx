@@ -47,13 +47,13 @@ const LearnBar: React.FC = () => {
   const isFormValid = topic.trim().length >= 3;
 
   return (
-    <div className="bg-white dark:bg-black py-12">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
+    <div className="bg-white dark:bg-black py-20">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-12">
+          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
             What do you want to learn?
           </h1>
-          <p className="text-lg text-gray-600 dark:text-gray-400">
+          <p className="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
             Enter any topic and get instant personalized learning content
           </p>
         </div>
@@ -84,13 +84,13 @@ const LearnBar: React.FC = () => {
         </form>
         
         {/* CTA Button */}
-        <div className="mt-8 text-center">
+        <div className="mt-12 text-center">
           <button 
             onClick={() => document.getElementById('generate')?.scrollIntoView({ behavior: 'smooth' })}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-all duration-200 flex items-center space-x-2 mx-auto"
+            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-semibold text-lg transition-all duration-200 flex items-center space-x-3 mx-auto shadow-lg hover:shadow-xl"
           >
             <span>Generate Roadmap</span>
-            <ArrowRight className="w-4 h-4" />
+            <ArrowRight className="w-5 h-5" />
           </button>
         </div>
       </div>

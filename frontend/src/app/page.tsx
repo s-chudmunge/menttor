@@ -522,66 +522,216 @@ const MenttorLabsMainPage = () => {
 
       {/* Main Content Area */}
       <div className="lg:ml-80">
-        {/* Learn Bar Section */}
-        <LearnBar />
+        {/* Roadmap Generation Form */}
+        <section id="generate" className="py-16 bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 transition-colors duration-300">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">Create Your Learning Roadmap</h2>
+            <p className="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
+              Tell us what you want to learn, and we'll create a personalized roadmap just for you
+            </p>
+          </div>
 
-        {/* Why Choose Menttor Section */}
-        <section className="py-8 bg-white dark:bg-black transition-colors duration-300">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-6">
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Why Choose Menttor?</h2>
-            </div>
-            
-            <div className="grid md:grid-cols-2 gap-6 text-sm">
-              <div className="space-y-3">
-                <div className="flex items-start space-x-3">
-                  <Brain className="w-4 h-4 text-blue-600 mt-0.5 flex-shrink-0" />
-                  <div>
-                    <h3 className="font-semibold text-gray-900 dark:text-white mb-1">AI-Powered Learning</h3>
-                    <p className="text-gray-600 dark:text-gray-400">Personalized content adapted to your learning style</p>
-                  </div>
+          {/* Connected Input Flow */}
+          <div className="relative">
+            {/* Step 1 - Subject */}
+            <div className="relative mb-8">
+              <div className="flex items-center justify-center mb-4">
+                <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-lg">
+                  1
                 </div>
-                <div className="flex items-start space-x-3">
-                  <Target className="w-4 h-4 text-purple-600 mt-0.5 flex-shrink-0" />
-                  <div>
-                    <h3 className="font-semibold text-gray-900 dark:text-white mb-1">Smart Roadmaps</h3>
-                    <p className="text-gray-600 dark:text-gray-400">Structured learning paths with clear milestones</p>
-                  </div>
-                </div>
-                <div className="flex items-start space-x-3">
-                  <Zap className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
-                  <div>
-                    <h3 className="font-semibold text-gray-900 dark:text-white mb-1">Instant Access</h3>
-                    <p className="text-gray-600 dark:text-gray-400">Start learning immediately with no setup required</p>
+              </div>
+              <div className="max-w-2xl mx-auto">
+                <div className="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-xl border border-gray-200 dark:border-gray-700">
+                  <label className="block text-lg font-semibold text-gray-700 dark:text-gray-300 mb-4 text-center">
+                    <BookOpen className="w-6 h-6 inline mr-3" />
+                    What do you want to learn?
+                  </label>
+                  <div className="relative">
+                    <input
+                      type="text"
+                      name="subject"
+                      value={formData.subject}
+                      onChange={handleInputChange}
+                      placeholder="e.g., Python Programming, Web Development, Data Science"
+                      className="w-full px-6 py-4 text-lg border-2 border-gray-300 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 transition-all duration-200"
+                    />
                   </div>
                 </div>
               </div>
-              <div className="space-y-3">
-                <div className="flex items-start space-x-3">
-                  <BarChart3 className="w-4 h-4 text-orange-600 mt-0.5 flex-shrink-0" />
-                  <div>
-                    <h3 className="font-semibold text-gray-900 dark:text-white mb-1">Progress Tracking</h3>
-                    <p className="text-gray-600 dark:text-gray-400">Monitor your learning journey with detailed analytics</p>
+              {/* Arrow Down */}
+              <div className="flex justify-center mt-6">
+                <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
+                  <ArrowRight className="w-4 h-4 text-white transform rotate-90" />
+                </div>
+              </div>
+            </div>
+
+            {/* Step 2 - Goal */}
+            <div className="relative mb-8">
+              <div className="flex items-center justify-center mb-4">
+                <div className="w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-lg">
+                  2
+                </div>
+              </div>
+              <div className="max-w-2xl mx-auto">
+                <div className="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-xl border border-gray-200 dark:border-gray-700">
+                  <label className="block text-lg font-semibold text-gray-700 dark:text-gray-300 mb-4 text-center">
+                    <Target className="w-6 h-6 inline mr-3" />
+                    What's your specific goal?
+                  </label>
+                  <textarea
+                    name="goal"
+                    value={formData.goal}
+                    onChange={handleInputChange}
+                    placeholder="e.g., 'Learn Python for data analysis', 'Become a full-stack developer'"
+                    rows={4}
+                    className="w-full px-6 py-4 text-lg border-2 border-gray-300 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 transition-all duration-200 resize-none"
+                  />
+                </div>
+              </div>
+              {/* Arrow Down */}
+              <div className="flex justify-center mt-6">
+                <div className="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center">
+                  <ArrowRight className="w-4 h-4 text-white transform rotate-90" />
+                </div>
+              </div>
+            </div>
+
+            {/* Step 3 - Timeline */}
+            <div className="relative mb-8">
+              <div className="flex items-center justify-center mb-4">
+                <div className="w-12 h-12 bg-green-600 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-lg">
+                  3
+                </div>
+              </div>
+              <div className="max-w-2xl mx-auto">
+                <div className="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-xl border border-gray-200 dark:border-gray-700">
+                  <label className="block text-lg font-semibold text-gray-700 dark:text-gray-300 mb-6 text-center">
+                    <Clock className="w-6 h-6 inline mr-3" />
+                    How much time do you have?
+                  </label>
+                  <div className="flex gap-4 justify-center">
+                    <div className="flex-1 max-w-xs">
+                      <input
+                        type="number"
+                        name="time_value"
+                        value={formData.time_value}
+                        onChange={handleInputChange}
+                        placeholder="12"
+                        min="1"
+                        max="365"
+                        className="w-full px-6 py-4 text-lg border-2 border-gray-300 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-center font-semibold"
+                      />
+                    </div>
+                    <div className="flex-1 max-w-xs">
+                      <select
+                        name="time_unit"
+                        value={formData.time_unit}
+                        onChange={handleInputChange}
+                        className="w-full px-6 py-4 text-lg border-2 border-gray-300 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white appearance-none text-center font-semibold"
+                      >
+                        <option value="days">Days</option>
+                        <option value="weeks">Weeks</option>
+                        <option value="months">Months</option>
+                      </select>
+                    </div>
                   </div>
                 </div>
-                <div className="flex items-start space-x-3">
-                  <Users className="w-4 h-4 text-red-600 mt-0.5 flex-shrink-0" />
-                  <div>
-                    <h3 className="font-semibold text-gray-900 dark:text-white mb-1">Community Driven</h3>
-                    <p className="text-gray-600 dark:text-gray-400">Learn with thousands of active learners</p>
+              </div>
+              {/* Arrow Down */}
+              <div className="flex justify-center mt-6">
+                <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
+                  <ArrowRight className="w-4 h-4 text-white transform rotate-90" />
+                </div>
+              </div>
+            </div>
+
+            {/* Step 4 - Model Selection */}
+            <div className="relative mb-8">
+              <div className="flex items-center justify-center mb-4">
+                <div className="w-12 h-12 bg-orange-600 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-lg">
+                  4
+                </div>
+              </div>
+              <div className="max-w-2xl mx-auto">
+                <div className="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-xl border border-gray-200 dark:border-gray-700">
+                  <label className="block text-lg font-semibold text-gray-700 dark:text-gray-300 mb-6 text-center">
+                    <Brain className="w-6 h-6 inline mr-3" />
+                    Choose Your Learning Engine
+                  </label>
+                  <div className="bg-gradient-to-r from-orange-50 to-red-50 dark:from-orange-900/20 dark:to-red-900/20 border-2 border-orange-200 dark:border-orange-700 rounded-xl p-6 flex items-center justify-between">
+                    <div className="flex-1">
+                      <div className="font-semibold text-gray-900 dark:text-white text-lg">{selectedModelName}</div>
+                      <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">Advanced AI for personalized learning</div>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setShowModelModal(true)}
+                      className="bg-orange-600 hover:bg-orange-700 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-200 shadow-lg hover:shadow-xl"
+                    >
+                      Change
+                    </button>
                   </div>
                 </div>
-                <div className="flex items-start space-x-3">
-                  <Award className="w-4 h-4 text-yellow-600 mt-0.5 flex-shrink-0" />
-                  <div>
-                    <h3 className="font-semibold text-gray-900 dark:text-white mb-1">Expert Verified</h3>
-                    <p className="text-gray-600 dark:text-gray-400">Content reviewed by industry professionals</p>
-                  </div>
+              </div>
+              {/* Arrow Down */}
+              <div className="flex justify-center mt-6">
+                <div className="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center">
+                  <ArrowRight className="w-4 h-4 text-white transform rotate-90" />
                 </div>
+              </div>
+            </div>
+
+            {/* Generate Button */}
+            <div className="text-center">
+              <div className="max-w-md mx-auto">
+                <button
+                  type="submit"
+                  onClick={generateRoadmap}
+                  disabled={isGenerating}
+                  className={`w-full py-6 rounded-2xl font-bold text-xl transition-all duration-300 transform flex items-center justify-center space-x-4 shadow-2xl ${
+                    isGenerating
+                      ? 'bg-gray-400 cursor-not-allowed'
+                      : 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white hover:scale-105'
+                  }`}
+                >
+                  {isGenerating ? (
+                    <>
+                      <div className="loading-spin w-6 h-6 border-2 border-white/30 border-t-white rounded-full"></div>
+                      <span>Creating Your Roadmap...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Zap className="w-6 h-6" />
+                      <span>Generate My Learning Roadmap</span>
+                      <ArrowRight className="w-6 h-6" />
+                    </>
+                  )}
+                </button>
               </div>
             </div>
           </div>
-        </section>
+
+          {roadmapHtml && (
+            <div className="mt-16 p-8 bg-white dark:bg-gray-800 rounded-3xl shadow-2xl border border-gray-200 dark:border-gray-700 transition-colors duration-300">
+              {roadmapHtml}
+              <div className="text-center mt-8">
+                <button 
+                  onClick={() => router.push('/journey')}
+                  className="bg-green-600 text-white px-8 py-4 rounded-full font-bold text-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 flex items-center space-x-2 mx-auto"
+                >
+                  <Play className="w-6 h-6" />
+                  <span>Start Your Journey</span>
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+      </section>
+
+        {/* Learn Bar Section */}
+        <LearnBar />
 
         {/* How It Works - Interactive Flow */}
         <section className="py-12 bg-white dark:bg-black transition-colors duration-300">
@@ -603,197 +753,6 @@ const MenttorLabsMainPage = () => {
           <div className="flex justify-center">
             <SimpleLearningAnimation />
           </div>
-        </div>
-      </section>
-
-        {/* Roadmap Generation Form */}
-        <section id="generate" className="py-12 bg-white dark:bg-black transition-colors duration-300">
-        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-8">
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">Generate Learning Roadmap</h2>
-            <p className="text-sm text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-              Create a personalized roadmap with courses and guidance for any subject
-            </p>
-          </div>
-
-          <div className="bg-white dark:bg-black border border-gray-200 dark:border-gray-700 rounded-lg p-6">
-            <div className="grid md:grid-cols-2 gap-8">
-              <div className="space-y-6">
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-4">
-                    <BookOpen className="w-4 h-4 inline mr-2" />
-                    What do you want to learn?
-                  </label>
-                  <div className="relative">
-                    <input
-                      type="text"
-                      name="subject"
-                      value={formData.subject}
-                      onChange={handleInputChange}
-                      placeholder="e.g., Python Programming, Web Development, Data Science, JavaScript"
-                      className="input-field pr-12"
-                    />
-                    <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400">
-                      <BookOpen className="w-5 h-5" />
-                    </div>
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-4">
-                    <Target className="w-4 h-4 inline mr-2" />
-                    Describe your specific goal
-                  </label>
-                  <textarea
-                    name="goal"
-                    value={formData.goal}
-                    onChange={handleInputChange}
-                    placeholder="e.g., 'Learn Python for data analysis', 'Become a full-stack developer', 'Master React for frontend development'..."
-                    rows={4}
-                    className="input-field resize-none"
-                  />
-                </div>
-
-                <div className="grid grid-cols-2 gap-6">
-                  <div>
-                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-4">
-                      <Clock className="w-4 h-4 inline mr-2" />
-                      Timeline Duration
-                    </label>
-                    <input
-                      type="number"
-                      name="time_value"
-                      value={formData.time_value}
-                      onChange={handleInputChange}
-                      placeholder="12"
-                      min="1"
-                      max="365"
-                      className="input-field"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-4">
-                      <Calendar className="w-4 h-4 inline mr-2" />
-                      Time Unit
-                    </label>
-                    <div className="relative">
-                      <select
-                        name="time_unit"
-                        value={formData.time_unit}
-                        onChange={handleInputChange}
-                        className="input-field appearance-none pr-12"
-                      >
-                        <option value="days">Days</option>
-                        <option value="weeks">Weeks</option>
-                        <option value="months">Months</option>
-                      </select>
-                      <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none">
-                        <ChevronDown className="w-5 h-5" />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-4">
-                    <Brain className="w-4 h-4 inline mr-2" />
-                    Learning Engine Selection
-                  </label>
-                  <div className="bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-xl p-4 flex items-center justify-between shadow-sm hover:shadow-md transition-all duration-200">
-                    <div className="flex-1">
-                      <div className="font-medium text-gray-900 dark:text-white">{selectedModelName}</div>
-                      <div className="text-sm text-gray-600 dark:text-gray-400">Advanced learning engine for personalized education</div>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => setShowModelModal(true)}
-                      className="btn-secondary py-2 px-4 text-sm"
-                    >
-                      Change
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex flex-col justify-center space-y-8">
-                <div className="relative">
-                  {/* Background decoration */}
-                  <div className="absolute -inset-2 bg-blue-600/20 rounded-2xl blur-xl"></div>
-                  
-                  {/* Main panel */}
-                  <div className="relative card-elevated p-8 bg-blue-50 dark:bg-blue-900/20 border-0">
-                    <div className="text-center">
-                      <div className="relative mb-6">
-                        <div className="w-20 h-20 bg-blue-600 rounded-2xl flex items-center justify-center mx-auto shadow-xl">
-                          <img src="/favicon_io_light/android-chrome-192x192.png" alt="Menttor" className="w-12 h-12" />
-                        </div>
-                        <div className="absolute -top-2 -right-2 w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
-                          <Zap className="w-3 h-3 text-white" />
-                        </div>
-                      </div>
-                      <h3 className="heading-tertiary mb-4">Intelligent Generation</h3>
-                      <p className="text-body mb-6">
-                        Our smart learning technology analyzes your coding goals and creates a structured, personalized programming roadmap with courses, practice exercises, and career guidance.
-                      </p>
-                      
-                      <div className="space-y-3">
-                        <div className="flex items-center justify-center space-x-2 text-sm text-green-600 dark:text-green-400">
-                          <CheckCircle className="w-4 h-4" />
-                          <span>Personalized Content</span>
-                        </div>
-                        <div className="flex items-center justify-center space-x-2 text-sm text-green-600 dark:text-green-400">
-                          <CheckCircle className="w-4 h-4" />
-                          <span>Adaptive Learning Path</span>
-                        </div>
-                        <div className="flex items-center justify-center space-x-2 text-sm text-green-600 dark:text-green-400">
-                          <CheckCircle className="w-4 h-4" />
-                          <span>Progress Tracking</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <button
-                  type="submit"
-                  onClick={generateRoadmap}
-                  disabled={isGenerating}
-                  className={`w-full py-5 rounded-2xl font-bold text-lg transition-all duration-300 transform flex items-center justify-center space-x-3 ${
-                    isGenerating
-                      ? 'bg-gray-400 cursor-not-allowed'
-                      : 'btn-primary hover:scale-105 shadow-2xl'
-                  }`}
-                >
-                  {isGenerating ? (
-                    <>
-                      <div className="loading-spin w-5 h-5 border-2 border-white/30 border-t-white rounded-full"></div>
-                      <span>Generating Your Path...</span>
-                    </>
-                  ) : (
-                    <>
-                      <span>Generate My Roadmap</span>
-                      <ArrowRight className="w-5 h-5" />
-                    </>
-                  )}
-                </button>
-              </div>
-            </div>
-          </div>
-
-          {roadmapHtml && (
-            <div className="mt-12 p-8 bg-white dark:bg-gray-800 rounded-3xl shadow-2xl border border-gray-200 dark:border-gray-700 transition-colors duration-300">
-              {roadmapHtml}
-              <div className="text-center mt-8">
-                <button 
-                  onClick={() => router.push('/journey')}
-                  className="bg-green-600 text-white px-8 py-4 rounded-full font-bold text-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 flex items-center space-x-2 mx-auto"
-                >
-                  <Play className="w-6 h-6" />
-                  <span>Start Your Journey</span>
-                </button>
-              </div>
-            </div>
-          )}
         </div>
       </section>
 
@@ -860,16 +819,72 @@ const MenttorLabsMainPage = () => {
           </div>
         </section>
 
-
+        {/* Why Choose Menttor Section */}
+        <section className="py-8 bg-white dark:bg-black transition-colors duration-300">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-6">
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Why Choose Menttor?</h2>
+            </div>
+            
+            <div className="grid md:grid-cols-2 gap-6 text-sm">
+              <div className="space-y-3">
+                <div className="flex items-start space-x-3">
+                  <Brain className="w-4 h-4 text-blue-600 mt-0.5 flex-shrink-0" />
+                  <div>
+                    <h3 className="font-semibold text-gray-900 dark:text-white mb-1">AI-Powered Learning</h3>
+                    <p className="text-gray-600 dark:text-gray-400">Personalized content adapted to your learning style</p>
+                  </div>
+                </div>
+                <div className="flex items-start space-x-3">
+                  <Target className="w-4 h-4 text-purple-600 mt-0.5 flex-shrink-0" />
+                  <div>
+                    <h3 className="font-semibold text-gray-900 dark:text-white mb-1">Smart Roadmaps</h3>
+                    <p className="text-gray-600 dark:text-gray-400">Structured learning paths with clear milestones</p>
+                  </div>
+                </div>
+                <div className="flex items-start space-x-3">
+                  <Zap className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
+                  <div>
+                    <h3 className="font-semibold text-gray-900 dark:text-white mb-1">Instant Access</h3>
+                    <p className="text-gray-600 dark:text-gray-400">Start learning immediately with no setup required</p>
+                  </div>
+                </div>
+              </div>
+              <div className="space-y-3">
+                <div className="flex items-start space-x-3">
+                  <BarChart3 className="w-4 h-4 text-orange-600 mt-0.5 flex-shrink-0" />
+                  <div>
+                    <h3 className="font-semibold text-gray-900 dark:text-white mb-1">Progress Tracking</h3>
+                    <p className="text-gray-600 dark:text-gray-400">Monitor your learning journey with detailed analytics</p>
+                  </div>
+                </div>
+                <div className="flex items-start space-x-3">
+                  <Users className="w-4 h-4 text-red-600 mt-0.5 flex-shrink-0" />
+                  <div>
+                    <h3 className="font-semibold text-gray-900 dark:text-white mb-1">Community Driven</h3>
+                    <p className="text-gray-600 dark:text-gray-400">Learn with thousands of active learners</p>
+                  </div>
+                </div>
+                <div className="flex items-start space-x-3">
+                  <Award className="w-4 h-4 text-yellow-600 mt-0.5 flex-shrink-0" />
+                  <div>
+                    <h3 className="font-semibold text-gray-900 dark:text-white mb-1">Expert Verified</h3>
+                    <p className="text-gray-600 dark:text-gray-400">Content reviewed by industry professionals</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
 
         {/* Footer */}
-        <footer className="bg-gray-900 dark:bg-black text-white py-12 transition-colors duration-300">
+        <footer className="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white py-12 transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
             {/* Company Info */}
             <div className="lg:col-span-1">
               <Logo />
-              <p className="text-gray-300 mt-4 leading-relaxed">
+              <p className="text-gray-600 dark:text-gray-300 mt-4 leading-relaxed">
                 Transforming education through intelligent, personalized learning experiences that adapt to every learner's unique journey.
               </p>
               <div className="flex space-x-4 mt-8">
@@ -887,44 +902,44 @@ const MenttorLabsMainPage = () => {
 
             {/* Product */}
             <div>
-              <h4 className="text-lg font-semibold mb-6 text-white">Product</h4>
+              <h4 className="text-lg font-semibold mb-6 text-gray-900 dark:text-white">Product</h4>
               <ul className="space-y-3">
-                <li><Link href="/" className="text-gray-300 hover:text-white transition-colors duration-200">Home</Link></li>
-                <li><a href="#generate" className="text-gray-300 hover:text-white transition-colors duration-200">Create Roadmap</a></li>
-                <li><Link href="/library" className="text-gray-300 hover:text-white transition-colors duration-200">Library</Link></li>
-                <li><button onClick={() => setShowOldRoadmaps(true)} className="text-gray-300 hover:text-white transition-colors duration-200">My Roadmaps</button></li>
-                <li><Link href="/dashboard" className="text-gray-300 hover:text-white transition-colors duration-200">Dashboard</Link></li>
-                <li><Link href="/performance-analysis" className="text-gray-300 hover:text-white transition-colors duration-200">Analytics</Link></li>
+                <li><Link href="/" className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200">Home</Link></li>
+                <li><a href="#generate" className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200">Create Roadmap</a></li>
+                <li><Link href="/library" className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200">Library</Link></li>
+                <li><button onClick={() => setShowOldRoadmaps(true)} className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200">My Roadmaps</button></li>
+                <li><Link href="/dashboard" className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200">Dashboard</Link></li>
+                <li><Link href="/performance-analysis" className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200">Analytics</Link></li>
               </ul>
             </div>
 
 
             {/* Support */}
             <div>
-              <h4 className="text-lg font-semibold mb-6 text-white">Support</h4>
+              <h4 className="text-lg font-semibold mb-6 text-gray-900 dark:text-white">Support</h4>
               <ul className="space-y-3">
-                <li><Link href="/help" className="text-gray-300 hover:text-white transition-colors duration-200">Help Center</Link></li>
-                <li><a href="/contact" className="text-gray-300 hover:text-white transition-colors duration-200">Contact Support</a></li>
-                <li><a href="/privacy" className="text-gray-300 hover:text-white transition-colors duration-200">Privacy Policy</a></li>
-                <li><a href="/terms" className="text-gray-300 hover:text-white transition-colors duration-200">Terms of Service</a></li>
-                <li><a href="/security" className="text-gray-300 hover:text-white transition-colors duration-200">Security</a></li>
+                <li><Link href="/help" className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200">Help Center</Link></li>
+                <li><a href="/contact" className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200">Contact Support</a></li>
+                <li><a href="/privacy" className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200">Privacy Policy</a></li>
+                <li><a href="/terms" className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200">Terms of Service</a></li>
+                <li><a href="/security" className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200">Security</a></li>
               </ul>
             </div>
           </div>
 
           {/* Bottom Section */}
-          <div className="mt-12 pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center">
-            <div className="text-gray-400 text-sm">
+          <div className="mt-12 pt-8 border-t border-gray-300 dark:border-gray-800 flex flex-col md:flex-row justify-between items-center">
+            <div className="text-gray-500 dark:text-gray-400 text-sm">
               &copy; {new Date().getFullYear()} MenttorLabs. All rights reserved.
               <br />Built with ❤️ for learners
             </div>
             <div className="flex items-center space-x-6 mt-4 md:mt-0">
-              <a href="/sitemap" className="text-gray-400 hover:text-white text-sm transition-colors duration-200">Sitemap</a>
-              <span className="text-gray-600">|</span>
-              <a href="/status" className="text-gray-400 hover:text-white text-sm transition-colors duration-200">Status</a>
-              <span className="text-gray-600">|</span>
-              <div className="text-gray-400 text-sm">
-                <a href="https://github.com/mountain-snatcher" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300 transition-colors duration-200">GitHub</a>
+              <a href="/sitemap" className="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white text-sm transition-colors duration-200">Sitemap</a>
+              <span className="text-gray-400 dark:text-gray-600">|</span>
+              <a href="/status" className="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white text-sm transition-colors duration-200">Status</a>
+              <span className="text-gray-400 dark:text-gray-600">|</span>
+              <div className="text-gray-500 dark:text-gray-400 text-sm">
+                <a href="https://github.com/mountain-snatcher" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors duration-200">GitHub</a>
               </div>
             </div>
           </div>
