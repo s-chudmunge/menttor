@@ -523,195 +523,133 @@ const MenttorLabsMainPage = () => {
       {/* Main Content Area */}
       <div className="lg:ml-80">
         {/* Roadmap Generation Form */}
-        <section id="generate" className="py-16 bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 transition-colors duration-300">
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">Create Your Learning Roadmap</h2>
-            <p className="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
+        <section id="generate" className="py-8 bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 transition-colors duration-300">
+        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-8">
+            <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-3">Create Your Learning Roadmap</h2>
+            <p className="text-lg text-gray-600 dark:text-gray-400">
               Tell us what you want to learn, and we'll create a personalized roadmap just for you
             </p>
           </div>
 
-          {/* Connected Input Flow */}
-          <div className="relative">
-            {/* Step 1 - Subject */}
-            <div className="relative mb-8">
-              <div className="flex items-center justify-center mb-4">
-                <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-lg">
-                  1
-                </div>
+          {/* Compact Form Grid */}
+          <div className="grid md:grid-cols-2 gap-6">
+            {/* Left Column */}
+            <div className="space-y-4">
+              {/* Subject */}
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                  <BookOpen className="w-4 h-4 inline mr-2" />
+                  What do you want to learn?
+                </label>
+                <input
+                  type="text"
+                  name="subject"
+                  value={formData.subject}
+                  onChange={handleInputChange}
+                  placeholder="e.g., Python Programming, Web Development"
+                  className="w-full px-4 py-3 text-base border-2 border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 transition-all duration-200"
+                />
               </div>
-              <div className="max-w-2xl mx-auto">
-                <div className="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-xl border border-gray-200 dark:border-gray-700">
-                  <label className="block text-lg font-semibold text-gray-700 dark:text-gray-300 mb-4 text-center">
-                    <BookOpen className="w-6 h-6 inline mr-3" />
-                    What do you want to learn?
-                  </label>
-                  <div className="relative">
-                    <input
-                      type="text"
-                      name="subject"
-                      value={formData.subject}
-                      onChange={handleInputChange}
-                      placeholder="e.g., Python Programming, Web Development, Data Science"
-                      className="w-full px-6 py-4 text-lg border-2 border-gray-300 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 transition-all duration-200"
-                    />
-                  </div>
-                </div>
-              </div>
-              {/* Arrow Down */}
-              <div className="flex justify-center mt-6">
-                <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
-                  <ArrowRight className="w-4 h-4 text-white transform rotate-90" />
-                </div>
-              </div>
-            </div>
 
-            {/* Step 2 - Goal */}
-            <div className="relative mb-8">
-              <div className="flex items-center justify-center mb-4">
-                <div className="w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-lg">
-                  2
-                </div>
-              </div>
-              <div className="max-w-2xl mx-auto">
-                <div className="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-xl border border-gray-200 dark:border-gray-700">
-                  <label className="block text-lg font-semibold text-gray-700 dark:text-gray-300 mb-4 text-center">
-                    <Target className="w-6 h-6 inline mr-3" />
-                    What's your specific goal?
-                  </label>
-                  <textarea
-                    name="goal"
-                    value={formData.goal}
+              {/* Timeline */}
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                  <Clock className="w-4 h-4 inline mr-2" />
+                  Timeline
+                </label>
+                <div className="flex gap-2">
+                  <input
+                    type="number"
+                    name="time_value"
+                    value={formData.time_value}
                     onChange={handleInputChange}
-                    placeholder="e.g., 'Learn Python for data analysis', 'Become a full-stack developer'"
-                    rows={4}
-                    className="w-full px-6 py-4 text-lg border-2 border-gray-300 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 transition-all duration-200 resize-none"
+                    placeholder="12"
+                    min="1"
+                    max="365"
+                    className="flex-1 px-4 py-3 text-base border-2 border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-center"
                   />
-                </div>
-              </div>
-              {/* Arrow Down */}
-              <div className="flex justify-center mt-6">
-                <div className="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center">
-                  <ArrowRight className="w-4 h-4 text-white transform rotate-90" />
+                  <select
+                    name="time_unit"
+                    value={formData.time_unit}
+                    onChange={handleInputChange}
+                    className="flex-1 px-4 py-3 text-base border-2 border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                  >
+                    <option value="days">Days</option>
+                    <option value="weeks">Weeks</option>
+                    <option value="months">Months</option>
+                  </select>
                 </div>
               </div>
             </div>
 
-            {/* Step 3 - Timeline */}
-            <div className="relative mb-8">
-              <div className="flex items-center justify-center mb-4">
-                <div className="w-12 h-12 bg-green-600 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-lg">
-                  3
-                </div>
+            {/* Right Column */}
+            <div className="space-y-4">
+              {/* Goal */}
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                  <Target className="w-4 h-4 inline mr-2" />
+                  Your specific goal
+                </label>
+                <textarea
+                  name="goal"
+                  value={formData.goal}
+                  onChange={handleInputChange}
+                  placeholder="e.g., 'Learn Python for data analysis'"
+                  rows={3}
+                  className="w-full px-4 py-3 text-base border-2 border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 transition-all duration-200 resize-none"
+                />
               </div>
-              <div className="max-w-2xl mx-auto">
-                <div className="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-xl border border-gray-200 dark:border-gray-700">
-                  <label className="block text-lg font-semibold text-gray-700 dark:text-gray-300 mb-6 text-center">
-                    <Clock className="w-6 h-6 inline mr-3" />
-                    How much time do you have?
-                  </label>
-                  <div className="flex gap-4 justify-center">
-                    <div className="flex-1 max-w-xs">
-                      <input
-                        type="number"
-                        name="time_value"
-                        value={formData.time_value}
-                        onChange={handleInputChange}
-                        placeholder="12"
-                        min="1"
-                        max="365"
-                        className="w-full px-6 py-4 text-lg border-2 border-gray-300 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-center font-semibold"
-                      />
-                    </div>
-                    <div className="flex-1 max-w-xs">
-                      <select
-                        name="time_unit"
-                        value={formData.time_unit}
-                        onChange={handleInputChange}
-                        className="w-full px-6 py-4 text-lg border-2 border-gray-300 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white appearance-none text-center font-semibold"
-                      >
-                        <option value="days">Days</option>
-                        <option value="weeks">Weeks</option>
-                        <option value="months">Months</option>
-                      </select>
-                    </div>
+
+              {/* Model Selection */}
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                  <Brain className="w-4 h-4 inline mr-2" />
+                  Learning Engine
+                </label>
+                <div className="bg-orange-50 dark:bg-orange-900/20 border-2 border-orange-200 dark:border-orange-700 rounded-lg p-3 flex items-center justify-between">
+                  <div className="flex-1">
+                    <div className="font-medium text-gray-900 dark:text-white text-sm">{selectedModelName}</div>
+                    <div className="text-xs text-gray-600 dark:text-gray-400">Advanced AI</div>
                   </div>
+                  <button
+                    type="button"
+                    onClick={() => setShowModelModal(true)}
+                    className="bg-orange-600 hover:bg-orange-700 text-white px-3 py-1.5 rounded-lg text-sm font-medium transition-all duration-200"
+                  >
+                    Change
+                  </button>
                 </div>
-              </div>
-              {/* Arrow Down */}
-              <div className="flex justify-center mt-6">
-                <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
-                  <ArrowRight className="w-4 h-4 text-white transform rotate-90" />
-                </div>
-              </div>
-            </div>
-
-            {/* Step 4 - Model Selection */}
-            <div className="relative mb-8">
-              <div className="flex items-center justify-center mb-4">
-                <div className="w-12 h-12 bg-orange-600 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-lg">
-                  4
-                </div>
-              </div>
-              <div className="max-w-2xl mx-auto">
-                <div className="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-xl border border-gray-200 dark:border-gray-700">
-                  <label className="block text-lg font-semibold text-gray-700 dark:text-gray-300 mb-6 text-center">
-                    <Brain className="w-6 h-6 inline mr-3" />
-                    Choose Your Learning Engine
-                  </label>
-                  <div className="bg-gradient-to-r from-orange-50 to-red-50 dark:from-orange-900/20 dark:to-red-900/20 border-2 border-orange-200 dark:border-orange-700 rounded-xl p-6 flex items-center justify-between">
-                    <div className="flex-1">
-                      <div className="font-semibold text-gray-900 dark:text-white text-lg">{selectedModelName}</div>
-                      <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">Advanced AI for personalized learning</div>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => setShowModelModal(true)}
-                      className="bg-orange-600 hover:bg-orange-700 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-200 shadow-lg hover:shadow-xl"
-                    >
-                      Change
-                    </button>
-                  </div>
-                </div>
-              </div>
-              {/* Arrow Down */}
-              <div className="flex justify-center mt-6">
-                <div className="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center">
-                  <ArrowRight className="w-4 h-4 text-white transform rotate-90" />
-                </div>
-              </div>
-            </div>
-
-            {/* Generate Button */}
-            <div className="text-center">
-              <div className="max-w-md mx-auto">
-                <button
-                  type="submit"
-                  onClick={generateRoadmap}
-                  disabled={isGenerating}
-                  className={`w-full py-6 rounded-2xl font-bold text-xl transition-all duration-300 transform flex items-center justify-center space-x-4 shadow-2xl ${
-                    isGenerating
-                      ? 'bg-gray-400 cursor-not-allowed'
-                      : 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white hover:scale-105'
-                  }`}
-                >
-                  {isGenerating ? (
-                    <>
-                      <div className="loading-spin w-6 h-6 border-2 border-white/30 border-t-white rounded-full"></div>
-                      <span>Creating Your Roadmap...</span>
-                    </>
-                  ) : (
-                    <>
-                      <Zap className="w-6 h-6" />
-                      <span>Generate My Learning Roadmap</span>
-                      <ArrowRight className="w-6 h-6" />
-                    </>
-                  )}
-                </button>
               </div>
             </div>
           </div>
+
+          {/* Generate Button */}
+          <div className="text-center mt-6">
+            <button
+              type="submit"
+              onClick={generateRoadmap}
+              disabled={isGenerating}
+              className={`px-8 py-3 rounded-lg font-semibold text-base transition-all duration-200 flex items-center justify-center space-x-2 mx-auto ${
+                isGenerating
+                  ? 'bg-gray-400 cursor-not-allowed'
+                  : 'bg-blue-600 hover:bg-blue-700 text-white shadow-lg hover:shadow-xl'
+              }`}
+            >
+              {isGenerating ? (
+                <>
+                  <div className="loading-spin w-4 h-4 border-2 border-white/30 border-t-white rounded-full"></div>
+                  <span>Creating...</span>
+                </>
+              ) : (
+                <>
+                  <span>Generate Roadmap</span>
+                  <ArrowRight className="w-4 h-4" />
+                </>
+              )}
+            </button>
+          </div>
+        </div>
 
           {roadmapHtml && (
             <div className="mt-16 p-8 bg-white dark:bg-gray-800 rounded-3xl shadow-2xl border border-gray-200 dark:border-gray-700 transition-colors duration-300">
@@ -730,8 +668,6 @@ const MenttorLabsMainPage = () => {
         </div>
       </section>
 
-        {/* Learn Bar Section */}
-        <LearnBar />
 
         {/* How It Works - Interactive Flow */}
         <section className="py-12 bg-white dark:bg-black transition-colors duration-300">
