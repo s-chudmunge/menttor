@@ -83,12 +83,6 @@ const FeatureTooltip: React.FC<FeatureTooltipProps> = ({ type, isAvailable, clas
         border: 'border-yellow-200 dark:border-yellow-700',
         text: 'text-yellow-900 dark:text-yellow-100',
         accent: 'text-yellow-600 dark:text-yellow-400'
-      },
-      green: {
-        bg: 'bg-green-500',
-        border: 'border-green-200 dark:border-green-700',
-        text: 'text-green-900 dark:text-green-100',
-        accent: 'text-green-600 dark:text-green-400'
       }
     };
     return colors[color as keyof typeof colors] || colors.blue;
