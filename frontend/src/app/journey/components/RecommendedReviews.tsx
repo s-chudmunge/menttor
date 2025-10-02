@@ -84,7 +84,7 @@ const RecommendedReviews: React.FC<RecommendedReviewsProps> = ({ recommendedRevi
                 
                 <Link 
                   href={`/quiz?subtopic_id=${review.sub_topic_id}&subtopic=${encodeURIComponent(review.sub_topic_title)}&subject=${encodeURIComponent(review.subject)}&goal=Review%20and%20Reinforce&module_title=${encodeURIComponent(review.module_title)}&topic_title=${encodeURIComponent(review.topic_title)}&roadmap_id=1`}
-                  className="flex-1 text-center py-2 px-3 bg-purple-600 hover:bg-purple-700 text-white text-xs rounded-md font-medium transition-colors flex items-center justify-center space-x-1"
+                  className="flex-1 text-center py-2 px-3 bg-green-600 hover:bg-green-700 text-white text-xs rounded-md font-medium transition-colors flex items-center justify-center space-x-1"
                 >
                   <Brain className="w-3 h-3" />
                   <span>Quiz Review</span>

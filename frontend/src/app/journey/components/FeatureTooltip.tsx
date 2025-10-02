@@ -56,7 +56,7 @@ const FeatureTooltip: React.FC<FeatureTooltipProps> = ({ type, isAvailable, clas
             'Progressive difficulty levels'
           ],
           availability: 'Coming soon - In active development',
-          color: 'purple'
+          color: 'green'
         };
     }
   };
@@ -84,11 +84,11 @@ const FeatureTooltip: React.FC<FeatureTooltipProps> = ({ type, isAvailable, clas
         text: 'text-yellow-900 dark:text-yellow-100',
         accent: 'text-yellow-600 dark:text-yellow-400'
       },
-      purple: {
-        bg: 'bg-purple-500',
-        border: 'border-purple-200 dark:border-purple-700',
-        text: 'text-purple-900 dark:text-purple-100',
-        accent: 'text-purple-600 dark:text-purple-400'
+      green: {
+        bg: 'bg-green-500',
+        border: 'border-green-200 dark:border-green-700',
+        text: 'text-green-900 dark:text-green-100',
+        accent: 'text-green-600 dark:text-green-400'
       }
     };
     return colors[color as keyof typeof colors] || colors.blue;
@@ -157,10 +157,10 @@ const FeatureTooltip: React.FC<FeatureTooltipProps> = ({ type, isAvailable, clas
 
             {/* Coming soon status for code */}
             {type === 'code' && (
-              <div className="mt-3 p-2 bg-purple-50 dark:bg-purple-900/20 rounded-lg border border-purple-200 dark:border-purple-700/50">
+              <div className="mt-3 p-2 bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-200 dark:border-green-700/50">
                 <div className="flex items-center space-x-2">
-                  <Code className="w-4 h-4 text-purple-600 dark:text-purple-400" />
-                  <span className="text-xs font-medium text-purple-800 dark:text-purple-300">
+                  <Code className="w-4 h-4 text-green-600 dark:text-green-400" />
+                  <span className="text-xs font-medium text-green-800 dark:text-green-300">
                     In active development - Stay tuned!
                   </span>
                 </div>

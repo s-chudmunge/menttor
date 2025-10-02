@@ -86,7 +86,7 @@ export default function LearningAnimationDemoPage() {
               <button 
                 onClick={() => generateVideo("dark")}
                 disabled={loading}
-                className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 disabled:from-gray-400 disabled:to-gray-500 text-white font-semibold py-4 px-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 disabled:transform-none disabled:hover:scale-100"
+                className="bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 disabled:from-gray-400 disabled:to-gray-500 text-white font-semibold py-4 px-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 disabled:transform-none disabled:hover:scale-100"
               >
                 {loading ? (
                   <div className="flex items-center space-x-2">
@@ -216,7 +216,7 @@ export default function LearningAnimationDemoPage() {
               <div className="text-sm">Seamless logo and mascot integration with professional styling</div>
             </div>
             <div className="bg-white dark:bg-gray-700/50 rounded-xl p-6 border border-slate-200 dark:border-gray-600">
-              <div className="text-purple-600 dark:text-purple-400 font-bold text-lg mb-2">Promo Ready</div>
+              <div className="text-green-600 dark:text-green-400 font-bold text-lg mb-2">Promo Ready</div>
               <div className="text-sm">Perfect for landing pages, social media, and marketing campaigns</div>
             </div>
             <div className="bg-white dark:bg-gray-700/50 rounded-xl p-6 border border-slate-200 dark:border-gray-600">
@@ -252,7 +252,7 @@ export default function LearningAnimationDemoPage() {
         {/* Navigation */}
         <div className="mt-8 text-center">
           <button 
-            className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-semibold py-3 px-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+            className="bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 text-white font-semibold py-3 px-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
             onClick={() => window.location.href = '/'}
           >
             🏠 Back to Main Page

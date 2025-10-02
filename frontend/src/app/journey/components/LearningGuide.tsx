@@ -33,7 +33,7 @@ const LearningGuide: React.FC<LearningGuideProps> = ({ className = '' }) => {
       id: 'code',
       title: 'Code Challenge',
       icon: Code,
-      iconColor: 'bg-purple-600 dark:bg-purple-500',
+      iconColor: 'bg-green-600 dark:bg-green-500',
       status: 'Coming Soon',
       statusColor: 'text-gray-500 dark:text-gray-400',
       description: 'Hands-on coding practice with automated testing'
@@ -123,7 +123,7 @@ const LearningGuide: React.FC<LearningGuideProps> = ({ className = '' }) => {
                     </span>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <div className="w-2 h-2 bg-purple-600 rounded-full"></div>
+                    <div className="w-2 h-2 bg-green-600 rounded-full"></div>
                     <span className="text-sm text-gray-700 dark:text-gray-300">
                       <strong>Code:</strong> Apply skills with hands-on challenges (coming soon)
                     </span>

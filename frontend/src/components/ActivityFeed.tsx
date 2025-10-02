@@ -213,7 +213,7 @@ const ActivityFeed: React.FC<ActivityFeedProps> = ({
     switch (type) {
       case 'learn': return 'text-blue-500';
       case 'quiz': return 'text-green-500';
-      case 'milestone': return 'text-purple-500';
+      case 'milestone': return 'text-green-500';
       case 'streak': return 'text-orange-500';
       case 'xp': return 'text-yellow-500';
       default: return 'text-gray-500';

@@ -226,29 +226,29 @@ const BehavioralIndicator: React.FC<BehavioralIndicatorProps> = ({
               )}
 
               {/* Focus Mode */}
-              <div className="bg-purple-50 dark:bg-purple-900/20 rounded-xl p-4 border border-purple-100 dark:border-purple-800">
+              <div className="bg-green-50 dark:bg-green-900/20 rounded-xl p-4 border border-green-100 dark:border-green-800">
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center space-x-2">
-                    <Timer className="w-5 h-5 text-purple-600 dark:text-purple-400" />
-                    <span className="font-semibold text-purple-700 dark:text-purple-300">Focus Mode</span>
+                    <Timer className="w-5 h-5 text-green-600 dark:text-green-400" />
+                    <span className="font-semibold text-green-700 dark:text-green-300">Focus Mode</span>
                   </div>
                   <button
                     onClick={() => toggleFocus(!focusMode, 25)}
                     className={`px-3 py-1 rounded-full text-xs font-medium transition-all ${
                       focusMode 
-                        ? 'bg-purple-600 text-white' 
-                        : 'bg-purple-100 dark:bg-purple-800 text-purple-700 dark:text-purple-300 hover:bg-purple-200 dark:hover:bg-purple-700'
+                        ? 'bg-green-600 text-white' 
+                        : 'bg-green-100 dark:bg-green-800 text-green-700 dark:text-green-300 hover:bg-green-200 dark:hover:bg-green-700'
                     }`}
                   >
                     {focusMode ? 'ON' : 'OFF'}
                   </button>
                 </div>
                 {focusMode ? (
-                  <div className="text-lg font-semibold text-purple-600 dark:text-purple-400">
+                  <div className="text-lg font-semibold text-green-600 dark:text-green-400">
                     {Math.ceil(remainingTime / 60)} minutes left
                   </div>
                 ) : (
-                  <div className="text-sm text-purple-600 dark:text-purple-400">
+                  <div className="text-sm text-green-600 dark:text-green-400">
                     Eliminate distractions while learning
                   </div>
                 )}

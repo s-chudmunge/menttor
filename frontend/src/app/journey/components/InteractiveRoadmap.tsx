@@ -179,7 +179,7 @@ const InteractiveRoadmap: React.FC<InteractiveRoadmapProps> = ({ roadmapData, pr
       case 'current':
         return 'from-blue-500 to-indigo-500';
       case 'available':
-        return 'from-indigo-500 to-purple-500';
+        return 'from-indigo-500 to-green-500';
       case 'locked':
         return 'from-gray-300 to-gray-400';
       default:
@@ -195,7 +195,7 @@ const InteractiveRoadmap: React.FC<InteractiveRoadmapProps> = ({ roadmapData, pr
       case 'current':
         return 'shadow-lg shadow-blue-500/20 hover:shadow-blue-500/30';
       case 'available':
-        return 'shadow-md shadow-purple-500/15 hover:shadow-purple-500/25';
+        return 'shadow-md shadow-green-500/15 hover:shadow-green-500/25';
       case 'locked':
         return 'shadow-sm shadow-gray-300/15';
       default:
@@ -264,7 +264,7 @@ const InteractiveRoadmap: React.FC<InteractiveRoadmapProps> = ({ roadmapData, pr
             <span className="text-gray-600 dark:text-gray-300">Current</span>
           </div>
           <div className="flex items-center space-x-2">
-            <div className="w-4 h-4 rounded-full bg-purple-500"></div>
+            <div className="w-4 h-4 rounded-full bg-green-500"></div>
             <span className="text-gray-600 dark:text-gray-300">Available</span>
           </div>
           <div className="flex items-center space-x-2">
@@ -375,7 +375,7 @@ const InteractiveRoadmap: React.FC<InteractiveRoadmapProps> = ({ roadmapData, pr
                 strokeColor = '#3B82F6'; // Blue
                 strokeWidth = 3;
               } else if (node.status === 'available') {
-                strokeColor = '#8B5CF6'; // Purple
+                strokeColor = '#22C55E'; // Green
                 strokeWidth = 2;
               }
               

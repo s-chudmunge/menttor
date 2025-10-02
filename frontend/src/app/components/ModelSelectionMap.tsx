@@ -33,7 +33,7 @@ const transformModelData = (models: any) => {
 
   const getCategoryColor = (category: any) => {
     switch (category) {
-      case 'premium': return '#8A2BE2'; // Premium (BlueViolet)
+      case 'premium': return '#22C55E'; // Premium (Green)
       case 'balanced': return '#20B2AA'; // Balanced (LightSeaGreen)
       case 'free': return '#708090'; // Free (SlateGray)
       default: return '#708090';
@@ -233,7 +233,7 @@ const D3ModelMapModal = ({ isOpen, onClose, onSelectModel, currentModelId }) => 
       <div className="fixed inset-0 bg-black/70 backdrop-blur-md flex items-center justify-center z-50 p-2 sm:p-4 font-sans">
         <div className="bg-gradient-to-br from-white via-blue-50 to-blue-100 dark:from-gray-900 dark:via-blue-900 dark:to-gray-800 rounded-lg sm:rounded-3xl shadow-2xl w-full h-full sm:max-w-7xl sm:w-full sm:max-h-[95vh] flex flex-col overflow-hidden relative border border-gray-200/50 dark:border-gray-700/50">
           {/* Mobile-Optimized Header */}
-          <div className="flex items-center justify-between p-4 sm:p-3 border-b border-gray-200/50 dark:border-gray-700/50 bg-gradient-to-r from-indigo-600 via-blue-600 to-purple-700 dark:from-indigo-800 dark:via-blue-800 dark:to-purple-800 text-white sticky top-0 z-10 rounded-t-lg sm:rounded-t-3xl">
+          <div className="flex items-center justify-between p-4 sm:p-3 border-b border-gray-200/50 dark:border-gray-700/50 bg-gradient-to-r from-indigo-600 via-blue-600 to-green-700 dark:from-indigo-800 dark:via-blue-800 dark:to-green-800 text-white sticky top-0 z-10 rounded-t-lg sm:rounded-t-3xl">
             <h2 className="text-lg sm:text-sm font-semibold">Choose Model</h2>
             <button
               onClick={onClose}
@@ -260,7 +260,7 @@ const D3ModelMapModal = ({ isOpen, onClose, onSelectModel, currentModelId }) => 
             <div className="md:hidden p-4 border-b border-gray-200/50 dark:border-gray-700/50 bg-white/80 dark:bg-gray-800/80">
               <button
                 onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-                className="w-full flex items-center justify-between p-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white rounded-xl font-semibold transition-all duration-200"
+                className="w-full flex items-center justify-between p-3 bg-gradient-to-r from-indigo-600 to-green-600 hover:from-indigo-700 hover:to-green-700 text-white rounded-xl font-semibold transition-all duration-200"
               >
                 <span className="flex items-center gap-2">
                   <Filter className="w-4 h-4" />
@@ -276,7 +276,7 @@ const D3ModelMapModal = ({ isOpen, onClose, onSelectModel, currentModelId }) => 
             }`}>
               <div className="flex-1 p-4 sm:p-6 overflow-y-auto min-h-0">
                 <div className="flex justify-between items-center mb-6 sm:mb-8">
-                  <h3 className="text-lg sm:text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">Filters & Controls</h3>
+                  <h3 className="text-lg sm:text-2xl font-bold bg-gradient-to-r from-indigo-600 to-green-600 bg-clip-text text-transparent">Filters & Controls</h3>
                   {/* Mobile close button */}
                   <button
                     onClick={() => setIsSidebarOpen(false)}
@@ -299,7 +299,7 @@ const D3ModelMapModal = ({ isOpen, onClose, onSelectModel, currentModelId }) => 
                           className={`flex-1 px-4 py-3 rounded-xl text-sm font-semibold transition-all duration-300 shadow-sm border
                           ${
                             mapView === key
-                              ? 'bg-gradient-to-r from-indigo-500 to-purple-600 text-white border-indigo-300 shadow-lg scale-105'
+                              ? 'bg-gradient-to-r from-indigo-500 to-green-600 text-white border-indigo-300 shadow-lg scale-105'
                               : 'bg-white/80 dark:bg-gray-700/80 text-gray-700 dark:text-gray-200 hover:bg-white hover:scale-102 border-gray-300 dark:border-gray-600 backdrop-blur-sm'
                           }`}
                         >
@@ -394,7 +394,7 @@ const D3ModelMapModal = ({ isOpen, onClose, onSelectModel, currentModelId }) => 
 
                   <button
                     onClick={() => setShowComparisonModal(true)}
-                    className="w-full px-6 py-4 rounded-2xl bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold transition-all duration-300 flex items-center justify-center gap-3 shadow-lg hover:shadow-xl transform hover:scale-105"
+                    className="w-full px-6 py-4 rounded-2xl bg-gradient-to-r from-indigo-600 to-green-600 hover:from-indigo-700 hover:to-green-700 text-white font-semibold transition-all duration-300 flex items-center justify-center gap-3 shadow-lg hover:shadow-xl transform hover:scale-105"
                   >
                     <List className="w-5 h-5" /> Compare Models
                   </button>
@@ -407,7 +407,7 @@ const D3ModelMapModal = ({ isOpen, onClose, onSelectModel, currentModelId }) => 
               {/* Desktop sidebar toggle */}
               <button
                 onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-                className="hidden md:block absolute top-1/2 -left-5 -translate-y-1/2 p-3 rounded-2xl bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 z-20 border-2 border-white/20"
+                className="hidden md:block absolute top-1/2 -left-5 -translate-y-1/2 p-3 rounded-2xl bg-gradient-to-r from-indigo-500 to-green-600 hover:from-indigo-600 hover:to-green-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 z-20 border-2 border-white/20"
                 aria-label={isSidebarOpen ? 'Collapse sidebar' : 'Expand sidebar'}
               >
                 {isSidebarOpen ? <ChevronLeft className="w-5 h-5" /> : <ChevronRight className="w-5 h-5" />}
@@ -423,7 +423,7 @@ const D3ModelMapModal = ({ isOpen, onClose, onSelectModel, currentModelId }) => 
               ) : (
                 <div className="w-full h-full overflow-y-auto pr-4">
                   <div className="mb-6">
-                    <h3 className="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent mb-2">All Models</h3>
+                    <h3 className="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-green-600 bg-clip-text text-transparent mb-2">All Models</h3>
                     <p className="text-sm text-gray-600 dark:text-gray-400">Browse all available models in list format</p>
                   </div>
                   <div className="space-y-2">
@@ -440,7 +440,7 @@ const D3ModelMapModal = ({ isOpen, onClose, onSelectModel, currentModelId }) => 
                         
                         {/* Selected indicator */}
                         {currentModelId === model.id && (
-                          <div className="absolute -top-1 -right-1 w-5 h-5 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full flex items-center justify-center">
+                          <div className="absolute -top-1 -right-1 w-5 h-5 bg-gradient-to-r from-indigo-500 to-green-600 rounded-full flex items-center justify-center">
                             <Star className="w-2.5 h-2.5 text-white fill-white" />
                           </div>
                         )}
@@ -472,7 +472,7 @@ const D3ModelMapModal = ({ isOpen, onClose, onSelectModel, currentModelId }) => 
                                 </h4>
                                 <div className={`inline-flex items-center px-2 py-0.5 rounded-md text-xs font-semibold ${
                                   model.category === 'premium' 
-                                    ? 'bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300' 
+                                    ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300' 
                                     : model.category === 'balanced' 
                                     ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300'
                                     : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
@@ -504,7 +504,7 @@ const D3ModelMapModal = ({ isOpen, onClose, onSelectModel, currentModelId }) => 
                             className={`ml-3 px-4 py-2 text-xs font-bold rounded-lg transition-all duration-200 shadow-sm hover:shadow-md ${
                               currentModelId === model.id
                                 ? 'bg-gradient-to-r from-gray-300 to-gray-400 dark:from-gray-600 dark:to-gray-700 text-gray-600 dark:text-gray-400 cursor-not-allowed'
-                                : 'bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white hover:scale-105'
+                                : 'bg-gradient-to-r from-indigo-600 to-green-600 hover:from-indigo-700 hover:to-green-700 text-white hover:scale-105'
                             }`}
                             disabled={currentModelId === model.id}
                           >
@@ -520,7 +520,7 @@ const D3ModelMapModal = ({ isOpen, onClose, onSelectModel, currentModelId }) => 
 
             {/* Model Details Panel - Hidden on mobile, shown as bottom sheet */}
             <div className="hidden md:block w-96 flex-shrink-0 border-l border-gray-200/50 dark:border-gray-700/50 bg-gradient-to-b from-white/60 to-blue-50/40 dark:from-gray-800/60 dark:to-blue-900/20 backdrop-blur-sm p-6 lg:p-8 overflow-y-auto">
-              <h3 className="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent mb-8">Model Details</h3>
+              <h3 className="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-green-600 bg-clip-text text-transparent mb-8">Model Details</h3>
               {hoveredModel || currentModel ? (
                 <div className="space-y-4">
                   {/* Compact header */}
@@ -593,7 +593,7 @@ const D3ModelMapModal = ({ isOpen, onClose, onSelectModel, currentModelId }) => 
                         rawValue: (hoveredModel || currentModel).capability,
                         icon: Brain, 
                         unit: '%', 
-                        gradient: 'from-purple-400 via-purple-500 to-purple-600'
+                        gradient: 'from-green-400 via-green-500 to-green-600'
                       },
                       { 
                         label: 'Speed', 
@@ -635,14 +635,14 @@ const D3ModelMapModal = ({ isOpen, onClose, onSelectModel, currentModelId }) => 
                     <div className="flex items-center justify-center">
                       <div className={`inline-flex items-center px-3 py-2 rounded-lg text-xs font-bold shadow-sm border ${
                         (hoveredModel || currentModel).category === 'premium' 
-                          ? 'bg-gradient-to-r from-purple-100 to-violet-100 dark:from-purple-900/30 dark:to-violet-900/30 text-purple-800 dark:text-purple-300 border-purple-300 dark:border-purple-700/50' 
+                          ? 'bg-gradient-to-r from-green-100 to-emerald-100 dark:from-green-900/30 dark:to-emerald-900/30 text-green-800 dark:text-green-300 border-green-300 dark:border-green-700/50' 
                           : (hoveredModel || currentModel).category === 'balanced' 
                           ? 'bg-gradient-to-r from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 text-blue-800 dark:text-blue-300 border-blue-300 dark:border-blue-700/50'
                           : 'bg-gradient-to-r from-gray-100 to-slate-100 dark:from-gray-800/60 dark:to-slate-800/60 text-gray-800 dark:text-gray-300 border-gray-300 dark:border-gray-600'
                       }`}>
                         <div className={`w-2 h-2 rounded-full mr-2 ${
                           (hoveredModel || currentModel).category === 'premium' 
-                            ? 'bg-gradient-to-r from-purple-500 to-violet-600' 
+                            ? 'bg-gradient-to-r from-green-500 to-emerald-600' 
                             : (hoveredModel || currentModel).category === 'balanced' 
                             ? 'bg-gradient-to-r from-blue-500 to-indigo-600'
                             : 'bg-gradient-to-r from-gray-500 to-slate-600'
@@ -655,7 +655,7 @@ const D3ModelMapModal = ({ isOpen, onClose, onSelectModel, currentModelId }) => 
                   {hoveredModel && hoveredModel.id !== currentModel?.id && (
                     <button
                       onClick={() => onSelectModel(hoveredModel.id, hoveredModel.name)}
-                      className="w-full mt-4 px-4 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white rounded-xl font-bold text-sm shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+                      className="w-full mt-4 px-4 py-3 bg-gradient-to-r from-indigo-600 to-green-600 hover:from-indigo-700 hover:to-green-700 text-white rounded-xl font-bold text-sm shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
                     >
                       Select This Model
                     </button>
@@ -691,7 +691,7 @@ const D3ModelMapModal = ({ isOpen, onClose, onSelectModel, currentModelId }) => 
             <div className="md:hidden border-t border-gray-200/50 dark:border-gray-700/50 bg-gradient-to-b from-white/80 to-blue-50/60 dark:from-gray-800/80 dark:to-blue-900/30 backdrop-blur-sm">
               <div className="p-4 max-h-64 overflow-y-auto">
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-lg font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">Model Details</h3>
+                  <h3 className="text-lg font-bold bg-gradient-to-r from-indigo-600 to-green-600 bg-clip-text text-transparent">Model Details</h3>
                 </div>
                 
                 {/* Mobile model details - compact */}
@@ -720,7 +720,7 @@ const D3ModelMapModal = ({ isOpen, onClose, onSelectModel, currentModelId }) => 
                     {hoveredModel && hoveredModel.id !== currentModel?.id ? (
                       <button
                         onClick={() => { onSelectModel(hoveredModel.id, hoveredModel.name); onClose(); }}
-                        className="px-3 py-1.5 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white rounded-lg font-semibold text-xs transition-all duration-200"
+                        className="px-3 py-1.5 bg-gradient-to-r from-indigo-600 to-green-600 hover:from-indigo-700 hover:to-green-700 text-white rounded-lg font-semibold text-xs transition-all duration-200"
                       >
                         Select
                       </button>
@@ -735,10 +735,10 @@ const D3ModelMapModal = ({ isOpen, onClose, onSelectModel, currentModelId }) => 
                   <div className="grid grid-cols-2 gap-2">
                     <div className="bg-white/40 dark:bg-gray-700/40 backdrop-blur-sm rounded-lg p-2 border border-gray-200/30 dark:border-gray-600/30">
                       <div className="flex items-center gap-1.5">
-                        <Brain className="w-3 h-3 text-purple-500" />
+                        <Brain className="w-3 h-3 text-green-500" />
                         <span className="text-xs font-medium text-gray-700 dark:text-gray-300">Context</span>
                       </div>
-                      <p className="text-sm font-bold text-purple-600 dark:text-purple-400 mt-0.5">
+                      <p className="text-sm font-bold text-green-600 dark:text-green-400 mt-0.5">
                         {formatContextWindow((hoveredModel || currentModel).context_window)}
                       </p>
                     </div>

@@ -477,7 +477,7 @@ export default function AdminCuratedRoadmaps() {
               <button
                 onClick={generatePromotionalImages}
                 disabled={generatingImages}
-                className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-md transition duration-150 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md transition duration-150 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {generatingImages ? 'Generating...' : '🎨 Generate Images'}
               </button>
@@ -538,8 +538,8 @@ export default function AdminCuratedRoadmaps() {
         
         {/* Image Generation Message */}
         {imageMessage && (
-          <div className="bg-purple-50 border border-purple-200 rounded-lg shadow-sm p-4 mb-6">
-            <div className="text-center font-medium text-purple-800">{imageMessage}</div>
+          <div className="bg-green-50 border border-green-200 rounded-lg shadow-sm p-4 mb-6">
+            <div className="text-center font-medium text-green-800">{imageMessage}</div>
           </div>
         )}
 
@@ -659,7 +659,7 @@ export default function AdminCuratedRoadmaps() {
                           <Button
                             onClick={() => generateLearningResources(roadmapIndex)}
                             disabled={generatingResources === roadmapIndex}
-                            className="bg-purple-600 hover:bg-purple-700 text-white"
+                            className="bg-green-600 hover:bg-green-700 text-white"
                           >
                             {generatingResources === roadmapIndex ? 'Generating...' : 'Generate Resources'}
                           </Button>

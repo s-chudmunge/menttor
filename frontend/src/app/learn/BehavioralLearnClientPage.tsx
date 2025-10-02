@@ -557,8 +557,8 @@ const BehavioralLearnClientPage: React.FC<BehavioralLearnClientPageProps> = ({
       'warmup': 'from-orange-500 to-red-500',
       'focus': 'from-blue-600 to-indigo-600',
       'checkpoint': 'from-green-500 to-emerald-500',
-      'reward': 'from-purple-500 to-pink-500',
-      'prime_next': 'from-indigo-500 to-purple-500'
+      'reward': 'from-green-500 to-emerald-500',
+      'prime_next': 'from-indigo-500 to-green-500'
     };
     return colors[phase as keyof typeof colors] || 'from-gray-500 to-gray-600';
   };
@@ -864,7 +864,7 @@ const BehavioralLearnClientPage: React.FC<BehavioralLearnClientPageProps> = ({
                   {/* Download PDF Button - Mobile */}
                   <button
                     onClick={handleDownloadPDF}
-                    className="w-full flex items-center justify-center gap-2 bg-purple-600 hover:bg-purple-700 text-white text-sm font-medium py-3 px-4 rounded-lg transition-colors"
+                    className="w-full flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white text-sm font-medium py-3 px-4 rounded-lg transition-colors"
                   >
                     <Download className="w-4 h-4" />
                     <span>Download PDF</span>

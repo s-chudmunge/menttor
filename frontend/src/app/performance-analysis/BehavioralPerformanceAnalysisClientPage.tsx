@@ -320,26 +320,26 @@ const BehavioralPerformanceAnalysisClientPage: React.FC<BehavioralPerformanceAna
                 </p>
               </div>
 
-              <div className="bg-gradient-to-r from-purple-50 to-indigo-50 dark:from-purple-900/30 dark:to-indigo-900/30 rounded-2xl p-6 border border-purple-200 dark:border-purple-800 shadow-lg hover:shadow-xl transition-all duration-200">
+              <div className="bg-gradient-to-r from-green-50 to-indigo-50 dark:from-green-900/30 dark:to-indigo-900/30 rounded-2xl p-6 border border-green-200 dark:border-green-800 shadow-lg hover:shadow-xl transition-all duration-200">
                 <div className="flex items-center space-x-3 mb-4">
-                  <div className="w-10 h-10 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg">
+                  <div className="w-10 h-10 bg-gradient-to-r from-green-600 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg">
                     <Clock className="w-5 h-5 text-white" />
                   </div>
                   <div>
-                    <h3 className="font-bold text-purple-900 dark:text-purple-100">Focus</h3>
-                    <p className="text-sm text-purple-600 dark:text-purple-400 font-medium">Study time</p>
+                    <h3 className="font-bold text-green-900 dark:text-green-100">Focus</h3>
+                    <p className="text-sm text-green-600 dark:text-green-400 font-medium">Study time</p>
                   </div>
                 </div>
-                <div className="text-3xl font-bold text-purple-900 dark:text-purple-100 mb-3">
+                <div className="text-3xl font-bold text-green-900 dark:text-green-100 mb-3">
                   {Math.floor(behavioralStats.engagement_stats.focus_time / 3600)}h {Math.floor((behavioralStats.engagement_stats.focus_time % 3600) / 60)}m
                 </div>
-                <div className="w-full bg-purple-200 dark:bg-purple-800 rounded-full h-3 mb-2">
+                <div className="w-full bg-green-200 dark:bg-green-800 rounded-full h-3 mb-2">
                   <div 
-                    className="bg-gradient-to-r from-purple-500 to-indigo-500 h-3 rounded-full transition-all duration-1000 shadow-sm"
+                    className="bg-gradient-to-r from-green-500 to-indigo-500 h-3 rounded-full transition-all duration-1000 shadow-sm"
                     style={{ width: `${Math.min(100, (behavioralStats.engagement_stats.focus_time / 10800) * 100)}%` }}
                   />
                 </div>
-                <p className="text-sm text-purple-700 dark:text-purple-300 font-medium">
+                <p className="text-sm text-green-700 dark:text-green-300 font-medium">
                   Total concentrated time
                 </p>
               </div>
@@ -452,7 +452,7 @@ const BehavioralPerformanceAnalysisClientPage: React.FC<BehavioralPerformanceAna
         {Object.keys(eloRatings).length > 0 && (
           <div className="bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl rounded-2xl border border-gray-200/50 dark:border-gray-700/50 p-6 lg:p-8 shadow-xl">
             <div className="flex items-center space-x-4 mb-8">
-              <div className="w-10 h-10 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg">
+              <div className="w-10 h-10 bg-gradient-to-r from-green-600 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg">
                 <Brain className="w-5 h-5 text-white" />
               </div>
               <div>
@@ -463,7 +463,7 @@ const BehavioralPerformanceAnalysisClientPage: React.FC<BehavioralPerformanceAna
             
             <div className="grid gap-4">
               {Object.entries(eloRatings).slice(0, 6).map(([concept, rating]) => (
-                <div key={concept} className="flex items-center justify-between p-4 bg-gradient-to-r from-gray-50 to-purple-50 dark:from-gray-800 dark:to-purple-900/20 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-lg">
+                <div key={concept} className="flex items-center justify-between p-4 bg-gradient-to-r from-gray-50 to-green-50 dark:from-gray-800 dark:to-green-900/20 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-lg">
                   <span className="text-gray-900 dark:text-white font-semibold text-lg">{concept}</span>
                   <div className="flex items-center space-x-4">
                     <div className="text-right">

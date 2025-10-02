@@ -75,7 +75,7 @@ const QUESTION_TYPES = [
     label: 'Case Study / Scenario',
     description: 'Apply knowledge in context',
     icon: FileText,
-    color: 'purple'
+    color: 'green'
   },
   {
     key: 'codeCompletion',

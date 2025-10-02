@@ -67,7 +67,7 @@ export default function HelpPage() {
       description: 'Call us during business hours',
       icon: <Phone className="w-6 h-6" />,
       action: '+1 (555) 123-4567',
-      color: 'purple',
+      color: 'green',
       onClick: () => window.open('tel:+15551234567', '_blank')
     }
   ];
@@ -157,10 +157,10 @@ export default function HelpPage() {
                   text: 'text-green-600 dark:text-green-400',
                   button: 'bg-green-600 hover:bg-green-700'
                 },
-                purple: {
-                  bg: 'bg-purple-100 dark:bg-purple-900/20',
-                  text: 'text-purple-600 dark:text-purple-400',
-                  button: 'bg-purple-600 hover:bg-purple-700'
+                green: {
+                  bg: 'bg-green-100 dark:bg-green-900/20',
+                  text: 'text-green-600 dark:text-green-400',
+                  button: 'bg-green-600 hover:bg-green-700'
                 }
               };
               

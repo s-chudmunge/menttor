@@ -369,10 +369,10 @@ const VisitorOnboardingForm: React.FC<VisitorOnboardingFormProps> = ({
             className="space-y-6"
           >
             <div className="text-center">
-              <div className="w-12 h-12 mx-auto mb-4 bg-purple-100 dark:bg-purple-900/20 rounded-full flex items-center justify-center">
-                <div className="w-6 h-6 border-2 border-purple-600 rounded-md relative">
-                  <div className="w-2 h-2 bg-purple-600 rounded-full absolute top-0.5 left-0.5"></div>
-                  <div className="w-1 h-1 bg-purple-600 rounded-full absolute bottom-0.5 right-0.5"></div>
+              <div className="w-12 h-12 mx-auto mb-4 bg-green-100 dark:bg-green-900/20 rounded-full flex items-center justify-center">
+                <div className="w-6 h-6 border-2 border-green-600 rounded-md relative">
+                  <div className="w-2 h-2 bg-green-600 rounded-full absolute top-0.5 left-0.5"></div>
+                  <div className="w-1 h-1 bg-green-600 rounded-full absolute bottom-0.5 right-0.5"></div>
                 </div>
               </div>
               <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">

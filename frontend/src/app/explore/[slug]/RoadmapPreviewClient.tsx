@@ -249,7 +249,7 @@ const RoadmapPreviewClient: React.FC<RoadmapPreviewClientProps> = ({ slug: roadm
 
   const categoryColors: { [key: string]: string } = {
     'web-development': 'bg-blue-100 text-blue-800 dark:bg-blue-600 dark:text-white',
-    'data-science': 'bg-purple-100 text-purple-800 dark:bg-purple-600 dark:text-white',
+    'data-science': 'bg-green-100 text-green-800 dark:bg-green-600 dark:text-white',
     'cloud-computing': 'bg-sky-100 text-sky-800 dark:bg-sky-600 dark:text-white',
     'computer-science': 'bg-gray-100 text-gray-800 dark:bg-gray-600 dark:text-white',
     'mobile-development': 'bg-green-100 text-green-800 dark:bg-green-600 dark:text-white',
@@ -605,7 +605,7 @@ const RoadmapPreviewClient: React.FC<RoadmapPreviewClientProps> = ({ slug: roadm
                                     <div className="flex items-center space-x-1">
                                       {subtopic.learn && <BookOpen className="w-3 h-3 text-blue-500" />}
                                       {subtopic.quiz && <Badge className="w-3 h-3 text-green-500" />}
-                                      {subtopic.code && <Play className="w-3 h-3 text-purple-500" />}
+                                      {subtopic.code && <Play className="w-3 h-3 text-green-500" />}
                                     </div>
                                   </div>
                                 ))}

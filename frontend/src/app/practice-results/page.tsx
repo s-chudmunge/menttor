@@ -267,7 +267,7 @@ const PracticeResultsPage = () => {
             className="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 p-4 sm:p-6 mb-4 sm:mb-6"
           >
             <div className="flex items-center mb-4">
-              <Brain className="w-6 h-6 text-purple-600 mr-3" />
+              <Brain className="w-6 h-6 text-green-600 mr-3" />
               <h3 className="text-xl font-bold text-gray-900 dark:text-white">Smart Performance Analysis</h3>
             </div>
             
@@ -369,7 +369,7 @@ const PracticeResultsPage = () => {
                       </div>
                       <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
                         <div
-                          className="bg-gradient-to-r from-indigo-600 to-purple-600 h-2 rounded-full transition-all duration-500"
+                          className="bg-gradient-to-r from-indigo-600 to-green-600 h-2 rounded-full transition-all duration-500"
                           style={{ width: `${score}%` }}
                         />
                       </div>

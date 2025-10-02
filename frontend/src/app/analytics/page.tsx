@@ -50,7 +50,7 @@ export default function AnalyticsPage() {
 
   const getEventIcon = (eventName: string) => {
     if (eventName.includes('page_viewed')) return <Eye className="w-4 h-4 text-blue-500" />;
-    if (eventName.includes('theme_changed')) return <MousePointer className="w-4 h-4 text-purple-500" />;
+    if (eventName.includes('theme_changed')) return <MousePointer className="w-4 h-4 text-green-500" />;
     if (eventName.includes('roadmap_generated')) return <TrendingUp className="w-4 h-4 text-green-500" />;
     if (eventName.includes('learn_')) return <Activity className="w-4 h-4 text-orange-500" />;
     if (eventName.includes('quiz_')) return <BarChart3 className="w-4 h-4 text-red-500" />;
@@ -115,7 +115,7 @@ export default function AnalyticsPage() {
 
           <div className="bg-white dark:bg-gray-800 rounded-lg p-6 border border-gray-200 dark:border-gray-700">
             <div className="flex items-center">
-              <TrendingUp className="w-8 h-8 text-purple-500 mr-3" />
+              <TrendingUp className="w-8 h-8 text-green-500 mr-3" />
               <div>
                 <p className="text-sm text-gray-600 dark:text-gray-400">Roadmaps Generated (24h)</p>
                 <p className="text-2xl font-bold text-gray-900 dark:text-white">{stats.roadmapsGenerated}</p>
