@@ -602,11 +602,6 @@ const MenttorLabsMainPage = () => {
                   </div>
                 )}
                 
-                {/* Simple dashed connecting line - Desktop */}
-                <div className="hidden md:block absolute top-1/2 -right-6 w-12 h-0 border-t-2 border-dashed border-gray-300 dark:border-gray-600 transform -translate-y-1/2"></div>
-                
-                {/* Simple dashed connecting line - Mobile */}
-                <div className="md:hidden absolute -bottom-4 left-1/2 w-0 h-8 border-l-2 border-dashed border-gray-300 dark:border-gray-600 transform -translate-x-1/2"></div>
               </div>
 
               {/* Step 2: Goal */}
@@ -634,11 +629,6 @@ const MenttorLabsMainPage = () => {
                   </div>
                 )}
                 
-                {/* Simple dashed connecting line - Desktop */}
-                <div className="hidden md:block absolute top-1/2 -right-6 w-12 h-0 border-t-2 border-dashed border-gray-300 dark:border-gray-600 transform -translate-y-1/2"></div>
-                
-                {/* Simple dashed connecting line - Mobile */}
-                <div className="md:hidden absolute -bottom-4 left-1/2 w-0 h-8 border-l-2 border-dashed border-gray-300 dark:border-gray-600 transform -translate-x-1/2"></div>
               </div>
 
               {/* Step 3: Timeline */}
@@ -680,11 +670,6 @@ const MenttorLabsMainPage = () => {
                   </div>
                 )}
                 
-                {/* Simple dashed connecting line - Desktop */}
-                <div className="hidden md:block absolute top-1/2 -right-6 w-12 h-0 border-t-2 border-dashed border-gray-300 dark:border-gray-600 transform -translate-y-1/2"></div>
-                
-                {/* Simple dashed connecting line - Mobile */}
-                <div className="md:hidden absolute -bottom-4 left-1/2 w-0 h-8 border-l-2 border-dashed border-gray-300 dark:border-gray-600 transform -translate-x-1/2"></div>
               </div>
 
               {/* Step 4: AI Model */}
