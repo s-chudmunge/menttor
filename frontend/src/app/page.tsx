@@ -52,7 +52,6 @@ import ProfileDropdown from '../components/ProfileDropdown';
 import { ThreeDGeneratorCard, ThreeDGeneratorModal } from '../../components/ThreeDGenerator';
 import { LearnAboutSomethingCard, LearnAboutSomethingModal } from '../../components/LearnAboutSomething';
 import PromotionalBackground from '../components/PromotionalBackground';
-import SimpleLearningAnimation from '../components/SimpleLearningAnimation';
 import MainPageSidePanel from './components/MainPageSidePanel';
 import LearnBar from './components/LearnBar';
 
@@ -752,28 +751,6 @@ const MenttorLabsMainPage = () => {
       </section>
 
 
-        {/* How It Works - Interactive Flow */}
-        <section className="py-12 bg-white dark:bg-black transition-colors duration-300">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <div className="inline-flex items-center px-4 py-2 rounded-full bg-blue-50/80 dark:bg-blue-900/30 border border-blue-200/50 dark:border-blue-700/50 text-blue-700 dark:text-blue-300 text-sm font-medium mb-6">
-              <Target className="w-4 h-4 mr-2" />
-              How It Works
-            </div>
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
-              Your Learning Journey Visualized
-            </h2>
-            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-              See how Menttor transforms your learning goals into structured, achievable pathways
-            </p>
-          </div>
-          
-          {/* Animation Component */}
-          <div className="flex justify-center">
-            <SimpleLearningAnimation />
-          </div>
-        </div>
-      </section>
 
         {/* Stats Section */}
         <section className="py-12 bg-white dark:bg-black transition-colors duration-300">
@@ -897,69 +874,36 @@ const MenttorLabsMainPage = () => {
         </section>
 
         {/* Footer */}
-        <footer className="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white py-12 transition-colors duration-300">
+        <footer className="bg-white dark:bg-black text-gray-900 dark:text-white py-8 transition-colors duration-300 border-t border-gray-200 dark:border-gray-700">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
-            {/* Company Info */}
-            <div className="lg:col-span-1">
+          <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+            {/* Left - Logo and Copyright */}
+            <div className="flex items-center space-x-4">
               <Logo />
-              <p className="text-gray-600 dark:text-gray-300 mt-4 leading-relaxed">
-                Transforming education through intelligent, personalized learning experiences that adapt to every learner's unique journey.
-              </p>
-              <div className="flex space-x-4 mt-8">
-                <a href="https://x.com/menttorlive" target="_blank" rel="noopener noreferrer">
-                  <img src="/x-social-media-logo-icon.svg" alt="Twitter/X" className="w-6 h-6" />
-                </a>
-                <a href="https://www.instagram.com/menttorlive/" target="_blank" rel="noopener noreferrer">
-                  <img src="/ig-instagram-icon.svg" alt="Instagram" className="w-6 h-6" />
-                </a>
-                <a href="https://github.com/mountain-snatcher" target="_blank" rel="noopener noreferrer">
-                  <img src="/github.svg" alt="GitHub" className="w-6 h-6" />
-                </a>
-              </div>
-            </div>
-
-            {/* Product */}
-            <div>
-              <h4 className="text-lg font-semibold mb-6 text-gray-900 dark:text-white">Product</h4>
-              <ul className="space-y-3">
-                <li><Link href="/" className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200">Home</Link></li>
-                <li><a href="#generate" className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200">Create Roadmap</a></li>
-                <li><Link href="/library" className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200">Library</Link></li>
-                <li><button onClick={() => setShowOldRoadmaps(true)} className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200">My Roadmaps</button></li>
-                <li><Link href="/dashboard" className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200">Dashboard</Link></li>
-                <li><Link href="/performance-analysis" className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200">Analytics</Link></li>
-              </ul>
-            </div>
-
-
-            {/* Support */}
-            <div>
-              <h4 className="text-lg font-semibold mb-6 text-gray-900 dark:text-white">Support</h4>
-              <ul className="space-y-3">
-                <li><Link href="/help" className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200">Help Center</Link></li>
-                <li><a href="/contact" className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200">Contact Support</a></li>
-                <li><a href="/privacy" className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200">Privacy Policy</a></li>
-                <li><a href="/terms" className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200">Terms of Service</a></li>
-                <li><a href="/security" className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200">Security</a></li>
-              </ul>
-            </div>
-          </div>
-
-          {/* Bottom Section */}
-          <div className="mt-12 pt-8 border-t border-gray-300 dark:border-gray-800 flex flex-col md:flex-row justify-between items-center">
-            <div className="text-gray-500 dark:text-gray-400 text-sm">
-              &copy; {new Date().getFullYear()} MenttorLabs. All rights reserved.
-              <br />Built with ❤️ for learners
-            </div>
-            <div className="flex items-center space-x-6 mt-4 md:mt-0">
-              <a href="/sitemap" className="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white text-sm transition-colors duration-200">Sitemap</a>
-              <span className="text-gray-400 dark:text-gray-600">|</span>
-              <a href="/status" className="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white text-sm transition-colors duration-200">Status</a>
-              <span className="text-gray-400 dark:text-gray-600">|</span>
               <div className="text-gray-500 dark:text-gray-400 text-sm">
-                <a href="https://github.com/mountain-snatcher" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors duration-200">GitHub</a>
+                &copy; {new Date().getFullYear()} MenttorLabs. All rights reserved.
               </div>
+            </div>
+            
+            {/* Center - Quick Links */}
+            <div className="flex items-center space-x-6 text-sm">
+              <Link href="/library" className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200">Library</Link>
+              <Link href="/explore" className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200">Explore</Link>
+              <Link href="/privacy" className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200">Privacy</Link>
+              <Link href="/terms" className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200">Terms</Link>
+            </div>
+            
+            {/* Right - Social Links */}
+            <div className="flex items-center space-x-4">
+              <a href="https://x.com/menttorlive" target="_blank" rel="noopener noreferrer" className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200">
+                <img src="/x-social-media-logo-icon.svg" alt="Twitter/X" className="w-5 h-5" />
+              </a>
+              <a href="https://www.instagram.com/menttorlive/" target="_blank" rel="noopener noreferrer" className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200">
+                <img src="/ig-instagram-icon.svg" alt="Instagram" className="w-5 h-5" />
+              </a>
+              <a href="https://github.com/mountain-snatcher" target="_blank" rel="noopener noreferrer" className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200">
+                <img src="/github.svg" alt="GitHub" className="w-5 h-5" />
+              </a>
             </div>
           </div>
         </div>
