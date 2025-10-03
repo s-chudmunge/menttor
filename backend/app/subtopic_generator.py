@@ -132,14 +132,20 @@ class SubtopicGenerator:
         slug = slug.strip('-')  # Remove leading/trailing hyphens
         return slug
     
-    async def generate_subtopic_content(self, subtopic: Dict[str, Any]) -> bool:
-        """Generate content for a single subtopic using AI"""
+    async def generate_subtopic_content(self, subtopic: Dict[str, Any]) -> tuple[bool, bool]:
+        """Generate content for a single subtopic using AI
+        
+        Returns:
+            tuple[bool, bool]: (success, was_generated)
+            - success: Whether the operation was successful
+            - was_generated: Whether new content was actually generated (vs. skipped existing)
+        """
         slug = self.create_slug_from_title(subtopic['title'])
         
         # Skip if already processed
         if subtopic['id'] in self.processed_subtopics:
             logger.info(f"Skipping already processed subtopic: {subtopic['title']}")
-            return True
+            return True, False
         
         # Check if content already exists in database
         try:
@@ -149,7 +155,7 @@ class SubtopicGenerator:
                 existing_content = load_content_from_db(slug, db_session)
                 logger.info(f"Content already exists in database for: {subtopic['title']}")
                 self.processed_subtopics.add(subtopic['id'])
-                return True
+                return True, False
             except:
                 # Content doesn't exist, continue with generation
                 pass
@@ -248,12 +254,12 @@ class SubtopicGenerator:
             self.save_processed_list()
             
             logger.info(f"Successfully generated content for: {subtopic['title']} -> {slug}.json")
-            return True
+            return True, True
             
         except Exception as e:
             logger.error(f"Failed to generate content for {subtopic['title']}: {e}")
             self.failed_subtopics.add(subtopic['id'])
-            return False
+            return False, False
     
     async def run_generation_cycle(self):
         """Run one cycle of subtopic generation - ALL REMAINING SUBTOPICS FROM ALL ROADMAPS"""
@@ -307,25 +313,30 @@ class SubtopicGenerator:
         # Process ALL remaining subtopics
         processed_count = 0
         failed_count = 0
+        generated_count = 0
         
         for i, subtopic in enumerate(unprocessed):
             logger.info(f"Processing subtopic {i+1}/{len(unprocessed)}: {subtopic['title']}")
             logger.info(f"From: {subtopic['roadmap_title']} -> {subtopic['module_title']} -> {subtopic['topic_title']}")
             
-            success = await self.generate_subtopic_content(subtopic)
+            success, was_generated = await self.generate_subtopic_content(subtopic)
             if success:
                 processed_count += 1
-                logger.info(f"✅ Successfully generated ({i+1}/{len(unprocessed)}): {subtopic['title']}")
+                if was_generated:
+                    generated_count += 1
+                    logger.info(f"✅ Successfully generated ({i+1}/{len(unprocessed)}): {subtopic['title']}")
+                else:
+                    logger.info(f"⏭️ Skipped existing content ({i+1}/{len(unprocessed)}): {subtopic['title']}")
             else:
                 failed_count += 1
                 logger.error(f"❌ Failed to generate ({i+1}/{len(unprocessed)}): {subtopic['title']}")
             
-            # Add delay between generations 
-            if i < len(unprocessed) - 1:  # Don't wait after the last one
+            # Only add delay if we actually generated new content and there are more subtopics to process
+            if was_generated and i < len(unprocessed) - 1:
                 logger.info("Waiting 30 seconds before next generation...")
                 await asyncio.sleep(GENERATION_INTERVAL)  # 30 seconds
         
-        logger.info(f"Batch completed! Processed: {processed_count}, Failed: {failed_count}")
+        logger.info(f"Batch completed! Processed: {processed_count}, Generated: {generated_count}, Failed: {failed_count}")
         return True  # Signal completion
     
     async def run(self):
