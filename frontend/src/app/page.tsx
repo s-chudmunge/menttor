@@ -585,20 +585,15 @@ const MenttorLabsMainPage = () => {
                   <BookOpen className="w-4 h-4 inline mr-2" />
                   What to learn?
                 </label>
-                <div className="relative">
-                  <input
-                    type="text"
-                    name="subject"
-                    value={formData.subject}
-                    onChange={handleInputChange}
-                    onBlur={handleSmartFill}
-                    placeholder="e.g., Python Programming, Machine Learning, Web Development"
-                    className="w-full px-6 py-4 text-base border-2 border-gray-200 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 transition-all duration-300 shadow-sm hover:shadow-md hover:border-gray-300 dark:hover:border-gray-500"
-                  />
-                  <div className="absolute inset-y-0 right-0 flex items-center pr-4">
-                    <BookOpen className="w-5 h-5 text-gray-400 dark:text-gray-500" />
-                  </div>
-                </div>
+                <input
+                  type="text"
+                  name="subject"
+                  value={formData.subject}
+                  onChange={handleInputChange}
+                  onBlur={handleSmartFill}
+                  placeholder="e.g., Python Programming"
+                  className="w-full px-4 py-3 text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-green-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 transition-all duration-200"
+                />
                 {formData.subject && (
                   <div className="mt-2 text-xs text-green-600 dark:text-green-400 flex items-center">
                     <CheckCircle className="w-3 h-3 mr-1" />
@@ -618,19 +613,14 @@ const MenttorLabsMainPage = () => {
                   <Target className="w-4 h-4 inline mr-2" />
                   Your objective?
                 </label>
-                <div className="relative">
-                  <textarea
-                    name="goal"
-                    value={formData.goal}
-                    onChange={handleInputChange}
-                    placeholder="e.g., Build modern web applications, Become a data scientist, Master machine learning algorithms..."
-                    rows={4}
-                    className="w-full px-6 py-4 text-base border-2 border-gray-200 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 transition-all duration-300 shadow-sm hover:shadow-md hover:border-gray-300 dark:hover:border-gray-500 resize-none"
-                  />
-                  <div className="absolute top-4 right-4">
-                    <Target className="w-5 h-5 text-gray-400 dark:text-gray-500" />
-                  </div>
-                </div>
+                <textarea
+                  name="goal"
+                  value={formData.goal}
+                  onChange={handleInputChange}
+                  placeholder="e.g., Build web applications"
+                  rows={3}
+                  className="w-full px-4 py-3 text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-green-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 transition-all duration-200 resize-none"
+                />
                 {formData.goal && (
                   <div className="mt-2 text-xs text-green-600 dark:text-green-400 flex items-center">
                     <CheckCircle className="w-3 h-3 mr-1" />
@@ -650,37 +640,27 @@ const MenttorLabsMainPage = () => {
                   <Clock className="w-4 h-4 inline mr-2" />
                   Time frame?
                 </label>
-                <div className="flex gap-3">
-                  <div className="relative flex-1">
-                    <input
-                      type="number"
-                      name="time_value"
-                      value={formData.time_value}
-                      onChange={handleInputChange}
-                      placeholder="12"
-                      min="1"
-                      max="365"
-                      className="w-full px-6 py-4 text-base border-2 border-gray-200 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-center transition-all duration-300 shadow-sm hover:shadow-md hover:border-gray-300 dark:hover:border-gray-500"
-                    />
-                    <div className="absolute inset-y-0 right-0 flex items-center pr-4">
-                      <Calendar className="w-5 h-5 text-gray-400 dark:text-gray-500" />
-                    </div>
-                  </div>
-                  <div className="relative flex-1">
-                    <select
-                      name="time_unit"
-                      value={formData.time_unit}
-                      onChange={handleInputChange}
-                      className="w-full px-6 py-4 text-base border-2 border-gray-200 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition-all duration-300 shadow-sm hover:shadow-md hover:border-gray-300 dark:hover:border-gray-500 appearance-none"
-                    >
-                      <option value="days">Days</option>
-                      <option value="weeks">Weeks</option>
-                      <option value="months">Months</option>
-                    </select>
-                    <div className="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none">
-                      <ChevronDown className="w-5 h-5 text-gray-400 dark:text-gray-500" />
-                    </div>
-                  </div>
+                <div className="space-y-2">
+                  <input
+                    type="number"
+                    name="time_value"
+                    value={formData.time_value}
+                    onChange={handleInputChange}
+                    placeholder="12"
+                    min="1"
+                    max="365"
+                    className="w-full px-4 py-3 text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-green-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-center"
+                  />
+                  <select
+                    name="time_unit"
+                    value={formData.time_unit}
+                    onChange={handleInputChange}
+                    className="w-full px-4 py-3 text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-green-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                  >
+                    <option value="days">Days</option>
+                    <option value="weeks">Weeks</option>
+                    <option value="months">Months</option>
+                  </select>
                 </div>
                 {formData.time_value && (
                   <div className="mt-2 text-xs text-green-600 dark:text-green-400 flex items-center">
@@ -701,26 +681,16 @@ const MenttorLabsMainPage = () => {
                   <Brain className="w-4 h-4 inline mr-2" />
                   Learning model?
                 </label>
-                <div className="relative">
-                  <div className="bg-gradient-to-r from-blue-50 to-green-50 dark:from-gray-700 dark:to-gray-600 border-2 border-gray-200 dark:border-gray-600 rounded-xl p-4 hover:shadow-md transition-all duration-300">
-                    <div className="flex items-center justify-between">
-                      <div className="flex-1">
-                        <div className="font-semibold text-gray-900 dark:text-white text-base mb-1">{selectedModelName}</div>
-                        <div className="text-sm text-gray-600 dark:text-gray-400 flex items-center">
-                          <Zap className="w-4 h-4 mr-1" />
-                          Advanced AI Engine
-                        </div>
-                      </div>
-                      <button
-                        type="button"
-                        onClick={() => setShowModelModal(true)}
-                        className="ml-4 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 hover:scale-105 shadow-sm flex items-center space-x-2"
-                      >
-                        <Brain className="w-4 h-4" />
-                        <span>Change</span>
-                      </button>
-                    </div>
-                  </div>
+                <div className="bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg p-3">
+                  <div className="font-medium text-gray-900 dark:text-white text-sm mb-1">{selectedModelName}</div>
+                  <div className="text-xs text-gray-600 dark:text-gray-400 mb-2">Advanced AI</div>
+                  <button
+                    type="button"
+                    onClick={() => setShowModelModal(true)}
+                    className="w-full bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200"
+                  >
+                    Change Model
+                  </button>
                 </div>
                 {formData.model && (
                   <div className="mt-2 text-xs text-green-600 dark:text-green-400 flex items-center">
