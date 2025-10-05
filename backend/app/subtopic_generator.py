@@ -48,12 +48,40 @@ class SubtopicGenerator:
         self.load_processed_list()
     
     def load_processed_list(self):
-        """Load list of already processed subtopics from temp storage"""
+        """Load list of already processed subtopics from database and temp storage"""
+        # First load from temp file for backwards compatibility
         processed_file = Path("/tmp/processed_subtopics.txt")
         if processed_file.exists():
             with open(processed_file, 'r') as f:
-                self.processed_subtopics = set(line.strip() for line in f if line.strip())
-            logger.info(f"Loaded {len(self.processed_subtopics)} already processed subtopics")
+                temp_processed = set(line.strip() for line in f if line.strip())
+                self.processed_subtopics.update(temp_processed)
+                logger.info(f"Loaded {len(temp_processed)} processed subtopics from temp file")
+        
+        # Also load from database - check for existing library content
+        try:
+            db_session = next(get_db())
+            try:
+                from database.models import LibraryContent
+                existing_content = db_session.query(LibraryContent).all()
+                
+                # Extract subtopic IDs from metadata if available
+                db_processed = set()
+                for content in existing_content:
+                    if hasattr(content, 'metadata') and content.metadata:
+                        metadata = content.metadata if isinstance(content.metadata, dict) else {}
+                        subtopic_id = metadata.get('subtopic_id')
+                        if subtopic_id:
+                            db_processed.add(str(subtopic_id))
+                
+                self.processed_subtopics.update(db_processed)
+                logger.info(f"Loaded {len(db_processed)} processed subtopics from database")
+                logger.info(f"Total processed subtopics: {len(self.processed_subtopics)}")
+                
+            finally:
+                db_session.close()
+        except Exception as e:
+            logger.warning(f"Could not load processed subtopics from database: {e}")
+            # Continue with just temp file data
     
     def save_processed_list(self):
         """Save list of processed subtopics to temp storage"""
@@ -361,6 +389,163 @@ class SubtopicGenerator:
         logger.info(f"Total processed: {len(self.processed_subtopics)}")
         logger.info(f"Total failed: {len(self.failed_subtopics)}")
         logger.info("Content files saved to database")
+    
+    async def run_batch(self, batch_size: int = 20, start_from: int = None):
+        """Run a batch of subtopic generation with specified size"""
+        logger.info(f"🚀 Starting Batch Content Generator (size: {batch_size})")
+        logger.info("Content storage: Database")
+        logger.info(f"Using model: {DEFAULT_MODEL}")
+        
+        try:
+            # Fetch all curated roadmaps
+            roadmaps = await self.fetch_all_curated_roadmaps()
+            if not roadmaps:
+                logger.error("No roadmaps found, skipping batch")
+                return {
+                    "batch_completed": True,
+                    "batch_number": 0,
+                    "subtopics_processed": 0,
+                    "subtopics_generated": 0,
+                    "subtopics_failed": 0,
+                    "has_more_batches": False,
+                    "error": "No roadmaps found"
+                }
+
+            logger.info(f"Found {len(roadmaps)} curated roadmaps to process")
+            
+            # Get details for all roadmaps
+            all_roadmap_details = []
+            for i, roadmap in enumerate(roadmaps):
+                slug = roadmap.get('slug') or str(roadmap.get('id'))
+                title = roadmap.get('title', 'Unknown Roadmap')
+                logger.info(f"Fetching details for roadmap {i+1}/{len(roadmaps)}: {title} (slug: {slug})")
+                
+                details = await self.fetch_roadmap_details(slug)
+                if details:
+                    all_roadmap_details.append(details)
+                    logger.info(f"✅ Successfully fetched details for: {title}")
+                else:
+                    logger.warning(f"❌ Failed to fetch details for: {title}")
+
+            if not all_roadmap_details:
+                logger.error("Failed to fetch details for any roadmap")
+                return {
+                    "batch_completed": True,
+                    "batch_number": 0,
+                    "subtopics_processed": 0,
+                    "subtopics_generated": 0,
+                    "subtopics_failed": 0,
+                    "has_more_batches": False,
+                    "error": "Failed to fetch roadmap details"
+                }
+                
+            logger.info(f"Successfully fetched details for {len(all_roadmap_details)} roadmaps")
+                
+            # Extract subtopics from all roadmaps
+            all_subtopics = self.extract_all_subtopics(all_roadmap_details)
+            
+            if not all_subtopics:
+                logger.error("No subtopics extracted from any roadmap")
+                return {
+                    "batch_completed": True,
+                    "batch_number": 0,
+                    "subtopics_processed": 0,
+                    "subtopics_generated": 0,
+                    "subtopics_failed": 0,
+                    "total_subtopics": 0,
+                    "has_more_batches": False,
+                    "error": "No subtopics found"
+                }
+
+            logger.info(f"Found {len(all_subtopics)} total subtopics across all roadmaps")
+            
+            # Filter unprocessed subtopics
+            unprocessed = [s for s in all_subtopics if s['id'] not in self.processed_subtopics]
+            logger.info(f"Found {len(unprocessed)} unprocessed subtopics (skipping {len(all_subtopics) - len(unprocessed)} already processed)")
+            
+            if not unprocessed:
+                logger.info("All subtopics from all roadmaps have been processed! 🎉")
+                return {
+                    "batch_completed": True,
+                    "batch_number": 0,
+                    "subtopics_processed": len(all_subtopics),
+                    "subtopics_generated": 0,
+                    "subtopics_failed": 0,
+                    "total_subtopics": len(all_subtopics),
+                    "has_more_batches": False,
+                    "message": "All subtopics completed"
+                }
+
+            # Determine batch range
+            if start_from is None:
+                start_from = 0
+            
+            end_index = min(start_from + batch_size, len(unprocessed))
+            batch_subtopics = unprocessed[start_from:end_index]
+            
+            logger.info(f"Processing batch: {start_from} to {end_index-1} ({len(batch_subtopics)} subtopics)")
+            
+            # Process batch
+            processed_count = 0
+            failed_count = 0
+            generated_count = 0
+            
+            for i, subtopic in enumerate(batch_subtopics):
+                global_index = start_from + i
+                logger.info(f"Processing subtopic {global_index+1}/{len(unprocessed)}: {subtopic['title']}")
+                logger.info(f"From: {subtopic['roadmap_title']} -> {subtopic['module_title']} -> {subtopic['topic_title']}")
+                
+                success, was_generated = await self.generate_subtopic_content(subtopic)
+                if success:
+                    processed_count += 1
+                    if was_generated:
+                        generated_count += 1
+                        logger.info(f"✅ Successfully generated ({global_index+1}/{len(unprocessed)}): {subtopic['title']}")
+                    else:
+                        logger.info(f"⏭️ Skipped existing content ({global_index+1}/{len(unprocessed)}): {subtopic['title']}")
+                else:
+                    failed_count += 1
+                    logger.error(f"❌ Failed to generate ({global_index+1}/{len(unprocessed)}): {subtopic['title']}")
+                
+                # Add delay only if we generated new content and there are more items in this batch
+                if was_generated and i < len(batch_subtopics) - 1:
+                    logger.info("Waiting 30 seconds before next generation...")
+                    await asyncio.sleep(GENERATION_INTERVAL)  # 30 seconds
+
+            # Calculate next batch info
+            next_batch_start = end_index
+            has_more_batches = next_batch_start < len(unprocessed)
+            batch_number = (start_from // batch_size) + 1
+            
+            logger.info(f"Batch {batch_number} completed! Processed: {processed_count}, Generated: {generated_count}, Failed: {failed_count}")
+            
+            return {
+                "batch_completed": True,
+                "batch_number": batch_number,
+                "subtopics_processed": processed_count,
+                "subtopics_generated": generated_count,
+                "subtopics_failed": failed_count,
+                "processed_count": len(self.processed_subtopics),
+                "failed_count": len(self.failed_subtopics),
+                "total_subtopics": len(all_subtopics),
+                "next_batch_start": next_batch_start if has_more_batches else None,
+                "has_more_batches": has_more_batches,
+                "remaining_subtopics": len(unprocessed) - end_index
+            }
+            
+        except Exception as e:
+            logger.error(f"Error in batch generation: {e}")
+            import traceback
+            traceback.print_exc()
+            return {
+                "batch_completed": False,
+                "batch_number": 0,
+                "subtopics_processed": 0,
+                "subtopics_generated": 0,
+                "subtopics_failed": 0,
+                "has_more_batches": False,
+                "error": str(e)
+            }
 
 async def main():
     """Entry point"""
