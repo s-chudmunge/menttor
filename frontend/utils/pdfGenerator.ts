@@ -23,69 +23,68 @@ export async function generateLearnPagePDF(options: PDFOptions): Promise<void> {
     
     // Add header with logo and branding
     await addPDFHeader(pdf, pageWidth, margin);
-    yPosition += 30;
+    yPosition += 35;
     
-    // Add title section
+    // Add title section with better formatting
     if (subtopic) {
-      pdf.setFontSize(24);
+      pdf.setFontSize(22);
       pdf.setFont('helvetica', 'bold');
-      const title = `Learning: ${subtopic}`;
-      pdf.text(title, margin, yPosition);
-      yPosition += 15;
+      pdf.setTextColor(40, 40, 40);
+      const title = subtopic;
+      const titleLines = pdf.splitTextToSize(title, contentWidth);
+      pdf.text(titleLines, margin, yPosition);
+      yPosition += (titleLines.length * 10) + 8;
+      
+      // Add a subtle line under the title
+      pdf.setDrawColor(200, 200, 200);
+      pdf.setLineWidth(0.5);
+      pdf.line(margin, yPosition, pageWidth - margin, yPosition);
+      yPosition += 12;
     }
     
-    if (subject) {
-      pdf.setFontSize(14);
+    // Add metadata section with better styling
+    if (subject || goal) {
+      pdf.setFontSize(11);
       pdf.setFont('helvetica', 'normal');
       pdf.setTextColor(100, 100, 100);
-      pdf.text(`Subject: ${subject}`, margin, yPosition);
-      yPosition += 10;
-    }
-    
-    if (goal) {
-      pdf.text(`Goal: ${goal}`, margin, yPosition);
-      yPosition += 15;
+      
+      if (subject) {
+        pdf.text(`Subject: ${subject}`, margin, yPosition);
+        yPosition += 7;
+      }
+      
+      if (goal) {
+        const goalLines = pdf.splitTextToSize(`Learning Goal: ${goal}`, contentWidth);
+        pdf.text(goalLines, margin, yPosition);
+        yPosition += (goalLines.length * 7) + 8;
+      }
     }
     
     // Reset text color
     pdf.setTextColor(0, 0, 0);
+    yPosition += 5;
     
-    // Process content blocks
-    for (const block of content) {
-      // Check if we need a new page
-      if (yPosition > pageHeight - 50) {
+    // Process content blocks with improved spacing and page management
+    for (let i = 0; i < content.length; i++) {
+      const block = content[i];
+      
+      // Estimate space needed for this block
+      const estimatedHeight = await estimateBlockHeight(pdf, block, contentWidth);
+      
+      // Check if we need a new page (with better space calculation)
+      if (yPosition + estimatedHeight > pageHeight - 40) {
         pdf.addPage();
-        yPosition = margin;
+        yPosition = margin + 10;
       }
       
-      switch (block.type) {
-        case 'heading':
-          yPosition = await addHeading(pdf, block.data, yPosition, margin, contentWidth);
-          break;
-        case 'paragraph':
-          yPosition = await addParagraph(pdf, block.data, yPosition, margin, contentWidth);
-          break;
-        case 'progressive_disclosure':
-          yPosition = await addProgressiveDisclosure(pdf, block.data, yPosition, margin, contentWidth);
-          break;
-        case 'active_recall':
-          yPosition = await addActiveRecall(pdf, block.data, yPosition, margin, contentWidth);
-          break;
-        case 'comparison_table':
-          yPosition = await addComparisonTable(pdf, block.data, yPosition, margin, contentWidth);
-          break;
-        case 'callout':
-          yPosition = await addCallout(pdf, block.data, yPosition, margin, contentWidth);
-          break;
-        case 'mermaid_diagram':
-          yPosition = await addMermaidDiagram(pdf, block.data, yPosition, margin, contentWidth);
-          break;
-        case '3d_visualization':
-          yPosition = await add3DVisualization(pdf, block.data, yPosition, margin, contentWidth);
-          break;
-      }
+      // Add the content block
+      const newYPosition = await addContentBlock(pdf, block, yPosition, margin, contentWidth, pageWidth, pageHeight);
+      yPosition = newYPosition;
       
-      yPosition += 5; // Add some space between blocks
+      // Add spacing between blocks (but not too much)
+      if (i < content.length - 1) {
+        yPosition += 8;
+      }
     }
     
     // Add footer to all pages
@@ -156,130 +155,369 @@ function addPDFFooter(pdf: jsPDF, pageWidth: number, pageHeight: number, margin:
   });
 }
 
+
+// Helper function to estimate block height
+async function estimateBlockHeight(pdf: jsPDF, block: any, contentWidth: number): Promise<number> {
+  switch (block.type) {
+    case 'heading':
+      const fontSize = block.data.level === 1 ? 18 : block.data.level === 2 ? 16 : 14;
+      pdf.setFontSize(fontSize);
+      const headingLines = pdf.splitTextToSize(block.data.text, contentWidth);
+      return (headingLines.length * 8) + 15;
+    
+    case 'paragraph':
+      pdf.setFontSize(12);
+      const paragraphLines = pdf.splitTextToSize(cleanMarkdown(block.data.text), contentWidth);
+      return (paragraphLines.length * 6) + 10;
+    
+    case 'progressive_disclosure':
+      return 60; // Estimated height for progressive disclosure
+    
+    case 'active_recall':
+      return 40; // Estimated height for active recall
+    
+    case 'comparison_table':
+      const rows = block.data.rows || [];
+      return Math.max(30, rows.length * 8 + 20);
+    
+    case 'callout':
+      pdf.setFontSize(12);
+      const calloutLines = pdf.splitTextToSize(block.data.text || block.data.content || '', contentWidth);
+      return Math.max(25, calloutLines.length * 6 + 15);
+    
+    default:
+      return 25; // Default height estimate
+  }
+}
+
+// Unified content block renderer
+async function addContentBlock(
+  pdf: jsPDF, 
+  block: any, 
+  yPosition: number, 
+  margin: number, 
+  contentWidth: number,
+  pageWidth: number,
+  pageHeight: number
+): Promise<number> {
+  switch (block.type) {
+    case 'heading':
+      return await addHeading(pdf, block.data, yPosition, margin, contentWidth);
+    case 'paragraph':
+      return await addParagraph(pdf, block.data, yPosition, margin, contentWidth);
+    case 'progressive_disclosure':
+      return await addProgressiveDisclosure(pdf, block.data, yPosition, margin, contentWidth);
+    case 'active_recall':
+      return await addActiveRecall(pdf, block.data, yPosition, margin, contentWidth);
+    case 'comparison_table':
+      return await addComparisonTable(pdf, block.data, yPosition, margin, contentWidth);
+    case 'callout':
+      return await addCallout(pdf, block.data, yPosition, margin, contentWidth);
+    case 'mermaid_diagram':
+      return await addMermaidDiagram(pdf, block.data, yPosition, margin, contentWidth);
+    case '3d_visualization':
+      return await add3DVisualization(pdf, block.data, yPosition, margin, contentWidth);
+    default:
+      return yPosition;
+  }
+}
+
+// Enhanced markdown cleaning function with better LaTeX and code handling
+function cleanMarkdown(text: string): string {
+  if (!text) return '';
+  
+  return text
+    // Handle LaTeX math expressions - convert to readable text
+    .replace(/\$\$([^$]+)\$\$/g, (match, content) => `[Math: ${content.trim()}]`)
+    .replace(/\$([^$]+)\$/g, (match, content) => content.trim())
+    // Handle specific LaTeX commands
+    .replace(/\\frac\{([^}]+)\}\{([^}]+)\}/g, '($1)/($2)')
+    .replace(/\\sqrt\{([^}]+)\}/g, 'sqrt($1)')
+    .replace(/\\infty/g, '∞')
+    .replace(/\\alpha/g, 'α')
+    .replace(/\\beta/g, 'β')
+    .replace(/\\gamma/g, 'γ')
+    .replace(/\\delta/g, 'δ')
+    .replace(/\\epsilon/g, 'ε')
+    .replace(/\\lambda/g, 'λ')
+    .replace(/\\mu/g, 'μ')
+    .replace(/\\pi/g, 'π')
+    .replace(/\\sigma/g, 'σ')
+    .replace(/\\tau/g, 'τ')
+    .replace(/\\omega/g, 'ω')
+    .replace(/\\Psi/g, 'Ψ')
+    .replace(/\\Omega/g, 'Ω')
+    .replace(/\\hbar/g, 'ℏ')
+    // Handle subscripts and superscripts
+    .replace(/\^(\d+)/g, '⁺$1')
+    .replace(/_(\d+)/g, '₊$1')
+    .replace(/\^\{([^}]+)\}/g, '^($1)')
+    .replace(/_\{([^}]+)\}/g, '_($1)')
+    // Handle bold text properly
+    .replace(/\*\*(.*?)\*\*/g, '$1')
+    // Handle italic text properly  
+    .replace(/\*(.*?)\*/g, '$1')
+    // Handle code blocks with better formatting
+    .replace(/```([\w]*)\n?([\s\S]*?)```/g, (match, lang, code) => {
+      const language = lang ? ` (${lang})` : '';
+      return `[Code Block${language}]\n${code.trim()}`;
+    })
+    .replace(/`([^`]+)`/g, '"$1"')
+    // Handle links - preserve text, remove URL
+    .replace(/\[([^\]]+)\]\([^\)]+\)/g, '$1')
+    // Handle headers
+    .replace(/^#+\s+/gm, '')
+    // Handle lists with better bullets
+    .replace(/^\s*[-*+]\s+/gm, '• ')
+    .replace(/^\s*\d+\.\s+/gm, (match, offset, string) => {
+      const num = match.match(/\d+/)?.[0] || '1';
+      return `${num}. `;
+    })
+    // Clean up excessive whitespace but preserve some structure
+    .replace(/\n\s*\n\s*\n/g, '\n\n')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
 async function addHeading(pdf: jsPDF, data: any, yPosition: number, margin: number, contentWidth: number): Promise<number> {
   const { level, text } = data;
   
-  // Set font size based on heading level
+  // Add some space before heading (except for H1)
+  if (level > 1) {
+    yPosition += 8;
+  }
+  
+  // Set font size and color based on heading level
   const fontSize = level === 1 ? 18 : level === 2 ? 16 : 14;
+  const textColor = level === 1 ? [30, 30, 30] : [50, 50, 50];
+  
   pdf.setFontSize(fontSize);
   pdf.setFont('helvetica', 'bold');
-  pdf.setTextColor(0, 0, 0);
+  pdf.setTextColor(...textColor as [number, number, number]);
   
-  // Add heading text
-  const lines = pdf.splitTextToSize(text, contentWidth);
-  pdf.text(lines, margin, yPosition + 10);
+  // Clean and add heading text
+  const cleanedText = cleanMarkdown(text);
+  const lines = pdf.splitTextToSize(cleanedText, contentWidth);
+  pdf.text(lines, margin, yPosition + (fontSize * 0.4));
   
-  return yPosition + (lines.length * 8) + 8;
+  let newYPosition = yPosition + (lines.length * (fontSize * 0.6)) + 6;
+  
+  // Add underline for H1 and H2
+  if (level <= 2) {
+    const lineColor = level === 1 ? [100, 100, 100] : [180, 180, 180];
+    pdf.setDrawColor(...lineColor as [number, number, number]);
+    pdf.setLineWidth(level === 1 ? 0.8 : 0.4);
+    pdf.line(margin, newYPosition, margin + (contentWidth * 0.3), newYPosition);
+    newYPosition += 6;
+  }
+  
+  return newYPosition;
 }
 
 async function addParagraph(pdf: jsPDF, data: any, yPosition: number, margin: number, contentWidth: number): Promise<number> {
   pdf.setFontSize(12);
   pdf.setFont('helvetica', 'normal');
-  pdf.setTextColor(0, 0, 0);
+  pdf.setTextColor(40, 40, 40);
   
-  // Clean the markdown text (basic cleanup)
-  let cleanText = data.text
-    .replace(/\*\*(.*?)\*\*/g, '$1') // Remove bold markdown
-    .replace(/\*(.*?)\*/g, '$1') // Remove italic markdown
-    .replace(/`(.*?)`/g, '$1') // Remove code markdown
-    .replace(/\[([^\]]+)\]\([^\)]+\)/g, '$1'); // Remove links, keep text
+  // Clean the markdown text with improved function
+  const cleanText = cleanMarkdown(data.text);
   
+  // Better line spacing and text positioning
   const lines = pdf.splitTextToSize(cleanText, contentWidth);
-  pdf.text(lines, margin, yPosition + 8);
+  const lineHeight = 6;
+  const startY = yPosition + 5;
   
-  return yPosition + (lines.length * 6) + 8;
+  // Render each line with proper spacing
+  lines.forEach((line: string, index: number) => {
+    pdf.text(line, margin, startY + (index * lineHeight));
+  });
+  
+  return startY + (lines.length * lineHeight) + 6;
 }
 
 async function addProgressiveDisclosure(pdf: jsPDF, data: any, yPosition: number, margin: number, contentWidth: number): Promise<number> {
   const { key_idea, summary, full_text } = data;
   
-  // Add key idea as a heading
-  pdf.setFontSize(14);
+  // Add background box for progressive disclosure
+  const boxStartY = yPosition;
+  pdf.setFillColor(248, 250, 252); // Light blue background
+  pdf.setDrawColor(219, 234, 254); // Light blue border
+  
+  // Add key idea with icon
+  pdf.setFontSize(13);
   pdf.setFont('helvetica', 'bold');
-  pdf.setTextColor(59, 130, 246); // Blue color
+  pdf.setTextColor(30, 64, 175); // Blue color
   
-  const keyIdeaLines = pdf.splitTextToSize(`💡 ${key_idea}`, contentWidth);
-  pdf.text(keyIdeaLines, margin, yPosition + 10);
-  yPosition += (keyIdeaLines.length * 8) + 8;
+  const keyIdeaText = `💡 Key Idea: ${cleanMarkdown(key_idea)}`;
+  const keyIdeaLines = pdf.splitTextToSize(keyIdeaText, contentWidth - 10);
   
-  // Add summary
+  let currentY = yPosition + 8;
+  keyIdeaLines.forEach((line: string, index: number) => {
+    pdf.text(line, margin + 5, currentY + (index * 7));
+  });
+  currentY += (keyIdeaLines.length * 7) + 8;
+  
+  // Add summary if present
   if (summary) {
-    pdf.setFontSize(12);
+    pdf.setFontSize(11);
     pdf.setFont('helvetica', 'bold');
-    pdf.setTextColor(0, 0, 0);
-    pdf.text('Summary:', margin, yPosition + 8);
-    yPosition += 10;
+    pdf.setTextColor(60, 60, 60);
+    pdf.text('Summary:', margin + 5, currentY);
+    currentY += 8;
     
     pdf.setFont('helvetica', 'normal');
-    const summaryLines = pdf.splitTextToSize(summary, contentWidth);
-    pdf.text(summaryLines, margin, yPosition + 5);
-    yPosition += (summaryLines.length * 6) + 8;
+    pdf.setTextColor(80, 80, 80);
+    const summaryLines = pdf.splitTextToSize(cleanMarkdown(summary), contentWidth - 10);
+    summaryLines.forEach((line: string, index: number) => {
+      pdf.text(line, margin + 5, currentY + (index * 6));
+    });
+    currentY += (summaryLines.length * 6) + 8;
   }
   
-  // Add full text
+  // Add detailed explanation if present
   if (full_text) {
-    pdf.setFontSize(12);
+    pdf.setFontSize(11);
     pdf.setFont('helvetica', 'bold');
-    pdf.setTextColor(0, 0, 0);
-    pdf.text('Detailed Explanation:', margin, yPosition + 8);
-    yPosition += 10;
+    pdf.setTextColor(60, 60, 60);
+    pdf.text('Detailed Explanation:', margin + 5, currentY);
+    currentY += 8;
     
     pdf.setFont('helvetica', 'normal');
-    const fullTextLines = pdf.splitTextToSize(full_text, contentWidth);
-    pdf.text(fullTextLines, margin, yPosition + 5);
-    yPosition += (fullTextLines.length * 6) + 8;
+    pdf.setTextColor(80, 80, 80);
+    const fullTextLines = pdf.splitTextToSize(cleanMarkdown(full_text), contentWidth - 10);
+    fullTextLines.forEach((line: string, index: number) => {
+      pdf.text(line, margin + 5, currentY + (index * 6));
+    });
+    currentY += (fullTextLines.length * 6) + 5;
   }
   
-  return yPosition;
+  // Draw the background box
+  const boxHeight = currentY - boxStartY;
+  pdf.rect(margin, boxStartY, contentWidth, boxHeight, 'FD');
+  
+  return currentY + 3;
 }
 
 async function addActiveRecall(pdf: jsPDF, data: any, yPosition: number, margin: number, contentWidth: number): Promise<number> {
   const { question, answer } = data;
   
-  // Add question
+  // Add background for active recall section
+  const boxStartY = yPosition;
+  pdf.setFillColor(252, 245, 255); // Light purple background
+  pdf.setDrawColor(233, 213, 255); // Purple border
+  
+  // Add question with icon
   pdf.setFontSize(12);
   pdf.setFont('helvetica', 'bold');
-  pdf.setTextColor(168, 85, 247); // Purple color
+  pdf.setTextColor(126, 34, 206); // Purple color
   
-  const questionText = `🤔 Think About This: ${question}`;
-  const questionLines = pdf.splitTextToSize(questionText, contentWidth);
-  pdf.text(questionLines, margin, yPosition + 10);
-  yPosition += (questionLines.length * 8) + 8;
+  const questionText = `🤔 Think About This: ${cleanMarkdown(question)}`;
+  const questionLines = pdf.splitTextToSize(questionText, contentWidth - 10);
   
-  // Add answer
+  let currentY = yPosition + 8;
+  questionLines.forEach((line: string, index: number) => {
+    pdf.text(line, margin + 5, currentY + (index * 7));
+  });
+  currentY += (questionLines.length * 7) + 8;
+  
+  // Add answer if present
   if (answer) {
+    pdf.setFontSize(11);
+    pdf.setFont('helvetica', 'bold');
+    pdf.setTextColor(80, 80, 80);
+    pdf.text('💡 Answer:', margin + 5, currentY);
+    currentY += 8;
+    
     pdf.setFont('helvetica', 'normal');
-    pdf.setTextColor(0, 0, 0);
-    const answerLines = pdf.splitTextToSize(`Answer: ${answer}`, contentWidth);
-    pdf.text(answerLines, margin + 10, yPosition + 5);
-    yPosition += (answerLines.length * 6) + 8;
+    pdf.setTextColor(60, 60, 60);
+    const answerLines = pdf.splitTextToSize(cleanMarkdown(answer), contentWidth - 10);
+    answerLines.forEach((line: string, index: number) => {
+      pdf.text(line, margin + 5, currentY + (index * 6));
+    });
+    currentY += (answerLines.length * 6) + 5;
   }
   
-  return yPosition;
+  // Draw the background box
+  const boxHeight = currentY - boxStartY;
+  pdf.rect(margin, boxStartY, contentWidth, boxHeight, 'FD');
+  
+  return currentY + 3;
 }
 
 async function addComparisonTable(pdf: jsPDF, data: any, yPosition: number, margin: number, contentWidth: number): Promise<number> {
-  const { title, items } = data;
+  const { title, items, headers, rows } = data;
   
   // Add table title
   if (title) {
     pdf.setFontSize(14);
     pdf.setFont('helvetica', 'bold');
-    pdf.setTextColor(0, 0, 0);
-    pdf.text(title, margin, yPosition + 10);
-    yPosition += 15;
+    pdf.setTextColor(50, 50, 50);
+    const titleLines = pdf.splitTextToSize(cleanMarkdown(title), contentWidth);
+    titleLines.forEach((line: string, index: number) => {
+      pdf.text(line, margin, yPosition + 10 + (index * 8));
+    });
+    yPosition += (titleLines.length * 8) + 8;
   }
   
-  // Add comparison items
-  if (items && Array.isArray(items)) {
-    pdf.setFontSize(10);
+  // Handle table with headers and rows
+  if (headers && rows) {
+    const boxStartY = yPosition;
+    pdf.setFillColor(248, 249, 250); // Light gray background
+    pdf.setDrawColor(209, 213, 219); // Gray border
+    
+    // Add headers
+    pdf.setFontSize(11);
+    pdf.setFont('helvetica', 'bold');
+    pdf.setTextColor(30, 30, 30);
+    
+    const colWidth = (contentWidth - 10) / headers.length;
+    let currentY = yPosition + 8;
+    
+    headers.forEach((header: string, index: number) => {
+      pdf.text(cleanMarkdown(header), margin + 5 + (index * colWidth), currentY);
+    });
+    currentY += 12;
+    
+    // Add separator line
+    pdf.setDrawColor(180, 180, 180);
+    pdf.line(margin + 5, currentY - 2, margin + contentWidth - 5, currentY - 2);
+    currentY += 6;
+    
+    // Add rows
     pdf.setFont('helvetica', 'normal');
+    pdf.setTextColor(60, 60, 60);
+    
+    rows.forEach((row: string[]) => {
+      row.forEach((cell: string, index: number) => {
+        const cellLines = pdf.splitTextToSize(cleanMarkdown(cell), colWidth - 5);
+        cellLines.forEach((line: string, lineIndex: number) => {
+          pdf.text(line, margin + 5 + (index * colWidth), currentY + (lineIndex * 6));
+        });
+      });
+      currentY += Math.max(12, Math.max(...row.map(cell => pdf.splitTextToSize(cleanMarkdown(cell), colWidth - 5).length)) * 6 + 6);
+    });
+    
+    // Draw table background
+    const boxHeight = currentY - boxStartY;
+    pdf.rect(margin, boxStartY, contentWidth, boxHeight, 'FD');
+    
+    return currentY + 5;
+  }
+  
+  // Handle comparison items (legacy format)
+  if (items && Array.isArray(items)) {
+    pdf.setFontSize(11);
+    pdf.setFont('helvetica', 'normal');
+    pdf.setTextColor(60, 60, 60);
     
     items.forEach((item: any) => {
       const itemText = `• ${item.concept || item.name || item.title}: ${item.description || item.explanation || ''}`;
-      const lines = pdf.splitTextToSize(itemText, contentWidth - 10);
-      pdf.text(lines, margin + 5, yPosition + 8);
-      yPosition += (lines.length * 5) + 3;
+      const cleanedText = cleanMarkdown(itemText);
+      const lines = pdf.splitTextToSize(cleanedText, contentWidth - 10);
+      lines.forEach((line: string, index: number) => {
+        pdf.text(line, margin + 5, yPosition + 8 + (index * 6));
+      });
+      yPosition += (lines.length * 6) + 4;
     });
   }
   
@@ -287,76 +525,174 @@ async function addComparisonTable(pdf: jsPDF, data: any, yPosition: number, marg
 }
 
 async function addCallout(pdf: jsPDF, data: any, yPosition: number, margin: number, contentWidth: number): Promise<number> {
-  const { type, content } = data;
+  const { type, content, text, style } = data;
+  const calloutText = content || text;
   
-  // Set colors based on callout type
-  let backgroundColor: [number, number, number] = [240, 240, 240];
-  let textColor: [number, number, number] = [0, 0, 0];
+  if (!calloutText) return yPosition;
+  
+  // Set colors and icons based on callout type/style
+  let backgroundColor: [number, number, number] = [248, 250, 252]; // Light blue default
+  let borderColor: [number, number, number] = [209, 213, 219];
+  let textColor: [number, number, number] = [30, 64, 175];
   let icon = '💡';
   
-  switch (type) {
+  const calloutType = type || style;
+  
+  switch (calloutType) {
     case 'warning':
       backgroundColor = [254, 242, 242];
-      textColor = [220, 38, 38];
+      borderColor = [254, 202, 202];
+      textColor = [153, 27, 27];
       icon = '⚠️';
       break;
     case 'info':
       backgroundColor = [239, 246, 255];
-      textColor = [59, 130, 246];
+      borderColor = [191, 219, 254];
+      textColor = [30, 64, 175];
       icon = 'ℹ️';
       break;
     case 'success':
       backgroundColor = [240, 253, 244];
-      textColor = [34, 197, 94];
+      borderColor = [167, 243, 208];
+      textColor = [22, 101, 52];
       icon = '✅';
       break;
     case 'tip':
+    case 'example':
       backgroundColor = [255, 251, 235];
-      textColor = [245, 158, 11];
+      borderColor = [253, 230, 138];
+      textColor = [146, 64, 14];
       icon = '💡';
+      break;
+    case 'metaphor':
+      backgroundColor = [245, 243, 255];
+      borderColor = [196, 181, 253];
+      textColor = [91, 33, 182];
+      icon = '🎭';
+      break;
+    case 'analogy':
+      backgroundColor = [240, 253, 244];
+      borderColor = [167, 243, 208];
+      textColor = [22, 101, 52];
+      icon = '🔗';
       break;
   }
   
-  // Add callout with background
-  const calloutHeight = 20;
-  pdf.setFillColor(...backgroundColor);
-  pdf.rect(margin, yPosition, contentWidth, calloutHeight, 'F');
+  const boxStartY = yPosition;
   
-  // Add callout content
+  // Add callout content with icon
   pdf.setFontSize(12);
   pdf.setFont('helvetica', 'normal');
   pdf.setTextColor(...textColor);
   
-  const calloutText = `${icon} ${content}`;
-  const lines = pdf.splitTextToSize(calloutText, contentWidth - 10);
-  pdf.text(lines, margin + 5, yPosition + 10);
+  const fullCalloutText = `${icon} ${cleanMarkdown(calloutText)}`;
+  const lines = pdf.splitTextToSize(fullCalloutText, contentWidth - 16);
   
-  return yPosition + Math.max(calloutHeight, lines.length * 6) + 8;
+  let currentY = yPosition + 8;
+  lines.forEach((line: string, index: number) => {
+    pdf.text(line, margin + 8, currentY + (index * 6));
+  });
+  currentY += (lines.length * 6) + 8;
+  
+  // Draw background box with border
+  const boxHeight = currentY - boxStartY;
+  pdf.setFillColor(...backgroundColor);
+  pdf.setDrawColor(...borderColor);
+  pdf.setLineWidth(0.5);
+  pdf.rect(margin, boxStartY, contentWidth, boxHeight, 'FD');
+  
+  return currentY + 3;
 }
 
 async function addMermaidDiagram(pdf: jsPDF, data: any, yPosition: number, margin: number, contentWidth: number): Promise<number> {
-  // For now, just add a placeholder for Mermaid diagrams
+  const { chart } = data;
+  
+  // Add background box for diagram placeholder
+  const boxStartY = yPosition;
+  pdf.setFillColor(248, 250, 252); // Light blue background
+  pdf.setDrawColor(203, 213, 225); // Blue border
+  
+  // Add title and description
   pdf.setFontSize(12);
-  pdf.setFont('helvetica', 'italic');
-  pdf.setTextColor(100, 100, 100);
+  pdf.setFont('helvetica', 'bold');
+  pdf.setTextColor(51, 65, 85);
   
-  const placeholder = '📊 [Mermaid Diagram - View online for interactive diagram]';
-  const lines = pdf.splitTextToSize(placeholder, contentWidth);
-  pdf.text(lines, margin, yPosition + 10);
+  const title = '📊 Interactive Diagram';
+  pdf.text(title, margin + 8, yPosition + 12);
   
-  return yPosition + (lines.length * 6) + 10;
+  let currentY = yPosition + 20;
+  
+  // Add chart description if available
+  if (chart) {
+    pdf.setFontSize(10);
+    pdf.setFont('helvetica', 'normal');
+    pdf.setTextColor(71, 85, 105);
+    
+    // Extract diagram type from mermaid syntax
+    const diagramType = chart.includes('graph') ? 'Flow Chart' : 
+                       chart.includes('sequenceDiagram') ? 'Sequence Diagram' :
+                       chart.includes('classDiagram') ? 'Class Diagram' :
+                       chart.includes('gitgraph') ? 'Git Graph' : 'Diagram';
+    
+    const description = `Type: ${diagramType}\nThis interactive diagram is available in the online version.`;
+    const lines = pdf.splitTextToSize(description, contentWidth - 16);
+    lines.forEach((line: string, index: number) => {
+      pdf.text(line, margin + 8, currentY + (index * 6));
+    });
+    currentY += (lines.length * 6) + 8;
+  } else {
+    pdf.setFontSize(10);
+    pdf.setFont('helvetica', 'normal');
+    pdf.setTextColor(71, 85, 105);
+    pdf.text('View online for the interactive diagram experience.', margin + 8, currentY);
+    currentY += 16;
+  }
+  
+  // Draw background box
+  const boxHeight = currentY - boxStartY;
+  pdf.setLineWidth(0.5);
+  pdf.rect(margin, boxStartY, contentWidth, boxHeight, 'FD');
+  
+  return currentY + 5;
 }
 
 async function add3DVisualization(pdf: jsPDF, data: any, yPosition: number, margin: number, contentWidth: number): Promise<number> {
   const { description } = data;
   
+  // Add background box for 3D visualization placeholder
+  const boxStartY = yPosition;
+  pdf.setFillColor(250, 245, 255); // Light purple background
+  pdf.setDrawColor(220, 208, 255); // Purple border
+  
+  // Add title
   pdf.setFontSize(12);
-  pdf.setFont('helvetica', 'italic');
-  pdf.setTextColor(100, 100, 100);
+  pdf.setFont('helvetica', 'bold');
+  pdf.setTextColor(91, 33, 182);
   
-  const placeholder = `🧊 [3D Visualization: ${description || 'Interactive 3D Model'} - View online for interactive experience]`;
-  const lines = pdf.splitTextToSize(placeholder, contentWidth);
-  pdf.text(lines, margin, yPosition + 10);
+  const title = '🧊 Interactive 3D Visualization';
+  pdf.text(title, margin + 8, yPosition + 12);
   
-  return yPosition + (lines.length * 6) + 10;
+  let currentY = yPosition + 20;
+  
+  // Add description
+  pdf.setFontSize(10);
+  pdf.setFont('helvetica', 'normal');
+  pdf.setTextColor(88, 28, 135);
+  
+  const content = description ? 
+    `Model: ${cleanMarkdown(description)}\nThis 3D visualization is available in the online version for interactive exploration.` :
+    'This interactive 3D model is available in the online version.';
+  
+  const lines = pdf.splitTextToSize(content, contentWidth - 16);
+  lines.forEach((line: string, index: number) => {
+    pdf.text(line, margin + 8, currentY + (index * 6));
+  });
+  currentY += (lines.length * 6) + 8;
+  
+  // Draw background box
+  const boxHeight = currentY - boxStartY;
+  pdf.setLineWidth(0.5);
+  pdf.rect(margin, boxStartY, contentWidth, boxHeight, 'FD');
+  
+  return currentY + 5;
 }
