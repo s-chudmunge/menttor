@@ -69,7 +69,6 @@ const LearnBar: React.FC = () => {
               onChange={(e) => setTopic(e.target.value)}
               placeholder="e.g., Machine Learning, Python Programming, Quantum Physics, Photography..."
               className="w-full pl-12 pr-4 py-4 text-lg border border-gray-200 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 transition-colors"
-              maxLength={100}
               disabled={loading || isGenerating}
             />
           </div>

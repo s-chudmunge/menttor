@@ -99,12 +99,8 @@ const LearnAboutSomethingModal: React.FC<LearnAboutSomethingModalProps> = ({
                 onChange={(e) => setTopic(e.target.value)}
                 placeholder="e.g., Machine Learning, Python Programming, Quantum Physics, Photography..."
                 className="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 transition-colors"
-                maxLength={100}
                 disabled={loading || isGenerating}
               />
-              <div className="text-right text-xs text-gray-500 dark:text-gray-400 mt-1">
-                {topic.length}/100
-              </div>
             </div>
 
             <div>
