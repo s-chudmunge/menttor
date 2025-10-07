@@ -110,6 +110,34 @@ async def on_startup():
             
         except Exception as e:
             logger.warning(f"⚠️ Monitoring systems initialization failed: {e}")
+        
+        # Auto-start continuous subtopic generation if enabled
+        try:
+            import os
+            auto_start_generation = os.getenv("AUTO_START_GENERATION", "true").lower() == "true"
+            
+            if auto_start_generation:
+                logger.info("🔄 Auto-starting continuous subtopic generation...")
+                
+                # Import the generator status and function
+                from routers.subtopic_generator_api import generator_status, run_continuous_generation, is_generation_complete
+                
+                # Check if generation is already complete
+                if not is_generation_complete(generator_status.get("message", "")):
+                    # Start continuous generation in background
+                    asyncio.create_task(run_continuous_generation(
+                        batch_size=int(os.getenv("BATCH_SIZE", "20")),
+                        max_batches=int(os.getenv("MAX_BATCHES", "1000")), 
+                        sleep_between_batches=int(os.getenv("SLEEP_BETWEEN_BATCHES", "10"))
+                    ))
+                    logger.info("✅ Continuous subtopic generation started automatically")
+                else:
+                    logger.info("✅ Subtopic generation already completed - skipping auto-start")
+            else:
+                logger.info("⏸️ Auto-start generation disabled via environment variable")
+                
+        except Exception as e:
+            logger.warning(f"⚠️ Auto-start generation failed: {e}")
             
         logger.info("🚀 FastAPI application startup completed")
         
