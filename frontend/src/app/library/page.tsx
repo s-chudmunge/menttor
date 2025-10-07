@@ -327,6 +327,19 @@ export default function LibraryPage() {
                 <Search className="w-4 h-4" />
               </button>
             </div>
+            
+            {/* Page Count Display */}
+            {!loading && !isInitialLoad && (
+              <div className="text-center mt-3">
+                <p className="text-sm text-gray-500">
+                  {searchQuery ? (
+                    <>Showing {filteredItems.length} of {libraryItems.length} pages</>
+                  ) : (
+                    <>{libraryItems.length} pages available</>
+                  )}
+                </p>
+              </div>
+            )}
           </div>
         </div>
 
