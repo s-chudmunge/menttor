@@ -41,7 +41,7 @@ export async function GET() {
     let libraryItems = fallbackLibraryItems;
     
     try {
-      const libraryResponse = await fetch('https://menttor-backend-144050828172.asia-south1.run.app/library/available?per_page=10000', {
+    const libraryResponse = await fetch('https://menttor-backend.onrender.com/library/available?per_page=10000', {
         headers: {
           'Cache-Control': 'no-cache',
           'Accept': 'application/json',
@@ -76,7 +76,7 @@ export async function GET() {
     console.log(`Added ${libraryItems.length} library pages to sitemap`);
 
     // Fetch roadmaps from backend with short timeout for faster builds
-    const response = await fetch('https://menttor-backend-144050828172.asia-south1.run.app/curated-roadmaps/?per_page=100', {
+  const response = await fetch('https://menttor-backend.onrender.com/curated-roadmaps/?per_page=100', {
       headers: {
         'Cache-Control': 'no-cache',
         'Accept': 'application/json',

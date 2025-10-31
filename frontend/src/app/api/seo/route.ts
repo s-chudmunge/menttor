@@ -17,7 +17,7 @@ export async function GET(request: NextRequest) {
   if (check === 'sitemap') {
     // Return comprehensive sitemap status with roadmap data
     const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://menttor.live';
-    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'https://menttor-backend-144050828172.asia-south1.run.app';
+  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'https://menttor-backend.onrender.com';
     
     try {
       // Fetch roadmaps for accurate count
@@ -142,7 +142,7 @@ export async function POST(request: NextRequest) {
   try {
     const { action } = await request.json();
     const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://menttor.live';
-    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'https://menttor-backend-144050828172.asia-south1.run.app';
+  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'https://menttor-backend.onrender.com';
     
     if (action === 'get-all-roadmaps') {
       // Fetch all roadmaps for comprehensive URL list

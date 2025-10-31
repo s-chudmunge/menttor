@@ -36,7 +36,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # Configuration
-BACKEND_URL = "https://menttor-backend-144050828172.asia-south1.run.app"
+BACKEND_URL = "https://menttor-backend.onrender.com"
 DEFAULT_MODEL = "vertexai:gemini-2.5-flash-lite"
 GENERATION_INTERVAL = 30  # 30 seconds
 MAX_RETRIES = 3

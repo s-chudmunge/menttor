@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(request: NextRequest) {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://menttor.live'
-  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'https://menttor-backend-144050828172.asia-south1.run.app'
+  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'https://menttor-backend.onrender.com'
   
   // Updated fallback roadmaps based on actual API data
   const knownRoadmaps = [
