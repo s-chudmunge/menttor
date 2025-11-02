@@ -61,7 +61,7 @@ class SubtopicGenerator:
         try:
             db_session = next(get_db())
             try:
-                from database.models import LibraryContent
+                from sql_models import LibraryContent
                 existing_content = db_session.query(LibraryContent).all()
                 
                 # Extract subtopic IDs from metadata if available
