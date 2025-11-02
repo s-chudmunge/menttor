@@ -1,7 +1,7 @@
 import os
 from pathlib import Path
 from typing import Optional, List
-from pydantic import computed_field
+from pydantic import computed_field, Field
 from pydantic_settings import BaseSettings
 from dotenv import load_dotenv
 
