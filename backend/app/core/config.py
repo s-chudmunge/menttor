@@ -71,8 +71,12 @@ class Settings(BaseSettings):
         
         # If DATABASE_URL is provided (for production), use it directly
         if self.DATABASE_URL:
-            logger.info(f"Using DATABASE_URL: {self.DATABASE_URL[:50]}...")
-            return self.DATABASE_URL
+            url = self.DATABASE_URL
+            # Fix postgres:// to postgresql+psycopg2:// for SQLAlchemy
+            if url.startswith("postgres://"):
+                url = url.replace("postgres://", "postgresql+psycopg2://", 1)
+            logger.info(f"Using DATABASE_URL: {url[:50]}...")
+            return url
         
         # Check if using Cloud SQL Unix socket (starts with /cloudsql/)
         if self.POSTGRES_HOST.startswith("/cloudsql/"):
