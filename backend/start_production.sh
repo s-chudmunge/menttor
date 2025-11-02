@@ -5,8 +5,8 @@
 echo "🚀 Starting Menttor Backend - Production Mode..."
 echo "🛡️ CI/CD Safe: All existing user data will be preserved"
 
-# Direct database connection - no proxy needed
-export PYTHONPATH=/app
+# Direct database connection - no proxy needed  
+export PYTHONPATH=${PYTHONPATH:-/opt/render/project/src/backend}
 
 echo "🔍 Production startup - Using direct database connection"
 echo "POSTGRES_USER: $POSTGRES_USER"
@@ -22,7 +22,7 @@ echo "🔄 Setting up CI/CD safe auto-migration system..."
 echo "📋 Auto-generating migration for any model changes..."
 python -c "
 import sys
-sys.path.append('/app')
+sys.path.append('${PYTHONPATH}')
 try:
     # Import all models to ensure they're registered with SQLModel.metadata
     from sql_models import *
@@ -44,7 +44,7 @@ else
     echo "❌ Migration failed, ensuring tables exist via SQLModel..."
     python -c "
 import sys
-sys.path.append('/app')
+sys.path.append('${PYTHONPATH}')
 from database.session import create_db_and_tables
 # SQLModel.metadata.create_all() only creates missing tables, preserves existing data
 create_db_and_tables()

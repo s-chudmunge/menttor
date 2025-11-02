@@ -27,7 +27,7 @@ export default function WelcomeEmail({ userName = "there" }: WelcomeEmailProps) 
           {/* Header */}
           <Section style={header}>
             <Img
-              src="https://menttor.live/logo_higres-min.png"
+              src="/logo_higres-min.png"
               width="120"
               height="auto"
               alt="Menttor Logo"
@@ -56,7 +56,7 @@ export default function WelcomeEmail({ userName = "there" }: WelcomeEmailProps) 
 
           {/* CTA */}
           <Section style={section}>
-            <Button style={buttonPrimary} href="https://menttor.live">
+            <Button style={buttonPrimary} href={process.env.NEXT_PUBLIC_FRONTEND_URL || "http://localhost:3000"}>
               Start Your Learning Journey
             </Button>
           </Section>
@@ -68,7 +68,7 @@ export default function WelcomeEmail({ userName = "there" }: WelcomeEmailProps) 
             <Text style={footerText}>
               Happy learning!<br />
               Sankalp from Menttor<br />
-              <Link href="https://menttor.live" style={link}>menttor.live</Link>
+              <Link href={process.env.NEXT_PUBLIC_FRONTEND_URL || "http://localhost:3000"} style={link}>menttor.ai</Link>
             </Text>
           </Section>
         </Container>

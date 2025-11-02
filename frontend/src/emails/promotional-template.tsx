@@ -27,7 +27,7 @@ export default function PromotionalEmail({ recipientName = "there" }: Promotiona
           {/* Attention-Grabbing Header */}
           <Section style={heroSection}>
             <Img
-              src="https://menttor.live/logo_higres-min.png"
+              src="/logo_higres-min.png"
               width="120"
               height="auto"
               alt="Menttor Logo"
@@ -66,13 +66,13 @@ export default function PromotionalEmail({ recipientName = "there" }: Promotiona
                 <Text style={roadmapEmoji}>🌐</Text>
                 <Text style={roadmapTitle}>Web Development</Text>
                 <Text style={roadmapDesc}>Frontend, Backend & Full-Stack</Text>
-                <Link href="https://menttor.live/explore" style={roadmapLink}>Start Free →</Link>
+                <Link href="/explore" style={roadmapLink}>Start Free →</Link>
               </Column>
               <Column style={roadmapColumn}>
                 <Text style={roadmapEmoji}>📊</Text>
                 <Text style={roadmapTitle}>Data Science</Text>
                 <Text style={roadmapDesc}>ML, AI & Analytics</Text>
-                <Link href="https://menttor.live/explore" style={roadmapLink}>Start Free →</Link>
+                <Link href="/explore" style={roadmapLink}>Start Free →</Link>
               </Column>
             </Row>
             
@@ -81,13 +81,13 @@ export default function PromotionalEmail({ recipientName = "there" }: Promotiona
                 <Text style={roadmapEmoji}>📱</Text>
                 <Text style={roadmapTitle}>Mobile Development</Text>
                 <Text style={roadmapDesc}>iOS, Android & Cross-Platform</Text>
-                <Link href="https://menttor.live/explore" style={roadmapLink}>Start Free →</Link>
+                <Link href="/explore" style={roadmapLink}>Start Free →</Link>
               </Column>
               <Column style={roadmapColumn}>
                 <Text style={roadmapEmoji}>🚀</Text>
                 <Text style={roadmapTitle}>Business Skills</Text>
                 <Text style={roadmapDesc}>Entrepreneurship & Management</Text>
-                <Link href="https://menttor.live/explore" style={roadmapLink}>Start Free →</Link>
+                <Link href="/explore" style={roadmapLink}>Start Free →</Link>
               </Column>
             </Row>
 
@@ -96,13 +96,13 @@ export default function PromotionalEmail({ recipientName = "there" }: Promotiona
                 <Text style={roadmapEmoji}>🔐</Text>
                 <Text style={roadmapTitle}>Cybersecurity</Text>
                 <Text style={roadmapDesc}>Ethical Hacking & Protection</Text>
-                <Link href="https://menttor.live/explore" style={roadmapLink}>Start Free →</Link>
+                <Link href="/explore" style={roadmapLink}>Start Free →</Link>
               </Column>
               <Column style={roadmapColumn}>
                 <Text style={roadmapEmoji}>🧪</Text>
                 <Text style={roadmapTitle}>Science & Research</Text>
                 <Text style={roadmapDesc}>Physics, Chemistry & Biology</Text>
-                <Link href="https://menttor.live/explore" style={roadmapLink}>Start Free →</Link>
+                <Link href="/explore" style={roadmapLink}>Start Free →</Link>
               </Column>
             </Row>
           </Section>
@@ -131,11 +131,11 @@ export default function PromotionalEmail({ recipientName = "there" }: Promotiona
           {/* Urgency CTA */}
           <Section style={ctaSection}>
             <Text style={urgencyText}>🔥 Join 10,000+ learners already accelerating their careers</Text>
-            <Button style={buttonPrimary} href="https://menttor.live/explore">
+            <Button style={buttonPrimary} href="/explore">
               🚀 Start Learning FREE Now
             </Button>
             <Text style={ctaSubtext}>
-              Or <Link href="https://menttor.live/" style={link}>create your custom roadmap</Link> • Takes less than 2 minutes
+              Or <Link href="/" style={link}>create your custom roadmap</Link> • Takes less than 2 minutes
             </Text>
             <Text style={guaranteeText}>
               💯 <strong>FREE FOREVER GUARANTEE</strong> - We'll never charge you for core features
@@ -149,7 +149,7 @@ export default function PromotionalEmail({ recipientName = "there" }: Promotiona
             <Text style={footerText}>
               Ready to transform your learning journey?<br />
               Team Menttor 🎓<br />
-              <Link href="https://menttor.live" style={link}>menttor.live</Link> • Building the future of free education
+              <Link href="/" style={link}>menttor.live</Link> • Building the future of free education
             </Text>
             <Text style={unsubscribeText}>
               <Link href="#" style={unsubscribeLink}>Unsubscribe</Link> • We respect your inbox

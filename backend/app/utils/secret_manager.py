@@ -66,7 +66,10 @@ def get_admin_credentials() -> tuple[str, str]:
         logger.warning("Admin username not found in Secret Manager, using environment variable")
     
     if not password:
-        password = os.getenv("ADMIN_PASSWORD", "changeme")
+        password = os.getenv("ADMIN_PASSWORD")
+        if not password:
+            logger.error("Admin password not found in Secret Manager or environment variables")
+            return None, None
         logger.warning("Admin password not found in Secret Manager, using environment variable")
     
     return username, password

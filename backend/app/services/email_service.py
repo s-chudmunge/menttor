@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 
 class EmailService:
     def __init__(self):
-        self.api_url = os.getenv("FRONTEND_URL", "https://menttor.live") + "/api/send-email"
+        self.api_url = os.getenv("FRONTEND_URL", "http://localhost:3000") + "/api/send-email"
         self.executor = ThreadPoolExecutor(max_workers=2)
     
     def _send_email_sync(self, payload: dict) -> bool:

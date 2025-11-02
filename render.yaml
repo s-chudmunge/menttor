@@ -1,0 +1,62 @@
+services:
+  - type: web
+    name: menttor-backend
+    env: python
+    buildCommand: "cd backend && pip install -r requirements.prod.txt"
+    startCommand: "cd backend && ./start_production.sh"
+    envVars:
+      - key: PYTHONPATH
+        value: /opt/render/project/src/backend
+      - key: PORT
+        fromService:
+          type: web
+          name: menttor-backend
+          property: port
+      - key: ENVIRONMENT
+        value: production
+      - key: DATABASE_ECHO
+        value: false
+      - key: POSTGRES_PORT
+        value: 5432
+      # Database credentials - set these in Render dashboard
+      - key: POSTGRES_USER
+        sync: false
+      - key: POSTGRES_PASSWORD
+        sync: false
+      - key: POSTGRES_DB
+        sync: false
+      - key: POSTGRES_HOST
+        sync: false
+      # Firebase config
+      - key: FIREBASE_PROJECT_ID
+        sync: false
+      - key: FIREBASE_CLIENT_EMAIL
+        sync: false
+      - key: FIREBASE_CLIENT_ID
+        sync: false
+      - key: FIREBASE_CREDENTIALS
+        sync: false
+      # API keys
+      - key: GOOGLE_CLIENT_ID
+        sync: false
+      - key: GOOGLE_CLIENT_SECRET
+        sync: false
+      - key: OPENROUTER_API_KEY
+        sync: false
+      - key: HUGGINGFACE_HUB_TOKEN
+        sync: false
+      # Security keys
+      - key: SECRET_KEY
+        sync: false
+      - key: REFRESH_SECRET_KEY
+        sync: false
+      # Redis
+      - key: REDIS_URL
+        sync: false
+      # AI config
+      - key: VERTEX_AI_PROJECT_ID
+        sync: false
+      - key: VERTEX_AI_REGION
+        value: us-central1
+      - key: VERTEX_AI_MODEL_ID
+        value: gemini-2.5-flash-lite

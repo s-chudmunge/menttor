@@ -137,9 +137,9 @@ function addPDFFooter(pdf: jsPDF, pageWidth: number, pageHeight: number, margin:
   
   // Add links
   const links = [
-    { text: 'Explore', url: 'https://menttor.ai/explore' },
-    { text: 'Library', url: 'https://menttor.ai/library' },
-    { text: 'Home', url: 'https://menttor.ai' },
+    { text: 'Explore', url: '/explore' },
+    { text: 'Library', url: '/library' },
+    { text: 'Home', url: '/' },
   ];
   
   let linkX = margin;
