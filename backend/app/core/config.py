@@ -10,6 +10,7 @@ load_dotenv(Path(__file__).resolve().parent.parent.parent / ".env")
 
 class Settings(BaseSettings):
     # Database configuration - supports both individual params and full URL
+    # Updated to use Aiven PostgreSQL for better reliability
     DATABASE_URL: Optional[str] = None
     POSTGRES_HOST: str = "localhost"
     POSTGRES_PORT: int = 5432
