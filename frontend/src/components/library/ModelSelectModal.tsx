@@ -35,15 +35,15 @@ const ModelSelectModal: React.FC<Props> = ({ onSelectModel, onClose, title }) =>
         // Fallback to default models
         const fallbackModels = [
           {
-            id: 'vertexai:gemini-2.5-flash-lite',
-            name: 'Gemini 2.5 Flash Lite',
-            description: 'Fast and efficient model for quick regeneration',
+            id: 'openrouter:meta-llama/llama-3.3-8b-instruct:free',
+            name: 'Meta Llama 3.3 8B (free)',
+            description: 'Fast and efficient free model for content generation',
             free_trial: true
           },
           {
-            id: 'vertexai:gemini-2.5-flash',
-            name: 'Gemini 2.5 Flash',
-            description: 'Balanced performance and quality',
+            id: 'openrouter:meta-llama/llama-3.2-3b-instruct:free',
+            name: 'Meta Llama 3.2 3B (free)',
+            description: 'Lightweight free model for quick tasks',
             free_trial: true
           },
           {

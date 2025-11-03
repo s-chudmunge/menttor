@@ -80,7 +80,7 @@ const MenttorLabsMainPage = () => {
   const [threeDModelName, setThreeDModelName] = useState('Loading models...');
   const [show3DModelModal, setShow3DModelModal] = useState(false);
   const [showLearnAboutSomething, setShowLearnAboutSomething] = useState(false);
-  const [learnModel, setLearnModel] = useState('vertexai:gemini-2.5-flash-lite');
+  const [learnModel, setLearnModel] = useState('openrouter:meta-llama/llama-3.3-8b-instruct:free');
   const [learnModelName, setLearnModelName] = useState('Loading models...');
   const [showLearnModelModal, setShowLearnModelModal] = useState(false);
 
@@ -153,8 +153,8 @@ const MenttorLabsMainPage = () => {
             } else {
               // Final fallback if no models at all
               console.warn('No models available, using hardcoded Vertex AI model');
-              setFormData(prev => ({ ...prev, model: 'vertexai:gemini-2.5-flash-lite' }));
-              setSelectedModelName('Google Gemini (gemini-2.5-flash-lite)');
+              setFormData(prev => ({ ...prev, model: 'openrouter:meta-llama/llama-3.3-8b-instruct:free' }));
+              setSelectedModelName('Meta Llama 3.3 8B (free)');
             }
           }
         } else {
@@ -164,8 +164,8 @@ const MenttorLabsMainPage = () => {
         console.error('Error fetching models:', error);
         // Set a hardcoded Vertex AI model as final fallback
         console.log('Using fallback Vertex AI model');
-        setFormData(prev => ({ ...prev, model: 'vertexai:gemini-2.5-flash-lite' }));
-        setSelectedModelName('Google Gemini (gemini-2.5-flash-lite)');
+        setFormData(prev => ({ ...prev, model: 'openrouter:meta-llama/llama-3.3-8b-instruct:free' }));
+        setSelectedModelName('Meta Llama 3.3 8B (free)');
       }
     };
 
@@ -221,7 +221,7 @@ const MenttorLabsMainPage = () => {
   // Initialize learn model name  
   useEffect(() => {
     if (learnModelName === 'Loading models...') {
-      setLearnModelName('Gemini 2.5 Flash Lite (Fast Learning)');
+      setLearnModelName('Meta Llama 3.3 8B (free)');
     }
   }, [learnModelName]);
 

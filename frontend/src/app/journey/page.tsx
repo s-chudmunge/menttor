@@ -76,8 +76,8 @@ const JourneyPage = () => {
   const [threeDModelName, setThreeDModelName] = useState('Gemini 2.5 Flash');
   const [show3DModelModal, setShow3DModelModal] = useState(false);
   const [showLearnAboutSomething, setShowLearnAboutSomething] = useState(false);
-  const [learnModel, setLearnModel] = useState('vertexai:gemini-2.5-flash-lite');
-  const [learnModelName, setLearnModelName] = useState('Gemini 2.0 Flash Lite');
+  const [learnModel, setLearnModel] = useState('openrouter:meta-llama/llama-3.3-8b-instruct:free');
+  const [learnModelName, setLearnModelName] = useState('Meta Llama 3.3 8B (free)');
   const [showLearnModelModal, setShowLearnModelModal] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isQuickToolsPanelOpen, setIsQuickToolsPanelOpen] = useState(true);

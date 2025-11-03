@@ -32,8 +32,8 @@ const LearnBar: React.FC = () => {
 
     setIsGenerating(true);
     
-    // Use default Vertex AI model and navigate to learn page
-    const defaultModel = 'vertexai:gemini-2.5-flash-lite';
+    // Use default free OpenRouter model and navigate to learn page
+    const defaultModel = 'openrouter:meta-llama/llama-3.3-8b-instruct:free';
     const learnUrl = `/learn?subtopic=${encodeURIComponent(topic.trim())}&subject=${encodeURIComponent('Custom Learning')}&goal=${encodeURIComponent('Learn about: ' + topic.trim())}&model=${encodeURIComponent(defaultModel)}&custom=true`;
     router.push(learnUrl);
     
