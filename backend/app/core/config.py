@@ -39,15 +39,15 @@ class Settings(BaseSettings):
     VERTEX_AI_MODEL_ID: Optional[str] = "gemini-2.5-flash-lite"
     
     # Default AI Models for different use cases - centralized configuration
-    # Using gemini-2.5-flash-lite: Good balance of performance and cost
-    DEFAULT_ROADMAP_MODEL: str = "gemini-2.5-flash-lite"
-    DEFAULT_QUIZ_MODEL: str = "gemini-2.5-flash-lite"
-    DEFAULT_FEEDBACK_MODEL: str = "gemini-2.5-flash-lite"
-    DEFAULT_LEARNING_CONTENT_MODEL: str = "gemini-2.5-flash-lite"
-    DEFAULT_VISUALIZATION_MODEL: str = "gemini-2.5-flash"
-    
-    # Learning Resources Model - using Gemini 2.5 Pro for higher quality resource generation
-    DEFAULT_LEARNING_RESOURCES_MODEL: str = "gemini-2.5-pro"
+    # Using free OpenRouter models since we're no longer using GCP Vertex AI
+    DEFAULT_ROADMAP_MODEL: str = "openrouter:meta-llama/llama-3.2-3b-instruct:free"
+    DEFAULT_QUIZ_MODEL: str = "openrouter:meta-llama/llama-3.2-3b-instruct:free"
+    DEFAULT_FEEDBACK_MODEL: str = "openrouter:meta-llama/llama-3.2-3b-instruct:free"
+    DEFAULT_LEARNING_CONTENT_MODEL: str = "openrouter:qwen/qwen-2-7b-instruct:free"
+    DEFAULT_VISUALIZATION_MODEL: str = "openrouter:qwen/qwen-2-7b-instruct:free"
+
+    # Learning Resources Model - using larger free model for higher quality
+    DEFAULT_LEARNING_RESOURCES_MODEL: str = "openrouter:google/gemma-2-9b-it:free"
 
     FIREBASE_CREDENTIALS: Optional[str] = None
     

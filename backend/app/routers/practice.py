@@ -157,7 +157,7 @@ async def create_practice_session_stream(
                             subject=session_data.subject,
                             goal=session_data.goal,
                             hints_enabled=session_data.hints_enabled,
-                            model="vertexai:gemini-2.5-flash-lite"
+                            model="openrouter:meta-llama/llama-3.2-3b-instruct:free"
                         )
                         
                         # If no questions generated, skip this iteration
@@ -218,7 +218,7 @@ async def create_practice_session_stream(
                                 question_data=question_data,
                                 difficulty=ai_question.difficulty,
                                 order_index=order_index,
-                                model_used="vertexai:gemini-2.5-flash-lite",
+                                model_used="openrouter:meta-llama/llama-3.2-3b-instruct:free",
                                 generation_prompt=f"Generated {question_type} question for {subtopic_id}"
                             )
                             

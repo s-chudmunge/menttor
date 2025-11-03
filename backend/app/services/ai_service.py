@@ -214,8 +214,8 @@ class AIExecutor:
 
         # Ensure the model string has a provider prefix
         if ':' not in model_id:
-            # Default to vertexai provider if no explicit provider is given
-            model_id = f"vertexai:{model_id}"
+            # Default to openrouter provider if no explicit provider is given
+            model_id = f"openrouter:{model_id}"
 
         raw_response = None
 
@@ -435,15 +435,15 @@ async def generate_quiz_content(request: QuizGenerateRequest) -> QuizAIResponse:
         response.session_token = str(uuid.uuid4())
         return response
     except Exception as e:
-        logger.warning(f"Initial quiz generation failed with model {request.model}: {e}. Attempting fallback to Vertex AI.")
-        # Create a new request for fallback, explicitly setting the model to Vertex AI
+        logger.warning(f"Initial quiz generation failed with model {request.model}: {e}. Attempting fallback to free OpenRouter model.")
+        # Create a new request for fallback, explicitly setting the model to a free OpenRouter model
         fallback_request = QuizGenerateRequest(
             sub_topic_title=request.sub_topic_title,
             subject=request.subject,
             goal=request.goal,
             time_value=request.time_value,
             time_unit=request.time_unit,
-            model=f"vertexai:{settings.VERTEX_AI_MODEL_ID}", # Force Vertex AI model
+            model="openrouter:meta-llama/llama-3.2-3b-instruct:free", # Force free model
             module_title=request.module_title,
             topic_title=request.topic_title,
             num_questions=request.num_questions,
@@ -666,7 +666,7 @@ async def generate_learning_content(request: LearningContentRequest) -> Learning
     # Ensure the model string has a provider prefix
     model_with_provider = request.model
     if ':' not in model_with_provider:
-        model_with_provider = f"vertexai:{model_with_provider}"  # Default to vertexai provider
+        model_with_provider = f"openrouter:{model_with_provider}"  # Default to openrouter provider
 
     # Create a request for the full content
     structured_content_request = LearningContentChunkRequest(
@@ -695,7 +695,7 @@ async def generate_performance_feedback(request: GenerateFeedbackRequest) -> Gen
     # Ensure the model string has a provider prefix
     model_with_provider = request.model
     if ':' not in model_with_provider:
-        model_with_provider = f"vertexai:{model_with_provider}"  # Default to vertexai provider
+        model_with_provider = f"openrouter:{model_with_provider}"  # Default to openrouter provider
 
     # Create a new request object with the prefixed model
     feedback_request_with_model = GenerateFeedbackRequest(
@@ -717,9 +717,9 @@ async def generate_learning_resources(request: LearningResourceRequest) -> Gener
     try:
         logger.info(f"Generating learning resources for topic: {request.topic}")
         
-        # Use dedicated learning resources model (Gemini 2.5 Pro for higher quality)
+        # Use dedicated learning resources model (free OpenRouter model)
         model = settings.DEFAULT_LEARNING_RESOURCES_MODEL
-        model_with_provider = f"vertexai:{model}" if ':' not in model else model
+        model_with_provider = f"openrouter:{model}" if ':' not in model else model
         
         # Create a modified request with the correct model
         learning_request = LearningResourceRequest(
@@ -916,7 +916,7 @@ class PracticeQuestionRequest(BaseModel):
     goal: str
     count: int
     hints_enabled: bool = True
-    model: str = "vertexai:gemini-2.5-flash-lite"
+    model: str = "openrouter:meta-llama/llama-3.2-3b-instruct:free"
     max_output_tokens: int = 8192
 
 class PracticeQuestionAIResponse(BaseModel):
@@ -932,7 +932,7 @@ async def generate_practice_questions_ai(
     subject: str,
     goal: str,
     hints_enabled: bool = True,
-    model: str = "vertexai:gemini-2.5-flash-lite"
+    model: str = "openrouter:meta-llama/llama-3.2-3b-instruct:free"
 ) -> List[PracticeQuestionResponse]:
     """
     Generate practice questions using AI for different question types.
@@ -942,7 +942,7 @@ async def generate_practice_questions_ai(
     
     # Ensure model has provider prefix
     if ':' not in model:
-        model = f"vertexai:{model}"
+        model = f"openrouter:{model}"
     
     # Create request for AI generation
     request = PracticeQuestionRequest(
@@ -1207,7 +1207,7 @@ class AnswerEvaluationRequest(BaseModel):
     user_answer: str
     context: Optional[str] = None
     code_snippet: Optional[str] = None
-    model: str = "vertexai:gemini-2.5-flash-lite"
+    model: str = "openrouter:meta-llama/llama-3.2-3b-instruct:free"
 
 class AnswerEvaluationResponse(BaseModel):
     """Response model for AI answer evaluation"""
@@ -1223,7 +1223,7 @@ async def evaluate_answer_with_ai(
     user_answer: str,
     context: Optional[str] = None,
     code_snippet: Optional[str] = None,
-    model: str = "vertexai:gemini-2.5-flash-lite"
+    model: str = "openrouter:meta-llama/llama-3.2-3b-instruct:free"
 ) -> AnswerEvaluationResponse:
     """Evaluate a practice answer using AI for intelligent assessment"""
     

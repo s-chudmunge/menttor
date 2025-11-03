@@ -159,7 +159,7 @@ class UserPerformanceDetailsResponse(SQLModel):
 class GenerateFeedbackRequest(SQLModel):
     user_id: int
     performance_details: Dict[str, Any]
-    model: Optional[str] = "gemini-2.5-flash-lite"  # Stable and cost-effective model
+    model: Optional[str] = "openrouter:meta-llama/llama-3.2-3b-instruct:free"  # Free OpenRouter model
 
 class GenerateFeedbackResponse(SQLModel):
     feedback_text: str
@@ -566,7 +566,7 @@ class LearningResourceRequest(BaseModel):
     topic: str
     category: str
     max_resources: int = 30
-    model: str = "gemini-2.5-pro"
+    model: str = "openrouter:google/gemma-2-9b-it:free"
     max_output_tokens: int = 3000
     roadmap_title: Optional[str] = ""
     roadmap_description: Optional[str] = ""
