@@ -108,7 +108,7 @@ async def get_learn_content_endpoint(
                 if roadmap_subject != subtopic or roadmap_goal != subtopic:
                     break
 
-        model = "openrouter:qwen/qwen-2-7b-instruct:free"  # Free OpenRouter model
+        model = "openrouter:meta-llama/llama-3.3-8b-instruct:free"  # Free OpenRouter model
         request = LearningContentRequest(subtopic=subtopic, subject=roadmap_subject, goal=roadmap_goal, model=model)
         ai_generated_content = await generate_learning_content(request)
 

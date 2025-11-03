@@ -40,14 +40,14 @@ class Settings(BaseSettings):
     
     # Default AI Models for different use cases - centralized configuration
     # Using free OpenRouter models since we're no longer using GCP Vertex AI
-    DEFAULT_ROADMAP_MODEL: str = "openrouter:meta-llama/llama-3.2-3b-instruct:free"
+    DEFAULT_ROADMAP_MODEL: str = "openrouter:meta-llama/llama-3.3-8b-instruct:free"
     DEFAULT_QUIZ_MODEL: str = "openrouter:meta-llama/llama-3.2-3b-instruct:free"
     DEFAULT_FEEDBACK_MODEL: str = "openrouter:meta-llama/llama-3.2-3b-instruct:free"
-    DEFAULT_LEARNING_CONTENT_MODEL: str = "openrouter:qwen/qwen-2-7b-instruct:free"
-    DEFAULT_VISUALIZATION_MODEL: str = "openrouter:qwen/qwen-2-7b-instruct:free"
+    DEFAULT_LEARNING_CONTENT_MODEL: str = "openrouter:meta-llama/llama-3.3-8b-instruct:free"
+    DEFAULT_VISUALIZATION_MODEL: str = "openrouter:meta-llama/llama-3.3-8b-instruct:free"
 
-    # Learning Resources Model - using larger free model for higher quality
-    DEFAULT_LEARNING_RESOURCES_MODEL: str = "openrouter:google/gemma-2-9b-it:free"
+    # Learning Resources Model - using Google Gemma free model
+    DEFAULT_LEARNING_RESOURCES_MODEL: str = "openrouter:google/gemma-3n-e2b-it:free"
 
     FIREBASE_CREDENTIALS: Optional[str] = None
     

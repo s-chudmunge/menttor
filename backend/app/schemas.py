@@ -566,7 +566,7 @@ class LearningResourceRequest(BaseModel):
     topic: str
     category: str
     max_resources: int = 30
-    model: str = "openrouter:google/gemma-2-9b-it:free"
+    model: str = "openrouter:google/gemma-3n-e2b-it:free"
     max_output_tokens: int = 3000
     roadmap_title: Optional[str] = ""
     roadmap_description: Optional[str] = ""

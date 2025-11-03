@@ -69,7 +69,7 @@ def _validate_html_content(html_content: str) -> bool:
 @router.get("/visualize")
 async def get_3d_visualization(
     description: str = Query(..., min_length=5, max_length=500),
-    model: str = Query("openrouter:qwen/qwen-2-7b-instruct:free", description="AI model to use for generation"),
+    model: str = Query("openrouter:meta-llama/llama-3.3-8b-instruct:free", description="AI model to use for generation"),
     current_user: User = Depends(get_current_user)
 ):
     """

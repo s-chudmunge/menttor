@@ -37,7 +37,7 @@ logger = logging.getLogger(__name__)
 
 # Configuration
 BACKEND_URL = os.getenv("BACKEND_URL", "https://menttor-backend.onrender.com")
-DEFAULT_MODEL = "openrouter:qwen/qwen-2-7b-instruct:free"
+DEFAULT_MODEL = "openrouter:meta-llama/llama-3.3-8b-instruct:free"
 GENERATION_INTERVAL = 30  # 30 seconds
 MAX_RETRIES = 3
 

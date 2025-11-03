@@ -102,7 +102,7 @@ const VisitorOnboardingTimer: React.FC<VisitorOnboardingTimerProps> = ({ childre
         goal: data.goal,
         time_value: data.timeline.value,
         time_unit: data.timeline.unit,
-        model: 'openrouter:qwen/qwen-2-7b-instruct:free'
+        model: 'openrouter:meta-llama/llama-3.3-8b-instruct:free'
       };
 
       console.log('Generating roadmap from onboarding data:', roadmapRequest);

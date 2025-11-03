@@ -112,7 +112,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to become an expert in building modern, scalable React applications using TypeScript. Teach me advanced React patterns, hooks, state management, component architecture, testing strategies, and performance optimization. Focus on industry best practices and real-world project development.",
             "time_value": 8,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -139,7 +139,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master Next.js 14 for building production-ready full-stack applications. Teach me App Router, Server Components, API routes, authentication, caching, performance optimization, and deployment. Focus on modern Next.js patterns and best practices.",
             "time_value": 10,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     # DATA SCIENCE & AI
@@ -167,7 +167,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to become proficient in data science and machine learning using Python. Start from data manipulation basics and progress to building, evaluating, and deploying ML models. Include hands-on projects with real datasets, statistical concepts, and industry best practices.",
             "time_value": 12,
             "time_unit": "weeks", 
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -194,7 +194,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master building applications with LLMs like GPT and Claude. Teach me prompt engineering, fine-tuning, RAG systems, vector databases, AI safety, and deploying LLM applications. Include practical projects and ethical considerations.",
             "time_value": 10,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -221,7 +221,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master computer vision using deep learning. Teach me CNN architectures, image preprocessing, object detection, face recognition, image segmentation, and deployment. Include hands-on projects with real-world datasets and production deployment strategies.",
             "time_value": 11,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     # CLOUD & DEVOPS
@@ -249,7 +249,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to become an AWS Solutions Architect and pass the certification exam. Teach me to design resilient, scalable, and cost-effective cloud architectures. Cover core services, security best practices, monitoring, and real-world implementation scenarios.",
             "time_value": 12,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -276,7 +276,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master containerization and orchestration for modern application deployment. Teach me Docker best practices, Kubernetes cluster management, service mesh, monitoring, and production deployment strategies. Focus on real-world DevOps scenarios.",
             "time_value": 9,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     
@@ -305,7 +305,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master backend development with Node.js and Express. Teach me to build secure, scalable APIs, work with databases, implement authentication, handle real-time communication, and deploy production applications. Focus on modern best practices.",
             "time_value": 8,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -332,7 +332,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master Go for building high-performance backend systems. Teach me Go syntax, goroutines, channels, web frameworks, database integration, microservices patterns, and deployment. Focus on production-ready backend development.",
             "time_value": 8,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     
@@ -361,7 +361,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master React Native for building high-quality mobile applications. Teach me navigation, native modules, performance optimization, testing, and app store deployment. Include real-world mobile app development projects.",
             "time_value": 9,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -388,7 +388,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master Flutter for creating beautiful, high-performance mobile applications. Teach me Dart programming, Flutter widgets, state management, animations, API integration, and app store deployment. Focus on modern mobile development practices.",
             "time_value": 10,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     
@@ -417,7 +417,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master ethical hacking and penetration testing for cybersecurity. Teach me vulnerability assessment, exploitation techniques, security tools, network testing, and professional reporting. Focus on legal, ethical practices and industry certifications.",
             "time_value": 12,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     
@@ -446,7 +446,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master PostgreSQL for building scalable, high-performance database systems. Teach me advanced SQL, schema design, indexing strategies, query optimization, replication, and performance tuning. Include real-world database scenarios.",
             "time_value": 8,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     
@@ -475,7 +475,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master blockchain development and smart contract programming with Solidity. Teach me Ethereum development, DApp creation, token standards, Web3 integration, and security best practices. Focus on real-world blockchain projects.",
             "time_value": 11,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     
@@ -504,7 +504,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master system design for building large-scale, distributed applications. Teach me architecture patterns, scalability strategies, database design, caching, load balancing, and fault tolerance. Include real-world case studies and interview preparation.",
             "time_value": 10,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -533,7 +533,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master IoT development from hardware to cloud integration. Teach me embedded programming, sensor interfacing, wireless protocols, edge computing, and building complete IoT solutions. Focus on practical projects and real-world applications.",
             "time_value": 9,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -560,7 +560,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to become proficient in game development using Unity and C#. Teach me game design principles, Unity editor, scripting, physics, animation, UI design, and publishing. Include hands-on projects building complete games.",
             "time_value": 11,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -587,7 +587,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master 3D graphics programming for the web using WebGL and Three.js. Teach me 3D mathematics, shader programming, lighting, texturing, and performance optimization. Focus on creating interactive 3D experiences and data visualizations.",
             "time_value": 10,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -614,7 +614,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master Rust for systems programming. Teach me ownership, borrowing, lifetimes, concurrency, error handling, and building high-performance applications. Include practical projects like CLI tools, web servers, and system utilities.",
             "time_value": 8,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -643,7 +643,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to learn quantum computing programming using Qiskit. Teach me quantum mechanics basics, quantum circuits, key algorithms, quantum machine learning, and practical applications. Focus on hands-on programming with simulators and real quantum hardware.",
             "time_value": 8,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -670,7 +670,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master AR/VR development using Unity XR Toolkit. Teach me spatial tracking, interaction systems, UI design for immersive experiences, performance optimization, and deployment to multiple XR platforms. Include practical AR and VR projects.",
             "time_value": 10,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -699,7 +699,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master real-time data engineering using Apache Kafka. Teach me streaming architectures, Kafka Streams, Connect, schema registry, monitoring, and building event-driven systems. Focus on production-ready data pipelines and microservices.",
             "time_value": 8,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -726,7 +726,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master MLOps for deploying and maintaining machine learning models in production. Teach me CI/CD for ML, model serving, monitoring, versioning, A/B testing, and scaling inference systems. Include real-world deployment scenarios.",
             "time_value": 9,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -755,7 +755,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to learn creative coding and generative art using p5.js. Teach me algorithmic design, interactive visuals, animation techniques, data visualization, and creating digital art installations. Focus on artistic expression through code.",
             "time_value": 7,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -784,7 +784,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to learn how to build and launch a successful tech startup. Teach me idea validation, MVP development, market research, funding strategies, team building, and scaling. Include real startup case studies and practical frameworks.",
             "time_value": 8,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -813,7 +813,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master test automation and quality engineering. Teach me framework design, UI automation, API testing, performance testing, CI/CD integration, and quality metrics. Focus on building robust, maintainable test suites.",
             "time_value": 7,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -845,7 +845,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master Python programming from fundamentals to advanced applications. Cover syntax, OOP, functional programming, data structures, libraries for data science and AI, web development, testing, and deployment. Build a strong foundation for any Python career path.",
             "time_value": 10,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -872,7 +872,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master TypeScript for full-stack development. Teach me TypeScript fundamentals, advanced types, React with TypeScript, Node.js backend development, tooling configuration, and best practices. Focus on building scalable, type-safe applications.",
             "time_value": 8,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -899,7 +899,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master Swift and iOS development. Teach me Swift programming, SwiftUI, UIKit, Core Data, networking, device integration, testing, and App Store deployment. Focus on building professional iOS applications from concept to publication.",
             "time_value": 9,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -926,7 +926,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master Kotlin for Android development. Teach me Kotlin programming, Jetpack Compose, MVVM architecture, Room database, networking, testing, and Play Store deployment. Focus on modern Android development practices and creating professional apps.",
             "time_value": 9,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -953,7 +953,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master modern C++ for systems programming and high-performance applications. Teach me C++17/20 features, memory management, concurrency, STL, design patterns, debugging, and performance optimization. Focus on building robust, efficient systems.",
             "time_value": 10,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -980,7 +980,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master Java for enterprise application development. Teach me Java fundamentals, Spring Framework, Spring Boot, microservices, database integration, security, testing, and cloud deployment. Focus on building scalable enterprise systems.",
             "time_value": 10,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -1007,7 +1007,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master C# and .NET development. Teach me C# programming, ASP.NET Core, Entity Framework, Azure cloud services, desktop development, testing, and deployment. Focus on building professional applications in the Microsoft ecosystem.",
             "time_value": 9,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -1034,7 +1034,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master Julia for scientific computing and high-performance numerical analysis. Teach me Julia programming, package development, parallel computing, scientific libraries, data visualization, and performance optimization. Focus on research and scientific applications.",
             "time_value": 7,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -1061,7 +1061,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master Zig for systems programming. Teach me Zig syntax, compile-time programming, memory management, cross-compilation, performance optimization, and building system tools. Focus on practical systems programming and understanding Zig's unique approach to safety and performance.",
             "time_value": 8,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -1088,7 +1088,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to learn Mojo programming for high-performance AI development. Teach me Mojo syntax, performance optimization, AI model development, parallelization, and integration with Python ecosystems. Focus on building fast AI applications with Mojo's unique capabilities.",
             "time_value": 7,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -1115,7 +1115,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master Elixir for building fault-tolerant, concurrent systems. Teach me functional programming in Elixir, OTP design principles, Phoenix web framework, LiveView, distributed systems patterns, and deployment strategies. Focus on building resilient applications.",
             "time_value": 8,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -1142,7 +1142,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master R for statistical analysis and data science. Teach me R programming, statistical methods, data manipulation with dplyr, visualization with ggplot2, R Markdown, package development, and reproducible research. Focus on statistical rigor and research applications.",
             "time_value": 8,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -1169,7 +1169,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master MATLAB for engineering and scientific applications. Teach me MATLAB programming, mathematical modeling, simulation, data analysis, visualization, Simulink, and integration with engineering workflows. Focus on solving real engineering and research problems.",
             "time_value": 8,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -1202,7 +1202,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master digital marketing from strategy to execution. Teach me SEO, social media marketing, Google Ads, email marketing, content creation, analytics, conversion optimization, and building effective marketing campaigns. Make it applicable for any business or personal brand.",
             "time_value": 10,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -1229,7 +1229,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master brand building and consumer psychology. Teach me brand positioning, consumer behavior analysis, emotional branding, visual identity creation, brand storytelling, and how to build memorable brands that connect with people. Include both business and personal branding applications.",
             "time_value": 8,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -1258,7 +1258,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master finance from personal money management to investment strategies. Teach me financial statement analysis, stock/bond investing, portfolio theory, risk management, retirement planning, tax strategies, and how to build long-term wealth. Make it practical for anyone regardless of current income level.",
             "time_value": 12,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -1285,7 +1285,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master corporate finance and business valuation. Teach me financial modeling, DCF analysis, business valuation methods, capital budgeting, funding strategies, and how to evaluate investment opportunities. Make it applicable for entrepreneurs, investors, and business decision-makers.",
             "time_value": 9,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -1314,7 +1314,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master operations and process optimization. Teach me Lean methodology, Six Sigma, supply chain management, inventory optimization, quality control, and how to build efficient systems. Make it applicable for any business, nonprofit, or personal productivity system.",
             "time_value": 8,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -1343,7 +1343,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to become an effective leader and team manager. Teach me leadership styles, emotional intelligence, team dynamics, conflict resolution, performance management, and organizational psychology. Make it applicable for any leadership role - from managing a small team to running an organization.",
             "time_value": 7,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -1370,7 +1370,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master strategic thinking and business planning. Teach me strategic frameworks, competitive analysis, business model design, strategic planning processes, and implementation strategies. Make it valuable for entrepreneurs, business managers, and anyone making strategic decisions.",
             "time_value": 10,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -1399,7 +1399,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master entrepreneurship from idea to scale. Teach me opportunity recognition, business model validation, MVP development, funding strategies, growth hacking, and scaling operations. Include both traditional business and modern startup approaches applicable to any industry.",
             "time_value": 11,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -1428,7 +1428,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master business analytics and data-driven decision making. Teach me Excel advanced functions, SQL, Tableau/Power BI, statistical analysis, A/B testing, and how to translate data insights into business actions. Make it practical for any role that involves decision-making with data.",
             "time_value": 9,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -1457,7 +1457,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master sales and negotiation skills. Teach me consultative selling, relationship building, negotiation psychology, objection handling, closing techniques, and sales process design. Make it valuable for formal sales roles, career advancement, and everyday negotiations.",
             "time_value": 8,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -1486,7 +1486,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master project management across different methodologies. Teach me traditional PM (PMP), Agile, Scrum, Kanban, stakeholder management, risk management, and project planning tools. Make it applicable for any type of project from business initiatives to personal goals.",
             "time_value": 7,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -1515,7 +1515,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master HR and organizational psychology. Teach me recruitment, performance management, compensation design, employee development, labor relations, and building great workplace cultures. Make it valuable for HR professionals, managers, and entrepreneurs building teams.",
             "time_value": 8,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -1544,7 +1544,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master JEE Mathematics focusing on Calculus and Algebra. Teach me differential calculus, integral calculus, limits, continuity, algebraic manipulations, coordinate geometry, and complex numbers. Include JEE-level problem solving techniques and time management strategies.",
             "time_value": 12,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -1571,7 +1571,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master JEE Physics focusing on Mechanics and Electromagnetism. Teach me kinematics, dynamics, rotational mechanics, waves, electricity, magnetism, and electromagnetic induction. Include advanced problem solving, conceptual understanding, and JEE exam strategies.",
             "time_value": 11,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -1598,7 +1598,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master NEET Biology focusing on Cell Biology and Genetics. Teach me cell structure, biomolecules, cell division, genetics, molecular biology, evolution, and biotechnology. Include NCERT-based learning, diagram practice, and NEET-specific problem solving strategies.",
             "time_value": 10,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -1627,7 +1627,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master Geography for UPSC Civil Services. Teach me geomorphology, climatology, oceanography, biogeography, population geography, settlement geography, and economic geography. Include answer writing techniques, current affairs integration, and map-based studies.",
             "time_value": 15,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -1654,7 +1654,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master Indian History for UPSC preparation. Teach me Indus Valley Civilization, Vedic period, ancient empires, medieval dynasties, cultural developments, and socio-economic changes. Include answer writing, source-based questions, and connecting history with current affairs.",
             "time_value": 13,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -1681,7 +1681,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master Indian Polity and Constitution for UPSC. Teach me constitutional provisions, fundamental rights, directive principles, government structures, electoral processes, judiciary, federalism, and local governance. Include current affairs integration and answer writing techniques.",
             "time_value": 11,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -1710,7 +1710,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master Quantitative Aptitude for CAT and MBA entrances. Teach me arithmetic, algebra, geometry, number systems, percentages, profit-loss, time-work, and advanced mathematics. Include shortcut techniques, time management, and mock test strategies.",
             "time_value": 8,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -1737,7 +1737,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master Logical Reasoning and Data Interpretation for CAT. Teach me seating arrangements, blood relations, syllogisms, data sufficiency, charts analysis, table interpretation, and critical reasoning. Include solving techniques and time optimization strategies.",
             "time_value": 7,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -1766,7 +1766,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master Algorithms and Data Structures for GATE CS. Teach me sorting, searching, graph algorithms, dynamic programming, greedy algorithms, trees, hashing, and complexity analysis. Include GATE previous years problems and optimization techniques.",
             "time_value": 10,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -1793,7 +1793,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master Power Systems and Electrical Machines for GATE EE. Teach me power generation, transmission, distribution, transformers, induction motors, synchronous machines, power electronics, and control systems. Include numerical problem solving and GATE preparation strategies.",
             "time_value": 11,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -1822,7 +1822,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master UPSC Prelims preparation covering General Studies Paper I and CSAT Paper II. Teach me Indian polity, history, geography, economics, environment, science & technology, and current affairs. Include CSAT quantitative aptitude, comprehension, and logical reasoning. Focus on previous year analysis, answer writing techniques, and time management strategies.",
             "time_value": 15,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -1849,7 +1849,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master UPSC Mains preparation focusing on Essay Paper and General Studies papers (GS1-GS4). Teach me essay writing techniques, answer structuring, ethics and integrity, governance concepts, security issues, and international relations. Include previous year analysis, answer evaluation criteria, and time management for descriptive papers.",
             "time_value": 18,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -1878,7 +1878,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master SBI PO preparation covering all sections - Quantitative Aptitude, Reasoning Ability, English Language, General Awareness, and Computer Aptitude. Teach me banking concepts, financial markets, monetary policy, quantitative techniques, logical reasoning, and English comprehension. Include mock test strategies and time management techniques.",
             "time_value": 12,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -1905,7 +1905,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master IBPS Clerk and RRB preparation focusing on fundamental banking concepts. Teach me basic quantitative aptitude, reasoning ability, English/Hindi language, computer knowledge, and general awareness. Include rural banking concepts, financial inclusion, and customer service skills. Focus on accuracy and speed building techniques.",
             "time_value": 10,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -1934,7 +1934,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master SSC CGL preparation covering all tiers - General Intelligence & Reasoning, General Awareness, Quantitative Aptitude, and English Comprehension. Teach me statistical investigator concepts, data interpretation, government schemes, Indian geography, and mathematical problem-solving. Include tier-wise preparation strategies and descriptive writing skills.",
             "time_value": 14,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -1961,7 +1961,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master SSC CHSL preparation for Data Entry Operator, Lower Division Clerk, and Postal Assistant positions. Teach me quantitative aptitude at 12th level, general intelligence, English language, general awareness, and typing skills. Include speed and accuracy building, descriptive writing, and interview preparation.",
             "time_value": 11,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -1990,7 +1990,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master BITSAT preparation for admission to BITS Pilani. Teach me advanced physics concepts, chemistry (all branches), mathematics including calculus and coordinate geometry, English proficiency, and logical reasoning. Include computer-based test strategies, negative marking awareness, and speed-accuracy balance techniques.",
             "time_value": 13,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -2017,7 +2017,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master VITEEE and state engineering entrance preparation. Teach me NCERT-based physics, chemistry, and mathematics with application focus. Include state-specific exam patterns (MHT-CET, KCET, EAMCET), MCQ solving techniques, and multiple exam management strategies. Focus on conceptual clarity and speed building.",
             "time_value": 12,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -2046,7 +2046,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master AIIMS preparation for premium medical college admission. Teach me advanced physics applications in medicine, high-level chemistry including biochemistry, comprehensive biology with human anatomy and physiology, and analytical reasoning. Include medical ethics, healthcare awareness, and interview preparation for medical professionals.",
             "time_value": 16,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -2073,7 +2073,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master JIPMER and medical PG entrance preparation. Teach me clinical medicine, pathophysiology, pharmacology, community medicine, forensic medicine, and medical research methodology. Include case-based learning, diagnostic reasoning, evidence-based medicine, and specialty selection guidance for postgraduate medical studies.",
             "time_value": 15,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -2102,7 +2102,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master CLAT preparation for National Law University admission. Teach me legal reasoning, Indian Constitution basics, English language and comprehension, current affairs including legal developments, quantitative techniques, and logical reasoning. Include passage-based questions, legal awareness, and critical thinking skills for law studies.",
             "time_value": 14,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -2129,7 +2129,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master LSAT preparation for international law schools and advanced legal studies. Teach me analytical reasoning, logic games, reading comprehension with legal passages, logical reasoning arguments, and comparative legal systems. Include international law concepts, academic legal writing, and preparation for global law school applications.",
             "time_value": 15,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -2162,7 +2162,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master SAT preparation for US college admissions. Teach me SAT Math (algebra, geometry, trigonometry, data analysis), Evidence-Based Reading and Writing (reading comprehension, grammar, vocabulary), and test strategies. Include practice tests, time management, score improvement techniques, and college application guidance.",
             "time_value": 10,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -2189,7 +2189,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master ACT preparation for US college admissions. Teach me ACT English (grammar, rhetoric), Mathematics (algebra through trigonometry), Reading (comprehension strategies), Science (data interpretation, scientific reasoning), and optional Writing. Include timing strategies, score improvement techniques, and comparison with SAT.",
             "time_value": 10,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -2218,7 +2218,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master GRE preparation for graduate school admissions worldwide. Teach me Verbal Reasoning (reading comprehension, text completion, sentence equivalence), Quantitative Reasoning (arithmetic, algebra, geometry, data analysis), and Analytical Writing (issue and argument essays). Include vocabulary building, test strategies, and score improvement techniques.",
             "time_value": 12,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -2245,7 +2245,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master GMAT preparation for top MBA programs globally. Teach me Quantitative Reasoning (data sufficiency, problem solving), Verbal Reasoning (reading comprehension, critical reasoning, sentence correction), Integrated Reasoning (multi-source reasoning, graphics interpretation), and Analytical Writing Assessment. Include business school selection and application strategies.",
             "time_value": 13,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -2274,7 +2274,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master CPA exam preparation for professional accounting certification. Teach me Financial Accounting and Reporting, Auditing and Attestation, Business Environment and Concepts, and Regulation (taxation and business law). Include professional ethics, GAAP/IFRS standards, audit procedures, and tax regulations. Focus on passing all four sections of the CPA exam.",
             "time_value": 20,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -2301,7 +2301,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master CFA Level I, II, and III preparation for the CFA charter. Teach me Ethics and Professional Standards, Quantitative Methods, Economics, Financial Reporting and Analysis, Corporate Finance, Equity Investments, Fixed Income, Derivatives, Alternative Investments, and Portfolio Management. Include investment analysis, valuation techniques, and professional conduct standards.",
             "time_value": 25,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -2328,7 +2328,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master PMP certification preparation for project management excellence. Teach me Project Management Framework, Agile and Hybrid approaches, People management, Business Environment, and the PMBOK Guide principles. Include situational questions, leadership scenarios, risk management, and quality assurance practices for successful project delivery.",
             "time_value": 8,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -2357,7 +2357,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master IELTS preparation for study abroad and immigration. Teach me Listening (conversations, lectures, various accents), Reading (academic and general texts), Writing (Task 1 data description/letter writing, Task 2 essays), and Speaking (fluency, pronunciation, coherence). Include band score improvement strategies and test-taking techniques.",
             "time_value": 9,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -2384,7 +2384,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master TOEFL iBT preparation for US university admission. Teach me Reading (academic passages, inference skills), Listening (lectures, conversations), Speaking (independent and integrated tasks), and Writing (independent essays, integrated writing). Include note-taking strategies, academic vocabulary, and score improvement techniques for computer-based testing.",
             "time_value": 9,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -2411,7 +2411,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master DELE preparation for official Spanish language certification. Teach me listening comprehension, reading comprehension, written expression and interaction, and oral expression and interaction at my target CEFR level (A1-C2). Include Spanish grammar, vocabulary expansion, cultural context, and test-specific strategies for Instituto Cervantes certification.",
             "time_value": 11,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -2440,7 +2440,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master UN competitive examinations for international civil service careers. Teach me UN system knowledge, international development principles, policy analysis, global governance, multilingual communication, and competency-based assessment techniques. Include knowledge of SDGs, humanitarian principles, and international law for various UN agency positions.",
             "time_value": 16,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -2467,7 +2467,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master EU competition examinations for European Union careers. Teach me EU institutional framework, European law, policy analysis, multilingual communication, and assessment center techniques. Include knowledge of EU treaties, decision-making processes, and competency-based evaluation methods for various EU institution positions through EPSO.",
             "time_value": 14,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -2494,7 +2494,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master UK Civil Service Fast Stream preparation for government careers. Teach me UK government structure, policy analysis, public administration, leadership competencies, and civil service values. Include assessment center techniques, competency-based interviews, and understanding of British political system for various government department positions.",
             "time_value": 10,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -2527,7 +2527,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master SOA actuarial examinations for professional actuarial certification. Teach me probability theory, financial mathematics, actuarial modeling, life contingencies, risk theory, and advanced statistics. Include exam-specific problem solving techniques, statistical software usage, and professional actuarial practices for insurance and pension industries.",
             "time_value": 30,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -2554,7 +2554,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master CAS actuarial examinations for casualty insurance expertise. Teach me reserving methods, ratemaking techniques, predictive modeling, catastrophe analysis, and regulatory frameworks. Include practical applications in property and casualty insurance, statistical programming, and advanced analytical techniques for insurance pricing and risk assessment.",
             "time_value": 28,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -2583,7 +2583,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master ATPL preparation for airline pilot certification. Teach me advanced aerodynamics, aircraft systems, meteorology, navigation, aviation law, crew resource management, and airline operations procedures. Include multi-crew cooperation, emergency procedures, and leadership skills required for airline captain responsibilities.",
             "time_value": 20,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -2610,7 +2610,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master Remote Pilot Certificate preparation for commercial drone operations. Teach me FAA regulations, airspace requirements, weather interpretation, flight planning, radio communications, and emergency procedures. Include practical applications for aerial photography, surveying, inspection, and delivery operations within regulatory frameworks.",
             "time_value": 6,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -2639,7 +2639,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master Master Mariner certification for ship command authority. Teach me advanced navigation, bridge resource management, maritime law, cargo operations, port procedures, crisis management, and international maritime regulations. Include leadership skills, safety management, and environmental compliance for commercial vessel operations.",
             "time_value": 25,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -2666,7 +2666,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master Chief Engineer marine license for ship engineering leadership. Teach me marine propulsion systems, electrical systems, automation, fuel management, environmental regulations, maintenance planning, and safety procedures. Include technical leadership, crew management, and troubleshooting skills for commercial vessel engineering operations.",
             "time_value": 22,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -2695,7 +2695,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master CISSP certification for senior cybersecurity roles. Teach me security and risk management, asset security, security architecture, communication and network security, identity and access management, security assessment, security operations, and software development security. Include management-level security concepts and strategic security planning.",
             "time_value": 12,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -2722,7 +2722,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master OSCP certification for advanced penetration testing. Teach me manual exploitation techniques, buffer overflow development, privilege escalation, post-exploitation techniques, and advanced penetration testing methodologies. Include hands-on labs, real-world scenarios, and practical ethical hacking skills for professional security testing.",
             "time_value": 18,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -2751,7 +2751,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master USMLE preparation for US medical practice. Teach me basic medical sciences (anatomy, physiology, pathology, pharmacology), clinical medicine, diagnostic reasoning, treatment protocols, medical ethics, and standardized patient communication. Include Step 1, Step 2 CK, and Step 2 CS preparation with US healthcare system knowledge.",
             "time_value": 40,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -2778,7 +2778,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master PLAB preparation for UK medical practice. Teach me PLAB 1 clinical knowledge, UK clinical guidelines, NICE protocols, NHS procedures, and PLAB 2 OSCE skills. Include UK medical ethics, patient safety, clinical reasoning, and professional communication standards for General Medical Council registration.",
             "time_value": 30,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -2807,7 +2807,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master FRM certification for financial risk management expertise. Teach me quantitative analysis, market risk, credit risk, operational risk, liquidity risk, investment risk, current issues in financial markets, and risk management tools. Include Basel frameworks, regulatory requirements, and advanced risk modeling techniques.",
             "time_value": 20,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -2834,7 +2834,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master CAMS certification for anti-money laundering expertise. Teach me AML regulations, compliance programs, customer due diligence, suspicious activity monitoring, investigation techniques, and international AML standards. Include practical applications in financial institutions and regulatory compliance frameworks.",
             "time_value": 10,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -2863,7 +2863,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master ATA certification for professional translation services. Teach me translation techniques, specialized domain knowledge (medical, legal, technical), translation ethics, quality assurance, computer-assisted translation tools, and professional practices. Include cultural competency and subject matter specialization for certified translation work.",
             "time_value": 15,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -2890,7 +2890,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master IOL preparation for competitive linguistics. Teach me linguistic analysis techniques, phonological systems, morphological structures, syntactic patterns, semantic relationships, and writing system analysis. Include problem-solving strategies for unknown languages and comparative linguistic methods for olympiad competitions.",
             "time_value": 8,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -2919,7 +2919,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master CCE certification for digital forensics expertise. Teach me digital evidence acquisition, forensic analysis techniques, file system analysis, network forensics, mobile device examination, legal procedures, and expert testimony skills. Include hands-on forensic tools usage and legal compliance for computer examination.",
             "time_value": 16,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -2946,7 +2946,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master CFE certification for fraud examination expertise. Teach me fraud prevention, financial transactions analysis, legal elements of fraud, interviewing techniques, fraud investigation methods, and forensic accounting principles. Include practical investigation skills and professional ethics for fraud examination.",
             "time_value": 12,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     
@@ -2978,7 +2978,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I am a graduate student wanting to conduct cutting-edge research in deep learning, particularly focusing on large language models and transformer architectures. Cover latest research papers, implementation details, advanced optimization, distributed training, research methodology, and how to contribute to the field through publications.",
             "time_value": 16,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -3005,7 +3005,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master computational biology and bioinformatics for graduate-level research. Cover genomic data analysis, single-cell sequencing, machine learning applications in biology, phylogenetics, and how to develop novel computational methods. Focus on current research trends and publication-ready analysis.",
             "time_value": 14,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -3032,7 +3032,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I am pursuing graduate research in quantum computing. Teach me advanced quantum algorithms, quantum circuit design, error correction, quantum machine learning, and current research frontiers. Include hands-on implementation and preparation for research contributions in the field.",
             "time_value": 12,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -3059,7 +3059,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I need to master computational methods in materials science for my graduate research. Cover DFT calculations, molecular dynamics simulations, electronic structure analysis, high-throughput screening, and machine learning applications in materials discovery. Focus on current research methodologies and tools.",
             "time_value": 14,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -3086,7 +3086,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I am a graduate student focusing on climate science research. Teach me climate system dynamics, global climate modeling, data analysis techniques, statistical methods for climate data, and current research in climate change. Focus on hands-on modeling and analysis for research publications.",
             "time_value": 15,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -3113,7 +3113,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I am pursuing graduate research in neuroscience with a computational focus. Cover neural data analysis, brain imaging techniques, computational modeling of neural systems, machine learning applications, and current research methodologies. Prepare me to conduct and publish neuroscience research.",
             "time_value": 14,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -3140,7 +3140,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to pursue advanced theoretical physics research at the graduate level. Cover quantum field theory, general relativity, condensed matter theory, mathematical methods, and current research frontiers. Focus on developing theoretical models and preparing for research publications in top physics journals.",
             "time_value": 16,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -3167,7 +3167,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I am a graduate student interested in behavioral economics research. Teach me experimental design, behavioral theory, econometric analysis, neuroeconomics, and current research methods. Focus on conducting rigorous experiments and preparing publications for top economics journals.",
             "time_value": 12,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -3194,7 +3194,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to apply advanced data science methods to social science research. Cover machine learning for social data, network analysis, text mining, causal inference, and computational methods. Focus on current research practices and publishing in social science journals.",
             "time_value": 12,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -3221,7 +3221,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I am pursuing graduate research in biomedical engineering focusing on medical device development. Cover device design, biomedical signal processing, biomaterials, tissue engineering, regulatory aspects, and current research trends. Prepare me for industry and academic research careers.",
             "time_value": 13,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     
@@ -3250,7 +3250,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to become proficient in building modern GraphQL APIs and implementing federated architectures. Teach me schema design, resolver implementation, performance optimization, security, testing, and how to build scalable GraphQL microservices using Apollo Federation.",
             "time_value": 10,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     
@@ -3278,7 +3278,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master Apache Spark for large-scale data processing. Teach me PySpark, Spark SQL, streaming analytics, performance optimization, cluster management, and how to build production-ready ETL pipelines for big data workloads.",
             "time_value": 12,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     
@@ -3306,7 +3306,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to become an expert in edge computing and IoT architecture. Teach me about distributed edge systems, real-time data processing, IoT protocols, security, latency optimization, and how to build scalable edge computing solutions.",
             "time_value": 10,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     
@@ -3334,7 +3334,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master WebAssembly for building high-performance web applications. Teach me how to compile native code to WASM, integrate with JavaScript, optimize performance, build cross-platform apps, and leverage WASM for compute-intensive web applications.",
             "time_value": 8,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     
@@ -3362,7 +3362,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to become proficient in building serverless applications on AWS. Teach me Lambda functions, API Gateway, DynamoDB, event-driven architectures, serverless patterns, cost optimization, monitoring, and how to build production-ready serverless systems.",
             "time_value": 9,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     
@@ -3390,7 +3390,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master service mesh architecture using Istio. Teach me about service mesh patterns, traffic management, security policies, observability, distributed tracing, and how to operate complex microservices systems at scale.",
             "time_value": 11,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     
@@ -3418,7 +3418,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to become an expert in Terraform for infrastructure as code. Teach me advanced Terraform patterns, module development, state management, workspace strategies, CI/CD integration, and how to manage complex multi-cloud infrastructure at scale.",
             "time_value": 9,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     
@@ -3446,7 +3446,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master Redis for caching and real-time applications. Teach me advanced Redis data structures, caching patterns, pub/sub messaging, Lua scripting, performance optimization, clustering, and how to build high-performance applications with Redis.",
             "time_value": 8,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     
@@ -3474,7 +3474,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to become proficient in Elasticsearch for search and analytics. Teach me index design, query DSL, aggregations, performance tuning, cluster management, and how to build powerful search applications using the Elastic Stack.",
             "time_value": 10,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     
@@ -3502,7 +3502,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master gRPC and Protocol Buffers for high-performance APIs. Teach me schema design, service implementation, streaming patterns, load balancing, security, monitoring, and how to build efficient microservices with gRPC.",
             "time_value": 8,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -3535,7 +3535,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master building autonomous AI agents and multi-agent systems. Teach me agent architectures, decision-making frameworks, multi-agent coordination, reinforcement learning for agents, environment simulation, and deploying agentic AI systems that can act independently to achieve goals.",
             "time_value": 12,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -3564,7 +3564,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master post-quantum cryptography to protect against future quantum computing threats. Teach me quantum threats to encryption, NIST post-quantum standards, implementing quantum-resistant algorithms, migration strategies, and building future-proof security systems.",
             "time_value": 10,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -3593,7 +3593,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master deploying AI on edge devices and IoT systems. Teach me model quantization and optimization, TinyML frameworks, embedded AI deployment, real-time inference, power optimization, and building complete edge AI solutions for resource-constrained environments.",
             "time_value": 10,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -3622,7 +3622,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master vector databases and RAG systems for modern AI applications. Teach me vector embeddings, similarity search, database design (Pinecone, Weaviate, Chroma), RAG architectures, retrieval optimization, and building production RAG systems with LLMs.",
             "time_value": 8,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -3651,7 +3651,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master AI safety and alignment for responsible AI development. Teach me alignment problems, safety measures, interpretability techniques, bias detection, robustness testing, governance frameworks, and building AI systems that are safe, reliable, and beneficial.",
             "time_value": 12,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -3680,7 +3680,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master Web3 and decentralized app development. Teach me DApp architecture, wallet integration, IPFS and decentralized storage, smart contract interaction, DAO creation, token economics, cross-chain development, and building complete Web3 ecosystems.",
             "time_value": 10,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -3709,7 +3709,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master digital twin technology for creating virtual replicas of physical systems. Teach me digital twin architecture, IoT integration, real-time data synchronization, predictive analytics, 3D visualization, simulation modeling, and building complete digital twin platforms.",
             "time_value": 12,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -3738,7 +3738,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master next-generation network programming for 5G and emerging 6G technologies. Teach me 5G architecture, network slicing, edge computing integration, ultra-low latency applications, network function virtualization, and building applications that leverage advanced network capabilities.",
             "time_value": 10,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -3767,7 +3767,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master sustainable computing and green software development. Teach me energy-efficient programming, carbon footprint measurement, sustainable architecture design, renewable energy integration, green cloud practices, and building environmentally responsible technology solutions.",
             "time_value": 8,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -3796,7 +3796,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master neuromorphic computing and brain-inspired AI systems. Teach me neuromorphic principles, spiking neural networks, event-driven processing, adaptive algorithms, neuromorphic hardware (Intel Loihi, SpiNNaker), and building ultra-low-power intelligent systems inspired by the brain.",
             "time_value": 12,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -3829,7 +3829,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master AI applications in healthcare and medical technology. Teach me medical AI algorithms, diagnostic imaging, clinical decision support, EHR systems, regulatory compliance (HIPAA, FDA), telemedicine platforms, and building safe, effective healthcare technology solutions.",
             "time_value": 12,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -3858,7 +3858,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master building telemedicine and remote healthcare solutions. Teach me telehealth platforms, video consultation systems, remote patient monitoring, wearable device integration, healthcare APIs, real-time data processing, and creating comprehensive digital health ecosystems.",
             "time_value": 10,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -3887,7 +3887,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master modern UI/UX design and design systems. Teach me design thinking, user research methods, wireframing and prototyping, design systems creation, accessibility standards, mobile-first design, and using tools like Figma, Adobe XD, and modern design workflows.",
             "time_value": 8,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -3916,7 +3916,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master content creation and multimedia production. Teach me video editing (Premiere Pro, Final Cut), photography, graphic design, social media strategy, podcast production, YouTube optimization, content planning, and building a personal brand through multimedia content.",
             "time_value": 8,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -3945,7 +3945,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master business intelligence and data analytics for decision-making. Teach me BI tools (Tableau, Power BI), dashboard design, predictive modeling, data warehousing, ETL processes, statistical analysis, KPI development, and creating data-driven business strategies.",
             "time_value": 10,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -3974,7 +3974,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master bioinformatics and computational biology. Teach me genomic data analysis, sequence alignment, phylogenetics, protein structure prediction, biological databases (NCBI, Ensembl), Python/R for bioinformatics, machine learning in biology, and building computational pipelines for biological research.",
             "time_value": 12,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -4003,7 +4003,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master FinTech development and digital banking solutions. Teach me payment processing, digital wallets, regulatory compliance, robo-advisors, algorithmic trading, lending platforms, cryptocurrency integration, and building secure, scalable financial technology products.",
             "time_value": 10,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -4032,7 +4032,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master smart grid and renewable energy technologies. Teach me smart grid architecture, renewable energy integration, energy storage systems, grid optimization algorithms, IoT for energy monitoring, demand response systems, and building sustainable energy solutions.",
             "time_value": 12,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -4061,7 +4061,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master space technology and satellite systems. Teach me satellite design, orbital mechanics, space communications, ground station operations, mission planning, CubeSat development, space data analysis, and building systems for space exploration and Earth observation.",
             "time_value": 14,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -4090,7 +4090,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master advanced robotics and automation systems. Teach me robotic control systems, computer vision, motion planning, sensor fusion, ROS (Robot Operating System), industrial automation, collaborative robots, and building autonomous systems for manufacturing and service applications.",
             "time_value": 12,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -4123,7 +4123,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master research methodology for life sciences research. Teach me experimental design, hypothesis testing, controls, sampling methods, statistical analysis, research ethics, reproducibility, literature review techniques, and meta-analysis. Include best practices for planning and executing rigorous scientific studies.",
             "time_value": 8,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -4150,7 +4150,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master biostatistics for life sciences research. Teach me descriptive statistics, inferential statistics, hypothesis testing, regression analysis, ANOVA, survival analysis, clinical trial design, and statistical software (R, Python, SPSS). Include practical applications in biological and medical research.",
             "time_value": 9,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -4179,7 +4179,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master bioinformatics for biological research. Teach me sequence analysis, genome assembly, transcriptomics, proteomics, phylogenetics, structural biology, and bioinformatics tools. Include Python programming, R for bioinformatics, database usage (NCBI, UniProt), and pipeline development.",
             "time_value": 12,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -4206,7 +4206,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master genomics and next-generation sequencing analysis. Teach me NGS data processing, quality control, read alignment, variant calling, genome assembly, RNA-seq analysis, ChIP-seq, single-cell sequencing, and pipeline development. Include tools like BWA, GATK, Samtools, and cloud computing platforms.",
             "time_value": 10,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -4235,7 +4235,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master advanced laboratory techniques in molecular biology. Teach me PCR and qPCR, protein expression and purification, cell culture techniques, transfection methods, western blotting, ELISA, immunofluorescence, microscopy, and troubleshooting lab protocols. Include best practices for reproducible research.",
             "time_value": 9,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -4262,7 +4262,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master mass spectrometry for research applications. Teach me MS principles, ionization methods, mass analyzers, LC-MS and GC-MS techniques, proteomics workflows, metabolomics analysis, quantitative methods, and data interpretation. Include instrument maintenance and troubleshooting.",
             "time_value": 10,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -4291,7 +4291,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master clinical research and Good Clinical Practice. Teach me GCP guidelines, clinical trial design, protocol development, patient recruitment, informed consent, data management, monitoring, adverse event reporting, and regulatory compliance. Include ICH guidelines and FDA regulations.",
             "time_value": 8,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -4318,7 +4318,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master translational medicine and drug development. Teach me bench-to-bedside research, biomarker discovery, drug discovery pipelines, preclinical studies, clinical development, regulatory affairs, personalized medicine, and commercialization strategies. Include FDA regulations and industry best practices.",
             "time_value": 11,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -4347,7 +4347,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master grant writing for research funding. Teach me proposal structure, specific aims development, significance and innovation sections, approach and methods, budget preparation, NIH and NSF guidelines, peer review process, and revision strategies. Include successful grant examples and common pitfalls.",
             "time_value": 6,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -4374,7 +4374,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master scientific writing and publication strategy. Teach me manuscript structure, abstract writing, figure design, data presentation, journal selection, submission process, peer review responses, and citation strategies. Include best practices for high-impact publications and career advancement.",
             "time_value": 7,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -4403,7 +4403,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master proteomics and protein analysis techniques. Teach me protein purification, mass spectrometry proteomics, protein-protein interactions, structural proteomics, quantitative proteomics, post-translational modifications, and bioinformatics analysis. Include both experimental and computational approaches.",
             "time_value": 10,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -4430,7 +4430,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master advanced cell biology and microscopy techniques. Teach me confocal microscopy, super-resolution imaging, live cell imaging, fluorescence techniques, image analysis, quantification methods, cellular assays, and functional studies. Include best practices for high-quality imaging and data interpretation.",
             "time_value": 9,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -4459,7 +4459,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master regulatory affairs for biotechnology and pharmaceutical industries. Teach me FDA regulations, IND/NDA submissions, clinical trial regulations, quality systems, GxP compliance, global regulatory requirements, and regulatory strategy. Include practical applications in drug development.",
             "time_value": 9,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -4488,7 +4488,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master diagnostic test development and validation. Teach me assay design, analytical validation, clinical validation, biomarker discovery, regulatory requirements, quality control, and performance testing. Include FDA guidelines for in vitro diagnostics and laboratory standards.",
             "time_value": 10,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -4515,7 +4515,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master epidemiology and public health research methods. Teach me study design, disease surveillance, outbreak investigation, statistical analysis, causal inference, systematic reviews, meta-analysis, and health policy evaluation. Include practical applications in population health research.",
             "time_value": 8,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -4544,7 +4544,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master research data management and FAIR principles. Teach me data management planning, metadata standards, data repositories, version control, data sharing protocols, and collaborative research practices. Include best practices for reproducible research and data stewardship.",
             "time_value": 6,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -4571,7 +4571,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master machine learning applications in life sciences. Teach me supervised and unsupervised learning, deep learning for genomics and medical imaging, feature selection, model validation, network analysis, and biological data interpretation. Include Python, TensorFlow, and domain-specific applications.",
             "time_value": 12,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -4600,7 +4600,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master laboratory quality management and ISO standards. Teach me ISO 15189, quality management systems, method validation, documentation control, internal auditing, corrective actions, and accreditation processes. Include practical implementation in research and clinical laboratories.",
             "time_value": 7,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -4633,7 +4633,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master advanced legal research techniques and citation. Teach me sophisticated database searching, case law analysis, secondary source evaluation, proper citation formats, shepardizing, and efficient research workflows. Include practical exercises with real legal problems and time management strategies.",
             "time_value": 5,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -4660,7 +4660,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master legal brief writing and persuasive advocacy. Teach me brief structure, argument development, motion practice, appellate writing, fact presentation, and legal storytelling. Include analysis of winning briefs, judicial preferences, and practical drafting exercises.",
             "time_value": 6,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -4689,7 +4689,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master sophisticated contract drafting and risk allocation. Teach me advanced drafting techniques, liability management, indemnification provisions, insurance requirements, force majeure clauses, and negotiation strategies. Include real-world examples and industry-specific considerations.",
             "time_value": 7,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -4716,7 +4716,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master M&A due diligence and transaction documentation. Teach me due diligence processes, purchase agreement drafting, disclosure schedules, closing conditions, deal structures, and tax considerations. Include practical transaction management and client counseling skills.",
             "time_value": 8,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -4745,7 +4745,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master deposition strategy and witness examination. Teach me deposition planning, question development, examination techniques, impeachment strategies, objection practice, and hostile witness management. Include practical exercises and courtroom psychology insights.",
             "time_value": 5,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -4772,7 +4772,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master e-discovery and digital evidence management. Teach me preservation protocols, search methodologies, review platforms, privilege protection, metadata handling, and digital forensics. Include cost management and vendor coordination strategies.",
             "time_value": 6,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -4801,7 +4801,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master employment law compliance and workplace investigations. Teach me investigation techniques, discrimination analysis, wage and hour compliance, union issues, policy development, and training programs. Include practical case management and client counseling skills.",
             "time_value": 6,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -4828,7 +4828,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master IP portfolio management and strategy. Teach me patent prosecution, trademark clearance, trade secret protection, licensing negotiations, IP due diligence, valuation methods, and global filing strategies. Include enforcement and litigation considerations.",
             "time_value": 7,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -4857,7 +4857,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master legal technology and AI implementation in law practice. Teach me AI-powered legal tools, document automation, practice management systems, cybersecurity protocols, cloud solutions, and vendor evaluation. Include ROI analysis and change management strategies.",
             "time_value": 4,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -4884,7 +4884,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master law firm business development and client relations. Teach me client development, relationship management, marketing strategies, networking, proposal writing, pitch presentations, fee optimization, and referral building. Include personal branding and thought leadership strategies.",
             "time_value": 5,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -4913,7 +4913,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master securities law compliance and disclosure requirements. Teach me SEC reporting, proxy statements, 10-K filings, insider trading rules, Sarbanes-Oxley compliance, corporate governance, and securities offerings. Include practical compliance program development.",
             "time_value": 7,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -4940,7 +4940,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master professional responsibility and legal ethics in practice. Teach me conflict analysis, confidentiality rules, fee ethics, advertising regulations, professional liability prevention, and disciplinary procedures. Include practical decision-making frameworks and real-world scenarios.",
             "time_value": 4,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -4969,7 +4969,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master alternative dispute resolution and mediation. Teach me mediation techniques, arbitration procedures, negotiation psychology, ADR clause drafting, and multi-party dispute resolution. Include practical skills for building an ADR practice and certification requirements.",
             "time_value": 5,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -4996,7 +4996,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master cross-border transactions and international law. Teach me international contract law, choice of law analysis, cross-border M&A, foreign investment regulations, international arbitration, and tax treaty considerations. Include practical jurisdiction and enforcement issues.",
             "time_value": 8,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -5029,7 +5029,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master constitutional law litigation and PIL practice in India. Teach me PIL drafting, Article 32 and 226 procedures, fundamental rights jurisprudence, Supreme Court practice, constitutional interpretation, and precedent analysis. Include practical pleading techniques and constitutional bench advocacy.",
             "time_value": 7,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -5056,7 +5056,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master criminal law practice and CRPC procedures in India. Teach me bail applications, anticipatory bail, charge sheet analysis, trial strategy, cross-examination, plea bargaining, and appellate practice. Include practical courtroom advocacy and case management skills.",
             "time_value": 7,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -5085,7 +5085,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master Companies Act 2013 compliance and corporate governance. Teach me board procedures, NCLT practice, regulatory filings, due diligence, related party transactions, and corporate restructuring. Include practical compliance strategies and governance advisory skills.",
             "time_value": 8,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -5112,7 +5112,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master GST law and indirect tax practice in India. Teach me GST compliance, return filing, input tax credit, assessment procedures, appellate practice, advance rulings, and litigation strategies. Include practical case management and client advisory skills.",
             "time_value": 6,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -5141,7 +5141,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master IBC practice and insolvency law in India. Teach me CIRP procedures, resolution plans, NCLT practice, liquidation processes, creditor rights, and resolution professional duties. Include practical case management and stakeholder coordination skills.",
             "time_value": 8,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -5168,7 +5168,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master real estate law and RERA compliance in India. Teach me RERA procedures, title verification, sale deed drafting, development agreements, land acquisition, and dispute resolution. Include practical due diligence and compliance strategies.",
             "time_value": 6,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -5197,7 +5197,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master CPC and civil court practice in India. Teach me plaint drafting, written statements, interim applications, examination techniques, execution procedures, and appellate practice. Include commercial court procedures and case management strategies.",
             "time_value": 7,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -5224,7 +5224,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master arbitration and ADR practice in India. Teach me arbitration procedures, clause drafting, award enforcement, mediation techniques, international arbitration, and court proceedings. Include practical advocacy and case management skills.",
             "time_value": 7,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -5253,7 +5253,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master SEBI regulations and securities law practice in India. Teach me IPO procedures, listing compliance, insider trading rules, mutual fund regulations, takeover procedures, and SAT practice. Include practical compliance strategies and litigation skills.",
             "time_value": 8,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -5280,7 +5280,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master labor law and industrial relations practice in India. Teach me Industrial Disputes Act, labor court procedures, trade union matters, workmen compensation, factory law, and tribunal practice. Include practical negotiation and settlement strategies.",
             "time_value": 6,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -5309,7 +5309,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master legal technology and digital court practice in India. Teach me e-filing systems, virtual court proceedings, digital case management, AI legal research tools, and cybersecurity for law firms. Include practical tips for online advocacy and client management.",
             "time_value": 5,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -5336,7 +5336,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master cyber law and IT Act practice in India. Teach me cyber crime procedures, digital evidence, data protection compliance, e-commerce regulations, fintech law, and cyber tribunal practice. Include practical investigation techniques and technology law advisory skills.",
             "time_value": 6,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -5365,7 +5365,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master family law and personal laws practice in India. Teach me divorce procedures, maintenance laws, custody disputes, domestic violence protection, adoption procedures, and family mediation. Include practical courtroom advocacy and client counseling skills.",
             "time_value": 5,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -5392,7 +5392,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master environmental law and NGT practice in India. Teach me environmental clearances, NGT procedures, pollution control laws, forest regulations, EIA processes, and green tribunal advocacy. Include practical compliance strategies and environmental litigation skills.",
             "time_value": 6,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -5425,7 +5425,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master income tax litigation and ITAT practice in India. Teach me ITAT procedures, appeal drafting, assessment challenges, search and seizure cases, transfer pricing disputes, and advance ruling applications. Include practical advocacy and case strategy development.",
             "time_value": 7,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -5452,7 +5452,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master PMLA defense and ED investigation representation. Teach me PMLA procedures, provisional attachment challenges, ED investigation tactics, money laundering defense, SAFEMA proceedings, and MLAT cases. Include practical investigation response and defense strategies.",
             "time_value": 7,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -5479,7 +5479,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master competition law and CCI practice in India. Teach me CCI procedures, merger notifications, cartel investigations, leniency applications, dominance cases, and NCLAT appeals. Include economic analysis and practical advocacy strategies.",
             "time_value": 6,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -5508,7 +5508,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master cryptocurrency and digital assets law in India. Teach me crypto taxation, TDS compliance, exchange regulations, blockchain legal frameworks, RBI guidelines, ICO regulations, and enforcement issues. Include practical compliance strategies for fintech businesses.",
             "time_value": 6,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -5535,7 +5535,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master data protection and privacy law under DPDP Act. Teach me compliance requirements, consent management, breach notifications, cross-border transfers, impact assessments, and DPA proceedings. Include practical implementation for businesses and defense strategies.",
             "time_value": 5,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -5564,7 +5564,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master banking and financial services regulation in India. Teach me RBI compliance, banking licenses, NBFC regulations, SARFAESI proceedings, payment systems, fintech compliance, and enforcement defense. Include practical regulatory strategy and compliance implementation.",
             "time_value": 8,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -5591,7 +5591,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master aviation law and DGCA compliance in India. Teach me DGCA procedures, aircraft registration, operational compliance, leasing structures, passenger rights, safety regulations, and accident investigation. Include practical aviation business advisory skills.",
             "time_value": 5,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -5618,7 +5618,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master pharmaceutical and drug regulatory law in India. Teach me CDSCO procedures, drug licensing, clinical trial regulations, patent challenges, price control, DPCO compliance, and enforcement defense. Include practical regulatory strategy for pharmaceutical companies.",
             "time_value": 6,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -5647,7 +5647,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master SARFAESI and asset reconstruction practice. Teach me SARFAESI procedures, DRT practice, security interest enforcement, ARC operations, securitization transactions, and borrower defense strategies. Include practical recovery and restructuring techniques.",
             "time_value": 6,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -5674,7 +5674,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master customs and foreign trade policy practice. Teach me customs procedures, CESTAT appeals, valuation disputes, EXIM policy compliance, licensing requirements, and audit defense. Include practical international trade advisory and compliance strategies.",
             "time_value": 7,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -5703,7 +5703,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master FEMA and foreign exchange compliance. Teach me FDI procedures, ECB regulations, ODI compliance, FEMA violation defense, derivative transactions, and RBI enforcement. Include practical foreign investment structuring and compliance strategies.",
             "time_value": 6,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -5730,7 +5730,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master cooperative law and society registration practice. Teach me society formation, housing society compliance, multi-state cooperatives, cooperative banking, dispute resolution, and dissolution procedures. Include practical governance and legal advisory for cooperative institutions.",
             "time_value": 4,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -5759,7 +5759,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master ESG compliance and sustainability law in India. Teach me ESG reporting, disclosure requirements, green financing, carbon trading, renewable energy compliance, and social impact assessment. Include practical ESG advisory and implementation strategies for businesses.",
             "time_value": 5,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -5786,7 +5786,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master gaming and gambling law compliance in India. Teach me online gaming regulations, skill vs. chance classification, fantasy sports compliance, state licensing requirements, advertising regulations, and enforcement defense. Include practical compliance strategies for gaming businesses.",
             "time_value": 5,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -5819,7 +5819,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master federal court practice and appellate advocacy in the US. Teach me federal jurisdiction, removal procedures, circuit court practice, Supreme Court petitions, appellate brief writing, oral argument techniques, and emergency relief. Include practical federal litigation strategy and appellate advocacy skills.",
             "time_value": 7,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -5846,7 +5846,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master SEC enforcement defense and securities litigation. Teach me SEC investigation procedures, Wells submissions, insider trading defense, disclosure violations, parallel proceedings, settlement strategies, and administrative hearings. Include practical white-collar defense and client counseling techniques.",
             "time_value": 8,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -5873,7 +5873,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master FDA regulatory practice and healthcare law. Teach me drug approval processes, medical device submissions, FDA inspections, warning letter responses, clinical trial regulations, food safety law, and enforcement defense. Include practical regulatory strategy and compliance implementation.",
             "time_value": 7,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -5902,7 +5902,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master class action litigation and mass tort practice. Teach me Rule 23 certification, MDL procedures, bellwether trials, settlement administration, opt-out processes, fee litigation, and court approval mechanisms. Include practical case management and trial strategy for complex litigation.",
             "time_value": 8,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -5929,7 +5929,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master patent litigation and PTAB proceedings. Teach me claim construction, Markman hearings, IPR/PGR practice, invalidity defenses, damages analysis, ITC investigations, and PTAB advocacy. Include practical patent trial strategy and technical case management.",
             "time_value": 7,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -5958,7 +5958,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master FCPA and international anti-corruption compliance. Teach me FCPA investigations, DOJ cooperation, due diligence procedures, third-party risk management, voluntary disclosure, settlement strategies, and compliance program design. Include practical international business advisory skills.",
             "time_value": 6,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -5985,7 +5985,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master OFAC sanctions and export controls practice. Teach me sanctions programs, blocking procedures, EAR/ITAR compliance, licensing requirements, voluntary disclosure, penalty mitigation, and screening systems. Include practical international trade compliance and enforcement defense.",
             "time_value": 7,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -6014,7 +6014,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master cryptocurrency and digital assets regulation in the US. Teach me SEC/CFTC guidance, securities analysis, Howey test application, stablecoin regulations, DeFi protocols, exchange licensing, and enforcement defense. Include practical fintech compliance and regulatory strategy.",
             "time_value": 6,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -6041,7 +6041,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master AI and technology law practice. Teach me AI bias auditing, algorithmic accountability, ML IP protection, autonomous systems liability, AI ethics compliance, and technology contract drafting. Include practical AI governance and risk management strategies.",
             "time_value": 6,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -6070,7 +6070,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master private equity and venture capital transactions. Teach me fund formation, LP/GP agreements, Series A-growth equity deals, LBO structuring, carried interest taxation, ERISA compliance, and exit strategies. Include practical investment fund legal advisory and transaction management.",
             "time_value": 8,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -6097,7 +6097,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master SPAC transactions and public company practice. Teach me SPAC IPOs, sponsor structures, de-SPAC negotiations, PIPE financing, earnout arrangements, proxy statements, and SEC comment responses. Include practical capital markets and public company advisory skills.",
             "time_value": 7,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -6126,7 +6126,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master DOJ criminal tax and financial crimes defense. Teach me tax evasion defense, grand jury practice, FBAR violations, cooperation strategies, sentencing arguments, and parallel proceedings. Include practical white-collar defense and client counseling in tax crime cases.",
             "time_value": 7,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -6153,7 +6153,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master employment law compliance and workplace investigations. Teach me EEOC responses, harassment investigations, wage and hour defense, DOL audits, NLRA compliance, and executive compensation. Include practical workplace investigation techniques and compliance program development.",
             "time_value": 6,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -6182,7 +6182,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master environmental law and Superfund litigation. Teach me CERCLA liability, EPA enforcement defense, consent decrees, RCRA compliance, natural resource damages, and environmental due diligence. Include practical environmental litigation and regulatory compliance strategies.",
             "time_value": 7,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -6209,7 +6209,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master healthcare fraud and Stark Law compliance. Teach me Stark/AKS analysis, False Claims Act defense, qui tam litigation, OIG exclusions, Medicare audits, and healthcare M&A due diligence. Include practical healthcare compliance and fraud defense strategies.",
             "time_value": 7,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -6242,7 +6242,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to achieve the elite SANS GSE certification. Teach me advanced penetration testing, red team operations, digital forensics, incident response, security architecture, threat modeling, malware analysis, and security program management. Include hands-on labs and practical security leadership skills.",
             "time_value": 40,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -6269,7 +6269,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master CISA certification for information systems auditing. Teach me audit processes, IT governance, risk assessment, control testing, compliance frameworks, business continuity, and audit reporting. Include practical auditing techniques and professional audit management skills.",
             "time_value": 12,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -6296,7 +6296,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master CCSP certification for cloud security. Teach me cloud architecture security, data protection, platform security, application security, DevSecOps, incident response, and compliance in cloud environments. Include hands-on cloud security implementation and management.",
             "time_value": 10,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -6325,7 +6325,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master FRM Part II for advanced risk management. Teach me market risk measurement, credit risk modeling, operational risk frameworks, liquidity management, stress testing, and emerging risk topics. Include practical risk management applications and quantitative techniques.",
             "time_value": 15,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -6352,7 +6352,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master CTP certification for treasury management. Teach me cash management, liquidity optimization, working capital strategies, financial risk hedging, capital structure, funding techniques, and treasury operations. Include practical treasury management and corporate finance applications.",
             "time_value": 9,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -6379,7 +6379,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master CCP certification for credit analysis and commercial lending. Teach me credit underwriting, financial analysis, cash flow modeling, loan structuring, risk rating, portfolio management, and workout strategies. Include practical credit decision-making and relationship management.",
             "time_value": 8,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -6408,7 +6408,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master CCRP certification for clinical research. Teach me clinical trial design, protocol development, GCP compliance, data management, biostatistics, pharmacovigilance, safety reporting, and site monitoring. Include practical clinical research management and regulatory expertise.",
             "time_value": 10,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -6435,7 +6435,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master CPHQ certification for healthcare quality management. Teach me quality systems, patient safety programs, performance improvement, data analysis, regulatory compliance, accreditation standards, and healthcare leadership. Include practical quality improvement and patient safety implementation.",
             "time_value": 9,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -6464,7 +6464,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master PMI-ACP certification for agile project management. Teach me agile methodologies, scrum, kanban, planning techniques, estimation, servant leadership, team facilitation, metrics, and stakeholder engagement. Include practical agile implementation and coaching skills.",
             "time_value": 8,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -6491,7 +6491,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master CBAP certification for business analysis. Teach me business analysis planning, elicitation techniques, collaboration methods, requirements management, strategy analysis, solution assessment, and governance. Include practical business analysis leadership and stakeholder management.",
             "time_value": 11,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -6520,7 +6520,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master CEM certification for energy management. Teach me energy auditing, efficiency projects, renewable systems, utility management, energy procurement, financing, policy compliance, and sustainability strategies. Include practical energy management and cost optimization techniques.",
             "time_value": 10,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -6547,7 +6547,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master CPESC certification for erosion and sediment control. Teach me erosion control design, stormwater management, BMP implementation, soil mechanics, hydrology, regulatory compliance, and construction site management. Include practical environmental engineering and inspection techniques.",
             "time_value": 7,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -6574,7 +6574,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master CPSM certification for supply management. Teach me strategic sourcing, supplier relationship management, contract negotiation, risk management, supply chain analytics, logistics optimization, and leadership. Include practical procurement and supply chain transformation strategies.",
             "time_value": 12,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -6601,7 +6601,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master CRCM certification for banking compliance. Teach me federal banking regulations, consumer protection, fair lending, anti-money laundering, BSA compliance, examination procedures, and compliance program management. Include practical regulatory compliance and risk management strategies.",
             "time_value": 10,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -6628,7 +6628,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master CPLP certification for learning and performance. Teach me instructional design, curriculum development, training delivery, facilitation, performance improvement, needs assessment, learning technologies, and evaluation methods. Include practical L&D leadership and organizational development skills.",
             "time_value": 9,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -6661,7 +6661,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master production MLOps and model lifecycle management. Teach me ML pipeline automation, model versioning, experiment tracking, CI/CD for ML, model monitoring, drift detection, retraining strategies, and MLOps infrastructure. Include practical MLOps tools like Kubeflow, MLflow, and cloud ML platforms.",
             "time_value": 12,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -6688,7 +6688,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master distributed machine learning and model parallelism. Teach me data/model parallelism, federated learning, distributed training optimization, gradient compression, communication efficiency, and distributed ML frameworks. Include practical implementation with PyTorch Distributed, Horovod, and cloud ML clusters.",
             "time_value": 10,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -6715,7 +6715,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master real-time ML inference and edge AI optimization. Teach me model quantization, pruning, neural architecture search, hardware optimization, real-time pipelines, latency optimization, and edge deployment. Include practical tools like TensorRT, ONNX, Core ML, and TensorFlow Lite.",
             "time_value": 10,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -6744,7 +6744,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master advanced neural architecture design and AutoML. Teach me neural architecture search, transformer design, attention mechanisms, architectural patterns, hyperparameter optimization, and automated ML. Include cutting-edge research in efficient architectures and novel design principles.",
             "time_value": 13,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -6771,7 +6771,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master multimodal AI and cross-modal learning systems. Teach me vision-language models, multimodal fusion, joint embeddings, audio-visual learning, cross-modal retrieval, generation systems, and multimodal transformers. Include practical applications with CLIP, DALL-E, and latest multimodal architectures.",
             "time_value": 11,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -6798,7 +6798,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master reinforcement learning for real-world applications. Teach me deep RL algorithms, multi-agent systems, offline RL, RL for robotics, safe RL, constrained optimization, and practical deployment strategies. Include hands-on implementation with modern RL frameworks and real-world case studies.",
             "time_value": 12,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -6827,7 +6827,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master AI for scientific computing and research acceleration. Teach me physics-informed neural networks, AI for drug discovery, molecular modeling, neural differential equations, scientific simulation, materials science applications, and scientific data analysis. Include practical applications in research domains.",
             "time_value": 11,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -6854,7 +6854,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master advanced computer vision and 3D scene understanding. Teach me 3D object detection, scene reconstruction, neural radiance fields, novel view synthesis, depth estimation, stereo vision, SLAM, visual odometry, 3D generative models, and point cloud processing. Include practical applications in AR/VR and robotics.",
             "time_value": 10,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -6881,7 +6881,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master NLP for code and software engineering. Teach me code generation, program synthesis, code understanding, semantic analysis, automated debugging, vulnerability detection, code translation, refactoring automation, and AI-powered development tools. Include practical applications with Codex, CodeT5, and code LLMs.",
             "time_value": 9,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -6910,7 +6910,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master neural information retrieval and semantic search systems. Teach me dense retrieval, neural ranking, embedding-based search, semantic matching, query understanding, RAG systems, and large-scale search infrastructure. Include practical implementation with modern search stacks and vector databases.",
             "time_value": 9,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -6937,7 +6937,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master efficient AI and green machine learning practices. Teach me energy-efficient architectures, carbon footprint optimization, knowledge distillation, model compression, sustainable AI practices, green computing, and environmental impact assessment. Include practical strategies for reducing AI's environmental impact.",
             "time_value": 8,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
 
@@ -6966,7 +6966,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master AI safety and alignment engineering. Teach me AI alignment theory, value learning, robustness testing, adversarial defense, interpretability methods, explainable AI, failure detection, safe deployment, and AI governance frameworks. Include practical safety evaluation and risk mitigation strategies.",
             "time_value": 10,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -6993,7 +6993,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master fairness and bias mitigation in AI systems. Teach me bias detection, measurement techniques, fairness metrics, evaluation frameworks, bias mitigation strategies, demographic parity, equalized opportunity, and responsible AI deployment. Include practical tools for building fair and inclusive AI systems.",
             "time_value": 8,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     },
     {
@@ -7020,7 +7020,7 @@ TRENDING_ROADMAPS_CONFIG = [
             "goal": "I want to master privacy-preserving machine learning and differential privacy. Teach me differential privacy theory, federated learning, secure aggregation, homomorphic encryption, secure multi-party computation, and privacy-preserving data analysis. Include practical implementation of privacy-preserving AI systems.",
             "time_value": 10,
             "time_unit": "weeks",
-            "model": "openrouter:qwen/qwen-2-7b-instruct:free"
+            "model": "openrouter:meta-llama/llama-3.3-8b-instruct:free"
         }
     }
 ]

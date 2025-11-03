@@ -97,7 +97,7 @@ const LoggedInUserOnboardingForm: React.FC<LoggedInUserOnboardingFormProps> = ({
         goal: formData.goal,
         time_value: formData.timeline.value,
         time_unit: formData.timeline.unit,
-        model: 'openrouter:qwen/qwen-2-7b-instruct:free' // Free OpenRouter model
+        model: 'openrouter:meta-llama/llama-3.3-8b-instruct:free' // Free OpenRouter model
       };
 
       const response = await api.post('/roadmaps/generate', roadmapRequest);
