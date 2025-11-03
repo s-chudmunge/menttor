@@ -102,7 +102,7 @@ const VisitorOnboardingTimer: React.FC<VisitorOnboardingTimerProps> = ({ childre
         goal: data.goal,
         time_value: data.timeline.value,
         time_unit: data.timeline.unit,
-        model: 'vertexai:gemini-2.5-flash-lite'
+        model: 'openrouter:qwen/qwen-2-7b-instruct:free'
       };
 
       console.log('Generating roadmap from onboarding data:', roadmapRequest);
