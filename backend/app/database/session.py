@@ -51,13 +51,19 @@ def create_db_and_tables():
 def get_db() -> Generator[Session, None, None]:
     """Optimized database session with automatic cleanup"""
     session = Session(engine)
+    operation = "initialization"
     try:
+        operation = "query execution"
         yield session
+        operation = "transaction commit"
         # Commit any pending transactions if no exception occurred
         session.commit()
     except Exception as e:
-        logger.error(f"Database session error: {e}")
-        session.rollback()
+        logger.error(f"Database session error during {operation}: {type(e).__name__}: {e}")
+        try:
+            session.rollback()
+        except Exception as rollback_error:
+            logger.error(f"Error during rollback: {rollback_error}")
         raise
     finally:
         # Ensure session is always closed to return connection to pool
