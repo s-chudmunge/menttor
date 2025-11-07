@@ -25,9 +25,6 @@ import prompts as tmpl_pkg
 import litellm
 from litellm.exceptions import APIError
 
-# Vertex AI imports
-from vertexai import init
-from vertexai.generative_models import GenerativeModel
 from utils.huggingface_fetcher import HuggingFaceModelFetcher, get_fallback_models
 
 def load_template(name):
@@ -50,54 +47,6 @@ from schemas import (LearningContentRequest, QuizAIResponse, QuizGenerateRequest
 
 # Define a TypeVar for BaseModel subclasses
 T = TypeVar('T', bound=BaseModel)
-
-def _setup_google_cloud_credentials():
-    """Set up Google Cloud credentials for Vertex AI authentication."""
-    try:
-        # Check if GOOGLE_APPLICATION_CREDENTIALS is already set
-        if os.getenv('GOOGLE_APPLICATION_CREDENTIALS'):
-            logger.info("GOOGLE_APPLICATION_CREDENTIALS already set")
-            return True
-            
-        # Use Firebase credentials for Vertex AI if available
-        firebase_creds = settings.FIREBASE_CREDENTIALS
-        
-        if firebase_creds:
-            # Check if it's JSON content or file path
-            if firebase_creds.startswith('{') and firebase_creds.endswith('}'):
-                # It's JSON content - create a temporary file
-                try:
-                    cred_dict = json.loads(firebase_creds)
-                    
-                    # Create a temporary file for the service account key
-                    temp_fd, temp_path = tempfile.mkstemp(suffix='.json', text=True)
-                    with os.fdopen(temp_fd, 'w') as temp_file:
-                        json.dump(cred_dict, temp_file)
-                    
-                    # Set the environment variable
-                    os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = temp_path
-                    logger.info(f"Created temporary credentials file for Vertex AI: {temp_path}")
-                    return True
-                    
-                except Exception as e:
-                    logger.error(f"Failed to parse Firebase credentials as JSON: {e}")
-                    return False
-            else:
-                # It's a file path - use it directly
-                if os.path.exists(firebase_creds):
-                    os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = firebase_creds
-                    logger.info(f"Using Firebase credentials file for Vertex AI: {firebase_creds}")
-                    return True
-                else:
-                    logger.error(f"Firebase credentials file not found: {firebase_creds}")
-                    return False
-        else:
-            logger.warning("No Firebase credentials found for Vertex AI authentication")
-            return False
-            
-    except Exception as e:
-        logger.error(f"Failed to set up Google Cloud credentials: {e}")
-        return False
 
 # --- AI Execution Logic ---
 
@@ -155,49 +104,8 @@ def _sanitize_content_blocks(data: Any) -> Any:
     return data
 
 class AIExecutor:
-    _vertex_ai_model: Optional[GenerativeModel] = None
-
     def __init__(self):
-        if settings.VERTEX_AI_PROJECT_ID and settings.VERTEX_AI_REGION and not AIExecutor._vertex_ai_model:
-            logger.info(f"Attempting to initialize Vertex AI with Project ID: {settings.VERTEX_AI_PROJECT_ID}, Region: {settings.VERTEX_AI_REGION}, Model ID: {settings.VERTEX_AI_MODEL_ID}")
-            
-            # Set up Google Cloud credentials before initializing Vertex AI
-            credentials_set = _setup_google_cloud_credentials()
-            if not credentials_set:
-                logger.warning("Failed to set up Google Cloud credentials. Vertex AI initialization may fail.")
-            
-            try:
-                # Test credentials by checking if we can list models
-                from google.cloud import aiplatform
-                
-                # Log what credentials we're using
-                creds_file = os.getenv('GOOGLE_APPLICATION_CREDENTIALS')
-                logger.info(f"Using credentials file: {creds_file}")
-                
-                # Try to initialize and test access
-                init(project=settings.VERTEX_AI_PROJECT_ID, location=settings.VERTEX_AI_REGION)
-                
-                # Test if we can access the model
-                logger.info(f"Testing access to model: {settings.VERTEX_AI_MODEL_ID}")
-                AIExecutor._vertex_ai_model = GenerativeModel(settings.VERTEX_AI_MODEL_ID)
-                logger.info(f"Successfully initialized Vertex AI model: {settings.VERTEX_AI_MODEL_ID}")
-                
-            except Exception as e:
-                logger.error(f"Failed to initialize Vertex AI model: {e}")
-                logger.error(f"Project: {settings.VERTEX_AI_PROJECT_ID}, Region: {settings.VERTEX_AI_REGION}, Model: {settings.VERTEX_AI_MODEL_ID}")
-                
-                # Try to get more info about the error
-                if "404" in str(e) or "NotFound" in str(e):
-                    logger.error("Model not found - this could be due to:")
-                    logger.error("1. Model doesn't exist in this project/region")
-                    logger.error("2. Service account doesn't have access")
-                    logger.error("3. Vertex AI API not enabled")
-                
-                AIExecutor._vertex_ai_model = None
-        elif not settings.VERTEX_AI_PROJECT_ID:
-            logger.info("VERTEX_AI_PROJECT_ID is not set. Skipping Vertex AI initialization.")
-        else:
-            logger.info("Vertex AI model already initialized or missing region.")
+        logger.info("AIExecutor initialized. Using OpenRouter and HuggingFace models.")
 
     async def execute(
         self,
@@ -223,23 +131,10 @@ class AIExecutor:
             provider, model_name = model_id.split(":", 1)
 
             if provider == "vertexai":
-                if not AIExecutor._vertex_ai_model:
-                    raise HTTPException(
-                        status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                        detail=f"Vertex AI model {model_name} was requested but is not initialized or available. Check backend logs for Vertex AI initialization errors."
-                    )
-                logger.info(f"Sending prompt to Vertex AI model {model_name}: {prompt}")
-                generation_config = {
-                    "temperature": 0.2,
-                    "max_output_tokens": request_data.max_output_tokens if hasattr(request_data, 'max_output_tokens') and request_data.max_output_tokens is not None else 8192, # Increased default
-                    "top_k": 40,
-                }
-                response = AIExecutor._vertex_ai_model.generate_content(
-                    prompt,
-                    generation_config=generation_config,
+                raise HTTPException(
+                    status_code=status.HTTP_400_BAD_REQUEST,
+                    detail="Vertex AI models are no longer supported. Please use OpenRouter or HuggingFace models."
                 )
-                raw_response = response.text
-                print(f"Raw Vertex AI Response: {raw_response}")
             else:
                 api_key = None
                 litellm_model_name = model_id.replace(":", "/", 1)
@@ -456,10 +351,10 @@ async def generate_quiz_content(request: QuizGenerateRequest) -> QuizAIResponse:
             )
             fallback_response = fallback_result["response"]
             fallback_response.model = fallback_result["model"]
-            logger.info(f"Successfully generated quiz using fallback Vertex AI model: {fallback_response.model}")
+            logger.info(f"Successfully generated quiz using fallback OpenRouter model: {fallback_response.model}")
             return fallback_response
         except Exception as fallback_e:
-            logger.error(f"Fallback quiz generation with Vertex AI also failed: {fallback_e}")
+            logger.error(f"Fallback quiz generation with OpenRouter also failed: {fallback_e}")
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 detail=f"Failed to generate quiz content with both primary and fallback models. Primary error: {e}. Fallback error: {fallback_e}"
@@ -801,103 +696,23 @@ async def _fetch_huggingface_models() -> List[Dict[str, Any]]:
         logger.error(f"Error in dynamic model fetch: {e}")
         return get_fallback_models()
 
-async def _fetch_vertex_ai_models() -> List[Dict[str, Any]]:
-    """Returns a list of available Vertex AI models if configured."""
-    models = []
-    
-    if settings.VERTEX_AI_PROJECT_ID:
-        # List of available Vertex AI models with their specifications
-        vertex_models = [
-            {
-                "id": "gemini-2.5-flash-lite",
-                "name": "Google Gemini 2.0 Flash-Lite ⭐",
-                "description": "Fastest and cheapest model ($0.075/1M input, $0.30/1M output). Best for high-throughput tasks.",
-                "context_window": 1000000,  # 1M tokens
-                "max_tokens": 8192,
-            },
-            {
-                "id": "gemini-2.5-flash-lite",
-                "name": "Google Gemini 2.5 Flash-Lite",
-                "description": "Cost-effective model ($0.1/1M input, $0.4/1M output) with good quality and speed.",
-                "context_window": 1000000,  # 1M tokens
-                "max_tokens": 8192,
-            },
-            {
-                "id": "gemini-2.5-flash",
-                "name": "Google Gemini 2.5 Flash",
-                "description": "Best price-performance balance with well-rounded capabilities.",
-                "context_window": 1000000,  # 1M tokens
-                "max_tokens": 8192,
-            },
-            {
-                "id": "gemini-2.0-flash",
-                "name": "Google Gemini 2.0 Flash",
-                "description": "Newest multimodal model with next-generation features.",
-                "context_window": 1000000,  # 1M tokens
-                "max_tokens": 8192,
-            },
-            {
-                "id": "gemini-2.5-pro",
-                "name": "Google Gemini 2.5 Pro",
-                "description": "Most advanced reasoning model for complex problems (higher cost).",
-                "context_window": 2000000,  # 2M tokens
-                "max_tokens": 8192,
-            },
-            {
-                "id": "gemini-1.0-pro",
-                "name": "Google Gemini Pro 1.0",
-                "description": "Reliable multimodal model from Google with strong performance across tasks.",
-                "context_window": 32768,
-                "max_tokens": 8192,
-            },
-            {
-                "id": "gemini-1.0-pro-vision-001",
-                "name": "Google Gemini Pro Vision 1.0",
-                "description": "Specialized multimodal model optimized for vision and image understanding tasks.",
-                "context_window": 16384,
-                "max_tokens": 2048,
-            },
-            {
-                "id": "text-bison-001",
-                "name": "Google PaLM 2 Text Bison",
-                "description": "Large language model from Google optimized for text generation and comprehension.",
-                "context_window": 8192,
-                "max_tokens": 1024,
-            }
-        ]
-        
-        for model_info in vertex_models:
-            models.append({
-                "id": f'vertexai:{model_info["id"]}',
-                "name": model_info["name"],
-                "description": model_info["description"],
-                "context_window": model_info["context_window"],
-                "per_token_cost": 0,  # Assuming free for this app
-                "per_image_cost": 0,
-                "per_completion_cost": 0,
-                "max_tokens": model_info["max_tokens"],
-                "top_provider": "Vertex AI",
-                "free_trial": True
-            })
-    else:
-        logger.warning("VERTEX_AI_PROJECT_ID not set. Skipping Vertex AI model fetch.")
-    return models
+# Vertex AI models removed - application now uses OpenRouter and HuggingFace only
 
 async def get_available_models() -> List[Dict[str, Any]]:
     """
     Fetches and combines available models from all configured providers.
     This function now dynamically builds the list of available models.
+    Currently supports OpenRouter and HuggingFace only.
     """
     # Use asyncio.gather to fetch models from all providers concurrently
     all_model_lists = await asyncio.gather(
         _fetch_openrouter_models(),
-        _fetch_huggingface_models(),
-        _fetch_vertex_ai_models()
+        _fetch_huggingface_models()
     )
 
     # Flatten the list of lists into a single list of models
     combined_models = [model for model_list in all_model_lists for model in model_list]
-    
+
     if not combined_models:
         logger.warning("No models were found from any provider. The model list will be empty.")
         # Optionally, raise an exception if no models are available, as the frontend depends on this list.

@@ -17,8 +17,6 @@ google-auth==2.31.0
 json-fix==1.0.0
 websockets==12.0
 firebase-admin==6.5.0
-google-cloud-aiplatform==1.55.0
-vertexai
 openai>=1.99.0,<2.0.0
 anthropic
 cohere
