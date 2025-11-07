@@ -26,26 +26,42 @@ CACHE_TTL = 3600  # 1 hour cache
 def load_content_from_db(slug: str, db: Session) -> Dict[str, Any]:
     """Load content from database with Redis caching"""
     cache_key = f"library_content:{slug}"
-    
+
     # Try to get from cache first
     try:
         with get_redis_client() as redis_client:
-            cached_data = redis_client.get(cache_key)
-            if cached_data:
-                logger.info(f"Cache hit for library content: {slug}")
-                return json.loads(cached_data)
+            if redis_client:  # Check if Redis is available
+                cached_data = redis_client.get(cache_key)
+                if cached_data:
+                    logger.info(f"Cache hit for library content: {slug}")
+                    return json.loads(cached_data)
+            else:
+                logger.debug(f"Redis unavailable, skipping cache read for {slug}")
     except Exception as e:
         logger.warning(f"Redis cache read failed for {slug}: {e}")
     
     # Cache miss - fetch from database
     try:
+        # Try both exact match and case-insensitive match
         statement = select(LibraryContent).where(
             LibraryContent.slug == slug,
             LibraryContent.is_active == True
         )
         content_record = db.exec(statement).first()
-        
+
+        # If not found with exact match, try case-insensitive
         if not content_record:
+            statement = select(LibraryContent).where(
+                LibraryContent.slug.ilike(slug),
+                LibraryContent.is_active == True
+            )
+            content_record = db.exec(statement).first()
+
+        if not content_record:
+            logger.warning(f"Content not found in database for slug '{slug}'")
+            # Log all available slugs for debugging
+            all_slugs = db.exec(select(LibraryContent.slug).where(LibraryContent.is_active == True)).all()
+            logger.debug(f"Available active slugs: {all_slugs[:10]}")
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
                 detail=f"Content for slug '{slug}' not found"
@@ -67,8 +83,11 @@ def load_content_from_db(slug: str, db: Session) -> Dict[str, Any]:
         # Cache the result
         try:
             with get_redis_client() as redis_client:
-                redis_client.setex(cache_key, CACHE_TTL, json.dumps(content_data, default=str))
-                logger.info(f"Cached library content: {slug}")
+                if redis_client:  # Check if Redis is available
+                    redis_client.setex(cache_key, CACHE_TTL, json.dumps(content_data, default=str))
+                    logger.info(f"Cached library content: {slug}")
+                else:
+                    logger.debug(f"Redis unavailable, skipping cache write for {slug}")
         except Exception as e:
             logger.warning(f"Redis cache write failed for {slug}: {e}")
         
@@ -120,11 +139,14 @@ def save_content_to_db(slug: str, content: Dict[str, Any], db: Session) -> None:
         # Invalidate caches
         try:
             with get_redis_client() as redis_client:
-                # Clear specific content cache
-                redis_client.delete(f"library_content:{slug}")
-                # Clear available content list cache
-                redis_client.delete("library_available")
-                logger.info(f"Invalidated cache for library content: {slug}")
+                if redis_client:  # Check if Redis is available
+                    # Clear specific content cache
+                    redis_client.delete(f"library_content:{slug}")
+                    # Clear available content list cache
+                    redis_client.delete("library_available")
+                    logger.info(f"Invalidated cache for library content: {slug}")
+                else:
+                    logger.debug(f"Redis unavailable, skipping cache invalidation for {slug}")
         except Exception as e:
             logger.warning(f"Cache invalidation failed for {slug}: {e}")
         

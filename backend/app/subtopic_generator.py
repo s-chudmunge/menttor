@@ -95,13 +95,28 @@ class SubtopicGenerator:
         """Fetch all curated roadmaps from the API"""
         async with httpx.AsyncClient() as client:
             try:
-                response = await client.get(f"{BACKEND_URL}/curated-roadmaps/", timeout=30.0)
+                url = f"{BACKEND_URL}/curated-roadmaps/"
+                logger.info(f"Fetching curated roadmaps from: {url}")
+                response = await client.get(url, timeout=30.0)
                 response.raise_for_status()
                 roadmaps = response.json()
                 logger.info(f"Fetched {len(roadmaps)} curated roadmaps")
+
+                if len(roadmaps) == 0:
+                    logger.warning("API returned 0 roadmaps - this may indicate:")
+                    logger.warning("1. No roadmaps in database")
+                    logger.warning("2. Database connection issue")
+                    logger.warning("3. API endpoint not returning data")
+
                 return roadmaps
+            except httpx.HTTPStatusError as e:
+                logger.error(f"HTTP error fetching roadmaps: {e.response.status_code} - {e.response.text}")
+                return []
+            except httpx.RequestError as e:
+                logger.error(f"Request error fetching roadmaps: {type(e).__name__}: {e}")
+                return []
             except Exception as e:
-                logger.error(f"Failed to fetch curated roadmaps: {e}")
+                logger.error(f"Unexpected error fetching roadmaps: {type(e).__name__}: {e}")
                 return []
     
     async def fetch_roadmap_details(self, slug: str) -> Dict[str, Any]:

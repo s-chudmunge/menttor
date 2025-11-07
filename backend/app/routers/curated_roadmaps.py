@@ -60,9 +60,12 @@ async def get_cached_response(cache_key: str) -> Optional[Dict]:
     """Get cached response from Redis"""
     try:
         with get_redis_client() as redis_client:
-            cached_data = redis_client.get(cache_key)
-            if cached_data:
-                return json.loads(cached_data)
+            if redis_client:  # Check if Redis is available
+                cached_data = redis_client.get(cache_key)
+                if cached_data:
+                    return json.loads(cached_data)
+            else:
+                logger.debug("Redis unavailable, skipping cache read")
     except Exception as e:
         logger.warning(f"Redis cache read failed: {e}")
     return None
@@ -71,14 +74,17 @@ async def set_cached_response(cache_key: str, data, ttl: int = 1800) -> None:
     """Set cached response in Redis with TTL (default 30 minutes)"""
     try:
         with get_redis_client() as redis_client:
-            # Convert Pydantic models to dict to avoid serialization issues
-            if hasattr(data, 'model_dump'):
-                serializable_data = data.model_dump()
-            elif isinstance(data, list) and data and hasattr(data[0], 'model_dump'):
-                serializable_data = [item.model_dump() for item in data]
+            if redis_client:  # Check if Redis is available
+                # Convert Pydantic models to dict to avoid serialization issues
+                if hasattr(data, 'model_dump'):
+                    serializable_data = data.model_dump()
+                elif isinstance(data, list) and data and hasattr(data[0], 'model_dump'):
+                    serializable_data = [item.model_dump() for item in data]
+                else:
+                    serializable_data = data
+                redis_client.setex(cache_key, ttl, json.dumps(serializable_data, default=str))
             else:
-                serializable_data = data
-            redis_client.setex(cache_key, ttl, json.dumps(serializable_data, default=str))
+                logger.debug("Redis unavailable, skipping cache write")
     except Exception as e:
         logger.warning(f"Redis cache write failed: {e}")
 
@@ -7440,7 +7446,14 @@ async def browse_curated_roadmaps(
     query = query.offset(offset).limit(per_page)
     
     roadmaps = db.exec(query).all()
-    
+
+    logger.info(f"Browse curated roadmaps query returned {len(roadmaps)} roadmaps")
+
+    if len(roadmaps) == 0:
+        # Check if there are ANY roadmaps in the database
+        total_count = db.exec(select(func.count(CuratedRoadmap.id))).first()
+        logger.warning(f"No roadmaps returned. Total in DB: {total_count}, Filters: category={category}, subcategory={subcategory}, difficulty={difficulty}, featured_only={featured_only}, search={search}")
+
     response_data = [
         CuratedRoadmapListResponse(
             id=roadmap.id,
