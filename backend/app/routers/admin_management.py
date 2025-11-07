@@ -1,12 +1,14 @@
 """
-Admin management router for setting up admin users with Firebase claims.
+Admin management router for setting up admin users with Supabase.
 This is a one-time setup router that can be disabled after initial configuration.
 """
 from fastapi import APIRouter, HTTPException, status, Depends
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from pydantic import BaseModel
-from utils.firebase_admin_utils import set_admin_claims, ensure_user_has_admin_claims
 from utils.secret_manager import get_admin_credentials
+from sqlmodel import Session, select
+from database.session import get_db
+from sql_models import User
 import secrets
 import logging
 
@@ -19,7 +21,7 @@ security = HTTPBasic()
 SETUP_USERNAME, SETUP_PASSWORD = get_admin_credentials()
 
 class AdminSetupRequest(BaseModel):
-    firebase_uid: str
+    supabase_uid: str
     email: str
 
 def verify_setup_credentials(credentials: HTTPBasicCredentials = Depends(security)):
@@ -38,35 +40,47 @@ def verify_setup_credentials(credentials: HTTPBasicCredentials = Depends(securit
 @router.post("/create-admin")
 async def create_admin_user(
     request: AdminSetupRequest,
-    _: str = Depends(verify_setup_credentials)
+    _: str = Depends(verify_setup_credentials),
+    db: Session = Depends(get_db)
 ):
     """
-    Set admin claims for a Firebase user.
+    Grant admin privileges to a Supabase user.
     This endpoint should only be used during initial setup.
-    
+
     Usage:
-    1. User creates account normally through Firebase Auth
-    2. Admin uses this endpoint with the user's Firebase UID to grant admin privileges
-    3. User can then access admin panels using their Firebase token
+    1. User creates account normally through Supabase Auth
+    2. Admin uses this endpoint with the user's Supabase UID to grant admin privileges
+    3. User can then access admin panels using their Supabase token
     """
     try:
-        success = await set_admin_claims(request.firebase_uid, True)
-        
-        if success:
-            logger.info(f"Successfully granted admin privileges to {request.email} ({request.firebase_uid})")
-            return {
-                "success": True,
-                "message": f"Admin privileges granted to {request.email}",
-                "firebase_uid": request.firebase_uid
-            }
-        else:
+        # Find user by Supabase UID
+        user = db.exec(select(User).where(User.supabase_uid == request.supabase_uid)).first()
+
+        if not user:
             raise HTTPException(
-                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                detail="Failed to set admin claims"
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"User with Supabase UID {request.supabase_uid} not found"
             )
-            
+
+        # Grant admin privileges
+        user.is_admin = True
+        db.add(user)
+        db.commit()
+        db.refresh(user)
+
+        logger.info(f"Successfully granted admin privileges to {request.email} ({request.supabase_uid})")
+        return {
+            "success": True,
+            "message": f"Admin privileges granted to {request.email}",
+            "supabase_uid": request.supabase_uid,
+            "user_id": user.id
+        }
+
+    except HTTPException:
+        raise
     except Exception as e:
         logger.error(f"Error creating admin user: {e}")
+        db.rollback()
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Failed to create admin user: {str(e)}"
@@ -75,27 +89,39 @@ async def create_admin_user(
 @router.post("/revoke-admin")
 async def revoke_admin_user(
     request: AdminSetupRequest,
-    _: str = Depends(verify_setup_credentials)
+    _: str = Depends(verify_setup_credentials),
+    db: Session = Depends(get_db)
 ):
-    """Revoke admin claims from a Firebase user."""
+    """Revoke admin privileges from a Supabase user."""
     try:
-        success = await set_admin_claims(request.firebase_uid, False)
-        
-        if success:
-            logger.info(f"Successfully revoked admin privileges from {request.email} ({request.firebase_uid})")
-            return {
-                "success": True,
-                "message": f"Admin privileges revoked from {request.email}",
-                "firebase_uid": request.firebase_uid
-            }
-        else:
+        # Find user by Supabase UID
+        user = db.exec(select(User).where(User.supabase_uid == request.supabase_uid)).first()
+
+        if not user:
             raise HTTPException(
-                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                detail="Failed to revoke admin claims"
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"User with Supabase UID {request.supabase_uid} not found"
             )
-            
+
+        # Revoke admin privileges
+        user.is_admin = False
+        db.add(user)
+        db.commit()
+        db.refresh(user)
+
+        logger.info(f"Successfully revoked admin privileges from {request.email} ({request.supabase_uid})")
+        return {
+            "success": True,
+            "message": f"Admin privileges revoked from {request.email}",
+            "supabase_uid": request.supabase_uid,
+            "user_id": user.id
+        }
+
+    except HTTPException:
+        raise
     except Exception as e:
         logger.error(f"Error revoking admin user: {e}")
+        db.rollback()
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Failed to revoke admin user: {str(e)}"
@@ -106,10 +132,10 @@ async def get_setup_instructions():
     """Get instructions for setting up admin users."""
     return {
         "instructions": [
-            "1. Create a regular user account through Firebase Auth (sign up normally)",
-            "2. Get the user's Firebase UID from the Firebase console or user profile",
+            "1. Create a regular user account through Supabase Auth (sign up normally)",
+            "2. Get the user's Supabase UID from the Supabase dashboard or user profile",
             "3. Use POST /admin-setup/create-admin with HTTP Basic Auth and the user's UID",
-            "4. The user can now access admin panels using their Firebase token",
+            "4. The user can now access admin panels using their Supabase token",
             "5. For security, disable or remove this setup router after configuration"
         ],
         "example_request": {
@@ -117,7 +143,7 @@ async def get_setup_instructions():
             "url": "/admin-setup/create-admin",
             "auth": "HTTP Basic Auth (use Secret Manager credentials)",
             "body": {
-                "firebase_uid": "user-firebase-uid-here",
+                "supabase_uid": "user-supabase-uid-here",
                 "email": "admin@example.com"
             }
         }

@@ -21,7 +21,8 @@ class UserRead(UserBase):
 
 class User(UserBase, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
-    firebase_uid: Optional[str] = Field(default=None, unique=True, index=True)
+    supabase_uid: Optional[str] = Field(default=None, unique=True, index=True)
+    firebase_uid: Optional[str] = Field(default=None, unique=True, index=True)  # Keep for migration
     hashed_password: Optional[str] = ""
 
 class GoalBase(SQLModel):

@@ -74,7 +74,7 @@ async def get_user_stats(
 ) -> Dict[str, Any]:
     """Get database usage statistics for a specific user"""
     # Users can only see their own stats, admins can see any user's stats
-    if current_user.firebase_uid != user_id and not current_user.is_admin:
+    if current_user.supabase_uid != user_id and not current_user.is_admin:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Access denied"

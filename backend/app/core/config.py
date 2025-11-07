@@ -28,8 +28,16 @@ class Settings(BaseSettings):
     DATABASE_ECHO: bool = False
     AT_RISK_THRESHOLD: float = 0.2
     DEFAULT_QUIZ_TIME_LIMIT: int = 10
-    GOOGLE_CLIENT_ID: str
-    GOOGLE_CLIENT_SECRET: str
+
+    # Supabase Configuration
+    SUPABASE_URL: Optional[str] = None
+    SUPABASE_KEY: Optional[str] = None
+    SUPABASE_SERVICE_KEY: Optional[str] = None  # For admin operations
+
+    # Google OAuth (Optional - for legacy support)
+    GOOGLE_CLIENT_ID: Optional[str] = None
+    GOOGLE_CLIENT_SECRET: Optional[str] = None
+
     HUGGINGFACE_HUB_TOKEN: Optional[str] = None
     HF_API_TOKEN: Optional[str] = None
     DISABLE_IMAGE_GENERATION: bool = False  # Set to True to disable image generation temporarily
@@ -49,7 +57,7 @@ class Settings(BaseSettings):
     # Learning Resources Model - using Google Gemma free model
     DEFAULT_LEARNING_RESOURCES_MODEL: str = "openrouter:google/gemma-3n-e2b-it:free"
 
-    FIREBASE_CREDENTIALS: Optional[str] = None
+    FIREBASE_CREDENTIALS: Optional[str] = None  # Legacy - can be removed after migration
     
     CORS_ALLOWED_ORIGINS: str = Field(
         default="http://localhost:3000,http://localhost:3001,http://127.0.0.1:3000,http://127.0.0.1:3001,https://menttor.live,https://www.menttor.live,http://menttor.live,http://www.menttor.live",

@@ -8,47 +8,17 @@ from sql_models import User
 from schemas import TokenData
 from .config import settings
 from database.session import get_db
+from .supabase_client import supabase
 
 import logging
-import json
-import firebase_admin
-from firebase_admin import credentials, auth
 from services.email_service import email_service
 
 logger = logging.getLogger(__name__)
 
-# Initialize Firebase Admin SDK
-# Check if Firebase app is already initialized to avoid re-initialization errors
-if not firebase_admin._apps:
-    try:
-        firebase_creds = settings.FIREBASE_CREDENTIALS
-        
-        if not firebase_creds:
-            logger.error("❌ FIREBASE_CREDENTIALS environment variable is not set")
-            raise ValueError("FIREBASE_CREDENTIALS is required")
-        
-        # Parse JSON string from environment variable
-        try:
-            cred_dict = json.loads(firebase_creds)
-            cred = credentials.Certificate(cred_dict)
-            firebase_admin.initialize_app(cred)
-            logger.info("✅ Firebase Admin SDK initialized successfully from JSON credentials.")
-        except json.JSONDecodeError as e:
-            logger.error(f"❌ Failed to parse FIREBASE_CREDENTIALS JSON: {e}")
-            raise ValueError(f"Invalid JSON in FIREBASE_CREDENTIALS: {e}")
-        except Exception as e:
-            logger.error(f"❌ Failed to create Firebase credentials: {e}")
-            raise
-            
-    except Exception as e:
-        logger.error(f"❌ Failed to initialize Firebase Admin SDK: {e}")
-        # For Cloud Run, we need Firebase to work - don't continue without it
-        raise RuntimeError(f"Firebase initialization is required for authentication: {e}")
-
 async def get_current_user(request: Request, db: Session = Depends(get_db)) -> User:
     from database.cache import query_cache, cache_user_query
     from database.monitor import monitor_query, db_monitor
-    
+
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Could not validate credentials",
@@ -62,16 +32,20 @@ async def get_current_user(request: Request, db: Session = Depends(get_db)) -> U
         raise credentials_exception
 
     token = auth_header.split(" ")[1]
-    
+
 
     try:
-        # Verify Firebase ID token (this is cached by Firebase SDK)
-        decoded_token = auth.verify_id_token(token)
-        uid = decoded_token['uid']
-        email = decoded_token.get('email')
-        logger.debug(f"Auth: Decoded Firebase ID token for UID: {uid}")
+        # Verify Supabase JWT token
+        response = supabase.auth.get_user(token)
+        if not response or not response.user:
+            raise Exception("Invalid token")
+
+        supabase_user = response.user
+        uid = supabase_user.id
+        email = supabase_user.email
+        logger.debug(f"Auth: Decoded Supabase token for UID: {uid}")
     except Exception as e:
-        logger.error(f"Auth: Firebase ID token verification failed: {e}")
+        logger.error(f"Auth: Supabase token verification failed: {e}")
         raise credentials_exception
 
     # Check user cache first (cache user ID only, not the object)
@@ -95,26 +69,27 @@ async def get_current_user(request: Request, db: Session = Depends(get_db)) -> U
 
     # Fetch user from database
     @monitor_query("select", "user")
-    def fetch_user_by_uid(firebase_uid: str) -> Optional[User]:
-        return db.exec(select(User).where(User.firebase_uid == firebase_uid)).first()
-    
+    def fetch_user_by_uid(supabase_uid: str) -> Optional[User]:
+        return db.exec(select(User).where(User.supabase_uid == supabase_uid)).first()
+
     user = fetch_user_by_uid(uid)
     if user is None:
-        # If user doesn't exist in your DB, create them (optional, depending on your flow)
-        # Or raise an error if all users must pre-exist in your DB
-        logger.warning(f"Auth: User with Firebase UID {uid} not found in database. Attempting to create.")
+        # If user doesn't exist in your DB, create them
+        logger.warning(f"Auth: User with Supabase UID {uid} not found in database. Attempting to create.")
         try:
-            # Handle phone authentication where email might be None
-            user_email = email if email else f"{uid}@phone.auth"  # Generate placeholder email for phone auth
-            # For phone auth users, mark profile as incomplete so they complete onboarding
-            profile_completed = bool(email)  # Only complete if we have a real email
+            # Get user metadata from Supabase
+            user_metadata = supabase_user.user_metadata or {}
+            display_name = user_metadata.get('full_name') or user_metadata.get('name')
+
+            # Create new user
+            profile_completed = bool(email)
             new_user = User(
-                firebase_uid=uid, 
-                email=user_email, 
-                is_active=True, 
-                hashed_password=None, 
+                supabase_uid=uid,
+                email=email or f"{uid}@temp.user",
+                is_active=True,
+                hashed_password=None,
                 is_admin=False,
-                display_name=decoded_token.get('name'),
+                display_name=display_name,
                 profile_completed=profile_completed,
                 onboarding_completed=profile_completed
             )
@@ -122,18 +97,15 @@ async def get_current_user(request: Request, db: Session = Depends(get_db)) -> U
             db.commit()
             db.refresh(new_user)
             user = new_user
-            logger.info(f"Auth: New user created in DB with UID: {uid}, Email: {user_email}")
-            
-            # Send welcome email to new users (async, don't wait for it)
+            logger.info(f"Auth: New user created in DB with UID: {uid}, Email: {email}")
+
+            # Send welcome email to new users
             try:
-                # Only send welcome email if it's a real email (not phone auth)
-                if email and not user_email.endswith("@phone.auth"):
-                    # Use sync version to avoid async complications in auth flow
-                    email_service.send_welcome_email_sync(user_email, decoded_token.get('name'))
-                    logger.info(f"Welcome email queued for new user: {user_email}")
+                if email:
+                    email_service.send_welcome_email_sync(email, display_name)
+                    logger.info(f"Welcome email queued for new user: {email}")
             except Exception as e:
-                # Don't fail user creation if email fails
-                logger.warning(f"Failed to send welcome email to {user_email}: {e}")
+                logger.warning(f"Failed to send welcome email to {email}: {e}")
         except Exception as e:
             logger.error(f"Auth: Failed to create new user in DB: {e}")
             raise HTTPException(
@@ -142,7 +114,7 @@ async def get_current_user(request: Request, db: Session = Depends(get_db)) -> U
             )
 
     if user.id is None:
-        logger.error(f"Auth: Critical error: User object returned with None ID after authentication/creation for Firebase UID: {uid}. This indicates a database or ORM issue.")
+        logger.error(f"Auth: Critical error: User object returned with None ID after authentication/creation for Supabase UID: {uid}.")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="Internal server error: User ID could not be determined.",
@@ -150,19 +122,22 @@ async def get_current_user(request: Request, db: Session = Depends(get_db)) -> U
 
     # Cache the user ID for future requests (5 minutes TTL)
     query_cache.set(user_cache_key, user.id, ttl=300)
-    
+
     logger.info(f"Auth: Successfully authenticated user: {user.email}, ID: {user.id}")
     return user
 
 async def get_current_user_from_websocket(token: str, db: Session) -> Optional[User]:
+    """Get current user from WebSocket connection using Supabase token."""
     if not token:
         return None
     try:
-        decoded_token = auth.verify_id_token(token)
-        uid = decoded_token['uid']
-        email = decoded_token.get('email')
+        response = supabase.auth.get_user(token)
+        if not response or not response.user:
+            return None
+
+        uid = response.user.id
     except Exception:
         return None
-    
-    user = db.exec(select(User).where(User.firebase_uid == uid)).first()
+
+    user = db.exec(select(User).where(User.supabase_uid == uid)).first()
     return user

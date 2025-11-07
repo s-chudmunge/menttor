@@ -6,8 +6,6 @@ from core.config import settings
 import base64
 import hashlib
 import re
-from vertexai import init
-from vertexai.preview.vision_models import ImageGenerationModel
 
 logger = logging.getLogger(__name__)
 
@@ -16,19 +14,7 @@ class UniversalImageGenerator:
     
     def __init__(self):
         self.session = None
-        self._vertex_initialized = False
-        self._imagen_model = None
-        
-        # Initialize Vertex AI
-        if settings.VERTEX_AI_PROJECT_ID and settings.VERTEX_AI_REGION:
-            try:
-                init(project=settings.VERTEX_AI_PROJECT_ID, location=settings.VERTEX_AI_REGION)
-                self._imagen_model = ImageGenerationModel.from_pretrained("imagegeneration@006")
-                self._vertex_initialized = True
-                logger.info("Universal image generator ready")
-            except Exception as e:
-                logger.error(f"Failed to initialize Vertex AI: {e}")
-                self._vertex_initialized = False
+        logger.info("Universal image generator ready (SVG fallback mode)")
     
     async def __aenter__(self):
         self.session = aiohttp.ClientSession()
@@ -276,54 +262,6 @@ class UniversalImageGenerator:
         
         return 'technical education'
     
-    async def _generate_with_vertex_ai(self, concept: str, content: str, subject: str = None, subtopic_title: str = None, roadmap_category: str = None) -> Dict[str, Any]:
-        """Enhanced Vertex AI generation with rich contextual prompts."""
-        
-        # Generate contextually rich prompt
-        prompt, negative_prompt = self._create_learning_prompt(concept, content, subject, subtopic_title, roadmap_category)
-        
-        logger.info(f"Generating with prompt: {prompt}")
-        
-        try:
-            # Generate with optimized settings for speed
-            response = self._imagen_model.generate_images(
-                prompt=prompt,
-                negative_prompt=negative_prompt,
-                number_of_images=1,
-                aspect_ratio="1:1",
-                safety_filter_level="block_few",  # Faster than block_some
-                person_generation="dont_allow"
-            )
-            
-            if response.images:
-                image = response.images[0]
-                
-                # Fast image processing
-                if hasattr(image, '_image_bytes'):
-                    image_bytes = image._image_bytes
-                else:
-                    import io
-                    img_buffer = io.BytesIO()
-                    image.save(img_buffer)
-                    image_bytes = img_buffer.getvalue()
-                
-                # Encode to base64
-                image_base64 = base64.b64encode(image_bytes).decode('utf-8')
-                image_data_url = f"data:image/png;base64,{image_base64}"
-                
-                return {
-                    "url": image_data_url,
-                    "prompt": prompt,
-                    "model": "vertex-ai-imagen-optimized",
-                    "concept": concept,
-                    "type": self._detect_content_type(content)
-                }
-            else:
-                raise Exception("No images generated")
-                
-        except Exception as e:
-            logger.error(f"Generation failed: {e}")
-            raise e
     
     def _create_fallback_svg(self, concept: str, content: str) -> Dict[str, Any]:
         """Simple SVG fallback for the concept."""
@@ -615,8 +553,8 @@ class UniversalImageGenerator:
 </svg>'''
     
     async def generate_learning_image(
-        self, 
-        concept: str, 
+        self,
+        concept: str,
         content: str,
         subject: str = None,
         subtopic_title: str = None,
@@ -624,21 +562,8 @@ class UniversalImageGenerator:
         width: int = 512,
         height: int = 512
     ) -> Optional[Dict[str, Any]]:
-        """Generate educational image optimized for learning, speed, and cost."""
-        
-        try:
-            # Try Vertex AI first (with timeout for speed)
-            if self._vertex_initialized and self._imagen_model:
-                return await asyncio.wait_for(
-                    self._generate_with_vertex_ai(concept, content, subject, subtopic_title, roadmap_category),
-                    timeout=15.0  # 15 second timeout for speed
-                )
-        except asyncio.TimeoutError:
-            logger.warning("AI generation timeout, using fallback")
-        except Exception as e:
-            logger.error(f"AI generation failed: {e}")
-        
-        # Fast SVG fallback
+        """Generate educational image using SVG fallback."""
+        # Use SVG fallback for fast, reliable image generation
         return self._create_fallback_svg(concept, content)
 
 

@@ -33,9 +33,9 @@ def get_user_by_id(user_id: int, db: Session = Depends(get_db), current_user: Us
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
     return user
 
-@router.get("/users/by-firebase-uid/{firebase_uid}", response_model=User)
-def get_user_by_firebase_uid(firebase_uid: str, db: Session = Depends(get_db)):
-    user = db.exec(select(User).where(User.firebase_uid == firebase_uid)).first()
+@router.get("/users/by-supabase-uid/{supabase_uid}", response_model=User)
+def get_user_by_supabase_uid(supabase_uid: str, db: Session = Depends(get_db)):
+    user = db.exec(select(User).where(User.supabase_uid == supabase_uid)).first()
     if not user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
     return user
