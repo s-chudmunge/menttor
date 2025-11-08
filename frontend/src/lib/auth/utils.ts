@@ -1,42 +1,42 @@
-// @ts-nocheck
-import { auth } from '../firebase/client';
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signOut as firebaseSignOut,
-  onAuthStateChanged,
-  GoogleAuthProvider,
-  GithubAuthProvider,
-  signInWithPopup,
-  User,
-  RecaptchaVerifier,
-  signInWithPhoneNumber,
-  sendPasswordResetEmail,
-  confirmPasswordReset,
-  verifyPasswordResetCode,
-} from 'firebase/auth';
+import { supabase } from '../supabase/client';
+import type { User, AuthError } from '@supabase/supabase-js';
 
-// Sign Up
-export const signUp = async (email, password) => {
-  return createUserWithEmailAndPassword(auth, email, password);
+// Sign Up with Email
+export const signUp = async (email: string, password: string) => {
+  const { data, error } = await supabase.auth.signUp({
+    email,
+    password,
+  });
+
+  if (error) throw error;
+  return data;
 };
 
-// Sign In
-export const signIn = async (email, password) => {
-  return signInWithEmailAndPassword(auth, email, password);
+// Sign In with Email
+export const signIn = async (email: string, password: string) => {
+  const { data, error } = await supabase.auth.signInWithPassword({
+    email,
+    password,
+  });
+
+  if (error) throw error;
+  return data;
 };
 
 // Sign Out
 export const signOut = async () => {
-  return firebaseSignOut(auth);
+  const { error } = await supabase.auth.signOut();
+  if (error) throw error;
 };
 
 // Password Reset - Send reset email
-export const sendPasswordReset = async (email) => {
+export const sendPasswordReset = async (email: string) => {
   try {
-    await sendPasswordResetEmail(auth, email, {
-      url: `${window.location.origin}/auth/reset-password`,
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/auth/reset-password`,
     });
+
+    if (error) throw error;
     return { success: true };
   } catch (error) {
     console.error('Error sending password reset email:', error);
@@ -44,21 +44,14 @@ export const sendPasswordReset = async (email) => {
   }
 };
 
-// Verify password reset code
-export const verifyResetCode = async (code) => {
-  try {
-    const email = await verifyPasswordResetCode(auth, code);
-    return { email, valid: true };
-  } catch (error) {
-    console.error('Error verifying password reset code:', error);
-    throw error;
-  }
-};
-
 // Confirm password reset with new password
-export const confirmPasswordResetWithCode = async (code, newPassword) => {
+export const confirmPasswordResetWithCode = async (newPassword: string) => {
   try {
-    await confirmPasswordReset(auth, code, newPassword);
+    const { error } = await supabase.auth.updateUser({
+      password: newPassword,
+    });
+
+    if (error) throw error;
     return { success: true };
   } catch (error) {
     console.error('Error confirming password reset:', error);
@@ -68,41 +61,55 @@ export const confirmPasswordResetWithCode = async (code, newPassword) => {
 
 // Google Sign In
 export const googleSignIn = async () => {
-  const provider = new GoogleAuthProvider();
-  return signInWithPopup(auth, provider);
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: 'google',
+    options: {
+      redirectTo: `${window.location.origin}/auth/callback`,
+    },
+  });
+
+  if (error) throw error;
+  return data;
 };
 
 // GitHub Sign In
 export const githubSignIn = async () => {
-  const provider = new GithubAuthProvider();
-  return signInWithPopup(auth, provider);
-};
-
-// Phone Sign In - Set up reCAPTCHA and send OTP
-export const setUpRecaptcha = (containerId = 'recaptcha-container') => {
-  const recaptchaVerifier = new RecaptchaVerifier(auth, containerId, {
-    'size': 'invisible',
-    'callback': (response) => {
-      // reCAPTCHA solved, allow signInWithPhoneNumber
-    }
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: 'github',
+    options: {
+      redirectTo: `${window.location.origin}/auth/callback`,
+    },
   });
-  return recaptchaVerifier;
+
+  if (error) throw error;
+  return data;
 };
 
-export const sendOTP = async (phoneNumber, recaptchaVerifier) => {
+// Phone Sign In - Supabase handles OTP automatically
+export const sendOTP = async (phoneNumber: string) => {
   try {
-    const confirmationResult = await signInWithPhoneNumber(auth, phoneNumber, recaptchaVerifier);
-    return confirmationResult;
+    const { data, error } = await supabase.auth.signInWithOtp({
+      phone: phoneNumber,
+    });
+
+    if (error) throw error;
+    return data;
   } catch (error) {
     console.error('Error sending OTP:', error);
     throw error;
   }
 };
 
-export const verifyOTP = async (confirmationResult, otp) => {
+export const verifyOTP = async (phoneNumber: string, token: string) => {
   try {
-    const result = await confirmationResult.confirm(otp);
-    return result;
+    const { data, error } = await supabase.auth.verifyOtp({
+      phone: phoneNumber,
+      token,
+      type: 'sms',
+    });
+
+    if (error) throw error;
+    return data;
   } catch (error) {
     console.error('Error verifying OTP:', error);
     throw error;
@@ -110,15 +117,16 @@ export const verifyOTP = async (confirmationResult, otp) => {
 };
 
 // Get Current User
-export const getCurrentUser = (): Promise<User | null> => {
-  return new Promise((resolve, reject) => {
-    const unsubscribe = onAuthStateChanged(
-      auth,
-      (user) => {
-        unsubscribe();
-        resolve(user);
-      },
-      reject
-    );
-  });
+export const getCurrentUser = async (): Promise<User | null> => {
+  const { data: { user } } = await supabase.auth.getUser();
+  return user;
 };
+
+// Helper function to get the current session
+export const getSession = async () => {
+  const { data: { session } } = await supabase.auth.getSession();
+  return session;
+};
+
+// Note: Supabase doesn't require reCAPTCHA setup like Firebase
+// The setUpRecaptcha function is removed as Supabase handles bot protection internally

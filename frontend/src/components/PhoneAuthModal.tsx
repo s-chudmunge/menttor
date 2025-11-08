@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { setUpRecaptcha, sendOTP, verifyOTP } from '../lib/auth/utils';
+import React, { useState } from 'react';
+import { sendOTP, verifyOTP } from '../lib/auth/utils';
 import { ArrowLeft } from 'lucide-react';
 
 interface PhoneAuthModalProps {
@@ -15,25 +15,6 @@ const PhoneAuthModal: React.FC<PhoneAuthModalProps> = ({ onSuccess, onError, onB
   const [phoneNumber, setPhoneNumber] = useState('');
   const [otp, setOtp] = useState('');
   const [loading, setLoading] = useState(false);
-  const [confirmationResult, setConfirmationResult] = useState<any>(null);
-  const [recaptchaVerifier, setRecaptchaVerifier] = useState<any>(null);
-
-  useEffect(() => {
-    // Initialize reCAPTCHA when component mounts
-    try {
-      const verifier = setUpRecaptcha('phone-recaptcha-container');
-      setRecaptchaVerifier(verifier);
-    } catch (error) {
-      console.error('Error setting up reCAPTCHA:', error);
-    }
-
-    // Cleanup on unmount
-    return () => {
-      if (recaptchaVerifier) {
-        recaptchaVerifier.clear();
-      }
-    };
-  }, []);
 
   const formatPhoneNumber = (phone: string) => {
     // Add country code if not present
@@ -53,8 +34,7 @@ const PhoneAuthModal: React.FC<PhoneAuthModalProps> = ({ onSuccess, onError, onB
     setLoading(true);
     try {
       const formattedPhone = formatPhoneNumber(phoneNumber);
-      const confirmResult = await sendOTP(formattedPhone, recaptchaVerifier);
-      setConfirmationResult(confirmResult);
+      await sendOTP(formattedPhone);
       setStep('otp');
       onError(''); // Clear any previous errors
     } catch (error: any) {
@@ -74,7 +54,8 @@ const PhoneAuthModal: React.FC<PhoneAuthModalProps> = ({ onSuccess, onError, onB
 
     setLoading(true);
     try {
-      const result = await verifyOTP(confirmationResult, otp);
+      const formattedPhone = formatPhoneNumber(phoneNumber);
+      const result = await verifyOTP(formattedPhone, otp);
       onSuccess(result.user);
     } catch (error: any) {
       console.error('Error verifying OTP:', error);
@@ -87,7 +68,6 @@ const PhoneAuthModal: React.FC<PhoneAuthModalProps> = ({ onSuccess, onError, onB
   const handleBackToPhone = () => {
     setStep('phone');
     setOtp('');
-    setConfirmationResult(null);
     onError('');
   };
 
@@ -230,9 +210,6 @@ const PhoneAuthModal: React.FC<PhoneAuthModalProps> = ({ onSuccess, onError, onB
           </div>
         </div>
       )}
-
-      {/* Hidden reCAPTCHA container */}
-      <div id="phone-recaptcha-container" className="hidden"></div>
     </div>
   );
 };

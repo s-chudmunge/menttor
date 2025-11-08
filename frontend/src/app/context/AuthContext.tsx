@@ -1,14 +1,14 @@
 'use client';
 
 import { createContext, useContext, useEffect, useState } from 'react';
-import { onAuthStateChanged, User } from 'firebase/auth';
-import { auth } from '../../lib/firebase/client';
-import { api } from '../../lib/api'; // Import the API instance
+import type { User } from '@supabase/supabase-js';
+import { supabase } from '../../lib/supabase/client';
+import { api } from '../../lib/api';
 
 interface AuthContextType {
   user: User | null;
-  dbId: number | null; // Add dbId to the context type
-  isAdmin: boolean; // Add admin status to the context type
+  dbId: number | null;
+  isAdmin: boolean;
   loading: boolean;
 }
 
@@ -16,47 +16,56 @@ const AuthContext = createContext<AuthContextType>({ user: null, dbId: null, isA
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
-  const [dbId, setDbId] = useState<number | null>(null); // State for database ID
-  const [isAdmin, setIsAdmin] = useState(false); // State for admin status
+  const [dbId, setDbId] = useState<number | null>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
-      setUser(firebaseUser);
-      if (firebaseUser) {
-        try {
-          // Wait a moment for the token to be available
-          await new Promise(resolve => setTimeout(resolve, 100));
-          // Ensure the user has a valid token before making the API call
-          const token = await firebaseUser.getIdToken(true); // force refresh
-          if (token) {
-            // Fetch the user's database ID using their Firebase UID
-            const response = await api.get(`/auth/me`);
-            setDbId(response.data.id);
-            
-            // Check admin status from Firebase token claims
-            const tokenResult = await firebaseUser.getIdTokenResult();
-            const adminClaim = tokenResult.claims.admin === true;
-            setIsAdmin(adminClaim);
-          } else {
-            console.error("No Firebase token available");
-            setDbId(null);
-            setIsAdmin(false);
-          }
-        } catch (error) {
-          console.error("Error fetching user's database ID:", error);
-          setDbId(null); // Ensure dbId is null on error
-          setIsAdmin(false);
-        }
+    // Get initial session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user ?? null);
+      if (session?.user) {
+        fetchUserData(session.user);
       } else {
-        setDbId(null); // Clear dbId if no Firebase user
-        setIsAdmin(false); // Clear admin status if no Firebase user
+        setLoading(false);
       }
-      setLoading(false);
     });
 
-    return () => unsubscribe();
+    // Listen for auth changes
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange(async (_event, session) => {
+      setUser(session?.user ?? null);
+
+      if (session?.user) {
+        await fetchUserData(session.user);
+      } else {
+        setDbId(null);
+        setIsAdmin(false);
+        setLoading(false);
+      }
+    });
+
+    return () => subscription.unsubscribe();
   }, []);
+
+  const fetchUserData = async (supabaseUser: User) => {
+    try {
+      // Fetch the user's database ID using the API
+      const response = await api.get('/auth/me');
+      setDbId(response.data.id);
+
+      // Check admin status from user metadata or backend
+      const adminStatus = supabaseUser.user_metadata?.admin === true || response.data.is_admin === true;
+      setIsAdmin(adminStatus);
+    } catch (error) {
+      console.error("Error fetching user's database ID:", error);
+      setDbId(null);
+      setIsAdmin(false);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <AuthContext.Provider value={{ user, dbId, isAdmin, loading }}>

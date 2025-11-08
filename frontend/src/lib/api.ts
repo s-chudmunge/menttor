@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { auth } from './firebase/client';
+import { supabase } from './supabase/client';
 
 // Base API URL
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'https://menttor-backend.onrender.com';
@@ -9,22 +9,23 @@ export const api = axios.create({
     withCredentials: true
 });
 
-// Request Interceptor to attach Firebase ID token
+// Request Interceptor to attach Supabase JWT token
 api.interceptors.request.use(async (config) => {
-    const user = auth.currentUser;
-    if (user) {
-        try {
-            const token = await user.getIdToken();
-            config.headers.Authorization = `Bearer ${token}`;
-        } catch (error) {
-            console.error('Failed to get Firebase ID token:', error);
-            // Don't add any authorization header if token fails
+    try {
+        const { data: { session } } = await supabase.auth.getSession();
+
+        if (session?.access_token) {
+            config.headers.Authorization = `Bearer ${session.access_token}`;
+        } else {
+            // If no session, don't add authorization header
             delete config.headers.Authorization;
         }
-    } else {
-        // If no user is logged in, don't add authorization header
+    } catch (error) {
+        console.error('Failed to get Supabase session:', error);
+        // Don't add any authorization header if session fails
         delete config.headers.Authorization;
     }
+
     return config;
 }, (error) => {
     return Promise.reject(error);
@@ -42,7 +43,7 @@ api.interceptors.response.use(
         } else if (error.response?.status >= 500) {
             console.error('API Server error:', error.response?.status, error.config?.url);
         }
-        
+
         return Promise.reject(error);
     }
 );
@@ -151,7 +152,7 @@ export interface LearningContentResponse {
     subtopic?: string;
     subtopic_id?: string;
     roadmap_id?: number;
-    
+
     // Enhanced fields for save/share functionality
     is_saved: boolean;
     is_generated: boolean;
@@ -236,7 +237,7 @@ export const saveGeneratedLearnPage = async (contentData: LearningContentRespons
 };
 
 export const getUserSavedLearnPages = async (roadmapId?: number) => {
-  const endpoint = roadmapId 
+  const endpoint = roadmapId
     ? `/ml/learn/saved/user?roadmap_id=${roadmapId}`
     : '/ml/learn/saved/user';
   const response = await api.get(endpoint);
@@ -260,18 +261,18 @@ export const getNextSubtopic = async (roadmapId: number, currentSubtopicId: stri
   try {
     const response = await api.get(`/roadmaps/${roadmapId}`);
     const roadmap = response.data;
-    
+
     if (!roadmap?.roadmap_plan) return null;
-    
+
     let foundCurrent = false;
-    
+
     // Iterate through roadmap to find current subtopic and return the next one
     for (const module of roadmap.roadmap_plan) {
       if (!module.topics) continue;
-      
+
       for (const topic of module.topics) {
         if (!topic.subtopics) continue;
-        
+
         for (const subtopic of topic.subtopics) {
           if (foundCurrent) {
             // Return the next subtopic after finding current
@@ -283,18 +284,17 @@ export const getNextSubtopic = async (roadmapId: number, currentSubtopicId: stri
               status: 'available'
             };
           }
-          
+
           if (subtopic.id === currentSubtopicId) {
             foundCurrent = true;
           }
         }
       }
     }
-    
+
     return null; // No next subtopic found
   } catch (error) {
     console.error('Error getting next subtopic:', error);
     return null;
   }
 };
-
