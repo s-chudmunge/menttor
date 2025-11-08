@@ -7,7 +7,7 @@ export const useRecommendedReviews = () => {
     const { user, loading } = useAuth();
 
     return useQuery<RecommendedReview[], Error>({
-        queryKey: ['recommendedReviews', user?.uid],
+        queryKey: ['recommendedReviews', user?.id],
         queryFn: async () => {
             if (!user) {
                 throw new Error('User not authenticated');

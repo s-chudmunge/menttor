@@ -22,7 +22,7 @@ export default function ProfilePage() {
   const [activeTab, setActiveTab] = useState('profile');
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
-    displayName: user?.displayName || '',
+    displayName: user?.user_metadata?.display_name || '',
     email: user?.email || '',
     preferences: {
       notifications: true,
@@ -56,7 +56,7 @@ export default function ProfilePage() {
 
   const handleCancel = () => {
     setFormData({
-      displayName: user?.displayName || '',
+      displayName: user?.user_metadata?.display_name || '',
       email: user?.email || '',
       preferences: formData.preferences
     });
@@ -134,10 +134,10 @@ export default function ProfilePage() {
             <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-4 lg:p-6">
               <div className="flex lg:flex-col lg:items-start items-center space-x-3 lg:space-x-0 mb-6">
                 <div className="w-12 h-12 lg:w-16 lg:h-16 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold text-lg lg:text-xl lg:mb-3">
-                  {getInitials(user.displayName, user.email)}
+                  {getInitials(user.user_metadata?.display_name || null, user.email || null)}
                 </div>
                 <div className="lg:text-center">
-                  <h3 className="font-semibold text-gray-900 dark:text-white text-sm lg:text-base">{user.displayName || 'User'}</h3>
+                  <h3 className="font-semibold text-gray-900 dark:text-white text-sm lg:text-base">{user.user_metadata?.display_name || user.email?.split('@')[0] || 'User'}</h3>
                   <p className="text-xs lg:text-sm text-gray-500 dark:text-gray-400 truncate lg:whitespace-normal">{user.email}</p>
                 </div>
               </div>
@@ -182,7 +182,7 @@ export default function ProfilePage() {
                           className="w-full px-3 py-2 text-sm lg:text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                         />
                       ) : (
-                        <p className="text-sm lg:text-base text-gray-900 dark:text-white">{user.displayName || 'Not set'}</p>
+                        <p className="text-sm lg:text-base text-gray-900 dark:text-white">{user.user_metadata?.display_name || 'Not set'}</p>
                       )}
                     </div>
                     

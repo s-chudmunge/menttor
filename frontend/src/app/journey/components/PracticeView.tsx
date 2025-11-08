@@ -25,6 +25,7 @@ import { RoadmapData } from '../../../lib/api';
 import { formatSubtopicTitle, formatTitle } from '../utils/textFormatting';
 import { useAuth } from '@/app/context/AuthContext';
 import { api } from '@/lib/api';
+import { supabase } from '@/lib/supabase/client';
 import { auth } from '@/lib/firebase/client';
 import { useRouter } from 'next/navigation';
 
@@ -220,18 +221,12 @@ const PracticeView: React.FC<PracticeViewProps> = ({ roadmapData, progressData }
         goal: roadmapData.goal || roadmapData.description || 'Practice Questions'
       };
 
-      // Get auth token using Firebase (same as api.ts)
-      const user = auth.currentUser;
-      if (!user) {
+      // Get auth token using Supabase (same as api.ts)
+      const { data: { session } } = await supabase.auth.getSession();
+      const token = session?.access_token;
+
+      if (!token) {
         throw new Error('Please log in to start a practice session');
-      }
-      
-      let token;
-      try {
-        token = await user.getIdToken();
-      } catch (error) {
-        console.error('Failed to get Firebase ID token:', error);
-        throw new Error('Authentication failed. Please log in again.');
       }
 
       // Use fetch for streaming instead of axios

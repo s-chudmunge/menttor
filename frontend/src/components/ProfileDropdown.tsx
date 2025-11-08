@@ -105,7 +105,7 @@ export default function ProfileDropdown({ className = '', variant = 'light' }: P
       >
         <div className="relative">
           <div className="w-8 h-8 bg-green-700 rounded-full flex items-center justify-center text-white font-medium text-sm">
-            {getInitials(user.displayName, user.email)}
+            {getInitials(user.user_metadata?.display_name || null, user.email)}
           </div>
           <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 border-2 border-white dark:border-gray-900 rounded-full"></div>
         </div>
@@ -127,13 +127,13 @@ export default function ProfileDropdown({ className = '', variant = 'light' }: P
           }`}>
             <div className="flex items-center space-x-2">
               <div className="w-8 h-8 bg-green-700 rounded-full flex items-center justify-center text-white font-medium text-sm">
-                {getInitials(user.displayName, user.email)}
+                {getInitials(user.user_metadata?.display_name || null, user.email)}
               </div>
               <div className="flex-1 min-w-0">
                 <p className={`text-sm font-medium truncate ${
                   variant === 'dark' ? 'text-white' : 'text-gray-900 dark:text-white'
                 }`}>
-                  {user.displayName || 'User'}
+                  {user.user_metadata?.display_name || user.email?.split('@')[0] || 'User'}
                 </p>
                 <p className={`text-xs truncate ${
                   variant === 'dark' ? 'text-gray-400' : 'text-gray-500 dark:text-gray-400'

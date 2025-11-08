@@ -83,7 +83,7 @@ export default function SessionTracker() {
   useEffect(() => {
     if (user) {
       analytics.featureUsed('authenticated_session_start', {
-        user_method: user.providerData?.[0]?.providerId || 'unknown',
+        user_method: user.app_metadata?.provider || 'unknown',
       });
     }
   }, [user]);

@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { useAuth } from '../context/AuthContext';
 import { useCuratedRoadmaps } from '../../hooks/useCuratedRoadmaps';
 import { BACKEND_URL } from '../../config/config';
+import { supabase } from '../../lib/supabase/client';
 import { 
   BookOpen, 
   Star, 
@@ -419,11 +420,15 @@ const ExplorePage = () => {
     }
 
     try {
+      // Get Supabase session token
+      const { data: { session } } = await supabase.auth.getSession();
+      const token = session?.access_token;
+
       const response = await fetch(`${BACKEND_URL}/curated-roadmaps/${roadmapId}/adopt`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${await user.getIdToken()}`
+          ...(token && { 'Authorization': `Bearer ${token}` })
         },
         body: JSON.stringify({
           curated_roadmap_id: roadmapId

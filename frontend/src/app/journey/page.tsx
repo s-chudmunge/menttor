@@ -90,7 +90,7 @@ const JourneyPage = () => {
 
 
   // Data fetching
-  const { data: userRoadmap, isLoading: isLoadingRoadmap } = useRoadmap(user?.uid);
+  const { data: userRoadmap, isLoading: isLoadingRoadmap } = useRoadmap(user?.id);
   const { data: progressData, refetch: refetchProgress, isLoading: isLoadingProgress, error: progressError } = useProgress(
     roadmapData?.id && typeof roadmapData.id === 'number' ? roadmapData.id : null
   );

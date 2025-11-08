@@ -1,14 +1,14 @@
 'use client';
 
 import { useState, useEffect, Suspense } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import InputField from '@/components/InputField';
 import Button from '@/components/Button';
 import ErrorBanner from '@/components/ErrorBanner';
 import Logo from '../../../../components/Logo';
 import { ArrowRight, CheckCircle, AlertCircle } from 'lucide-react';
-import { verifyResetCode, confirmPasswordResetWithCode } from '@/lib/auth/utils';
+import { confirmPasswordResetWithCode, getCurrentUser } from '@/lib/auth/utils';
 
 function ResetPasswordContent() {
   const [password, setPassword] = useState('');
@@ -19,40 +19,30 @@ function ResetPasswordContent() {
   const [resetComplete, setResetComplete] = useState(false);
   const [userEmail, setUserEmail] = useState('');
   const router = useRouter();
-  const searchParams = useSearchParams();
-
-  const resetCode = searchParams.get('oobCode');
-  const mode = searchParams.get('mode');
 
   useEffect(() => {
-    const verifyCode = async () => {
-      if (!resetCode || mode !== 'resetPassword') {
-        setError('Invalid or missing reset code. Please request a new password reset.');
-        setVerifying(false);
-        return;
-      }
-
+    const checkSession = async () => {
       try {
-        const result = await verifyResetCode(resetCode);
-        setUserEmail(result.email);
-        setVerifying(false);
-      } catch (error: any) {
-        console.error('Error verifying reset code:', error);
-        let errorMessage = 'Invalid or expired reset code. Please request a new password reset.';
-        
-        if (error.code === 'auth/expired-action-code') {
-          errorMessage = 'This reset link has expired. Please request a new password reset.';
-        } else if (error.code === 'auth/invalid-action-code') {
-          errorMessage = 'This reset link is invalid. Please request a new password reset.';
+        // Supabase automatically handles the session from the reset link
+        // Just check if we have a valid user session
+        const user = await getCurrentUser();
+
+        if (user && user.email) {
+          setUserEmail(user.email);
+          setVerifying(false);
+        } else {
+          setError('Invalid or expired reset link. Please request a new password reset.');
+          setVerifying(false);
         }
-        
-        setError(errorMessage);
+      } catch (error: any) {
+        console.error('Error checking session:', error);
+        setError('Invalid or expired reset link. Please request a new password reset.');
         setVerifying(false);
       }
     };
 
-    verifyCode();
-  }, [resetCode, mode]);
+    checkSession();
+  }, []);
 
   const handleResetPassword = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -73,27 +63,22 @@ function ResetPasswordContent() {
       return;
     }
 
-    if (!resetCode) {
-      setError('Reset code is missing. Please request a new password reset.');
-      return;
-    }
-
     setLoading(true);
     try {
-      await confirmPasswordResetWithCode(resetCode, password);
+      await confirmPasswordResetWithCode(password);
       setResetComplete(true);
     } catch (error: any) {
       console.error('Error resetting password:', error);
       let errorMessage = 'Failed to reset password. Please try again.';
-      
-      if (error.code === 'auth/expired-action-code') {
+
+      if (error.message?.includes('expired')) {
         errorMessage = 'This reset link has expired. Please request a new password reset.';
-      } else if (error.code === 'auth/invalid-action-code') {
+      } else if (error.message?.includes('invalid')) {
         errorMessage = 'This reset link is invalid. Please request a new password reset.';
-      } else if (error.code === 'auth/weak-password') {
+      } else if (error.message?.includes('weak')) {
         errorMessage = 'Password is too weak. Please choose a stronger password.';
       }
-      
+
       setError(errorMessage);
     } finally {
       setLoading(false);

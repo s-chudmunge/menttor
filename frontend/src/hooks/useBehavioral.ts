@@ -12,9 +12,9 @@ import { useState, useEffect, useCallback } from 'react';
 
 export const useBehavioralStats = () => {
   const { user, loading } = useAuth();
-  
+
   return useQuery<UserBehaviorStats>({
-    queryKey: ['behavioral-stats', user?.uid],
+    queryKey: ['behavioral-stats', user?.id],
     queryFn: () => behavioralAPI.getUserStats(),
     enabled: !!user && !loading,
     staleTime: 5 * 60 * 1000, // 5 minutes
@@ -38,7 +38,7 @@ export const useXPSystem = () => {
       behavioralAPI.awardXP(activityType, context),
     onSuccess: (data: XPAwardResult) => {
       // Invalidate stats to trigger refetch
-      queryClient.invalidateQueries({ queryKey: ['behavioral-stats', user?.uid] });
+      queryClient.invalidateQueries({ queryKey: ['behavioral-stats', user?.id] });
       
       // Show level up celebration if it occurred
       if (data.level_up_occurred) {
@@ -67,7 +67,7 @@ export const useStreakSystem = () => {
   const updateStreak = useMutation({
     mutationFn: () => behavioralAPI.updateStreak(),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['behavioral-stats', user?.uid] });
+      queryClient.invalidateQueries({ queryKey: ['behavioral-stats', user?.id] });
     }
   });
 

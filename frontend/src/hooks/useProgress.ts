@@ -8,17 +8,17 @@ export const useProgress = (roadmapId: number | null) => {
   const { user, loading } = useAuth();
   
   return useQuery({
-    queryKey: ['progress', roadmapId, user?.uid],
+    queryKey: ['progress', roadmapId, user?.id],
     queryFn: async () => {
       if (!roadmapId || !user) {
         return [];
       }
-      
+
       // Add a small delay to ensure auth token is available
       await new Promise(resolve => setTimeout(resolve, 100));
-      
+
       try {
-        console.log(`🔄 useProgress: Fetching progress for roadmapId: ${roadmapId}, user: ${user?.uid}`);
+        console.log(`🔄 useProgress: Fetching progress for roadmapId: ${roadmapId}, user: ${user?.id}`);
         const response = await api.get(`/progress/${roadmapId}`);
         console.log(`✅ useProgress: Received ${response.data?.length || 0} progress records`);
         if (response.data?.length > 0) {

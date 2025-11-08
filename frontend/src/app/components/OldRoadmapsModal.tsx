@@ -27,7 +27,7 @@ interface OldRoadmapsModalProps {
 
 export default function OldRoadmapsModal({ isOpen, onClose, onLoadRoadmap }: OldRoadmapsModalProps) {
     const { user } = useAuth();
-    const { data: roadmaps, isLoading, error } = useRoadmap(user?.uid);
+    const { data: roadmaps, isLoading, error } = useRoadmap(user?.id);
     const queryClient = useQueryClient();
     
     const [selectedRoadmaps, setSelectedRoadmaps] = useState<Set<number>>(new Set());

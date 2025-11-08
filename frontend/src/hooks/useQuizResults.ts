@@ -7,7 +7,7 @@ export const useQuizResults = () => {
     const { user, loading } = useAuth();
 
     return useInfiniteQuery<any, Error>({
-        queryKey: ['quizResults', user?.uid],
+        queryKey: ['quizResults', user?.id],
         queryFn: async ({ pageParam = 1 }) => {
             const response = await fetchQuizResults({ pageParam });
             return response; // response is now { items: [], total: 0, page: 1, size: 10 }

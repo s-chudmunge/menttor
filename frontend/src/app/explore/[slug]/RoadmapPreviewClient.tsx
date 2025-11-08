@@ -6,6 +6,7 @@ import { useAuth } from '../../context/AuthContext';
 import { useQueryClient } from '@tanstack/react-query';
 import { useCuratedRoadmapDetail } from '../../../hooks/useCuratedRoadmaps';
 import { BACKEND_URL } from '../../../config/config';
+import { supabase } from '../../../lib/supabase/client';
 import { 
   ArrowLeft, 
   Clock, 
@@ -311,11 +312,15 @@ const RoadmapPreviewClient: React.FC<RoadmapPreviewClientProps> = ({ slug: roadm
 
     try {
       setAdopting(true);
+      // Get Supabase session token
+      const { data: { session } } = await supabase.auth.getSession();
+      const token = session?.access_token;
+
       const response = await fetch(`${BACKEND_URL}/curated-roadmaps/${roadmap?.id}/adopt`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${await user.getIdToken()}`
+          ...(token && { 'Authorization': `Bearer ${token}` })
         },
         body: JSON.stringify({
           curated_roadmap_id: roadmap?.id

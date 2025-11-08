@@ -316,7 +316,7 @@ export default function DashboardPage() {
           <div className="flex items-center justify-between mb-4">
             <div>
               <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-                Welcome back, {user.displayName?.split(' ')[0] || 'Learner'}! 👋
+                Welcome back, {user.user_metadata?.display_name?.split(' ')[0] || user.email?.split('@')[0] || 'Learner'}! 👋
               </h1>
               <p className="text-gray-600 dark:text-gray-400">
                 Here's your learning progress and achievements

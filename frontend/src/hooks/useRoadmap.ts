@@ -2,6 +2,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { useAuth } from '@/app/context/AuthContext';
 import { RoadmapData, fetchUserRoadmap } from '../lib/api';
+import { supabase } from '../lib/supabase/client';
 
 export const useRoadmap = (userId: string | undefined) => {
     const { user } = useAuth();
@@ -13,7 +14,11 @@ export const useRoadmap = (userId: string | undefined) => {
                 throw new Error('User not authenticated');
             }
             try {
-                const token = await user.getIdToken();
+                const { data: { session } } = await supabase.auth.getSession();
+                const token = session?.access_token;
+                if (!token) {
+                    throw new Error('No authentication token available');
+                }
                 return fetchUserRoadmap(token as string);
             } catch (error: any) {
                 if (error.response?.status === 401) {
