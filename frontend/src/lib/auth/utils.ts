@@ -59,12 +59,19 @@ export const confirmPasswordResetWithCode = async (newPassword: string) => {
   }
 };
 
+// Get the appropriate redirect URL based on environment
+const getRedirectUrl = () => {
+  // Use NEXT_PUBLIC_SITE_URL if set, otherwise fallback to window.location.origin
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || window.location.origin;
+  return `${siteUrl}/auth/callback`;
+};
+
 // Google Sign In
 export const googleSignIn = async () => {
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: 'google',
     options: {
-      redirectTo: `${window.location.origin}/auth/callback`,
+      redirectTo: getRedirectUrl(),
     },
   });
 
@@ -77,7 +84,7 @@ export const githubSignIn = async () => {
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: 'github',
     options: {
-      redirectTo: `${window.location.origin}/auth/callback`,
+      redirectTo: getRedirectUrl(),
     },
   });
 
