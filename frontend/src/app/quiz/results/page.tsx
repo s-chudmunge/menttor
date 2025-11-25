@@ -152,22 +152,15 @@ const QuizResultsContent = () => {
                         
                         {/* Navigation */}
                         <nav className="hidden lg:flex items-center space-x-1">
-                            <Link 
-                                href="/" 
+                            <Link
+                                href="/"
                                 className="flex items-center space-x-2 px-3 py-2 font-medium transition-colors text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
                             >
                                 <Home className="w-4 h-4" />
                                 <span className="text-sm">Home</span>
                             </Link>
-                            <Link 
-                                href="/explore" 
-                                className="flex items-center space-x-2 px-3 py-2 font-medium transition-colors text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
-                            >
-                                <BookOpen className="w-4 h-4" />
-                                <span className="text-sm">Explore</span>
-                            </Link>
-                            <Link 
-                                href="/journey" 
+                            <Link
+                                href="/journey"
                                 className="flex items-center space-x-2 px-3 py-2 font-medium transition-colors text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
                             >
                                 <Target className="w-4 h-4" />

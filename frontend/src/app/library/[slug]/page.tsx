@@ -124,22 +124,15 @@ export default async function LibraryPage({ params }: { params: { slug: string }
               
               {/* Desktop Navigation */}
               <nav className="hidden md:flex items-center space-x-1">
-                <Link 
-                  href="/" 
+                <Link
+                  href="/"
                   className="flex items-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-colors"
                 >
                   <Home className="w-4 h-4" />
                   <span>Home</span>
                 </Link>
-                <Link 
-                  href="/explore" 
-                  className="flex items-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-colors"
-                >
-                  <BookOpen className="w-4 h-4" />
-                  <span>Explore</span>
-                </Link>
-                <Link 
-                  href="/library" 
+                <Link
+                  href="/library"
                   className="flex items-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-colors"
                 >
                   <BookOpen className="w-4 h-4" />

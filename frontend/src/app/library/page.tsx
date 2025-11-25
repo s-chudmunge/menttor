@@ -207,17 +207,11 @@ export default function LibraryPage() {
               
               {/* Desktop Navigation */}
               <nav className="hidden md:flex items-center space-x-1">
-                <Link 
-                  href="/" 
+                <Link
+                  href="/"
                   className="px-3 py-2 rounded text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-colors"
                 >
                   Home
-                </Link>
-                <Link 
-                  href="/explore" 
-                  className="px-3 py-2 rounded text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-colors"
-                >
-                  Explore
                 </Link>
               </nav>
             </div>

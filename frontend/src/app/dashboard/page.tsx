@@ -509,12 +509,12 @@ export default function DashboardPage() {
                       <div className="text-center py-8">
                         <Target className="w-12 h-12 text-gray-400 dark:text-gray-600 mx-auto mb-4" />
                         <p className="text-gray-600 dark:text-gray-400 mb-4">No active roadmaps yet</p>
-                        <Link 
-                          href="/explore"
+                        <Link
+                          href="/library"
                           className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium"
                         >
                           <Plus className="w-4 h-4 mr-2" />
-                          Explore Roadmaps
+                          Browse Library
                         </Link>
                       </div>
                     )}
@@ -533,8 +533,8 @@ export default function DashboardPage() {
                       <Lightbulb className="w-5 h-5 text-yellow-500" />
                       <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Recommended for You</h3>
                     </div>
-                    <Link 
-                      href="/explore"
+                    <Link
+                      href="/library"
                       className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 text-sm font-medium flex items-center"
                     >
                       See More <ChevronRight className="w-4 h-4 ml-1" />
@@ -580,12 +580,12 @@ export default function DashboardPage() {
                       <div className="text-center py-8">
                         <BookOpen className="w-12 h-12 text-gray-400 dark:text-gray-600 mx-auto mb-4" />
                         <p className="text-gray-600 dark:text-gray-400 mb-4">Start learning to get personalized recommendations</p>
-                        <Link 
-                          href="/explore"
+                        <Link
+                          href="/library"
                           className="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm font-medium"
                         >
                           <Eye className="w-4 h-4 mr-2" />
-                          Explore All Roadmaps
+                          Browse All Roadmaps
                         </Link>
                       </div>
                     )}
@@ -713,12 +713,12 @@ export default function DashboardPage() {
                       <Target className="w-16 h-16 text-gray-400 dark:text-gray-600 mx-auto mb-4" />
                       <h4 className="text-lg font-medium text-gray-900 dark:text-white mb-2">No Learning Progress Yet</h4>
                       <p className="text-gray-600 dark:text-gray-400 mb-6">Start your first roadmap to track your progress</p>
-                      <Link 
-                        href="/explore"
+                      <Link
+                        href="/library"
                         className="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all duration-200 font-semibold shadow-lg hover:shadow-xl"
                       >
                         <BookOpen className="w-4 h-4 mr-2" />
-                        Explore Roadmaps
+                        Browse Library
                       </Link>
                     </div>
                   )}

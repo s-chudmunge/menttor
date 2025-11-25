@@ -593,29 +593,22 @@ const BehavioralLearnClientPage: React.FC<BehavioralLearnClientPageProps> = ({
             
             {/* Desktop Navigation */}
             <nav className="hidden lg:flex items-center space-x-1">
-              <Link 
-                href="/" 
+              <Link
+                href="/"
                 className="flex items-center space-x-2 px-4 py-2.5 rounded-lg font-medium transition-all duration-200 text-gray-600 hover:text-gray-900 hover:bg-gray-100"
               >
                 <Home className="w-4 h-4" />
                 <span className="text-sm">Home</span>
               </Link>
-              <Link 
-                href="/explore" 
-                className="flex items-center space-x-2 px-4 py-2.5 rounded-lg font-medium transition-all duration-200 text-gray-600 hover:text-gray-900 hover:bg-gray-100"
-              >
-                <BookOpen className="w-4 h-4" />
-                <span className="text-sm">Explore</span>
-              </Link>
-              <Link 
-                href="/journey" 
+              <Link
+                href="/journey"
                 className="flex items-center space-x-2 px-4 py-2.5 rounded-lg font-medium transition-all duration-200 text-gray-600 hover:text-gray-900 hover:bg-gray-100"
               >
                 <Target className="w-4 h-4" />
                 <span className="text-sm">Journey</span>
               </Link>
-              <Link 
-                href="/performance-analysis" 
+              <Link
+                href="/performance-analysis"
                 className="flex items-center space-x-2 px-4 py-2.5 rounded-lg font-medium transition-all duration-200 text-gray-600 hover:text-gray-900 hover:bg-gray-100"
               >
                 <BarChart3 className="w-4 h-4" />
@@ -656,7 +649,7 @@ const BehavioralLearnClientPage: React.FC<BehavioralLearnClientPageProps> = ({
           <div className="absolute right-0 top-20 bottom-0 w-80 bg-white shadow-2xl" onClick={(e) => e.stopPropagation()}>
             <div className="p-6">
               <div className="space-y-2">
-                <Link 
+                <Link
                   href="/"
                   onClick={() => setShowMobileMenu(false)}
                   className="flex items-center space-x-3 px-4 py-3 rounded-lg font-medium transition-all duration-200 text-gray-700 hover:text-indigo-600 hover:bg-indigo-50"
@@ -664,15 +657,7 @@ const BehavioralLearnClientPage: React.FC<BehavioralLearnClientPageProps> = ({
                   <Home className="w-5 h-5" />
                   <span>Home</span>
                 </Link>
-                <Link 
-                  href="/explore"
-                  onClick={() => setShowMobileMenu(false)}
-                  className="flex items-center space-x-3 px-4 py-3 rounded-lg font-medium transition-all duration-200 text-gray-700 hover:text-indigo-600 hover:bg-indigo-50"
-                >
-                  <BookOpen className="w-5 h-5" />
-                  <span>Explore</span>
-                </Link>
-                <Link 
+                <Link
                   href="/journey"
                   onClick={() => setShowMobileMenu(false)}
                   className="flex items-center space-x-3 px-4 py-3 rounded-lg font-medium transition-all duration-200 text-gray-700 hover:text-indigo-600 hover:bg-indigo-50"
@@ -680,7 +665,7 @@ const BehavioralLearnClientPage: React.FC<BehavioralLearnClientPageProps> = ({
                   <Target className="w-5 h-5" />
                   <span>Journey</span>
                 </Link>
-                <Link 
+                <Link
                   href="/performance-analysis"
                   onClick={() => setShowMobileMenu(false)}
                   className="flex items-center space-x-3 px-4 py-3 rounded-lg font-medium transition-all duration-200 text-gray-700 hover:text-indigo-600 hover:bg-indigo-50"
