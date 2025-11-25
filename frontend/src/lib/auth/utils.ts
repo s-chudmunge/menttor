@@ -32,8 +32,9 @@ export const signOut = async () => {
 // Password Reset - Send reset email
 export const sendPasswordReset = async (email: string) => {
   try {
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://menttor.live';
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${window.location.origin}/auth/reset-password`,
+      redirectTo: `${siteUrl}/auth/reset-password`,
     });
 
     if (error) throw error;
@@ -61,8 +62,9 @@ export const confirmPasswordResetWithCode = async (newPassword: string) => {
 
 // Get the appropriate redirect URL based on environment
 const getRedirectUrl = () => {
-  // Use NEXT_PUBLIC_SITE_URL if set, otherwise fallback to window.location.origin
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || window.location.origin;
+  // Use NEXT_PUBLIC_SITE_URL if set, otherwise use production URL
+  // Don't fallback to window.location.origin to avoid localhost issues in production
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://menttor.live';
   return `${siteUrl}/auth/callback`;
 };
 
