@@ -38,7 +38,7 @@ def load_content_from_db(slug: str, db: Session) -> Dict[str, Any]:
             else:
                 logger.debug(f"Redis unavailable, skipping cache read for {slug}")
     except Exception as e:
-        logger.warning(f"Redis cache read failed for {slug}: {e}")
+        logger.debug(f"Redis cache read failed for {slug}: {e}")
     
     # Cache miss - fetch from database
     try:
@@ -89,7 +89,7 @@ def load_content_from_db(slug: str, db: Session) -> Dict[str, Any]:
                 else:
                     logger.debug(f"Redis unavailable, skipping cache write for {slug}")
         except Exception as e:
-            logger.warning(f"Redis cache write failed for {slug}: {e}")
+            logger.debug(f"Redis cache write failed for {slug}: {e}")
         
         return content_data
         
@@ -148,7 +148,7 @@ def save_content_to_db(slug: str, content: Dict[str, Any], db: Session) -> None:
                 else:
                     logger.debug(f"Redis unavailable, skipping cache invalidation for {slug}")
         except Exception as e:
-            logger.warning(f"Cache invalidation failed for {slug}: {e}")
+            logger.debug(f"Cache invalidation failed for {slug}: {e}")
         
         logger.info(f"Successfully saved content for slug '{slug}' to database")
         
@@ -171,12 +171,13 @@ async def get_available_content(db: Session = Depends(get_db)):
     # Try to get from cache first
     try:
         with get_redis_client() as redis_client:
-            cached_data = redis_client.get(cache_key)
-            if cached_data:
-                logger.info("Cache hit for library available content")
-                return json.loads(cached_data)
+            if redis_client:
+                cached_data = redis_client.get(cache_key)
+                if cached_data:
+                    logger.info("Cache hit for library available content")
+                    return json.loads(cached_data)
     except Exception as e:
-        logger.warning(f"Redis cache read failed for available content: {e}")
+        logger.debug(f"Redis cache read failed for available content: {e}")
     
     # Cache miss - fetch from database
     try:
@@ -200,10 +201,11 @@ async def get_available_content(db: Session = Depends(get_db)):
         # Cache the result
         try:
             with get_redis_client() as redis_client:
-                redis_client.setex(cache_key, CACHE_TTL, json.dumps(available_items, default=str))
-                logger.info("Cached library available content")
+                if redis_client:
+                    redis_client.setex(cache_key, CACHE_TTL, json.dumps(available_items, default=str))
+                    logger.info("Cached library available content")
         except Exception as e:
-            logger.warning(f"Redis cache write failed for available content: {e}")
+            logger.debug(f"Redis cache write failed for available content: {e}")
         
         return available_items
         

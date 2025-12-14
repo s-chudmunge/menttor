@@ -39,10 +39,11 @@ def get_redis_client() -> Generator[Optional[redis.Redis], None, None]:
                 break
             except redis.ConnectionError as e:
                 if attempt < max_retries - 1:
-                    logger.warning(f"Redis connection attempt {attempt + 1} failed, retrying...")
-                    time.sleep(1)
+                    logger.debug(f"Redis connection attempt {attempt + 1} failed, retrying...")
+                    time.sleep(0.5)  # Reduced sleep time
                 else:
-                    logger.error(f"Redis connection failed after {max_retries} attempts: {e}")
+                    # Only log once at debug level when all retries fail
+                    logger.debug(f"Redis unavailable after {max_retries} attempts: {e}")
                     if client:
                         client.close()
                     yield None
