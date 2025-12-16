@@ -19,11 +19,18 @@ depends_on: Union[str, Sequence[str], None] = None
 
 def upgrade() -> None:
     """Upgrade schema and add curated roadmaps system."""
-    
-    # Add user table columns
-    op.add_column('user', sa.Column('display_name', sa.String(), nullable=True))
-    op.add_column('user', sa.Column('profile_completed', sa.Boolean(), nullable=False, server_default='false'))
-    op.add_column('user', sa.Column('onboarding_completed', sa.Boolean(), nullable=False, server_default='false'))
+
+    # Add user table columns (idempotent - checks if columns exist first)
+    connection = op.get_bind()
+    inspector = sa.inspect(connection)
+    columns = [col['name'] for col in inspector.get_columns('user')]
+
+    if 'display_name' not in columns:
+        op.add_column('user', sa.Column('display_name', sa.String(), nullable=True))
+    if 'profile_completed' not in columns:
+        op.add_column('user', sa.Column('profile_completed', sa.Boolean(), nullable=False, server_default='false'))
+    if 'onboarding_completed' not in columns:
+        op.add_column('user', sa.Column('onboarding_completed', sa.Boolean(), nullable=False, server_default='false'))
     
     # Create curated_roadmap table
     op.create_table('curated_roadmap',

@@ -18,7 +18,7 @@ if config.config_file_name is not None:
 # for 'autogenerate' support
 import os, sys
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'app'))
-from sql_models import SQLModel
+from models.sql_models import SQLModel
 from core.config import settings
 target_metadata = SQLModel.metadata
 
@@ -62,7 +62,7 @@ def run_migrations_online() -> None:
     # Use the same database configuration as the main app
     from sqlalchemy import create_engine
     database_url = settings.get_database_url()
-    print(f"🔍 Using database URL: {database_url.replace(settings.POSTGRES_PASSWORD, '****') if settings.POSTGRES_PASSWORD else database_url}")
+    print(f"Using database URL: {database_url.replace(settings.POSTGRES_PASSWORD, '****') if settings.POSTGRES_PASSWORD else database_url}")
     connectable = create_engine(database_url)
 
     with connectable.connect() as connection:
