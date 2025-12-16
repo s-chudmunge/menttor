@@ -6,7 +6,7 @@ echo "Starting Menttor Backend - Production Mode..."
 echo "CI/CD Safe: All existing user data will be preserved"
 
 # Direct database connection - no proxy needed
-export PYTHONPATH=${PYTHONPATH:-/app}
+export PYTHONPATH=${PYTHONPATH:-/app/app}
 
 echo "Production startup - Using direct database connection"
 echo "POSTGRES_USER: $POSTGRES_USER"
@@ -25,7 +25,7 @@ import sys
 sys.path.append('${PYTHONPATH}')
 try:
     # Import all models to ensure they're registered with SQLModel.metadata
-    from app.models.sql_models import *
+    from sql_models import *
     print('All SQLModels imported and registered')
 except Exception as e:
     print(f'Model import warning: {e}')
@@ -45,7 +45,7 @@ else
     python -c "
 import sys
 sys.path.append('${PYTHONPATH}')
-from app.database.session import create_db_and_tables
+from database.session import create_db_and_tables
 # SQLModel.metadata.create_all() only creates missing tables, preserves existing data
 create_db_and_tables()
 print('Database schema ensured via SQLModel (data preserved)')
@@ -59,4 +59,4 @@ echo "Starting FastAPI application..."
 # Use PORT environment variable from Cloud Run (defaults to 8080 for local testing)
 export PORT=${PORT:-8080}
 echo "Starting server on port $PORT"
-exec python -m uvicorn app.main:app --host 0.0.0.0 --port $PORT
+exec python -m uvicorn main:app --host 0.0.0.0 --port $PORT

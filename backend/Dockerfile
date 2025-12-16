@@ -4,7 +4,7 @@ FROM python:3.10-slim
 WORKDIR /app
 
 # Environment variables
-ENV PYTHONPATH=/app \
+ENV PYTHONPATH=/app/app \
     PORT=8080 \
     PYTHONUNBUFFERED=1 \
     PIP_NO_CACHE_DIR=1 \

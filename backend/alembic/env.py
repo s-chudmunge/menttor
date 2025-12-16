@@ -18,7 +18,7 @@ if config.config_file_name is not None:
 # for 'autogenerate' support
 import os, sys
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'app'))
-from models.sql_models import SQLModel
+from sql_models import SQLModel
 from core.config import settings
 target_metadata = SQLModel.metadata
 
