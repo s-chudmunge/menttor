@@ -382,14 +382,15 @@ async def generate_roadmap_content(request: RoadmapCreateRequest) -> RoadmapAIRe
     
     # Log basic info about the parsing process
     logger.info(f"Parsing AI response for roadmap generation...")
-    
-    # Split by module headers - the actual format is **Module X: Title**
-    module_sections = re.split(r"\*\*Module \d+:.*?\*\*", raw_text)[1:]
-    
-    # Find all module headers to extract titles 
-    module_headers = re.findall(r"\*\*Module (\d+):\s*(.*?)\*\*", raw_text)
+
+    # Split by module headers - the actual format is ### Module X: Title
+    module_sections = re.split(r"###\s*Module \d+:.*?(?:\n|\r)", raw_text)[1:]
+
+    # Find all module headers to extract titles
+    module_headers = re.findall(r"###\s*Module (\d+):\s*(.*?)(?:\n|\r)", raw_text)
     
     logger.info(f"Found {len(module_sections)} module sections")
+    logger.info(f"Found {len(module_headers)} module headers")
 
     for i, module_text in enumerate(module_sections):
         if i < len(module_headers):
@@ -397,14 +398,16 @@ async def generate_roadmap_content(request: RoadmapCreateRequest) -> RoadmapAIRe
         else:
             module_title = f"Module {i+1}"
             
-        # Extract timeline - the actual format is "* Timeline: Days X-Y"
-        timeline_match = re.search(r"\*\s*Timeline:\s*(.*?)(?:\n|\r)", module_text)
+        # Extract timeline - the actual format is "*Timeline: Weeks 1-2*"
+        timeline_match = re.search(r"\*\s*Timeline:\s*(.*?)(?:\*|$)", module_text)
         timeline = timeline_match.group(1).strip() if timeline_match else "N/A"
-        
+
         topics_data = []
-        # Split by topic headers - the actual format is "* **Topic X: Title**"
+        # Split by topic headers - the actual format is "  * **Topic X: Title**"
         topic_sections = re.split(r"\*\s*\*\*Topic \d+:.*?\*\*", module_text)[1:]
         topic_headers = re.findall(r"\*\s*\*\*Topic (\d+):\s*(.*?)\*\*", module_text)
+
+        logger.info(f"Module {i+1} ({module_title}): Found {len(topic_sections)} topic sections and {len(topic_headers)} topic headers")
 
         for j, topic_text in enumerate(topic_sections):
             if j < len(topic_headers):
@@ -413,14 +416,16 @@ async def generate_roadmap_content(request: RoadmapCreateRequest) -> RoadmapAIRe
                 topic_title = f"Topic {j+1}"
 
             subtopics_data = []
-            # Find subtopic lines - the actual format is "    * Subtopic Title (tags)"
-            # No "Sub-topic X:" prefix - just the content directly
-            subtopic_matches = re.finditer(r"^\s*\*\s+(.*?)\s+(\(.*?\))\s*$", topic_text, re.MULTILINE)
-            
+            # Find subtopic lines - the actual format is "    * Sub-topic X: Title (tags)"
+            # We want to extract just the title, removing the "Sub-topic X:" prefix
+            subtopic_matches = re.finditer(r"^\s*\*\s+(?:Sub[‑-]topic \d+:\s*)?(.*?)\s+(\(.*?\))\s*$", topic_text, re.MULTILINE)
+
+            subtopic_count = 0
             for match in subtopic_matches:
                 subtopic_title = match.group(1).strip()
                 tags = match.group(2) if match.group(2) else ""
-                
+                subtopic_count += 1
+
                 subtopics_data.append({
                     "id": str(uuid.uuid4()),
                     "title": subtopic_title,
@@ -428,7 +433,9 @@ async def generate_roadmap_content(request: RoadmapCreateRequest) -> RoadmapAIRe
                     "has_quiz": "quiz" in tags.lower(),
                     "has_code_challenge": "code challenge" in tags.lower()
                 })
-                
+
+            logger.info(f"  Topic {j+1} ({topic_title}): Found {subtopic_count} subtopics")
+
             if topic_title and subtopics_data:
                 topics_data.append({
                     "id": str(uuid.uuid4()),

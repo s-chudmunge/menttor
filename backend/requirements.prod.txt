@@ -1,29 +1,40 @@
+# Core FastAPI
 fastapi==0.104.1
 uvicorn[standard]==0.24.0
+python-multipart==0.0.6
+
+# Database
 sqlmodel==0.0.16
 sqlalchemy==2.0.41
 psycopg2-binary==2.9.7
-cloud-sql-python-connector[pg8000]==1.9.0
-pg8000>=1.31.1
 alembic==1.13.1
-python-dotenv==1.0.0
-pydantic-settings==2.1.0
+
+# Supabase (includes httpx, requests as dependencies)
+supabase==2.3.4
+
+# Authentication
 passlib[bcrypt]==1.7.4
 python-jose[cryptography]==3.3.0
-python-multipart==0.0.6
+
+# Configuration
+python-dotenv==1.0.0
+pydantic-settings==2.1.0
+
+# Caching (optional)
 redis==5.0.1
-httpx>=0.24,<0.26
-google-auth==2.31.0
-json-fix==1.0.0
+
+# Websockets
 websockets==12.0
-supabase==2.3.4
+
+# AI Services (these are the heavy ones)
+litellm>=1.50.0,<1.60.0
 openai>=1.99.0,<2.0.0
 anthropic
 cohere
-litellm>=1.50.0,<1.60.0
 huggingface_hub
-requests==2.32.3
+instructor
+
+# Utilities
 jinja2==3.1.4
 json-repair==0.48.0
 pillow
-instructor
