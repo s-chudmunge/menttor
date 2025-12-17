@@ -47,14 +47,12 @@ class Settings(BaseSettings):
     VERTEX_AI_MODEL_ID: Optional[str] = "gemini-2.5-flash-lite"
     
     # Default AI Models for different use cases - centralized configuration
-    # Using free OpenRouter models since we're no longer using GCP Vertex AI
-    DEFAULT_ROADMAP_MODEL: str = "openrouter:meta-llama/llama-3.3-8b-instruct:free"
-    DEFAULT_QUIZ_MODEL: str = "openrouter:meta-llama/llama-3.2-3b-instruct:free"
-    DEFAULT_FEEDBACK_MODEL: str = "openrouter:meta-llama/llama-3.2-3b-instruct:free"
-    DEFAULT_LEARNING_CONTENT_MODEL: str = "openrouter:meta-llama/llama-3.3-8b-instruct:free"
-    DEFAULT_VISUALIZATION_MODEL: str = "openrouter:meta-llama/llama-3.3-8b-instruct:free"
-
-    # Learning Resources Model - using Google Gemma free model
+    # Using Google Gemma 3n 2B (free) from OpenRouter as the default model
+    DEFAULT_ROADMAP_MODEL: str = "openrouter:google/gemma-3n-e2b-it:free"
+    DEFAULT_QUIZ_MODEL: str = "openrouter:google/gemma-3n-e2b-it:free"
+    DEFAULT_FEEDBACK_MODEL: str = "openrouter:google/gemma-3n-e2b-it:free"
+    DEFAULT_LEARNING_CONTENT_MODEL: str = "openrouter:google/gemma-3n-e2b-it:free"
+    DEFAULT_VISUALIZATION_MODEL: str = "openrouter:google/gemma-3n-e2b-it:free"
     DEFAULT_LEARNING_RESOURCES_MODEL: str = "openrouter:google/gemma-3n-e2b-it:free"
 
     FIREBASE_CREDENTIALS: Optional[str] = None  # Legacy - can be removed after migration

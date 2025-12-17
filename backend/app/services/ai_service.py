@@ -383,11 +383,11 @@ async def generate_roadmap_content(request: RoadmapCreateRequest) -> RoadmapAIRe
     # Log basic info about the parsing process
     logger.info(f"Parsing AI response for roadmap generation...")
 
-    # Split by module headers - the actual format is ### Module X: Title
-    module_sections = re.split(r"###\s*Module \d+:.*?(?:\n|\r)", raw_text)[1:]
+    # Split by module headers - the actual format is **Module X: Title**
+    module_sections = re.split(r"\*\*Module \d+:.*?\*\*", raw_text)[1:]
 
     # Find all module headers to extract titles
-    module_headers = re.findall(r"###\s*Module (\d+):\s*(.*?)(?:\n|\r)", raw_text)
+    module_headers = re.findall(r"\*\*Module (\d+):\s*(.*?)\*\*", raw_text)
     
     logger.info(f"Found {len(module_sections)} module sections")
     logger.info(f"Found {len(module_headers)} module headers")
@@ -398,8 +398,8 @@ async def generate_roadmap_content(request: RoadmapCreateRequest) -> RoadmapAIRe
         else:
             module_title = f"Module {i+1}"
             
-        # Extract timeline - the actual format is "*Timeline: Weeks 1-2*"
-        timeline_match = re.search(r"\*\s*Timeline:\s*(.*?)(?:\*|$)", module_text)
+        # Extract timeline - the actual format is "* Timeline: Weeks 1-2"
+        timeline_match = re.search(r"\*\s*Timeline:\s*([^\n]+)", module_text)
         timeline = timeline_match.group(1).strip() if timeline_match else "N/A"
 
         topics_data = []
@@ -416,9 +416,9 @@ async def generate_roadmap_content(request: RoadmapCreateRequest) -> RoadmapAIRe
                 topic_title = f"Topic {j+1}"
 
             subtopics_data = []
-            # Find subtopic lines - the actual format is "    * Sub-topic X: Title (tags)"
-            # We want to extract just the title, removing the "Sub-topic X:" prefix
-            subtopic_matches = re.finditer(r"^\s*\*\s+(?:Sub[‑-]topic \d+:\s*)?(.*?)\s+(\(.*?\))\s*$", topic_text, re.MULTILINE)
+            # Find subtopic lines - the actual format is "    * Sub-topic X: Title (possible descriptions) (tags)"
+            # Match everything up to the LAST set of parentheses (which contains the tags)
+            subtopic_matches = re.finditer(r"^\s*\*\s+(?:Sub[‑-]topic \d+:\s*)?(.*)\s+(\([^)]*\))\s*$", topic_text, re.MULTILINE)
 
             subtopic_count = 0
             for match in subtopic_matches:
