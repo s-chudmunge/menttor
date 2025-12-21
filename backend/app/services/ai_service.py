@@ -184,7 +184,7 @@ class AIExecutor:
                     print(f"Raw LiteLLM AI Response: {raw_response}")
                 except APIError as litellm_e:
                     # Check if the error has a status code and if it's 402 from OpenRouter
-                    if (isinstance(litellm_e, litellm.exceptions.APIStatusError) or isinstance(litellm_e, litellm.exceptions.APIConnectionError)) and litellm_e.status_code == 402 and provider == "openrouter":
+                    if hasattr(litellm_e, 'status_code') and litellm_e.status_code == 402 and provider == "openrouter":
                         logger.warning(f"OpenRouter model {model_id} failed due to insufficient credits (402).")
                         raise HTTPException(
                             status_code=status.HTTP_402_PAYMENT_REQUIRED,
