@@ -25,6 +25,7 @@ class Settings(BaseSettings):
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
     REFRESH_TOKEN_EXPIRE_DAYS: int = 7
     OPENROUTER_API_KEY: Optional[str] = None
+    DEEPSEEK_KEY: Optional[str] = None
     DATABASE_ECHO: bool = False
     AT_RISK_THRESHOLD: float = 0.2
     DEFAULT_QUIZ_TIME_LIMIT: int = 10
@@ -48,7 +49,7 @@ class Settings(BaseSettings):
     
     # Default AI Models for different use cases - centralized configuration
     # Using Google Gemma 3n 2B (free) from OpenRouter as the default model
-    DEFAULT_ROADMAP_MODEL: str = "openrouter:google/gemma-3n-e2b-it:free"
+    DEFAULT_ROADMAP_MODEL: str = "deepseek:deepseek/deepseek-chat"
     DEFAULT_QUIZ_MODEL: str = "openrouter:google/gemma-3n-e2b-it:free"
     DEFAULT_FEEDBACK_MODEL: str = "openrouter:google/gemma-3n-e2b-it:free"
     DEFAULT_LEARNING_CONTENT_MODEL: str = "openrouter:google/gemma-3n-e2b-it:free"

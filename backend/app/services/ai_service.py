@@ -145,6 +145,8 @@ class AIExecutor:
                     api_key = settings.OPENROUTER_API_KEY
                 elif provider == "openai" and settings.OPENAI_API_KEY:
                     api_key = settings.OPENAI_API_KEY
+                elif provider == "deepseek" and settings.DEEPSEEK_KEY:
+                    api_key = settings.DEEPSEEK_KEY
 
                 if not api_key:
                     raise HTTPException(
@@ -703,6 +705,41 @@ async def _fetch_huggingface_models() -> List[Dict[str, Any]]:
         logger.error(f"Error in dynamic model fetch: {e}")
         return get_fallback_models()
 
+async def _fetch_deepseek_models() -> List[Dict[str, Any]]:
+    """Returns a static list of popular DeepSeek models."""
+    if not settings.DEEPSEEK_KEY:
+        logger.warning("DEEPSEEK_KEY not set. Skipping DeepSeek model fetch.")
+        return []
+
+    # Static list of models as there is no public API endpoint for it.
+    deepseek_models = [
+        {
+            "id": "deepseek:deepseek-chat",
+            "name": "DeepSeek Chat",
+            "description": "DeepSeek's general-purpose chat model.",
+            "context_window": 32768,
+            "per_token_cost": 0, # Not tracked here
+            "per_image_cost": 0,
+            "per_completion_cost": 0,
+            "max_tokens": 4096,
+            "top_provider": "DeepSeek",
+            "free_trial": False,
+        },
+        {
+            "id": "deepseek:deepseek-coder",
+            "name": "DeepSeek Coder",
+            "description": "DeepSeek's code generation model.",
+            "context_window": 16384,
+            "per_token_cost": 0,
+            "per_image_cost": 0,
+            "per_completion_cost": 0,
+            "max_tokens": 4096,
+            "top_provider": "DeepSeek",
+            "free_trial": False,
+        },
+    ]
+    return deepseek_models
+
 # Vertex AI models removed - application now uses OpenRouter and HuggingFace only
 
 async def get_available_models() -> List[Dict[str, Any]]:
@@ -714,7 +751,8 @@ async def get_available_models() -> List[Dict[str, Any]]:
     # Use asyncio.gather to fetch models from all providers concurrently
     all_model_lists = await asyncio.gather(
         _fetch_openrouter_models(),
-        _fetch_huggingface_models()
+        _fetch_huggingface_models(),
+        _fetch_deepseek_models()
     )
 
     # Flatten the list of lists into a single list of models

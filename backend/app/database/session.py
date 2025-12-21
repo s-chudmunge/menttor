@@ -4,6 +4,7 @@ import os
 from contextlib import asynccontextmanager
 from sqlmodel import Session, SQLModel, create_engine
 from core.config import settings
+from fastapi import HTTPException
 
 logger = logging.getLogger(__name__)
 
