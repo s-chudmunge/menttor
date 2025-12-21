@@ -58,6 +58,11 @@ def get_db() -> Generator[Session, None, None]:
         operation = "transaction commit"
         # Commit any pending transactions if no exception occurred
         session.commit()
+    except HTTPException:
+        # Re-raise HTTPException without logging it as a database error,
+        # as it's used for flow control (e.g., 404 Not Found).
+        session.rollback() # Rollback any potential changes before raising
+        raise
     except Exception as e:
         logger.error(f"Database session error during {operation}: {type(e).__name__}: {e}")
         try:
