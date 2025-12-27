@@ -23,8 +23,7 @@ import {
   Target, 
   Clock, 
   Calendar,
-  ChevronDown, 
- 
+  ChevronDown,
   Play, 
   History,
   User,
@@ -111,22 +110,28 @@ const MenttorLabsMainPage = () => {
   ];
 
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveFeature((prev) => (prev + 1) % features.length);
-    }, 3000);
-    return () => clearInterval(interval);
-  }, []);
+    useEffect(() => {
 
 
+      const interval = setInterval(() => {
 
 
+        setActiveFeature((prev) => (prev + 1) % features.length);
 
 
+      }, 3000);
 
 
+      return () => clearInterval(interval);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+
+    }, []);
+
+
+  
+
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
