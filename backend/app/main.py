@@ -28,7 +28,7 @@ try:
     print("✅ RoadmapResource model imported")
 except ImportError as e:
     print(f"⚠️  RoadmapResource model not available: {e}")
-from routers import auth, ml_insights, quiz, quiz_results, quiz_review, roadmaps, learn, spaced_repetition, models, quiz_submission, visualize, progress, behavioral, image_generation, activity, curated_roadmaps, monitoring, static_data, practice, admin, health, admin_management, db_test, subtopic_generator_api
+from routers import auth, ml_insights, quiz, quiz_results, quiz_review, roadmaps, learn, spaced_repetition, models, quiz_submission, visualize, progress, behavioral, image_generation, activity, curated_roadmaps, monitoring, static_data, practice, admin, health, admin_management, db_test
 
 # Import learning_resources with error handling for deployment
 try:
@@ -73,79 +73,6 @@ logger.info(f"CORS allowed origins: {settings.cors_origins_list}")
 
 app.add_middleware(COOPMiddleware)
 
-@app.on_event("startup")
-async def on_startup():
-    """Startup event with resilient database initialization"""
-    try:
-        logger.info("Starting FastAPI application...")
-        
-        # Try to create database tables with timeout protection
-        import asyncio
-        from functools import partial
-        
-        # Run database creation in thread with timeout
-        loop = asyncio.get_event_loop()
-        
-        try:
-            # 30-second timeout for database operations
-            await asyncio.wait_for(
-                loop.run_in_executor(None, create_db_and_tables),
-                timeout=30.0
-            )
-            logger.info("✅ Database tables created/checked successfully")
-        except asyncio.TimeoutError:
-            logger.warning("⚠️ Database table creation timed out - app will continue")
-        except Exception as e:
-            logger.warning(f"⚠️ Database initialization failed: {e} - app will continue")
-        
-        # Initialize database monitoring and optimization systems
-        try:
-            from database.monitor import db_monitor
-            from database.cache import query_cache
-            from database.batch import batch_processor
-            
-            logger.info("📊 Database monitoring systems initialized")
-            logger.info(f"🗄️  Query cache: {query_cache.max_size} entries max")
-            logger.info(f"📦 Batch processor: {batch_processor.batch_size} operations per batch")
-            
-        except Exception as e:
-            logger.warning(f"⚠️ Monitoring systems initialization failed: {e}")
-        
-        # Auto-start continuous subtopic generation if enabled
-        try:
-            import os
-            auto_start_generation = os.getenv("AUTO_START_GENERATION", "true").lower() == "true"
-            
-            if auto_start_generation:
-                logger.info("🔄 Auto-starting continuous subtopic generation...")
-                
-                # Import the generator status and function
-                from routers.subtopic_generator_api import generator_status, run_continuous_generation, is_generation_complete
-                
-                # Check if generation is already complete
-                if not is_generation_complete(generator_status.get("message", "")):
-                    # Start continuous generation in background
-                    asyncio.create_task(run_continuous_generation(
-                        batch_size=int(os.getenv("BATCH_SIZE", "20")),
-                        max_batches=int(os.getenv("MAX_BATCHES", "1000")), 
-                        sleep_between_batches=int(os.getenv("SLEEP_BETWEEN_BATCHES", "10"))
-                    ))
-                    logger.info("✅ Continuous subtopic generation started automatically")
-                else:
-                    logger.info("✅ Subtopic generation already completed - skipping auto-start")
-            else:
-                logger.info("⏸️ Auto-start generation disabled via environment variable")
-                
-        except Exception as e:
-            logger.warning(f"⚠️ Auto-start generation failed: {e}")
-            
-        logger.info("🚀 FastAPI application startup completed")
-        
-    except Exception as e:
-        logger.error(f"❌ Startup failed: {e}")
-        # Don't crash the app, let it start anyway
-        pass
-
 app.include_router(auth.router)
 app.include_router(ml_insights.router)
 app.include_router(quiz.router)
@@ -174,7 +101,6 @@ app.include_router(monitoring.router)
 app.include_router(practice.router)
 app.include_router(admin.router)
 app.include_router(admin_management.router)
-app.include_router(subtopic_generator_api.router)
 app.include_router(db_test.router)
 
 # Temporary migration endpoint

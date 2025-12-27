@@ -13,7 +13,6 @@ import { analytics } from '../lib/analytics';
 import SpiralMark from '@rootComponents/SpiralMark';
 import OldRoadmapsModal from './components/OldRoadmapsModal';
 import OldLearnPagesModal from './learn/OldLearnPagesModal';
-import D3ModelMapModal from './components/ModelSelectionMap';
 import OnboardingWrapper from '../components/OnboardingWrapper';
 import { BACKEND_URL } from '../config/config';
 import { RoadmapData, RoadmapItem, api } from '../lib/api';
@@ -63,12 +62,11 @@ const MenttorLabsMainPage = () => {
     goal: '',
     time_value: 1, // Changed from timeToLearn
     time_unit: 'days', // Default to days as per backend
-    model: '', // Will be set by useEffect
+    model: 'openrouter:google/gemma-2b-it:free',
   });
   const { isGenerating, startGeneration, endGeneration } = useAIState();
   const [roadmapHtml, setRoadmapHtml] = useState<React.ReactNode | null>(null); // Changed type
-  const [selectedModelName, setSelectedModelName] = useState<string>('Loading models...');
-  const [showModelModal, setShowModelModal] = useState(false);
+  const [selectedModelName, setSelectedModelName] = useState<string>('Google: Gemma 2B (free)');
   const [showOldRoadmaps, setShowOldRoadmaps] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [showOldLearnPages, setShowOldLearnPages] = useState(false);
@@ -123,55 +121,7 @@ const MenttorLabsMainPage = () => {
   }, []);
 
 
-  // Set default model to Vertex AI
-  useEffect(() => {
-    const fetchAndSetDefaultModel = async () => {
-      try {
-        const response = await fetch(`${BACKEND_URL}/models/`);
-        if (response.ok) {
-          const models = await response.json();
-          console.log('Fetched models:', models.length);
-          
-          // Find the first Vertex AI model as default
-          const vertexAIModel = models.find(model => 
-            model.id && model.id.startsWith('vertexai:')
-          );
-          
-          if (vertexAIModel) {
-            console.log('Selected Vertex AI model:', vertexAIModel.name);
-            setFormData(prev => ({ ...prev, model: vertexAIModel.id }));
-            setSelectedModelName(vertexAIModel.name);
-          } else {
-            // Fallback to first available model if no Vertex AI model found
-            const firstModel = models[0];
-            if (firstModel) {
-              console.log('No Vertex AI model found, using first available:', firstModel.name);
-              setFormData(prev => ({ ...prev, model: firstModel.id }));
-              setSelectedModelName(firstModel.name);
-            } else {
-              // Final fallback if no models at all
-              console.warn('No models available, using hardcoded Vertex AI model');
-              setFormData(prev => ({ ...prev, model: 'openrouter:meta-llama/llama-3.3-8b-instruct:free' }));
-              setSelectedModelName('Meta Llama 3.3 8B (free)');
-            }
-          }
-        } else {
-          throw new Error(`Failed to fetch models: ${response.status}`);
-        }
-      } catch (error) {
-        console.error('Error fetching models:', error);
-        // Set a hardcoded Vertex AI model as final fallback
-        console.log('Using fallback Vertex AI model');
-        setFormData(prev => ({ ...prev, model: 'openrouter:meta-llama/llama-3.3-8b-instruct:free' }));
-        setSelectedModelName('Meta Llama 3.3 8B (free)');
-      }
-    };
 
-    // Only fetch if no model is currently set
-    if (!formData.model) {
-      fetchAndSetDefaultModel();
-    }
-  }, [formData.model]);
 
   // Set default model for 3D generator
   useEffect(() => {
@@ -390,10 +340,7 @@ const MenttorLabsMainPage = () => {
     router.push('/journey');
   };
 
-  const handleSelectModel = (modelId: string, modelName: string) => {
-    setFormData(prev => ({ ...prev, model: modelId }));
-    setSelectedModelName(modelName); // This will be updated by the useEffect
-  };
+
 
   const handleSelect3DModel = (modelId: string, modelName: string) => {
     // Keep the full model ID for 3D generation to support all providers
@@ -658,13 +605,6 @@ const MenttorLabsMainPage = () => {
                 <div className="bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg p-3">
                   <div className="font-medium text-gray-900 dark:text-white text-sm mb-1">{selectedModelName}</div>
                   <div className="text-xs text-gray-600 dark:text-gray-400 mb-2">Advanced AI</div>
-                  <button
-                    type="button"
-                    onClick={() => setShowModelModal(true)}
-                    className="w-full bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200"
-                  >
-                    Change Model
-                  </button>
                 </div>
                 {formData.model && (
                   <div className="mt-2 text-xs text-green-600 dark:text-green-400 flex items-center">
@@ -883,16 +823,6 @@ const MenttorLabsMainPage = () => {
 
       {/* Login Modal */}
       
-
-      {/* Model Selection Modal */}
-      {showModelModal && (
-        <D3ModelMapModal
-          isOpen={showModelModal}
-          onClose={() => setShowModelModal(false)}
-          onSelectModel={handleSelectModel}
-          currentModelId={formData.model}
-        />
-      )}
 
       {/* Old Roadmaps Modal */}
       {showOldRoadmaps && (
