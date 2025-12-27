@@ -6,7 +6,6 @@ import ProfileDropdown from './ProfileDropdown'
 export default function PreviewHeader() {
   const navigationItems = [
     { href: '/', label: 'Home', icon: Home, active: false },
-    { href: '/explore', label: 'Explore', icon: BookOpen, active: true },
     { href: '/journey', label: 'Journey', icon: Target, active: false },
     { href: '/performance-analysis', label: 'Performance', icon: BarChart3, active: false },
   ]

@@ -28,7 +28,7 @@ try:
     print("✅ RoadmapResource model imported")
 except ImportError as e:
     print(f"⚠️  RoadmapResource model not available: {e}")
-from routers import auth, ml_insights, quiz, quiz_results, quiz_review, roadmaps, learn, spaced_repetition, models, quiz_submission, visualize, progress, behavioral, image_generation, activity, curated_roadmaps, monitoring, static_data, practice, admin, health, admin_management, library, db_test, subtopic_generator_api
+from routers import auth, ml_insights, quiz, quiz_results, quiz_review, roadmaps, learn, spaced_repetition, models, quiz_submission, visualize, progress, behavioral, image_generation, activity, curated_roadmaps, monitoring, static_data, practice, admin, health, admin_management, db_test, subtopic_generator_api
 
 # Import learning_resources with error handling for deployment
 try:
@@ -174,7 +174,6 @@ app.include_router(monitoring.router)
 app.include_router(practice.router)
 app.include_router(admin.router)
 app.include_router(admin_management.router)
-app.include_router(library.router)
 app.include_router(subtopic_generator_api.router)
 app.include_router(db_test.router)
 

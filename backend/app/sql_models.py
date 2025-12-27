@@ -557,24 +557,3 @@ class RoadmapResourceBase(SQLModel):
 class RoadmapResource(RoadmapResourceBase, table=True):
     """Database model for roadmap learning resources"""
     id: Optional[int] = Field(default=None, primary_key=True)
-
-
-class LibraryContentBase(SQLModel):
-    """Base model for library content storage"""
-    slug: str = Field(max_length=100, description="URL-friendly identifier")
-    title: str = Field(max_length=200, description="Content title")
-    subject: str = Field(max_length=200, description="Subject area")
-    goal: str = Field(max_length=500, description="Learning goal")
-    content_json: str = Field(description="JSON string of content blocks")
-    resources_json: Optional[str] = Field(default=None, description="JSON string of learning resources")
-    
-    # Metadata
-    last_updated: datetime = Field(default_factory=datetime.utcnow)
-    created_at: datetime = Field(default_factory=datetime.utcnow)
-    is_active: bool = Field(default=True)
-
-
-class LibraryContent(LibraryContentBase, table=True):
-    """Database model for library content"""
-    id: Optional[int] = Field(default=None, primary_key=True)
-    slug: str = Field(max_length=100, unique=True, index=True, description="URL-friendly identifier")

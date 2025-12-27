@@ -222,7 +222,6 @@ export default function DashboardPage() {
     { href: '/', label: 'Home', icon: Home, active: false },
     { href: '/dashboard', label: 'Dashboard', icon: BarChart3, active: true },
     { href: '/journey', label: 'Journey', icon: Map, active: false },
-    { href: '/explore', label: 'Explore', icon: BookOpen, active: false },
   ];
 
   const formatTimeAgo = (timestamp: string) => {
@@ -508,14 +507,7 @@ export default function DashboardPage() {
                     ) : (
                       <div className="text-center py-8">
                         <Target className="w-12 h-12 text-gray-400 dark:text-gray-600 mx-auto mb-4" />
-                        <p className="text-gray-600 dark:text-gray-400 mb-4">No active roadmaps yet</p>
-                        <Link
-                          href="/library"
-                          className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium"
-                        >
-                          <Plus className="w-4 h-4 mr-2" />
-                          Browse Library
-                        </Link>
+                        <p className="text-gray-600 dark:text-gray-400 mb-4">No active roadmaps yet. Create one on the homepage!</p>
                       </div>
                     )}
                   </div>
@@ -533,12 +525,6 @@ export default function DashboardPage() {
                       <Lightbulb className="w-5 h-5 text-yellow-500" />
                       <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Recommended for You</h3>
                     </div>
-                    <Link
-                      href="/library"
-                      className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 text-sm font-medium flex items-center"
-                    >
-                      See More <ChevronRight className="w-4 h-4 ml-1" />
-                    </Link>
                   </div>
                   
                   <div className="space-y-4">
@@ -557,36 +543,22 @@ export default function DashboardPage() {
                             </div>
                           </div>
                           <p className="text-xs text-gray-600 dark:text-gray-400 mb-2 line-clamp-2">{roadmap.description}</p>
-                          <div className="flex items-center justify-between">
-                            <div className="flex items-center space-x-2 text-xs text-gray-500 dark:text-gray-400">
-                              <span className="px-2 py-1 bg-white/80 dark:bg-gray-800 rounded-full">{roadmap.difficulty}</span>
-                              {roadmap.estimated_hours && (
-                                <span className="flex items-center">
-                                  <Clock className="w-3 h-3 mr-1" />
-                                  {roadmap.estimated_hours}h
-                                </span>
-                              )}
-                            </div>
-                            <Link
-                              href={`/explore/${roadmap.slug || roadmap.id}`}
-                              className="text-xs text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 font-medium flex items-center"
-                            >
-                              View <ArrowRight className="w-3 h-3 ml-1" />
-                            </Link>
-                          </div>
-                        </div>
+                                                      <div className="flex items-center justify-between">
+                                                      <div className="flex items-center space-x-2 text-xs text-gray-500 dark:text-gray-400">
+                                                        <span className="px-2 py-1 bg-white/80 dark:bg-gray-800 rounded-full">{roadmap.difficulty}</span>
+                                                        {roadmap.estimated_hours && (
+                                                          <span className="flex items-center">
+                                                            <Clock className="w-3 h-3 mr-1" />
+                                                            {roadmap.estimated_hours}h
+                                                          </span>
+                                                        )}
+                                                      </div>
+                                                    </div>                        </div>
                       ))
                     ) : (
                       <div className="text-center py-8">
                         <BookOpen className="w-12 h-12 text-gray-400 dark:text-gray-600 mx-auto mb-4" />
                         <p className="text-gray-600 dark:text-gray-400 mb-4">Start learning to get personalized recommendations</p>
-                        <Link
-                          href="/library"
-                          className="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm font-medium"
-                        >
-                          <Eye className="w-4 h-4 mr-2" />
-                          Browse All Roadmaps
-                        </Link>
                       </div>
                     )}
                   </div>
@@ -620,16 +592,6 @@ export default function DashboardPage() {
                       <Play className="w-4 h-4" />
                     </div>
                     <span className="font-medium text-green-700 dark:text-green-300">Continue Learning</span>
-                  </button>
-                  
-                  <button 
-                    onClick={() => router.push('/explore')}
-                    className="flex items-center space-x-3 p-4 bg-green-50 dark:bg-green-900/20 rounded-lg hover:bg-green-100 dark:hover:bg-green-900/30 transition-all duration-200 group"
-                  >
-                    <div className="p-2 bg-green-600 text-white rounded-lg group-hover:scale-110 transition-transform">
-                      <Eye className="w-4 h-4" />
-                    </div>
-                    <span className="font-medium text-green-700 dark:text-green-300">Explore Roadmaps</span>
                   </button>
                   
                   <button 
@@ -714,11 +676,11 @@ export default function DashboardPage() {
                       <h4 className="text-lg font-medium text-gray-900 dark:text-white mb-2">No Learning Progress Yet</h4>
                       <p className="text-gray-600 dark:text-gray-400 mb-6">Start your first roadmap to track your progress</p>
                       <Link
-                        href="/library"
+                        href="/"
                         className="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all duration-200 font-semibold shadow-lg hover:shadow-xl"
                       >
-                        <BookOpen className="w-4 h-4 mr-2" />
-                        Browse Library
+                        <Home className="w-4 h-4 mr-2" />
+                        Go to Homepage
                       </Link>
                     </div>
                   )}

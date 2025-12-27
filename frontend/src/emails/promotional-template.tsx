@@ -66,13 +66,13 @@ export default function PromotionalEmail({ recipientName = "there" }: Promotiona
                 <Text style={roadmapEmoji}>🌐</Text>
                 <Text style={roadmapTitle}>Web Development</Text>
                 <Text style={roadmapDesc}>Frontend, Backend & Full-Stack</Text>
-                <Link href="/explore" style={roadmapLink}>Start Free →</Link>
+                <Link href="/" style={roadmapLink}>Start Free →</Link>
               </Column>
               <Column style={roadmapColumn}>
                 <Text style={roadmapEmoji}>📊</Text>
                 <Text style={roadmapTitle}>Data Science</Text>
                 <Text style={roadmapDesc}>ML, AI & Analytics</Text>
-                <Link href="/explore" style={roadmapLink}>Start Free →</Link>
+                <Link href="/" style={roadmapLink}>Start Free →</Link>
               </Column>
             </Row>
             
@@ -81,13 +81,13 @@ export default function PromotionalEmail({ recipientName = "there" }: Promotiona
                 <Text style={roadmapEmoji}>📱</Text>
                 <Text style={roadmapTitle}>Mobile Development</Text>
                 <Text style={roadmapDesc}>iOS, Android & Cross-Platform</Text>
-                <Link href="/explore" style={roadmapLink}>Start Free →</Link>
+                <Link href="/" style={roadmapLink}>Start Free →</Link>
               </Column>
               <Column style={roadmapColumn}>
                 <Text style={roadmapEmoji}>🚀</Text>
                 <Text style={roadmapTitle}>Business Skills</Text>
                 <Text style={roadmapDesc}>Entrepreneurship & Management</Text>
-                <Link href="/explore" style={roadmapLink}>Start Free →</Link>
+                <Link href="/" style={roadmapLink}>Start Free →</Link>
               </Column>
             </Row>
 
@@ -96,13 +96,13 @@ export default function PromotionalEmail({ recipientName = "there" }: Promotiona
                 <Text style={roadmapEmoji}>🔐</Text>
                 <Text style={roadmapTitle}>Cybersecurity</Text>
                 <Text style={roadmapDesc}>Ethical Hacking & Protection</Text>
-                <Link href="/explore" style={roadmapLink}>Start Free →</Link>
+                <Link href="/" style={roadmapLink}>Start Free →</Link>
               </Column>
               <Column style={roadmapColumn}>
                 <Text style={roadmapEmoji}>🧪</Text>
                 <Text style={roadmapTitle}>Science & Research</Text>
                 <Text style={roadmapDesc}>Physics, Chemistry & Biology</Text>
-                <Link href="/explore" style={roadmapLink}>Start Free →</Link>
+                <Link href="/" style={roadmapLink}>Start Free →</Link>
               </Column>
             </Row>
           </Section>
@@ -131,7 +131,7 @@ export default function PromotionalEmail({ recipientName = "there" }: Promotiona
           {/* Urgency CTA */}
           <Section style={ctaSection}>
             <Text style={urgencyText}>🔥 Join 10,000+ learners already accelerating their careers</Text>
-            <Button style={buttonPrimary} href="/explore">
+            <Button style={buttonPrimary} href="/">
               🚀 Start Learning FREE Now
             </Button>
             <Text style={ctaSubtext}>

@@ -52,7 +52,6 @@ import ProfileDropdown from '../components/ProfileDropdown';
 import { ThreeDGeneratorCard, ThreeDGeneratorModal } from '../../components/ThreeDGenerator';
 import { LearnAboutSomethingCard, LearnAboutSomethingModal } from '../../components/LearnAboutSomething';
 import PromotionalBackground from '../components/PromotionalBackground';
-import MainPageSidePanel from './components/MainPageSidePanel';
 import LearnBar from './components/LearnBar';
 
 const MenttorLabsMainPage = () => {
@@ -72,7 +71,6 @@ const MenttorLabsMainPage = () => {
   const [showModelModal, setShowModelModal] = useState(false);
   const [showOldRoadmaps, setShowOldRoadmaps] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
-  const [isSidePanelOpen, setIsSidePanelOpen] = useState(false);
   const [showOldLearnPages, setShowOldLearnPages] = useState(false);
   const [activeFeature, setActiveFeature] = useState(0);
   const [show3DGenerator, setShow3DGenerator] = useState(false);
@@ -446,13 +444,6 @@ const MenttorLabsMainPage = () => {
                 <span className="text-sm">Home</span>
               </Link>
               <Link
-                href="/library"
-                className="flex items-center space-x-2 px-3 py-2 rounded-md font-medium transition-all duration-200 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800"
-              >
-                <BookOpen className="w-4 h-4" />
-                <span className="text-sm">Library</span>
-              </Link>
-              <Link
                 href="/journey"
                 className="flex items-center space-x-2 px-3 py-2 rounded-md font-medium transition-all duration-200 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800"
               >
@@ -481,14 +472,6 @@ const MenttorLabsMainPage = () => {
                 </button>
               )}
               
-              {/* Mobile Side Panel Toggle */}
-              <button
-                onClick={() => setIsSidePanelOpen(!isSidePanelOpen)}
-                className="lg:hidden p-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
-              >
-                <BookOpen className="w-5 h-5" />
-              </button>
-              
               {/* Mobile Menu Button */}
               <button
                 onClick={() => setShowMobileMenu(!showMobileMenu)}
@@ -505,7 +488,6 @@ const MenttorLabsMainPage = () => {
               <div className="md:hidden bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm border-t border-gray-100 dark:border-gray-800 transition-all duration-300">
                 <div className="px-4 py-3 space-y-1">
                   <Link href="/" className="block py-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white font-medium">Home</Link>
-                  <Link href="/library" className="block py-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white font-medium">Library</Link>
                   <a href="#generate" className="block py-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white font-medium">Generate</a>
                   <button 
                     onClick={() => setShowOldRoadmaps(true)}
@@ -551,7 +533,7 @@ const MenttorLabsMainPage = () => {
       </nav>
 
       {/* Main Content Area */}
-      <div className="lg:ml-80">
+      <div>
         {/* Roadmap Generation Form - Connected Flow Design */}
         <section id="generate" className="py-12 bg-white dark:bg-black transition-colors duration-300">
         <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -879,7 +861,6 @@ const MenttorLabsMainPage = () => {
             
             {/* Center - Quick Links */}
             <div className="flex items-center space-x-6 text-sm">
-              <Link href="/library" className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200">Library</Link>
               <Link href="/privacy" className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200">Privacy</Link>
               <Link href="/terms" className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200">Terms</Link>
             </div>
@@ -969,17 +950,6 @@ const MenttorLabsMainPage = () => {
           currentModelId={learnModel.includes(':') ? learnModel : `vertexai:${learnModel}`}
         />
       )}
-      
-
-      </div>
-
-      {/* Main Page Side Panel */}
-      <MainPageSidePanel
-        onShow3DGenerator={() => setShow3DGenerator(true)}
-        onShowLearnAboutSomething={() => setShowLearnAboutSomething(true)}
-        isOpen={isSidePanelOpen}
-        onToggle={() => setIsSidePanelOpen(!isSidePanelOpen)}
-      />
       
     </div>
     </OnboardingWrapper>

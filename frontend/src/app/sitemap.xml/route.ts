@@ -17,7 +17,6 @@ export async function GET() {
   const staticUrls = [
     { url: baseUrl, priority: '1.0', changefreq: 'weekly' },
     { url: `${baseUrl}/explore`, priority: '0.9', changefreq: 'daily' },
-    { url: `${baseUrl}/library`, priority: '0.8', changefreq: 'daily' },
     { url: `${baseUrl}/help`, priority: '0.6', changefreq: 'monthly' },
     { url: `${baseUrl}/sitemap`, priority: '0.4', changefreq: 'monthly' },
     { url: `${baseUrl}/about`, priority: '0.5', changefreq: 'yearly' },
@@ -29,52 +28,6 @@ export async function GET() {
   let allUrls = [...staticUrls];
 
   try {
-    // Fetch library content with fallback to known content
-    const fallbackLibraryItems = [
-      { slug: 'neural-network-architectures' },
-      { slug: 'backpropagation-and-gradient-descent-variants' },
-      { slug: 'deep-learning-fundamentals' },
-      { slug: 'machine-learning-algorithms' },
-      { slug: 'data-structures-and-algorithms' }
-    ];
-
-    let libraryItems = fallbackLibraryItems;
-    
-    try {
-    const libraryResponse = await fetch('https://menttor-backend.onrender.com/library/available?per_page=10000', {
-        headers: {
-          'Cache-Control': 'no-cache',
-          'Accept': 'application/json',
-        },
-        signal: AbortSignal.timeout(20000), // Increased timeout for large response
-      });
-
-      if (libraryResponse.ok && libraryResponse.status === 200) {
-        const fetchedItems = await libraryResponse.json();
-        
-        if (Array.isArray(fetchedItems) && fetchedItems.length > 0) {
-          libraryItems = fetchedItems;
-          console.log(`Successfully loaded ${fetchedItems.length} library pages from API for sitemap`);
-        } else {
-          console.log('Using fallback library items - no items returned from API');
-        }
-      } else {
-        console.log(`Library API responded with status ${libraryResponse.status} - using fallback items`);
-      }
-    } catch (libraryError) {
-      console.log('Library API fetch failed - using fallback items:', libraryError instanceof Error ? libraryError.message : libraryError);
-    }
-
-    // Always add library content URLs (either from API or fallback)
-    const libraryUrls = libraryItems.map((item: any) => ({
-      url: `${baseUrl}/library/${item.slug}`,
-      priority: '0.7',
-      changefreq: 'weekly'
-    }));
-
-    allUrls = [...allUrls, ...libraryUrls];
-    console.log(`Added ${libraryItems.length} library pages to sitemap`);
-
     // Fetch roadmaps from backend with short timeout for faster builds
   const response = await fetch('https://menttor-backend.onrender.com/curated-roadmaps/?per_page=100', {
       headers: {
