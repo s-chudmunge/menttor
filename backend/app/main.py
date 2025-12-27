@@ -25,21 +25,20 @@ from sql_models import User, Roadmap, SpacedRepetition, QuizAttempt
 # Import new models conditionally
 try:
     from sql_models import RoadmapResource
-    print("✅ RoadmapResource model imported")
+    print("RoadmapResource model imported")
 except ImportError as e:
-    print(f"⚠️  RoadmapResource model not available: {e}")
+    print(f"  RoadmapResource model not available: {e}")
 from routers import auth, ml_insights, quiz, quiz_results, quiz_review, roadmaps, learn, spaced_repetition, models, quiz_submission, visualize, progress, behavioral, image_generation, activity, curated_roadmaps, monitoring, static_data, practice, admin, health, admin_management, db_test
 
 # Import learning_resources with error handling for deployment
 try:
     from routers import learning_resources
     LEARNING_RESOURCES_AVAILABLE = True
-    print("✅ Learning resources router imported successfully")
+    print("Learning resources router imported successfully")
 except ImportError as e:
-    print(f"⚠️  Warning: Learning resources router not available: {e}")
-    LEARNING_RESOURCES_AVAILABLE = False
+    print(f"  Warning: Learning resources router not available: {e}")
 except Exception as e:
-    print(f"⚠️  Error importing learning resources router: {e}")
+    print(f"  Error importing learning resources router: {e}")
     LEARNING_RESOURCES_AVAILABLE = False
 
 # Configure logging with behavioral nudge filter
@@ -92,9 +91,9 @@ app.include_router(image_generation.router, prefix="/images")
 app.include_router(curated_roadmaps.router)
 if LEARNING_RESOURCES_AVAILABLE:
     app.include_router(learning_resources.router, prefix="/learning-resources")
-    print("✅ Learning resources router registered")
+    print("Learning resources router registered")
 else:
-    print("⚠️  Learning resources router skipped due to import error")
+    print("  Learning resources router skipped due to import error")
 app.include_router(health.router)
 app.include_router(static_data.router)
 app.include_router(monitoring.router)

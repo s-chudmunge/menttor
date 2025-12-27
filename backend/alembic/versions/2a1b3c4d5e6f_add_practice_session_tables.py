@@ -20,74 +20,74 @@ depends_on: Union[str, Sequence[str], None] = None
 def upgrade() -> None:
     """Add practice session tables."""
     
-    # Create practicesession table
-    op.create_table('practicesession',
-        sa.Column('id', sa.Integer(), nullable=False),
-        sa.Column('user_id', sa.Integer(), nullable=False),
-        sa.Column('roadmap_id', sa.Integer(), nullable=False),
-        sa.Column('session_token', sa.String(), nullable=False),
-        sa.Column('subtopic_ids', postgresql.JSONB(), nullable=False),
-        sa.Column('question_types', postgresql.JSONB(), nullable=False),
-        sa.Column('question_count', sa.Integer(), nullable=False),
-        sa.Column('time_limit', sa.Integer(), nullable=False),
-        sa.Column('hints_enabled', sa.Boolean(), nullable=False, server_default='true'),
-        sa.Column('subject', sa.String(), nullable=False),
-        sa.Column('goal', sa.String(), nullable=False),
-        sa.Column('status', sa.String(), nullable=False, server_default='active'),
-        sa.Column('started_at', sa.DateTime(), nullable=True),
-        sa.Column('completed_at', sa.DateTime(), nullable=True),
-        sa.Column('total_time_spent', sa.Integer(), nullable=True),
-        sa.Column('final_score', sa.Float(), nullable=True),
-        sa.Column('correct_answers', sa.Integer(), nullable=True),
-        sa.Column('hints_used', sa.Integer(), nullable=True),
-        sa.Column('created_at', sa.DateTime(), nullable=False),
-        sa.ForeignKeyConstraint(['roadmap_id'], ['roadmap.id'], ),
-        sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
-        sa.PrimaryKeyConstraint('id')
-    )
-    op.create_index(op.f('ix_practicesession_roadmap_id'), 'practicesession', ['roadmap_id'], unique=False)
-    op.create_index(op.f('ix_practicesession_session_token'), 'practicesession', ['session_token'], unique=True)
-    op.create_index(op.f('ix_practicesession_user_id'), 'practicesession', ['user_id'], unique=False)
+    # op.create_table('practicesession',
+    #     sa.Column('id', sa.Integer(), nullable=False),
+    #     sa.Column('user_id', sa.Integer(), nullable=False),
+    #     sa.Column('roadmap_id', sa.Integer(), nullable=False),
+    #     sa.Column('session_token', sa.String(), nullable=False),
+    #     sa.Column('subtopic_ids', postgresql.JSONB(), nullable=False),
+    #     sa.Column('question_types', postgresql.JSONB(), nullable=False),
+    #     sa.Column('question_count', sa.Integer(), nullable=False),
+    #     sa.Column('time_limit', sa.Integer(), nullable=False),
+    #     sa.Column('hints_enabled', sa.Boolean(), nullable=False, server_default='true'),
+    #     sa.Column('subject', sa.String(), nullable=False),
+    #     sa.Column('goal', sa.String(), nullable=False),
+    #     sa.Column('status', sa.String(), nullable=False, server_default='active'),
+    #     sa.Column('started_at', sa.DateTime(), nullable=True),
+    #     sa.Column('completed_at', sa.DateTime(), nullable=True),
+    #     sa.Column('total_time_spent', sa.Integer(), nullable=True),
+    #     sa.Column('final_score', sa.Float(), nullable=True),
+    #     sa.Column('correct_answers', sa.Integer(), nullable=True),
+    #     sa.Column('hints_used', sa.Integer(), nullable=True),
+    #     sa.Column('created_at', sa.DateTime(), nullable=False),
+    #     sa.ForeignKeyConstraint(['roadmap_id'], ['roadmap.id'], ),
+    #     sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
+    #     sa.PrimaryKeyConstraint('id')
+    # )
+    # op.create_index(op.f('ix_practicesession_roadmap_id'), 'practicesession', ['roadmap_id'], unique=False)
+    # op.create_index(op.f('ix_practicesession_session_token'), 'practicesession', ['session_token'], unique=True)
+    # op.create_index(op.f('ix_practicesession_user_id'), 'practicesession', ['user_id'], unique=False)
 
-    # Create practicequestion table
-    op.create_table('practicequestion',
-        sa.Column('id', sa.Integer(), nullable=False),
-        sa.Column('session_id', sa.Integer(), nullable=False),
-        sa.Column('subtopic_id', sa.String(), nullable=False),
-        sa.Column('question_type', sa.String(), nullable=False),
-        sa.Column('question_data', postgresql.JSONB(), nullable=False),
-        sa.Column('difficulty', sa.String(), nullable=False, server_default='medium'),
-        sa.Column('order_index', sa.Integer(), nullable=False),
-        sa.Column('model_used', sa.String(), nullable=True),
-        sa.Column('generation_prompt', sa.Text(), nullable=True),
-        sa.Column('created_at', sa.DateTime(), nullable=False),
-        sa.ForeignKeyConstraint(['session_id'], ['practicesession.id'], ),
-        sa.PrimaryKeyConstraint('id')
-    )
-    op.create_index(op.f('ix_practicequestion_session_id'), 'practicequestion', ['session_id'], unique=False)
-    op.create_index(op.f('ix_practicequestion_subtopic_id'), 'practicequestion', ['subtopic_id'], unique=False)
+    # # Create practicequestion table
+    # op.create_table('practicequestion',
+    #     sa.Column('id', sa.Integer(), nullable=False),
+    #     sa.Column('session_id', sa.Integer(), nullable=False),
+    #     sa.Column('subtopic_id', sa.String(), nullable=False),
+    #     sa.Column('question_type', sa.String(), nullable=False),
+    #     sa.Column('question_data', postgresql.JSONB(), nullable=False),
+    #     sa.Column('difficulty', sa.String(), nullable=False, server_default='medium'),
+    #     sa.Column('order_index', sa.Integer(), nullable=False),
+    #     sa.Column('model_used', sa.String(), nullable=True),
+    #     sa.Column('generation_prompt', sa.Text(), nullable=True),
+    #     sa.Column('created_at', sa.DateTime(), nullable=False),
+    #     sa.ForeignKeyConstraint(['session_id'], ['practicesession.id'], ),
+    #     sa.PrimaryKeyConstraint('id')
+    # )
+    # op.create_index(op.f('ix_practicequestion_session_id'), 'practicequestion', ['session_id'], unique=False)
+    # op.create_index(op.f('ix_practicequestion_subtopic_id'), 'practicequestion', ['subtopic_id'], unique=False)
 
-    # Create practiceanswer table
-    op.create_table('practiceanswer',
-        sa.Column('id', sa.Integer(), nullable=False),
-        sa.Column('session_id', sa.Integer(), nullable=False),
-        sa.Column('question_id', sa.Integer(), nullable=False),
-        sa.Column('user_answer', sa.Text(), nullable=False),
-        sa.Column('is_correct', sa.Boolean(), nullable=False),
-        sa.Column('time_spent', sa.Integer(), nullable=False),
-        sa.Column('hint_used', sa.Boolean(), nullable=False, server_default='false'),
-        sa.Column('answered_at', sa.DateTime(), nullable=False),
-        sa.Column('question_order', sa.Integer(), nullable=False, server_default='0'),
-        sa.ForeignKeyConstraint(['question_id'], ['practicequestion.id'], ),
-        sa.ForeignKeyConstraint(['session_id'], ['practicesession.id'], ),
-        sa.PrimaryKeyConstraint('id')
-    )
-    op.create_index(op.f('ix_practiceanswer_question_id'), 'practiceanswer', ['question_id'], unique=False)
-    op.create_index(op.f('ix_practiceanswer_session_id'), 'practiceanswer', ['session_id'], unique=False)
+    # # Create practiceanswer table
+    # op.create_table('practiceanswer',
+    #     sa.Column('id', sa.Integer(), nullable=False),
+    #     sa.Column('session_id', sa.Integer(), nullable=False),
+    #     sa.Column('question_id', sa.Integer(), nullable=False),
+    #     sa.Column('user_answer', sa.Text(), nullable=False),
+    #     sa.Column('is_correct', sa.Boolean(), nullable=False),
+    #     sa.Column('time_spent', sa.Integer(), nullable=False),
+    #     sa.Column('hint_used', sa.Boolean(), nullable=False, server_default='false'),
+    #     sa.Column('answered_at', sa.DateTime(), nullable=False),
+    #     sa.Column('question_order', sa.Integer(), nullable=False, server_default='0'),
+    #     sa.ForeignKeyConstraint(['question_id'], ['practicequestion.id'], ),
+    #     sa.ForeignKeyConstraint(['session_id'], ['practicesession.id'], ),
+    #     sa.PrimaryKeyConstraint('id')
+    # )
+    # op.create_index(op.f('ix_practiceanswer_question_id'), 'practiceanswer', ['question_id'], unique=False)
+    # op.create_index(op.f('ix_practiceanswer_session_id'), 'practiceanswer', ['session_id'], unique=False)
 
-    # Add practice-related columns to existing tables
-    op.add_column('userprogress', sa.Column('practice_sessions_count', sa.Integer(), nullable=False, server_default='0'))
-    op.add_column('userprogress', sa.Column('last_practice_score', sa.Float(), nullable=True))
+    # # Add practice-related columns to existing tables
+    # op.add_column('userprogress', sa.Column('practice_sessions_count', sa.Integer(), nullable=False, server_default='0'))
+    # op.add_column('userprogress', sa.Column('last_practice_score', sa.Float(), nullable=True))
+    pass
 
 
 def downgrade() -> None:

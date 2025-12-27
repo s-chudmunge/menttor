@@ -26,7 +26,7 @@ def get_supabase_client() -> Client:
 
     if _supabase_client is None:
         if not settings.SUPABASE_URL or not settings.SUPABASE_KEY:
-            logger.error("❌ SUPABASE_URL and SUPABASE_KEY environment variables are required")
+            logger.error("SUPABASE_URL and SUPABASE_KEY environment variables are required")
             raise RuntimeError("Supabase credentials are not configured")
 
         try:
@@ -34,9 +34,16 @@ def get_supabase_client() -> Client:
                 settings.SUPABASE_URL,
                 settings.SUPABASE_KEY
             )
-            logger.info("✅ Supabase client initialized successfully")
+            logger.info("Supabase client initialized successfully")
+        except TypeError as e:
+            if "got an unexpected keyword argument 'proxy'" in str(e):
+                logger.warning(f"Supabase client not initialized due to proxy argument error: {e}")
+                _supabase_client = None
+            else:
+                logger.error(f"Failed to initialize Supabase client: {e}")
+                raise RuntimeError(f"Supabase initialization failed: {e}")
         except Exception as e:
-            logger.error(f"❌ Failed to initialize Supabase client: {e}")
+            logger.error(f"Failed to initialize Supabase client: {e}")
             raise RuntimeError(f"Supabase initialization failed: {e}")
 
     return _supabase_client
@@ -46,5 +53,5 @@ def get_supabase_client() -> Client:
 try:
     supabase = get_supabase_client()
 except Exception as e:
-    logger.warning(f"⚠️ Supabase client not initialized: {e}")
+    logger.warning(f"Supabase client not initialized: {e}")
     supabase = None
