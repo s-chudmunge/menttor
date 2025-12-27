@@ -72,13 +72,11 @@ const MenttorLabsMainPage = () => {
   const [showOldLearnPages, setShowOldLearnPages] = useState(false);
   const [activeFeature, setActiveFeature] = useState(0);
   const [show3DGenerator, setShow3DGenerator] = useState(false);
-  const [threeDModel, setThreeDModel] = useState('vertexai:gemini-2.5-flash');
-  const [threeDModelName, setThreeDModelName] = useState('Loading models...');
-  const [show3DModelModal, setShow3DModelModal] = useState(false);
+  const [threeDModel, setThreeDModel] = useState('openrouter:google/gemma-2b-it:free');
+  const [threeDModelName, setThreeDModelName] = useState('Google: Gemma 2B (free)');
   const [showLearnAboutSomething, setShowLearnAboutSomething] = useState(false);
-  const [learnModel, setLearnModel] = useState('openrouter:meta-llama/llama-3.3-8b-instruct:free');
-  const [learnModelName, setLearnModelName] = useState('Loading models...');
-  const [showLearnModelModal, setShowLearnModelModal] = useState(false);
+  const [learnModel, setLearnModel] = useState('openrouter:google/gemma-2b-it:free');
+  const [learnModelName, setLearnModelName] = useState('Google: Gemma 2B (free)');
 
   // Define GenerateRoadmapRequest interface here or import if already defined
   interface GenerateRoadmapRequest {
@@ -123,55 +121,10 @@ const MenttorLabsMainPage = () => {
 
 
 
-  // Set default model for 3D generator
-  useEffect(() => {
-    const fetchAndSet3DModel = async () => {
-      try {
-        const response = await fetch(`${BACKEND_URL}/models/`);
-        if (response.ok) {
-          const models = await response.json();
-          
-          // Find the first Vertex AI model as default for 3D generator
-          const vertexAIModel = models.find(model => 
-            model.id && model.id.startsWith('vertexai:')
-          );
-          
-          if (vertexAIModel) {
-            setThreeDModel(vertexAIModel.id.replace('vertexai:', ''));
-            setThreeDModelName(vertexAIModel.name);
-          } else {
-            // Fallback to first available model
-            const firstModel = models[0];
-            if (firstModel) {
-              setThreeDModel(firstModel.id.replace('vertexai:', ''));
-              setThreeDModelName(firstModel.name);
-            } else {
-              // Final fallback
-              setThreeDModel('gemini-2.5-flash');
-              setThreeDModelName('Google Gemini (gemini-2.5-flash)');
-            }
-          }
-        }
-      } catch (error) {
-        console.error('Error fetching 3D models:', error);
-        setThreeDModel('gemini-2.5-flash');
-        setThreeDModelName('Google Gemini (gemini-2.5-flash)');
-      }
-    };
-
-    // Only fetch if no 3D model is currently set
-    if (threeDModelName === 'Loading models...') {
-      fetchAndSet3DModel();
-    }
-  }, [threeDModelName]);
 
 
-  // Initialize learn model name  
-  useEffect(() => {
-    if (learnModelName === 'Loading models...') {
-      setLearnModelName('Meta Llama 3.3 8B (free)');
-    }
-  }, [learnModelName]);
+
+
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -338,24 +291,6 @@ const MenttorLabsMainPage = () => {
   const handleLoadOldRoadmap = (roadmap: RoadmapData) => {
     sessionStorage.setItem('currentRoadmap', JSON.stringify(roadmap));
     router.push('/journey');
-  };
-
-
-
-  const handleSelect3DModel = (modelId: string, modelName: string) => {
-    // Keep the full model ID for 3D generation to support all providers
-    // (vertexai:, openrouter:, huggingface:, etc.)
-    setThreeDModel(modelId);
-    setThreeDModelName(modelName);
-    setShow3DModelModal(false);
-  };
-
-  const handleSelectLearnModel = (modelId: string, modelName: string) => {
-    // Keep the full model ID for learning content generation to support all providers
-    // (vertexai:, openrouter:, huggingface:, etc.)
-    setLearnModel(modelId);
-    setLearnModelName(modelName);
-    setShowLearnModelModal(false);
   };
 
   const handleLoadOldLearningContent = (content: any) => {
@@ -848,7 +783,6 @@ const MenttorLabsMainPage = () => {
         onClose={() => setShow3DGenerator(false)}
         selectedModel={threeDModel}
         selectedModelName={threeDModelName}
-        onModelSelect={() => setShow3DModelModal(true)}
       />
 
       {/* Learn About Something Modal */}
@@ -857,29 +791,7 @@ const MenttorLabsMainPage = () => {
         onClose={() => setShowLearnAboutSomething(false)}
         selectedModel={learnModel}
         selectedModelName={learnModelName}
-        onModelSelect={() => setShowLearnModelModal(true)}
       />
-      
-
-      {/* 3D Model Selection Modal */}
-      {show3DModelModal && (
-        <D3ModelMapModal
-          isOpen={show3DModelModal}
-          onClose={() => setShow3DModelModal(false)}
-          onSelectModel={handleSelect3DModel}
-          currentModelId={threeDModel.includes(':') ? threeDModel : `vertexai:${threeDModel}`}
-        />
-      )}
-
-      {/* Learn About Something Model Selection Modal */}
-      {showLearnModelModal && (
-        <D3ModelMapModal
-          isOpen={showLearnModelModal}
-          onClose={() => setShowLearnModelModal(false)}
-          onSelectModel={handleSelectLearnModel}
-          currentModelId={learnModel.includes(':') ? learnModel : `vertexai:${learnModel}`}
-        />
-      )}
       
     </div>
     </OnboardingWrapper>

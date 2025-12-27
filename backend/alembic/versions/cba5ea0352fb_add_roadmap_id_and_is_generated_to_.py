@@ -20,17 +20,17 @@ depends_on: Union[str, Sequence[str], None] = None
 
 def upgrade() -> None:
     """Upgrade schema."""
-    # Add is_generated column to learningcontent table
-    op.add_column('learningcontent', sa.Column('is_generated', sa.Boolean(), nullable=False, server_default='false'))
+    # op.add_column('learningcontent', sa.Column('is_generated', sa.Boolean(), nullable=False, server_default='false'))
     
-    # Add roadmap_id column to learningcontent table
-    op.add_column('learningcontent', sa.Column('roadmap_id', sa.Integer(), nullable=True))
+    # # Add roadmap_id column to learningcontent table
+    # op.add_column('learningcontent', sa.Column('roadmap_id', sa.Integer(), nullable=True))
     
-    # Add foreign key constraint for roadmap_id
-    op.create_foreign_key('fk_learningcontent_roadmap_id', 'learningcontent', 'roadmap', ['roadmap_id'], ['id'])
+    # # Add foreign key constraint for roadmap_id
+    # op.create_foreign_key('fk_learningcontent_roadmap_id', 'learningcontent', 'roadmap', ['roadmap_id'], ['id'])
     
-    # Create index on roadmap_id
-    op.create_index('ix_learningcontent_roadmap_id', 'learningcontent', ['roadmap_id'])
+    # # Create index on roadmap_id
+    # op.create_index('ix_learningcontent_roadmap_id', 'learningcontent', ['roadmap_id'])
+    pass
 
 
 def downgrade() -> None:
