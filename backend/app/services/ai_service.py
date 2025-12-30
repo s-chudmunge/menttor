@@ -103,7 +103,7 @@ def _sanitize_content_blocks(data: Any) -> Any:
         return [_sanitize_content_blocks(item) for item in data]
     return data
 
-import google.genai as genai
+import google.generativeai as genai
 
 # --- AI Execution Logic ---
 
