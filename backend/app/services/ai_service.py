@@ -103,9 +103,83 @@ def _sanitize_content_blocks(data: Any) -> Any:
         return [_sanitize_content_blocks(item) for item in data]
     return data
 
+import google.generativeai as genai
+
+# --- AI Execution Logic ---
+
+def _correct_ai_response_keys(data: Any) -> Any:
+    """Recursively corrects common AI response key deviations (e.g., 'subtopics' to 'sub_topics')."""
+    if isinstance(data, dict):
+        # Recursively process nested dictionaries
+        for key, value in data.items():
+            data[key] = _correct_ai_response_keys(value)
+    elif isinstance(data, list):
+        # Recursively process items in lists
+        return [_correct_ai_response_keys(item) for item in data]
+    return data
+
+def _sanitize_content_blocks(data: Any) -> Any:
+    """Sanitizes content blocks to ensure they have proper type discriminators."""
+    if isinstance(data, dict):
+        # Check if this is a content response with content array
+        if 'content' in data and isinstance(data['content'], list):
+            sanitized_content = []
+            for item in data['content']:
+                if isinstance(item, dict):
+                    # Skip items that don't have a 'type' field or have invalid structure
+                    if 'type' not in item:
+                        logger.warning(f"Skipping content block without 'type' field: {item}")
+                        continue
+                    
+                    # Ensure 'data' field exists
+                    if 'data' not in item:
+                        logger.warning(f"Skipping content block without 'data' field: {item}")
+                        continue
+                    
+                    # Validate known types
+                    valid_types = [
+                        'heading', 'paragraph', 'progressive_disclosure', 'active_recall',
+                        'dual_coding', 'comparison_table', 'callout', 'mermaid_diagram', '3d_visualization'
+                    ]
+                    
+                    if item['type'] not in valid_types:
+                        logger.warning(f"Skipping content block with unknown type '{item['type']}': {item}")
+                        continue
+                    
+                    sanitized_content.append(item)
+                else:
+                    logger.warning(f"Skipping non-dict content block: {item}")
+            
+            data['content'] = sanitized_content
+        
+        # Recursively process nested dictionaries
+        for key, value in data.items():
+            data[key] = _sanitize_content_blocks(value)
+    elif isinstance(data, list):
+        # Recursively process items in lists
+        return [_sanitize_content_blocks(item) for item in data]
+    return data
+
 class AIExecutor:
     def __init__(self):
-        logger.info("AIExecutor initialized. Using OpenRouter and HuggingFace models.")
+        logger.info("AIExecutor initialized. Using Gemini (native) and OpenRouter/HuggingFace (via litellm) models.")
+
+    async def _completion_gemini_native(self, prompt: str, model_name: str, api_key: str) -> str:
+        """Executes a completion using the native google-generativeai library."""
+        logger.info(f"Attempting completion with native Gemini model: {model_name}")
+        try:
+            genai.configure(api_key=api_key)
+            model = genai.GenerativeModel(model_name)
+            response = await model.generate_content_async(prompt)
+            
+            if not response.text:
+                raise ValueError("Received an empty response from Gemini API.")
+            
+            logger.info(f"Successfully received response from native Gemini: {response.text[:100]}...")
+            return response.text
+        except Exception as e:
+            logger.error(f"Native Gemini completion for model {model_name} failed: {e}", exc_info=True)
+            raise  # Re-raise the exception to be caught by the calling method
 
     async def execute(
         self,
@@ -117,70 +191,91 @@ class AIExecutor:
 
         prompt = self._render_prompt(task_type, request_data)
         model_id = request_data.model
-
-        # Ensure the model string has a provider prefix
-        if ':' not in model_id:
-            # Default to openrouter provider if no explicit provider is given
-            model_id = f"openrouter:{model_id}"
-
         raw_response = None
 
-        try:
-            provider, model_name = model_id.split(":", 1)
-
-            if provider == "vertexai":
-                raise HTTPException(
-                    status_code=status.HTTP_400_BAD_REQUEST,
-                    detail="Vertex AI models are no longer supported. Please use OpenRouter or HuggingFace models."
-                )
+        if model_id is None:
+            if task_type == "roadmap":
+                model_id = settings.DEFAULT_ROADMAP_MODEL
             else:
-                litellm_model_name = model_id.replace(":", "/", 1)
+                model_id = settings.DEFAULT_QUIZ_MODEL # A reasonable default
+            logger.info(f"Model not specified, using default for task '{task_type}': {model_id}")
 
-                if provider == "huggingface":
-                    if not settings.HF_API_TOKEN:
-                        raise HTTPException(status_code=500, detail="HuggingFace API token is not configured.")
+
+        # --- Primary Method: Native Gemini API ---
+        # A model without a ':' is assumed to be a direct Gemini model if the key is present.
+        if settings.GEMINI_API_KEY and ':' not in model_id:
+            try:
+                raw_response = await self._completion_gemini_native(
+                    prompt=prompt,
+                    model_name=model_id,
+                    api_key=settings.GEMINI_API_KEY
+                )
+                logger.info(f"Successfully used native Gemini for model '{model_id}'.")
+            except Exception as e:
+                logger.warning(
+                    f"Native Gemini API call for model '{model_id}' failed: {e}. "
+                    f"Falling back to litellm (secondary method)."
+                )
+                # Ensure raw_response is None so fallback is triggered
+                raw_response = None
+        
+        # --- Secondary Method: LiteLLM (for OpenRouter, HuggingFace, etc.) ---
+        if raw_response is None:
+            logger.info(f"Using secondary method (litellm) for model '{model_id}'.")
+            # Ensure the model string has a provider prefix for litellm
+            if ':' not in model_id:
+                # Default to openrouter provider if no explicit provider is given
+                model_id_litellm = f"openrouter:{model_id}"
+            else:
+                model_id_litellm = model_id
+            
+            try:
+                provider, model_name = model_id_litellm.split(":", 1)
+
+                if provider == "vertexai":
+                    raise HTTPException(
+                        status_code=status.HTTP_400_BAD_REQUEST,
+                        detail="Vertex AI models are no longer supported. Please use OpenRouter or a direct Gemini model."
+                    )
+                
+                # Determine API key based on provider
+                api_key = None
+                if provider == "huggingface" and settings.HF_API_TOKEN:
                     api_key = settings.HF_API_TOKEN
-                elif provider == "openrouter":
-                    if not settings.OPENROUTER_API_KEY:
-                        raise HTTPException(status_code=500, detail="OpenRouter API key is not configured.")
+                elif provider == "openrouter" and settings.OPENROUTER_API_KEY:
                     api_key = settings.OPENROUTER_API_KEY
-                elif provider == "openai":
-                    if not settings.OPENAI_API_KEY:
-                        raise HTTPException(status_code=500, detail="OpenAI API key is not configured.")
+                elif provider == "openai" and settings.OPENAI_API_KEY:
                     api_key = settings.OPENAI_API_KEY
-                elif provider == "deepseek":
-                    if not settings.DEEPSEEK_KEY:
-                        raise HTTPException(status_code=500, detail="DeepSeek API key is not configured.")
+                elif provider == "deepseek" and settings.DEEPSEEK_KEY:
                     api_key = settings.DEEPSEEK_KEY
-                else:
-                    api_key = None
 
                 if not api_key:
                     raise HTTPException(
                         status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                        detail=f"Access to the selected model ({model_id}) is currently unavailable or the provider is not supported. Please choose a free model from a supported provider."
+                        detail=f"Access to the selected model ({model_id_litellm}) is currently unavailable or the provider is not supported. Please choose a free model or a direct Gemini model."
                     )
 
-                logger.info(f"Using API Key (first 5 chars): {api_key[:5]} for model: {model_id}")
+                logger.info(f"Using API Key (first 5 chars): {api_key[:5]} for litellm model: {model_id_litellm}")
 
+                litellm_model_name = model_id_litellm.replace(":", "/", 1)
                 logger.info(f"Sending prompt to LiteLLM model {litellm_model_name}: {prompt}")
+                
                 try:
-                    # LiteLLM completion with proper OpenRouter configuration
-                                        completion_params = {
-                                            "model": litellm_model_name,
-                                            "messages": [{"role": "user", "content": prompt}],
-                                            "temperature": 0.7,
-                                            "api_key": api_key.strip() if api_key else None
-                                        }
-                                        
-                                        # Add OpenRouter-specific headers if using OpenRouter
-                                        if provider == "openrouter":
-                                            completion_params["extra_headers"] = {
-                                                "HTTP-Referer": "https://menttor.live",  # Your site URL
-                                                "X-Title": "Menttor Labs"  # Your app name
-                                            }
-                                        
-                                        response = litellm.completion(**completion_params)
+                    completion_params = {
+                        "model": litellm_model_name,
+                        "messages": [{"role": "user", "content": prompt}],
+                        "temperature": 0.7,
+                        "api_key": api_key.strip() if api_key else None
+                    }
+                    
+                    if provider == "openrouter":
+                        completion_params["extra_headers"] = {
+                            "HTTP-Referer": "https://menttor.live",
+                            "X-Title": "Menttor Labs"
+                        }
+                    
+                    response = await litellm.acompletion(**completion_params)
+                    
                     logger.info(f"Full LiteLLM Response Object: {response}")
 
                     if not response.choices or not response.choices[0].message or not response.choices[0].message.content:
@@ -191,42 +286,52 @@ class AIExecutor:
                         )
                     raw_response = response.choices[0].message.content
                     print(f"Raw LiteLLM AI Response: {raw_response}")
+
                 except APIError as litellm_e:
-                    # Check if the error has a status code and if it's 402 from OpenRouter
                     if hasattr(litellm_e, 'status_code') and litellm_e.status_code == 402 and provider == "openrouter":
-                        logger.warning(f"OpenRouter model {model_id} failed due to insufficient credits (402).")
+                        logger.warning(f"OpenRouter model {model_id_litellm} failed due to insufficient credits (402).")
                         raise HTTPException(
                             status_code=status.HTTP_402_PAYMENT_REQUIRED,
-                            detail="Paid models are currently unavailable. We are working to secure additional resources. Please select a free model."
+                            detail="Paid models are currently unavailable. Please select a free model."
                         ) from litellm_e
                     else:
-                        logger.error(f"LiteLLM completion failed for model {model_id}: {litellm_e}", exc_info=True)
+                        logger.error(f"LiteLLM completion failed for model {model_id_litellm}: {litellm_e}", exc_info=True)
                         raise HTTPException(
                             status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
-                            detail=f"AI model {model_id} failed to respond: {litellm_e}"
+                            detail=f"AI model {model_id_litellm} failed to respond: {litellm_e}"
                         ) from litellm_e
                 except Exception as litellm_e:
-                    logger.error(f"LiteLLM completion failed for model {model_id}: {litellm_e}", exc_info=True)
+                    logger.error(f"LiteLLM completion failed for model {model_id_litellm}: {litellm_e}", exc_info=True)
                     raise HTTPException(
                         status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
-                        detail=f"AI model {model_id} failed to respond: {litellm_e}"
+                        detail=f"AI model {model_id_litellm} failed to respond: {litellm_e}"
                     ) from litellm_e
 
+            except HTTPException as e:
+                raise e
+            except Exception as e:
+                logger.error(f"An unexpected error occurred in litellm path for model {model_id}: {type(e).__name__} - {e}", exc_info=True)
+                raise HTTPException(
+                    status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+                    detail=f"AI model provider logic failed for {model_id}: {e}"
+                ) from e
+
+        # --- Response Processing ---
+        if raw_response is None:
+            raise HTTPException(
+                status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+                detail=f"AI model '{model_id}' failed to produce a response through all available methods."
+            )
+            
+        try:
             if is_json:
                 validated_response = self._validate_and_parse_json(raw_response, response_schema, model_id)
-                # For most schemas, the model is added during validation.
-                # For LearningContentResponse, the model is part of the validated object.
-                # GenerateResourcesResponse doesn't have a model field, so skip setting it
                 if response_schema.__name__ != 'GenerateResourcesResponse' and (not hasattr(validated_response, 'model') or not validated_response.model):
                      validated_response.model = model_id
                 return {"response": validated_response, "model": model_id}
             else:
-                # Special handling for GenerateFeedbackResponse and ThreeDVisualizationResponse
                 if response_schema is GenerateFeedbackResponse:
-                    if isinstance(raw_response, dict) and "content" in raw_response:
-                        feedback_text = raw_response["content"]
-                    else:
-                        feedback_text = raw_response
+                    feedback_text = raw_response if isinstance(raw_response, str) else raw_response.get("content", "")
                     return {"response": response_schema(feedback_text=feedback_text), "model": model_id}
                 elif response_schema is ThreeDVisualizationResponse:
                     return {"response": response_schema(html_content=raw_response, model=model_id), "model": model_id}
@@ -236,10 +341,10 @@ class AIExecutor:
         except HTTPException as e:
             raise e
         except Exception as e:
-            logger.error(f"An unexpected error occurred calling AI model {model_id}: {type(e).__name__} - {e}", exc_info=True)
+            logger.error(f"An unexpected error occurred processing AI response for model {model_id}: {type(e).__name__} - {e}", exc_info=True)
             raise HTTPException(
                 status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
-                detail=f"AI model {model_id} failed to respond: {e}"
+                detail=f"Failed to process AI response from model {model_id}: {e}"
             ) from e
 
     def _render_prompt(self, task_type: str, request_data: BaseModel) -> str:
@@ -297,6 +402,23 @@ class AIExecutor:
                 if response_schema.__name__ == 'LearningContentResponse':
                     parsed_json = _sanitize_content_blocks(parsed_json)
                     logger.info(f"Step 4.5: Sanitized content blocks: {parsed_json}")
+
+                # Special handling for RoadmapAIResponse to wrap modules and inject IDs
+                if response_schema.__name__ == 'RoadmapAIResponse' and 'modules' in parsed_json and 'roadmap_plan' not in parsed_json:
+                    logger.info("Step 4.6: Wrapping 'modules' into 'roadmap_plan' and injecting UUIDs for RoadmapAIResponse.")
+                    
+                    # Inject UUIDs into the nested structure
+                    modules = parsed_json.get("modules", [])
+                    for module in modules:
+                        module['id'] = str(uuid.uuid4())
+                        for topic in module.get("topics", []):
+                            topic['id'] = str(uuid.uuid4())
+                            for subtopic in topic.get("subtopics", []):
+                                subtopic['id'] = str(uuid.uuid4())
+
+                    parsed_json = {"title": parsed_json.get("title"), 
+                                   "description": parsed_json.get("description"),
+                                   "roadmap_plan": {"modules": modules}}
 
                 # Add model name to the parsed JSON
                 parsed_json['model'] = model_name

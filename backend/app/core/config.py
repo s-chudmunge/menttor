@@ -25,6 +25,7 @@ class Settings(BaseSettings):
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
     REFRESH_TOKEN_EXPIRE_DAYS: int = 7
     OPENROUTER_API_KEY: Optional[str] = None
+    GEMINI_API_KEY: Optional[str] = None
     DEEPSEEK_KEY: Optional[str] = None
     DATABASE_ECHO: bool = False
     AT_RISK_THRESHOLD: float = 0.2
@@ -48,13 +49,12 @@ class Settings(BaseSettings):
     VERTEX_AI_MODEL_ID: Optional[str] = "gemini-2.5-flash-lite"
     
     # Default AI Models for different use cases - centralized configuration
-    # Using Google Gemma 3n 2B (free) from OpenRouter as the default model
-    DEFAULT_ROADMAP_MODEL: str = "deepseek:deepseek/deepseek-chat"
-    DEFAULT_QUIZ_MODEL: str = "openrouter:google/gemma-3n-e2b-it:free"
-    DEFAULT_FEEDBACK_MODEL: str = "openrouter:google/gemma-3n-e2b-it:free"
-    DEFAULT_LEARNING_CONTENT_MODEL: str = "openrouter:google/gemma-3n-e2b-it:free"
-    DEFAULT_VISUALIZATION_MODEL: str = "openrouter:google/gemma-3n-e2b-it:free"
-    DEFAULT_LEARNING_RESOURCES_MODEL: str = "openrouter:google/gemma-3n-e2b-it:free"
+    DEFAULT_ROADMAP_MODEL: str = "gemini-2.5-flash"
+    DEFAULT_QUIZ_MODEL: str = "google/gemma-3n-e2b-it:free"
+    DEFAULT_FEEDBACK_MODEL: str = "google/gemma-3n-e2b-it:free"
+    DEFAULT_LEARNING_CONTENT_MODEL: str = "google/gemma-3n-e2b-it:free"
+    DEFAULT_VISUALIZATION_MODEL: str = "google/gemma-3n-e2b-it:free"
+    DEFAULT_LEARNING_RESOURCES_MODEL: str = "google/gemma-3n-e2b-it:free"
 
     FIREBASE_CREDENTIALS: Optional[str] = None  # Legacy - can be removed after migration
     

@@ -131,7 +131,7 @@ class RoadmapCreateRequest(SQLModel):
     goal: str
     time_value: int
     time_unit: str
-    model: str
+    model: Optional[str] = None
 
 class RoadmapResponse(SQLModel):
     id: int
