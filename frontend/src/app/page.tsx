@@ -192,7 +192,13 @@ const MenttorLabsMainPage = () => {
                   disabled={isGenerating}
                   className="px-12 py-4 rounded-xl font-semibold text-lg bg-green-600 text-white"
                 >
-                  {isGenerating ? 'Generating...' : 'Generate Your Roadmap'}
+                  {isGenerating ? (
+                    <>
+                      <span className="spinner"></span> Generating...
+                    </>
+                  ) : (
+                    'Generate Your Roadmap'
+                  )}
                 </button>
               </div>
 
