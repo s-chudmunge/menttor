@@ -16,6 +16,7 @@ import {
   Menu,
   X,
   ArrowRight,
+  Loader,
 } from 'lucide-react';
 import { RoadmapData, RoadmapItem, api } from '../lib/api';
 import { useAIState } from '@/store/aiState';
@@ -28,6 +29,11 @@ interface GenerateRoadmapRequest {
   model: string;
 }
 
+// A simple spinner component for the loading state
+const Spinner = () => (
+  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+);
+
 const MenttorLabsMainPage = () => {
   const router = useRouter();
   const { user, loading } = useAuth();
@@ -35,12 +41,12 @@ const MenttorLabsMainPage = () => {
   const [formData, setFormData] = useState({
     subject: '',
     goal: '',
-    time_value: 1,
-    time_unit: 'days',
-    model: 'openrouter:google/gemma-2b-it:free',
+    time_value: 4,
+    time_unit: 'weeks',
+    model: 'gemini-2.5-flash',
   });
   const { isGenerating, startGeneration, endGeneration } = useAIState();
-  const [roadmapHtml, setRoadmapHtml] = useState<React.ReactNode | null>(null);
+  const [roadmapData, setRoadmapData] = useState<RoadmapData | null>(null);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -57,24 +63,27 @@ const MenttorLabsMainPage = () => {
       return response.data;
     },
     onSuccess: (data) => {
-      displayRoadmap(data.roadmap_plan);
+      setRoadmapData(data);
       sessionStorage.setItem('currentRoadmap', JSON.stringify(data));
       endGeneration();
+      // Scroll to the roadmap section after generation
+      document.getElementById('roadmap-output')?.scrollIntoView({ behavior: 'smooth' });
     },
     onError: (error) => {
-      setRoadmapHtml(<p className="text-red-500">Error: {error.message}</p>);
+      setRoadmapData({ error: error.message });
       endGeneration();
     },
   });
 
-  const generateRoadmap = async () => {
+  const generateRoadmap = async (e: React.FormEvent) => {
+    e.preventDefault();
     if (!formData.subject || !formData.goal || !formData.time_value) {
       alert('Please fill in all fields');
       return;
     }
 
     startGeneration(formData.model);
-    setRoadmapHtml(null);
+    setRoadmapData(null);
     generateRoadmapMutation.mutate({
       subject: formData.subject,
       goal: formData.goal,
@@ -84,132 +93,199 @@ const MenttorLabsMainPage = () => {
     });
   };
 
-  const displayRoadmap = (roadmapPlan: RoadmapItem[]) => {
-    if (!roadmapPlan || roadmapPlan.length === 0) {
-      setRoadmapHtml(<p>No roadmap generated.</p>);
-      return;
-    }
-    const roadmapContent = (
-      <div>
-        <h3 className="text-2xl font-bold mb-6">Your Learning Roadmap: {formData.subject}</h3>
-        <div>
-          {roadmapPlan.map((item, index) => (
-            <div key={index}>
-              <h4>{item.title}</h4>
-              <p>Timeline: {item.timeline}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-    setRoadmapHtml(roadmapContent);
-  };
-
   return (
-    <div className="min-h-screen bg-white dark:bg-black">
-      <nav className="bg-white/95 dark:bg-black sticky top-0 z-50">
+    <div className="bg-background min-h-screen font-sans">
+      {/* Header */}
+      <header className="bg-surface border-b border-border sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-14">
-            <Logo />
-            <div className="flex items-center space-x-3">
-              {!loading && user ? (
-                <p>Welcome, {user.email}</p>
-              ) : (
-                <button
-                  onClick={() => router.push('/auth/signin')}
-                  className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1.5 rounded-full text-sm font-medium"
-                >
-                  Sign In
-                </button>
+          <div className="flex justify-between items-center h-16">
+            <div className="flex-shrink-0">
+              <Logo />
+            </div>
+            <div className="hidden md:block">
+              <div className="ml-10 flex items-baseline space-x-4">
+                <a href="#features" className="text-text-secondary hover:text-primary px-3 py-2 rounded-md text-sm font-medium">Features</a>
+                <a href="#generate" className="text-text-secondary hover:text-primary px-3 py-2 rounded-md text-sm font-medium">Create</a>
+              </div>
+            </div>
+            <div className="flex items-center">
+              {!loading && (
+                user ? (
+                  <Link href="/dashboard" className="text-sm font-medium text-text-secondary hover:text-primary">
+                    Dashboard
+                  </Link>
+                ) : (
+                  <button
+                    onClick={() => router.push('/auth/signin')}
+                    className="text-sm font-medium text-primary hover:text-primary-dark"
+                  >
+                    Sign In
+                  </button>
+                )
               )}
-              <button
-                onClick={() => setShowMobileMenu(!showMobileMenu)}
-                className="lg:hidden ml-2 p-2"
-              >
-                {showMobileMenu ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-              </button>
             </div>
           </div>
         </div>
-      </nav>
+      </header>
 
-      <main>
-        <section id="generate" className="py-12">
-          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold">Create Your Learning Roadmap</h2>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-              <div>
-                <label>Subject</label>
-                <input
-                  type="text"
-                  name="subject"
-                  value={formData.subject}
-                  onChange={handleInputChange}
-                  className="w-full px-4 py-3 border rounded-lg"
-                />
-              </div>
-              <div>
-                <label>Goal</label>
-                <textarea
-                  name="goal"
-                  value={formData.goal}
-                  onChange={handleInputChange}
-                  rows={3}
-                  className="w-full px-4 py-3 border rounded-lg"
-                />
-              </div>
-              <div>
-                <label>Timeline</label>
-                <input
-                  type="number"
-                  name="time_value"
-                  value={formData.time_value}
-                  onChange={handleInputChange}
-                  className="w-full px-4 py-3 border rounded-lg"
-                  />
-                  <select
-                    name="time_unit"
-                    value={formData.time_unit}
+      <main className="py-16 sm:py-24">
+        <div className="text-center px-4">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-text-primary tracking-tight">
+            Generate Your Learning Roadmap
+          </h1>
+          <p className="mt-4 max-w-2xl mx-auto text-lg text-text-secondary">
+            Tell us what you want to learn, and our AI will create a personalized, step-by-step roadmap for you.
+          </p>
+        </div>
+
+        {/* Roadmap Generation Form */}
+        <section id="generate" className="mt-16">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="bg-surface p-8 rounded-xl border border-border shadow-md">
+              <form onSubmit={generateRoadmap} className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                
+                {/* Subject */}
+                <div className="md:col-span-2">
+                  <label htmlFor="subject" className="block text-sm font-medium text-text-primary mb-1">
+                    What do you want to learn?
+                  </label>
+                  <input
+                    type="text"
+                    id="subject"
+                    name="subject"
+                    value={formData.subject}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 border rounded-lg mt-2"
+                    placeholder="e.g., Quantum Computing, React Native, or Product Management"
+                    className="w-full px-4 py-3 border border-border rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-primary"
+                    required
+                  />
+                </div>
+
+                {/* Goal */}
+                <div className="md:col-span-2">
+                  <label htmlFor="goal" className="block text-sm font-medium text-text-primary mb-1">
+                    What is your goal?
+                  </label>
+                  <textarea
+                    id="goal"
+                    name="goal"
+                    value={formData.goal}
+                    onChange={handleInputChange}
+                    rows={3}
+                    placeholder="e.g., 'Build a mobile app', 'Prepare for a job interview', 'Understand the basics'"
+                    className="w-full px-4 py-3 border border-border rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-primary"
+                    required
+                  />
+                </div>
+
+                {/* Timeline */}
+                <div>
+                  <label htmlFor="time_value" className="block text-sm font-medium text-text-primary mb-1">
+                    How much time do you have?
+                  </label>
+                  <div className="flex space-x-2">
+                    <input
+                      type="number"
+                      id="time_value"
+                      name="time_value"
+                      value={formData.time_value}
+                      onChange={handleInputChange}
+                      min="1"
+                      className="w-1/2 px-4 py-3 border border-border rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-primary"
+                      required
+                    />
+                    <select
+                      name="time_unit"
+                      value={formData.time_unit}
+                      onChange={handleInputChange}
+                      className="w-1/2 px-4 py-3 border border-border rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-primary"
+                    >
+                      <option value="days">Days</option>
+                      <option value="weeks">Weeks</option>
+                      <option value="months">Months</option>
+                    </select>
+                  </div>
+                </div>
+
+                {/* AI Model Selection */}
+                <div>
+                  <label htmlFor="model" className="block text-sm font-medium text-text-primary mb-1">
+                    AI Engine
+                  </label>
+                  <select
+                    id="model"
+                    name="model"
+                    value={formData.model}
+                    onChange={handleInputChange}
+                    className="w-full px-4 py-3 border border-border rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-primary"
                   >
-                    <option value="days">Days</option>
-                    <option value="weeks">Weeks</option>
-                    <option value="months">Months</option>
+                    <option value="gemini-2.5-flash">Gemini 2.5 Flash</option>
+                    <option value="openrouter:google/gemma-2b-it:free">Gemma 2B (Free)</option>
                   </select>
                 </div>
-                <div>
-                  <label>AI Engine</label>
-                  <p>{formData.model}</p>
+                
+                {/* Submit Button */}
+                <div className="md:col-span-2 text-center mt-4">
+                  <button
+                    type="submit"
+                    disabled={isGenerating}
+                    className="w-full sm:w-auto inline-flex items-center justify-center px-12 py-4 rounded-lg font-semibold text-lg bg-primary text-white hover:bg-primary-dark disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
+                  >
+                    {isGenerating ? (
+                      <>
+                        <Spinner />
+                        <span className="ml-3">Generating...</span>
+                      </>
+                    ) : (
+                      'Generate Your Roadmap'
+                    )}
+                  </button>
                 </div>
-              </div>
-              <div className="text-center mt-12">
-                <button
-                  type="submit"
-                  onClick={generateRoadmap}
-                  disabled={isGenerating}
-                  className="px-12 py-4 rounded-xl font-semibold text-lg bg-green-600 text-white"
-                >
-                  {isGenerating ? (
-                    <>
-                      <span className="spinner"></span> Generating...
-                    </>
-                  ) : (
-                    'Generate Your Roadmap'
-                  )}
-                </button>
-              </div>
-
-              {roadmapHtml && (
-                <div className="mt-16 p-8">
-                  {roadmapHtml}
-                </div>
-              )}
+              </form>
             </div>
+          </div>
+        </section>
+
+        {/* Roadmap Output */}
+        {isGenerating && (
+          <div className="text-center mt-16">
+            <Loader className="h-8 w-8 animate-spin mx-auto text-primary" />
+            <p className="mt-2 text-text-secondary">Building your roadmap...</p>
+          </div>
+        )}
+
+        {roadmapData && (
+          <section id="roadmap-output" className="mt-16 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            {roadmapData.error ? (
+              <div className="bg-red-100 border-l-4 border-error text-error p-4 rounded-md" role="alert">
+                <p className="font-bold">Error</p>
+                <p>{roadmapData.error}</p>
+              </div>
+            ) : (
+              <div className="prose prose-menttor max-w-none">
+                <h2>{roadmapData.title}</h2>
+                <p>{roadmapData.description}</p>
+                {roadmapData.roadmap_plan?.modules.map((module, moduleIndex) => (
+                  <div key={module.id} className="mt-8">
+                    <h3>{`Module ${moduleIndex + 1}: ${module.title}`}</h3>
+                    <p className="text-sm text-text-secondary -mt-3">{`Timeline: ${module.timeline}`}</p>
+                    {module.topics.map((topic) => (
+                      <div key={topic.id} className="mt-4 pl-4 border-l-2 border-border">
+                        <h4>{topic.title}</h4>
+                        <ul className="list-none p-0">
+                          {topic.subtopics.map((subtopic) => (
+                            <li key={subtopic.id} className="mt-1 text-text-secondary">{subtopic.title}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    ))}
+                  </div>
+                ))}
+              </div>
+            )}
           </section>
-        </main>
+        )}
+      </main>
     </div>
   );
 };

@@ -233,7 +233,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`antialiased bg-white dark:bg-zinc-950`}
+        className={`antialiased`}
       >
         <ThemeProvider
           attribute="class"
