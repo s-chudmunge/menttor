@@ -103,8 +103,3 @@ class Settings(BaseSettings):
         extra = "ignore"
 
 settings = Settings()
-
-import logging
-logging.basicConfig(level=logging.INFO)
-logging.info(f"OpenRouter API Key Loaded: {'*' * (len(settings.OPENROUTER_API_KEY) - 4) + settings.OPENROUTER_API_KEY[-4:] if settings.OPENROUTER_API_KEY else 'Not Set'}")
-
