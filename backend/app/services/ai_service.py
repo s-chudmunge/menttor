@@ -134,22 +134,31 @@ class AIExecutor:
                     detail="Vertex AI models are no longer supported. Please use OpenRouter or HuggingFace models."
                 )
             else:
-                api_key = None
                 litellm_model_name = model_id.replace(":", "/", 1)
 
-                if provider == "huggingface" and settings.HF_API_TOKEN:
+                if provider == "huggingface":
+                    if not settings.HF_API_TOKEN:
+                        raise HTTPException(status_code=500, detail="HuggingFace API token is not configured.")
                     api_key = settings.HF_API_TOKEN
-                elif provider == "openrouter" and settings.OPENROUTER_API_KEY:
+                elif provider == "openrouter":
+                    if not settings.OPENROUTER_API_KEY:
+                        raise HTTPException(status_code=500, detail="OpenRouter API key is not configured.")
                     api_key = settings.OPENROUTER_API_KEY
-                elif provider == "openai" and settings.OPENAI_API_KEY:
+                elif provider == "openai":
+                    if not settings.OPENAI_API_KEY:
+                        raise HTTPException(status_code=500, detail="OpenAI API key is not configured.")
                     api_key = settings.OPENAI_API_KEY
-                elif provider == "deepseek" and settings.DEEPSEEK_KEY:
+                elif provider == "deepseek":
+                    if not settings.DEEPSEEK_KEY:
+                        raise HTTPException(status_code=500, detail="DeepSeek API key is not configured.")
                     api_key = settings.DEEPSEEK_KEY
+                else:
+                    api_key = None
 
                 if not api_key:
                     raise HTTPException(
                         status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                        detail=f"Access to the selected model ({model_id}) is currently unavailable. Please choose a free model."
+                        detail=f"Access to the selected model ({model_id}) is currently unavailable or the provider is not supported. Please choose a free model from a supported provider."
                     )
 
                 logger.info(f"Using API Key (first 5 chars): {api_key[:5]} for model: {model_id}")
@@ -161,7 +170,8 @@ class AIExecutor:
                         "model": litellm_model_name,
                         "messages": [{"role": "user", "content": prompt}],
                         "temperature": 0.7,
-                        "api_key": api_key.strip() if api_key else None
+                        "api_key": api_key.strip() if api_key else None,
+                        "timeout": 60  # 60-second timeout
                     }
                     
                     # Add OpenRouter-specific headers if using OpenRouter
