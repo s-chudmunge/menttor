@@ -506,9 +506,6 @@ menttor.live`;
                             <p>We're excited to have you join our community of learners.</p>
                             <div className="grid grid-cols-2 gap-4 my-4">
                               <div className="p-3 bg-gray-50 dark:bg-gray-800 rounded">
-                                <h4 className="font-semibold text-blue-600">🗺️ 500+ Curated Roadmaps</h4>
-                                <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">Expertly crafted learning paths</p>
-                                <span className="text-xs text-blue-600 underline">→ Explore Roadmaps</span>
                               </div>
                               <div className="p-3 bg-gray-50 dark:bg-gray-800 rounded">
                                 <h4 className="font-semibold text-blue-600">🎯 Your Learning Journey</h4>

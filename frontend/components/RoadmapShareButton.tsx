@@ -15,7 +15,7 @@ import {
   X
 } from 'lucide-react';
 
-interface CuratedRoadmap {
+interface Roadmap {
   id: number;
   title: string;
   description: string;
@@ -26,7 +26,7 @@ interface CuratedRoadmap {
 }
 
 interface RoadmapShareButtonProps {
-  roadmap: CuratedRoadmap;
+  roadmap: Roadmap;
   className?: string;
   variant?: 'button' | 'icon';
 }
@@ -42,7 +42,7 @@ const RoadmapShareButton: React.FC<RoadmapShareButtonProps> = ({
   // Generate sharing URLs and text
   const getShareUrl = () => {
     const baseUrl = window.location.origin;
-    return `${baseUrl}/explore/${roadmap.slug || roadmap.id}`;
+    return `${baseUrl}/`;
   };
 
   const getShareTitle = () => {

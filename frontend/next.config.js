@@ -37,15 +37,6 @@ const nextConfig = {
         ],
       },
       {
-        source: '/explore/:path*',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=3600, s-maxage=7200',
-          },
-        ],
-      },
-      {
         source: '/sitemap.xml',
         headers: [
           {

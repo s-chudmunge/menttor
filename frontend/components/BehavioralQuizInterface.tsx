@@ -440,13 +440,6 @@ const BehavioralQuizInterface: React.FC<QuizInterfaceProps> = ({ quizParams }) =
                                 <span className="text-sm">Home</span>
                             </Link>
                             <Link 
-                                href="/explore" 
-                                className="flex items-center space-x-2 px-3 py-2 font-medium transition-colors text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
-                            >
-                                <BookOpen className="w-4 h-4" />
-                                <span className="text-sm">Explore</span>
-                            </Link>
-                            <Link 
                                 href="/journey" 
                                 className="flex items-center space-x-2 px-3 py-2 font-medium transition-colors text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
                             >
