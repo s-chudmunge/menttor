@@ -1,5 +1,4 @@
 import type { Metadata } from "next/types";
-import "katex/dist/katex.min.css";
 import "./globals.css";
 import { AuthProvider } from "./context/AuthContext";
 import { QueryClientProviderWrapper } from "./context/QueryClientProviderWrapper";

@@ -21,8 +21,8 @@ from app.core.websocket_manager import manager
 from sqlmodel import Session
 
 from app.database.session import create_db_and_tables, get_db
-from app.sql_models import User, Roadmap, SpacedRepetition, QuizAttempt
-from app.routers import roadmaps, health
+from app.sql_models import User
+from app.routers import health
 
 app = FastAPI()
 
@@ -37,8 +37,6 @@ app.add_middleware(
 
 
 app.add_middleware(COOPMiddleware)
-
-app.include_router(roadmaps.router)
 app.include_router(health.router)
 
 @app.get("/")
