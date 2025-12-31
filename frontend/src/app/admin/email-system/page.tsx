@@ -51,11 +51,11 @@ export default function AdminEmailSystem() {
         setPagination(data.pagination)
       } else {
         console.error('Failed to fetch users:', data.error)
-        setSendResult(`❌ Failed to fetch Firebase users: ${data.error}`)
+        setSendResult(`❌ Failed to fetch Supabase users: ${data.error}`)
       }
     } catch (error) {
       console.error('Error fetching users:', error)
-      setSendResult(`❌ Failed to fetch Firebase users: ${error}`)
+      setSendResult(`❌ Failed to fetch Supabase users: ${error}`)
     } finally {
       setLoadingUsers(false)
     }
@@ -326,7 +326,7 @@ menttor.live`;
                   Send emails using {emailService === 'resend' ? 'Resend' : 'Brevo'} from sankalp@menttor.live
                   {pagination && (
                     <span className="ml-2 text-blue-600 dark:text-blue-400">
-                      • {pagination.totalUsers} Firebase users loaded
+                      • {pagination.totalUsers} Supabase users loaded
                     </span>
                   )}
                 </p>
@@ -464,7 +464,7 @@ menttor.live`;
                         : 'border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600'
                     }`}
                   >
-                    Firebase Users ({users.length > 0 ? `${selectedUsers.length}/${users.length}` : '0'})
+                    Supabase Users ({users.length > 0 ? `${selectedUsers.length}/${users.length}` : '0'})
                   </Button>
                   <Button
                     type="button"

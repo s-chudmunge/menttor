@@ -53,7 +53,7 @@ export default function TermsOfService() {
             
             <h3 className="text-xl font-medium text-black dark:text-white mb-3">3.1 Account Creation</h3>
             <p className="text-gray-700 dark:text-gray-300 mb-4">
-              To access certain features of our Service, you must create an account using Firebase Authentication. You may register using:
+              To access certain features of our Service, you must create an account using Supabase Authentication. You may register using:
             </p>
             <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 mb-4">
               <li>Email address and password</li>
@@ -218,7 +218,7 @@ export default function TermsOfService() {
             <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 mb-4">
               <li>Scheduled maintenance and updates</li>
               <li>Technical issues or system failures</li>
-              <li>Third-party service dependencies (Firebase, Google Vertex AI, etc.)</li>
+              <li>Third-party service dependencies (Supabase, Google Vertex AI, etc.)</li>
               <li>Network or infrastructure problems</li>
             </ul>
 
@@ -326,7 +326,7 @@ export default function TermsOfService() {
               Our Service integrates with third-party providers:
             </p>
             <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 mb-4">
-              <li><strong>Firebase:</strong> Authentication and user management (Google's Terms apply)</li>
+              <li><strong>Supabase:</strong> Authentication and user management (Google's Terms apply)</li>
               <li><strong>Google Vertex AI:</strong> AI content generation (Google's AI Terms apply)</li>
               <li><strong>Vercel:</strong> Hosting and analytics services</li>
               <li><strong>Render:</strong> Backend infrastructure services</li>

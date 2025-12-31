@@ -1,15 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { supabaseAdmin } from '@/lib/supabase/admin';
 
 export async function GET(request: NextRequest) {
   try {
-    // Check if Firebase environment variables are available
-    if (!process.env.FIREBASE_PROJECT_ID || !process.env.FIREBASE_CLIENT_EMAIL || !process.env.FIREBASE_PRIVATE_KEY) {
-      return NextResponse.json(
-        { error: 'Firebase configuration not available' },
-        { status: 503 }
-      );
-    }
-
     const { searchParams } = new URL(request.url);
     const page = parseInt(searchParams.get('page') || '1');
     const limit = parseInt(searchParams.get('limit') || '50');
@@ -22,19 +15,23 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    // Dynamic import to avoid build-time errors
-    const admin = (await import('@/lib/firebase/admin')).default;
-    const auth = admin.auth();
-    const listUsersResult = await auth.listUsers(limit);
-    
-    let users = listUsersResult.users.map(user => ({
-      uid: user.uid,
+    const { data: { users: allUsers }, error } = await supabaseAdmin.auth.admin.listUsers({
+      page: 1,
+      perPage: 1000, // Fetch all users up to the Supabase limit
+    });
+
+    if (error) {
+      throw error;
+    }
+
+    let users = allUsers.map(user => ({
+      uid: user.id,
       email: user.email || '',
-      displayName: user.displayName || '',
-      emailVerified: user.emailVerified,
-      disabled: user.disabled,
-      creationTime: user.metadata.creationTime,
-      lastSignInTime: user.metadata.lastSignInTime,
+      displayName: user.user_metadata.full_name || '',
+      emailVerified: user.email_confirmed_at !== null,
+      disabled: user.aud === 'authenticated' ? false : true,
+      creationTime: user.created_at,
+      lastSignInTime: user.last_sign_in_at,
     }));
 
     // Filter by search term if provided

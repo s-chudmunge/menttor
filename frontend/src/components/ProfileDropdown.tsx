@@ -3,7 +3,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { useAuth } from '@/app/context/AuthContext';
-import { auth } from '@/lib/firebase/client';
+import { supabase } from '@/lib/supabase/client';
 import { useRouter } from 'next/navigation';
 import { 
   User, 
@@ -42,7 +42,7 @@ export default function ProfileDropdown({ className = '', variant = 'light' }: P
   }, []);
 
   const handleSignOut = async () => {
-    await auth.signOut();
+    await supabase.auth.signOut();
     router.push('/auth/signin');
   };
 

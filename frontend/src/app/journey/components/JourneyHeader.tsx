@@ -7,7 +7,7 @@ import { Home, Target, BookOpen, BarChart3, TrendingUp, Eye, User, LogOut, Troph
 import Logo from '../../../../components/Logo';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '../../context/AuthContext';
-import { auth } from '../../../lib/firebase/client';
+
 import { TimeSummaryResponse } from '../../../lib/api';
 import { useBehavioralStats, useProgressCopy, useFocusMode, useBehavioralEvents } from '../../../hooks/useBehavioral';
 import { formatXPToNextLevel, getStreakMessage } from '../../../lib/behavioral-api';

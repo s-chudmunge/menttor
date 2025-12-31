@@ -38,15 +38,6 @@ const ForgotPasswordModal: React.FC<ForgotPasswordModalProps> = ({ onBack, onErr
       console.error('Error sending password reset:', error);
       let errorMessage = 'Failed to send reset email. Please try again.';
       
-      // Handle specific Firebase errors
-      if (error.code === 'auth/user-not-found') {
-        errorMessage = 'No account found with this email address.';
-      } else if (error.code === 'auth/invalid-email') {
-        errorMessage = 'Please enter a valid email address.';
-      } else if (error.code === 'auth/too-many-requests') {
-        errorMessage = 'Too many requests. Please try again later.';
-      }
-      
       onError(errorMessage);
     } finally {
       setLoading(false);

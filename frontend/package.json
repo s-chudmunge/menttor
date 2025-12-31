@@ -23,8 +23,6 @@
     "chart.js": "^4.5.0",
     "d3": "^7.9.0",
     "date-fns": "^4.1.0",
-    "firebase": "^10.12.2",
-    "firebase-admin": "^12.1.1",
     "framer-motion": "^11.3.8",
     "html2canvas": "^1.4.1",
     "ics": "^3.8.1",

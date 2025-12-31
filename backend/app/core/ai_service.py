@@ -9,7 +9,7 @@ async def generate_roadmap_from_gemini(request: RoadmapCreateRequest) -> Roadmap
     Generates a roadmap by calling the Gemini API directly.
     """
     GEMINI_API_KEY = settings.GEMINI_API_KEY
-    MODEL_NAME = "gemini-1.5-flash"  # Using the model that worked
+    MODEL_NAME = request.model # Use the model name from the request
     URL = f"https://generativelanguage.googleapis.com/v1/models/{MODEL_NAME}:generateContent?key={GEMINI_API_KEY}"
 
     prompt_text = (

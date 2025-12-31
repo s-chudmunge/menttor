@@ -37,7 +37,7 @@ export default function PrivacyPolicy() {
             <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 mb-4">
               <li>Email address (for account creation and communication)</li>
               <li>Display name (optional, for personalization)</li>
-              <li>Authentication credentials (managed securely through Firebase)</li>
+              <li>Authentication credentials (managed securely through Supabase)</li>
               <li>Phone number (if you choose phone authentication)</li>
             </ul>
 
@@ -90,7 +90,7 @@ export default function PrivacyPolicy() {
               We work with trusted third-party services to provide our platform:
             </p>
             <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 mb-4">
-              <li><strong>Firebase (Google):</strong> Authentication and user management</li>
+              <li><strong>Supabase (Google):</strong> Authentication and user management</li>
               <li><strong>Google Vertex AI:</strong> AI content generation (data is processed securely)</li>
               <li><strong>Vercel Analytics:</strong> Website performance and usage analytics</li>
               <li><strong>Google Analytics:</strong> Anonymized usage statistics</li>
@@ -117,7 +117,7 @@ export default function PrivacyPolicy() {
               <li>Encrypted data transmission (HTTPS/TLS)</li>
               <li>Secure database storage with access controls</li>
               <li>Regular security updates and monitoring</li>
-              <li>Firebase's enterprise-grade authentication security</li>
+              <li>Supabase's enterprise-grade authentication security</li>
               <li>Input validation and sanitization</li>
               <li>Regular security audits and vulnerability assessments</li>
             </ul>

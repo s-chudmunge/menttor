@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { useAuth } from '../context/AuthContext';
-import { auth } from '../../lib/firebase/client';
+import { supabase } from '../../lib/supabase/client';
 import HistoricalResults from './HistoricalResults';
 
 interface ResultsClientPageProps {
@@ -40,7 +40,7 @@ export default function ResultsClientPage({
                                 <li><Link href="/performance-analysis" className="text-gray-700 hover:text-blue-600 font-medium">Performance</Link></li>
                                 <li>
                                     <button
-                                        onClick={() => auth.signOut()}
+                                        onClick={() => supabase.auth.signOut()}
                                         className="text-gray-700 hover:text-blue-600 font-medium focus:outline-none"
                                     >
                                         Logout

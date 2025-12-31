@@ -26,7 +26,7 @@ import { formatSubtopicTitle, formatTitle } from '../utils/textFormatting';
 import { useAuth } from '@/app/context/AuthContext';
 import { api } from '@/lib/api';
 import { supabase } from '@/lib/supabase/client';
-import { auth } from '@/lib/firebase/client';
+
 import { useRouter } from 'next/navigation';
 
 interface PracticeViewProps {

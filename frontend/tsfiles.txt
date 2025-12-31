@@ -2,8 +2,7 @@ src/roadmap.ts
 src/lib/api.ts
 src/lib/modelUtils.ts
 src/lib/auth/utils.ts
-src/lib/firebase/admin.ts
-src/lib/firebase/client.ts
+
 src/lib/behavioral-api.ts
 src/components/RoadmapDayView.tsx
 src/components/ThemeToggleButton.tsx
