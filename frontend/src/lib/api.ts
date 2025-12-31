@@ -2,7 +2,7 @@ import axios from 'axios';
 import { supabase } from './supabase/client';
 
 // Base API URL
-const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'https://menttor-backend.onrender.com';
+const BACKEND_URL = 'http://127.0.0.1:8000';
 
 export const api = axios.create({
     baseURL: BACKEND_URL,

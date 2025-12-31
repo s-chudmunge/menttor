@@ -1,10 +1,10 @@
 from typing import Optional
 from fastapi import Depends, HTTPException, status, Request
 from sqlmodel import Session, select
-from core.config import settings
-from database.session import get_db
-from sql_models import User
-from core.supabase_client import supabase
+from app.core.config import settings
+from app.database.session import get_db
+from app.sql_models import User
+from app.core.supabase_client import supabase
 import logging
 
 logger = logging.getLogger(__name__)

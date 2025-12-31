@@ -4,8 +4,8 @@ from datetime import datetime, date, timedelta
 from typing import List, Dict, Any, Optional
 from collections import defaultdict
 
-from database.session import get_db
-from sql_models import User, UserProgress, QuizAttempt, LearningSession, UserBehavior
+from app.database.session import get_db
+from app.sql_models import User, UserProgress, QuizAttempt, LearningSession, UserBehavior
 from .auth import get_current_user
 
 router = APIRouter(prefix="/activity", tags=["activity"])

@@ -1,8 +1,8 @@
 from sqlmodel import select
 
-from backend.app.schemas import QuestionResult
-from backend.app.sql_models import QuizAttempt
-from backend.app.database.session import get_db, create_db_and_tables
+from app.schemas import QuestionResult
+from app.sql_models import QuizAttempt
+from app.database.session import get_db, create_db_and_tables
 from pydantic import ValidationError
 import json
 

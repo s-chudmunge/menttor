@@ -5,10 +5,10 @@ This is a one-time setup router that can be disabled after initial configuration
 from fastapi import APIRouter, HTTPException, status, Depends
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from pydantic import BaseModel
-from utils.secret_manager import get_admin_credentials
+from app.utils.secret_manager import get_admin_credentials
 from sqlmodel import Session, select
-from database.session import get_db
-from sql_models import User
+from app.database.session import get_db
+from app.sql_models import User
 import secrets
 import logging
 

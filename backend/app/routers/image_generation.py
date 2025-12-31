@@ -3,7 +3,7 @@ from pydantic import BaseModel
 from typing import Optional
 from services.enhanced_image_service import generate_learning_visual
 from .auth import get_current_user
-from sql_models import User
+from app.sql_models import User
 import logging
 
 logger = logging.getLogger(__name__)

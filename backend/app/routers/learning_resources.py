@@ -11,9 +11,9 @@ from datetime import datetime
 import secrets
 import os
 
-from database.session import get_db
-from sql_models import RoadmapResource, CuratedRoadmap, User
-from schemas import (
+from app.database.session import get_db
+from app.sql_models import RoadmapResource, CuratedRoadmap, User
+from app.schemas import (
     GenerateResourcesRequest, GenerateResourcesResponse,
     RoadmapResourcesResponse, LearningResourceResponse, LearningResourceCreate,
     LearningResourceRequest

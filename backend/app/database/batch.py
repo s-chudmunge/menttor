@@ -51,7 +51,7 @@ class BatchProcessor:
             if session:
                 self._execute_batch(session)
             else:
-                from database.session import get_db
+                from app.database.session import get_db
                 with next(get_db()) as db_session:
                     self._execute_batch(db_session)
             
@@ -118,7 +118,7 @@ class BatchProcessor:
     
     def _get_model_class(self, table_name: str):
         """Get SQLModel class for table name"""
-        from sql_models import (
+        from app.sql_models import (
             User, UserBehavior, LearningSession, Quiz, QuizAttempt, 
             UserProgress, Roadmap, CuratedRoadmap
         )

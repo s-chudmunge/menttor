@@ -1,9 +1,9 @@
 from typing import List, Optional
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlmodel import Session, select
-from database.session import get_db
-from schemas import RecommendedReview
-from sql_models import SpacedRepetition, User, Quiz
+from app.database.session import get_db
+from app.schemas import RecommendedReview
+from app.sql_models import SpacedRepetition, User, Quiz
 from .auth import get_current_user
 from datetime import date
 

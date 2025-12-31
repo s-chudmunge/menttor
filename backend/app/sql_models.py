@@ -125,7 +125,7 @@ class UserProgress(SQLModel, table=True):
 # Resume functionality now uses UserProgress.last_accessed_at instead
 
 try:
-    from schemas import ContentBlock, QuestionResult # Import the ContentBlock type and QuestionResult
+    from app.schemas import ContentBlock, QuestionResult # Import the ContentBlock type and QuestionResult
 except ImportError:
     # Fallback for testing/CI environments
     ContentBlock = dict

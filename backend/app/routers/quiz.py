@@ -2,11 +2,9 @@ import uuid
 import logging
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlmodel import Session, select
-from database.session import get_db
-from schemas import QuizGenerateRequest, QuizAIResponse, QuizResponse, QuestionBase
-from services.ai_service import generate_quiz_content
-from core.auth import get_current_user
-from sql_models import User, QuizSession, Quiz, Question, UserProgress
+from app.database.session import get_db
+from app.schemas import QuizGenerateRequest, QuizAIResponse, QuizResponse, QuestionBase
+from app.sql_models import User, QuizSession, Quiz, Question, UserProgress
 
 logger = logging.getLogger(__name__)
 

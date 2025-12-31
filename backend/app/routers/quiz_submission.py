@@ -2,11 +2,11 @@ import json
 import logging
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlmodel import Session, select
-from database.session import get_db
-from schemas import QuizSubmission, QuizResult, QuestionResult
-from sql_models import User, QuizAttempt, UserProgress, Question, QuizActivityLog, QuizSession, Quiz, SpacedRepetition, Roadmap
+from app.database.session import get_db
+from app.schemas import QuizSubmission, QuizResult, QuestionResult
+from app.sql_models import User, QuizAttempt, UserProgress, Question, QuizActivityLog, QuizSession, Quiz, SpacedRepetition, Roadmap
 from .auth import get_current_user
-from core.websocket_manager import manager
+from app.core.websocket_manager import manager
 from utils.sm2_algorithm import sm2_algorithm, calculate_next_review_date
 from utils.subtopic_id_generator import generate_subtopic_id
 from services.behavioral_service import BehavioralService

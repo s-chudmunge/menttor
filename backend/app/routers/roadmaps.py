@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlmodel import Session, select
-from database.session import get_db
-from schemas import RoadmapCreateRequest, RoadmapResponse, RoadmapUpdate
-from sql_models import Roadmap, User, UserCuratedRoadmap, UserProgress, LearningSession, MilestoneProgress, DependencyMap, PracticeSession, PracticeQuestion, PracticeAnswer
-from services.ai_service import generate_roadmap_content
+from app.database.session import get_db
+from app.schemas import RoadmapCreateRequest, RoadmapResponse, RoadmapUpdate
+from app.sql_models import Roadmap, User, UserCuratedRoadmap, UserProgress, LearningSession, MilestoneProgress, DependencyMap, PracticeSession, PracticeQuestion, PracticeAnswer
+from app.core.ai_service import generate_roadmap_from_gemini
 from typing import List, Optional
 from .optional_auth import get_optional_current_user
 from .auth import get_current_user
@@ -13,7 +13,7 @@ router = APIRouter(prefix="/roadmaps", tags=["roadmaps"])
 @router.post("/generate", response_model=RoadmapResponse)
 async def generate_roadmap_endpoint(request: RoadmapCreateRequest, db: Session = Depends(get_db), current_user: Optional[User] = Depends(get_optional_current_user)):
     try:
-        ai_generated_roadmap = await generate_roadmap_content(request)
+        ai_generated_roadmap = await generate_roadmap_from_gemini(request)
 
         # If user is authenticated, save to database
         if current_user:
@@ -35,7 +35,7 @@ async def generate_roadmap_endpoint(request: RoadmapCreateRequest, db: Session =
         else:
             # For unauthenticated users, return the AI response directly
             # Create a temporary roadmap response without saving to DB
-            from schemas import RoadmapResponse
+            from app.schemas import RoadmapResponse
             return RoadmapResponse(
                 id=0,  # Temporary ID for unauthenticated users
                 user_id=0,  # No user ID

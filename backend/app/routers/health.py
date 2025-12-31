@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlmodel import Session, select
-from database.session import get_db
-from database.redis_client import get_redis_client
-from sql_models import CuratedRoadmap
+from app.database.session import get_db
+from app.database.redis_client import get_redis_client
+from app.sql_models import CuratedRoadmap
 import time
 import logging
 from typing import Dict, Any

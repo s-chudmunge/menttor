@@ -1,9 +1,9 @@
 import logging
 from fastapi import APIRouter, Depends, HTTPException, status, Body
 from sqlmodel import Session, select, func
-from database.session import get_db
-from sql_models import User, UserProgress, Roadmap
-from schemas import UserProgressRead
+from app.database.session import get_db
+from app.sql_models import User, UserProgress, Roadmap
+from app.schemas import UserProgressRead
 from typing import List, Optional, Dict, Any
 from datetime import datetime, timedelta # Import datetime and timedelta
 from .auth import get_current_user

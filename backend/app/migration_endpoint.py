@@ -4,7 +4,7 @@ This file can be added to main.py temporarily to run the migration
 """
 from fastapi import APIRouter, Depends, HTTPException
 from sqlmodel import Session, text
-from database.session import get_db
+from app.database.session import get_db
 import logging
 
 logger = logging.getLogger(__name__)

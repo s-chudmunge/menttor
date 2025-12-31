@@ -2,9 +2,9 @@ import logging
 from typing import Optional
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlmodel import Session, select
-from database.session import get_db
-from schemas import QuestionResult
-from sql_models import QuizAttempt, User
+from app.database.session import get_db
+from app.schemas import QuestionResult
+from app.sql_models import QuizAttempt, User
 from .auth import get_current_user
 from fastapi.responses import JSONResponse
 

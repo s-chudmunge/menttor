@@ -9,10 +9,10 @@ from sqlmodel import Session, select
 from typing import Dict, List, Any, Optional
 from datetime import datetime, date
 
-from database.session import get_db
-from core.auth import get_current_user
-from sql_models import User, UserBehavior, LearningSession, QuickChallenge, ChallengeAttempt, RewardEvent
-from services.behavioral_service import BehavioralService
+from app.database.session import get_db
+from app.core.auth import get_current_user
+from app.sql_models import User, UserBehavior, LearningSession, QuickChallenge, ChallengeAttempt, RewardEvent
+from app.services.behavioral_service import BehavioralService
 from pydantic import BaseModel
 
 router = APIRouter(prefix="/behavioral", tags=["behavioral"])

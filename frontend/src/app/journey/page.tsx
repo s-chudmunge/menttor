@@ -425,20 +425,8 @@ const JourneyPage = () => {
   if (loading || isLoadingRoadmap) {
     return (
       <div className="min-h-screen bg-blue-50 dark:bg-gray-900 transition-colors duration-300 flex items-center justify-center px-4">
-        <div className="text-center">
-          <div className="relative mb-8">
-            <div className="w-20 h-20 border-4 border-blue-200 dark:border-blue-800 rounded-full animate-pulse"></div>
-            <div className="absolute top-0 left-0 w-20 h-20 border-4 border-transparent border-t-blue-600 rounded-full loading-spin"></div>
-          </div>
-          <div className="space-y-3">
-            <h3 className="text-xl font-semibold text-gray-900 dark:text-white">Loading Your Journey</h3>
-            <p className="text-body">Preparing your personalized learning experience...</p>
-            <div className="flex justify-center space-x-1 mt-4">
-              <div className="w-2 h-2 bg-blue-600 rounded-full loading-bounce" style={{animationDelay: '0ms'}}></div>
-              <div className="w-2 h-2 bg-blue-600 rounded-full loading-bounce" style={{animationDelay: '150ms'}}></div>
-              <div className="w-2 h-2 bg-blue-600 rounded-full loading-bounce" style={{animationDelay: '300ms'}}></div>
-            </div>
-          </div>
+        <div className="text-center text-gray-700 dark:text-gray-300">
+          Loading...
         </div>
       </div>
     );

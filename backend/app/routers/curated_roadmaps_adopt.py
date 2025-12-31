@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlmodel import Session, select, and_
-from database.session import get_db
-from sql_models import CuratedRoadmap, UserCuratedRoadmap, User, Roadmap
-from schemas import CuratedRoadmapAdoptRequest, CuratedRoadmapAdoptResponse
-from routers.auth import get_current_user
+from app.database.session import get_db
+from app.sql_models import CuratedRoadmap, UserCuratedRoadmap, User, Roadmap
+from app.schemas import CuratedRoadmapAdoptRequest, CuratedRoadmapAdoptResponse
+from app.routers.auth import get_current_user
 import logging
 
 router = APIRouter()

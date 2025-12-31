@@ -1,6 +1,6 @@
 from typing import Generator, Optional
 import redis
-from core.config import settings
+from app.core.config import settings
 import contextlib
 import logging
 import time

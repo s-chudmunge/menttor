@@ -1,10 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException, Query
 from fastapi.responses import HTMLResponse
 from services.ai_service import generate_3d_visualization
-from schemas import ThreeDVisualizationRequest
-from .auth import get_current_user
-from sql_models import User
-from core.config import settings
+from app.schemas import ThreeDVisualizationRequest
+from app.sql_models import User
+from app.core.config import settings
 import hashlib
 import json
 import os

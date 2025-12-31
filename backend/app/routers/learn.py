@@ -1,13 +1,13 @@
 from typing import List
 from fastapi import APIRouter, HTTPException, status, Body, Depends, Query
 from sqlmodel import Session, select
-from core.config import settings
+from app.core.config import settings
 from services.ai_service import generate_learning_content, generate_3d_visualization
 from services.behavioral_service import BehavioralService
-from schemas import LearningContentRequest, LearningContentResponse, ThreeDVisualizationRequest, ThreeDVisualizationResponse, ContentBlock, RoadmapModule, BehavioralData
-from sql_models import User, LearningContent, Roadmap
+from app.schemas import LearningContentRequest, LearningContentResponse, ThreeDVisualizationRequest, ThreeDVisualizationResponse, ContentBlock, RoadmapModule, BehavioralData
+from app.sql_models import User, LearningContent, Roadmap
 from .auth import get_current_user
-from database.session import get_db
+from app.database.session import get_db
 import json
 import uuid
 import gzip

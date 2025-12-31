@@ -7,12 +7,12 @@ from sqlmodel import Session
 from typing import Dict, Any
 from datetime import datetime
 
-from database.session import get_db, get_pool_status
-from database.monitor import db_monitor
-from database.cache import query_cache
-from database.batch import batch_processor
-from core.auth import get_current_user
-from sql_models import User
+from app.database.session import get_db, get_pool_status
+from app.database.monitor import db_monitor
+from app.database.cache import query_cache
+from app.database.batch import batch_processor
+from app.core.auth import get_current_user
+from app.sql_models import User
 
 router = APIRouter(prefix="/monitoring", tags=["monitoring"])
 

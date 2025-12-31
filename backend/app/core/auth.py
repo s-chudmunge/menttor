@@ -4,20 +4,20 @@ from typing import Optional
 from fastapi import Depends, HTTPException, status, Cookie, Request
 from fastapi.security import OAuth2PasswordBearer
 from sqlmodel import Session, select
-from sql_models import User
-from schemas import TokenData
+from app.sql_models import User
+from app.schemas import TokenData
 from .config import settings
-from database.session import get_db
+from app.database.session import get_db
 from .supabase_client import supabase
 
 import logging
-from services.email_service import email_service
+
 
 logger = logging.getLogger(__name__)
 
 async def get_current_user(request: Request, db: Session = Depends(get_db)) -> User:
-    from database.cache import query_cache, cache_user_query
-    from database.monitor import monitor_query, db_monitor
+    from app.database.cache import query_cache, cache_user_query
+    from app.database.monitor import monitor_query, db_monitor
 
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
@@ -100,12 +100,12 @@ async def get_current_user(request: Request, db: Session = Depends(get_db)) -> U
             logger.info(f"Auth: New user created in DB with UID: {uid}, Email: {email}")
 
             # Send welcome email to new users
-            try:
-                if email:
-                    email_service.send_welcome_email_sync(email, display_name)
-                    logger.info(f"Welcome email queued for new user: {email}")
-            except Exception as e:
-                logger.warning(f"Failed to send welcome email to {email}: {e}")
+            # try:
+            #     if email:
+            #         email_service.send_welcome_email_sync(email, display_name)
+            #         logger.info(f"Welcome email queued for new user: {email}")
+            # except Exception as e:
+            #     logger.warning(f"Failed to send welcome email to {email}: {e}")
         except Exception as e:
             logger.error(f"Auth: Failed to create new user in DB: {e}")
             raise HTTPException(

@@ -91,7 +91,7 @@ const JourneyHeader: React.FC<JourneyHeaderProps> = ({
               {/* Progress Refresh Indicator */}
               {isRefreshing && (
                 <div className="flex items-center space-x-2 px-3 py-1.5 bg-blue-500/10 text-blue-400 border border-blue-500/20 rounded-md">
-                  <RefreshCw className="w-3 h-3 animate-spin" />
+                  <RefreshCw className="w-3 h-3" />
                   <span className="text-xs font-medium hidden sm:inline">Syncing progress...</span>
                 </div>
               )}

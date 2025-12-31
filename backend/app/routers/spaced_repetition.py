@@ -4,9 +4,9 @@ from datetime import date
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlmodel import Session, select
 
-from database.session import get_db
-from sql_models import SpacedRepetition, User
-from schemas import SpacedRepetitionUpdate
+from app.database.session import get_db
+from app.sql_models import SpacedRepetition, User
+from app.schemas import SpacedRepetitionUpdate
 from .auth import get_current_user
 
 router = APIRouter(prefix="/spaced_repetition", tags=["spaced_repetition"])

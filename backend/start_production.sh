@@ -6,7 +6,7 @@ echo "Starting Menttor Backend - Production Mode..."
 echo "CI/CD Safe: All existing user data will be preserved"
 
 # Direct database connection - no proxy needed
-export PYTHONPATH=${PYTHONPATH:-/app/app}
+export PYTHONPATH=${PYTHONPATH:-$(pwd)/app}
 
 echo "Production startup - Using direct database connection"
 echo "POSTGRES_USER: $POSTGRES_USER"

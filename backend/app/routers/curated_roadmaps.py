@@ -1,17 +1,13 @@
 from fastapi import APIRouter, Depends, HTTPException, status, Query, Form
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from sqlmodel import Session, select, desc, func, and_, or_
-from database.session import get_db
-from database.redis_client import get_redis_client
-from schemas import (
-    CuratedRoadmapResponse, CuratedRoadmapListResponse, 
-    CuratedRoadmapAdoptRequest, CuratedRoadmapAdoptResponse, 
-    CuratedRoadmapCategoriesResponse, RoadmapResponse, RoadmapCreateRequest
-)
-from sql_models import CuratedRoadmap, UserCuratedRoadmap, Roadmap, User, RoadmapResource
+from app.database.session import get_db
+from app.database.redis_client import get_redis_client
+from app.schemas import (
+from app.sql_models import CuratedRoadmap, UserCuratedRoadmap, Roadmap, User, RoadmapResource
 from .optional_auth import get_optional_current_user
 from .auth import get_current_user
-from services.ai_service import generate_roadmap_content
+from app.services.ai_service import generate_roadmap_content
 from typing import List, Optional, Dict
 import secrets
 import logging
@@ -26,7 +22,7 @@ security = HTTPBasic()
 logger = logging.getLogger(__name__)
 
 # Admin credentials from Secret Manager
-from utils.secret_manager import get_admin_credentials
+from app.utils.secret_manager import get_admin_credentials
 ADMIN_USERNAME, ADMIN_PASSWORD = get_admin_credentials()
 
 def create_slug(title: str) -> str:

@@ -1,9 +1,9 @@
 from fastapi import APIRouter, HTTPException, Query, Depends
 from typing import Optional, List
 from sqlmodel import Session, select, func
-from database.session import get_db
-from sql_models import User
-from core.auth import get_current_user
+from app.database.session import get_db
+from app.sql_models import User
+from app.core.auth import get_current_user
 import logging
 
 logger = logging.getLogger(__name__)

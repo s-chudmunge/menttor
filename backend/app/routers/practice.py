@@ -7,10 +7,10 @@ from typing import List, Optional, AsyncGenerator
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.responses import StreamingResponse
 from sqlmodel import Session, select
-from database.session import get_db
-from core.auth import get_current_user
-from sql_models import User
-from schemas import (
+from app.database.session import get_db
+from app.core.auth import get_current_user
+from app.sql_models import User
+from app.schemas import (
     PracticeSessionCreate,
     PracticeSessionResponse,
     PracticeQuestionResponse,

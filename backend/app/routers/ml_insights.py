@@ -2,12 +2,12 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlmodel import Session, select, func
 from typing import List, Dict, Any, Optional
 from datetime import date, datetime
-from core.config import settings
+from app.core.config import settings
 
-from database.session import get_db
-from sql_models import UserPerformance, SpacedRepetition, User, QuizAttempt, UserBehavior
-from schemas import UserPerformanceDetailsResponse, GenerateFeedbackRequest, GenerateFeedbackResponse, QuizResultResponse, QuestionResult
-from core.auth import get_current_user
+from app.database.session import get_db
+from app.sql_models import UserPerformance, SpacedRepetition, User, QuizAttempt, UserBehavior
+from app.schemas import UserPerformanceDetailsResponse, GenerateFeedbackRequest, GenerateFeedbackResponse, QuizResultResponse, QuestionResult
+from app.core.auth import get_current_user
 from services.ai_service import generate_performance_feedback
 
 router = APIRouter(prefix="/ml-insights", tags=["ml-insights"])

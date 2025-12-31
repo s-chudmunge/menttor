@@ -1,14 +1,15 @@
+from pydantic import BaseModel
+
 from typing import Optional, List
 
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlmodel import Session, select
 
-from schemas import UserUpdate
-from pydantic import BaseModel
-from database.session import get_db
-from sql_models import User
+from app.schemas import UserUpdate
+from app.sql_models import User
 
-from core.auth import get_current_user
+from app.core.auth import get_current_user
+from app.database.session import get_db
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
