@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useEffect, useState } from 'react';
 import type { User } from '@supabase/supabase-js';
-import { supabase } from '../../lib/supabase/client';
+import { getSupabaseClient } from '../../lib/supabase/client'; // Changed import
 import { api } from '../../lib/api';
 
 interface AuthContextType {
@@ -21,6 +21,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const supabase = getSupabaseClient(); // Call the function
+
     // Get initial session
     supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user ?? null);
@@ -29,22 +31,34 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       } else {
         setLoading(false);
       }
+    }).catch(error => { // Added catch for initial session fetch
+      console.error('Error getting initial Supabase session:', error);
+      setLoading(false);
     });
 
     // Listen for auth changes
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange(async (_event, session) => {
-      setUser(session?.user ?? null);
+    let subscription: { unsubscribe: () => void };
+    try {
+      const {
+        data: { subscription: authSubscription }, // Renamed to avoid conflict
+      } = supabase.auth.onAuthStateChange(async (_event, session) => {
+        setUser(session?.user ?? null);
 
-      if (session?.user) {
-        await fetchUserData(session.user);
-      } else {
-        setDbId(null);
-        setIsAdmin(false);
-        setLoading(false);
-      }
-    });
+        if (session?.user) {
+          await fetchUserData(session.user);
+        } else {
+          setDbId(null);
+          setIsAdmin(false);
+          setLoading(false);
+        }
+      });
+      subscription = authSubscription;
+    } catch (error) {
+      console.warn('Supabase auth state change listener could not be set up:', error);
+      // Provide a no-op unsubscribe if setup failed
+      subscription = { unsubscribe: () => {} };
+    }
+
 
     return () => subscription.unsubscribe();
   }, []);

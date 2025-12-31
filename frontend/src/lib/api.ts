@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { supabase } from './supabase/client';
+import { getSupabaseClient } from './supabase/client'; // Changed import
 
 // Base API URL
 const BACKEND_URL = 'http://127.0.0.1:8000';
@@ -12,6 +12,7 @@ export const api = axios.create({
 // Request Interceptor to attach Supabase JWT token
 api.interceptors.request.use(async (config) => {
     try {
+        const supabase = getSupabaseClient(); // Call the function to get the client
         const { data: { session } } = await supabase.auth.getSession();
 
         if (session?.access_token) {

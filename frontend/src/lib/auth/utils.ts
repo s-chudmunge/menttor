@@ -1,8 +1,9 @@
-import { supabase } from '../supabase/client';
+import { getSupabaseClient } from '../supabase/client'; // Changed import
 import type { User, AuthError } from '@supabase/supabase-js';
 
 // Sign Up with Email
 export const signUp = async (email: string, password: string) => {
+  const supabase = getSupabaseClient(); // Call the function
   const { data, error } = await supabase.auth.signUp({
     email,
     password,
@@ -14,6 +15,7 @@ export const signUp = async (email: string, password: string) => {
 
 // Sign In with Email
 export const signIn = async (email: string, password: string) => {
+  const supabase = getSupabaseClient(); // Call the function
   const { data, error } = await supabase.auth.signInWithPassword({
     email,
     password,
@@ -25,6 +27,7 @@ export const signIn = async (email: string, password: string) => {
 
 // Sign Out
 export const signOut = async () => {
+  const supabase = getSupabaseClient(); // Call the function
   const { error } = await supabase.auth.signOut();
   if (error) throw error;
 };
@@ -32,6 +35,7 @@ export const signOut = async () => {
 // Password Reset - Send reset email
 export const sendPasswordReset = async (email: string) => {
   try {
+    const supabase = getSupabaseClient(); // Call the function
     const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://menttor.live';
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
       redirectTo: `${siteUrl}/auth/reset-password`,
@@ -48,6 +52,7 @@ export const sendPasswordReset = async (email: string) => {
 // Confirm password reset with new password
 export const confirmPasswordResetWithCode = async (newPassword: string) => {
   try {
+    const supabase = getSupabaseClient(); // Call the function
     const { error } = await supabase.auth.updateUser({
       password: newPassword,
     });
@@ -62,14 +67,13 @@ export const confirmPasswordResetWithCode = async (newPassword: string) => {
 
 // Get the appropriate redirect URL based on environment
 const getRedirectUrl = () => {
-  // Use NEXT_PUBLIC_SITE_URL if set, otherwise use production URL
-  // Don't fallback to window.location.origin to avoid localhost issues in production
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://menttor.live';
   return `${siteUrl}/auth/callback`;
 };
 
 // Google Sign In
 export const googleSignIn = async () => {
+  const supabase = getSupabaseClient(); // Call the function
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: 'google',
     options: {
@@ -83,6 +87,7 @@ export const googleSignIn = async () => {
 
 // GitHub Sign In
 export const githubSignIn = async () => {
+  const supabase = getSupabaseClient(); // Call the function
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: 'github',
     options: {
@@ -97,6 +102,7 @@ export const githubSignIn = async () => {
 // Phone Sign In - Supabase handles OTP automatically
 export const sendOTP = async (phoneNumber: string) => {
   try {
+    const supabase = getSupabaseClient(); // Call the function
     const { data, error } = await supabase.auth.signInWithOtp({
       phone: phoneNumber,
     });
@@ -111,6 +117,7 @@ export const sendOTP = async (phoneNumber: string) => {
 
 export const verifyOTP = async (phoneNumber: string, token: string) => {
   try {
+    const supabase = getSupabaseClient(); // Call the function
     const { data, error } = await supabase.auth.verifyOtp({
       phone: phoneNumber,
       token,
@@ -127,12 +134,14 @@ export const verifyOTP = async (phoneNumber: string, token: string) => {
 
 // Get Current User
 export const getCurrentUser = async (): Promise<User | null> => {
+  const supabase = getSupabaseClient(); // Call the function
   const { data: { user } } = await supabase.auth.getUser();
   return user;
 };
 
 // Helper function to get the current session
 export const getSession = async () => {
+  const supabase = getSupabaseClient(); // Call the function
   const { data: { session } } = await supabase.auth.getSession();
   return session;
 };
