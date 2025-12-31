@@ -18,7 +18,7 @@ if (supabaseUrl && supabaseServiceKey) {
   supabaseAdmin = {
     from: () => ({} as any), // Simplified mock: returns an 'any' type to bypass complex type checking
     auth: {} as any // Simplified mock for 'auth'
-  };
+  } as ReturnType<typeof createClient>;
 }
 
 export { supabaseAdmin };
