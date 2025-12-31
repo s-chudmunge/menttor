@@ -2,6 +2,13 @@ import { NextRequest, NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase/admin';
 
 export async function GET(request: NextRequest) {
+  if (!supabaseAdmin) {
+    console.error('Supabase admin client is not initialized. Check SUPABASE_SERVICE_ROLE_KEY.');
+    return NextResponse.json(
+      { error: 'Supabase admin client not configured.' },
+      { status: 500 }
+    );
+  }
   try {
     const { searchParams } = new URL(request.url);
     const page = parseInt(searchParams.get('page') || '1');

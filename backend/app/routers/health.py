@@ -2,10 +2,10 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlmodel import Session, select
 from app.database.session import get_db
 from app.database.redis_client import get_redis_client
-from app.sql_models import CuratedRoadmap
 import time
 import logging
 from typing import Dict, Any
+from app.sql_models import User # Import User for database health check
 
 router = APIRouter(prefix="/health", tags=["health"])
 logger = logging.getLogger(__name__)
@@ -21,12 +21,11 @@ async def deep_health_check(db: Session = Depends(get_db)):
     checks = {
         "database": False,
         "redis": False,
-        "roadmaps": False
     }
     
     try:
-        # Test database connectivity
-        roadmap_count = db.exec(select(CuratedRoadmap)).first()
+        # Test database connectivity using a common model
+        user_count = db.exec(select(User)).first()
         checks["database"] = True
         
         # Test Redis connectivity
@@ -37,16 +36,9 @@ async def deep_health_check(db: Session = Depends(get_db)):
         except Exception as e:
             logger.warning(f"Redis check failed: {e}")
         
-        # Test roadmaps query performance
-        start_time = time.time()
-        roadmaps = db.exec(select(CuratedRoadmap).limit(5)).all()
-        query_time = time.time() - start_time
-        checks["roadmaps"] = len(roadmaps) > 0
-        
         return {
             "status": "healthy" if all(checks.values()) else "degraded",
             "checks": checks,
-            "query_time_ms": round(query_time * 1000, 2),
             "timestamp": time.time()
         }
         
@@ -61,16 +53,9 @@ async def deep_health_check(db: Session = Depends(get_db)):
 
 @router.get("/warm")
 async def warm_backend(db: Session = Depends(get_db)):
-    """Warm up backend by preloading critical data"""
+    """Warm up backend by ensuring Redis connectivity"""
     try:
         start_time = time.time()
-        
-        # Preload featured roadmaps (most commonly accessed)
-        featured_roadmaps = db.exec(
-            select(CuratedRoadmap)
-            .where(CuratedRoadmap.is_featured == True)
-            .limit(20)
-        ).all()
         
         # Test Redis connectivity
         redis_healthy = False
@@ -85,7 +70,6 @@ async def warm_backend(db: Session = Depends(get_db)):
         
         return {
             "status": "warmed",
-            "preloaded_roadmaps": len(featured_roadmaps),
             "redis_healthy": redis_healthy,
             "warmup_time_ms": round(warmup_time * 1000, 2),
             "timestamp": time.time()

@@ -22,15 +22,10 @@ async def test_database_connection():
         with engine.connect() as connection:
             result = connection.execute(text("SELECT 1 as test_value"))
             row = result.fetchone()
-            
-            # Test if we can query the actual table
-            roadmap_result = connection.execute(text("SELECT COUNT(*) as count FROM curatedroadmap LIMIT 1"))
-            roadmap_count = roadmap_result.fetchone()
         
         return {
             "status": "success", 
             "test_query": row[0] if row else None,
-            "roadmaps_count": roadmap_count[0] if roadmap_count else 0,
             "database_url_preview": database_url[:30] + "..."
         }
         

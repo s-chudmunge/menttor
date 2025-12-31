@@ -120,7 +120,7 @@ class BatchProcessor:
         """Get SQLModel class for table name"""
         from app.sql_models import (
             User, UserBehavior, LearningSession, Quiz, QuizAttempt, 
-            UserProgress, Roadmap, CuratedRoadmap
+            UserProgress, Roadmap
         )
         
         model_map = {
@@ -131,7 +131,7 @@ class BatchProcessor:
             'quizattempt': QuizAttempt,
             'userprogress': UserProgress,
             'roadmap': Roadmap,
-            'curatedroadmap': CuratedRoadmap,
+
         }
         
         return model_map.get(table_name.lower())

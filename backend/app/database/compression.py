@@ -235,7 +235,7 @@ def run_maintenance_tasks(session: Session) -> Dict[str, Any]:
     # List of important tables to maintain
     important_tables = [
         'user', 'userprogress', 'learningsession', 'quiz', 
-        'quizattempt', 'roadmap', 'curatedroadmap'
+        'quizattempt', 'roadmap'
     ]
     
     for table in important_tables:
