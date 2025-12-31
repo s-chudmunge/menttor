@@ -2,7 +2,7 @@ import { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Help Center | Menttor Smart Learning Platform Support',
-  description: 'Get help with Menttor smart learning platform. Find answers to common questions about programming courses, learning roadmaps, practice sessions, and technical support.',
+  description: 'Get help with Menttor smart learning platform. Find answers to common questions about programming courses, learning roadmaps, and technical support.',
   keywords: [
     'menttor help',
     'learning platform support',

@@ -43,10 +43,10 @@ const Header = () => {
             {!loading && (
               user ? (
                 <Link
-                  href="/dashboard"
+                  href="/"
                   className="hidden md:inline-block bg-black text-white px-4 py-2 rounded-md text-sm font-medium"
                 >
-                  Dashboard
+                  Home
                 </Link>
               ) : (
                 <button
@@ -86,10 +86,10 @@ const Header = () => {
               {!loading && (
                 user ? (
                   <Link
-                    href="/dashboard"
+                    href="/"
                     className="bg-black text-white block w-full text-center px-4 py-2 rounded-md text-base font-medium"
                   >
-                    Dashboard
+                    Home
                   </Link>
                 ) : (
                   <button

@@ -2,29 +2,17 @@ import type { Metadata } from "next/types";
 import "katex/dist/katex.min.css";
 import "./globals.css";
 import { AuthProvider } from "./context/AuthContext";
-import { BehavioralProvider } from "./context/BehavioralContext";
 import { QueryClientProviderWrapper } from "./context/QueryClientProviderWrapper";
-import SpiralMark from "../../components/SpiralMark";
-import ModelStatusIndicator from "../../components/ModelStatusIndicator";
-import BehavioralNotifications from "../components/behavioral/BehavioralNotifications";
-import MilestoneSystem from "../components/behavioral/MilestoneSystem";
-import RewardSystemManager from "../components/behavioral/RewardSystemManager";
 import { ThemeProvider } from "./components/ThemeProvider";
 import { Analytics } from "@vercel/analytics/next";
 import Script from 'next/script';
-import PageTracker from "../components/PageTracker";
-import SessionTracker from "../components/SessionTracker";
-import FaviconUpdater from "../components/FaviconUpdater";
-import VisitorOnboardingTimer from "../components/VisitorOnboardingTimer";
-import LoggedInUserOnboardingTimer from "../components/LoggedInUserOnboardingTimer";
-import "../services/backendWarmer";
 
 export const metadata: Metadata = {
   title: {
     default: 'Menttor - Smart Learning Platform | Free Courses & Personalized Education',
     template: '%s | Menttor - Smart Learning Platform'
   },
-  description: 'Master diverse subjects with smart personalized learning roadmaps. 500+ free courses in programming, Python, JavaScript, React, web development, data science, machine learning, cybersecurity, business, science, language learning & more. Expert-curated content, interactive practice, and adaptive learning paths.',
+  description: 'Master diverse subjects with smart personalized learning roadmaps. 500+ free courses in programming, Python, JavaScript, React, web development, data science, machine learning, cybersecurity, business, science, language learning & more. Expert-curated content, and adaptive learning paths.',
   keywords: [
     'free online courses',
     'personalized learning platform',
@@ -84,7 +72,7 @@ export const metadata: Metadata = {
     url: 'https://menttor.live',
     siteName: 'Menttor - Smart Learning Platform',
     title: 'Free Online Courses & Smart Learning Platform | Master Any Subject',
-    description: 'Master diverse subjects with smart personalized learning roadmaps. 500+ free courses in programming, Python, JavaScript, React, web development, data science, machine learning, cybersecurity, business, science, language learning & more. Interactive practice with expert-curated content.',
+    description: 'Master diverse subjects with smart personalized learning roadmaps. 500+ free courses in programming, Python, JavaScript, React, web development, data science, machine learning, cybersecurity, business, science, language learning & more. Expert-curated content.',
     images: [
       {
         url: '/og-image.png',
@@ -243,20 +231,8 @@ export default function RootLayout({
           <FaviconUpdater />
           <AuthProvider>
             <QueryClientProviderWrapper>
-              <BehavioralProvider>
-                <ModelStatusIndicator />
-                <BehavioralNotifications />
-                <MilestoneSystem />
-                <RewardSystemManager />
-                <PageTracker />
-                <SessionTracker />
-                <VisitorOnboardingTimer>
-                  <LoggedInUserOnboardingTimer>
-                    {children}
-                  </LoggedInUserOnboardingTimer>
-                </VisitorOnboardingTimer>
-                <Analytics />
-              </BehavioralProvider>
+              {children}
+              <Analytics />
             </QueryClientProviderWrapper>
           </AuthProvider>
         </ThemeProvider>

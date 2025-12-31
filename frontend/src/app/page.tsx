@@ -4,7 +4,6 @@
 import React, { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { RoadmapData, api } from '../lib/api';
-import { useAIState } from '@/store/aiState';
 
 import Header from '@/components/landing/Header';
 import Hero from '@/components/landing/Hero';
@@ -34,7 +33,7 @@ const MenttorLabsMainPage = () => {
     time_unit: 'weeks',
     model: 'gemini-2.5-flash',
   });
-  const { isGenerating, startGeneration, endGeneration } = useAIState();
+  const [isGenerating, setIsGenerating] = useState(false);
   const [roadmapData, setRoadmapData] = useState<RoadmapData | null>(null);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -52,13 +51,13 @@ const MenttorLabsMainPage = () => {
     },
     onSuccess: (data) => {
       setRoadmapData(data);
-      sessionStorage.setItem('currentRoadmap', JSON.stringify(data));
-      endGeneration();
+      // sessionStorage.setItem('currentRoadmap', JSON.stringify(data)); // Removed as journey page is removed
+      setIsGenerating(false);
       document.getElementById('roadmap-output')?.scrollIntoView({ behavior: 'smooth' });
     },
     onError: (error) => {
       setRoadmapData({ error: error.message });
-      endGeneration();
+      setIsGenerating(false);
     },
   });
 
@@ -69,7 +68,7 @@ const MenttorLabsMainPage = () => {
       return;
     }
 
-    startGeneration(formData.model);
+    setIsGenerating(true);
     setRoadmapData(null);
     generateRoadmapMutation.mutate({
       subject: formData.subject,

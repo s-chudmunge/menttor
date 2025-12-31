@@ -112,7 +112,7 @@ export default function PromotionalEmail({ recipientName = "there" }: Promotiona
             <Heading style={benefitsTitle}>💎 What Makes Menttor Special?</Heading>
             <Text style={benefitItem}>✅ <strong>500+ Expert-Curated Learning Paths</strong></Text>
             <Text style={benefitItem}>✅ <strong>Personalized Learning Progress Tracking</strong></Text>
-            <Text style={benefitItem}>✅ <strong>Built-in Flashcards & Practice Sessions</strong></Text>
+            
             <Text style={benefitItem}>✅ <strong>AI-Powered Custom Roadmap Generation</strong></Text>
             <Text style={benefitItem}>✅ <strong>Community of 10,000+ Active Learners</strong></Text>
             <Text style={emphasizedBenefit}>

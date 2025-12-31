@@ -50,7 +50,6 @@ export default function WelcomeEmail({ userName = "there" }: WelcomeEmailProps) 
             <Text style={featureTitle}>What's waiting for you:</Text>
             <Text style={bulletText}>🗺️ 500+ expertly curated learning roadmaps</Text>
             <Text style={bulletText}>🎯 Interactive progress tracking and analytics</Text>
-            <Text style={bulletText}>🧠 Practice exercises and smart study tools</Text>
             <Text style={bulletText}>📈 95% learner success rate</Text>
           </Section>
 

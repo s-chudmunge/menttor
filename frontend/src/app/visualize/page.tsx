@@ -3,7 +3,6 @@
 import React, { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useAuth } from '../context/AuthContext';
-import { useAIState } from '@/store/aiState';
 import { ArrowLeft, RefreshCw, Download, AlertTriangle, Maximize, Minimize } from 'lucide-react';
 import { api } from '../../lib/api';
 import Logo from '@rootComponents/Logo';
@@ -20,7 +19,6 @@ function VisualizationPageContent() {
     const [loadingProgress, setLoadingProgress] = useState(0);
     
     const { user } = useAuth();
-    const { isGenerating, startGeneration, endGeneration, currentModel } = useAIState();
 
     useEffect(() => {
         if (description) {
@@ -28,9 +26,6 @@ function VisualizationPageContent() {
                 setIsLoading(true);
                 setError(null);
                 setLoadingProgress(0);
-                
-                const modelToUse = `vertexai:${model}`;
-                startGeneration(modelToUse);
                 
                 // Simulate progress updates
                 const progressInterval = setInterval(() => {
@@ -68,13 +63,12 @@ function VisualizationPageContent() {
                 } finally {
                     clearInterval(progressInterval);
                     setIsLoading(false);
-                    endGeneration();
                 }
             };
 
             fetch3DVisualization();
         }
-    }, [description, model, user, startGeneration, endGeneration]);
+    }, [description, model, user]);
 
     const handleRetry = () => {
         window.location.reload();
@@ -98,7 +92,7 @@ function VisualizationPageContent() {
         setIsFullscreen(!isFullscreen);
     };
 
-    if (isGenerating || isLoading) {
+    if (isLoading) {
         return (
             <div className="min-h-screen bg-indigo-50 dark:bg-gray-900 flex flex-col items-center justify-center p-8">
                 <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 max-w-md w-full text-center">
@@ -113,7 +107,7 @@ function VisualizationPageContent() {
                         🎨 Creating Your 3D Visualization
                     </h2>
                     <p className="text-gray-600 dark:text-gray-400 mb-4">
-                        AI is generating an interactive 3D model using {currentModel || model}
+                        AI is generating an interactive 3D model
                     </p>
                     
                     <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 mb-4">

@@ -10,12 +10,7 @@ const testimonials = [
     name: 'John Doe',
     role: 'Software Engineer',
   },
-  {
-    quote:
-      'I love how Menttor adapts to my progress. The quizzes and practice sessions are a great way to reinforce what I\'ve learned.',
-    name: 'Jane Smith',
-    role: 'Product Manager',
-  },
+
   {
     quote:
       'I used to feel overwhelmed by all the things I needed to learn. Menttor gave me a clear path to follow, and now I feel more confident than ever.',
