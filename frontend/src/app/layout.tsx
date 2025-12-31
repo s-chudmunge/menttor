@@ -227,7 +227,6 @@ export default function RootLayout({
           defaultTheme="system"
           enableSystem
         >
-          <FaviconUpdater />
           <AuthProvider>
             <QueryClientProviderWrapper>
               {children}

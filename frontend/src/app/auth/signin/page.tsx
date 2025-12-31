@@ -13,7 +13,6 @@ import { Github as GitHub } from 'lucide-react';
 import { Chrome as Google } from 'lucide-react';
 import { useAuth } from '@/app/context/AuthContext';
 import { signUp, signIn, googleSignIn, githubSignIn } from '@/lib/auth/utils';
-import PhoneAuthModal from '@/components/PhoneAuthModal';
 import ForgotPasswordModal from '@/components/ForgotPasswordModal';
 
 export default function SignInPage() {
@@ -24,7 +23,6 @@ export default function SignInPage() {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [showPhoneAuth, setShowPhoneAuth] = useState(false);
   const [showForgotPassword, setShowForgotPassword] = useState(false);
   const router = useRouter();
   const { user, loading } = useAuth();
@@ -133,17 +131,9 @@ export default function SignInPage() {
     setIsLoading(false);
   };
 
-  const handlePhoneAuthSuccess = (user: any) => {
-    setShowPhoneAuth(false);
-    // Redirect will be handled by the useEffect after sign in
-  };
 
-  const handlePhoneAuthError = (error: string) => {
-    setError(error);
-  };
 
   const handleBackToMain = () => {
-    setShowPhoneAuth(false);
     setShowForgotPassword(false);
     setError(null);
   };
@@ -243,13 +233,7 @@ export default function SignInPage() {
 
             {/* Form Container */}
             <div className="bg-white/10 backdrop-blur-md rounded-2xl shadow-xl border border-white/20 p-8">
-              {showPhoneAuth ? (
-                <PhoneAuthModal
-                  onSuccess={handlePhoneAuthSuccess}
-                  onError={handlePhoneAuthError}
-                  onBack={handleBackToMain}
-                />
-              ) : showForgotPassword ? (
+              {showForgotPassword ? (
                 <ForgotPasswordModal
                   onError={handleForgotPasswordError}
                   onBack={handleBackToMain}
@@ -290,13 +274,6 @@ export default function SignInPage() {
                       disabled={isLoading}
                     >
                       Continue with GitHub
-                    </SocialButton>
-                    <SocialButton
-                      provider="phone"
-                      onClick={() => setShowPhoneAuth(true)}
-                      disabled={isLoading}
-                    >
-                      Continue with Phone
                     </SocialButton>
                   </div>
 

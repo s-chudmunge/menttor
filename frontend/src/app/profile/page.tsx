@@ -3,7 +3,6 @@
 import React, { useState } from 'react';
 import { useAuth } from '@/app/context/AuthContext';
 import { useRouter } from 'next/navigation';
-import ActivityFeed from '@/components/ActivityFeed';
 import { 
   User, 
   Settings, 
@@ -43,7 +42,6 @@ export default function ProfilePage() {
 
   const tabs = [
     { id: 'profile', label: 'Profile', icon: <User className="w-4 h-4" /> },
-    { id: 'activity', label: 'Activity', icon: <Activity className="w-4 h-4" /> },
     { id: 'settings', label: 'Settings', icon: <Settings className="w-4 h-4" /> },
     { id: 'notifications', label: 'Notifications', icon: <Bell className="w-4 h-4" /> },
     { id: 'privacy', label: 'Privacy', icon: <Shield className="w-4 h-4" /> }
@@ -194,17 +192,6 @@ export default function ProfilePage() {
                       <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Email cannot be changed</p>
                     </div>
                   </div>
-                </div>
-              )}
-
-              {activeTab === 'activity' && (
-                <div className="space-y-6">
-                  <h2 className="text-lg lg:text-xl font-semibold text-gray-900 dark:text-white">Learning Activity</h2>
-                  <ActivityFeed 
-                    showCalendar={true} 
-                    showFeed={true} 
-                    maxFeedItems={15}
-                  />
                 </div>
               )}
 

@@ -1,5 +1,4 @@
 import React from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
 
 interface TooltipProps {
   children: React.ReactNode;
@@ -17,21 +16,16 @@ const Tooltip: React.FC<TooltipProps> = ({ children, content, className }) => {
       onMouseLeave={() => setShow(false)}
     >
       {children}
-      <AnimatePresence>
-        {show && (
-          <motion.div
-            initial={{ opacity: 0, y: 5 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 5 }}
+      {show && (
+          <div
             className={`absolute bottom-full mb-2 z-50
               min-w-max px-3 py-2 bg-gray-800 text-white text-xs rounded-md shadow-lg
               ${className || ''}
             `}
           >
             {content}
-          </motion.div>
+          </div>
         )}
-      </AnimatePresence>
     </div>
   );
 };
