@@ -3,10 +3,12 @@ from sqlmodel import Session
 from app.database.session import get_db
 from app.sql_models import User, Roadmap
 from app.schemas import RoadmapCreate, RoadmapRead
-from app.core.auth import get_current_user
+from app.core.auth import get_optional_current_user
 from app.utils.gemini_client import generate_text
 import json
 import uuid
+from typing import Optional
+from datetime import datetime
 
 router = APIRouter()
 
@@ -18,10 +20,11 @@ def generate_subtopic_id(roadmap_title, module_title, topic_title, subtopic_titl
 async def generate_roadmap(
     roadmap_create: RoadmapCreate,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user),
+    current_user: Optional[User] = Depends(get_optional_current_user),
 ):
     """
-    Generate a new roadmap for the current user.
+    Generate a new roadmap. If user is authenticated, save it to the database.
+    Otherwise, return the generated roadmap without saving.
     """
     prompt = f"""
     Generate a detailed learning roadmap for the subject: "{roadmap_create.subject}".
@@ -81,19 +84,35 @@ async def generate_roadmap(
     except (json.JSONDecodeError, KeyError) as e:
         raise HTTPException(status_code=500, detail=f"Failed to parse AI-generated roadmap: {e}")
 
-
-    new_roadmap = Roadmap(
-        user_id=current_user.id,
-        title=roadmap_data.get("title", f"Roadmap for {roadmap_create.subject}"),
-        description=roadmap_data.get("description", f"A plan to achieve {roadmap_create.goal}"),
-        roadmap_plan=roadmap_data.get("roadmap_plan", {}),
-        subject=roadmap_create.subject,
-        goal=roadmap_create.goal,
-        time_value=roadmap_create.time_value,
-        time_unit=roadmap_create.time_unit,
-        model=roadmap_create.model,
-    )
-    db.add(new_roadmap)
-    db.commit()
-    db.refresh(new_roadmap)
-    return new_roadmap
+    if current_user:
+        new_roadmap = Roadmap(
+            user_id=current_user.id,
+            title=roadmap_data.get("title", f"Roadmap for {roadmap_create.subject}"),
+            description=roadmap_data.get("description", f"A plan to achieve {roadmap_create.goal}"),
+            roadmap_plan=roadmap_data.get("roadmap_plan", {}),
+            subject=roadmap_create.subject,
+            goal=roadmap_create.goal,
+            time_value=roadmap_create.time_value,
+            time_unit=roadmap_create.time_unit,
+            model=roadmap_create.model,
+        )
+        db.add(new_roadmap)
+        db.commit()
+        db.refresh(new_roadmap)
+        return new_roadmap
+    else:
+        # For unauthenticated users, just return the generated data without saving
+        return RoadmapRead(
+            id=-1,
+            user_id=-1,
+            title=roadmap_data.get("title", f"Roadmap for {roadmap_create.subject}"),
+            description=roadmap_data.get("description", f"A plan to achieve {roadmap_create.goal}"),
+            roadmap_plan=roadmap_data.get("roadmap_plan", {}),
+            subject=roadmap_create.subject,
+            goal=roadmap_create.goal,
+            time_value=roadmap_create.time_value,
+            time_unit=roadmap_create.time_unit,
+            model=roadmap_create.model,
+            created_at=datetime.utcnow(),
+            updated_at=datetime.utcnow(),
+        )

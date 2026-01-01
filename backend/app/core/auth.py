@@ -126,6 +126,12 @@ async def get_current_user(request: Request, db: Session = Depends(get_db)) -> U
     logger.info(f"Auth: Successfully authenticated user: {user.email}, ID: {user.id}")
     return user
 
+async def get_optional_current_user(request: Request, db: Session = Depends(get_db)) -> Optional[User]:
+    try:
+        return await get_current_user(request, db)
+    except HTTPException:
+        return None
+
 async def get_current_user_from_websocket(token: str, db: Session) -> Optional[User]:
     """Get current user from WebSocket connection using Supabase token."""
     if not token:
