@@ -18,7 +18,11 @@ echo "Testing database connectivity..."
 # CI/CD Safe Migration System - Auto-generates migrations based on SQLModel changes
 echo "Setting up CI/CD safe auto-migration system..."
 
-# Generate new migration if models changed (CI/CD safe - only adds schema changes)
+# **NEW: Stamp the database to head to fix "Can't locate revision" issues**
+echo "Stamping database to current head to resolve potential history mismatches..."
+python -m alembic stamp head
+
+# Auto-generate migration based on current SQLModels vs database state
 echo "Auto-generating migration for any model changes..."
 python -c "
 import sys
