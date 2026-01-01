@@ -70,24 +70,6 @@ export const learningAPI = {
     }
 };
 
-// Type definitions
-export interface QuestionResult {
-    question_id: number;
-    selected_answer_id: number | null;
-    correct_answer_id: string | null;
-    is_correct: boolean;
-    explanation: string | null;
-}
-
-export interface QuizResult {
-    sub_topic_id: string;
-    score: number;
-    total_questions: number;
-    completed: boolean;
-    timestamp: string;
-    question_results?: QuestionResult[];
-}
-
 export interface RecommendedReview {
     sub_topic_id: string;
     sub_topic_title: string;
@@ -170,21 +152,6 @@ export interface NextSubtopicResponse {
     subtopic_id: string;
     status: string;
 }
-
-// Query function for fetching a single quiz result
-export const fetchQuizResult = async (subTopicId: string): Promise<QuizResult | null> => {
-  const response = await api.get(`/quizzes/results/subtopic/${subTopicId}`);
-  return response.data;
-};
-
-
-// Query function for fetching all quiz results
-export const fetchQuizResults = async ({ pageParam = 1 }) => {
-    const response = await api.get('/quizzes/results', { params: { page: pageParam, size: 10 } });
-    // The backend now returns a dictionary with 'items', 'total', 'page', 'size'
-    // We return the whole response data, and useInfiniteQuery will handle the structure.
-    return response.data;
-};
 
 // Query function for fetching recommended reviews
 export const fetchRecommendedReviews = async (): Promise<RecommendedReview[]> => {

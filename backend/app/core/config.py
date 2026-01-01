@@ -24,12 +24,10 @@ class Settings(BaseSettings):
     ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
     REFRESH_TOKEN_EXPIRE_DAYS: int = 7
-    OPENROUTER_API_KEY: Optional[str] = None
     GEMINI_API_KEY: Optional[str] = None
     DEEPSEEK_KEY: Optional[str] = None
     DATABASE_ECHO: bool = False
     AT_RISK_THRESHOLD: float = 0.2
-    DEFAULT_QUIZ_TIME_LIMIT: int = 10
 
     # Supabase Configuration
     SUPABASE_URL: Optional[str] = None
@@ -40,7 +38,6 @@ class Settings(BaseSettings):
     GOOGLE_CLIENT_ID: Optional[str] = None
     GOOGLE_CLIENT_SECRET: Optional[str] = None
 
-    HUGGINGFACE_HUB_TOKEN: Optional[str] = None
     HF_API_TOKEN: Optional[str] = None
     DISABLE_IMAGE_GENERATION: bool = False  # Set to True to disable image generation temporarily
     OPENAI_API_KEY: Optional[str] = None
@@ -50,7 +47,6 @@ class Settings(BaseSettings):
     
     # Default AI Models for different use cases - centralized configuration
     DEFAULT_ROADMAP_MODEL: str = "gemini-2.5-flash"
-    DEFAULT_QUIZ_MODEL: str = "google/gemma-3n-e2b-it:free"
     DEFAULT_FEEDBACK_MODEL: str = "google/gemma-3n-e2b-it:free"
     DEFAULT_LEARNING_CONTENT_MODEL: str = "google/gemma-3n-e2b-it:free"
     DEFAULT_VISUALIZATION_MODEL: str = "google/gemma-3n-e2b-it:free"

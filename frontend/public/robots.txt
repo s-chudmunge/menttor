@@ -31,8 +31,6 @@ Disallow: /journey/
 Disallow: /dashboard
 Disallow: /dashboard/
 Disallow: /performance-analysis
-Disallow: /quiz
-Disallow: /quiz/
 Disallow: /learn
 Disallow: /learn/
 Disallow: /visualize

@@ -31,7 +31,6 @@ const SitemapPage = () => {
       icon: <BookOpen className="w-5 h-5" />,
       links: [
         { name: "Learn", href: "/learn", description: "Interactive learning content" },
-        { name: "Quiz", href: "/quiz", description: "Test your knowledge with quizzes" },
         { name: "Visualize", href: "/visualize", description: "Visual learning tools" },
       ]
     },
@@ -40,8 +39,6 @@ const SitemapPage = () => {
       icon: <BarChart3 className="w-5 h-5" />,
       links: [
         { name: "Performance Analysis", href: "/performance-analysis", description: "Detailed learning analytics" },
-        { name: "Results", href: "/results", description: "Quiz and assessment results" },
-        { name: "Quiz Results", href: "/quiz/results", description: "Detailed quiz performance" },
       ]
     },
     {

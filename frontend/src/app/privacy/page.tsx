@@ -45,8 +45,6 @@ export default function PrivacyPolicy() {
             <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 mb-4">
               <li>Learning roadmaps you create or adopt</li>
               <li>Progress through courses, modules, and subtopics</li>
-              <li>Quiz attempts, scores, and performance metrics</li>
-              <li>Quiz session data and question responses</li>
               <li>Time spent on learning activities</li>
               <li>Learning preferences and goals</li>
             </ul>
@@ -65,7 +63,6 @@ export default function PrivacyPolicy() {
             <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300">
               <li>AI-generated learning content you create or save</li>
               <li>Shared learning materials and public content</li>
-              <li>Custom quiz sessions and configurations</li>
             </ul>
           </section>
 
@@ -224,7 +221,7 @@ export default function PrivacyPolicy() {
             
             <h3 className="text-xl font-medium text-black dark:text-white mb-3">13.1 AI Content Generation</h3>
             <p className="text-gray-700 dark:text-gray-300 mb-4">
-              When you create learning roadmaps or quiz sessions, we use Google Vertex AI to generate personalized educational content. Your learning goals and preferences are processed to create relevant materials, but this data is not stored by Google beyond the processing period.
+              When you create learning roadmaps, we use Google Vertex AI to generate personalized educational content. Your learning goals and preferences are processed to create relevant materials, but this data is not stored by Google beyond the processing period.
             </p>
 
             <h3 className="text-xl font-medium text-black dark:text-white mb-3">13.2 Behavioral Learning System</h3>

@@ -119,7 +119,7 @@ class BatchProcessor:
     def _get_model_class(self, table_name: str):
         """Get SQLModel class for table name"""
         from app.sql_models import (
-            User, UserBehavior, LearningSession, Quiz, QuizAttempt, 
+            User, UserBehavior, LearningSession, 
             UserProgress, Roadmap
         )
         
@@ -127,8 +127,6 @@ class BatchProcessor:
             'user': User,
             'userbehavior': UserBehavior,
             'learningsession': LearningSession,
-            'quiz': Quiz,
-            'quizattempt': QuizAttempt,
             'userprogress': UserProgress,
             'roadmap': Roadmap,
 

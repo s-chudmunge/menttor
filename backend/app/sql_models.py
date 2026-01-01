@@ -39,3 +39,18 @@ class GoalRead(GoalBase):
 class Goal(GoalBase, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
     user_id: int = Field(index=True, foreign_key="user.id")
+
+
+class Roadmap(SQLModel, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    user_id: int = Field(index=True, foreign_key="user.id")
+    title: str
+    description: str
+    roadmap_plan: Dict[str, Any] = Field(default={}, sa_column=Column(JSONB))
+    subject: Optional[str] = None
+    goal: Optional[str] = None
+    time_value: Optional[int] = None
+    time_unit: Optional[str] = None
+    model: Optional[str] = None
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+    updated_at: datetime = Field(default_factory=datetime.utcnow, sa_column_kwargs={"onupdate": datetime.utcnow})

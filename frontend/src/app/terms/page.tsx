@@ -38,7 +38,6 @@ export default function TermsOfService() {
             <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 mb-4">
               <li>Personalized learning roadmaps generated using artificial intelligence</li>
               <li>Adaptive learning content tailored to individual goals and progress</li>
-              <li>Interactive quizzes to test your knowledge</li>
               <li>Progress tracking and performance analytics</li>
               <li>Behavioral learning systems including gamification and smart nudging</li>
               <li>Content sharing and collaborative learning features</li>
@@ -151,7 +150,6 @@ export default function TermsOfService() {
             <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 mb-4">
               <li>Generate personalized learning roadmaps</li>
               <li>Create adaptive educational content</li>
-              <li>Provide real-time quiz questions</li>
               <li>Analyze learning patterns and provide insights</li>
               <li>Deliver smart nudges and behavioral interventions</li>
             </ul>
@@ -187,7 +185,6 @@ export default function TermsOfService() {
             </p>
             <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 mb-4">
               <li>Basic roadmap creation and learning content</li>
-              <li>Limited quizzes</li>
               <li>Basic progress tracking</li>
             </ul>
 
@@ -196,7 +193,6 @@ export default function TermsOfService() {
               Future premium features may include:
             </p>
             <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 mb-4">
-              <li>Unlimited quizzes and question generation</li>
               <li>Advanced analytics and performance insights</li>
               <li>Priority AI content generation</li>
               <li>Enhanced collaboration features</li>

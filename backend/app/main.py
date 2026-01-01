@@ -22,7 +22,7 @@ from sqlmodel import Session
 
 from app.database.session import create_db_and_tables, get_db
 from app.sql_models import User
-from app.routers import health
+from app.routers import health, roadmaps
 
 app = FastAPI()
 
@@ -38,6 +38,7 @@ app.add_middleware(
 
 app.add_middleware(COOPMiddleware)
 app.include_router(health.router)
+app.include_router(roadmaps.router)
 
 @app.get("/")
 async def root():

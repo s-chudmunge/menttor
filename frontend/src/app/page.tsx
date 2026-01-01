@@ -169,7 +169,6 @@ const MenttorLabsMainPage = () => {
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-black"
                   >
                     <option value="gemini-2.5-flash">Gemini 2.5 Flash</option>
-                    <option value="openrouter:google/gemma-2b-it:free">Gemma 2B (Free)</option>
                   </select>
                 </div>
                 <div className="md:col-span-2 text-center mt-4">

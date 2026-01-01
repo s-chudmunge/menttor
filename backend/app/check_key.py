@@ -2,14 +2,14 @@ import os
 from pydantic_settings import BaseSettings
 from typing import Optional
 
-os.environ['OPENROUTER_API_KEY'] = "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"
-
 class MinimalSettings(BaseSettings):
-    OPENROUTER_API_KEY: Optional[str] = None
+    # Keep other settings if any, or leave empty
+    pass
 
 def check_key():
     settings = MinimalSettings()
-    print(f"OpenRouter API Key Loaded: {'*' * (len(settings.OPENROUTER_API_KEY) - 4) + settings.OPENROUTER_API_KEY[-4:] if settings.OPENROUTER_API_KEY else 'Not Set'}")
+    # You can add checks for other keys here if needed
+    print("Key check complete.")
 
 if __name__ == "__main__":
     check_key()

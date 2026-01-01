@@ -8,7 +8,7 @@ This guide explains how to deploy the Menttor backend to Render.
 2. A PostgreSQL database (can be created on Render)
 3. A Redis instance (for caching)
 4. Firebase project credentials
-5. Required API keys (OpenRouter, HuggingFace, etc.)
+5. Required API keys ()
 
 ## Deployment Steps
 

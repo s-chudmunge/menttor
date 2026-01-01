@@ -30,7 +30,7 @@ export default function HelpPage() {
     },
     {
       question: 'How do I track my progress?',
-      answer: 'Your progress is automatically tracked as you complete lessons and quizzes. Visit your dashboard to see detailed analytics.'
+      answer: 'Your progress is automatically tracked as you complete lessons. Visit your dashboard to see detailed analytics.'
     },
     {
       question: 'What smart learning models are available?',

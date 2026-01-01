@@ -12,7 +12,7 @@ const features = [
   },
   {
     name: 'Adaptive Learning',
-    description: 'Menttor adapts to your progress, suggesting what to learn next and providing personalized quizzes.',
+    description: 'Menttor adapts to your progress, suggesting what to learn next.',
     icon: Brain,
   },
   {

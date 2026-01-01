@@ -14,13 +14,11 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'app'))
 import asyncio
 from services.ai_service import (
     generate_roadmap_content,
-    generate_quiz_content,
     generate_learning_content,
     generate_learning_resources
 )
 from schemas import (
     RoadmapCreateRequest,
-    QuizGenerateRequest,
     LearningContentRequest,
     GenerateResourcesRequest
 )
@@ -52,45 +50,6 @@ async def test_roadmap_generation():
         print(f"   Description: {result.description[:100]}...")
         print(f"   Model used: {result.model}")
         print(f"   Modules: {len(result.roadmap_plan.modules) if result.roadmap_plan else 0}")
-
-        return True
-    except Exception as e:
-        print(f"❌ FAILED: {type(e).__name__}: {str(e)}")
-        return False
-
-
-async def test_quiz_generation():
-    """Test quiz generation"""
-    print("\n" + "="*60)
-    print("2. Testing Quiz Generation")
-    print("="*60)
-
-    try:
-        request = QuizGenerateRequest(
-            subject="Python Programming",
-            goal="Learn Python basics",
-            module_title="Introduction to Python",
-            topic_title="Variables and Data Types",
-            sub_topic_title="Python Variables",
-            sub_topic_id=None,  # Optional
-            question_count=5,
-            model=None  # Will use default model
-        )
-
-        print(f"📤 Generating quiz for: {request.sub_topic_title}")
-        print(f"   Questions: {request.question_count}")
-
-        result = await generate_quiz_content(request)
-
-        print(f"✅ SUCCESS: Quiz generated")
-        print(f"   Questions: {len(result.questions)}")
-        print(f"   Model used: {result.model}")
-        print(f"   Time limit: {result.time_limit} minutes")
-
-        # Show first question
-        if result.questions:
-            q = result.questions[0]
-            print(f"   Sample question: {q.question[:80]}...")
 
         return True
     except Exception as e:
@@ -191,7 +150,6 @@ async def test_all_endpoints():
 
     # Test all endpoints
     results['roadmap'] = await test_roadmap_generation()
-    results['quiz'] = await test_quiz_generation()
     results['learning_content'] = await test_learning_content_generation()
     results['learning_resources'] = await test_learning_resources_generation()
 
@@ -212,7 +170,7 @@ async def test_all_endpoints():
 
     if failed > 0:
         print("\n⚠️  Some tests failed. Check your:")
-        print("   - OPENROUTER_API_KEY environment variable")
+        print("   - GEMINI_API_KEY environment variable")
         print("   - Default model configurations in config.py")
         print("   - Network connectivity to AI service providers")
         return False

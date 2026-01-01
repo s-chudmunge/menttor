@@ -3,9 +3,6 @@
 import { useState, useEffect, Suspense } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import InputField from '@/components/InputField';
-import Button from '@/components/Button';
-import ErrorBanner from '@/components/ErrorBanner';
 import Logo from '../../../../components/Logo';
 import { ArrowRight, CheckCircle, AlertCircle } from 'lucide-react';
 import { confirmPasswordResetWithCode, getCurrentUser } from '@/lib/auth/utils';
@@ -111,15 +108,15 @@ function ResetPasswordContent() {
           </div>
           <h2 className="text-2xl font-bold text-white mb-2">Password Reset Successful</h2>
           <p className="text-blue-200 mb-6">Your password has been successfully reset. You can now sign in with your new password.</p>
-          <Button
+          <button
             onClick={() => router.push('/auth/signin')}
-            className="w-full group"
+            className="w-full flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-xl shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200 transform hover:scale-[1.02]"
           >
             <span className="flex items-center justify-center">
               Continue to Sign In
               <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
             </span>
-          </Button>
+          </button>
         </div>
       </div>
     );
@@ -145,7 +142,12 @@ function ResetPasswordContent() {
                   <AlertCircle className="w-6 h-6 text-red-400" />
                 </div>
                 <h2 className="text-2xl font-bold text-white mb-4">Reset Link Invalid</h2>
-                <ErrorBanner message={error} />
+                {error && (
+                  <div className="bg-red-500/20 text-red-300 px-4 py-3 rounded-lg flex items-center mb-6">
+                    <AlertCircle className="w-5 h-5 mr-3" />
+                    <span className="text-sm font-medium">{error}</span>
+                  </div>
+                )}
                 <div className="mt-6">
                   <Link
                     href="/auth/signin"
@@ -171,34 +173,39 @@ function ResetPasswordContent() {
                 </div>
 
                 <form className="space-y-5" onSubmit={handleResetPassword}>
-                  <InputField
-                    id="new-password"
-                    name="new-password"
-                    type="password"
-                    autoComplete="new-password"
-                    required
-                    label="New Password"
-                    placeholder="Enter your new password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
-                  <InputField
-                    id="confirm-new-password"
-                    name="confirm-new-password"
-                    type="password"
-                    autoComplete="new-password"
-                    required
-                    label="Confirm New Password"
-                    placeholder="Confirm your new password"
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                  />
+                  <div>
+                    <label htmlFor="new-password" className="block text-sm font-medium text-blue-200 mb-1">New Password</label>
+                    <input
+                      id="new-password"
+                      name="new-password"
+                      type="password"
+                      autoComplete="new-password"
+                      required
+                      placeholder="Enter your new password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      className="w-full px-4 py-2 rounded-lg bg-white/10 text-white border border-white/20 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="confirm-new-password" className="block text-sm font-medium text-blue-200 mb-1">Confirm New Password</label>
+                    <input
+                      id="confirm-new-password"
+                      name="confirm-new-password"
+                      type="password"
+                      autoComplete="new-password"
+                      required
+                      placeholder="Confirm your new password"
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                      className="w-full px-4 py-2 rounded-lg bg-white/10 text-white border border-white/20 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                  </div>
                   
-                  <Button
+                  <button
                     type="submit"
-                    loading={loading}
                     disabled={loading}
-                    className="w-full group"
+                    className="w-full flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-xl shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     <span className="flex items-center justify-center">
                       {loading ? (
@@ -210,7 +217,7 @@ function ResetPasswordContent() {
                         </>
                       )}
                     </span>
-                  </Button>
+                  </button>
                 </form>
 
                 <div className="text-center mt-6 pt-6 border-t border-white/20">

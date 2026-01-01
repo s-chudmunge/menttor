@@ -30,3 +30,27 @@ class GoalResponse(BaseModel):
     user_id: int
     title: str
     description: Optional[str] = None
+
+
+class RoadmapCreate(SQLModel):
+    subject: str
+    goal: str
+    time_value: int
+    time_unit: str
+    model: str
+
+
+class RoadmapRead(SQLModel):
+    id: int
+    user_id: int
+    title: str
+    description: str
+    roadmap_plan: Dict[str, Any]
+    subject: Optional[str] = None
+    goal: Optional[str] = None
+    time_value: Optional[int] = None
+    time_unit: Optional[str] = None
+    model: Optional[str] = None
+    created_at: datetime
+    updated_at: datetime
+
