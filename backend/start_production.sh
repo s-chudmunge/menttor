@@ -20,7 +20,7 @@ sys.path.append('${PYTHONPATH}')
 from database.session import engine
 from sql_models import SQLModel
 print('Dropping all tables...')
-SQLModel.metadata.drop_all(engine)
+SQLModel.metadata.drop_all(engine, cascade=True)
 print('Creating all tables...')
 SQLModel.metadata.create_all(engine)
 print('Tables created successfully.')
