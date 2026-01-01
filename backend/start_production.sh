@@ -19,10 +19,15 @@ import sys
 sys.path.append('${PYTHONPATH}')
 from database.session import engine
 from sql_models import SQLModel
-print('Dropping all tables...')
-for table in reversed(SQLModel.metadata.sorted_tables):
-    print(f'Dropping table {table.name}')
-    table.drop(engine, checkfirst=True)
+from sqlalchemy import text
+
+print('Dropping and recreating public schema...')
+with engine.connect() as connection:
+    connection.execute(text('DROP SCHEMA public CASCADE;'))
+    connection.execute(text('CREATE SCHEMA public;'))
+    connection.commit()
+
+
 print('Creating all tables...')
 SQLModel.metadata.create_all(engine)
 print('Tables created successfully.')
