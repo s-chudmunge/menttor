@@ -20,7 +20,9 @@ sys.path.append('${PYTHONPATH}')
 from database.session import engine
 from sql_models import SQLModel
 print('Dropping all tables...')
-SQLModel.metadata.drop_all(engine, cascade=True)
+for table in reversed(SQLModel.metadata.sorted_tables):
+    print(f'Dropping table {table.name}')
+    table.drop(engine, checkfirst=True)
 print('Creating all tables...')
 SQLModel.metadata.create_all(engine)
 print('Tables created successfully.')
