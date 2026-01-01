@@ -1,18 +1,26 @@
 import google.generativeai as genai
-from app.core.config import settings
+import os
 
-genai.configure(api_key=settings.GEMINI_API_KEY)
+genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 
-async def generate_text(prompt: str, model: str = "gemini-1.5-flash") -> str:
-    """
-    Generates text using the Gemini API.
-    """
+async def generate_text(prompt: str, model: str = "models/gemini-2.5-flash"):
     try:
-        model = genai.GenerativeModel(model)
-        response = await model.generate_content_async(prompt)
+        gen_model = genai.GenerativeModel(model)
+        response = gen_model.generate_content(
+            prompt,
+            generation_config={
+                "temperature": 0,
+                "top_p": 1,
+                "top_k": 1,
+            },
+        )
+
+        if not response or not response.text:
+            raise RuntimeError("Empty response from Gemini")
+
         return response.text
+
     except Exception as e:
-        # Handle API errors gracefully
-        print(f"Error generating text with Gemini: {e}")
-        # Fallback to a simpler response or raise a specific exception
-        return "Error: Could not generate content."
+        # HARD FAIL — never return fake text
+        raise RuntimeError(f"Gemini generation failed: {str(e)}")
+

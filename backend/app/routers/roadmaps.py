@@ -9,12 +9,19 @@ import json
 import uuid
 from typing import Optional
 from datetime import datetime
+import re
 
 router = APIRouter()
 
+
 def generate_subtopic_id(roadmap_title, module_title, topic_title, subtopic_title):
-    """Generate a unique ID for a subtopic."""
-    return str(uuid.uuid5(uuid.NAMESPACE_DNS, f"{roadmap_title}-{module_title}-{topic_title}-{subtopic_title}"))
+    return str(
+        uuid.uuid5(
+            uuid.NAMESPACE_DNS,
+            f"{roadmap_title}-{module_title}-{topic_title}-{subtopic_title}",
+        )
+    )
+
 
 @router.post("/roadmaps/generate", response_model=RoadmapRead)
 async def generate_roadmap(
@@ -22,74 +29,96 @@ async def generate_roadmap(
     db: Session = Depends(get_db),
     current_user: Optional[User] = Depends(get_optional_current_user),
 ):
-    """
-    Generate a new roadmap. If user is authenticated, save it to the database.
-    Otherwise, return the generated roadmap without saving.
-    """
     prompt = f"""
-    Generate a detailed learning roadmap for the subject: "{roadmap_create.subject}".
-    The user's goal is: "{roadmap_create.goal}".
-    The user wants to complete this in {roadmap_create.time_value} {roadmap_create.time_unit}.
+You are an expert curriculum designer.
 
-    The output should be a JSON object with the following structure:
-    {{
-        "title": "Roadmap Title",
-        "description": "Roadmap Description",
-        "roadmap_plan": {{
-            "modules": [
-                {{
-                    "id": "module_1",
-                    "title": "Module Title",
-                    "timeline": "Estimated time for the module",
-                    "topics": [
-                        {{
-                            "id": "topic_1_1",
-                            "title": "Topic Title",
-                            "subtopics": [
-                                {{"id": "subtopic_1_1_1", "title": "Subtopic Title"}},
-                                ...
-                            ]
-                        }},
-                        ...
-                    ]
-                }},
-                ...
+Generate a learning roadmap in STRICT JSON.
+Do NOT include markdown, explanations, or extra text.
+
+Schema:
+{{
+  "title": string,
+  "description": string,
+  "roadmap_plan": {{
+    "modules": [
+      {{
+        "title": string,
+        "timeline": string,
+        "topics": [
+          {{
+            "title": string,
+            "subtopics": [
+              {{ "title": string }}
             ]
-        }}
-    }}
-    Provide a detailed, structured, and comprehensive learning plan.
-    """
-    
+          }}
+        ]
+      }}
+    ]
+  }}
+}}
+
+Subject: "{roadmap_create.subject}"
+Goal: "{roadmap_create.goal}"
+Duration: {roadmap_create.time_value} {roadmap_create.time_unit}
+
+Return ONLY valid JSON.
+"""
+
     try:
-        generated_json_string = await generate_text(prompt, model=roadmap_create.model)
-        # Clean the response to ensure it is valid JSON
-        if generated_json_string.strip().startswith("```json"):
-            generated_json_string = generated_json_string.strip()[7:-3]
+        generated_text = await generate_text(prompt, model=roadmap_create.model)
 
-        roadmap_data = json.loads(generated_json_string)
+        # DEBUG LOG — REQUIRED
+        print("\n===== RAW GEMINI OUTPUT =====\n")
+        print(generated_text)
+        print("\n============================\n")
 
-        # Add unique IDs to the roadmap plan
-        for module_idx, module in enumerate(roadmap_data.get("roadmap_plan", {}).get("modules", [])):
-            module['id'] = f"module_{module_idx + 1}"
-            for topic_idx, topic in enumerate(module.get("topics", [])):
-                topic['id'] = f"topic_{module_idx + 1}_{topic_idx + 1}"
-                for subtopic_idx, subtopic in enumerate(topic.get("subtopics", [])):
-                    subtopic['id'] = generate_subtopic_id(
+        # Robust JSON extraction
+        match = re.search(r"\{.*\}", generated_text, re.DOTALL)
+        if not match:
+            raise HTTPException(
+                status_code=500,
+                detail="Gemini did not return valid JSON",
+            )
+
+        roadmap_data = json.loads(match.group())
+
+        if "roadmap_plan" not in roadmap_data or "modules" not in roadmap_data["roadmap_plan"]:
+            raise HTTPException(
+                status_code=500,
+                detail="Invalid roadmap structure from AI",
+            )
+
+        # Inject deterministic IDs
+        for m_idx, module in enumerate(roadmap_data["roadmap_plan"]["modules"]):
+            module["id"] = f"module_{m_idx + 1}"
+
+            for t_idx, topic in enumerate(module.get("topics", [])):
+                topic["id"] = f"topic_{m_idx + 1}_{t_idx + 1}"
+
+                for s_idx, subtopic in enumerate(topic.get("subtopics", [])):
+                    subtopic["id"] = generate_subtopic_id(
                         roadmap_data.get("title", roadmap_create.subject),
-                        module.get("title"),
-                        topic.get("title"),
-                        subtopic.get("title")
+                        module.get("title", ""),
+                        topic.get("title", ""),
+                        subtopic.get("title", ""),
                     )
 
-    except (json.JSONDecodeError, KeyError) as e:
-        raise HTTPException(status_code=500, detail=f"Failed to parse AI-generated roadmap: {e}")
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Roadmap generation failed: {str(e)}",
+        )
 
     if current_user:
         new_roadmap = Roadmap(
             user_id=current_user.id,
             title=roadmap_data.get("title", f"Roadmap for {roadmap_create.subject}"),
-            description=roadmap_data.get("description", f"A plan to achieve {roadmap_create.goal}"),
-            roadmap_plan=roadmap_data.get("roadmap_plan", {}),
+            description=roadmap_data.get(
+                "description", f"A plan to achieve {roadmap_create.goal}"
+            ),
+            roadmap_plan=roadmap_data["roadmap_plan"],
             subject=roadmap_create.subject,
             goal=roadmap_create.goal,
             time_value=roadmap_create.time_value,
@@ -100,19 +129,21 @@ async def generate_roadmap(
         db.commit()
         db.refresh(new_roadmap)
         return new_roadmap
-    else:
-        # For unauthenticated users, just return the generated data without saving
-        return RoadmapRead(
-            id=-1,
-            user_id=-1,
-            title=roadmap_data.get("title", f"Roadmap for {roadmap_create.subject}"),
-            description=roadmap_data.get("description", f"A plan to achieve {roadmap_create.goal}"),
-            roadmap_plan=roadmap_data.get("roadmap_plan", {}),
-            subject=roadmap_create.subject,
-            goal=roadmap_create.goal,
-            time_value=roadmap_create.time_value,
-            time_unit=roadmap_create.time_unit,
-            model=roadmap_create.model,
-            created_at=datetime.utcnow(),
-            updated_at=datetime.utcnow(),
-        )
+
+    return RoadmapRead(
+        id=-1,
+        user_id=-1,
+        title=roadmap_data.get("title", f"Roadmap for {roadmap_create.subject}"),
+        description=roadmap_data.get(
+            "description", f"A plan to achieve {roadmap_create.goal}"
+        ),
+        roadmap_plan=roadmap_data["roadmap_plan"],
+        subject=roadmap_create.subject,
+        goal=roadmap_create.goal,
+        time_value=roadmap_create.time_value,
+        time_unit=roadmap_create.time_unit,
+        model=roadmap_create.model,
+        created_at=datetime.utcnow(),
+        updated_at=datetime.utcnow(),
+    )
+
