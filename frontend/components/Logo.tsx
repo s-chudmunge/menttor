@@ -43,7 +43,7 @@ const Logo = ({ variant = 'auto' }: LogoProps) => {
     );
   }
 
-  const themeFolder = isDark ? 'favicon_io_light' : 'favicon_io_dark';
+  const themeFolder = isDark ? 'favicon_io_dark' : 'favicon_io_light';
 
   return (
     <Link href="/" className="hover:opacity-80 transition-opacity ml-4">
