@@ -3,6 +3,7 @@ from sqlmodel import Session
 from app.database.session import get_db
 from app.sql_models import User, Roadmap
 from app.schemas import RoadmapCreate, RoadmapRead
+from app.utils.gemini_client import generate_text
 import json
 import uuid
 from typing import Optional
