@@ -1,7 +1,7 @@
 // @ts-nocheck
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { RoadmapData, api } from '../lib/api';
 
 import Header from '@/components/landing/Header';
@@ -86,6 +86,25 @@ const MenttorLabsMainPage = () => {
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
   };
+
+  const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
+  const loadingMessages = [
+    "Building your roadmap, please be patient...",
+    "Our AI is crafting your personalized learning journey...",
+    "Almost there! Just optimizing your learning path...",
+    "Generating insightful content just for you...",
+    "Hang tight, great things are coming!",
+  ];
+
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    if (isGenerating) {
+      interval = setInterval(() => {
+        setCurrentMessageIndex((prevIndex) => (prevIndex + 1) % loadingMessages.length);
+      }, 3000); // Change message every 3 seconds
+    }
+    return () => clearInterval(interval);
+  }, [isGenerating, loadingMessages.length]);
 
   return (
     <div className="bg-white min-h-screen font-sans">
@@ -219,7 +238,7 @@ const MenttorLabsMainPage = () => {
         {isGenerating && (
           <div className="text-center my-16">
             <Loader className="h-8 w-8 animate-spin mx-auto text-black" />
-            <p className="mt-2 text-gray-600">Building your roadmap...</p>
+            <p className="mt-2 text-gray-600">{loadingMessages[currentMessageIndex]}</p>
           </div>
         )}
 
