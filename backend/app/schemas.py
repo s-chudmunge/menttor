@@ -37,7 +37,7 @@ class RoadmapCreate(SQLModel):
     goal: str
     time_value: int
     time_unit: str
-    model: str
+    model: Optional[str] = None
 
 
 class RoadmapRead(SQLModel):

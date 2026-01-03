@@ -30,62 +30,87 @@ async def generate_roadmap(
     current_user: Optional[User] = Depends(get_optional_current_user),
 ):
     prompt = f"""
-You are an expert curriculum designer.
+You are an expert curriculum designer. Your task is to generate a structured learning roadmap in a specific JSON format.
 
-Generate a learning roadmap in STRICT JSON.
-Do NOT include markdown, explanations, or extra text.
+**Strict Instructions:**
+1.  **Output JSON ONLY:** The entire response must be a single, valid JSON object. Do not include any text, explanations, or markdown formatting before or after the JSON.
+2.  **Adhere to the Schema:** The JSON structure must follow this exact schema:
 
-Schema:
-{{
-  "title": string,
-  "description": string,
-  "roadmap_plan": {{
-    "modules": [
-      {{
-        "title": string,
-        "timeline": string,
-        "topics": [
+    ```json
+    {{
+      "title": "string",
+      "description": "string",
+      "roadmap_plan": {{
+        "modules": [
           {{
-            "title": string,
-            "subtopics": [
-              {{ "title": string }}
+            "title": "string",
+            "timeline": "string",
+            "topics": [
+              {{
+                "title": "string",
+                "subtopics": [
+                  {{ "title": "string" }}
+                ]
+              }}
             ]
           }}
         ]
       }}
-    ]
-  }}
-}}
+    }}
+    ```
 
-Subject: "{roadmap_create.subject}"
-Goal: "{roadmap_create.goal}"
-Duration: {roadmap_create.time_value} {roadmap_create.time_unit}
+**Roadmap Details:**
+- **Subject:** "{roadmap_create.subject}"
+- **Primary Goal:** "{roadmap_create.goal}"
+- **Target Duration:** {roadmap_create.time_value} {roadmap_create.time_unit}
 
-Return ONLY valid JSON.
+Begin the JSON output immediately.
 """
 
     try:
-        generated_text = await generate_text(prompt, model=roadmap_create.model)
+        if roadmap_create.model:
+            generated_text = await generate_text(prompt, model=roadmap_create.model)
+        else:
+            generated_text = await generate_text(prompt)
 
         # DEBUG LOG — REQUIRED
         print("\n===== RAW GEMINI OUTPUT =====\n")
         print(generated_text)
         print("\n============================\n")
 
-        # Robust JSON extraction
-        match = re.search(r"\{.*\}", generated_text, re.DOTALL)
-        if not match:
+        # More robust JSON extraction
+        roadmap_data = None
+        try:
+            # First, try to parse the whole string
+            roadmap_data = json.loads(generated_text)
+        except json.JSONDecodeError:
+            # If that fails, find the first '{' and last '}'
+            match = re.search(r"\{.*\}", generated_text, re.DOTALL)
+            if match:
+                try:
+                    roadmap_data = json.loads(match.group(0))
+                except json.JSONDecodeError as e:
+                    raise HTTPException(
+                        status_code=500,
+                        detail=f"Failed to parse extracted JSON: {e}",
+                    )
+            else:
+                raise HTTPException(
+                    status_code=500,
+                    detail="Gemini response did not contain a valid JSON object.",
+                )
+
+        if not roadmap_data:
+             raise HTTPException(
+                    status_code=500,
+                    detail="Could not extract roadmap data from Gemini response.",
+                )
+
+
+        if "roadmap_plan" not in roadmap_data or "modules" not in roadmap_data.get("roadmap_plan", {}):
             raise HTTPException(
                 status_code=500,
-                detail="Gemini did not return valid JSON",
-            )
-
-        roadmap_data = json.loads(match.group())
-
-        if "roadmap_plan" not in roadmap_data or "modules" not in roadmap_data["roadmap_plan"]:
-            raise HTTPException(
-                status_code=500,
-                detail="Invalid roadmap structure from AI",
+                detail="Invalid roadmap structure from AI. 'roadmap_plan' or 'modules' is missing.",
             )
 
         # Inject deterministic IDs
@@ -106,9 +131,11 @@ Return ONLY valid JSON.
     except HTTPException:
         raise
     except Exception as e:
+        # Log the exception for debugging
+        print(f"An unexpected error occurred: {e}")
         raise HTTPException(
             status_code=500,
-            detail=f"Roadmap generation failed: {str(e)}",
+            detail=f"An unexpected error occurred during roadmap generation.",
         )
 
     if current_user:

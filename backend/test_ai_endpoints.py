@@ -9,7 +9,7 @@ import os
 import json
 
 # Add the app directory to the path
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'app'))
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'app')))
 
 import asyncio
 from services.ai_service import (
