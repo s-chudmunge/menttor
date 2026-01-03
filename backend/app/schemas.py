@@ -38,6 +38,7 @@ class RoadmapCreate(SQLModel):
     time_value: int
     time_unit: str
     model: Optional[str] = None
+    prior_experience: Optional[str] = None
 
 
 class RoadmapRead(SQLModel):

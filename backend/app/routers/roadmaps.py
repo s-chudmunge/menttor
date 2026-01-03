@@ -27,6 +27,12 @@ async def generate_roadmap(
     roadmap_create: RoadmapCreate,
     db: Session = Depends(get_db),
 ):
+    prior_experience_text = (
+        f"- **Prior Experience:** \"{roadmap_create.prior_experience}\"\n"
+        if roadmap_create.prior_experience
+        else ""
+    )
+
     prompt = f"""
 You are an expert curriculum designer. Your task is to generate a structured learning roadmap in a specific JSON format.
 
@@ -60,7 +66,7 @@ You are an expert curriculum designer. Your task is to generate a structured lea
 **Roadmap Details:**
 - **Subject:** "{roadmap_create.subject}"
 - **Primary Goal:** "{roadmap_create.goal}"
-- **Target Duration:** {roadmap_create.time_value} {roadmap_create.time_unit}
+{prior_experience_text}- **Target Duration:** {roadmap_create.time_value} {roadmap_create.time_unit}
 
 Begin the JSON output immediately.
 """

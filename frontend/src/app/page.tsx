@@ -20,6 +20,7 @@ const MenttorLabsMainPage = () => {
   const [formData, setFormData] = useState({
     subject: '',
     goal: '',
+    prior_experience: '',
     time_value: 4,
     time_unit: 'weeks',
   });
@@ -77,84 +78,113 @@ const MenttorLabsMainPage = () => {
                 Fill in the details below to generate your personalized learning plan.
               </p>
             </div>
-            <div className="mt-16 bg-white p-8 rounded-xl border border-gray-200 shadow-md">
-              <form onSubmit={generateRoadmap} className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="md:col-span-2">
-                  <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-1">
-                    What do you want to learn?
-                  </label>
-                  <input
-                    type="text"
-                    id="subject"
-                    name="subject"
-                    value={formData.subject}
-                    onChange={handleInputChange}
-                    placeholder="e.g., Quantum Computing, React Native, or Product Management"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-black"
-                    required
-                  />
-                </div>
-                <div className="md:col-span-2">
-                  <label htmlFor="goal" className="block text-sm font-medium text-gray-700 mb-1">
-                    What is your goal?
-                  </label>
-                  <textarea
-                    id="goal"
-                    name="goal"
-                    value={formData.goal}
-                    onChange={handleInputChange}
-                    rows={3}
-                    placeholder="e.g., 'Build a mobile app', 'Prepare for a job interview', 'Understand the basics'"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-black"
-                    required
-                  />
-                </div>
-                <div>
-                  <label htmlFor="time_value" className="block text-sm font-medium text-gray-700 mb-1">
-                    How much time do you have?
-                  </label>
-                  <div className="flex space-x-2">
-                    <input
-                      type="number"
-                      id="time_value"
-                      name="time_value"
-                      value={formData.time_value}
-                      onChange={handleInputChange}
-                      min="1"
-                      className="w-1/2 px-4 py-3 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-black"
-                      required
-                    />
-                    <select
-                      name="time_unit"
-                      value={formData.time_unit}
-                      onChange={handleInputChange}
-                      className="w-1/2 px-4 py-3 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-black"
-                    >
-                      <option value="days">Days</option>
-                      <option value="weeks">Weeks</option>
-                      <option value="months">Months</option>
-                    </select>
-                  </div>
-                </div>
-                <div className="md:col-span-2 text-center mt-4">
-                  <button
-                    type="submit"
-                    disabled={isGenerating}
-                    className="w-full sm:w-auto inline-flex items-center justify-center px-12 py-4 rounded-lg font-semibold text-lg bg-black text-white hover:bg-gray-800 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
-                  >
-                    {isGenerating ? (
-                      <>
-                        <Spinner />
-                        <span className="ml-3">Generating...</span>
-                      </>
-                    ) : (
-                      'Generate Your Roadmap'
-                    )}
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
+                      <div className="mt-16 bg-white p-8 rounded-xl border border-gray-200 shadow-md">
+                        <form onSubmit={generateRoadmap} className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                          <div className="md:col-span-2">
+                            <p className="text-sm text-gray-500 mb-4">
+                              To generate the best possible roadmap, please provide as much detail as you can for each field.
+                              The more specific your input, the more tailored and effective your learning plan will be.
+                            </p>
+                            <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-1">
+                              What specific subject or skill do you want to learn?
+                            </label>
+                            <p className="text-xs text-gray-500 mb-2">
+                              Be precise. E.g., "Advanced TypeScript" instead of "Programming", or "Deep Learning with PyTorch" instead of "AI".
+                            </p>
+                            <input
+                              type="text"
+                              id="subject"
+                              name="subject"
+                              value={formData.subject}
+                              onChange={handleInputChange}
+                              placeholder="e.g., Quantum Computing, React Native, or Product Management"
+                              className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-black"
+                              required
+                            />
+                          </div>
+                          <div className="md:col-span-2">
+                            <label htmlFor="goal" className="block text-sm font-medium text-gray-700 mb-1">
+                              What is your specific, measurable goal for learning this?
+                            </label>
+                            <p className="text-xs text-gray-500 mb-2">
+                              Define what success looks like. E.g., "Build a full-stack e-commerce application" or "Pass the AWS Certified Developer exam".
+                            </p>
+                            <textarea
+                              id="goal"
+                              name="goal"
+                              value={formData.goal}
+                              onChange={handleInputChange}
+                              rows={3}
+                              placeholder="e.g., 'Build a mobile app', 'Prepare for a job interview', 'Understand the basics'"
+                              className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-black"
+                              required
+                            />
+                          </div>
+                          <div className="md:col-span-2">
+                            <label htmlFor="prior_experience" className="block text-sm font-medium text-gray-700 mb-1">
+                              Do you have any prior experience in this subject or related fields? (Optional, but helpful)
+                            </label>
+                            <p className="text-xs text-gray-500 mb-2">
+                              Mention relevant skills, projects, or concepts you already know. This helps tailor the roadmap to your level.
+                            </p>
+                            <textarea
+                              id="prior_experience"
+                              name="prior_experience"
+                              value={formData.prior_experience}
+                              onChange={handleInputChange}
+                              rows={3}
+                              placeholder="e.g., 'I know basic Python and understand object-oriented programming concepts', or 'I've built simple web pages with HTML/CSS'."
+                              className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-black"
+                            />
+                          </div>
+                          <div>
+                            <label htmlFor="time_value" className="block text-sm font-medium text-gray-700 mb-1">
+                              How much dedicated time can you realistically commit?
+                            </label>
+                            <p className="text-xs text-gray-500 mb-2">
+                              Be realistic about your availability. This affects the scope and pace of your roadmap.
+                            </p>
+                            <div className="flex space-x-2">
+                              <input
+                                type="number"
+                                id="time_value"
+                                name="time_value"
+                                value={formData.time_value}
+                                onChange={handleInputChange}
+                                min="1"
+                                className="w-1/2 px-4 py-3 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-black"
+                                required
+                              />
+                              <select
+                                name="time_unit"
+                                value={formData.time_unit}
+                                onChange={handleInputChange}
+                                className="w-1/2 px-4 py-3 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-black"
+                              >
+                                <option value="days">Days</option>
+                                <option value="weeks">Weeks</option>
+                                <option value="months">Months</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div className="md:col-span-2 text-center mt-4">
+                            <button
+                              type="submit"
+                              disabled={isGenerating}
+                              className="w-full sm:w-auto inline-flex items-center justify-center px-12 py-4 rounded-lg font-semibold text-lg bg-black text-white hover:bg-gray-800 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
+                            >
+                              {isGenerating ? (
+                                <>
+                                  <Spinner />
+                                  <span className="ml-3">Generating...</span>
+                                </>
+                              ) : (
+                                'Generate Your Roadmap'
+                              )}
+                            </button>
+                          </div>
+                        </form>
+                      </div>          </div>
         </section>
 
         {isGenerating && (
