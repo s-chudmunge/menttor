@@ -42,7 +42,7 @@ class RoadmapCreate(SQLModel):
 
 class RoadmapRead(SQLModel):
     id: int
-    user_id: int
+    user_id: Optional[int] = None
     title: str
     description: str
     roadmap_plan: Dict[str, Any]

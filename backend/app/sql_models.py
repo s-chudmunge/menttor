@@ -43,7 +43,7 @@ class Goal(GoalBase, table=True):
 
 class Roadmap(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
-    user_id: int = Field(index=True, foreign_key="user.id")
+    user_id: Optional[int] = Field(default=None, index=True, foreign_key="user.id")
     title: str
     description: str
     roadmap_plan: Dict[str, Any] = Field(default={}, sa_column=Column(JSONB))

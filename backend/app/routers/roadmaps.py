@@ -3,8 +3,6 @@ from sqlmodel import Session
 from app.database.session import get_db
 from app.sql_models import User, Roadmap
 from app.schemas import RoadmapCreate, RoadmapRead
-from app.core.auth import get_optional_current_user
-from app.utils.gemini_client import generate_text
 import json
 import uuid
 from typing import Optional
@@ -27,7 +25,6 @@ def generate_subtopic_id(roadmap_title, module_title, topic_title, subtopic_titl
 async def generate_roadmap(
     roadmap_create: RoadmapCreate,
     db: Session = Depends(get_db),
-    current_user: Optional[User] = Depends(get_optional_current_user),
 ):
     prompt = f"""
 You are an expert curriculum designer. Your task is to generate a structured learning roadmap in a specific JSON format.
@@ -138,28 +135,8 @@ Begin the JSON output immediately.
             detail=f"An unexpected error occurred during roadmap generation.",
         )
 
-    if current_user:
-        new_roadmap = Roadmap(
-            user_id=current_user.id,
-            title=roadmap_data.get("title", f"Roadmap for {roadmap_create.subject}"),
-            description=roadmap_data.get(
-                "description", f"A plan to achieve {roadmap_create.goal}"
-            ),
-            roadmap_plan=roadmap_data["roadmap_plan"],
-            subject=roadmap_create.subject,
-            goal=roadmap_create.goal,
-            time_value=roadmap_create.time_value,
-            time_unit=roadmap_create.time_unit,
-            model=roadmap_create.model,
-        )
-        db.add(new_roadmap)
-        db.commit()
-        db.refresh(new_roadmap)
-        return new_roadmap
-
-    return RoadmapRead(
-        id=-1,
-        user_id=-1,
+    new_roadmap = Roadmap(
+        user_id=None,
         title=roadmap_data.get("title", f"Roadmap for {roadmap_create.subject}"),
         description=roadmap_data.get(
             "description", f"A plan to achieve {roadmap_create.goal}"
@@ -170,7 +147,9 @@ Begin the JSON output immediately.
         time_value=roadmap_create.time_value,
         time_unit=roadmap_create.time_unit,
         model=roadmap_create.model,
-        created_at=datetime.utcnow(),
-        updated_at=datetime.utcnow(),
     )
+    db.add(new_roadmap)
+    db.commit()
+    db.refresh(new_roadmap)
+    return new_roadmap
 
