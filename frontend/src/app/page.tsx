@@ -2,7 +2,6 @@
 "use client";
 
 import React, { useState } from 'react';
-import { useMutation } from '@tanstack/react-query';
 import { RoadmapData, api } from '../lib/api';
 
 import Header from '@/components/landing/Header';
@@ -12,14 +11,6 @@ import HowItWorks from '@/components/landing/HowItWorks';
 import Testimonials from '@/components/landing/Testimonials';
 import CTA from '@/components/landing/CTA';
 import { Loader } from 'lucide-react';
-
-interface GenerateRoadmapRequest {
-  subject: string;
-  goal: string;
-  time_value: number;
-  time_unit: string;
-  model: string;
-}
 
 const Spinner = () => (
   <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
@@ -31,7 +22,6 @@ const MenttorLabsMainPage = () => {
     goal: '',
     time_value: 4,
     time_unit: 'weeks',
-    model: 'gemini-2.5-flash',
   });
   const [isGenerating, setIsGenerating] = useState(false);
   const [roadmapData, setRoadmapData] = useState<RoadmapData | null>(null);
@@ -44,23 +34,6 @@ const MenttorLabsMainPage = () => {
     }));
   };
 
-  const generateRoadmapMutation = useMutation<RoadmapData, Error, GenerateRoadmapRequest>({
-    mutationFn: async (requestData) => {
-      const response = await api.post('/roadmaps/generate', requestData);
-      return response.data;
-    },
-    onSuccess: (data) => {
-      setRoadmapData(data);
-      // sessionStorage.setItem('currentRoadmap', JSON.stringify(data)); // Removed as journey page is removed
-      setIsGenerating(false);
-      document.getElementById('roadmap-output')?.scrollIntoView({ behavior: 'smooth' });
-    },
-    onError: (error) => {
-      setRoadmapData({ error: error.message });
-      setIsGenerating(false);
-    },
-  });
-
   const generateRoadmap = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.subject || !formData.goal || !formData.time_value) {
@@ -70,13 +43,19 @@ const MenttorLabsMainPage = () => {
 
     setIsGenerating(true);
     setRoadmapData(null);
-    generateRoadmapMutation.mutate({
-      subject: formData.subject,
-      goal: formData.goal,
-      time_value: formData.time_value,
-      time_unit: formData.time_unit,
-      model: formData.model,
-    });
+
+    try {
+      const response = await api.post('/roadmaps/generate', {
+        ...formData,
+        model: 'models/gemini-2.5-flash',
+      });
+      setRoadmapData(response.data);
+      document.getElementById('roadmap-output')?.scrollIntoView({ behavior: 'smooth' });
+    } catch (error) {
+      setRoadmapData({ error: error.message });
+    } finally {
+      setIsGenerating(false);
+    }
   };
 
   return (
@@ -156,20 +135,6 @@ const MenttorLabsMainPage = () => {
                       <option value="months">Months</option>
                     </select>
                   </div>
-                </div>
-                <div>
-                  <label htmlFor="model" className="block text-sm font-medium text-gray-700 mb-1">
-                    AI Engine
-                  </label>
-                  <select
-                    id="model"
-                    name="model"
-                    value={formData.model}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-black"
-                  >
-                    <option value="gemini-2.5-flash">Gemini 2.5 Flash</option>
-                  </select>
                 </div>
                 <div className="md:col-span-2 text-center mt-4">
                   <button

@@ -1,36 +1,13 @@
 import axios from 'axios';
-import { getSupabaseClient } from './supabase/client'; // Changed import
 
 // Base API URL
-const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://127.0.0.1:8000';
+const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'https://menttor-backend.onrender.com';
 
 export const api = axios.create({
     baseURL: BACKEND_URL,
     withCredentials: true
 });
 
-// Request Interceptor to attach Supabase JWT token
-api.interceptors.request.use(async (config) => {
-    try {
-        const supabase = getSupabaseClient(); // Call the function to get the client
-        const { data: { session } } = await supabase.auth.getSession();
-
-        if (session?.access_token) {
-            config.headers.Authorization = `Bearer ${session.access_token}`;
-        } else {
-            // If no session, don't add authorization header
-            delete config.headers.Authorization;
-        }
-    } catch (error) {
-        console.error('Failed to get Supabase session:', error);
-        // Don't add any authorization header if session fails
-        delete config.headers.Authorization;
-    }
-
-    return config;
-}, (error) => {
-    return Promise.reject(error);
-});
 
 // Response Interceptor to handle common errors
 api.interceptors.response.use(

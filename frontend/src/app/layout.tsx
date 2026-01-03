@@ -1,9 +1,6 @@
 import type { Metadata } from "next/types";
 import "./globals.css";
-import { AuthProvider } from "./context/AuthContext";
-import { QueryClientProviderWrapper } from "./context/QueryClientProviderWrapper";
 import { ThemeProvider } from "./components/ThemeProvider";
-import { Analytics } from "@vercel/analytics/next";
 import Script from 'next/script';
 
 export const metadata: Metadata = {
@@ -227,12 +224,7 @@ export default function RootLayout({
           defaultTheme="system"
           enableSystem
         >
-          <AuthProvider>
-            <QueryClientProviderWrapper>
-              {children}
-              <Analytics />
-            </QueryClientProviderWrapper>
-          </AuthProvider>
+          {children}
         </ThemeProvider>
       </body>
     </html>

@@ -3,14 +3,10 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { useAuth } from '@/app/context/AuthContext';
-import { useRouter } from 'next/navigation';
 import Logo from '@rootComponents/Logo';
 import { Menu, X } from 'lucide-react';
 
 const Header = () => {
-  const { user, loading } = useAuth();
-  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
 
   const navLinks = [
@@ -40,23 +36,6 @@ const Header = () => {
             </div>
           </div>
           <div className="flex items-center">
-            {!loading && (
-              user ? (
-                <Link
-                  href="/"
-                  className="hidden md:inline-block bg-black text-white px-4 py-2 rounded-md text-sm font-medium"
-                >
-                  Home
-                </Link>
-              ) : (
-                <button
-                  onClick={() => router.push('/auth/signin')}
-                  className="hidden md:inline-block bg-black text-white px-4 py-2 rounded-md text-sm font-medium"
-                >
-                  Sign In
-                </button>
-              )
-            )}
             <div className="md:hidden">
               <button
                 onClick={() => setIsOpen(!isOpen)}
@@ -82,25 +61,6 @@ const Header = () => {
                 {link.label}
               </a>
             ))}
-            <div className="border-t border-gray-200 pt-4">
-              {!loading && (
-                user ? (
-                  <Link
-                    href="/"
-                    className="bg-black text-white block w-full text-center px-4 py-2 rounded-md text-base font-medium"
-                  >
-                    Home
-                  </Link>
-                ) : (
-                  <button
-                    onClick={() => router.push('/auth/signin')}
-                    className="bg-black text-white block w-full text-center px-4 py-2 rounded-md text-base font-medium"
-                  >
-                    Sign In
-                  </button>
-                )
-              )}
-            </div>
           </div>
         </div>
       )}
