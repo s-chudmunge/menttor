@@ -14,9 +14,7 @@ api.interceptors.response.use(
     (response) => response,
     (error) => {
         // Log errors for debugging but don't interfere with error handling
-        if (error.response?.status === 401) {
-            console.log('API Authentication required:', error.config?.url);
-        } else if (error.response?.status === 404 && !error.config?.url?.includes('/sessions/resume/')) {
+        if (error.response?.status === 404 && !error.config?.url?.includes('/sessions/resume/')) {
             console.log('API Resource not found:', error.config?.url);
         } else if (error.response?.status >= 500) {
             console.error('API Server error:', error.response?.status, error.config?.url);

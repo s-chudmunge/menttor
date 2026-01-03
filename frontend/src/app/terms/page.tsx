@@ -47,35 +47,7 @@ export default function TermsOfService() {
             </p>
           </section>
 
-          <section className="mb-8">
-            <h2 className="text-2xl font-semibold text-black dark:text-white mb-4">3. User Accounts and Registration</h2>
-            
-            <h3 className="text-xl font-medium text-black dark:text-white mb-3">3.1 Account Creation</h3>
-            <p className="text-gray-700 dark:text-gray-300 mb-4">
-              To access certain features of our Service, you must create an account using Supabase Authentication. You may register using:
-            </p>
-            <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 mb-4">
-              <li>Email address and password</li>
-              <li>Phone number authentication</li>
-              <li>Google account integration</li>
-            </ul>
 
-            <h3 className="text-xl font-medium text-black dark:text-white mb-3">3.2 Account Security</h3>
-            <p className="text-gray-700 dark:text-gray-300 mb-4">
-              You are responsible for:
-            </p>
-            <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 mb-4">
-              <li>Maintaining the confidentiality of your account credentials</li>
-              <li>All activities that occur under your account</li>
-              <li>Notifying us immediately of any unauthorized access</li>
-              <li>Providing accurate and current information during registration</li>
-            </ul>
-
-            <h3 className="text-xl font-medium text-black dark:text-white mb-3">3.3 Eligibility</h3>
-            <p className="text-gray-700 dark:text-gray-300">
-              You must be at least 13 years old to use our Service. Users between 13-18 should obtain parental consent before using the platform.
-            </p>
-          </section>
 
           <section className="mb-8">
             <h2 className="text-2xl font-semibold text-black dark:text-white mb-4">4. Acceptable Use</h2>
@@ -296,7 +268,7 @@ export default function TermsOfService() {
               You may terminate your account at any time by:
             </p>
             <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 mb-4">
-              <li>Using the account deletion feature in your profile settings</li>
+
               <li>Contacting our support team at <a href="mailto:support@menttor.live" className="text-blue-600 dark:text-blue-400 hover:underline">support@menttor.live</a></li>
             </ul>
 
@@ -322,7 +294,7 @@ export default function TermsOfService() {
               Our Service integrates with third-party providers:
             </p>
             <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 mb-4">
-              <li><strong>Supabase:</strong> Authentication and user management (Google's Terms apply)</li>
+
               <li><strong>Google Vertex AI:</strong> AI content generation (Google's AI Terms apply)</li>
               <li><strong>Vercel:</strong> Hosting and analytics services</li>
               <li><strong>Render:</strong> Backend infrastructure services</li>

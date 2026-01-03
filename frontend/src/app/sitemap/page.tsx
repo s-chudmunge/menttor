@@ -41,15 +41,7 @@ const SitemapPage = () => {
         { name: "Performance Analysis", href: "/performance-analysis", description: "Detailed learning analytics" },
       ]
     },
-    {
-      category: "User Account",
-      icon: <User className="w-5 h-5" />,
-      links: [
-        { name: "Profile", href: "/profile", description: "Manage your profile settings" },
-        { name: "Sign In", href: "/auth/signin", description: "Login to your account" },
-        { name: "Reset Password", href: "/auth/reset-password", description: "Reset your password" },
-      ]
-    },
+
     {
       category: "Support & Information",
       icon: <HelpCircle className="w-5 h-5" />,
