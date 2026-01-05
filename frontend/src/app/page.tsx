@@ -26,6 +26,42 @@ const MenttorLabsMainPage = () => {
   });
   const [isGenerating, setIsGenerating] = useState(false);
   const [roadmapData, setRoadmapData] = useState<RoadmapData | null>(null);
+  const [startDate, setStartDate] = useState<string | null>(null);
+  const [endDate, setEndDate] = useState<string | null>(null);
+
+  const calculateModuleDates = (startDate: string, modules: RoadmapData['roadmap_plan']['modules'], endDate?: string, time_value?: number, time_unit?: string) => {
+    const start = new Date(startDate);
+    let end;
+    if (endDate) {
+      end = new Date(endDate);
+    } else if (time_value && time_unit) {
+      end = new Date(start);
+      if (time_unit === 'days') {
+        end.setDate(end.getDate() + time_value);
+      } else if (time_unit === 'weeks') {
+        end.setDate(end.getDate() + time_value * 7);
+      } else if (time_unit === 'months') {
+        end.setMonth(end.getMonth() + time_value);
+      }
+    } else {
+      return modules.map(module => ({ ...module, startDate: '', endDate: '' }));
+    }
+
+    const totalDays = (end.getTime() - start.getTime()) / (1000 * 3600 * 24);
+    const daysPerModule = totalDays / modules.length;
+
+    let currentStartDate = start;
+    return modules.map(module => {
+      const moduleEndDate = new Date(currentStartDate.getTime() + (daysPerModule * 1000 * 3600 * 24));
+      const moduleDates = {
+        startDate: currentStartDate.toLocaleDateString(),
+        endDate: moduleEndDate.toLocaleDateString(),
+      };
+      currentStartDate = moduleEndDate;
+      return { ...module, ...moduleDates };
+    });
+  };
+
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -35,12 +71,23 @@ const MenttorLabsMainPage = () => {
     }));
   };
 
+
+  const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    if (name === 'startDate') {
+      setStartDate(value);
+    } else if (name === 'endDate') {
+      setEndDate(value);
+    }
+  };
+
   const generateRoadmap = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.subject || !formData.goal || !formData.time_value) {
       alert('Please fill in all fields');
       return;
     }
+
 
     setIsGenerating(true);
     setRoadmapData(null);
@@ -214,6 +261,32 @@ const MenttorLabsMainPage = () => {
                     </select>
                   </div>
                 </div>
+                <div className="md:col-span-2">
+                  <label htmlFor="startDate" className="block text-sm font-medium text-gray-700 mb-1">
+                    Start Date (Optional)
+                  </label>
+                  <input
+                    type="date"
+                    id="startDate"
+                    name="startDate"
+                    value={startDate || ''}
+                    onChange={handleDateChange}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-black"
+                  />
+                </div>
+                <div className="md:col-span-2">
+                  <label htmlFor="endDate" className="block text-sm font-medium text-gray-700 mb-1">
+                    End Date (Optional)
+                  </label>
+                  <input
+                    type="date"
+                    id="endDate"
+                    name="endDate"
+                    value={endDate || ''}
+                    onChange={handleDateChange}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-black"
+                  />
+                </div>
                 <div className="md:col-span-2 text-center mt-4">
                   <button
                     type="submit"
@@ -260,29 +333,63 @@ const MenttorLabsMainPage = () => {
                   >
                     Download Roadmap
                   </button>
+                  {(startDate || endDate) && (
+                    <button
+                      onClick={() => {
+                        setStartDate(null);
+                        setEndDate(null);
+                      }}
+                      className="mt-4 ml-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                    >
+                      Clear Dates
+                    </button>
+                  )}
                 </div>
                 <div>
-                  {roadmapData.roadmap_plan?.modules.map((module, moduleIndex) => (
-                    <div key={module.id} className="relative pl-8 sm:pl-32 py-6 group">
-                      <div className="flex flex-col sm:flex-row items-start mb-1 group-last:before:hidden before:absolute before:left-2 sm:before:left-0 before:h-full before:px-px before:bg-slate-200 sm:before:ml-[6.5rem] before:self-start before:-translate-x-1/2 before:translate-y-3 after:absolute after:left-2 sm:after:left-0 after:w-2 after:h-2 after:bg-indigo-600 after:border-4 after:box-content after:border-slate-50 after:rounded-full sm:after:ml-[6.5rem] after:-translate-x-1/2 after:translate-y-1.5">
-                        <time className="sm:absolute left-0 translate-y-0.5 inline-flex items-center justify-center text-xs font-semibold uppercase w-20 h-6 mb-3 sm:mb-0 text-emerald-600 bg-emerald-100 rounded-full">{module.timeline}</time>
-                        <div className="text-xl font-bold text-slate-900">{`Module ${moduleIndex + 1}: ${module.title}`}</div>
+                  {(startDate && roadmapData.roadmap_plan?.modules) ? (
+                    calculateModuleDates(startDate, roadmapData.roadmap_plan.modules, endDate, formData.time_value, formData.time_unit).map((module, moduleIndex) => (
+                      <div key={module.id} className="relative pl-8 sm:pl-32 py-6 group">
+                        <div className="flex flex-col sm:flex-row items-start mb-1 group-last:before:hidden before:absolute before:left-2 sm:before:left-0 before:h-full before:px-px before:bg-slate-200 sm:before:ml-[6.5rem] before:self-start before:-translate-x-1/2 before:translate-y-3 after:absolute after:left-2 sm:after:left-0 after:w-2 after:h-2 after:bg-indigo-600 after:border-4 after:box-content after:border-slate-50 after:rounded-full sm:after:ml-[6.5rem] after:-translate-x-1/2 after:translate-y-1.5">
+                          <time className="sm:absolute left-0 translate-y-0.5 inline-flex items-center justify-center text-xs font-semibold uppercase w-auto h-6 mb-3 sm:mb-0 text-emerald-600 bg-emerald-100 rounded-full px-2">{`${module.startDate} - ${module.endDate}`}</time>
+                          <div className="text-xl font-bold text-slate-900">{`Module ${moduleIndex + 1}: ${module.title}`}</div>
+                        </div>
+                        <div className="ml-8 sm:ml-32 space-y-4">
+                          {module.topics.map((topic) => (
+                            <div key={topic.id} className="p-4 border rounded-lg bg-slate-50">
+                              <h4 className="font-semibold text-slate-800">{topic.title}</h4>
+                              <ul className="list-disc pl-5 mt-2">
+                                {topic.subtopics.map((subtopic) => (
+                                  <li key={subtopic.id} className="text-slate-600">{subtopic.title}</li>
+                                ))}
+                              </ul>
+                            </div>
+                          ))}
+                        </div>
                       </div>
-                      <div className="ml-8 sm:ml-32 space-y-4">
-                        {module.topics.map((topic) => (
-                          <div key={topic.id} className="p-4 border rounded-lg bg-slate-50">
-                            <h4 className="font-semibold text-slate-800">{topic.title}</h4>
-                            <ul className="list-disc pl-5 mt-2">
-                              {topic.subtopics.map((subtopic) => (
-                                <li key={subtopic.id} className="text-slate-600">{subtopic.title}</li>
-                              ))}
-                            </ul>
-                          </div>
-                        ))}
+                  ))
+                  ) : (
+                    roadmapData.roadmap_plan?.modules.map((module, moduleIndex) => (
+                      <div key={module.id} className="relative pl-8 sm:pl-32 py-6 group">
+                        <div className="flex flex-col sm:flex-row items-start mb-1 group-last:before:hidden before:absolute before:left-2 sm:before:left-0 before:h-full before:px-px before:bg-slate-200 sm:before:ml-[6.5rem] before:self-start before:-translate-x-1/2 before:translate-y-3 after:absolute after:left-2 sm:after:left-0 after:w-2 after:h-2 after:bg-indigo-600 after:border-4 after:box-content after:border-slate-50 after:rounded-full sm:after:ml-[6.5rem] after:-translate-x-1/2 after:translate-y-1.5">
+                          <time className="sm:absolute left-0 translate-y-0.5 inline-flex items-center justify-center text-xs font-semibold uppercase w-20 h-6 mb-3 sm:mb-0 text-emerald-600 bg-emerald-100 rounded-full">{module.timeline}</time>
+                          <div className="text-xl font-bold text-slate-900">{`Module ${moduleIndex + 1}: ${module.title}`}</div>
+                        </div>
+                        <div className="ml-8 sm:ml-32 space-y-4">
+                          {module.topics.map((topic) => (
+                            <div key={topic.id} className="p-4 border rounded-lg bg-slate-50">
+                              <h4 className="font-semibold text-slate-800">{topic.title}</h4>
+                              <ul className="list-disc pl-5 mt-2">
+                                {topic.subtopics.map((subtopic) => (
+                                  <li key={subtopic.id} className="text-slate-600">{subtopic.title}</li>
+                                ))}
+                              </ul>
+                            </div>
+                          ))}
+                        </div>
                       </div>
-                    </div>
-                  ))}
-                </div>
+                    ))
+                  )}
+                  </div>
               </div>
             )}
           </section>
