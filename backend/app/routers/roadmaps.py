@@ -1,7 +1,4 @@
 from fastapi import APIRouter, Depends, HTTPException
-from sqlmodel import Session
-from app.database.session import get_db
-from app.sql_models import User, Roadmap
 from app.schemas import RoadmapCreate, RoadmapRead
 from app.utils.gemini_client import generate_text
 import json
@@ -25,7 +22,6 @@ def generate_subtopic_id(roadmap_title, module_title, topic_title, subtopic_titl
 @router.post("/roadmaps/generate", response_model=RoadmapRead)
 async def generate_roadmap(
     roadmap_create: RoadmapCreate,
-    db: Session = Depends(get_db),
 ):
     prior_experience_text = (
         f"- **Prior Experience:** \"{roadmap_create.prior_experience}\"\n"
@@ -142,7 +138,9 @@ Begin the JSON output immediately.
             detail=f"An unexpected error occurred during roadmap generation.",
         )
 
-    new_roadmap = Roadmap(
+    # Return the roadmap data directly without saving to DB
+    return RoadmapRead(
+        id=uuid.uuid4(),  # Generate a temporary ID
         user_id=None,
         title=roadmap_data.get("title", f"Roadmap for {roadmap_create.subject}"),
         description=roadmap_data.get(
@@ -154,9 +152,7 @@ Begin the JSON output immediately.
         time_value=roadmap_create.time_value,
         time_unit=roadmap_create.time_unit,
         model=roadmap_create.model,
+        created_at=datetime.utcnow(),
+        updated_at=datetime.utcnow()
     )
-    db.add(new_roadmap)
-    db.commit()
-    db.refresh(new_roadmap)
-    return new_roadmap
 

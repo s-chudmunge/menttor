@@ -49,12 +49,6 @@ const Testimonials = () => {
                 <Quote size={40} fill="currentColor" />
               </div>
               
-              <div className="flex mb-4">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="w-4 h-4 text-yellow-400 fill-current" />
-                ))}
-              </div>
-              
               <p className="text-gray-600 italic mb-8 flex-grow leading-relaxed">
                 “{testimonial.quote}”
               </p>
