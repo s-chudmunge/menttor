@@ -2,7 +2,7 @@
 'use client';
 
 import React from 'react';
-import { ArrowRight, Sparkles } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
 const CTA = () => {
   return (
@@ -34,7 +34,6 @@ const CTA = () => {
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </button>
                 <div className="flex items-center justify-center text-gray-400 text-sm">
-                  <Sparkles className="w-4 h-4 mr-2 text-primary" />
                   No credit card required
                 </div>
               </div>
@@ -44,7 +43,7 @@ const CTA = () => {
                <div className="w-64 h-64 md:w-80 md:h-80 rounded-full border-8 border-white/5 flex items-center justify-center relative">
                   <div className="w-48 h-48 md:w-60 md:h-60 rounded-full border-4 border-white/10 flex items-center justify-center">
                     <div className="w-32 h-32 md:w-40 md:h-40 rounded-full bg-gradient-to-br from-primary to-purple-600 flex items-center justify-center shadow-inner">
-                        <Sparkles className="w-16 h-16 md:w-20 md:h-20 text-white animate-pulse" />
+                        
                     </div>
                   </div>
                   {/* Floating icons/elements could go here */}

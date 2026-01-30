@@ -3,7 +3,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { api, RoadmapData } from '../../lib/api';
-import { Loader, Sparkles, Calendar, BookOpen, Clock, Target } from 'lucide-react';
+import { Loader, Calendar, BookOpen, Clock, Target } from 'lucide-react';
 
 interface RoadmapGeneratorProps {
   onRoadmapGenerated: (data: RoadmapData, formData: any) => void;
@@ -79,7 +79,6 @@ const RoadmapGenerator: React.FC<RoadmapGeneratorProps> = ({ onRoadmapGenerated 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <div className="inline-flex items-center justify-center p-2 bg-primary/10 rounded-full mb-4">
-            <Sparkles className="h-5 w-5 text-primary mr-2" />
             <span className="text-primary font-medium text-sm">AI-Powered Learning</span>
           </div>
           <h2 className="text-3xl font-bold text-text-primary sm:text-4xl tracking-tight">
@@ -200,7 +199,6 @@ const RoadmapGenerator: React.FC<RoadmapGeneratorProps> = ({ onRoadmapGenerated 
                   ) : (
                     <>
                       Generate Roadmap
-                      <Sparkles className="ml-2 h-5 w-5" />
                     </>
                   )}
                 </button>

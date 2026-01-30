@@ -3,6 +3,7 @@ from app.schemas import RoadmapCreate, RoadmapRead
 from app.utils.gemini_client import generate_text
 import json
 import uuid
+import random
 from typing import Optional
 from datetime import datetime
 import re
@@ -140,7 +141,7 @@ Begin the JSON output immediately.
 
     # Return the roadmap data directly without saving to DB
     return RoadmapRead(
-        id=uuid.uuid4(),  # Generate a temporary ID
+        id=random.randint(10000, 99999),  # Generate a temporary ID
         user_id=None,
         title=roadmap_data.get("title", f"Roadmap for {roadmap_create.subject}"),
         description=roadmap_data.get(

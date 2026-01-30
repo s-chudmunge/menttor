@@ -2,7 +2,7 @@
 'use client';
 
 import React from 'react';
-import { ArrowRight, Sparkles, Zap, Award } from 'lucide-react';
+import { ArrowRight, Zap, Award } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 const Hero = () => {
@@ -19,7 +19,6 @@ const Hero = () => {
       <div className="relative z-10 pt-20 pb-16 md:pt-32 md:pb-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center text-center">
         
         <div className="inline-flex items-center rounded-full px-4 py-1.5 mb-8 text-sm font-medium bg-primary/10 text-primary border border-primary/20">
-          <Sparkles className="w-4 h-4 mr-2" />
           <span>AI-Powered Learning Paths</span>
         </div>
 
